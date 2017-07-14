@@ -96,6 +96,10 @@ namespace SonicHeroes.Variables
                 /// </summary>
                 CameraMovementEnabled = 0x00A69880,
                 /// <summary>
+                /// [Int] Used for storing the real world time (yes for real). This is used for frame pacing.
+                /// </summary>
+                RealWorldTime = 0x00A77690,
+                /// <summary>
                 /// [Byte] 0 To Disable Effects, 1 To Enable.
                 /// </summary>
                 ShaderEffectsEnabled = 0x008E2050, // 0 to disable FX
@@ -1083,7 +1087,7 @@ namespace SonicHeroes.Variables
                 /// </summary>
                 MainMenuSpeed = 0x454AE9,
             }
-
+            
             
 
         }
