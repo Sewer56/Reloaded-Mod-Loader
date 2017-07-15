@@ -43,6 +43,14 @@ namespace SonicHeroes.Hooking
         /// The new bytes which we will place to make a call jump to our own code.
         /// </summary>
         byte[] NewBytes;
+        /// <summary>
+        /// Hold a copy of the delegate to the method we want to execute. Otherwise the .NET Garbage Collector will nuke it and spectacularly crash Sonic Heroes since it probably thinks the game is garbage.
+        /// </summary>
+        private Delegate CustomMethodDelegate;
+        /// <summary>
+        /// Might aswell also store the function pointer to this delegate, .NET Garbage Collector is a scary monster! Choo Choo!
+        /// </summary>
+        private IntPtr FunctionPointerForCustomMethodDelegate;
 
         /// <summary>
         /// This will effectively call the other FunctionHook, but with an IntPtr to the destination of the method we will want to use, as this one will retrieve an address to the destination method using the delegate signature. 
@@ -50,15 +58,18 @@ namespace SonicHeroes.Hooking
         /// <param name="SourceAddressPointer">The address at which we will start our hook process.</param>
         /// <param name="DestinationAddressPointer">Delegate to the method we will want to run. (DelegateName)Method</param>
         /// <param name="HookLength">The amount of bytes the hook lasts, all stray bytes will be replaced with NOP/No Operation.</param>
-        public Hook
-            (IntPtr SourceAddressPointer, Delegate DestinationAddressPointer, int HookLength)
-            : this(SourceAddressPointer, Marshal.GetFunctionPointerForDelegate(DestinationAddressPointer), HookLength) { }
+        public Hook (IntPtr SourceAddressPointer, Delegate DestinationAddressPointer, int HookLength)
+        {
+            CustomMethodDelegate = DestinationAddressPointer;
+            FunctionPointerForCustomMethodDelegate =  Marshal.GetFunctionPointerForDelegate(DestinationAddressPointer);
+            Hook_Hook(SourceAddressPointer, Marshal.GetFunctionPointerForDelegate(DestinationAddressPointer), HookLength);
+        }
 
         // Creates a hook.
         // Hook length defines the amount of bytes which will be replaced by the hook.
         // Hook length must be at least 5 bytes.
         // When creating a hook, you must ensure to not leave any stray bytes open in the wild.
-        public Hook(IntPtr SourceAddressPointer, IntPtr DestinationAddressPointer, int HookLength)
+        public void Hook_Hook(IntPtr SourceAddressPointer, IntPtr DestinationAddressPointer, int HookLength)
         {
             // Generate the variables :)
             CustomNumberOfBytes = HookLength;
@@ -201,17 +212,29 @@ namespace SonicHeroes.Hooking
         byte[] NewInstructionBytes;
 
         /// <summary>
+        /// Hold a copy of the delegate to the method we want to execute. Otherwise the .NET Garbage Collector will nuke it and spectacularly crash Sonic Heroes since it probably thinks the game is garbage.
+        /// </summary>
+        private Delegate CustomMethodDelegate;
+        /// <summary>
+        /// Might aswell also store the function pointer to this delegate, .NET Garbage Collector is a scary monster! Choo Choo!
+        /// </summary>
+        private IntPtr FunctionPointerForCustomMethodDelegate;
+
+        /// <summary>
         /// This class is an alternative for the Hook class, this generates a call to your code, however with the use of a clever jump following, still executes the original code after your code has finished executing.
         /// </summary>
         /// <param name="SourceAddressPointer">The address at which we will start our hook process.</param>
         /// <param name="DestinationAddressPointer">Delegate to the method we will want to run. (DelegateName)Method</param>
         /// <param name="HookLength">The amount of bytes the hook lasts, all stray bytes will be replaced with NOP/No Operation (technically), however the opcode call itself will be fully preserved, do not worry.</param>
-        public Injection
-            (IntPtr SourceAddressPointer, Delegate DestinationAddressPointer, int HookLength)
-            : this(SourceAddressPointer, Marshal.GetFunctionPointerForDelegate(DestinationAddressPointer), HookLength) { }
+        public Injection (IntPtr SourceAddressPointer, Delegate DestinationAddressPointer, int HookLength)
+        {
+            CustomMethodDelegate = DestinationAddressPointer;
+            FunctionPointerForCustomMethodDelegate = Marshal.GetFunctionPointerForDelegate(CustomMethodDelegate);
+            Injection_Hook(SourceAddressPointer, FunctionPointerForCustomMethodDelegate, HookLength);
+        }
 
         // Hook Length Must be 5 bytes + any stray bytes!
-        public Injection(IntPtr SourceAddressPointer, IntPtr DestinationAddressPointer, int HookLength)
+        public void Injection_Hook(IntPtr SourceAddressPointer, IntPtr DestinationAddressPointer, int HookLength)
         {
             ///
             /// The Setup
