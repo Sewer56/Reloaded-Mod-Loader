@@ -108,6 +108,10 @@ namespace SonicHeroes.Variables
                 /// </summary>
                 CurrentlyInLevel = 0x008E2028, // 1 if in a level, 255 or 0 if in menus
                 /// <summary>
+                /// [Byte] 1 if paused, 0 if not paused
+                /// </summary>
+                IsIngamePauseMenuOpen = 0x008d6708,
+                /// <summary>
                 /// [Byte] By default multiplies score requirements by 100.
                 /// </summary>
                 ScoreRequirementMultiplier = 0x435C45, // Multiplies score requirements by 100
