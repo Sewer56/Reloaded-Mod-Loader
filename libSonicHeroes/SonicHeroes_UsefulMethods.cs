@@ -28,7 +28,19 @@ namespace SonicHeroes.Programming.UtilityMethods
                 SonicHeroesProcess.WriteMemory((IntPtr)Address + x, Null);
             }
         }
-        
+
+        /// <summary>
+        /// Reads a byte array from a specified string of bytes e.g. 02 03 95 02 42
+        /// </summary>
+        /// <param name="String"></param>
+        /// <param name="Array"></param>
+        private byte[] Read_String_With_Byte_Array(string String)
+        {
+            string[] StringArray = String.Split(' ');
+            byte[] Array = new byte[StringArray.Length];
+            for (int x = 0; x < StringArray.Length; x++) { Array[x] = byte.Parse(StringArray[x]); }
+            return Array;
+        }
 
     }
 }

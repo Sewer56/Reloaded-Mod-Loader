@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -74,9 +75,60 @@ namespace SonicHeroes.Memory
         /// <param name="Pointer">The address of the first byte you want to write memory to.</param>
         /// <param name="Length">The value you want to write at the address as a byte array.</param>
         /// <returns>The bytes which have been read from the memory at the specified offset and length.</returns>
+        public static T ReadMemory<T>(this Process Process, IntPtr Pointer, int Length)
+        {
+            byte[] Data = new byte[Length];
+            IntPtr nBytes;
+            ReadProcessMemory(Process.Handle, Pointer, Data, Length, out nBytes);
+            
+            object Value;
+            Type T_Type = typeof(T);
+            
+            switch (T_Type.Name)
+            {
+                // case "string": Value = BitConverter.ToString(Data, 0); return (T)Convert.ChangeType(0, typeof(T));
+                case "String": Value = BitConverter.ToString(Data, 0); return (T)Convert.ChangeType(Value, typeof(T));
+
+                // case "bool": Value = BitConverter.ToBoolean(Data, 0); return (T)Convert.ChangeType(0, typeof(T));
+                case "Boolean": Value = BitConverter.ToBoolean(Data, 0); return (T)Convert.ChangeType(Value, typeof(T));
+
+                // case "char": Value = BitConverter.ToChar(Data, 0); return (T)Convert.ChangeType(0, typeof(T));
+                case "Char": Value = BitConverter.ToChar(Data, 0); return (T)Convert.ChangeType(Value, typeof(T));
+
+                case "Byte": return (T)Convert.ChangeType(Data[0], typeof(T));
+                // case "byte": return (T)Convert.ChangeType(Data[0], typeof(T));
+
+                case "Single": Value = BitConverter.ToSingle(Data, 0); return (T)Convert.ChangeType(Value, typeof(T));
+                // case "float": Value = BitConverter.ToSingle(Data, 0); return (T)Convert.ChangeType(0, typeof(T));
+
+                // case "double": Value = Value = BitConverter.ToDouble(Data, 0); return (T)Convert.ChangeType(0, typeof(T));
+                case "Double": Value = BitConverter.ToDouble(Data, 0); return (T)Convert.ChangeType(Value, typeof(T));
+
+                case "Int32": Value = BitConverter.ToInt32(Data, 0); return (T)Convert.ChangeType(Value, typeof(T));
+                // case "int": Value = BitConverter.ToInt32(Data, 0); MessageBox.Show(T_Type.Name); return (T)Convert.ChangeType(0, typeof(T));
+
+                case "UInt32": Value = BitConverter.ToUInt32(Data, 0); return (T)Convert.ChangeType(Value, typeof(T));
+                // case "uint": Value = BitConverter.ToUInt32(Data, 0); return (T)Convert.ChangeType(0, typeof(T));
+
+                // case "ushort": Value = BitConverter.ToUInt16(Data, 0); return (T)Convert.ChangeType(0, typeof(T));
+                case "UInt16": Value = BitConverter.ToUInt16(Data, 0); return (T)Convert.ChangeType(Value, typeof(T));
+
+                case "Int16": Value = BitConverter.ToInt16(Data, 0); return (T)Convert.ChangeType(Value, typeof(T));
+                // case "short": Value = BitConverter.ToInt16(Data, 0); return (T)Convert.ChangeType(0, typeof(T));
+            }
+            return (T)Convert.ChangeType(0, typeof(T));
+        }
+
+        /// <summary>
+        /// Reads a specified specific amount of bytes, does no conversion and returns as untouched byte array. 
+        /// </summary>
+        /// <param name="Process">The process object of Sonic Heroes, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="Pointer">The address of the first byte you want to write memory to.</param>
+        /// <param name="Length">The value you want to write at the address as a byte array.</param>
+        /// <returns>The bytes which have been read from the memory at the specified offset and length.</returns>
         public static byte[] ReadMemory(this Process Process, IntPtr Pointer, int Length)
         {
-            var Data = new byte[Length];
+            byte[] Data = new byte[Length];
             IntPtr nBytes;
             ReadProcessMemory(Process.Handle, Pointer, Data, Length, out nBytes);
             return Data;
@@ -113,6 +165,21 @@ namespace SonicHeroes.Memory
             uint exitCode;
             GetExitCodeThread(hThread, out exitCode);
             return (int)exitCode;
+        }
+
+        /// <summary>
+        /// Makes a call to the injected library, but does not wait for an exis code, what is done, is done, simple enough!
+        /// </summary>
+        /// <param name="Process">The process object of Sonic Heroes, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="Pointer">Pointer to the starting point of the library, module or library method to be executed.</param>
+        /// <param name="ParameterPointer">Pointer to parameters for the method to be called.</param>
+        /// <returns>An exit code</returns>
+        public static int CallLibrary_Async(this Process Process, IntPtr Pointer, IntPtr ParameterPointer)
+        {
+            IntPtr ThreadID;
+            var hThread = CreateRemoteThread(Process.Handle, IntPtr.Zero, 0,
+                Pointer, ParameterPointer, 0, out ThreadID);
+            return (int)0;
         }
 
         /// <summary>

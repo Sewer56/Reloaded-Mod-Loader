@@ -16,11 +16,67 @@ namespace SonicHeroes.Variables
         public static class SonicHeroesVariables
         {
             /// <summary>
+            /// Various addresses which are used by the config tool for the Heroes Mod Loader as well as the stock launcher, since these are ineffective in the game, they are bundled here.
+            /// </summary>
+            public enum Launcher_Addresses
+            {
+                /// <summary>
+                /// [Absolute Address! For Executable, NOT RAM] Flags, 8 bytes, see Microsoft: Window Styles, https://msdn.microsoft.com/en-us/library/windows/desktop/ms632600(v=vs.85).aspx
+                /// </summary>
+                Window_Style = 0x46D88,
+
+                /// <summary>
+                /// [Absolute Address! For Executable, NOT RAM] [Int] Width for the 1280x1024 stock 32 bit colour setting.
+                /// </summary>
+                Width_StockLauncher_1280_1024 = 0x3C9290,
+                /// <summary>
+                /// [Absolute Address! For Executable, NOT RAM] [Int] Height for the 1280x1024 stock 32 bit colour setting.
+                /// </summary>
+                Height_StockLauncher_1280_1024 = 0x3C9294,
+
+                /// <summary>
+                /// [Absolute Address! For Executable, NOT RAM] [Int] Width for the 1280x1024 fullscreen stock 32 bit colour setting.
+                /// </summary>
+                Width_StockLauncher_FullScreen_1280_1024 = 0x3C92E0,
+                /// <summary>
+                /// [Absolute Address! For Executable, NOT RAM] [Int] Height for the 1280x1024 fullscreen stock 32 bit colour setting.
+                /// </summary>
+                Height_StockLauncher_FullScreen_1280_1024 = 0x3C92E4,
+            }
+
+            /// <summary>
+            /// Window border styles to choose from, you may use this to as reference to get the values to set the border style on the fly.
+            /// </summary>
+            public enum WINAPI_BorderStyles
+            {
+                Stock = 13107200, // 0x0000C800
+                Borderless = -2147483648, // 0x00000080
+                Resizable = 12845056, // 0x0000C400
+                Resizable_Borderless = 262144, // 0x00000400
+            }
+
+            /// <summary>
             /// [IntPtr] Defines The Pointer from Which the Information about the current character may be obrained. For offsets see, Characters_PointerOffsets
             /// </summary>
             public enum Characters_Addresses
             {
                 CurrentPlayerControlledCharacter_Pointer = 0x009CE820, // This is a pointer to the information about the current character the player is controlling.
+            }
+
+            /// <summary>
+            /// The currently set controller buttons to be used for performing individual actions within Sonic Heroes. This is equal to your configuration in the launcher. See Player_Controller_Struct for named inputs.
+            /// </summary>
+            public enum Player_Controller_ControllerButtons
+            {
+                /// <summary>
+                /// [ Byte(8) ] The buttons of the first controller assigned to actions.
+                /// </summary>
+                ControllerButtons_Player1 = 0x8CAEC4,
+
+                /// <summary>
+                /// [ Byte(8) ] The buttons of the first controller assigned to actions.
+                /// </summary>
+                ControllerButtons_Player2 = 0x8CAECC,
             }
 
             /// <summary>
@@ -1064,8 +1120,8 @@ namespace SonicHeroes.Variables
                 ERank = 0x1,
                 DRank = 0x2,
                 CRank = 0x3,
-                BRank = 0x2,
-                ARank = 0x1,
+                BRank = 0x4,
+                ARank = 0x5,
             }
 
             /// <summary>

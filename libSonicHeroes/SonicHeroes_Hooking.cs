@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using SonicHeroes.Networking;
 using System.Diagnostics;
-using System.Windows.Forms;
+using System.Net.Sockets;
+using static SonicHeroes.Networking.Client_Functions;
+using System.Collections.Generic;
 
 /// <summary>
 /// This namespace stores all code manipulation, code redirection, jumping among other methods responsible for manipulating the direct flow of program execution.
@@ -139,7 +138,7 @@ namespace SonicHeroes.Hooking
     /// <summary>
     /// This class is an alternative for the Hook class, this generates a call to your code, however with the use of a clever jump following, still executes the original code after your code has finished executing. To use this hook, you require at least a hook length of 5 bytes + any stray bytes from any instruction. For more information, do refer to the Wiki on Github.
     /// </summary>
-    class Injection : IDisposable
+    class Injection // : IDisposable
     {
         /// <summary>
         /// An optional user defined number of bytes to replace while performing a hook, you may use this to ensure that no stray bytes are left from another instruction.
@@ -159,7 +158,7 @@ namespace SonicHeroes.Hooking
         /// <summary>
         /// This is the address which we will be hooking, the address where a call jmp is placed to redirect our program flow to our own function.
         /// </summary>
-        IntPtr HookAddress;
+        public IntPtr HookAddress;
         /// <summary>
         /// This will store the old original memory protection which we will restore along with the original bytes should we wish to fully dispose of the hook.
         /// </summary>
@@ -218,7 +217,17 @@ namespace SonicHeroes.Hooking
         /// <summary>
         /// Might aswell also store the function pointer to this delegate, .NET Garbage Collector is a scary monster! Choo Choo!
         /// </summary>
-        private IntPtr FunctionPointerForCustomMethodDelegate;
+        public IntPtr Function_Pointer_Own_Method_Call;
+
+        /// <summary>
+        /// List of subscribed methods!
+        /// </summary>
+        private List<Delegate> Subscribed_Delegates = new List<Delegate>();
+
+        /// <summary>
+        /// If an address has already been activated, do not allow for the same action to occur again.
+        /// </summary>
+        private bool Already_Activated = false;
 
         /// <summary>
         /// This class is an alternative for the Hook class, this generates a call to your code, however with the use of a clever jump following, still executes the original code after your code has finished executing.
@@ -226,15 +235,15 @@ namespace SonicHeroes.Hooking
         /// <param name="SourceAddressPointer">The address at which we will start our hook process.</param>
         /// <param name="DestinationAddressPointer">Delegate to the method we will want to run. (DelegateName)Method</param>
         /// <param name="HookLength">The amount of bytes the hook lasts, all stray bytes will be replaced with NOP/No Operation (technically), however the opcode call itself will be fully preserved, do not worry.</param>
-        public Injection (IntPtr SourceAddressPointer, Delegate DestinationAddressPointer, int HookLength)
+        public Injection (IntPtr SourceAddressPointer, Delegate DestinationAddressPointer, int HookLength, SonicHeroes.Networking.WebSocket_Client Mod_Loader_Server_Socket)
         {
             CustomMethodDelegate = DestinationAddressPointer;
-            FunctionPointerForCustomMethodDelegate = Marshal.GetFunctionPointerForDelegate(CustomMethodDelegate);
-            Injection_Hook(SourceAddressPointer, FunctionPointerForCustomMethodDelegate, HookLength);
+            Function_Pointer_Own_Method_Call = Marshal.GetFunctionPointerForDelegate(CustomMethodDelegate);
+            Injection_Hook(SourceAddressPointer, Function_Pointer_Own_Method_Call, HookLength, Mod_Loader_Server_Socket);
         }
 
         // Hook Length Must be 5 bytes + any stray bytes!
-        public void Injection_Hook(IntPtr SourceAddressPointer, IntPtr DestinationAddressPointer, int HookLength)
+        public void Injection_Hook(IntPtr SourceAddressPointer, IntPtr DestinationAddressPointer, int HookLength, SonicHeroes.Networking.WebSocket_Client Mod_Loader_Server_Socket)
         {
             ///
             /// The Setup
@@ -291,6 +300,11 @@ namespace SonicHeroes.Hooking
 
             /// Write our payload which will be redirected to using activate and deactivate hook!
             Marshal.Copy(NewInstructionBytes, 0, NewInstructionAddress, NewInstructionBytes.Length);
+
+            /// Minor extra check to see if our hook address is already hooked!
+            byte[] Hook_Address_Function_Address = SonicHeroes.Networking.Client_Functions.Serialize_Subscribe_Hook_Handler(HookAddress, (IntPtr)0); // We do not need a function address, we are only checking hook.
+            byte[] Response = Mod_Loader_Server_Socket.SendData_Alternate(Message_Type.Client_Call_Check_Address_Hook_State, Hook_Address_Function_Address, true);
+            if (Response[0] == (byte)Client_Functions.Message_Type.Reply_Function_Already_Hooked) { Already_Activated = true; }
         }
 
         public byte[] Get_JumpBackBytes(IntPtr SourceAddressPointer)
@@ -337,22 +351,46 @@ namespace SonicHeroes.Hooking
         /// </summary>
         public void Activate()
         {
-            Marshal.Copy(NewBytes, 0, HookAddress, CustomNumberOfBytes); // Copy the new bytes to the newly allocated memory where our hook will take over.
+            // If not yet active!
+            if (! Already_Activated)
+            {
+                Marshal.Copy(NewBytes, 0, HookAddress, CustomNumberOfBytes); // Copy the new bytes to the newly allocated memory where our hook will take over.
+            }
         }
+
         /// <summary>
         /// Deactivates the hook via the use of manual hooking. Doing this is technically faster on performance by a negligible amount, it is an option, but please for the sake of interoperability with other mods, consider 'Subscribing & Unsubscribing' this address to the Mod Loader [Currently Not Implemented].
         /// </summary>
-        public void Deactivate() { Marshal.Copy(OriginalBytes, 0, HookAddress, CustomNumberOfBytes); }
+        /// public void Deactivate() { Marshal.Copy(OriginalBytes, 0, HookAddress, CustomNumberOfBytes); }
+
+        /// <summary>
+        /// Subscribes a function pointer to the hooked address. Basically adds a method address to list of addresses held in the mod loader.
+        /// </summary>
+        public void Subscribe(SonicHeroes.Networking.WebSocket_Client SocketX, Delegate Function_To_Run)
+        {
+            // Subscribed Delegate must be kept within the class otherwise the game crashes after ~3 seconds of running... Why? I have no freaking idea!
+            Subscribed_Delegates.Add(Function_To_Run);
+            Subscribe_Internal(SocketX, Marshal.GetFunctionPointerForDelegate(Function_To_Run));
+        }
+
+        private void Subscribe_Internal(SonicHeroes.Networking.WebSocket_Client SocketX, IntPtr Function_Address)
+        {
+            byte[] Hook_Address_Function_Address = SonicHeroes.Networking.Client_Functions.Serialize_Subscribe_Hook_Handler(HookAddress, Function_Address);
+            byte[] Response = SocketX.SendData_Alternate(Message_Type.Client_Call_Subscribe_DLL_Function, Hook_Address_Function_Address, true);
+            if (Response[0] == (byte)Client_Functions.Message_Type.Reply_Function_Already_Hooked) { Already_Activated = true; }
+        }
 
         /// <summary>
         /// When we no longer need the hook, we can get rid of it and all of its traces entirely.
         /// </summary>
+        /*
         public void Dispose()
         {
             Deactivate();
             Protection Dummy;
             VirtualProtect(HookAddress, (uint)CustomNumberOfBytes, OriginalMemoryProtection, out Dummy);
         }
+        */
 
         /// <summary>
         /// Allows for allocation of space inside the target process, in our case, Sonic Heroes. The return value for this method is the address at which the new memory has been reserved. You may use this extra space to e.g. insert assembly code to which you may jump to.
@@ -566,7 +604,6 @@ namespace SonicHeroes.Hooking
         /// <param name="HookLength">5 Bytes + Any Stray Bytes</param>
         public ASM_Injection(IntPtr SourceAddressPointer, byte[] Assembly_Bytes_To_Inject, int HookLength)
         {
-            ///
             /// The Setup
             /// Getting Ready for Hooking!
             CustomNumberOfBytes = HookLength;         // Set hook length.
@@ -574,14 +611,12 @@ namespace SonicHeroes.Hooking
             NewBytes = new byte[CustomNumberOfBytes]; // Initialize storage of new bytes.
             HookAddress = SourceAddressPointer;       // Set the address which we will start hooking in the future.
 
-            ///
             /// Backup Original Bytes
             /// | Remove protection from the old set of bytes such that we may alter the bytes & copy original bytes from the source address to the byte array.
 
             VirtualProtect(SourceAddressPointer, (uint)CustomNumberOfBytes, Protection.PAGE_EXECUTE_READWRITE, out OriginalMemoryProtection);
             Marshal.Copy(SourceAddressPointer, OriginalBytes, 0, CustomNumberOfBytes);
 
-            ///
             /// Allocate New Memory
             /// Here in this memory region, ASM to backup the registers will be written, a call to our own method, will be performed, registers will be restored and a jump will be made back.
 
@@ -599,7 +634,6 @@ namespace SonicHeroes.Hooking
             NewBytes[4] = NewInstructionJumpLength[3];
             for (int x = 5; x < CustomNumberOfBytes; x++) { NewBytes[x] = 0x90; } // If necessary, replace any stray bytes with NOP.
 
-            ///
             /// The Payload
             /// This is the bytes that we will write at the new Instruction Address to perform various actions.
 
