@@ -95,8 +95,28 @@ namespace SonicHeroes.Overlay
             }
         }
 
+        /// <summary>
+        /// Cleans up the currently drawn assets on the screen
+        /// </summary>
+        public void DirectX_Clear_Screen()
+        {
+            if (!Rectangle_Render)
+            {
+                try
+                {
+                    Rectangle_Render = true; // Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
+                    Direct2D_Graphics_Target.BeginDraw(); // Begin Drawing!
+                    Clear_Screen(0, 0, 0, 0); // Clears everything drawn previously.
+                    Direct2D_Graphics_Target.EndDraw(); // End Drawing!
+                    Rectangle_Render = false;// Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
+                }
+                catch { }
+            }
+
+        }
+
         // Clears the drawing area.
-        private void Clear_Screen(int r, int g, int b, int a) { Direct2D_Graphics_Target.Clear(new SharpDX.Mathematics.Interop.RawColor4(r,g,b,a)); }
+        private void Clear_Screen(int r, int g, int b, int a) { Direct2D_Graphics_Target.Clear(new SharpDX.Mathematics.Interop.RawColor4(r, g, b, a)); }
     }
 
     /// <summary>
