@@ -34,11 +34,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Black;
+            this.BackColor = System.Drawing.Color.LimeGreen;
             this.ClientSize = new System.Drawing.Size(1, 1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "SonicHeroes_Form_FakeTransparentOverlay";
             this.Text = "OverlayForm";
+            this.TransparencyKey = System.Drawing.Color.LimeGreen;
             this.ResumeLayout(false);
 
         }

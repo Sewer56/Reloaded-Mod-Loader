@@ -74,6 +74,7 @@ namespace SonicHeroes.Overlay
                         Heroes_Window_Handle = WINAPI_Components.FindWindow(null, HEROES_WINDOW_NAME);
                         Thread.Sleep(100);
                     }
+                    Thread.Sleep(500);
                     Invoke(Setup_Window_Delegate); // Call Setup_Window in primary thread.
                 }
             );
@@ -86,7 +87,8 @@ namespace SonicHeroes.Overlay
         public void Setup_Window()
         {
             // Adjust the Window Style!
-            WINAPI_Components.SetWindowLong(this.Handle, GWL_EXSTYLE, (WINAPI_Components.GetWindowLong(this.Handle, GWL_EXSTYLE) ^ WS_EX_LAYERED ^ WS_EX_TRANSPARENT)); // Set window properties | Window is now clickthrough!
+            int initialStyle = WINAPI_Components.GetWindowLong(this.Handle, -20);
+            WINAPI_Components.SetWindowLong(this.Handle, GWL_EXSTYLE, initialStyle | WS_EX_LAYERED | WS_EX_TRANSPARENT); // Set window properties | Window is now clickthrough!
 
             //Set the Alpha on the Whole Window to 255 (solid)
             WINAPI_Components.SetLayeredWindowAttributes(this.Handle, 0, 255, LWA_ALPHA);
