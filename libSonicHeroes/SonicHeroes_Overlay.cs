@@ -27,7 +27,7 @@ namespace SonicHeroes.Overlay
         /// <summary>
         /// Create the fake GDI overlay.
         /// </summary>
-        public SonicHeroes_Overlay() { OverlayForm.Show(); }
+        public SonicHeroes_Overlay() { }
 
         /// <summary>
         /// Makes your form a child form of the fake glass game overlay.
@@ -42,7 +42,7 @@ namespace SonicHeroes.Overlay
         }
 
         ////////////////// For DirectX Hooking!
-        public SharpDX.Direct2D1.WindowRenderTarget Direct2D_Graphics_Target;
+        public static SharpDX.Direct2D1.WindowRenderTarget Direct2D_Graphics_Target;
         public delegate void Delegate_RenderDirect2D(WindowRenderTarget Direct2D_Graphics_Target);
         public Delegate_RenderDirect2D Direct2D_Render_Method;
         public bool Rectangle_Render = false;
@@ -55,21 +55,35 @@ namespace SonicHeroes.Overlay
             // Init DirectX
             // This initializes the DirectX device. It needs to be done once.
 
-            // Create the D2D1 Factory
-            SharpDX.Direct2D1.Factory Direct2D_Factory = new SharpDX.Direct2D1.Factory(SharpDX.Direct2D1.FactoryType.SingleThreaded);
-
-            // Set the render properties!
-            SharpDX.Direct2D1.HwndRenderTargetProperties Direct2D_Render_Target_Properties = new HwndRenderTargetProperties();
-            Direct2D_Render_Target_Properties.Hwnd = OverlayForm.Handle;
-            Direct2D_Render_Target_Properties.PixelSize = new SharpDX.Size2(OverlayForm.Width, OverlayForm.Height);
-            Direct2D_Render_Target_Properties.PresentOptions = PresentOptions.None;
-
-            Direct2D_Graphics_Target = new SharpDX.Direct2D1.WindowRenderTarget
+            // Wait for Heroes Window to spawn, when spawned, set the DirectX properties.
+            Thread Get_Heroes_Window_Thread = new Thread
             (
-                Direct2D_Factory,
-                new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, SharpDX.Direct2D1.AlphaMode.Premultiplied)),
-                Direct2D_Render_Target_Properties
+                () =>
+                {
+                    // Wait for Sonic Heroes Window to spawn.
+                    while (OverlayForm.Window_Setup_Complete == false)
+                    {
+                        // Get the handle for the Sonic_Heroes Window
+                        Thread.Sleep(500);
+                    }
+                    // Create the D2D1 Factory
+                    SharpDX.Direct2D1.Factory Direct2D_Factory = new SharpDX.Direct2D1.Factory(SharpDX.Direct2D1.FactoryType.SingleThreaded);
+
+                    // Set the render properties!
+                    SharpDX.Direct2D1.HwndRenderTargetProperties Direct2D_Render_Target_Properties = new HwndRenderTargetProperties();
+                    Direct2D_Render_Target_Properties.Hwnd = OverlayForm.Handle;
+                    Direct2D_Render_Target_Properties.PixelSize = new SharpDX.Size2(OverlayForm.Width, OverlayForm.Height);
+                    Direct2D_Render_Target_Properties.PresentOptions = PresentOptions.None;
+
+                    Direct2D_Graphics_Target = new SharpDX.Direct2D1.WindowRenderTarget
+                    (
+                        Direct2D_Factory,
+                        new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, SharpDX.Direct2D1.AlphaMode.Premultiplied)),
+                        Direct2D_Render_Target_Properties
+                    );
+                }
             );
+            Get_Heroes_Window_Thread.Start();
         }
 
         /// <summary>

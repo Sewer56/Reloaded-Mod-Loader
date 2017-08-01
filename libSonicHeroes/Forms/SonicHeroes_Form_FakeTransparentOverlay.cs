@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -28,7 +29,7 @@ namespace SonicHeroes.Overlay
         /// <summary>
         /// A handle to access the Window of Sonic Heroes.
         /// </summary>
-        public IntPtr Heroes_Window_Handle;
+        public static IntPtr Heroes_Window_Handle;
 
         /// A bit of delegating
         public delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
@@ -51,14 +52,39 @@ namespace SonicHeroes.Overlay
         public const int LWA_ALPHA = 0x2;
         public const int LWA_COLORKEY = 0x1;
 
+        /// Delegates for setting up the window properties.
+        public delegate void Set_Window_Properties_Delegate();
+        public static Set_Window_Properties_Delegate Setup_Window_Delegate;
+        public bool Window_Setup_Complete = false;
+
         public SonicHeroes_Form_FakeTransparentOverlay()
         {
             InitializeComponent();
-            this.Show();
+            Setup_Window_Delegate = Setup_Window; // Set the setup window delegate.
 
-            // Get the handle for the Sonic_Heroes Window
-            Heroes_Window_Handle = WINAPI_Components.FindWindow(null, HEROES_WINDOW_NAME);
-            
+            // Thread which waits for Sonic Heroes window to spawn before adjusting overlay window size.
+            Thread Get_Heroes_Window_Thread = new Thread
+            (
+                () => 
+                {
+                    // Wait for Sonic Heroes Window to spawn.
+                    while ((int)Heroes_Window_Handle == 0)
+                    {
+                        // Get the handle for the Sonic_Heroes Window
+                        Heroes_Window_Handle = WINAPI_Components.FindWindow(null, HEROES_WINDOW_NAME);
+                        Thread.Sleep(100);
+                    }
+                    Invoke(Setup_Window_Delegate); // Call Setup_Window in primary thread.
+                }
+            );
+            Get_Heroes_Window_Thread.Start();
+        }
+
+        /// <summary>
+        /// Sets up the overlay window properties.
+        /// </summary>
+        public void Setup_Window()
+        {
             // Adjust the Window Style!
             WINAPI_Components.SetWindowLong(this.Handle, GWL_EXSTYLE, (WINAPI_Components.GetWindowLong(this.Handle, GWL_EXSTYLE) ^ WS_EX_LAYERED ^ WS_EX_TRANSPARENT)); // Set window properties | Window is now clickthrough!
 
@@ -84,6 +110,7 @@ namespace SonicHeroes.Overlay
             Form_Margins.RightBorder = this.Width;
             Form_Margins.BottomBorder = this.Height;
             DwmExtendFrameIntoClientArea(this.Handle, ref Form_Margins);
+            Window_Setup_Complete = true;
         }
 
         [DllImport("dwmapi.dll")]
@@ -95,7 +122,7 @@ namespace SonicHeroes.Overlay
         public void Set_To_SonicHeroes_Window_Size()
         {
             // Adjust Size Accordingly
-            WINAPI_Components.GetClientRect(this.Heroes_Window_Handle, out this.Heroes_Window_Rectangle); // Get rectangle
+            WINAPI_Components.GetClientRect(Heroes_Window_Handle, out this.Heroes_Window_Rectangle); // Get rectangle
             this.Size = new Size(Heroes_Window_Rectangle.RightBorder - Heroes_Window_Rectangle.LeftBorder, Heroes_Window_Rectangle.BottomBorder - Heroes_Window_Rectangle.TopBorder);
         }
 
@@ -107,10 +134,10 @@ namespace SonicHeroes.Overlay
             Point Border_Size_Offsets = new Point(); // Border sizes X and Y 
             
             RECT Client_Rectangle_Size; // Store offset inside Window Area.
-            WINAPI_Components.GetClientRect(this.Heroes_Window_Handle, out Client_Rectangle_Size); // Get rectangle
+            WINAPI_Components.GetClientRect(Heroes_Window_Handle, out Client_Rectangle_Size); // Get rectangle
 
             // Adjust Size Accordingly
-            WINAPI_Components.GetWindowRect(this.Heroes_Window_Handle, out this.Heroes_Window_Rectangle); // Get rectangle
+            WINAPI_Components.GetWindowRect(Heroes_Window_Handle, out this.Heroes_Window_Rectangle); // Get rectangle
 
             // Get border width
             Border_Size_Offsets.X = (Heroes_Window_Rectangle.RightBorder - Heroes_Window_Rectangle.LeftBorder) - Client_Rectangle_Size.RightBorder;
