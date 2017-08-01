@@ -87,10 +87,11 @@ namespace SonicHeroes.Overlay
                     Clear_Screen(0, 0, 0, 0); // Clears everything drawn previously.
 
                     Direct2D_Render_Method(Direct2D_Graphics_Target); // Calls our own set rendering method
+                    
 
                     Direct2D_Graphics_Target.EndDraw(); // End Drawing!
                 }
-                catch { }
+                catch { Rectangle_Render = false; } // Set default render state.
                 Rectangle_Render = false;// Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
             }
         }
@@ -102,15 +103,15 @@ namespace SonicHeroes.Overlay
         {
             if (!Rectangle_Render)
             {
+                Rectangle_Render = true; // Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
                 try
                 {
-                    Rectangle_Render = true; // Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
                     Direct2D_Graphics_Target.BeginDraw(); // Begin Drawing!
                     Clear_Screen(0, 0, 0, 0); // Clears everything drawn previously.
                     Direct2D_Graphics_Target.EndDraw(); // End Drawing!
-                    Rectangle_Render = false;// Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
                 }
-                catch { }
+                catch { Rectangle_Render = false; }
+                Rectangle_Render = false; // Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
             }
 
         }
