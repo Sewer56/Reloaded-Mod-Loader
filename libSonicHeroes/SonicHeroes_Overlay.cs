@@ -88,7 +88,6 @@ namespace SonicHeroes.Overlay
 
                     Direct2D_Render_Method(Direct2D_Graphics_Target); // Calls our own set rendering method
                     
-
                     Direct2D_Graphics_Target.EndDraw(); // End Drawing!
                 }
                 catch { Rectangle_Render = false; } // Set default render state.
@@ -136,6 +135,9 @@ namespace SonicHeroes.Overlay
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool GetWindowRect(IntPtr hwnd, out SonicHeroes_Form_FakeTransparentOverlay.RECT lpRect);
+
+        [DllImport("user32.dll")]
+        public static extern bool GetClientRect(IntPtr hWnd, out SonicHeroes_Form_FakeTransparentOverlay.RECT lpRect);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);

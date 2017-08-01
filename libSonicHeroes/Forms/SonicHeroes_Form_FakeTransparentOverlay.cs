@@ -32,7 +32,7 @@ namespace SonicHeroes.Overlay
 
         /// A bit of delegating
         public delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
-        public WinEventDelegate Heroes_Window_Move_Hook_Delegate; 
+        public WinEventDelegate Heroes_Window_Move_Hook_Delegate;
 
         /// Process delegate to use with the event fired when window gets moved.
         public void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
@@ -40,10 +40,9 @@ namespace SonicHeroes.Overlay
             // Filter out non-HWND namechanges, e.g. items within a listbox.
             if (idObject != 0 || idChild != 0) { return; }
 
-            // Adjust Size Accordingly
-            WINAPI_Components.GetWindowRect(this.Heroes_Window_Handle, out this.Heroes_Window_Rectangle); // Get rectangle
-
+            // Set size and location
             Set_To_SonicHeroes_Window_Size();
+            Set_To_SonicHeroes_Window_Location();
         }
 
         public const int GWL_EXSTYLE = -20;
@@ -66,15 +65,13 @@ namespace SonicHeroes.Overlay
             //Set the Alpha on the Whole Window to 255 (solid)
             WINAPI_Components.SetLayeredWindowAttributes(this.Handle, 0, 255, LWA_ALPHA);
 
-            // Get Sanic Heroes Window Rectangle
-            WINAPI_Components.GetWindowRect(Heroes_Window_Handle, out Heroes_Window_Rectangle); // Get window rectangle
             Set_To_SonicHeroes_Window_Size(); // Adjust the overlay window to overlap Sonic Heroes.
+            Set_To_SonicHeroes_Window_Location(); // Adjust the overlay window to overlap Sonic Heroes.
             Heroes_Window_Move_Hook_Delegate = new WinEventDelegate(WinEventProc);
             IntPtr Heroes_Window_Hook = SetWinEventHook(WINAPI_Components.EVENT_OBJECT_LOCATIONCHANGE, WINAPI_Components.EVENT_OBJECT_LOCATIONCHANGE, IntPtr.Zero, Heroes_Window_Move_Hook_Delegate, 0, 0, WINAPI_Components.WINEVENT_OUTOFCONTEXT);
 
             // Set to top most such that this overlay always draws above the game.
             this.TopMost = true;
-
 
             // Expand the Aero Glass Effect Border to the WHOLE form.
             // since we have already had the border invisible we now
@@ -98,9 +95,29 @@ namespace SonicHeroes.Overlay
         public void Set_To_SonicHeroes_Window_Size()
         {
             // Adjust Size Accordingly
+            WINAPI_Components.GetClientRect(this.Heroes_Window_Handle, out this.Heroes_Window_Rectangle); // Get rectangle
             this.Size = new Size(Heroes_Window_Rectangle.RightBorder - Heroes_Window_Rectangle.LeftBorder, Heroes_Window_Rectangle.BottomBorder - Heroes_Window_Rectangle.TopBorder);
-            this.Top = Heroes_Window_Rectangle.TopBorder;
-            this.Left = Heroes_Window_Rectangle.LeftBorder;
+        }
+
+        /// <summary>
+        /// Sets the Heroes Overlay Window Location
+        /// </summary>
+        public void Set_To_SonicHeroes_Window_Location()
+        {
+            Point Border_Size_Offsets = new Point(); // Border sizes X and Y 
+            
+            RECT Client_Rectangle_Size; // Store offset inside Window Area.
+            WINAPI_Components.GetClientRect(this.Heroes_Window_Handle, out Client_Rectangle_Size); // Get rectangle
+
+            // Adjust Size Accordingly
+            WINAPI_Components.GetWindowRect(this.Heroes_Window_Handle, out this.Heroes_Window_Rectangle); // Get rectangle
+
+            // Get border width
+            Border_Size_Offsets.X = (Heroes_Window_Rectangle.RightBorder - Heroes_Window_Rectangle.LeftBorder) - Client_Rectangle_Size.RightBorder;
+            Border_Size_Offsets.Y = (Heroes_Window_Rectangle.BottomBorder - Heroes_Window_Rectangle.TopBorder) - Client_Rectangle_Size.BottomBorder;
+
+            this.Top = (int) (Heroes_Window_Rectangle.TopBorder + (Border_Size_Offsets.Y) - (Border_Size_Offsets.X / 2.0F)); // The top of window also has a border attached.
+            this.Left = (int) (Heroes_Window_Rectangle.LeftBorder + (Border_Size_Offsets.X / 2.0F)); // Divide by 2 because borders on both sides were calculated.
         }
 
         /// <summary>
