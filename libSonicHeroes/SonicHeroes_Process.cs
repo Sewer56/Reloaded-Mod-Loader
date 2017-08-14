@@ -194,8 +194,46 @@ namespace SonicHeroes.Memory
             var ProcessPointer = Process.AllocateMemory(LibraryData.Length);
             Process.WriteMemory(ProcessPointer, LibraryData);
             // Loads the specified module into the address space of the calling process using LoadLibraryA such that the loaded library may be executed, returns a pointer/handle to the library/module.
+            Process.ResumeProcess();
             var LibraryAddress = Process.CallLibrary(LoadLibraryX, ProcessPointer);
+            Process.SuspendProcess();
             return (IntPtr)LibraryAddress;
+        }
+
+        /// <summary>
+        /// Suspends the Sonic Heroes game process.
+        /// </summary>
+        /// <param name="Process"></param>
+        public static void SuspendProcess(this Process Process)
+        {
+            // Iterate over all threads
+            foreach (ProcessThread Process_Thread in Process.Threads)
+            {
+                IntPtr Open_Thread = OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)Process_Thread.Id); // Open thread and gain handle.
+                if (Open_Thread == IntPtr.Zero) { continue; } // Nah
+                SuspendThread(Open_Thread); // Suspend thread.
+                CloseHandle(Open_Thread); // Close handle obtained when opening thread.
+            }
+        }
+
+        /// <summary>
+        /// Resumes a suspended Sonic Heroes game process.
+        /// </summary>
+        /// <param name="pid"></param>
+        public static void ResumeProcess(this Process Process)
+        {
+            // Iterate over all threads
+            foreach (ProcessThread Process_Thread in Process.Threads)
+            {
+                IntPtr Open_Thread = OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)Process_Thread.Id); // Open thread and gain handle.
+                if (Open_Thread == IntPtr.Zero) { continue; } // Nah
+
+                // Casually resume thread.
+                int Thread_Suspend_Count = 0;
+                do { Thread_Suspend_Count = ResumeThread(Open_Thread); } while (Thread_Suspend_Count > 0);
+
+                CloseHandle(Open_Thread); // Close thread handle.
+            }
         }
 
         // Retrieves the address of an exported function or variable from a specified DLL.s
@@ -235,6 +273,29 @@ namespace SonicHeroes.Memory
 
         [DllImport("kernel32.dll")]
         static extern bool GetExitCodeThread(IntPtr hThread, out uint lpExitCode);
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
+        [DllImport("kernel32.dll")]
+        static extern uint SuspendThread(IntPtr hThread);
+        [DllImport("kernel32.dll")]
+        static extern int ResumeThread(IntPtr hThread);
+        [DllImport("kernel32", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern bool CloseHandle(IntPtr handle);
+
+        [Flags]
+        public enum ThreadAccess : int
+        {
+            TERMINATE = (0x0001),
+            SUSPEND_RESUME = (0x0002),
+            GET_CONTEXT = (0x0008),
+            SET_CONTEXT = (0x0010),
+            SET_INFORMATION = (0x0020),
+            QUERY_INFORMATION = (0x0040),
+            SET_THREAD_TOKEN = (0x0080),
+            IMPERSONATE = (0x0100),
+            DIRECT_IMPERSONATION = (0x0200)
+        }
 
         [DllImport("kernel32.dll")]
         static extern IntPtr CreateRemoteThread(IntPtr hProcess,
