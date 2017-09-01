@@ -72,9 +72,17 @@ namespace SonicHeroes.Overlay
                     {
                         // Get the handle for the Sonic_Heroes Window
                         Heroes_Window_Handle = WINAPI_Components.FindWindow(null, HEROES_WINDOW_NAME);
-                        Thread.Sleep(100);
+                        Thread.Sleep(500);
                     }
-                    Thread.Sleep(500);
+
+                    // Wait for the Window to show itself to screen before configuring.
+                    bool Window_Visible = false;
+                    while ( Window_Visible == false )
+                    {
+                        Window_Visible = IsWindowVisible(Heroes_Window_Handle);
+                        Thread.Sleep(1000);
+                    }
+                    
                     Invoke(Setup_Window_Delegate); // Call Setup_Window in primary thread.
                 }
             );
@@ -101,6 +109,11 @@ namespace SonicHeroes.Overlay
             // Set to top most such that this overlay always draws above the game.
             this.TopMost = true;
 
+            Expand_Aero_Glass();
+        }
+
+        public void Expand_Aero_Glass()
+        {
             // Expand the Aero Glass Effect Border to the WHOLE form.
             // since we have already had the border invisible we now
             // have a completely invisible window - apart from the DirectX
@@ -146,7 +159,7 @@ namespace SonicHeroes.Overlay
             Border_Size_Offsets.Y = (Heroes_Window_Rectangle.BottomBorder - Heroes_Window_Rectangle.TopBorder) - Client_Rectangle_Size.BottomBorder;
 
             this.Top = (int) (Heroes_Window_Rectangle.TopBorder + (Border_Size_Offsets.Y) - (Border_Size_Offsets.X / 2.0F)); // The top of window also has a border attached.
-            this.Left = (int) (Heroes_Window_Rectangle.LeftBorder + (Border_Size_Offsets.X / 2.0F)); // Divide by 2 because borders on both sides were calculated.
+            this.Left = (int)(Heroes_Window_Rectangle.LeftBorder + (Border_Size_Offsets.X / 2.0F)); // Divide by 2 because borders on both sides were calculated.
         }
 
         /// <summary>
@@ -190,5 +203,10 @@ namespace SonicHeroes.Overlay
         /// <returns></returns>
         [DllImport("user32.dll")]
         public static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
+
+        // Is the Window visible
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool IsWindowVisible(IntPtr hWnd);
     }
 }

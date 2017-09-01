@@ -64,7 +64,7 @@ namespace SonicHeroes.Overlay
                     while (OverlayForm.Window_Setup_Complete == false)
                     {
                         // Get the handle for the Sonic_Heroes Window
-                        Thread.Sleep(500);
+                        Thread.Sleep(1000);
                     }
                     // Create the D2D1 Factory
                     SharpDX.Direct2D1.Factory Direct2D_Factory = new SharpDX.Direct2D1.Factory(SharpDX.Direct2D1.FactoryType.SingleThreaded);
