@@ -81,6 +81,8 @@ namespace SonicHeroes.Overlay
                         new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, SharpDX.Direct2D1.AlphaMode.Premultiplied)),
                         Direct2D_Render_Target_Properties
                     );
+
+                    DirectX_Clear_Screen(); // Clear the residue graphics left from the Windows form which was made transparent and clickthrough.
                 }
             );
             Get_Heroes_Window_Thread.Start();
