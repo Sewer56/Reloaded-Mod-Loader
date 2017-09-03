@@ -26,6 +26,11 @@ namespace SonicHeroes.Variables
                 Window_Style = 0x46D88,
 
                 /// <summary>
+                /// [Absolute Address! For Executable, NOT RAM] Flags, 8 bytes, see Microsoft: Window Styles, https://msdn.microsoft.com/en-us/library/windows/desktop/ms632600(v=vs.85).aspx
+                /// </summary>
+                Adjust_Window_Rect_Style = 0x46DBE,
+
+                /// <summary>
                 /// [Absolute Address! For Executable, NOT RAM] [Int] Width for the 1280x1024 stock 32 bit colour setting.
                 /// </summary>
                 Width_StockLauncher_1280_1024 = 0x3C9290,
@@ -49,10 +54,10 @@ namespace SonicHeroes.Variables
             /// </summary>
             public enum WINAPI_BorderStyles
             {
-                Stock = 13107200, // 0x0000C800
-                Borderless = -2147483648, // 0x00000080
-                Resizable = 12845056, // 0x0000C400
-                Resizable_Borderless = 262144, // 0x00000400
+                Stock = 0x00C80000, // WS_CAPTION & WS_SYSMENU
+                Borderless = unchecked((int)0x80000000), // WS_POPUP
+                Resizable = 0x00C40000, // WS_CAPTION & WS_SIZEBOX
+                Resizable_Borderless = 0x00040000, // 0x00000400
             }
 
             /// <summary>
