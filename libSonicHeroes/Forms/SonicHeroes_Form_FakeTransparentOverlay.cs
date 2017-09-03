@@ -42,8 +42,7 @@ namespace SonicHeroes.Overlay
             if (idObject != 0 || idChild != 0) { return; }
 
             // Set size and location
-            Set_To_SonicHeroes_Window_Size();
-            Set_To_SonicHeroes_Window_Location();
+            Set_To_SonicHeroes_Window_Location_Size();
         }
 
         public const int GWL_EXSTYLE = -20;
@@ -101,8 +100,7 @@ namespace SonicHeroes.Overlay
             //Set the Alpha on the Whole Window to 255 (solid)
             WINAPI_Components.SetLayeredWindowAttributes(this.Handle, 0, 255, LWA_ALPHA);
 
-            Set_To_SonicHeroes_Window_Size(); // Adjust the overlay window to overlap Sonic Heroes.
-            Set_To_SonicHeroes_Window_Location(); // Adjust the overlay window to overlap Sonic Heroes.
+            Set_To_SonicHeroes_Window_Location_Size(); // Adjust the overlay window to overlap Sonic Heroes.
             Heroes_Window_Move_Hook_Delegate = new WinEventDelegate(WinEventProc);
             IntPtr Heroes_Window_Hook = SetWinEventHook(WINAPI_Components.EVENT_OBJECT_LOCATIONCHANGE, WINAPI_Components.EVENT_OBJECT_LOCATIONCHANGE, IntPtr.Zero, Heroes_Window_Move_Hook_Delegate, 0, 0, WINAPI_Components.WINEVENT_OUTOFCONTEXT);
 
@@ -132,19 +130,9 @@ namespace SonicHeroes.Overlay
         static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref Margins pMargins);
 
         /// <summary>
-        /// Sets the Heroes Overlay Window Size and Location
-        /// </summary>
-        public void Set_To_SonicHeroes_Window_Size()
-        {
-            // Adjust Size Accordingly
-            WINAPI_Components.GetClientRect(Heroes_Window_Handle, out this.Heroes_Window_Rectangle); // Get rectangle
-            this.Size = new Size(Heroes_Window_Rectangle.RightBorder - Heroes_Window_Rectangle.LeftBorder, Heroes_Window_Rectangle.BottomBorder - Heroes_Window_Rectangle.TopBorder);
-        }
-
-        /// <summary>
         /// Sets the Heroes Overlay Window Location
         /// </summary>
-        public void Set_To_SonicHeroes_Window_Location()
+        public void Set_To_SonicHeroes_Window_Location_Size()
         {
             Point Border_Size_Offsets = new Point(); // Border sizes X and Y 
             
@@ -160,6 +148,8 @@ namespace SonicHeroes.Overlay
 
             this.Top = (int) (Heroes_Window_Rectangle.TopBorder + (Border_Size_Offsets.Y) - (Border_Size_Offsets.X / 2.0F)); // The top of window also has a border attached.
             this.Left = (int)(Heroes_Window_Rectangle.LeftBorder + (Border_Size_Offsets.X / 2.0F)); // Divide by 2 because borders on both sides were calculated.
+            this.Width = (int)(Heroes_Window_Rectangle.RightBorder - Heroes_Window_Rectangle.LeftBorder - Border_Size_Offsets.X); // Set width of Window_Accordingly
+            this.Height = (int)(Heroes_Window_Rectangle.BottomBorder - Heroes_Window_Rectangle.TopBorder - Border_Size_Offsets.Y); // Set height of Window_Accordingly
         }
 
         /// <summary>
