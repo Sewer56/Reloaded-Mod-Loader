@@ -6,23 +6,24 @@ using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SonicHeroes.Misc
 {
     /// <summary>
     /// This class holds all sorts of miscallenous methods, mostly external which may simply at one point prove useful. The structs and any miscallenous 
     /// </summary>
-    class SonicHeroes_Miscallenous
+    public class SonicHeroes_Miscallenous
     {
 
         /// <summary>
         /// Returns the Sonic Heroes executable, TSonic_Win, as an array.
         /// </summary>
         /// <returns></returns>
-        public static byte[] Get_SonicHeroes_Executable_As_Array()
+        public static byte[] Get_Executable_As_Array(string Executable_Path)
         {
-            byte[] SonicHeroesExecutable = new byte[new FileInfo("Tsonic_win.exe").Length];
-            SonicHeroesExecutable = File.ReadAllBytes("Tsonic_win.exe");
+            byte[] SonicHeroesExecutable = new byte[new FileInfo(Executable_Path).Length];
+            SonicHeroesExecutable = File.ReadAllBytes(Executable_Path);
             return SonicHeroesExecutable;
         }
 
@@ -69,38 +70,47 @@ namespace SonicHeroes.Misc
         {
             Sonic_Heroes_Configuration_File ConfigFile = new Sonic_Heroes_Configuration_File();
             string ConfigFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\SEGA\SONICHEROES\sonic_h.ini";
-            string CurrentLine;
-            System.IO.StreamReader INIConfigFile = new System.IO.StreamReader(ConfigFilePath);
-
-            // Initialize size of struct arrays;
-            ConfigFile.ControllerOne = new byte[8];
-            ConfigFile.ControllerTwo = new byte[8];
-            ConfigFile.MouseControls = new byte[8];
-
-            while ((CurrentLine = INIConfigFile.ReadLine()) != null)
+            try
             {
-                if (CurrentLine.StartsWith("Frame_Rate")) { ConfigFile.FrameRate = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("Free_Camera")) { ConfigFile.FreeCamera = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("Fog")) { ConfigFile.FogEmulation = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("Clip_Range")) { ConfigFile.ClipRange = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("Anisotoropic")) { ConfigFile.AnisotropicFiltering = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("Pad_Assign1")) { ReadStringByteArray(CurrentLine.Substring(CurrentLine.IndexOf(" ") + 1), ConfigFile.ControllerOne); }
-                else if (CurrentLine.StartsWith("Pad_Assign2")) { ReadStringByteArray(CurrentLine.Substring(CurrentLine.IndexOf(" ") + 1), ConfigFile.ControllerTwo); }
-                else if (CurrentLine.StartsWith("Mouse_Assign")) { ReadStringByteArray(CurrentLine.Substring(CurrentLine.IndexOf(" ") + 1), ConfigFile.MouseControls); }
-                else if (CurrentLine.StartsWith("Screen_Size_Selection")) { ConfigFile.Screensize = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("Screen_Full")) { ConfigFile.FullScreen = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("Language")) { ConfigFile.Language = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("3D_Sound")) { ConfigFile.SurroundSound = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("SE_Volume")) { ConfigFile.SFXVolume = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("SE_On")) { ConfigFile.SFXToggle = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("BGM_Volume")) { ConfigFile.BGMVolume = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("BGM_On")) { ConfigFile.BGMToggle = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("Cheap_Shadow")) { ConfigFile.SoftShadows = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-                else if (CurrentLine.StartsWith("Mouse_Control_Type")) { ConfigFile.MouseControlType = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
-            }
+                string CurrentLine;
+                System.IO.StreamReader INIConfigFile = new System.IO.StreamReader(ConfigFilePath);
 
-            INIConfigFile.Dispose();
-            return ConfigFile;
+                // Initialize size of struct arrays;
+                ConfigFile.ControllerOne = new byte[8];
+                ConfigFile.ControllerTwo = new byte[8];
+                ConfigFile.MouseControls = new byte[8];
+
+                while ((CurrentLine = INIConfigFile.ReadLine()) != null)
+                {
+                    if (CurrentLine.StartsWith("Frame_Rate")) { ConfigFile.FrameRate = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("Free_Camera")) { ConfigFile.FreeCamera = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("Fog")) { ConfigFile.FogEmulation = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("Clip_Range")) { ConfigFile.ClipRange = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("Anisotoropic")) { ConfigFile.AnisotropicFiltering = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("Pad_Assign1")) { ReadStringByteArray(CurrentLine.Substring(CurrentLine.IndexOf(" ") + 1), ConfigFile.ControllerOne); }
+                    else if (CurrentLine.StartsWith("Pad_Assign2")) { ReadStringByteArray(CurrentLine.Substring(CurrentLine.IndexOf(" ") + 1), ConfigFile.ControllerTwo); }
+                    else if (CurrentLine.StartsWith("Mouse_Assign")) { ReadStringByteArray(CurrentLine.Substring(CurrentLine.IndexOf(" ") + 1), ConfigFile.MouseControls); }
+                    else if (CurrentLine.StartsWith("Screen_Size_Selection")) { ConfigFile.Screensize = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("Screen_Full")) { ConfigFile.FullScreen = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("Language")) { ConfigFile.Language = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("3D_Sound")) { ConfigFile.SurroundSound = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("SE_Volume")) { ConfigFile.SFXVolume = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("SE_On")) { ConfigFile.SFXToggle = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("BGM_Volume")) { ConfigFile.BGMVolume = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("BGM_On")) { ConfigFile.BGMToggle = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("Cheap_Shadow")) { ConfigFile.SoftShadows = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                    else if (CurrentLine.StartsWith("Mouse_Control_Type")) { ConfigFile.MouseControlType = byte.Parse(CurrentLine.Substring(CurrentLine.LastIndexOf(" ") + 1)); }
+                }
+
+                INIConfigFile.Dispose();
+                return ConfigFile;
+            }
+            catch (Exception)
+            {
+                // If the game is not Sonic Heroes or a config file is missing, set a default file into memory undefined defaults.
+                MessageBox.Show("Could not find the Sonic Heroes configuration ini. The settings in the mod loader have been replaced with the defaults.");
+                return ConfigFile;
+            }
         }
 
         /// <summary>
@@ -150,7 +160,7 @@ namespace SonicHeroes.Misc
         /// <returns></returns>
         public static System.Reflection.Assembly CurrentDomain_SetAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            string Folder_Path = Directory.GetCurrentDirectory() + @"\Mod-Loader-Libraries\"; // Path of current folder where the assembly is (Inside RAM of TSonic_win.exe therefore this gets current game directory). Append Mod-Loader-Libraries :)
+            string Folder_Path = File.ReadAllText(Directory.GetCurrentDirectory() + "\\Mod_Loader_Libraries.txt") + "\\Mod-Loader-Libraries"; // Path of current folder where the assembly is (Inside RAM of TSonic_win.exe therefore this gets current game directory). Append Mod-Loader-Libraries :)
             string Assembly_Path = Path.Combine(Folder_Path, new AssemblyName(args.Name).Name + ".dll"); // The new path for the assembly! Including the library path.s
             if (!File.Exists(Assembly_Path)) return null; // If the assembly does not exist, return null.
             Assembly Assembly_Physical = Assembly.LoadFrom(Assembly_Path); // Else just load the assembly :)

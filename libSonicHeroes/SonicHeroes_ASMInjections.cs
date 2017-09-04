@@ -9,7 +9,7 @@ namespace SonicHeroes.ASMInjections.Overwrite
     /// <summary>
     /// This class defines fun assembly injections which you may perform to alter the state of the game and game flow. This is a collection of previously made assembly modifications and hacks.
     /// </summary>
-    class SonicHeroes_ASMInjections
+    public class SonicHeroes_ASMInjections
     {
 
         /// <summary>

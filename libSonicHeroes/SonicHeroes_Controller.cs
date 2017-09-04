@@ -10,7 +10,7 @@ namespace SonicHeroes.Controller
     /// <summary>
     /// This class contains code to deal with DirectInput and dealing with individual controllers, acquiring input from the controllers outside of the realm of the game. I only have a DS4 to test, so I've made the class to support that at the current time. To use this class, you will need to install the SlimDX NuGet package.
     /// </summary>
-    class DirectInput_Joystick_Manager
+    public class DirectInput_Joystick_Manager
     {
         // Variables
         private DirectInput DirectInputAdapter = new DirectInput(); // Declare the direct input adapter instance for storing the player gamepad
@@ -40,6 +40,7 @@ namespace SonicHeroes.Controller
         {
             Sonic_Heroes_Joystick PlayerController; // Setup new array of all controllers.                          
             List<DeviceInstance> Devices = new List<DeviceInstance>(DirectInputAdapter.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly)); // Get all controllers and keyboards.
+            Devices.AddRange(new List<DeviceInstance>(DirectInputAdapter.GetDevices(DeviceClass.Keyboard, DeviceEnumerationFlags.AttachedOnly))); // Get Connected
             int ControllerID = 1;
 
             // For each device/controller.

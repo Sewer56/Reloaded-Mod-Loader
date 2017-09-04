@@ -11,7 +11,7 @@ namespace SonicHeroes.Programming.UtilityMethods
     /// <summary>
     /// This class defines methods which the user/modder may find useful when creating hacks.
     /// </summary>
-    class SonicHeroes_UsefulMethods
+    public class SonicHeroes_UsefulMethods
     {
 
         /// <summary>

@@ -9,7 +9,7 @@ namespace SonicHeroes.Structs
     /// <summary>
     /// This class' purpose is to hold structs for more complex data types and ranges of values, such that they may be grouped and easily stored. The definitions of each variable can be found in SonicHeroes.Variables
     /// </summary>
-    class SonicHeroes_Structs
+    public class SonicHeroes_Structs
     {
         /// <summary>
         /// A struct which can be used to hold information for character teleporting functions/savestating.

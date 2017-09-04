@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SonicHeroes.Functions
 {
-    class SonicHeroes_Functions
+    public class SonicHeroes_Functions
     {
         /// <summary>
         /// Set of addresses related to ring collection ingame.

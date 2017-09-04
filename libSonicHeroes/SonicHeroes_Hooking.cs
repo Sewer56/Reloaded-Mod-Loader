@@ -14,7 +14,7 @@ namespace SonicHeroes.Hooking
     /// <summary>
     /// This class allows you to create a hook for the game, allowing you to replace an ingame piece of code with a call, or quite simply a statement to go off execute your own function/code. A hook requires at least 5 bytes and some code which you would be happy to scrap in order to instead run your hook. You must set a length of 5 + any stray/leftover instruction bytes AND make sure you are not in a register dependent assembly code as this solution does not backup registers. For more information, do refer to the Wiki on Github.
     /// </summary>
-    class Hook : IDisposable
+    public class Hook : IDisposable
     {
         /// <summary>
         /// An optional user defined number of bytes to replace while performing a hook, you may use this to ensure that no stray bytes are left from another instruction.
@@ -138,7 +138,7 @@ namespace SonicHeroes.Hooking
     /// <summary>
     /// This class is an alternative for the Hook class, this generates a call to your code, however with the use of a clever jump following, still executes the original code after your code has finished executing. To use this hook, you require at least a hook length of 5 bytes + any stray bytes from any instruction. For more information, do refer to the Wiki on Github.
     /// </summary>
-    class Injection // : IDisposable
+    public class Injection // : IDisposable
     {
         /// <summary>
         /// An optional user defined number of bytes to replace while performing a hook, you may use this to ensure that no stray bytes are left from another instruction.
@@ -433,7 +433,7 @@ namespace SonicHeroes.Hooking
     /// <summary>
     /// This class allows you to place a jump in game memory, this is pretty much identical to the hook class, except that you can jump anywhere you want and must provide an address to jump to, that's about it. Note: If you are a C++ user, you may use this as an alternative to "Hook", and place a jump back to the opcode right after the jump using Inline Assembly, with C# this is not possible, P/Invoke C/C++ code will not work either.
     /// </summary>
-    class Jump : IDisposable
+    public class Jump : IDisposable
     {
         /// <summary>
         /// This is the number of bytes that the hook in question will by default replace, we can't always use this number but we will do our best. 
@@ -523,7 +523,7 @@ namespace SonicHeroes.Hooking
     /// <summary>
     /// Injecting own code is fun, but what about some ASM? Well, this will let you insert a code block of ASM of your own choice into the program and do whatever you want there, backups and restores registers fully, cool, isn't it? If you want to append more to ASM anywhere within existing code rather than running your own code block and having execution state registered to same as prior to that, consider ASM_Hook instead.
     /// </summary>
-    class ASM_Injection : IDisposable
+    public class ASM_Injection : IDisposable
     {
         /// <summary>
         /// An optional user defined number of bytes to replace while performing a hook, you may use this to ensure that no stray bytes are left from another instruction.
@@ -739,7 +739,7 @@ namespace SonicHeroes.Hooking
     /// <summary>
     /// Injecting own code is fun, but what about some ASM? Well, this will let you insert a code block of ASM of your own choice into the program and do whatever you want there, backups and restores registers fully, cool, isn't it? If you want to append more to ASM anywhere within existing code rather than running your own code block and having execution state registered to same as prior to that, consider ASM_Hook instead.
     /// </summary>
-    class ASM_Hook : IDisposable
+    public class ASM_Hook : IDisposable
     {
         /// <summary>
         /// An optional user defined number of bytes to replace while performing a hook, you may use this to ensure that no stray bytes are left from another instruction.
