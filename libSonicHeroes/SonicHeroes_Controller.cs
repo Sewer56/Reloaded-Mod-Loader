@@ -40,7 +40,8 @@ namespace SonicHeroes.Controller
         {
             Sonic_Heroes_Joystick PlayerController; // Setup new array of all controllers.                          
             List<DeviceInstance> Devices = new List<DeviceInstance>(DirectInputAdapter.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly)); // Get all controllers and keyboards.
-            Devices.AddRange(new List<DeviceInstance>(DirectInputAdapter.GetDevices(DeviceClass.Keyboard, DeviceEnumerationFlags.AttachedOnly))); // Get Connected
+            // TODO: Keyboard support
+            // Devices.AddRange(new List<DeviceInstance>(DirectInputAdapter.GetDevices(DeviceClass.Keyboard, DeviceEnumerationFlags.AttachedOnly))); 
             int ControllerID = 1;
 
             // For each device/controller.
