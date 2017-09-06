@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Windows.Forms;
 
 namespace SonicHeroes.Networking
 {
@@ -223,35 +224,35 @@ namespace SonicHeroes.Networking
         public enum Message_Type
         {
             /// <summary>
-            /// Just a confirmation of operation being performed successfully
+            /// Expects Response: False | Just a confirmation of operation being performed successfully
             /// </summary>
             Reply_Okay = 0x0,
             /// <summary>
-            /// Prints message to mod loader's command line.
+            /// Expects Response: True/False | Prints message to mod loader's command line. Parameter/Data: ASCII Encoded String, e.g. Encoding.ASCII.GetBytes("Ayylmao");
             /// </summary>
             Client_Call_Send_Message = 0x1,
             /// <summary>
-            /// Mod loader starts polling the controllers and will update them 60 times per second.
+            /// Expects Response: False | Mod loader starts polling the controllers and will update them 60 times per second.
             /// </summary>
             Client_Call_Start_Controller_Server = 0x2,
             /// <summary>
-            /// Tells the server to send back the controller state to the client as a serialized object.
+            /// Expects Response: True | Parameter/Data = (int32)Controller ID | Tells the server to send back the controller state to the client as a serialized object. 
             /// </summary>
             Client_Call_Get_Controller = 0x3,
             /// <summary>
-            /// Call all functions which are subscribed to a particular address.
+            /// Expects Response: True/False | Parameter/Data = Address of Function | Call all functions which are subscribed to a particular address.
             /// </summary>
             Client_Call_Call_Subscribed_Function = 0x4,
             /// <summary>
-            /// Tell the mod loader to subscribe a specific method delegate to be ran when a call to a function of this address is made.
+            /// Expects Response: True/False | Parameter/Data = (Struct) Client_Functions.Multi_Hook_Handler | Tell the mod loader to subscribe a specific method delegate to be ran when a call to a function of this address is made.
             /// </summary>
             Client_Call_Subscribe_DLL_Function = 0x5,
             /// <summary>
-            /// Tell the client that the function has already been subscribed, thus will be shared with another mod.
+            /// Expects Response: True/False | Returns 1 from server if address is already hooked. | Tell the client that the function has already been subscribed, thus will be shared with another mod.
             /// </summary>
             Reply_Function_Already_Hooked = 0x6,
             /// <summary>
-            /// Used to ask the mod loader whether an address is already hooked.
+            /// Expects Response: True | Returns 1 from server if address is already hooked. | Used to ask the mod loader whether an address is already hooked.
             /// </summary>
             Client_Call_Check_Address_Hook_State = 0x7,
         }
@@ -345,7 +346,6 @@ namespace SonicHeroes.Networking
 
             // DPAD
             Controller_Inputs.ControllerDPad = BitConverter.ToUInt16(SonicHeroes.Misc.SonicHeroes_Miscallenous.Get_Byte_Range_From_Array(Controller_Inputs_Serialized, 2, 23), 0);
-
             return Controller_Inputs;
         }
 
