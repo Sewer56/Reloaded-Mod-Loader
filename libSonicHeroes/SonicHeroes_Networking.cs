@@ -215,7 +215,7 @@ namespace SonicHeroes.Networking
     /// <summary>
     /// Client functions for communication with the mod loader, returns and sends data..
     /// </summary>
-    public class Client_Functions
+    public static class Client_Functions
     {
         /// <summary>
         /// Different Message Types for the Mod Loader.
