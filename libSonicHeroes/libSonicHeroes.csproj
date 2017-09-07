@@ -89,7 +89,6 @@
     <Compile Include="SonicHeroes_ASMInjections.cs" />
     <Compile Include="SonicHeroes_Functions.cs" />
     <Compile Include="SonicHeroes_Structs.cs" />
-    <Compile Include="SonicHeroes_UsefulMethods.cs" />
     <Compile Include="SonicHeroes_Variables.cs" />
   </ItemGroup>
   <ItemGroup>
