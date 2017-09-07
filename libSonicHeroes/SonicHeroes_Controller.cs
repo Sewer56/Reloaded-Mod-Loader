@@ -612,7 +612,8 @@ namespace SonicHeroes.Controller
             try
             {
                 // Sonic Heroes Directory + Mod-Loader-Config + GUID
-                string Save_Setting_Path = Environment.CurrentDirectory + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid;
+                string Save_Setting_Path = Environment.CurrentDirectory + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc";
+                if (!File.Exists(Save_Setting_Path)) { Save_Setting_Path = File.ReadAllText("\\Mod-Loader-Config.txt") + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc"; }
                 List<string> Configuration_Text_File = new List<string>(30);
 
                 /// Dump Axis Mappings!
@@ -658,7 +659,9 @@ namespace SonicHeroes.Controller
         {
             try
             {
-                string Save_Seting_Path = Environment.CurrentDirectory + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid;
+                string Save_Seting_Path = Environment.CurrentDirectory + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc";
+
+                if (!File.Exists(Save_Seting_Path)) { Save_Seting_Path = File.ReadAllText("\\Mod-Loader-Config.txt") + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc"; } 
                 string[] Save_File = File.ReadAllLines(Save_Seting_Path);
 
                 // I never use foreach but I'll give in once, it looks cleaner.
