@@ -347,7 +347,7 @@ namespace SonicHeroes.Hooking
 
         // This will activate the hook
         /// <summary>
-        /// Activates the hook via the use of manual hooking. Doing this is technically faster on performance by a negligible amount, it is an option, but please for the sake of interoperability with other mods, consider 'Subscribing' this address to the Mod Loader [Currently Not Implemented].
+        /// Activates the hook via the use of manual hooking. Doing this is technically faster on performance by a negligible amount, it is an option, but please for the sake of interoperability with other mods, consider 'Subscribing' this address to the Mod Loader.
         /// </summary>
         public void Activate()
         {
@@ -737,7 +737,7 @@ namespace SonicHeroes.Hooking
     }
 
     /// <summary>
-    /// Injecting own code is fun, but what about some ASM? Well, this will let you insert a code block of ASM of your own choice into the program and do whatever you want there, backups and restores registers fully, cool, isn't it? If you want to append more to ASM anywhere within existing code rather than running your own code block and having execution state registered to same as prior to that, consider ASM_Hook instead.
+    /// This will let you insert a code block of ASM of your own choice before the first instruction of the address and range address you are hooking in order to add additional assembly opcodes after a @gamespecified address.
     /// </summary>
     public class ASM_Hook : IDisposable
     {
