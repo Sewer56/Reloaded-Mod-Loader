@@ -65,7 +65,7 @@ namespace SonicHeroes.Controller
                     }
 
                     ControllerID = ControllerID + 1;
-                    PlayerController.Load_Controller_Configuration();
+                    try { PlayerController.Load_Controller_Configuration(); } catch { }
                     PlayerControllers.Add(PlayerController); // Add the PlayerController to recognized PlayerControllers.
                 }
                 catch (Exception) { }
@@ -268,6 +268,11 @@ namespace SonicHeroes.Controller
     /// </summary>
     public class Sonic_Heroes_Joystick : Joystick
     {
+        public Sonic_Heroes_Joystick(int ControllerID, DirectInput directInput, Guid deviceGuid) : base(directInput, deviceGuid)
+        {
+            this.ControllerID = ControllerID;
+        }
+
         /// <summary>
         /// Custom mapping for the generic buttons. Maps each regular button of an XBOX to a button ID custom defined by the user.
         /// </summary>
@@ -662,7 +667,12 @@ namespace SonicHeroes.Controller
                 string Save_Seting_Path = Environment.CurrentDirectory + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc";
                 string Local_Save_Path = Path.GetDirectoryName(System.Reflection.Assembly.GetCallingAssembly().Location) + "\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc";
                 
-                if (!File.Exists(Save_Seting_Path)) { Save_Seting_Path = File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc"; }
+                if (!File.Exists(Save_Seting_Path))
+                {
+                    try { Save_Seting_Path = File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc"; }
+                    catch { }
+                }
+
                 if (File.Exists(Local_Save_Path)) { Save_Seting_Path = Local_Save_Path; }
 
                 string[] Save_File = File.ReadAllLines(Save_Seting_Path);
@@ -700,7 +710,7 @@ namespace SonicHeroes.Controller
                     else if (Save_File_String.StartsWith("Axis_Rotation_Z_IsReversed")) { bool Result = false; Boolean.TryParse(Value, out Result); Axis_Mappings.RightTrigger_Pressure_IsReversed = Result; }
                 }
             }
-            catch (Exception Ex) { MessageBox.Show(Ex.Message); }
+            catch (Exception Ex) { }
         }
 
         /// <summary>
@@ -715,8 +725,6 @@ namespace SonicHeroes.Controller
             }
             return Controller_Axis_Generic.Null;
         }
-
-        public Sonic_Heroes_Joystick(int ControllerID, DirectInput directInput, Guid deviceGuid) : base(directInput, deviceGuid) { this.ControllerID = ControllerID; }
     }
 
     /// <summary>
