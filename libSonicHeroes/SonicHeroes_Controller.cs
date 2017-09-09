@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace SonicHeroes.Controller
 {
@@ -64,7 +65,7 @@ namespace SonicHeroes.Controller
                     }
 
                     ControllerID = ControllerID + 1;
-                    try { PlayerController.Load_Controller_Configuration(); } catch { }
+                    PlayerController.Load_Controller_Configuration();
                     PlayerControllers.Add(PlayerController); // Add the PlayerController to recognized PlayerControllers.
                 }
                 catch (Exception) { }
@@ -613,7 +614,6 @@ namespace SonicHeroes.Controller
             {
                 // Sonic Heroes Directory + Mod-Loader-Config + GUID
                 string Save_Setting_Path = Environment.CurrentDirectory + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc";
-                if (!File.Exists(Save_Setting_Path)) { Save_Setting_Path = File.ReadAllText("\\Mod-Loader-Config.txt") + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc"; }
                 List<string> Configuration_Text_File = new List<string>(30);
 
                 /// Dump Axis Mappings!
@@ -660,8 +660,11 @@ namespace SonicHeroes.Controller
             try
             {
                 string Save_Seting_Path = Environment.CurrentDirectory + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc";
+                string Local_Save_Path = Path.GetDirectoryName(System.Reflection.Assembly.GetCallingAssembly().Location) + "\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc";
+                
+                if (!File.Exists(Save_Seting_Path)) { Save_Seting_Path = File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc"; }
+                if (File.Exists(Local_Save_Path)) { Save_Seting_Path = Local_Save_Path; }
 
-                if (!File.Exists(Save_Seting_Path)) { Save_Seting_Path = File.ReadAllText("\\Mod-Loader-Config.txt") + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc"; } 
                 string[] Save_File = File.ReadAllLines(Save_Seting_Path);
 
                 // I never use foreach but I'll give in once, it looks cleaner.
@@ -697,7 +700,7 @@ namespace SonicHeroes.Controller
                     else if (Save_File_String.StartsWith("Axis_Rotation_Z_IsReversed")) { bool Result = false; Boolean.TryParse(Value, out Result); Axis_Mappings.RightTrigger_Pressure_IsReversed = Result; }
                 }
             }
-            catch (Exception Ex) { }
+            catch (Exception Ex) { MessageBox.Show(Ex.Message); }
         }
 
         /// <summary>
