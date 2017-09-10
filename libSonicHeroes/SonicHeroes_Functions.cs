@@ -38,7 +38,12 @@ namespace SonicHeroes.Functions
             /// The address to the instruction responsible for playing the sound for collecting a ring once a ring has been collected. The length represents the length of the instruction, nop this address for this length to disable instruction entirely.
             /// </summary>
             Add_Ring_PlaySound_Function = 0x00440A00,
-            Add_Ring_PlaySound_Function_Length = 0x2A,
+
+            /// <summary>
+            /// The specific JMP/Call responsible for calling the routine which will play a sound for a ring.
+            /// </summary>
+            Add_Ring_PlaySound_Function_Call = 0x004833F6,
+
             /// <summary>
             /// [ Byte [2] ] : Address: allows you to change the sound played when collecting a ring. 1st byte = BankID, 2nd byte = Sound ID
             /// </summary>
