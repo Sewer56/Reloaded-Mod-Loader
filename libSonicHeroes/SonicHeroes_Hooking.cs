@@ -64,6 +64,18 @@ namespace SonicHeroes.Hooking
             Hook_Hook(SourceAddressPointer, Marshal.GetFunctionPointerForDelegate(DestinationAddressPointer), HookLength);
         }
 
+
+        /// <summary>
+        /// This will effectively call the other FunctionHook, but with an IntPtr to the destination of the method we will want to use, as this one will retrieve an address to the destination method using the delegate signature. 
+        /// </summary>
+        /// <param name="SourceAddressPointer">The address at which we will start our hook process.</param>
+        /// <param name="DestinationAddressPointer">Delegate to the method we will want to run. (DelegateName)Method</param>
+        /// <param name="HookLength">The amount of bytes the hook lasts, all stray bytes will be replaced with NOP/No Operation.</param>
+        public Hook(IntPtr SourceAddressPointer, IntPtr DestinationAddressPointer, int HookLength)
+        {
+            Hook_Hook(SourceAddressPointer, DestinationAddressPointer, HookLength);
+        }
+
         // Creates a hook.
         // Hook length defines the amount of bytes which will be replaced by the hook.
         // Hook length must be at least 5 bytes.
@@ -240,6 +252,17 @@ namespace SonicHeroes.Hooking
             CustomMethodDelegate = DestinationAddressPointer;
             Function_Pointer_Own_Method_Call = Marshal.GetFunctionPointerForDelegate(CustomMethodDelegate);
             Injection_Hook(SourceAddressPointer, Function_Pointer_Own_Method_Call, HookLength, Mod_Loader_Server_Socket);
+        }
+
+        /// <summary>
+        /// This class is an alternative for the Hook class, this generates a call to your code, however with the use of a clever jump following, still executes the original code after your code has finished executing.
+        /// </summary>
+        /// <param name="SourceAddressPointer">The address at which we will start our hook process.</param>
+        /// <param name="DestinationAddressPointer">Delegate to the method we will want to run. (DelegateName)Method</param>
+        /// <param name="HookLength">The amount of bytes the hook lasts, all stray bytes will be replaced with NOP/No Operation (technically), however the opcode call itself will be fully preserved, do not worry.</param>
+        public Injection(IntPtr SourceAddressPointer, IntPtr DestinationAddressPointer, int HookLength, SonicHeroes.Networking.WebSocket_Client Mod_Loader_Server_Socket)
+        {
+            Injection_Hook(SourceAddressPointer, DestinationAddressPointer, HookLength, Mod_Loader_Server_Socket);
         }
 
         // Hook Length Must be 5 bytes + any stray bytes!
