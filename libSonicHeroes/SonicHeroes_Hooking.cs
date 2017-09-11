@@ -251,7 +251,25 @@ namespace SonicHeroes.Hooking
         {
             CustomMethodDelegate = DestinationAddressPointer;
             Function_Pointer_Own_Method_Call = Marshal.GetFunctionPointerForDelegate(CustomMethodDelegate);
-            Injection_Hook(SourceAddressPointer, Function_Pointer_Own_Method_Call, HookLength, Mod_Loader_Server_Socket);
+            Injection_Hook(SourceAddressPointer, Function_Pointer_Own_Method_Call, HookLength);
+
+            /// Minor extra check to see if our hook address is already hooked!
+            byte[] Hook_Address_Function_Address = SonicHeroes.Networking.Client_Functions.Serialize_Subscribe_Hook_Handler(HookAddress, (IntPtr)0); // We do not need a function address, we are only checking hook.
+            byte[] Response = Mod_Loader_Server_Socket.SendData_Alternate(Message_Type.Client_Call_Check_Address_Hook_State, Hook_Address_Function_Address, true);
+            if (Response[0] == (byte)Client_Functions.Message_Type.Reply_Function_Already_Hooked) { Already_Activated = true; }
+        }
+
+        /// <summary>
+        /// This class is an alternative for the Hook class, this generates a call to your code, however with the use of a clever jump following, still executes the original code after your code has finished executing.
+        /// </summary>
+        /// <param name="SourceAddressPointer">The address at which we will start our hook process.</param>
+        /// <param name="DestinationAddressPointer">Delegate to the method we will want to run. (DelegateName)Method</param>
+        /// <param name="HookLength">The amount of bytes the hook lasts, all stray bytes will be replaced with NOP/No Operation (technically), however the opcode call itself will be fully preserved, do not worry.</param>
+        public Injection(IntPtr SourceAddressPointer, Delegate DestinationAddressPointer, int HookLength)
+        {
+            CustomMethodDelegate = DestinationAddressPointer;
+            Function_Pointer_Own_Method_Call = Marshal.GetFunctionPointerForDelegate(CustomMethodDelegate);
+            Injection_Hook(SourceAddressPointer, Function_Pointer_Own_Method_Call, HookLength);
         }
 
         /// <summary>
@@ -262,11 +280,11 @@ namespace SonicHeroes.Hooking
         /// <param name="HookLength">The amount of bytes the hook lasts, all stray bytes will be replaced with NOP/No Operation (technically), however the opcode call itself will be fully preserved, do not worry.</param>
         public Injection(IntPtr SourceAddressPointer, IntPtr DestinationAddressPointer, int HookLength, SonicHeroes.Networking.WebSocket_Client Mod_Loader_Server_Socket)
         {
-            Injection_Hook(SourceAddressPointer, DestinationAddressPointer, HookLength, Mod_Loader_Server_Socket);
+            Injection_Hook(SourceAddressPointer, DestinationAddressPointer, HookLength);
         }
 
         // Hook Length Must be 5 bytes + any stray bytes!
-        public void Injection_Hook(IntPtr SourceAddressPointer, IntPtr DestinationAddressPointer, int HookLength, SonicHeroes.Networking.WebSocket_Client Mod_Loader_Server_Socket)
+        public void Injection_Hook(IntPtr SourceAddressPointer, IntPtr DestinationAddressPointer, int HookLength)
         {
             ///
             /// The Setup
@@ -323,11 +341,6 @@ namespace SonicHeroes.Hooking
 
             /// Write our payload which will be redirected to using activate and deactivate hook!
             Marshal.Copy(NewInstructionBytes, 0, NewInstructionAddress, NewInstructionBytes.Length);
-
-            /// Minor extra check to see if our hook address is already hooked!
-            byte[] Hook_Address_Function_Address = SonicHeroes.Networking.Client_Functions.Serialize_Subscribe_Hook_Handler(HookAddress, (IntPtr)0); // We do not need a function address, we are only checking hook.
-            byte[] Response = Mod_Loader_Server_Socket.SendData_Alternate(Message_Type.Client_Call_Check_Address_Hook_State, Hook_Address_Function_Address, true);
-            if (Response[0] == (byte)Client_Functions.Message_Type.Reply_Function_Already_Hooked) { Already_Activated = true; }
         }
 
         public byte[] Get_JumpBackBytes(IntPtr SourceAddressPointer)
