@@ -194,9 +194,7 @@ namespace SonicHeroes.Memory
             var ProcessPointer = Process.AllocateMemory(LibraryData.Length);
             Process.WriteMemory(ProcessPointer, LibraryData);
             // Loads the specified module into the address space of the calling process using LoadLibraryA such that the loaded library may be executed, returns a pointer/handle to the library/module.
-            Process.ResumeProcess();
             var LibraryAddress = Process.CallLibrary(LoadLibraryX, ProcessPointer);
-            Process.SuspendProcess();
             return (IntPtr)LibraryAddress;
         }
 
