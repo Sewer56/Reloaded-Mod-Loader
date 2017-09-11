@@ -694,24 +694,24 @@ namespace SonicHeroes.Controller
                     string Value = Save_File_String.Substring(Save_File_String.IndexOf("=") + 1);
                     // Ignore comments
                     if (Save_File_String.StartsWith("#")) { continue; }
-                    else if (Save_File_String.StartsWith("Button_A")) { Button_Mappings.Button_A = Byte.Parse(Value); }
-                    else if (Save_File_String.StartsWith("Button_B")) { Button_Mappings.Button_B = Byte.Parse(Value); }
-                    else if (Save_File_String.StartsWith("Button_X")) { Button_Mappings.Button_X = Byte.Parse(Value); }
-                    else if (Save_File_String.StartsWith("Button_Y")) { Button_Mappings.Button_Y = Byte.Parse(Value); }
-                    else if (Save_File_String.StartsWith("Button_LB")) { Button_Mappings.Button_L1 = Byte.Parse(Value); }
-                    else if (Save_File_String.StartsWith("Button_RB")) { Button_Mappings.Button_R1 = Byte.Parse(Value); }
-                    else if (Save_File_String.StartsWith("Button_LS")) { Button_Mappings.Button_L3 = Byte.Parse(Value); }
-                    else if (Save_File_String.StartsWith("Button_RS")) { Button_Mappings.Button_R3 = Byte.Parse(Value); }
-                    else if (Save_File_String.StartsWith("Button_Back")) { Button_Mappings.Button_Back = Byte.Parse(Value); }
-                    else if (Save_File_String.StartsWith("Button_Guide")) { Button_Mappings.Optional_Button_Guide = Byte.Parse(Value); }
-                    else if (Save_File_String.StartsWith("Button_Start")) { Button_Mappings.Button_Start = Byte.Parse(Value); }
+                    else if (Save_File_String.StartsWith("Button_A=")) { Button_Mappings.Button_A = Byte.Parse(Value); }
+                    else if (Save_File_String.StartsWith("Button_B=")) { Button_Mappings.Button_B = Byte.Parse(Value); }
+                    else if (Save_File_String.StartsWith("Button_X=")) { Button_Mappings.Button_X = Byte.Parse(Value); }
+                    else if (Save_File_String.StartsWith("Button_Y=")) { Button_Mappings.Button_Y = Byte.Parse(Value); }
+                    else if (Save_File_String.StartsWith("Button_LB=")) { Button_Mappings.Button_L1 = Byte.Parse(Value); }
+                    else if (Save_File_String.StartsWith("Button_RB=")) { Button_Mappings.Button_R1 = Byte.Parse(Value); }
+                    else if (Save_File_String.StartsWith("Button_LS=")) { Button_Mappings.Button_L3 = Byte.Parse(Value); }
+                    else if (Save_File_String.StartsWith("Button_RS=")) { Button_Mappings.Button_R3 = Byte.Parse(Value); }
+                    else if (Save_File_String.StartsWith("Button_Back=")) { Button_Mappings.Button_Back = Byte.Parse(Value); }
+                    else if (Save_File_String.StartsWith("Button_Guide=")) { Button_Mappings.Optional_Button_Guide = Byte.Parse(Value); }
+                    else if (Save_File_String.StartsWith("Button_Start=")) { Button_Mappings.Button_Start = Byte.Parse(Value); }
 
-                    else if (Save_File_String.StartsWith("Axis_X")) { Axis_Mappings.LeftStick_X = Get_Enumerable_Axis(Value); }
-                    else if (Save_File_String.StartsWith("Axis_Y")) { Axis_Mappings.LeftStick_Y = Get_Enumerable_Axis(Value); }
-                    else if (Save_File_String.StartsWith("Axis_Z")) { Axis_Mappings.LeftTrigger_Pressure = Get_Enumerable_Axis(Value); }
-                    else if (Save_File_String.StartsWith("Axis_Rotation_X")) { Axis_Mappings.RightStick_X = Get_Enumerable_Axis(Value); }
-                    else if (Save_File_String.StartsWith("Axis_Rotation_Y")) { Axis_Mappings.RightStick_Y = Get_Enumerable_Axis(Value); }
-                    else if (Save_File_String.StartsWith("Axis_Rotation_Z")) { Axis_Mappings.RightTrigger_Pressure = Get_Enumerable_Axis(Value); }
+                    else if (Save_File_String.StartsWith("Axis_X=")) { Axis_Mappings.LeftStick_X = Get_Enumerable_Axis(Value); }
+                    else if (Save_File_String.StartsWith("Axis_Y=")) { Axis_Mappings.LeftStick_Y = Get_Enumerable_Axis(Value); }
+                    else if (Save_File_String.StartsWith("Axis_Z=")) { Axis_Mappings.LeftTrigger_Pressure = Get_Enumerable_Axis(Value); }
+                    else if (Save_File_String.StartsWith("Axis_Rotation_X=")) { Axis_Mappings.RightStick_X = Get_Enumerable_Axis(Value); }
+                    else if (Save_File_String.StartsWith("Axis_Rotation_Y=")) { Axis_Mappings.RightStick_Y = Get_Enumerable_Axis(Value); }
+                    else if (Save_File_String.StartsWith("Axis_Rotation_Z=")) { Axis_Mappings.RightTrigger_Pressure = Get_Enumerable_Axis(Value); }
 
                     else if (Save_File_String.StartsWith("Axis_X_IsReversed")) { bool Result = false; Boolean.TryParse(Value, out Result); Axis_Mappings.LeftStick_X_IsReversed = Result; }
                     else if (Save_File_String.StartsWith("Axis_Y_IsReversed")) { bool Result = false; Boolean.TryParse(Value, out Result); Axis_Mappings.LeftStick_Y_IsReversed = Result; }
