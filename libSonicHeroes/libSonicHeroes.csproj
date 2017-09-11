@@ -87,7 +87,7 @@
     <Compile Include="SonicHeroes_Process.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SonicHeroes_ASMInjections.cs" />
-    <Compile Include="SonicHeroes_Functions.cs" />
+    <Compile Include="SonicHeroes_Function_Addresses.cs" />
     <Compile Include="SonicHeroes_Structs.cs" />
     <Compile Include="SonicHeroes_Variables.cs" />
   </ItemGroup>
