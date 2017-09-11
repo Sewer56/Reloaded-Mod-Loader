@@ -43,7 +43,16 @@ namespace SonicHeroes.Controller
             List<DeviceInstance> Devices = new List<DeviceInstance>(DirectInputAdapter.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly)); // Get all controllers and keyboards.
             // TODO: Keyboard support
             // Devices.AddRange(new List<DeviceInstance>(DirectInputAdapter.GetDevices(DeviceClass.Keyboard, DeviceEnumerationFlags.AttachedOnly))); 
-            int ControllerID = 1;
+            int ControllerID = 0;
+
+            // If another DirectInput Instance is trying to acquire the controller, wait up.
+            // This isn't guaranteed to act perfectly, it's just an extra safeguard to what was added in the mod loader.
+            while (File.Exists("Controller_Acquire.txt"))
+            {
+                Thread.Sleep(100);
+            }
+            // Create temporary file causing other mods to wait..
+            File.Create("Controller_Acquire.txt").Close();
 
             // For each device/controller.
             foreach (DeviceInstance DirectInputDevice in Devices)
@@ -53,23 +62,28 @@ namespace SonicHeroes.Controller
                     // Acquire Device!
                     PlayerController = new Sonic_Heroes_Joystick(ControllerID, DirectInputAdapter, DirectInputDevice.InstanceGuid); // Assign the new PlayerController
                     PlayerController.Acquire(); // Acquire the current device.
-
-                    // For each Device Object/Controller/Input type in the Direct Input Devices, if it contains an axis, set the range of the axis to -1000 - 1000 
-                    foreach (DeviceObjectInstance DeviceObject in PlayerController.GetObjects())
-                    {
-                        if ((DeviceObject.ObjectId.Flags & DeviceObjectTypeFlags.Axis) != 0)
-                        {
-                            // DO NOT CHANGE -1000, 1000 without verifying that other pieces of code using this value have changed.
-                            PlayerController.GetObjectPropertiesById(DeviceObject.ObjectId).Range = new SharpDX.DirectInput.InputRange(-1000, 1000);
-                        }
-                    }
-
-                    ControllerID = ControllerID + 1;
-                    try { PlayerController.Load_Controller_Configuration(); } catch { }
                     PlayerControllers.Add(PlayerController); // Add the PlayerController to recognized PlayerControllers.
                 }
                 catch (Exception) { }
             }
+
+            // For each Device Object/Controller/Input type in the Direct Input Devices, if it contains an axis, set the range of the axis to -1000 - 1000 
+            foreach (Sonic_Heroes_Joystick Player_Controller in PlayerControllers)
+            {
+                // For each Device Object/Controller/Input type in the Direct Input Devices, if it contains an axis, set the range of the axis to -1000 - 1000 
+                foreach (DeviceObjectInstance DeviceObject in Player_Controller.GetObjects())
+                {
+                    if ((DeviceObject.ObjectId.Flags & DeviceObjectTypeFlags.Axis) != 0)
+                    {
+                        // DO NOT CHANGE -1000, 1000 without verifying that other pieces of code using this value have changed.
+                        Player_Controller.GetObjectPropertiesById(DeviceObject.ObjectId).Range = new SharpDX.DirectInput.InputRange(-1000, 1000);
+                    }
+                }
+                try { Player_Controller.Load_Controller_Configuration(); } catch { }
+            }
+
+            // Delete temporary handle.
+            File.Delete("Controller_Acquire.txt");
         }
 
         /// <summary>
