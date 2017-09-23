@@ -31,22 +31,85 @@ namespace SonicHeroes.Variables
             Adjust_Window_Rect_Style = 0x46DBE,
 
             /// <summary>
-            /// [Absolute Address! For Executable, NOT RAM] [Int] Width for the 1280x1024 stock 32 bit colour setting.
+            /// [Absolute Address! For Executable, NOT RAM] [Int] Width for the 640x480 stock launcher setting.
             /// </summary>
-            Width_StockLauncher_1280_1024 = 0x3C9290,
-            /// <summary>
-            /// [Absolute Address! For Executable, NOT RAM] [Int] Height for the 1280x1024 stock 32 bit colour setting.
-            /// </summary>
-            Height_StockLauncher_1280_1024 = 0x3C9294,
+            Width_StockLauncher_640_480 = 0x3C9290,
 
             /// <summary>
-            /// [Absolute Address! For Executable, NOT RAM] [Int] Width for the 1280x1024 fullscreen stock 32 bit colour setting.
+            /// [Absolute Address! For Executable, NOT RAM] [Int] Height for the 640x480 stock launcher setting.
             /// </summary>
-            Width_StockLauncher_FullScreen_1280_1024 = 0x3C92E0,
+            Height_StockLauncher_640_480 = 0x3C9294,
+
             /// <summary>
-            /// [Absolute Address! For Executable, NOT RAM] [Int] Height for the 1280x1024 fullscreen stock 32 bit colour setting.
+            /// [Absolute Address! For Executable, NOT RAM] [Int] Colour Depth for the 640x480 stock resulution setting.
             /// </summary>
-            Height_StockLauncher_FullScreen_1280_1024 = 0x3C92E4,
+            ColourDepth_StockLauncher_640_480 = 0x3C9298,
+
+            /// <summary>
+            /// [Absolute Address! For Executable, NOT RAM] [Int] Width for the 640x480 fullscreen stock 32 bit colour setting.
+            /// </summary>
+            Width_StockLauncher_FullScreen_640_480 = 0x3C92E0,
+
+            /// <summary>
+            /// [Absolute Address! For Executable, NOT RAM] [Int] Height for the 640x480fullscreen stock 32 bit colour setting.
+            /// </summary>
+            Height_StockLauncher_FullScreen_640_480 = 0x3C92E4,
+
+            /// <summary>
+            /// [Absolute Address! For Executable, NOT RAM] [Int] Colour depth of the 640x480 stock fullscreen setting.
+            /// </summary>
+            ColourDepth_StockLauncher_FullScreen_640_480 = 0x3C92E8,
+        }
+
+        /// <summary>
+        /// Addresses pointing to the current values containing the field of view and aspect ratios for Sonic Heroes.
+        /// </summary>
+        public enum Game_Field_Of_View_and_Aspect_Ratio
+        {
+            /// <summary>
+            /// [ASM] The ASM instruction which retrieves the horizontal FOV for the victory scenes and cutscenes. Rewire it to a float address of your own :3
+            /// </summary>
+            Victory_Screen_Aspect_Ratio_Horizontal_ASM_Instruction = 0x61E530,
+
+            /// <summary>
+            /// [ASM] The ASM instruction which retrieves the vertical FOV for the victory scenes and cutscenes. Rewire it to a float address of your own :3
+            /// </summary>
+            Victory_Screen_Aspect_Ratio_Vertical_ASM_Instruction = 0x61E544,
+
+            /// <summary>
+            /// [Float] The aspect ratio of the heads up display, it is equal to the horizontal FOV.
+            /// </summary>
+            HUD_Aspect_Ratio_Horizontal = 0x61E47C,
+
+            /// <summary>
+            /// [Float] The aspect ratio of the heads up display, it is equal to the horizontal FOV.
+            /// </summary>
+            HUD_Aspect_Ratio_Vertical = 0x61E484,
+
+            /// <summary>
+            /// [Float] The Horizontal Aspect Ratio. Higher Value = More Horizontal FOV. 
+            /// </summary>
+            Horizontal_Aspect_Ratio = 0x61E5DA,
+
+            /// <summary>
+            /// [Float] The Vertical Aspect Ratio. Higher Value = More Vertical FOV.
+            /// </summary>
+            Vertical_Aspect_Ratio = 0x61E5E4,
+
+            /// <summary>
+            /// [Float] This value dynamically adjusts the vertical and horizontal aspect ratios/FOV accordingly, however objects wouldn't render at the edges if using this, consider scaling the aspects manually. 
+            /// </summary>
+            Global_Tied_FOV = 0x65811A,
+
+            /// <summary>
+            /// [Float] The scale for the virtual plane on which the characters are rendered on within the main menu, higher values indicate smaller image.
+            /// </summary>
+            Horizontal_Main_Menu_Character_Stretch = 0x449CAE,
+
+            /// <summary>
+            /// [Float] The vertical scale for the virtual plane on which the characters are rendered on within the main menu, higher values indicate smaller image.
+            /// </summary>
+            Vertical_Main_Menu_Character_Stretch = 0x65811A,
         }
 
         /// <summary>
@@ -89,6 +152,14 @@ namespace SonicHeroes.Variables
         /// </summary>
         public enum Characters_Addresses_Offsets
         {
+            /// <summary>
+            /// [Short] Current player action, also controls animation.
+            /// </summary>
+            Action = 0xC8,
+            /// <summary>
+            /// [Short] Same value as Action, purpose unknown..
+            /// </summary>
+            Action_II = 0xCA,
             /// <summary>
             /// [Float] Defines the player's forward velocity relative to where he is facing.
             /// </summary>
@@ -220,8 +291,8 @@ namespace SonicHeroes.Variables
         /// </summary>
         public enum Stage_StageIDs
         {
-            TestLevel = 0x00,
-            Unknown = 0x01,
+            Null = 0x00,
+            TestLevel = 0x01,
             SeasideHill = 0x2,
             OceanPalace = 0x3,
             GrandMetropolis = 0x4,
@@ -284,6 +355,32 @@ namespace SonicHeroes.Variables
             SpecialStageMultiplayer1 = 59,
             SpecialStageMultiplayer2 = 60,
             SpecialStageMultiplayer3 = 61,
+        }
+
+        /// <summary>
+        /// Addresses pointing towards checks of certain user IDs to restrict or allow specific moves or movesets.
+        /// </summary>
+        public enum Game_Movement_Restrictions_Users
+        {
+            /// <summary>
+            /// [Byte] The Character ID of the Leaf Swirl user, typically Espio (tornado technique).
+            /// </summary>
+            Leaf_Swirl_User_ID = 0x5D40F7,
+
+            /// <summary>
+            /// [Byte] The Character ID of the Tornado Hammer user, typically Amy (tornado technique).
+            /// </summary>
+            Tornado_Hammer_User_ID = 0x5D4256,
+
+            /// <summary>
+            /// [Byte] The Character ID of the user whose triangle jump has no clining restrictions (Default:Espio).
+            /// </summary>
+            Unlimited_Triangle_Jump_User = 0x5CFE38,
+
+            /// <summary>
+            /// [Byte] The Character ID of the user whose triangle jump is disabled (Default:Amy).
+            /// </summary>
+            Disabled_Triangle_Jump_User = 0x5CFAEE,
         }
 
         /// <summary>
@@ -506,6 +603,157 @@ namespace SonicHeroes.Variables
             RailCanyon_Chaotix = 0x7C6AE0,
             RailCanyon_ChaotixVersion_Chaotix = 0x7C6AE8,
             FrogForest_Chaotix = 0x7C6AF0,
+        }
+
+        /// <summary>
+        /// Addresses for various colours of character tornadoes, ball trails and other miscallenous things. All of these can be read into the struct RGBA_Colour in SonicHeroes.Structs of libSonicHeroes.
+        /// </summary>
+        public enum Game_Colour_CharacterColours
+        {
+            /// <summary>
+            /// [RGBA Colour] Jump ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Amy_Jump_Ball = 0x8C72A4,
+
+            /// <summary>
+            /// [RGBA Colour] Tornado colour (unused - unless with movement swap hax), represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Amy_Tornado = 0x8DE504,
+
+            /// <summary>
+            /// [RGBA Colour] Trail colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Amy_Trails = 0x8CF6AC,
+
+            /// <summary>
+            /// [RGBA Colour] Jump ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Big_Jump_Ball = 0x781F74,
+
+            /// <summary>
+            /// [RGBA Colour] Trail colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Big_Trails = 0x8CF6B0,
+
+            /// <summary>
+            /// [RGBA Colour] Jump ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Charmy_Jump_Ball = 0x782590,
+
+            /// <summary>
+            /// [RGBA Colour] Trail colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Charmy_Trails = 0x8CF6C0,
+
+            /// <summary>
+            /// [RGBA Colour] Jump ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Cream_Jump_Ball = 0x78258C,
+
+            /// <summary>
+            /// [RGBA Colour] Trail colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Cream_Trails = 0x8CF6B4,
+
+            /// <summary>
+            /// [RGBA Colour] Jump ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Espio_Jump_Ball = 0x8C72A8,
+
+            /// <summary>
+            /// [RGBA Colour] Tornado colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Espio_Tornado = 0x8DE500,
+
+            /// <summary>
+            /// [RGBA Colour] Trail colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Espio_Trails = 0x8CF6B8,
+
+            /// <summary>
+            /// [RGBA Colour] Jump ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Knuckles_Jump_Ball = 0x781F6C,
+
+            /// <summary>
+            /// [RGBA Colour] Trail colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Knuckles_Trails = 0x8CF698,
+
+            /// <summary>
+            /// [RGBA Colour] Jump ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Omega_Jump_Ball = 0x781F70,
+
+            /// <summary>
+            /// [RGBA Colour] Trail colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Omega_Trails = 0x8CF6A4,
+
+            /// <summary>
+            /// [RGBA Colour] Jump ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Rouge_Jump_Ball = 0x782588,
+
+            /// <summary>
+            /// [RGBA Colour] Trail colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Rouge_Trails = 0x8CF6A8,
+
+            /// <summary>
+            /// [RGBA Colour] Jump ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Shadow_Jump_Ball = 0x8C72A0,
+
+            /// <summary>
+            /// [RGBA Colour] Tornado colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Shadow_Tornado = 0x8DE4FC,
+
+            /// <summary>
+            /// [RGBA Colour] Trail colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Shadow_Trails = 0x8CF6A0,
+
+            /// <summary>
+            /// [RGBA Colour] Jump ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Sonic_Jump_Ball = 0x8C729C,
+
+            /// <summary>
+            /// [RGBA Colour] Sonic Overdrive Team Blast Ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Sonic_Overdrive_Ball = 0x8C72AC,
+
+            /// <summary>
+            /// [RGBA Colour] Tornado colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Sonic_Tornado = 0x8DE4F8,
+
+            /// <summary>
+            /// [RGBA Colour] Trail colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Sonic_Trails = 0x8CF694,
+
+            /// <summary>
+            /// [RGBA Colour] Jump ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Tails_Jump_Ball = 0x782584,
+
+            /// <summary>
+            /// [RGBA Colour] Trail colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Tails_Trails = 0x8CF69C,
+
+            /// <summary>
+            /// [RGBA Colour] Jump ball colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Vector_Jump_Ball = 0x781F78,
+
+            /// <summary>
+            /// [RGBA Colour] Trail colour, represented of 4 bytes representing R,G,B and A.
+            /// </summary>
+            Vector_Trails = 0x8CF6BC,
         }
 
         /// <summary>
@@ -1181,6 +1429,52 @@ namespace SonicHeroes.Variables
             /// [Float] Offset to Ring's Z Position.
             /// </summary>
             Z_Position = 0x98,
+        }
+
+        /// <summary>
+        /// A collection of various addresses containing the RGBA values for barriers
+        /// </summary>
+        public enum Object_Colours
+        {
+            /// <summary>
+            /// [Byte] R Component of Power Formation Switch Gates.
+            /// </summary>
+            Formation_Gate_Lasers_Red_R = 0x47244D,
+            /// <summary>
+            /// [Byte] G Component of Power Formation Switch Gates.
+            /// </summary>
+            Formation_Gate_Lasers_Red_G = 0x472452,
+            /// <summary>
+            /// [Byte] B Component of Power Formation Switch Gates.
+            /// </summary>
+            Formation_Gate_Lasers_Red_B = 0x472457,
+
+            /// <summary>
+            /// [Byte] R Component of Flight Formation Switch Gates.
+            /// </summary>
+            Formation_Gate_Lasers_Yellow_R = 0x47245E,
+            /// <summary>
+            /// [Byte] G Component of Flight Formation Switch Gates.
+            /// </summary>
+            Formation_Gate_Lasers_Yellow_G = 0x472463,
+            /// <summary>
+            /// [Byte] B Component of Flight Formation Switch Gates.
+            /// </summary>
+            Formation_Gate_Lasers_Yellow_B = 0x472468,
+
+            /// <summary>
+            /// [Byte] R Component of Speed Formation Switch Gates.
+            /// </summary>
+            Formation_Gate_Lasers_Blue_R = 0x47246F,
+            /// <summary>
+            /// [Byte] G Component of Speed Formation Switch Gates.
+            /// </summary>
+            Formation_Gate_Lasers_Blue_G = 0x472474,
+            /// <summary>
+            /// [Byte] B Component of Speed Formation Switch Gates.
+            /// </summary>
+            Formation_Gate_Lasers_Blue_B = 0x472479,
+
         }
 
     }
