@@ -9,13 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SonicHeroes.Memory;
+using System.Drawing;
 
 namespace SonicHeroes.Misc
 {
     /// <summary>
     /// This class holds all sorts of miscallenous methods, mostly external which may simply at one point prove useful. The structs and any miscallenous 
     /// </summary>
-    public class SonicHeroes_Miscallenous
+    public static class SonicHeroes_Miscallenous
     {
 
         /// <summary>
@@ -141,7 +142,7 @@ namespace SonicHeroes.Misc
             INIConfigFile.WriteLine("Pad_Assign1" + PadControls1);
             INIConfigFile.WriteLine("Pad_Assign2" + PadControls2);
             INIConfigFile.WriteLine("Mouse_Assign" + MouseControls);
-            INIConfigFile.WriteLine("Screen_Size_Selection 3");
+            INIConfigFile.WriteLine("Screen_Size_Selection 0");
             INIConfigFile.WriteLine("Screen_Full " + ConfigFile.FullScreen);
             INIConfigFile.WriteLine("Language " + ConfigFile.Language);
             INIConfigFile.WriteLine("3D_Sound " + ConfigFile.SurroundSound);
@@ -164,9 +165,25 @@ namespace SonicHeroes.Misc
         {
             string Folder_Path = File.ReadAllText(Directory.GetCurrentDirectory() + "\\Mod_Loader_Libraries.txt") + "\\Mod-Loader-Libraries"; // Path of current folder where the assembly is (Inside RAM of TSonic_win.exe therefore this gets current game directory). Append Mod-Loader-Libraries :)
             string Assembly_Path = Path.Combine(Folder_Path, new AssemblyName(args.Name).Name + ".dll"); // The new path for the assembly! Including the library path.s
-            if (!File.Exists(Assembly_Path)) return null; // If the assembly does not exist, return null.
-            Assembly Assembly_Physical = Assembly.LoadFrom(Assembly_Path); // Else just load the assembly :)
-            return Assembly_Physical;
+            string Local_Assembly_Path = Path.Combine(System.Reflection.Assembly.GetCallingAssembly().Location, new AssemblyName(args.Name).Name + ".dll");
+
+            // Assembly Object
+            Assembly Assembly_Physical;
+
+            if (!File.Exists(Assembly_Path)) // If the assembly does not exist, return null.
+            {
+                return null;
+            } 
+            else if (File.Exists(Local_Assembly_Path)) // Else check for local assembly.
+            {
+                Assembly_Physical = Assembly.LoadFrom(Local_Assembly_Path); 
+                return Assembly_Physical;
+            }
+            else  // Else load it from Mod-Loader-Libraries.
+            {
+                Assembly_Physical = Assembly.LoadFrom(Assembly_Path);
+                return Assembly_Physical;
+            }
         }
 
         /// <summary>
@@ -209,12 +226,49 @@ namespace SonicHeroes.Misc
         /// </summary>
         /// <param name="String"></param>
         /// <param name="Array"></param>
-        private byte[] Read_String_With_Byte_Array(string String)
+        private static byte[] Read_String_With_Byte_Array(string String)
         {
             string[] StringArray = String.Split(' ');
             byte[] Array = new byte[StringArray.Length];
             for (int x = 0; x < StringArray.Length; x++) { Array[x] = byte.Parse(StringArray[x]); }
             return Array;
         }
+
+        /// <summary>
+        /// To be used by mod loader mods. Loads the current theme properties for the mod loader configurator.
+        /// </summary>
+        public static (Color, Color, Color) Load_Theme_Configurator()
+        {
+            // Colours;
+            Color SidebarColor = new Color();
+            Color TopBarColor = new Color();
+            Color AccentColor = new Color();
+
+            // Load Configurator Theme
+            string Save_Seting_Path = File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\ThemeConfig.txt";
+            StreamReader TextFile = new StreamReader(Save_Seting_Path);
+
+            string CurrentLine;
+            int IndexOfColour;
+
+            while ((CurrentLine = TextFile.ReadLine()) != null)
+            {
+                IndexOfColour = CurrentLine.IndexOf("#");
+
+                if (CurrentLine.Contains("TitleBarColor: ")) { SidebarColor = ColorTranslator.FromHtml(CurrentLine.Substring(IndexOfColour)); }
+                else if (CurrentLine.Contains("SideBarColor: ")) { TopBarColor = ColorTranslator.FromHtml(CurrentLine.Substring(IndexOfColour)); }
+                else if (CurrentLine.Contains("AccentColor: ")) { AccentColor = ColorTranslator.FromHtml(CurrentLine.Substring(IndexOfColour)); }
+            }
+
+            TextFile.Dispose();
+            return (SidebarColor, TopBarColor, AccentColor);
+        }
+
+        /// <summary>
+        /// Convenient String Reversal using LINQ
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string Reverse_String(this string input) { return new string(input.ToCharArray().Reverse().ToArray()); }
     }
 }
