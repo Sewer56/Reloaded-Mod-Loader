@@ -183,6 +183,17 @@ namespace SonicHeroes.Memory
         }
 
         /// <summary>
+        /// Sets Memory Protection to PAGE_EXECUTE_READWRITE
+        /// </summary>
+        /// <param name="Process"></param>
+        /// <param name="Pointer"></param>
+        public static void ChangeMemoryProtection(this Process Process, IntPtr Pointer, uint Length, MemoryProtection Memory_Protection)
+        {
+            MemoryProtection OriginalMemoryProtection;
+            HeroesProcess.VirtualProtect((IntPtr)Pointer, Length, Memory_Protection, out OriginalMemoryProtection);
+        }
+
+        /// <summary>
         /// Loads a library such as your mod .dll into the specified process in question. Memory is allocated into the process equivalent of the library length, the library is written into the process and the address of the called method is returned such that the method may be re-used again.
         /// </summary>
         /// <param name="Process">The process object of Sonic Heroes, Process.GetCurrentProcess() if injected into the game.</param>
@@ -301,7 +312,7 @@ namespace SonicHeroes.Memory
             IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize,
+        public static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize,
         MemoryProtection flNewProtect, out MemoryProtection lpflOldProtect);
     }
 }
