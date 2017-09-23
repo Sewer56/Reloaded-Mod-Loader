@@ -397,7 +397,7 @@ namespace SonicHeroes.Hooking
         /// <summary>
         /// Deactivates the hook via the use of manual hooking. Doing this is technically faster on performance by a negligible amount, it is an option, but please for the sake of interoperability with other mods, consider 'Subscribing & Unsubscribing' this address to the Mod Loader [Currently Not Implemented].
         /// </summary>
-        /// public void Deactivate() { Marshal.Copy(OriginalBytes, 0, HookAddress, CustomNumberOfBytes); }
+        public void Deactivate() { Marshal.Copy(OriginalBytes, 0, HookAddress, CustomNumberOfBytes); }
 
         /// <summary>
         /// Subscribes a function pointer to the hooked address. Basically adds a method address to list of addresses held in the mod loader.
