@@ -1,9 +1,11 @@
 ﻿using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SonicHeroes.Controller
@@ -41,9 +43,9 @@ namespace SonicHeroes.Controller
         {
             Sonic_Heroes_Joystick PlayerController; // Setup new array of all controllers.                          
             List<DeviceInstance> Devices = new List<DeviceInstance>(DirectInputAdapter.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly)); // Get all controllers and keyboards.
-            // TODO: Keyboard support
-            // Devices.AddRange(new List<DeviceInstance>(DirectInputAdapter.GetDevices(DeviceClass.Keyboard, DeviceEnumerationFlags.AttachedOnly))); 
+            Devices.AddRange(new List<DeviceInstance>(DirectInputAdapter.GetDevices(DeviceClass.Keyboard, DeviceEnumerationFlags.AttachedOnly))); 
             int ControllerID = 0;
+            // TODO: Keyboard support
 
             // If another DirectInput Instance is trying to acquire the controller, wait up.
             // This isn't guaranteed to act perfectly, it's just an extra safeguard to what was added in the mod loader.
@@ -81,6 +83,9 @@ namespace SonicHeroes.Controller
                 }
                 try { Player_Controller.Load_Controller_Configuration(); } catch { }
             }
+
+            /// Sort Controllers in Correct Order
+            PlayerControllers.Sort((a, b) => a.ControllerID.CompareTo(b.ControllerID));
 
             // Delete temporary handle.
             File.Delete("Controller_Acquire.txt");
@@ -518,7 +523,7 @@ namespace SonicHeroes.Controller
         /// <returns></returns>
         public Controller_Inputs_Generic Get_Whole_Controller_State()
         {
-            Controller_Inputs_Generic Current_Controller_All = new Controller_Inputs_Generic(); // Store total controller state here.           
+            Controller_Inputs_Generic Current_Controller_All = new Controller_Inputs_Generic(); // Store total controller state here.          
             JoystickState State = this.GetCurrentState(); // Get state of controller.
 
             // Axis
@@ -548,6 +553,18 @@ namespace SonicHeroes.Controller
 
             // DPAD
             Current_Controller_All.ControllerDPad = (ushort)State.PointOfViewControllers[0];
+
+            // Implement Arrow Keys to DPAD Mapping.
+            // I should implement it better and make it remappable but I'm lazy.
+            // TODO: DO NOT BE LAZY
+            if (this.Information.Type == DeviceType.Keyboard)
+            {
+                if (State.Buttons[106]) { Current_Controller_All.ControllerDPad = (int)DPAD_Direction.LEFT; }
+                if (State.Buttons[104]) { Current_Controller_All.ControllerDPad = (int)DPAD_Direction.UP; }
+                if (State.Buttons[107]) { Current_Controller_All.ControllerDPad = (int)DPAD_Direction.RIGHT; }
+                if (State.Buttons[109]) { Current_Controller_All.ControllerDPad = (int)DPAD_Direction.DOWN; }
+            }
+            
 
             return Current_Controller_All; // Return final Controller state.
         }
@@ -640,6 +657,10 @@ namespace SonicHeroes.Controller
 
                 /// Dump Axis Mappings!
                 Configuration_Text_File.Add("# Sonic Heroes Mod Loader Input Stack Configuration for " + this.Information.ProductName + " | GUID: " + this.Information.ProductGuid);
+                
+                // Yay :3
+                Configuration_Text_File.Add("\nController_ID=" + ControllerID);
+
                 // Write Buttons
                 Configuration_Text_File.Add("\n# Buttons");
                 Configuration_Text_File.Add("Button_A=" + Button_Mappings.Button_A);
@@ -653,6 +674,7 @@ namespace SonicHeroes.Controller
                 Configuration_Text_File.Add("Button_Back=" + Button_Mappings.Button_Back);
                 Configuration_Text_File.Add("Button_Guide=" + Button_Mappings.Optional_Button_Guide);
                 Configuration_Text_File.Add("Button_Start=" + Button_Mappings.Button_Start);
+
                 // Write Axis
                 Configuration_Text_File.Add("\n# Axis");
                 Configuration_Text_File.Add("Axis_X=" + Axis_Mappings.LeftStick_X);
@@ -661,6 +683,7 @@ namespace SonicHeroes.Controller
                 Configuration_Text_File.Add("Axis_Rotation_X=" + Axis_Mappings.RightStick_X);
                 Configuration_Text_File.Add("Axis_Rotation_Y=" + Axis_Mappings.RightStick_Y);
                 Configuration_Text_File.Add("Axis_Rotation_Z=" + Axis_Mappings.RightTrigger_Pressure);
+
                 // Axis Orientation
                 Configuration_Text_File.Add("\n# Axis_Orientation");
                 Configuration_Text_File.Add("Axis_X_IsReversed=" + Axis_Mappings.LeftStick_X_IsReversed);
@@ -708,6 +731,7 @@ namespace SonicHeroes.Controller
                     string Value = Save_File_String.Substring(Save_File_String.IndexOf("=") + 1);
                     // Ignore comments
                     if (Save_File_String.StartsWith("#")) { continue; }
+                    else if (Save_File_String.StartsWith("Controller_ID=")) { ControllerID = Byte.Parse(Value); }
                     else if (Save_File_String.StartsWith("Button_A=")) { Button_Mappings.Button_A = Byte.Parse(Value); }
                     else if (Save_File_String.StartsWith("Button_B=")) { Button_Mappings.Button_B = Byte.Parse(Value); }
                     else if (Save_File_String.StartsWith("Button_X=")) { Button_Mappings.Button_X = Byte.Parse(Value); }
