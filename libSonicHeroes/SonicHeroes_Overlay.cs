@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using SharpDX.Direct2D1;
+using SharpDX.Mathematics.Interop;
+using SharpDX.DirectWrite;
 using System.Threading;
 using SharpDX.DirectWrite;
 using SharpDX.DXGI;
@@ -17,7 +19,7 @@ namespace SonicHeroes.Overlay
     /// <summary>
     /// This class is responsible for allowing you to instantiate a Windows Forms overlay which will be drawn ontop of the game, if the game is in windowed mode.
     /// </summary>
-    class SonicHeroes_Overlay
+    public class SonicHeroes_Overlay
     {
         /// <summary>
         /// Fake glass form which we will be overlaying Sonic Heroes with.
@@ -42,10 +44,11 @@ namespace SonicHeroes.Overlay
         }
 
         ////////////////// For DirectX Hooking!
-        public static SharpDX.Direct2D1.WindowRenderTarget Direct2D_Graphics_Target;
+        public SharpDX.Direct2D1.WindowRenderTarget Direct2D_Graphics_Target;
         public delegate void Delegate_RenderDirect2D(WindowRenderTarget Direct2D_Graphics_Target);
         public Delegate_RenderDirect2D Direct2D_Render_Method;
         public bool Rectangle_Render = false;
+        public bool Ready_To_Render = false;
 
         /// <summary>
         /// Initializes a Direct2D device used to draw to the screen. You MUST set the Direct2D Drawing Delegate to your own method, see the wiki for sample.
@@ -83,6 +86,7 @@ namespace SonicHeroes.Overlay
                     );
 
                     DirectX_Clear_Screen(); // Clear the residue graphics left from the Windows form which was made transparent and clickthrough.
+                    Ready_To_Render = true;
                 }
             );
             Get_Heroes_Window_Thread.Start();
