@@ -9,6 +9,27 @@ namespace SonicHeroes.Functions
     public class SonicHeroes_Functions
     {
         /// <summary>
+        /// Set of addresses where the necessary checks to load Team Super members are performed.
+        /// </summary>
+        public enum Check_TeamSuper
+        {
+            /// <summary>
+            /// Checks if the apppropriate flag for Super Sonic is set. Replace two bytes with 90 90 (nop, nop) to always load SS.
+            /// </summary>
+            Check_If_SuperSonic = 0x5CBFE6,
+
+            /// <summary>
+            /// Checks if the apppropriate flag for Super Tails is set. Replace two bytes with 90 90 (nop, nop) to always load SS.
+            /// </summary>
+            Check_If_SuperTails = 0x5B7ED2,
+
+            /// <summary>
+            /// Checks if the apppropriate flag for Super Knuckles is set. Replace two bytes with 90 90 (nop, nop) to always load SS.
+            /// </summary>
+            Check_If_SuperKnuckles = 0x5C1D72,
+        }
+
+        /// <summary>
         /// Set of addresses related to ring collection ingame.
         /// </summary>
         public enum Collect_Ring
