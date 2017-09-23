@@ -168,5 +168,16 @@ namespace SonicHeroes.Structs
             byte ExpertRace;
         }
 
+        /// <summary>
+        /// Defines a colour in 4 bytes, RGBA.
+        /// </summary>
+        public struct RGBA_Colour
+        {
+            byte R;
+            byte G;
+            byte B;
+            byte A;
+        }
+
     }
 }
