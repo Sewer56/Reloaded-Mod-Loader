@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -16,7 +17,7 @@ namespace SonicHeroes.Overlay
     public partial class SonicHeroes_Form_FakeTransparentOverlay : Form
     {
         // Misc
-        const string HEROES_WINDOW_NAME = "SONIC HEROES(TM)";
+        string HEROES_WINDOW_NAME;
         /// <summary>
         /// Defines a rectangle.
         /// </summary>
@@ -56,8 +57,13 @@ namespace SonicHeroes.Overlay
         public static Set_Window_Properties_Delegate Setup_Window_Delegate;
         public bool Window_Setup_Complete = false;
 
+        // Constructor
         public SonicHeroes_Form_FakeTransparentOverlay()
         {
+            // Get Window Name
+            try { HEROES_WINDOW_NAME = File.ReadAllText(File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\WindowName.txt"); }
+            catch { HEROES_WINDOW_NAME = File.ReadAllText(Environment.CurrentDirectory + "\\Mod-Loader-Config\\WindowName.txt"); }
+
             InitializeComponent();
             Setup_Window_Delegate = Setup_Window; // Set the setup window delegate.
 
