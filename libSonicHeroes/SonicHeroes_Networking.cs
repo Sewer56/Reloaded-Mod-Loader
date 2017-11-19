@@ -30,7 +30,7 @@ namespace SonicHeroes.Networking
         /// </summary>
         public static byte[] Buffer = new byte[1024];
         /// <summary>
-        /// What kuind of addresses should we accept. (Loopback for local, Any for external connections)
+        /// What kind of addresses should we accept. (Loopback for local, Any for external connections)
         /// </summary>
         IPAddress IPAddressType;
 
@@ -99,7 +99,7 @@ namespace SonicHeroes.Networking
                 // Accept connections again!
                 SocketX.BeginReceive(Buffer, 0, Buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), SocketX);
             }
-            catch (Exception Ex) { }
+            catch { }
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace SonicHeroes.Networking
             {
                 if (ConnectionAttempts > 10) { return false; }
                 try { ClientSocket.Connect(IPAddress.Loopback, 13370); return true; }
-                catch (SocketException Ex) { ConnectionAttempts += 1; } // If you can't connect, you have no hope!
+                catch { ConnectionAttempts += 1; } // If you can't connect, you have no hope!
             }
             return false;
         }
@@ -255,6 +255,39 @@ namespace SonicHeroes.Networking
             /// Expects Response: True | Returns 1 from server if address is already hooked. | Used to ask the mod loader whether an address is already hooked.
             /// </summary>
             Client_Call_Check_Address_Hook_State = 0x7,
+            /// <summary>
+            /// Expects Response: True | Returns the bytes representing the x86 mnemonics given | Powered by the FASM.NET Assembler.
+            /// </summary>
+            Client_Call_Assemble_x86_Mnemonics = 0x8,
+        }
+
+        /// <summary>
+        /// Serializes a string array of X86 Mnemonics.
+        /// </summary>
+        public static byte[] Serialize_x86_ASM_Mnemonics(string[] Mnemonics)
+        {
+            // Initialize MemStream & BinaryFormatter
+            MemoryStream MnemonicStream = new MemoryStream();
+            BinaryFormatter BinaryFormatter_X = new BinaryFormatter();
+
+            // Serialize array at once
+            BinaryFormatter_X.Serialize(MnemonicStream, Mnemonics);
+
+            // Return Serialized
+            return MnemonicStream.ToArray();
+        }
+
+        /// <summary>
+        /// Deserializes a string array of X86 Mnemonics.
+        /// </summary>
+        public static string[] Deserialize_x86_ASM_Mnemonics(byte[] Mnemonics)
+        {
+            // Initialize MemStream & BinaryFormatter
+            BinaryFormatter BinaryFormatter_X = new BinaryFormatter();
+            MemoryStream MnemonicStream = new MemoryStream(Mnemonics);
+
+            // Return deserialized.
+            return (string[])BinaryFormatter_X.Deserialize(MnemonicStream);
         }
 
         /// <summary>
