@@ -1488,5 +1488,42 @@ namespace SonicHeroes.Variables
 
         }
 
+        /*
+        Temporary Listing of Veriables Until the Future:
+
+        [Float] Object Tinting R - Tsonic_win.exe+3995F8
+        [Float] Object Tinting G - Tsonic_win.exe+3995FC
+        [Float] Object Tinting B - Tsonic_win.EXE+399600
+        [Float] Shading Directionality = Tsonic_win.exe+3C2F14
+        [Float] Non-Character Object Tinting R = Tsonic_win.exe+5DD9B8
+        [Float] Non-Character Object Tinting G = Tsonic_win.EXE+5DD9BC
+        [Float] Non-Character Object Tinting B = Tsonic_win.EXE+5DD9C0
+        [Float] Enable/Disable Obj Rendering = Tsonic_win.exe+3995C4
+
+
+        HUD Elements Position [Float]:
+        Ring Count X = Tsonic_win.EXE+3BB2C8
+        Ring Count Y = Tsonic_win.EXE+3BB2CC
+        Maestro Life Count Location X = Tsonic_win.EXE+3BB2E0
+        Maestro Life Count Location X = Tsonic_win.EXE+3BB2E4
+        Stage Current Time Location X = Tsonic_win.EXE+3BB2E8
+        Stage Current Time Location Y = Tsonic_win.EXE+3BB2EC
+        Current Score Location X = Tsonic_win.EXE+3BB2F0
+        Current Score Location Y = Tsonic_win.EXE+3BB2F4
+
+        Score Bonus Scale = 5B4A2D
+
+        ////////////
+        // Functions
+        ////////////
+
+
+        Calculate Offset:
+
+        Current Width - < Current Resolution Height > / 3 * 4; // Difference in width of pixels.
+        Difference / Current Width =  // UI Element Offset
+
+        */
+
     }
-  }
+}
