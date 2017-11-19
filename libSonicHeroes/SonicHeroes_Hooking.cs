@@ -952,4 +952,361 @@ namespace SonicHeroes.Hooking
         }
     }
 
+    /// <summary>
+    /// Same as ASM_Hook, except that the original code is not executed and instead set to NOP.
+    /// </summary>
+    public class ASM_Clean : IDisposable
+    {
+        /// <summary>
+        /// An optional user defined number of bytes to replace while performing a hook, you may use this to ensure that no stray bytes are left from another instruction.
+        /// </summary>
+        int CustomNumberOfBytes = 0;
+
+        /// <summary>
+        /// Present for better code readibility, this is the length of the jump instruction itself.
+        /// </summary>
+        const int JumpInstructionLength = 5;
+
+        /// <summary>
+        /// This is the address which we will be hooking, the address where a call jmp is placed to redirect our program flow to our own function.
+        /// </summary>
+        IntPtr HookAddress;
+        /// <summary>
+        /// This will store the old original memory protection which we will restore along with the original bytes should we wish to fully dispose of the hook.
+        /// </summary>
+        Protection OriginalMemoryProtection;
+        /// <summary>
+        /// The original source array of bytes which we will be hooking/placing a call jump to our own code from.
+        /// </summary>
+        byte[] OriginalBytes;
+        /// <summary>
+        /// The new bytes which we will place to make a call jump to our own code.
+        /// </summary>
+        byte[] NewBytes;
+
+        /// <summary>
+        /// This will point to where the backing up of the registers will occur, the method call for the dll and the restoration of the registers, running of the original code and jumping back will occur.
+        /// </summary>
+        IntPtr NewInstructionAddress;
+
+        /// <summary>
+        /// These are the bytes which will be stored at the new instruction address which correspond to assembly instructions. Here in this memory region, ASM to backup the registers will be written, our own assembly will be executed, registers will be restored and a jump will be made back.
+        /// </summary>
+        byte[] NewInstructionBytes;
+
+
+        /// <summary>
+        /// Same as ASM_Hook, except that the original code is not executed and instead set to NOP.
+        /// </summary>
+        /// <param name="SourceAddressPointer">The address in memory where you will want to insert your own Assembly code to be ran.</param>
+        /// <param name="Assembly_Bytes_To_Inject">Your assembly code written as an array of bytes.</param>
+        /// <param name="HookLength">5 Bytes + Any Stray Bytes</param>
+        public ASM_Clean(IntPtr SourceAddressPointer, byte[] Assembly_Bytes_To_Inject, int HookLength)
+        {
+            ///
+            /// The Setup
+            /// Getting Ready for Hooking!
+            CustomNumberOfBytes = HookLength;         // Set hook length.
+            OriginalBytes = new byte[CustomNumberOfBytes]; // Initialize storage of original bytes.
+            NewBytes = new byte[CustomNumberOfBytes]; // Initialize storage of new bytes.
+            HookAddress = SourceAddressPointer;       // Set the address which we will start hooking in the future.
+
+            ///
+            /// Backup Original Bytes
+            /// | Remove protection from the old set of bytes such that we may alter the bytes & copy original bytes from the source address to the byte array.
+
+            VirtualProtect(SourceAddressPointer, (uint)CustomNumberOfBytes, Protection.PAGE_EXECUTE_READWRITE, out OriginalMemoryProtection);
+            Marshal.Copy(SourceAddressPointer, OriginalBytes, 0, CustomNumberOfBytes);
+
+            ///
+            /// Allocate New Memory
+            /// Here in this memory region, ASM to backup the registers will be written, a call to our own method, will be performed, registers will be restored and a jump will be made back.
+
+            // Total Bytes: Register Backup (6) + Assembly to Inject (x) + Register Restore (6) + Custom Bytes (Old Opcodes) + JMP Back (5);
+            NewInstructionAddress = AllocateMemory(Process.GetCurrentProcess(), Assembly_Bytes_To_Inject.Length + JumpInstructionLength); // Allocate memory to write old bytes in Sonic Heroes.
+            byte[] NewInstructionJumpLength = BitConverter.GetBytes((int)NewInstructionAddress - (int)SourceAddressPointer - JumpInstructionLength); // The jump length to get our code execution to move to 
+            NewInstructionBytes = new byte[Assembly_Bytes_To_Inject.Length + JumpInstructionLength]; // Allocate byte array of required length.
+
+            // Write the new bytes to jump to this new address where everything will happen.
+            NewBytes[0] = 0xE9; // JMP (ASM).
+            NewBytes[1] = NewInstructionJumpLength[0];
+            NewBytes[2] = NewInstructionJumpLength[1];
+            NewBytes[3] = NewInstructionJumpLength[2];
+            NewBytes[4] = NewInstructionJumpLength[3];
+            for (int x = 5; x < CustomNumberOfBytes; x++) { NewBytes[x] = 0x90; } // If necessary, replace any stray bytes with NOP.
+
+            ///
+            /// The Payload
+            /// This is the bytes that we will write at the new Instruction Address to perform various actions.
+
+            /// Insert own code into the payload.
+            Array.Copy(Assembly_Bytes_To_Inject, 0, NewInstructionBytes, 0, Assembly_Bytes_To_Inject.Length);
+
+            /// Get and write the jump back address to new array.
+            byte[] Jump = Get_JumpBackBytes(SourceAddressPointer, Assembly_Bytes_To_Inject.Length);
+            Array.Copy(Jump, 0, NewInstructionBytes, Assembly_Bytes_To_Inject.Length, Jump.Length);
+
+            /// Write our payload which will be redirected to using activate and deactivate hook!
+            Marshal.Copy(NewInstructionBytes, 0, NewInstructionAddress, NewInstructionBytes.Length);
+        }
+
+        public byte[] Get_JumpBackBytes(IntPtr SourceAddressPointer, int ASMInjectionLength)
+        {
+            /// Calculate the jump length to our own code from here.
+            byte[] JumpCall = new byte[5]; // Initialize new space for making the jump call.
+
+            // - JumpInstructionLength - RegistersToBackup is an offset from the beginning to NewInstructionAddress to end of the jump call.
+            // There is NOT a second JumpInstructionLength as we are not jumping to where we originally made our jump, but the opcode right after.
+            byte[] JumpLength = BitConverter.GetBytes((int)SourceAddressPointer - ((int)NewInstructionAddress + ASMInjectionLength));
+
+            // Set up the jump call bytes!
+            JumpCall[0] = 0xE9; // JMP (ASM)
+            JumpCall[1] = JumpLength[0];
+            JumpCall[2] = JumpLength[1];
+            JumpCall[3] = JumpLength[2];
+            JumpCall[4] = JumpLength[3];
+            return JumpCall;
+        }
+
+        // This will activate the hook
+        /// <summary>
+        /// Activates the hook via the use of manual hooking. Doing this is technically faster on performance by a negligible amount, it is an option, but please for the sake of interoperability with other mods, consider 'Subscribing' this address to the Mod Loader [Currently Not Implemented].
+        /// </summary>
+        public void Activate()
+        {
+            Marshal.Copy(NewBytes, 0, HookAddress, CustomNumberOfBytes); // Copy the new bytes to the newly allocated memory where our hook will take over.
+        }
+        /// <summary>
+        /// Deactivates the hook via the use of manual hooking. Doing this is technically faster on performance by a negligible amount, it is an option, but please for the sake of interoperability with other mods, consider 'Subscribing & Unsubscribing' this address to the Mod Loader [Currently Not Implemented].
+        /// </summary>
+        public void Deactivate() { Marshal.Copy(OriginalBytes, 0, HookAddress, CustomNumberOfBytes); }
+
+        /// <summary>
+        /// When we no longer need the hook, we can get rid of it and all of its traces entirely.
+        /// </summary>
+        public void Dispose()
+        {
+            Deactivate();
+            Protection Dummy;
+            VirtualProtect(HookAddress, (uint)CustomNumberOfBytes, OriginalMemoryProtection, out Dummy);
+        }
+
+        /// <summary>
+        /// Allows for allocation of space inside the target process, in our case, Sonic Heroes. The return value for this method is the address at which the new memory has been reserved. You may use this extra space to e.g. insert assembly code to which you may jump to.
+        /// </summary>
+        /// <param name="Process">The process object of Sonic Heroes, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="Length">Length of free bytes you want to allocate.</param>
+        /// <returns>Base pointer address to the newly allocated memory.</returns>
+        public static IntPtr AllocateMemory(Process Process, int Length)
+        {
+            // Call VirtualAllocEx to allocate memory of fixed chosen size.
+            return VirtualAllocEx(Process.Handle, IntPtr.Zero, (IntPtr)Length,
+                AllocationType.Commit | AllocationType.Reserve,
+                MemoryProtection.ExecuteReadWrite);
+        }
+
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress,
+        IntPtr dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize,
+                Protection flNewProtect, out Protection lpflOldProtect);
+
+        public enum Protection
+        {
+            PAGE_NOACCESS = 0x01,
+            PAGE_READONLY = 0x02,
+            PAGE_READWRITE = 0x04,
+            PAGE_WRITECOPY = 0x08,
+            PAGE_EXECUTE = 0x10,
+            PAGE_EXECUTE_READ = 0x20,
+            PAGE_EXECUTE_READWRITE = 0x40,
+            PAGE_EXECUTE_WRITECOPY = 0x80,
+            PAGE_GUARD = 0x100,
+            PAGE_NOCACHE = 0x200,
+            PAGE_WRITECOMBINE = 0x400
+        }
+    }
+
+    /// <summary>
+    /// Same as ASM_Hook, except that the original instructions are executed first.
+    /// </summary>
+    public class ASM_Hook_II : IDisposable
+    {
+        /// <summary>
+        /// An optional user defined number of bytes to replace while performing a hook, you may use this to ensure that no stray bytes are left from another instruction.
+        /// </summary>
+        int CustomNumberOfBytes = 0;
+
+        /// <summary>
+        /// Present for better code readibility, this is the length of the jump instruction itself.
+        /// </summary>
+        const int JumpInstructionLength = 5;
+
+        /// <summary>
+        /// This is the address which we will be hooking, the address where a call jmp is placed to redirect our program flow to our own function.
+        /// </summary>
+        IntPtr HookAddress;
+        /// <summary>
+        /// This will store the old original memory protection which we will restore along with the original bytes should we wish to fully dispose of the hook.
+        /// </summary>
+        Protection OriginalMemoryProtection;
+        /// <summary>
+        /// The original source array of bytes which we will be hooking/placing a call jump to our own code from.
+        /// </summary>
+        byte[] OriginalBytes;
+        /// <summary>
+        /// The new bytes which we will place to make a call jump to our own code.
+        /// </summary>
+        byte[] NewBytes;
+
+        /// <summary>
+        /// This will point to where the backing up of the registers will occur, the method call for the dll and the restoration of the registers, running of the original code and jumping back will occur.
+        /// </summary>
+        IntPtr NewInstructionAddress;
+
+        /// <summary>
+        /// These are the bytes which will be stored at the new instruction address which correspond to assembly instructions. Here in this memory region, ASM to backup the registers will be written, our own assembly will be executed, registers will be restored and a jump will be made back.
+        /// </summary>
+        byte[] NewInstructionBytes;
+
+
+        /// <summary>
+        /// Same as ASM_Hook, except that the original instructions are executed first.
+        /// </summary>
+        /// <param name="SourceAddressPointer">The address in memory where you will want to insert your own Assembly code to be ran.</param>
+        /// <param name="Assembly_Bytes_To_Inject">Your assembly code written as an array of bytes.</param>
+        /// <param name="HookLength">5 Bytes + Any Stray Bytes</param>
+        public ASM_Hook_II(IntPtr SourceAddressPointer, byte[] Assembly_Bytes_To_Inject, int HookLength)
+        {
+            ///
+            /// The Setup
+            /// Getting Ready for Hooking!
+            CustomNumberOfBytes = HookLength;         // Set hook length.
+            OriginalBytes = new byte[CustomNumberOfBytes]; // Initialize storage of original bytes.
+            NewBytes = new byte[CustomNumberOfBytes]; // Initialize storage of new bytes.
+            HookAddress = SourceAddressPointer;       // Set the address which we will start hooking in the future.
+
+            ///
+            /// Backup Original Bytes
+            /// | Remove protection from the old set of bytes such that we may alter the bytes & copy original bytes from the source address to the byte array.
+
+            VirtualProtect(SourceAddressPointer, (uint)CustomNumberOfBytes, Protection.PAGE_EXECUTE_READWRITE, out OriginalMemoryProtection);
+            Marshal.Copy(SourceAddressPointer, OriginalBytes, 0, CustomNumberOfBytes);
+
+            ///
+            /// Allocate New Memory
+            /// Here in this memory region, ASM to backup the registers will be written, a call to our own method, will be performed, registers will be restored and a jump will be made back.
+
+            // Total Bytes: Register Backup (6) + Assembly to Inject (x) + Register Restore (6) + Custom Bytes (Old Opcodes) + JMP Back (5);
+            NewInstructionAddress = AllocateMemory(Process.GetCurrentProcess(), Assembly_Bytes_To_Inject.Length + CustomNumberOfBytes + JumpInstructionLength); // Allocate memory to write old bytes in Sonic Heroes.
+            byte[] NewInstructionJumpLength = BitConverter.GetBytes((int)NewInstructionAddress - (int)SourceAddressPointer - JumpInstructionLength); // The jump length to get our code execution to move to 
+            NewInstructionBytes = new byte[Assembly_Bytes_To_Inject.Length + CustomNumberOfBytes + JumpInstructionLength]; // Allocate byte array of required length.
+
+            // Write the new bytes to jump to this new address where everything will happen.
+            NewBytes[0] = 0xE9; // JMP (ASM).
+            NewBytes[1] = NewInstructionJumpLength[0];
+            NewBytes[2] = NewInstructionJumpLength[1];
+            NewBytes[3] = NewInstructionJumpLength[2];
+            NewBytes[4] = NewInstructionJumpLength[3];
+            for (int x = 5; x < CustomNumberOfBytes; x++) { NewBytes[x] = 0x90; } // If necessary, replace any stray bytes with NOP.
+
+            ///
+            /// The Payload
+            /// This is the bytes that we will write at the new Instruction Address to perform various actions.
+
+            /// Insert the original bytes to be executed!
+            Array.Copy(OriginalBytes, 0, NewInstructionBytes, 0, OriginalBytes.Length);
+
+            /// Insert own code into the payload.
+            Array.Copy(Assembly_Bytes_To_Inject, 0, NewInstructionBytes, OriginalBytes.Length, Assembly_Bytes_To_Inject.Length);
+
+            /// Get and write the jump back address to new array.
+            byte[] Jump = Get_JumpBackBytes(SourceAddressPointer, Assembly_Bytes_To_Inject.Length);
+            Array.Copy(Jump, 0, NewInstructionBytes, Assembly_Bytes_To_Inject.Length + CustomNumberOfBytes, Jump.Length);
+
+            /// Write our payload which will be redirected to using activate and deactivate hook!
+            Marshal.Copy(NewInstructionBytes, 0, NewInstructionAddress, NewInstructionBytes.Length);
+        }
+
+        public byte[] Get_JumpBackBytes(IntPtr SourceAddressPointer, int ASMInjectionLength)
+        {
+            /// Calculate the jump length to our own code from here.
+            byte[] JumpCall = new byte[5]; // Initialize new space for making the jump call.
+
+            // - JumpInstructionLength - RegistersToBackup is an offset from the beginning to NewInstructionAddress to end of the jump call.
+            // There is NOT a second JumpInstructionLength as we are not jumping to where we originally made our jump, but the opcode right after.
+            byte[] JumpLength = BitConverter.GetBytes((int)SourceAddressPointer - ((int)NewInstructionAddress + ASMInjectionLength + CustomNumberOfBytes));
+
+            // Set up the jump call bytes!
+            JumpCall[0] = 0xE9; // JMP (ASM)
+            JumpCall[1] = JumpLength[0];
+            JumpCall[2] = JumpLength[1];
+            JumpCall[3] = JumpLength[2];
+            JumpCall[4] = JumpLength[3];
+            return JumpCall;
+        }
+
+        // This will activate the hook
+        /// <summary>
+        /// Activates the hook via the use of manual hooking. Doing this is technically faster on performance by a negligible amount, it is an option, but please for the sake of interoperability with other mods, consider 'Subscribing' this address to the Mod Loader [Currently Not Implemented].
+        /// </summary>
+        public void Activate()
+        {
+            Marshal.Copy(NewBytes, 0, HookAddress, CustomNumberOfBytes); // Copy the new bytes to the newly allocated memory where our hook will take over.
+        }
+        /// <summary>
+        /// Deactivates the hook via the use of manual hooking. Doing this is technically faster on performance by a negligible amount, it is an option, but please for the sake of interoperability with other mods, consider 'Subscribing & Unsubscribing' this address to the Mod Loader [Currently Not Implemented].
+        /// </summary>
+        public void Deactivate() { Marshal.Copy(OriginalBytes, 0, HookAddress, CustomNumberOfBytes); }
+
+        /// <summary>
+        /// When we no longer need the hook, we can get rid of it and all of its traces entirely.
+        /// </summary>
+        public void Dispose()
+        {
+            Deactivate();
+            Protection Dummy;
+            VirtualProtect(HookAddress, (uint)CustomNumberOfBytes, OriginalMemoryProtection, out Dummy);
+        }
+
+        /// <summary>
+        /// Allows for allocation of space inside the target process, in our case, Sonic Heroes. The return value for this method is the address at which the new memory has been reserved. You may use this extra space to e.g. insert assembly code to which you may jump to.
+        /// </summary>
+        /// <param name="Process">The process object of Sonic Heroes, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="Length">Length of free bytes you want to allocate.</param>
+        /// <returns>Base pointer address to the newly allocated memory.</returns>
+        public static IntPtr AllocateMemory(Process Process, int Length)
+        {
+            // Call VirtualAllocEx to allocate memory of fixed chosen size.
+            return VirtualAllocEx(Process.Handle, IntPtr.Zero, (IntPtr)Length,
+                AllocationType.Commit | AllocationType.Reserve,
+                MemoryProtection.ExecuteReadWrite);
+        }
+
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress,
+        IntPtr dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize,
+                Protection flNewProtect, out Protection lpflOldProtect);
+
+        public enum Protection
+        {
+            PAGE_NOACCESS = 0x01,
+            PAGE_READONLY = 0x02,
+            PAGE_READWRITE = 0x04,
+            PAGE_WRITECOPY = 0x08,
+            PAGE_EXECUTE = 0x10,
+            PAGE_EXECUTE_READ = 0x20,
+            PAGE_EXECUTE_READWRITE = 0x40,
+            PAGE_EXECUTE_WRITECOPY = 0x80,
+            PAGE_GUARD = 0x100,
+            PAGE_NOCACHE = 0x200,
+            PAGE_WRITECOMBINE = 0x400
+        }
+    }
+
 }
