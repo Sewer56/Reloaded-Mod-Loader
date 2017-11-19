@@ -46,7 +46,9 @@ namespace SonicHeroes.Overlay
         ////////////////// For DirectX Hooking!
         public SharpDX.Direct2D1.WindowRenderTarget Direct2D_Graphics_Target;
         public delegate void Delegate_RenderDirect2D(WindowRenderTarget Direct2D_Graphics_Target);
+        public delegate void Delegate_OnFrameDelegate(); // Allows for code to be ran on every rendered frame.
         public Delegate_RenderDirect2D Direct2D_Render_Method;
+        public Delegate_OnFrameDelegate Direct2D_OnFrame_CodeRunner; // Allows for code to be ran on every rendered frame.
         public bool Rectangle_Render = false;
         public bool Ready_To_Render = false;
 
@@ -107,10 +109,11 @@ namespace SonicHeroes.Overlay
                     Clear_Screen(0, 0, 0, 0); // Clears everything drawn previously.
 
                     Direct2D_Render_Method(Direct2D_Graphics_Target); // Calls our own set rendering method
-                    
+                    try { Direct2D_OnFrame_CodeRunner?.Invoke(); } catch { } // Safely invoke all assigned delegates.
                     Direct2D_Graphics_Target.EndDraw(); // End Drawing!
                 }
                 catch { Rectangle_Render = false; } // Set default render state.
+
                 Rectangle_Render = false;// Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
             }
         }
