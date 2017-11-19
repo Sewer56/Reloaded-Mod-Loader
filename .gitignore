@@ -259,3 +259,6 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+Heroes_Mod_Loader/Mod-Loader-Mods/Test-Mod/root/libSonicHeroes - Functions\.dll
+
+libSonicHeroes - Functions/libSonicHeroes - Functions/libSonicHeroes - Functions\.vcxproj
