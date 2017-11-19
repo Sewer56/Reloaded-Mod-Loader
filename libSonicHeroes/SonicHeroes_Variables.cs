@@ -153,7 +153,7 @@ namespace SonicHeroes.Variables
         public enum Characters_Addresses_Offsets
         {
             /// <summary>
-            /// [Short] Current player action, also controls animation.
+            /// [Short] Current player action, also controls animation. See Player_Action_States
             /// </summary>
             Action = 0xC8,
             /// <summary>
@@ -216,6 +216,17 @@ namespace SonicHeroes.Variables
             /// [Float?] Affects how your teammates will follow the leader character.
             /// </summary>
             TeamMatesFollowingSomething3 = 0x114
+        }
+
+        /// <summary>
+        /// A listing of each individual state available as for player actions. Categorized as Universal/Speed/Fly/Power
+        /// </summary>
+        public enum Player_Action_States
+        {
+            Universal_Standing_Idle = 0,
+            Speed_Rolling = 1,
+            Universal_Jumping_Midair = 2,
+
         }
 
         /// <summary>
