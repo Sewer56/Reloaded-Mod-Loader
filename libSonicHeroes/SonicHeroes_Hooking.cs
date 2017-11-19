@@ -95,7 +95,7 @@ namespace SonicHeroes.Hooking
             
             // Write the new bytes to make a call to our own code.
             NewBytes = new byte[CustomNumberOfBytes];
-            NewBytes[0] = 0xE8; // Call JMP (ASM).
+            NewBytes[0] = 0xE8; // Call(ASM).
             NewBytes[1] = JumpLength[0];
             NewBytes[2] = JumpLength[1];
             NewBytes[3] = JumpLength[2];
@@ -350,7 +350,8 @@ namespace SonicHeroes.Hooking
 
             // - JumpInstructionLength - RegistersToBackup is an offset from the beginning to NewInstructionAddress to end of the jump call.
             // There is NOT a second JumpInstructionLength as we are not jumping to where we originally made our jump, but the opcode right after.
-            byte[] JumpLength = BitConverter.GetBytes((int)SourceAddressPointer - ( (int)NewInstructionAddress + RegistersToBackup + JumpInstructionLength + RegistersToBackup + CustomNumberOfBytes) );
+            int NOPBytes = CustomNumberOfBytes - 5; // Stray bytes that are initialized as NOP are skipped.
+            byte[] JumpLength = BitConverter.GetBytes((int)SourceAddressPointer - ( (int)NewInstructionAddress + RegistersToBackup + JumpInstructionLength + RegistersToBackup + CustomNumberOfBytes - NOPBytes) );
 
             // Set up the jump call bytes!
             JumpCall[0] = 0xE9; // JMP (ASM)
@@ -816,7 +817,7 @@ namespace SonicHeroes.Hooking
 
 
         /// <summary>
-        /// Sometimes you don't want to do ASM Injection, but just want to insert a few opcodes between a few existing opcodes to do one or more thing and call it a day. No problemo, we've got you covered!
+        /// This will let you insert a code block of ASM of your own choice before the first instruction of the address and range address you are hooking in order to add additional assembly opcodes after a @gamespecified address.
         /// </summary>
         /// <param name="SourceAddressPointer">The address in memory where you will want to insert your own Assembly code to be ran.</param>
         /// <param name="Assembly_Bytes_To_Inject">Your assembly code written as an array of bytes.</param>
