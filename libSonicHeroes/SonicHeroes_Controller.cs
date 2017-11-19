@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +16,16 @@ namespace SonicHeroes.Controller
     /// </summary>
     public class DirectInput_Joystick_Manager
     {
+        // Misc
+        string HEROES_WINDOW_NAME;
+
+        // Allow for notification when a USB controller connects or disconnects.
+        private DeviceNotification Device_Connect_Hook; 
+        private Message_Only_Window Device_Connect_FakeWindow;
+
+        // Delegate for Controller Re-Parsing
+        public delegate void GetConnectedControllersDelegate();
+
         // Variables
         private DirectInput DirectInputAdapter = new DirectInput(); // Declare the direct input adapter instance for storing the player gamepad
 
@@ -31,8 +42,16 @@ namespace SonicHeroes.Controller
         /// </summary>
         public DirectInput_Joystick_Manager()
         {
+            // Get window name
+            try { HEROES_WINDOW_NAME = File.ReadAllText(File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\WindowName.txt"); }
+            catch { HEROES_WINDOW_NAME = File.ReadAllText(Environment.CurrentDirectory + "\\Mod-Loader-Config\\WindowName.txt"); }
+            
             // Gets the available gamepads.
             GetConnectedControllers();
+
+            // Setup hook for device connects and disconnects.
+            Device_Connect_FakeWindow = new Message_Only_Window((GetConnectedControllersDelegate)GetConnectedControllers);
+            Device_Connect_Hook = new DeviceNotification(Device_Connect_FakeWindow.Handle, false);
         }
 
         /// <summary>
@@ -41,6 +60,7 @@ namespace SonicHeroes.Controller
         /// <returns>The joysticks</returns>
         public void GetConnectedControllers()
         {
+            List<Sonic_Heroes_Joystick> PlayerControllers_X = new List<Sonic_Heroes_Joystick>(); // Temporary Player Controller List
             Sonic_Heroes_Joystick PlayerController; // Setup new array of all controllers.                          
             List<DeviceInstance> Devices = new List<DeviceInstance>(DirectInputAdapter.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly)); // Get all controllers and keyboards.
             Devices.AddRange(new List<DeviceInstance>(DirectInputAdapter.GetDevices(DeviceClass.Keyboard, DeviceEnumerationFlags.AttachedOnly))); 
@@ -64,13 +84,13 @@ namespace SonicHeroes.Controller
                     // Acquire Device!
                     PlayerController = new Sonic_Heroes_Joystick(ControllerID, DirectInputAdapter, DirectInputDevice.InstanceGuid); // Assign the new PlayerController
                     PlayerController.Acquire(); // Acquire the current device.
-                    PlayerControllers.Add(PlayerController); // Add the PlayerController to recognized PlayerControllers.
+                    PlayerControllers_X.Add(PlayerController); // Add the PlayerController to recognized PlayerControllers.
                 }
                 catch (Exception) { }
             }
 
             // For each Device Object/Controller/Input type in the Direct Input Devices, if it contains an axis, set the range of the axis to -1000 - 1000 
-            foreach (Sonic_Heroes_Joystick Player_Controller in PlayerControllers)
+            foreach (Sonic_Heroes_Joystick Player_Controller in PlayerControllers_X)
             {
                 // For each Device Object/Controller/Input type in the Direct Input Devices, if it contains an axis, set the range of the axis to -1000 - 1000 
                 foreach (DeviceObjectInstance DeviceObject in Player_Controller.GetObjects())
@@ -85,7 +105,10 @@ namespace SonicHeroes.Controller
             }
 
             /// Sort Controllers in Correct Order
-            PlayerControllers.Sort((a, b) => a.ControllerID.CompareTo(b.ControllerID));
+            PlayerControllers_X.Sort((a, b) => a.ControllerID.CompareTo(b.ControllerID));
+
+            // Swap Lists
+            PlayerControllers = PlayerControllers_X;
 
             // Delete temporary handle.
             File.Delete("Controller_Acquire.txt");
@@ -156,7 +179,7 @@ namespace SonicHeroes.Controller
                 }
                 return 255;
             }
-            catch (Exception Ex) { return 255; }
+            catch { return 255; }
         }
 
         /// <summary>
@@ -211,7 +234,7 @@ namespace SonicHeroes.Controller
                 }
                 return 255;
             }
-            catch (Exception Ex) { return 255; }
+            catch { return 255; }
         }
 
         /// <summary>
@@ -259,7 +282,7 @@ namespace SonicHeroes.Controller
                 }
                 return (Sonic_Heroes_Joystick.Controller_Axis_Generic.Null, true);
             }
-            catch (Exception Ex) { return (Sonic_Heroes_Joystick.Controller_Axis_Generic.Null, true); }
+            catch { return (Sonic_Heroes_Joystick.Controller_Axis_Generic.Null, true); }
         }
 
         /// <summary>
@@ -440,27 +463,31 @@ namespace SonicHeroes.Controller
         /// <param name="Controller_ID">Which connected controller ID are we talking about?</param>
         public bool Get_Button_State(Controller_Buttons_Generic Button)
         {
-            int Button_To_Test = 255; // Button to check for true/false.
-
-            // Switch statement checks the mapping of each button to the virtual xbox button.
-            switch (Button)
+            try
             {
-                case Controller_Buttons_Generic.Button_A: Button_To_Test = Button_Mappings.Button_A; break;
-                case Controller_Buttons_Generic.Button_B: Button_To_Test = Button_Mappings.Button_B; break;
-                case Controller_Buttons_Generic.Button_X: Button_To_Test = Button_Mappings.Button_X; break;
-                case Controller_Buttons_Generic.Button_Y: Button_To_Test = Button_Mappings.Button_Y; break;
-                case Controller_Buttons_Generic.Button_L1: Button_To_Test = Button_Mappings.Button_L1; break;
-                case Controller_Buttons_Generic.Button_R1: Button_To_Test = Button_Mappings.Button_R1; break;
-                case Controller_Buttons_Generic.Button_R3: Button_To_Test = Button_Mappings.Button_R3; break;
-                case Controller_Buttons_Generic.Button_L3: Button_To_Test = Button_Mappings.Button_L3; break;
-                case Controller_Buttons_Generic.Button_Back: Button_To_Test = Button_Mappings.Button_Back; break;
-                case Controller_Buttons_Generic.Button_Start: Button_To_Test = Button_Mappings.Button_Start; break;
-                case Controller_Buttons_Generic.Optional_Button_Guide: Button_To_Test = Button_Mappings.Optional_Button_Guide; break;
-            }
+                int Button_To_Test = 255; // Button to check for true/false.
 
-            // Get state of controller.
-            JoystickState State = this.GetCurrentState();
-            return State.Buttons[Button_To_Test];
+                // Switch statement checks the mapping of each button to the virtual xbox button.
+                switch (Button)
+                {
+                    case Controller_Buttons_Generic.Button_A: Button_To_Test = Button_Mappings.Button_A; break;
+                    case Controller_Buttons_Generic.Button_B: Button_To_Test = Button_Mappings.Button_B; break;
+                    case Controller_Buttons_Generic.Button_X: Button_To_Test = Button_Mappings.Button_X; break;
+                    case Controller_Buttons_Generic.Button_Y: Button_To_Test = Button_Mappings.Button_Y; break;
+                    case Controller_Buttons_Generic.Button_L1: Button_To_Test = Button_Mappings.Button_L1; break;
+                    case Controller_Buttons_Generic.Button_R1: Button_To_Test = Button_Mappings.Button_R1; break;
+                    case Controller_Buttons_Generic.Button_R3: Button_To_Test = Button_Mappings.Button_R3; break;
+                    case Controller_Buttons_Generic.Button_L3: Button_To_Test = Button_Mappings.Button_L3; break;
+                    case Controller_Buttons_Generic.Button_Back: Button_To_Test = Button_Mappings.Button_Back; break;
+                    case Controller_Buttons_Generic.Button_Start: Button_To_Test = Button_Mappings.Button_Start; break;
+                    case Controller_Buttons_Generic.Optional_Button_Guide: Button_To_Test = Button_Mappings.Optional_Button_Guide; break;
+                }
+
+                // Get state of controller.
+                JoystickState State = this.GetCurrentState();
+                return State.Buttons[Button_To_Test];
+            }
+            catch { return false; }
         }
 
         /// <summary>
@@ -469,52 +496,56 @@ namespace SonicHeroes.Controller
         /// <returns>The individual pressure/range/distance applied to the axis.</returns>
         public int Get_Axis_State(Controller_Axis_Generic Axis)
         {
-            Controller_Axis_Generic Axis_To_Test = 0; // X Axis as temporary.
-            bool IsAxisReversed = false; // Is the axis reversed?
-
-            // Switch statement checks the mapping of each axis to verify where it points to. Then retrieves that axis!
-            switch (Axis)
+            try
             {
-                case Controller_Axis_Generic.X: Axis_To_Test = Axis_Mappings.LeftStick_X; if (Axis_Mappings.LeftStick_X_IsReversed) { IsAxisReversed = true; } break;
-                case Controller_Axis_Generic.Y: Axis_To_Test = Axis_Mappings.LeftStick_Y; if (Axis_Mappings.LeftStick_Y_IsReversed) { IsAxisReversed = true; } break;
+                Controller_Axis_Generic Axis_To_Test = 0; // X Axis as temporary.
+                bool IsAxisReversed = false; // Is the axis reversed?
 
-                case Controller_Axis_Generic.Z: Axis_To_Test = Axis_Mappings.LeftTrigger_Pressure; if (Axis_Mappings.LeftTrigger_Pressure_IsReversed) { IsAxisReversed = true; } break;
-                case Controller_Axis_Generic.Rotation_Z: Axis_To_Test = Axis_Mappings.RightTrigger_Pressure; if (Axis_Mappings.RightTrigger_Pressure_IsReversed) { IsAxisReversed = true; } break;
+                // Switch statement checks the mapping of each axis to verify where it points to. Then retrieves that axis!
+                switch (Axis)
+                {
+                    case Controller_Axis_Generic.X: Axis_To_Test = Axis_Mappings.LeftStick_X; if (Axis_Mappings.LeftStick_X_IsReversed) { IsAxisReversed = true; } break;
+                    case Controller_Axis_Generic.Y: Axis_To_Test = Axis_Mappings.LeftStick_Y; if (Axis_Mappings.LeftStick_Y_IsReversed) { IsAxisReversed = true; } break;
 
-                case Controller_Axis_Generic.Rotation_X: Axis_To_Test = Axis_Mappings.RightStick_X; if (Axis_Mappings.RightStick_X_IsReversed) { IsAxisReversed = true; } break;
-                case Controller_Axis_Generic.Rotation_Y: Axis_To_Test = Axis_Mappings.RightStick_Y; if (Axis_Mappings.RightStick_Y_IsReversed) { IsAxisReversed = true; } break;
+                    case Controller_Axis_Generic.Z: Axis_To_Test = Axis_Mappings.LeftTrigger_Pressure; if (Axis_Mappings.LeftTrigger_Pressure_IsReversed) { IsAxisReversed = true; } break;
+                    case Controller_Axis_Generic.Rotation_Z: Axis_To_Test = Axis_Mappings.RightTrigger_Pressure; if (Axis_Mappings.RightTrigger_Pressure_IsReversed) { IsAxisReversed = true; } break;
+
+                    case Controller_Axis_Generic.Rotation_X: Axis_To_Test = Axis_Mappings.RightStick_X; if (Axis_Mappings.RightStick_X_IsReversed) { IsAxisReversed = true; } break;
+                    case Controller_Axis_Generic.Rotation_Y: Axis_To_Test = Axis_Mappings.RightStick_Y; if (Axis_Mappings.RightStick_Y_IsReversed) { IsAxisReversed = true; } break;
+                }
+
+                // If no pairing, return null.
+                if (Axis_To_Test == 0) { return 0; }
+
+                // Get state of controller.
+                JoystickState State = this.GetCurrentState();
+
+                // Now with the axis we want retrieved and the state, we will switch the axis we want and return it.
+                int Value_To_Return = 0;
+
+                // Return the appropriately mapped axis!
+                switch (Axis_To_Test)
+                {
+                    case Controller_Axis_Generic.X: Value_To_Return = State.X; break;
+                    case Controller_Axis_Generic.Y: Value_To_Return = State.Y; break;
+
+                    case Controller_Axis_Generic.Z: Value_To_Return = State.Z; break;
+                    case Controller_Axis_Generic.Rotation_Z: Value_To_Return = State.RotationZ; break;
+
+                    case Controller_Axis_Generic.Rotation_X: Value_To_Return = State.RotationX; break;
+                    case Controller_Axis_Generic.Rotation_Y: Value_To_Return = State.RotationY; break;
+                }
+
+                // Adjust the value if the axis is reversed (This is pretty much a modulus operation lol).
+                if (IsAxisReversed) { Value_To_Return = 1000 - (Value_To_Return + 1000); }
+
+                /// 360 Controller, Left Trigger: State.Z;
+                /// 360 Controller, Right Trigger: 1000 - (State.Z + 1000);
+
+                // Return
+                return Value_To_Return;
             }
-
-            // If no pairing, return null.
-            if (Axis_To_Test == 0) { return 0; }
-
-            // Get state of controller.
-            JoystickState State = this.GetCurrentState();
-
-            // Now with the axis we want retrieved and the state, we will switch the axis we want and return it.
-            int Value_To_Return = 0;
-
-            // Return the appropriately mapped axis!
-            switch (Axis_To_Test)
-            {
-                case Controller_Axis_Generic.X: Value_To_Return = State.X; break;
-                case Controller_Axis_Generic.Y: Value_To_Return = State.Y; break;
-
-                case Controller_Axis_Generic.Z: Value_To_Return = State.Z; break;
-                case Controller_Axis_Generic.Rotation_Z: Value_To_Return = State.RotationZ; break;
-
-                case Controller_Axis_Generic.Rotation_X: Value_To_Return = State.RotationX; break;
-                case Controller_Axis_Generic.Rotation_Y: Value_To_Return = State.RotationY; break;
-            }
-
-            // Adjust the value if the axis is reversed (This is pretty much a modulus operation lol).
-            if (IsAxisReversed) { Value_To_Return = 1000 - (Value_To_Return + 1000); }
-
-            /// 360 Controller, Left Trigger: State.Z;
-            /// 360 Controller, Right Trigger: 1000 - (State.Z + 1000);
-
-            // Return
-            return Value_To_Return;
+            catch { return 0; }
         }
 
         /// <summary>
@@ -523,50 +554,59 @@ namespace SonicHeroes.Controller
         /// <returns></returns>
         public Controller_Inputs_Generic Get_Whole_Controller_State()
         {
-            Controller_Inputs_Generic Current_Controller_All = new Controller_Inputs_Generic(); // Store total controller state here.          
-            JoystickState State = this.GetCurrentState(); // Get state of controller.
-
-            // Axis
-            Current_Controller_All.LeftStick.X = Get_Axis_Value(Axis_Mappings.LeftStick_X, State, Axis_Mappings.LeftStick_X_IsReversed);
-            Current_Controller_All.LeftStick.Y = Get_Axis_Value(Axis_Mappings.LeftStick_Y, State, Axis_Mappings.LeftStick_Y_IsReversed);
-
-            Current_Controller_All.RightStick.X = Get_Axis_Value(Axis_Mappings.RightStick_X, State, Axis_Mappings.RightStick_X_IsReversed);
-            Current_Controller_All.RightStick.Y = Get_Axis_Value(Axis_Mappings.RightStick_Y, State, Axis_Mappings.RightStick_Y_IsReversed);
-
-            Current_Controller_All.LeftTriggerPressure = Get_Axis_Value(Axis_Mappings.LeftTrigger_Pressure, State, Axis_Mappings.LeftTrigger_Pressure_IsReversed);
-            Current_Controller_All.RightTriggerPressure = Get_Axis_Value(Axis_Mappings.RightTrigger_Pressure, State, Axis_Mappings.RightTrigger_Pressure_IsReversed);
-
-            // Buttons!
-            Current_Controller_All.ControllerButtons.Button_A = Get_Button_State_Internal(Controller_Buttons_Generic.Button_A, State);
-            Current_Controller_All.ControllerButtons.Button_B = Get_Button_State_Internal(Controller_Buttons_Generic.Button_B, State);
-            Current_Controller_All.ControllerButtons.Button_X = Get_Button_State_Internal(Controller_Buttons_Generic.Button_X, State);
-            Current_Controller_All.ControllerButtons.Button_Y = Get_Button_State_Internal(Controller_Buttons_Generic.Button_Y, State);
-
-            Current_Controller_All.ControllerButtons.Button_L1 = Get_Button_State_Internal(Controller_Buttons_Generic.Button_L1, State);
-            Current_Controller_All.ControllerButtons.Button_R1 = Get_Button_State_Internal(Controller_Buttons_Generic.Button_R1, State);
-            Current_Controller_All.ControllerButtons.Button_R3 = Get_Button_State_Internal(Controller_Buttons_Generic.Button_R3, State);
-            Current_Controller_All.ControllerButtons.Button_L3 = Get_Button_State_Internal(Controller_Buttons_Generic.Button_L3, State);
-
-            Current_Controller_All.ControllerButtons.Button_Back = Get_Button_State_Internal(Controller_Buttons_Generic.Button_Back, State);
-            Current_Controller_All.ControllerButtons.Optional_Button_Guide = Get_Button_State_Internal(Controller_Buttons_Generic.Optional_Button_Guide, State);
-            Current_Controller_All.ControllerButtons.Button_Start = Get_Button_State_Internal(Controller_Buttons_Generic.Button_Start, State);
-
-            // DPAD
-            Current_Controller_All.ControllerDPad = (ushort)State.PointOfViewControllers[0];
-
-            // Implement Arrow Keys to DPAD Mapping.
-            // I should implement it better and make it remappable but I'm lazy.
-            // TODO: DO NOT BE LAZY
-            if (this.Information.Type == DeviceType.Keyboard)
+            try
             {
-                if (State.Buttons[106]) { Current_Controller_All.ControllerDPad = (int)DPAD_Direction.LEFT; }
-                if (State.Buttons[104]) { Current_Controller_All.ControllerDPad = (int)DPAD_Direction.UP; }
-                if (State.Buttons[107]) { Current_Controller_All.ControllerDPad = (int)DPAD_Direction.RIGHT; }
-                if (State.Buttons[109]) { Current_Controller_All.ControllerDPad = (int)DPAD_Direction.DOWN; }
-            }
-            
+                Controller_Inputs_Generic Current_Controller_All = new Controller_Inputs_Generic(); // Store total controller state here.          
+                JoystickState State = this.GetCurrentState(); // Get state of controller.
 
-            return Current_Controller_All; // Return final Controller state.
+                // Axis
+                Current_Controller_All.LeftStick.X = Get_Axis_Value(Axis_Mappings.LeftStick_X, State, Axis_Mappings.LeftStick_X_IsReversed);
+                Current_Controller_All.LeftStick.Y = Get_Axis_Value(Axis_Mappings.LeftStick_Y, State, Axis_Mappings.LeftStick_Y_IsReversed);
+
+                Current_Controller_All.RightStick.X = Get_Axis_Value(Axis_Mappings.RightStick_X, State, Axis_Mappings.RightStick_X_IsReversed);
+                Current_Controller_All.RightStick.Y = Get_Axis_Value(Axis_Mappings.RightStick_Y, State, Axis_Mappings.RightStick_Y_IsReversed);
+
+                Current_Controller_All.LeftTriggerPressure = Get_Axis_Value(Axis_Mappings.LeftTrigger_Pressure, State, Axis_Mappings.LeftTrigger_Pressure_IsReversed);
+                Current_Controller_All.RightTriggerPressure = Get_Axis_Value(Axis_Mappings.RightTrigger_Pressure, State, Axis_Mappings.RightTrigger_Pressure_IsReversed);
+
+                // Buttons!
+                Current_Controller_All.ControllerButtons.Button_A = Get_Button_State_Internal(Controller_Buttons_Generic.Button_A, State);
+                Current_Controller_All.ControllerButtons.Button_B = Get_Button_State_Internal(Controller_Buttons_Generic.Button_B, State);
+                Current_Controller_All.ControllerButtons.Button_X = Get_Button_State_Internal(Controller_Buttons_Generic.Button_X, State);
+                Current_Controller_All.ControllerButtons.Button_Y = Get_Button_State_Internal(Controller_Buttons_Generic.Button_Y, State);
+
+                Current_Controller_All.ControllerButtons.Button_L1 = Get_Button_State_Internal(Controller_Buttons_Generic.Button_L1, State);
+                Current_Controller_All.ControllerButtons.Button_R1 = Get_Button_State_Internal(Controller_Buttons_Generic.Button_R1, State);
+                Current_Controller_All.ControllerButtons.Button_R3 = Get_Button_State_Internal(Controller_Buttons_Generic.Button_R3, State);
+                Current_Controller_All.ControllerButtons.Button_L3 = Get_Button_State_Internal(Controller_Buttons_Generic.Button_L3, State);
+
+                Current_Controller_All.ControllerButtons.Button_Back = Get_Button_State_Internal(Controller_Buttons_Generic.Button_Back, State);
+                Current_Controller_All.ControllerButtons.Optional_Button_Guide = Get_Button_State_Internal(Controller_Buttons_Generic.Optional_Button_Guide, State);
+                Current_Controller_All.ControllerButtons.Button_Start = Get_Button_State_Internal(Controller_Buttons_Generic.Button_Start, State);
+
+                // DPAD
+                Current_Controller_All.ControllerDPad = (ushort)State.PointOfViewControllers[0];
+
+                // Implement Arrow Keys to DPAD Mapping.
+                // I should implement it better and make it remappable but I'm lazy.
+                // TODO: DO NOT BE LAZY
+                if (this.Information.Type == DeviceType.Keyboard)
+                {
+                    if (State.Buttons[106]) { Current_Controller_All.ControllerDPad = (int)DPAD_Direction.LEFT; }
+                    if (State.Buttons[104]) { Current_Controller_All.ControllerDPad = (int)DPAD_Direction.UP; }
+                    if (State.Buttons[107]) { Current_Controller_All.ControllerDPad = (int)DPAD_Direction.RIGHT; }
+                    if (State.Buttons[109]) { Current_Controller_All.ControllerDPad = (int)DPAD_Direction.DOWN; }
+                }
+
+
+                return Current_Controller_All; // Return final Controller state.
+            }
+            catch // Returns blank struct if an exception is hit.
+            {
+                Controller_Inputs_Generic Current_Controller_All = new Controller_Inputs_Generic(); // Store total controller state here.    
+                Current_Controller_All.ControllerDPad = 65535; // Set DPAD to unrecognizable value.
+                return Current_Controller_All; // Return
+            }
         }
 
         /// <summary>
@@ -575,24 +615,28 @@ namespace SonicHeroes.Controller
         /// <param name="Controller_ID">Which connected controller ID are we talking about?</param>
         public bool Get_Button_State_Internal(Controller_Buttons_Generic Button, JoystickState State)
         {
-            int Button_To_Test = 255; // Button to check for true/false.
-
-            // Switch statement checks the mapping of each button to the virtual xbox button.
-            switch (Button)
+            try
             {
-                case Controller_Buttons_Generic.Button_A: Button_To_Test = Button_Mappings.Button_A; break;
-                case Controller_Buttons_Generic.Button_B: Button_To_Test = Button_Mappings.Button_B; break;
-                case Controller_Buttons_Generic.Button_X: Button_To_Test = Button_Mappings.Button_X; break;
-                case Controller_Buttons_Generic.Button_Y: Button_To_Test = Button_Mappings.Button_Y; break;
-                case Controller_Buttons_Generic.Button_L1: Button_To_Test = Button_Mappings.Button_L1; break;
-                case Controller_Buttons_Generic.Button_R1: Button_To_Test = Button_Mappings.Button_R1; break;
-                case Controller_Buttons_Generic.Button_R3: Button_To_Test = Button_Mappings.Button_R3; break;
-                case Controller_Buttons_Generic.Button_L3: Button_To_Test = Button_Mappings.Button_L3; break;
-                case Controller_Buttons_Generic.Button_Back: Button_To_Test = Button_Mappings.Button_Back; break;
-                case Controller_Buttons_Generic.Button_Start: Button_To_Test = Button_Mappings.Button_Start; break;
-                case Controller_Buttons_Generic.Optional_Button_Guide: Button_To_Test = Button_Mappings.Optional_Button_Guide; break;
+                int Button_To_Test = 255; // Button to check for true/false.
+
+                // Switch statement checks the mapping of each button to the virtual xbox button.
+                switch (Button)
+                {
+                    case Controller_Buttons_Generic.Button_A: Button_To_Test = Button_Mappings.Button_A; break;
+                    case Controller_Buttons_Generic.Button_B: Button_To_Test = Button_Mappings.Button_B; break;
+                    case Controller_Buttons_Generic.Button_X: Button_To_Test = Button_Mappings.Button_X; break;
+                    case Controller_Buttons_Generic.Button_Y: Button_To_Test = Button_Mappings.Button_Y; break;
+                    case Controller_Buttons_Generic.Button_L1: Button_To_Test = Button_Mappings.Button_L1; break;
+                    case Controller_Buttons_Generic.Button_R1: Button_To_Test = Button_Mappings.Button_R1; break;
+                    case Controller_Buttons_Generic.Button_R3: Button_To_Test = Button_Mappings.Button_R3; break;
+                    case Controller_Buttons_Generic.Button_L3: Button_To_Test = Button_Mappings.Button_L3; break;
+                    case Controller_Buttons_Generic.Button_Back: Button_To_Test = Button_Mappings.Button_Back; break;
+                    case Controller_Buttons_Generic.Button_Start: Button_To_Test = Button_Mappings.Button_Start; break;
+                    case Controller_Buttons_Generic.Optional_Button_Guide: Button_To_Test = Button_Mappings.Optional_Button_Guide; break;
+                }
+                return State.Buttons[Button_To_Test];
             }
-            return State.Buttons[Button_To_Test];
+            catch { return false; }
         }
 
         /// <summary>
@@ -604,23 +648,27 @@ namespace SonicHeroes.Controller
         /// <returns></returns>
         private short Get_Axis_Value(Controller_Axis_Generic Axis_To_Test, JoystickState State, bool IsAxisReversed)
         {
-            short Value_To_Return = 0;
-            switch (Axis_To_Test)
+            try
             {
-                case Controller_Axis_Generic.X: Value_To_Return = (short)State.X; break;
-                case Controller_Axis_Generic.Y: Value_To_Return = (short)State.Y; break;
+                short Value_To_Return = 0;
+                switch (Axis_To_Test)
+                {
+                    case Controller_Axis_Generic.X: Value_To_Return = (short)State.X; break;
+                    case Controller_Axis_Generic.Y: Value_To_Return = (short)State.Y; break;
 
-                case Controller_Axis_Generic.Z: Value_To_Return = (short)State.Z; break;
-                case Controller_Axis_Generic.Rotation_Z: Value_To_Return = (short)State.RotationZ; break;
+                    case Controller_Axis_Generic.Z: Value_To_Return = (short)State.Z; break;
+                    case Controller_Axis_Generic.Rotation_Z: Value_To_Return = (short)State.RotationZ; break;
 
-                case Controller_Axis_Generic.Rotation_X: Value_To_Return = (short)State.RotationX; break;
-                case Controller_Axis_Generic.Rotation_Y: Value_To_Return = (short)State.RotationY; break;
+                    case Controller_Axis_Generic.Rotation_X: Value_To_Return = (short)State.RotationX; break;
+                    case Controller_Axis_Generic.Rotation_Y: Value_To_Return = (short)State.RotationY; break;
+                }
+
+                // Adjust the value if the axis is reversed (This is pretty much a modulus operation lol).
+                if (IsAxisReversed) { Value_To_Return = (short)(1000 - (Value_To_Return + 1000)); }
+
+                return Value_To_Return;
             }
-
-            // Adjust the value if the axis is reversed (This is pretty much a modulus operation lol).
-            if (IsAxisReversed) { Value_To_Return = (short)(1000 - (Value_To_Return + 1000)); }
-
-            return Value_To_Return;
+            catch { return -1; } // Doesn't match any direction.
         }
 
         /// <summary>
@@ -630,15 +678,17 @@ namespace SonicHeroes.Controller
         /// <returns></returns>
         public bool Get_Verify_Current_DPAD_Direction(DPAD_Direction Direction)
         {
-            // Get state of controller.
-            JoystickState State = this.GetCurrentState();
-            
-            // Get direction of DPAD
-            int DPAD_Direction = State.PointOfViewControllers[0];
+            try
+            {
+                // Get state of controller.
+                JoystickState State = this.GetCurrentState();
 
-            if (DPAD_Direction == (int)Direction) { return true; } else { return false; }
-            
-            return false;
+                // Get direction of DPAD
+                int DPAD_Direction = State.PointOfViewControllers[0];
+
+                if (DPAD_Direction == (int)Direction) { return true; } else { return false; }
+            }
+            catch { return false; }
         }
 
         /// <summary>
@@ -759,7 +809,7 @@ namespace SonicHeroes.Controller
                     else if (Save_File_String.StartsWith("Axis_Rotation_Z_IsReversed")) { bool Result = false; Boolean.TryParse(Value, out Result); Axis_Mappings.RightTrigger_Pressure_IsReversed = Result; }
                 }
             }
-            catch (Exception Ex) { }
+            catch { }
         }
 
         /// <summary>
@@ -777,30 +827,113 @@ namespace SonicHeroes.Controller
     }
 
     /// <summary>
-    /// Some of the stuff I wanted to remove but didn't, but then other parts I did, IDK.
+    /// Allows for listening of device changes regarding connected controllers.
     /// </summary>
-    class Debug
+    class DeviceNotification
     {
+        //https://msdn.microsoft.com/en-us/library/aa363480(v=vs.85).aspx
+        public const int DbtDeviceArrival = 0x8000; // If system detected a new device        
+        public const int DbtDeviceRemoveComplete = 0x8004; // If the device is gone     
+        public const int DbtDevNodesChanged = 0x0007; // If a device has been added to or removed from the system.
+
+        public const int WmDevicechange = 0x0219; // Device change event      
+        private const int DbtDevtypDeviceinterface = 5;
+
+        //https://msdn.microsoft.com/en-us/library/aa363431(v=vs.85).aspx
+        private const int DEVICE_NOTIFY_ALL_INTERFACE_CLASSES = 4;
+        private readonly Guid GuidDevinterfaceUSBDevice = new Guid("A5DCBF10-6530-11D2-901F-00C04FB951ED"); // USB devices
+        private IntPtr notificationHandle; // Handle to the notification.
+
         /// <summary>
-        /// Reference for the controller buttons as in the ControllerButtons[] array for the PS4 controller. Use this for debugging.
+        /// Constructor. Creates a message-only window to receive notifications when devices are plugged or unplugged and calls a function specified by a delegate.
         /// </summary>
-        public enum Controller_Buttons_DS4
+        /// <param name="methodHandle">Handle to the method receiving notifications.</param>
+        /// <param name="usbOnly">true to filter to USB devices only, false to be notified for all devices.</param>
+        public DeviceNotification(IntPtr windowHandle, bool usbOnly)
         {
-            Button_Square = 0x1,
-            Button_Cross = 0x2,
-            Button_Circle = 0x3,
-            Button_Triangle = 0x4,
-            Button_L1 = 0x5,
-            Button_R1 = 0x6,
-            Trigger_L2 = 0x7,
-            Trigger_R2 = 0x8,
-            Button_Share = 0x9,
-            Button_Start = 0xA,
-            Button_L3 = 0xB,
-            Button_R3 = 0xC,
-            Button_Playstation = 0xD,
-            Button_Touchpad = 0xE
+            var dbi = new DevBroadcastDeviceinterface
+            {
+                DeviceType = DbtDevtypDeviceinterface,
+                Reserved = 0,
+                ClassGuid = GuidDevinterfaceUSBDevice,
+                Name = 0
+            };
+
+            dbi.Size = Marshal.SizeOf(dbi);
+            IntPtr buffer = Marshal.AllocHGlobal(dbi.Size);
+            Marshal.StructureToPtr(dbi, buffer, true);
+
+            // Notification Handle for Message-Only Window
+            notificationHandle = RegisterDeviceNotification(windowHandle, buffer, usbOnly ? 0 : DEVICE_NOTIFY_ALL_INTERFACE_CLASSES);
+        }
+
+        /// <summary>
+        /// Unregisters the window for device notifications
+        /// </summary>
+        public void UnregisterDeviceNotification() { UnregisterDeviceNotification(notificationHandle); }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr RegisterDeviceNotification(IntPtr recipient, IntPtr notificationFilter, int flags);
+
+        [DllImport("user32.dll")]
+        private static extern bool UnregisterDeviceNotification(IntPtr handle);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct DevBroadcastDeviceinterface
+        {
+            internal int Size;
+            internal int DeviceType;
+            internal int Reserved;
+            internal Guid ClassGuid;
+            internal short Name;
         }
     }
 
- }
+    /// <summary>
+    /// Contains a class to define a message-only window.
+    /// </summary>
+    public class Message_Only_Window : NativeWindow
+    {
+        // Delegate type to call all delegated methods.
+        DirectInput_Joystick_Manager.GetConnectedControllersDelegate Controller_Connect_Delegate = null;
+
+        // -3 = HWND_MESSAGE.
+
+        // Constructor.
+        public Message_Only_Window(Delegate methodDelegate)
+        {
+            CreateParams cp = new CreateParams();
+            cp.Parent = (IntPtr)(-3);
+            this.CreateHandle(cp);
+
+            // Get pointer to function
+            Controller_Connect_Delegate += (DirectInput_Joystick_Manager.GetConnectedControllersDelegate)methodDelegate;
+        }
+
+        // Constructor.
+        public void Remove_Delegate(Delegate methodDelegate)
+        {
+            // Get pointer to function
+            Controller_Connect_Delegate -= (DirectInput_Joystick_Manager.GetConnectedControllersDelegate)methodDelegate;
+        }
+
+        // Window Message Handles.
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == DeviceNotification.WmDevicechange)
+            {
+                switch ((int)m.WParam)
+                {
+                    case DeviceNotification.DbtDeviceArrival:
+                        Controller_Connect_Delegate();
+                        break;
+                    case DeviceNotification.DbtDeviceRemoveComplete:
+                        Controller_Connect_Delegate();
+                        break;
+                }
+            }
+            base.WndProc(ref m);
+        }
+
+    }
+}
