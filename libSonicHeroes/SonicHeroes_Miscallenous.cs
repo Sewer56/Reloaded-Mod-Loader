@@ -244,24 +244,36 @@ namespace SonicHeroes.Misc
             Color TopBarColor = new Color();
             Color AccentColor = new Color();
 
-            // Load Configurator Theme
-            string Save_Seting_Path = File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\ThemeConfig.txt";
-            StreamReader TextFile = new StreamReader(Save_Seting_Path);
-
-            string CurrentLine;
-            int IndexOfColour;
-
-            while ((CurrentLine = TextFile.ReadLine()) != null)
+            try
             {
-                IndexOfColour = CurrentLine.IndexOf("#");
 
-                if (CurrentLine.Contains("TitleBarColor: ")) { SidebarColor = ColorTranslator.FromHtml(CurrentLine.Substring(IndexOfColour)); }
-                else if (CurrentLine.Contains("SideBarColor: ")) { TopBarColor = ColorTranslator.FromHtml(CurrentLine.Substring(IndexOfColour)); }
-                else if (CurrentLine.Contains("AccentColor: ")) { AccentColor = ColorTranslator.FromHtml(CurrentLine.Substring(IndexOfColour)); }
+                // Load Configurator Theme
+                string Save_Seting_Path = File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\ThemeConfig.txt";
+                StreamReader TextFile = new StreamReader(Save_Seting_Path);
+
+                string CurrentLine;
+                int IndexOfColour;
+
+                while ((CurrentLine = TextFile.ReadLine()) != null)
+                {
+                    IndexOfColour = CurrentLine.IndexOf("#");
+
+                    if (CurrentLine.Contains("TitleBarColor: ")) { SidebarColor = ColorTranslator.FromHtml(CurrentLine.Substring(IndexOfColour)); }
+                    else if (CurrentLine.Contains("SideBarColor: ")) { TopBarColor = ColorTranslator.FromHtml(CurrentLine.Substring(IndexOfColour)); }
+                    else if (CurrentLine.Contains("AccentColor: ")) { AccentColor = ColorTranslator.FromHtml(CurrentLine.Substring(IndexOfColour)); }
+                }
+
+                TextFile.Dispose();
+                return (SidebarColor, TopBarColor, AccentColor);
             }
-
-            TextFile.Dispose();
-            return (SidebarColor, TopBarColor, AccentColor);
+            catch
+            {
+                SidebarColor = ColorTranslator.FromHtml("#283540");
+                TopBarColor = ColorTranslator.FromHtml("#22292E"); 
+                AccentColor = ColorTranslator.FromHtml("#3F51B5");
+                return (SidebarColor, TopBarColor, AccentColor);
+            }
+            
         }
 
         /// <summary>
