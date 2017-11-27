@@ -65,30 +65,36 @@ namespace SonicHeroes.Overlay
             (
                 () =>
                 {
-                    // Wait for Sonic Heroes Window to spawn.
-                    while (OverlayForm.Window_Setup_Complete == false)
+                    try
                     {
-                        // Get the handle for the Sonic_Heroes Window
-                        Thread.Sleep(1000);
+                        // Wait for Sonic Heroes Window to spawn.
+                        while (OverlayForm.Window_Setup_Complete == false)
+                        {
+                            // Get the handle for the Sonic_Heroes Window
+                            Thread.Sleep(1000);
+                        }
+                        // Create the D2D1 Factory
+                        SharpDX.Direct2D1.Factory Direct2D_Factory = new SharpDX.Direct2D1.Factory(SharpDX.Direct2D1.FactoryType.SingleThreaded);
+
+                        // Set the render properties!
+                        SharpDX.Direct2D1.HwndRenderTargetProperties Direct2D_Render_Target_Properties = new HwndRenderTargetProperties();
+                        Direct2D_Render_Target_Properties.Hwnd = OverlayForm.Handle;
+                        Direct2D_Render_Target_Properties.PixelSize = new SharpDX.Size2(OverlayForm.Width, OverlayForm.Height);
+                        Direct2D_Render_Target_Properties.PresentOptions = PresentOptions.None;
+
+                        Direct2D_Graphics_Target = new SharpDX.Direct2D1.WindowRenderTarget
+                        (
+                            Direct2D_Factory,
+                            new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, SharpDX.Direct2D1.AlphaMode.Premultiplied)),
+                            Direct2D_Render_Target_Properties
+                        );
+
+                        DirectX_Clear_Screen(); // Clear the residue graphics left from the Windows form which was made transparent and clickthrough.
+                        Ready_To_Render = true;
                     }
-                    // Create the D2D1 Factory
-                    SharpDX.Direct2D1.Factory Direct2D_Factory = new SharpDX.Direct2D1.Factory(SharpDX.Direct2D1.FactoryType.SingleThreaded);
-
-                    // Set the render properties!
-                    SharpDX.Direct2D1.HwndRenderTargetProperties Direct2D_Render_Target_Properties = new HwndRenderTargetProperties();
-                    Direct2D_Render_Target_Properties.Hwnd = OverlayForm.Handle;
-                    Direct2D_Render_Target_Properties.PixelSize = new SharpDX.Size2(OverlayForm.Width, OverlayForm.Height);
-                    Direct2D_Render_Target_Properties.PresentOptions = PresentOptions.None;
-
-                    Direct2D_Graphics_Target = new SharpDX.Direct2D1.WindowRenderTarget
-                    (
-                        Direct2D_Factory,
-                        new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, SharpDX.Direct2D1.AlphaMode.Premultiplied)),
-                        Direct2D_Render_Target_Properties
-                    );
-
-                    DirectX_Clear_Screen(); // Clear the residue graphics left from the Windows form which was made transparent and clickthrough.
-                    Ready_To_Render = true;
+                    catch
+                    {
+                    }
                 }
             );
             Get_Heroes_Window_Thread.Start();
@@ -100,7 +106,7 @@ namespace SonicHeroes.Overlay
         /// <param name="sender"></param>
         public void DirectX_Render()
         {
-            if (!Rectangle_Render)
+            if (!Rectangle_Render && Ready_To_Render)
             {
                 Rectangle_Render = true; // Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
                 try
@@ -123,7 +129,7 @@ namespace SonicHeroes.Overlay
         /// </summary>
         public void DirectX_Clear_Screen()
         {
-            if (!Rectangle_Render)
+            if (!Rectangle_Render && Ready_To_Render)
             {
                 Rectangle_Render = true; // Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
                 try
