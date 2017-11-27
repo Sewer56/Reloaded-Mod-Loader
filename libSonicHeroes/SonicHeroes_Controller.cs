@@ -698,8 +698,15 @@ namespace SonicHeroes.Controller
         {
             try
             {
+                // Valid Path Force
+                string invalid = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+                string productName = this.Information.ProductName;
+
+                // Valid path force
+                foreach (char c in invalid) { productName = productName.Replace(c.ToString(), ""); }
+
                 // Sonic Heroes Directory + Mod-Loader-Config + GUID
-                string Save_Setting_Path = Environment.CurrentDirectory + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc";
+                string Save_Setting_Path = Environment.CurrentDirectory + @"\Mod-Loader-Config\\" + productName + "-" + this.Information.ProductGuid + ".cc";
                 List<string> Configuration_Text_File = new List<string>(30);
 
                 // Remove forward slashes, thanks for the testing Rozurabu!
@@ -754,16 +761,21 @@ namespace SonicHeroes.Controller
         {
             try
             {
-                string Save_Seting_Path = Environment.CurrentDirectory + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc";
-                string Local_Save_Path = Path.GetDirectoryName(System.Reflection.Assembly.GetCallingAssembly().Location) + "\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc";
-                Save_Seting_Path = Save_Seting_Path.Replace("/", "");
-                Local_Save_Path = Local_Save_Path.Replace("/", "");
+                // Valid Path Force
+                string invalid = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+                string productName = this.Information.ProductName;
+
+                // Valid path force
+                foreach (char c in invalid) { productName = productName.Replace(c.ToString(), ""); }
+
+                string Save_Seting_Path = Environment.CurrentDirectory + @"\Mod-Loader-Config\\" + productName + "-" + this.Information.ProductGuid + ".cc";
+                string Local_Save_Path = Path.GetDirectoryName(System.Reflection.Assembly.GetCallingAssembly().Location) + "\\" + productName + "-" + this.Information.ProductGuid + ".cc";
 
                 if (!File.Exists(Save_Seting_Path))
                 {
                     try
                     {
-                        Save_Seting_Path = File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\" + this.Information.ProductName + "-" + this.Information.ProductGuid + ".cc";
+                        Save_Seting_Path = File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\" + productName + "-" + this.Information.ProductGuid + ".cc";
 
                         // Remove forward slashes, thanks for the testing Rozurabu!
                         Save_Seting_Path = Save_Seting_Path.Replace("/", "");
