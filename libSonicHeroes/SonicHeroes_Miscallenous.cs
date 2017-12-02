@@ -18,7 +18,6 @@ namespace SonicHeroes.Misc
     /// </summary>
     public static class SonicHeroes_Miscallenous
     {
-
         /// <summary>
         /// Returns the Sonic Heroes executable, TSonic_Win, as an array.
         /// </summary>
@@ -165,16 +164,12 @@ namespace SonicHeroes.Misc
         {
             string Folder_Path = File.ReadAllText(Directory.GetCurrentDirectory() + "\\Mod_Loader_Libraries.txt") + "\\Mod-Loader-Libraries"; // Path of current folder where the assembly is (Inside RAM of TSonic_win.exe therefore this gets current game directory). Append Mod-Loader-Libraries :)
             string Assembly_Path = Path.Combine(Folder_Path, new AssemblyName(args.Name).Name + ".dll"); // The new path for the assembly! Including the library path.s
-            string Local_Assembly_Path = Path.Combine(System.Reflection.Assembly.GetCallingAssembly().Location, new AssemblyName(args.Name).Name + ".dll");
+            string Local_Assembly_Path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetCallingAssembly().Location), new AssemblyName(args.Name).Name + ".dll");
 
             // Assembly Object
             Assembly Assembly_Physical;
 
-            if (!File.Exists(Assembly_Path)) // If the assembly does not exist, return null.
-            {
-                return null;
-            } 
-            else if (File.Exists(Local_Assembly_Path)) // Else check for local assembly.
+            if (File.Exists(Local_Assembly_Path)) // Check for local assembly.
             {
                 Assembly_Physical = Assembly.LoadFrom(Local_Assembly_Path); 
                 return Assembly_Physical;
