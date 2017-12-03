@@ -49,7 +49,7 @@ namespace SonicHeroes.Hooking
             newBytes = AssembleReturn((int)newInstructionAddress, modLoaderServerSocket);
 
             // Fill with NOPs until the hook length.
-            newBytes = FillNOPs(newInstructionBytes);
+            newBytes = FillNOPs(newBytes);
 
             ///
             /// The Bytes of our Injected Code
@@ -61,7 +61,18 @@ namespace SonicHeroes.Hooking
             // Append Register Backup
             injectionBytes.AddRange(ASM_PUSH_REGISTERS_BYTES);
 
-            // Append Jump call to Own Code
+            // Calculate PUSH Which will allow our own code to return beyond the return statement for the call to our own code.
+            // PUSH, PUSH, RET, <JUMP BACK HERE>
+            /* 
+             * e.g. 
+             * [1000] PUSH 1007
+             * [1005] PUSH <Own Code Address>
+             * [1006] RET
+             * [1007] pop edi
+            */
+            injectionBytes.AddRange(AssemblePush((int)newInstructionAddress + REGISTERS_TO_BACKUP_LENGTH + PUSH_INSTRUCTION_LENGTH + PUSH_RETURN_INSTRUCTION_LENGTH, modLoaderServerSocket));
+
+            // Append Push + Return Call to Own Code
             injectionBytes.AddRange(AssembleReturn((int)funcionPointerToOwnMethodCall, modLoaderServerSocket));
 
             // Append Restoration of Registers.

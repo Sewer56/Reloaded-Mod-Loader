@@ -51,7 +51,7 @@ namespace SonicHeroes.Hooking
             newBytes = AssembleReturn((int)newInstructionAddress, modLoaderServerSocket);
 
             // Fill with NOPs until the hook length.
-            newBytes = FillNOPs(newInstructionBytes);
+            newBytes = FillNOPs(newBytes);
 
             ///
             /// The Bytes of our Injected Code

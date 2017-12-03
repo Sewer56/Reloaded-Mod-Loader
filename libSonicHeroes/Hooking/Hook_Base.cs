@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using static SonicHeroes.Networking.Client_Functions;
 
@@ -13,12 +14,17 @@ namespace SonicHeroes.Hooking
     public abstract class Hook_Base
     {
         /// <summary>
-        /// Present for better code readibility, this is the length of the jump instruction itself.
+        /// Present for better code readibility, this is the length of the push and return sets of instructions themselves.
         /// </summary>
         protected const int PUSH_RETURN_INSTRUCTION_LENGTH = 6;
 
         /// <summary>
-        /// Present for better code readibility, this is the length of the jump instruction itself.
+        /// Present for better code readibility, this is the length of a PUSH dword ASM instruction.
+        /// </summary>
+        protected const int PUSH_INSTRUCTION_LENGTH = 5;
+
+        /// <summary>
+        /// Present for better code readibility, this is the length of the jump (IntPtr) instruction in x86.
         /// </summary>
         protected const int JUMP_INSTRUCTION_LENGTH = 5;
 
@@ -133,6 +139,21 @@ namespace SonicHeroes.Hooking
             {
                 "use32",
                 "push 0x" + address.ToString("X"),
+                "ret"
+            };
+            return modLoaderServerSonic.SendData_Alternate(Message_Type.Client_Call_Assemble_x86_Mnemonics, Serialize_x86_ASM_Mnemonics(x86Mnemonics), true);
+        }
+
+        /// <summary>
+        /// Assembles a push instruction to a specified address.
+        /// </summary>
+        protected byte[] AssemblePush(int address, SonicHeroes.Networking.WebSocket_Client modLoaderServerSonic)
+        {
+            // Assemble code for push from new time string format address.
+            string[] x86Mnemonics = new string[]
+            {
+                "use32",
+                "push 0x" + address.ToString("X"),
             };
             return modLoaderServerSonic.SendData_Alternate(Message_Type.Client_Call_Assemble_x86_Mnemonics, Serialize_x86_ASM_Mnemonics(x86Mnemonics), true);
         }
@@ -153,11 +174,14 @@ namespace SonicHeroes.Hooking
         /// <returns></returns>
         protected byte[] FillNOPs(byte[] byteArray)
         {
+            // Assign list of bytes for the new byte array.
+            List<byte> newByteArray = byteArray.ToList();
+
             // If necessary, replace any stray bytes with NOP.
-            for (int x = PUSH_RETURN_INSTRUCTION_LENGTH; x < hookLength; x++) { byteArray[x] = 0x90; }
+            for (int x = PUSH_RETURN_INSTRUCTION_LENGTH - 1; x < hookLength; x++) { newByteArray.Add(0x90); }
 
             // Return Byte Array
-            return byteArray;
+            return newByteArray.ToArray();
         }
 
         /// <summary>
