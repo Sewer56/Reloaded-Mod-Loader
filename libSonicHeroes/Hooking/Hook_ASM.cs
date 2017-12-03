@@ -22,7 +22,7 @@ namespace SonicHeroes.Hooking
         /// <param name="asmBytes">Delegate to the method we will want to run. (DelegateName)Method</param>
         /// <param name="hookLength">The amount of bytes the hook lasts, all stray bytes will be replaced with NOP/No Operation.</param>
         /// <param name="modLoaderServerSocket">Current Socket that is Connected to the Mod Loader Server</param>
-        /// <param name="cleanHook">Set true to not execute original bytes after the </param>
+        /// <param name="cleanHook">Set true to not execute original bytes after your own ASM</param>
         public ASM_Hook(IntPtr hookAddress, byte[] asmBytes, int hookLength, WebSocket_Client modLoaderServerSocket, bool cleanHook)
         {
             // Setup Common Hook Properties
@@ -82,10 +82,10 @@ namespace SonicHeroes.Hooking
         /// </summary>
         private bool CheckCleanHook()
         {
-            // If the address we are hooking is a PUSH opcode with a return.
-            // Mod Loader Hook Method Signature
-            if ((originalBytes[0] == 0x68) && (originalBytes[0] == 0xC3)) { return false; }
-            else { return false; }
+            // If the address we are hooking is a PUSH opcode with a return. (a Mod Loader Hook Signature)
+            // Do not Clean Hook!
+            if ((originalBytes[0] == 0x68) && (originalBytes[5] == 0xC3)) { return false; }
+            else { return true; }
         }
     }
 }
