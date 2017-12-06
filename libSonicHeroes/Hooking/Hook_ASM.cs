@@ -85,7 +85,7 @@ namespace SonicHeroes.Hooking
             // If the address we are hooking is a PUSH opcode with a return.
             // Mod Loader Hook Method Signature
             if ((originalBytes[0] == 0x68) && (originalBytes[0] == 0xC3)) { return false; }
-            else { return false; }
+            else { return true; }
         }
     }
 }
