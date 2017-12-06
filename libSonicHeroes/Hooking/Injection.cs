@@ -80,7 +80,7 @@ namespace SonicHeroes.Hooking
             injectionBytes.AddRange(ASM_POP_REGISTERS_BYTES);
 
             // Insert the original bytes to be executed.
-            if (cleanHook) { injectionBytes.AddRange(ProduceNOPArray(originalBytes.Length)); }
+            if (cleanHook) { }
             else { injectionBytes.AddRange(originalBytes); }
 
             // Insert bytes to return back.
