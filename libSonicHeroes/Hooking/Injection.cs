@@ -18,7 +18,8 @@ namespace SonicHeroes.Hooking
         /// <param name="hookAddress">The address at which we will start our hook process.</param>
         /// <param name="destinationDelegate">Delegate to the method we will want to run. (DelegateName)Method</param>
         /// <param name="hookLength">The amount of bytes the hook lasts, all stray bytes will be replaced with NOP/No Operation.</param>
-        public Injection(IntPtr hookAddress, Delegate destinationDelegate, int hookLength, WebSocket_Client modLoaderServerSocket)
+        /// <param name="cleanHook">Set true to not execute original bytes after your own code.</param>
+        public Injection(IntPtr hookAddress, Delegate destinationDelegate, int hookLength, WebSocket_Client modLoaderServerSocket, bool cleanHook)
         {
             // Assign class members.
             customMethodDelegate = destinationDelegate;
@@ -30,13 +31,13 @@ namespace SonicHeroes.Hooking
             SetupHookCommon(hookAddress, hookLength);
 
             // Run the hook builder.
-            Injection_Internal(modLoaderServerSocket);
+            Injection_Internal(modLoaderServerSocket, cleanHook);
         }
 
         /// <summary>
         /// The inner workings of the Injection Hook Type.
         /// </summary>
-        private void Injection_Internal(WebSocket_Client modLoaderServerSocket)
+        private void Injection_Internal(WebSocket_Client modLoaderServerSocket, bool cleanHook)
         {
             // Allocate memory to write old bytes in Sonic Heroes.
             SetNewInstructionAddress(REGISTERS_TO_BACKUP_LENGTH + PUSH_RETURN_INSTRUCTION_LENGTH + hookLength + REGISTERS_TO_BACKUP_LENGTH + PUSH_RETURN_INSTRUCTION_LENGTH);
@@ -79,7 +80,8 @@ namespace SonicHeroes.Hooking
             injectionBytes.AddRange(ASM_POP_REGISTERS_BYTES);
 
             // Insert the original bytes to be executed.
-            injectionBytes.AddRange(originalBytes);
+            if (cleanHook) { injectionBytes.AddRange(ProduceNOPArray(originalBytes.Length)); }
+            else { injectionBytes.AddRange(originalBytes); }
 
             // Insert bytes to return back.
             injectionBytes.AddRange(AssembleReturn((int)hookAddress + PUSH_RETURN_INSTRUCTION_LENGTH, modLoaderServerSocket));
