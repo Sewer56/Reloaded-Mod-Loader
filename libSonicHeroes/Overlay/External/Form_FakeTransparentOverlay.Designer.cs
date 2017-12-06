@@ -1,6 +1,6 @@
 ﻿namespace SonicHeroes.Overlay
 {
-    partial class SonicHeroes_Form_FakeTransparentOverlay
+    partial class Form_FakeTransparentOverlay
     {
         /// <summary>
         /// Required designer variable.

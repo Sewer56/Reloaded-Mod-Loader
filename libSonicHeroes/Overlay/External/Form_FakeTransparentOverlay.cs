@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace SonicHeroes.Overlay
 {
-    public partial class SonicHeroes_Form_FakeTransparentOverlay : Form
+    public partial class Form_FakeTransparentOverlay : Form
     {
         // Misc
         string HEROES_WINDOW_NAME;
@@ -58,7 +58,7 @@ namespace SonicHeroes.Overlay
         public bool Window_Setup_Complete = false;
 
         // Constructor
-        public SonicHeroes_Form_FakeTransparentOverlay()
+        public Form_FakeTransparentOverlay()
         {
             // Get Window Name
             try { HEROES_WINDOW_NAME = File.ReadAllText(File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\WindowName.txt"); }
