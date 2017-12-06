@@ -163,8 +163,8 @@ namespace SonicHeroes.Misc
         public static System.Reflection.Assembly CurrentDomain_SetAssemblyResolve(object sender, ResolveEventArgs args)
         {
             string Folder_Path = File.ReadAllText(Directory.GetCurrentDirectory() + "\\Mod_Loader_Libraries.txt") + "\\Mod-Loader-Libraries"; // Path of current folder where the assembly is (Inside RAM of TSonic_win.exe therefore this gets current game directory). Append Mod-Loader-Libraries :)
-            string Assembly_Path = Path.Combine(Folder_Path, new AssemblyName(args.Name).Name + ".dll"); // The new path for the assembly! Including the library path.s
-            string Local_Assembly_Path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetCallingAssembly().Location), new AssemblyName(args.Name).Name + ".dll");
+            string Assembly_Path = Path.Combine(Folder_Path, new AssemblyName(args.Name).Name + ".dll"); // The new path for the assembly! Including the library paths.
+            string Local_Assembly_Path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetCallingAssembly().Location) + "\\Libraries\\", new AssemblyName(args.Name).Name + ".dll");
 
             // Assembly Object
             Assembly Assembly_Physical;
