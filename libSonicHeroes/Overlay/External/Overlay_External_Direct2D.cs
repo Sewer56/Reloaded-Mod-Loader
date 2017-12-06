@@ -1,54 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using SharpDX.Direct2D1;
-using SharpDX.Mathematics.Interop;
-using SharpDX.DirectWrite;
 using System.Threading;
-using SharpDX.DirectWrite;
 using SharpDX.DXGI;
-using SharpDX.Mathematics.Interop;
 
 namespace SonicHeroes.Overlay
 {
     /// <summary>
     /// This class is responsible for allowing you to instantiate a Windows Forms overlay which will be drawn ontop of the game, if the game is in windowed mode.
     /// </summary>
-    public class SonicHeroes_Overlay
+    public class Overlay_External_Direct2D
     {
         /// <summary>
         /// Fake glass form which we will be overlaying Sonic Heroes with.
         /// </summary>
-        public SonicHeroes_Form_FakeTransparentOverlay OverlayForm = new SonicHeroes_Form_FakeTransparentOverlay();
+        public Form_FakeTransparentOverlay overlayWinForm = new Form_FakeTransparentOverlay();
 
         /// <summary>
         /// Create the fake GDI overlay.
         /// </summary>
-        public SonicHeroes_Overlay() { }
-
-        /// <summary>
-        /// Makes your form a child form of the fake glass game overlay.
-        /// </summary>
-        /// <param name="Your_Form"></param>
-        public void Attach_Windows_Form(Form Your_Form)
-        {
-            IntPtr User_Form_Handle_ID = Your_Form.Handle;
-            IntPtr This_Form_Handle_ID = OverlayForm.Handle;
-            WINAPI_Components.SetParent(User_Form_Handle_ID, This_Form_Handle_ID);
-            Your_Form.BringToFront(); // Bring to front
-        }
+        public Overlay_External_Direct2D() { }
 
         ////////////////// For DirectX Hooking!
-        public SharpDX.Direct2D1.WindowRenderTarget Direct2D_Graphics_Target;
-        public delegate void Delegate_RenderDirect2D(WindowRenderTarget Direct2D_Graphics_Target);
+        public SharpDX.Direct2D1.WindowRenderTarget direct2DWindowTarget;
+        public delegate void Delegate_RenderDirect2D(WindowRenderTarget direct2DWindowTarget);
         public delegate void Delegate_OnFrameDelegate(); // Allows for code to be ran on every rendered frame.
-        public Delegate_RenderDirect2D Direct2D_Render_Method;
-        public Delegate_OnFrameDelegate Direct2D_OnFrame_CodeRunner; // Allows for code to be ran on every rendered frame.
+        public Delegate_RenderDirect2D direct2DRenderMethod;
+        public Delegate_OnFrameDelegate direct2DOnframeDelegate; // Allows for code to be ran on every rendered frame.
         public bool Rectangle_Render = false;
         public bool Ready_To_Render = false;
 
@@ -68,7 +47,7 @@ namespace SonicHeroes.Overlay
                     try
                     {
                         // Wait for Sonic Heroes Window to spawn.
-                        while (OverlayForm.Window_Setup_Complete == false)
+                        while (overlayWinForm.Window_Setup_Complete == false)
                         {
                             // Get the handle for the Sonic_Heroes Window
                             Thread.Sleep(1000);
@@ -78,11 +57,11 @@ namespace SonicHeroes.Overlay
 
                         // Set the render properties!
                         SharpDX.Direct2D1.HwndRenderTargetProperties Direct2D_Render_Target_Properties = new HwndRenderTargetProperties();
-                        Direct2D_Render_Target_Properties.Hwnd = OverlayForm.Handle;
-                        Direct2D_Render_Target_Properties.PixelSize = new SharpDX.Size2(OverlayForm.Width, OverlayForm.Height);
+                        Direct2D_Render_Target_Properties.Hwnd = overlayWinForm.Handle;
+                        Direct2D_Render_Target_Properties.PixelSize = new SharpDX.Size2(overlayWinForm.Width, overlayWinForm.Height);
                         Direct2D_Render_Target_Properties.PresentOptions = PresentOptions.None;
 
-                        Direct2D_Graphics_Target = new SharpDX.Direct2D1.WindowRenderTarget
+                        direct2DWindowTarget = new SharpDX.Direct2D1.WindowRenderTarget
                         (
                             Direct2D_Factory,
                             new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, SharpDX.Direct2D1.AlphaMode.Premultiplied)),
@@ -94,6 +73,7 @@ namespace SonicHeroes.Overlay
                     }
                     catch
                     {
+
                     }
                 }
             );
@@ -111,12 +91,12 @@ namespace SonicHeroes.Overlay
                 Rectangle_Render = true; // Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
                 try
                 {
-                    Direct2D_Graphics_Target.BeginDraw(); // Begin Drawing!
+                    direct2DWindowTarget.BeginDraw(); // Begin Drawing!
                     Clear_Screen(0, 0, 0, 0); // Clears everything drawn previously.
 
-                    Direct2D_Render_Method(Direct2D_Graphics_Target); // Calls our own set rendering method
-                    try { Direct2D_OnFrame_CodeRunner?.Invoke(); } catch { } // Safely invoke all assigned delegates.
-                    Direct2D_Graphics_Target.EndDraw(); // End Drawing!
+                    direct2DRenderMethod(direct2DWindowTarget); // Calls our own set rendering method
+                    try { direct2DOnframeDelegate?.Invoke(); } catch { } // Safely invoke all assigned delegates.
+                    direct2DWindowTarget.EndDraw(); // End Drawing!
                 }
                 catch { Rectangle_Render = false; } // Set default render state.
 
@@ -134,9 +114,9 @@ namespace SonicHeroes.Overlay
                 Rectangle_Render = true; // Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
                 try
                 {
-                    Direct2D_Graphics_Target.BeginDraw(); // Begin Drawing!
+                    direct2DWindowTarget.BeginDraw(); // Begin Drawing!
                     Clear_Screen(0, 0, 0, 0); // Clears everything drawn previously.
-                    Direct2D_Graphics_Target.EndDraw(); // End Drawing!
+                    direct2DWindowTarget.EndDraw(); // End Drawing!
                 }
                 catch { Rectangle_Render = false; }
                 Rectangle_Render = false; // Ensures that two instances never run simultaneously at the same time, this will prevent crashing.
@@ -144,8 +124,27 @@ namespace SonicHeroes.Overlay
 
         }
 
-        // Clears the drawing area.
-        private void Clear_Screen(int r, int g, int b, int a) { Direct2D_Graphics_Target.Clear(new SharpDX.Mathematics.Interop.RawColor4(r, g, b, a)); }
+        /// <summary>
+        /// Clears the drawing area with the specified RGBA Colours. Use this to wipe the screen.
+        /// </summary>
+        private void Clear_Screen(int r, int g, int b, int a)
+        {
+            direct2DWindowTarget.Clear(new SharpDX.Mathematics.Interop.RawColor4(r, g, b, a));
+        }
+
+        /// <summary>
+        /// Makes your form a child form of the fake glass game overlay.
+        /// Use only for testing, or other potentially weird purposes.
+        /// (Please no GDI Overlays)
+        /// </summary>
+        /// <param name="yourForm">Your windows forms form.</param>
+        public void Attach_Windows_Form(Form yourForm)
+        {
+            IntPtr userForm_Handle_ID = yourForm.Handle;
+            IntPtr thisForm_Handle_ID = overlayWinForm.Handle;
+            WINAPI_Components.SetParent(userForm_Handle_ID, thisForm_Handle_ID);
+            yourForm.BringToFront(); // Bring to front
+        }
     }
 
     /// <summary>
@@ -163,10 +162,10 @@ namespace SonicHeroes.Overlay
         public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool GetWindowRect(IntPtr hwnd, out SonicHeroes_Form_FakeTransparentOverlay.RECT lpRect);
+        public static extern bool GetWindowRect(IntPtr hwnd, out Form_FakeTransparentOverlay.RECT lpRect);
 
         [DllImport("user32.dll")]
-        public static extern bool GetClientRect(IntPtr hWnd, out SonicHeroes_Form_FakeTransparentOverlay.RECT lpRect);
+        public static extern bool GetClientRect(IntPtr hWnd, out Form_FakeTransparentOverlay.RECT lpRect);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
