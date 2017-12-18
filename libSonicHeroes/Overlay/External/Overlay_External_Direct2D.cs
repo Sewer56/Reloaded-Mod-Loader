@@ -127,7 +127,7 @@ namespace SonicHeroes.Overlay
         /// <summary>
         /// Clears the drawing area with the specified RGBA Colours. Use this to wipe the screen.
         /// </summary>
-        private void Clear_Screen(int r, int g, int b, int a)
+        private void Clear_Screen(float r, float g, float b, float a)
         {
             direct2DWindowTarget.Clear(new SharpDX.Mathematics.Interop.RawColor4(r, g, b, a));
         }
