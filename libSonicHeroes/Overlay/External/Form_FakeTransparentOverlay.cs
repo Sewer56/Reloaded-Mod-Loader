@@ -17,7 +17,8 @@ namespace SonicHeroes.Overlay
     public partial class Form_FakeTransparentOverlay : Form
     {
         // Misc
-        string HEROES_WINDOW_NAME;
+        static string HEROES_WINDOW_NAME;
+
         /// <summary>
         /// Defines a rectangle.
         /// </summary>
@@ -47,48 +48,47 @@ namespace SonicHeroes.Overlay
         }
 
         public const int GWL_EXSTYLE = -20;
-        public const int WS_EX_LAYERED = 0x80000;
-        public const int WS_EX_TRANSPARENT = 0x20;
+        public long WS_EX_LAYERED = 0x80000;
+        public long WS_EX_TRANSPARENT = 0x20;
         public const int LWA_ALPHA = 0x2;
         public const int LWA_COLORKEY = 0x1;
 
         /// Delegates for setting up the window properties.
         public delegate void Set_Window_Properties_Delegate();
-        public static Set_Window_Properties_Delegate Setup_Window_Delegate;
         public bool Window_Setup_Complete = false;
+        public static bool Heroes_Window_Found = false;
 
         // Constructor
         public Form_FakeTransparentOverlay()
         {
-            // Get Window Name
-            try { HEROES_WINDOW_NAME = File.ReadAllText(File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\WindowName.txt"); }
-            catch { HEROES_WINDOW_NAME = File.ReadAllText(Environment.CurrentDirectory + "\\Mod-Loader-Config\\WindowName.txt"); }
-
             InitializeComponent();
-            Setup_Window_Delegate = Setup_Window; // Set the setup window delegate.
+            HandleCreated += Setup_Window; 
 
             // Thread which waits for Sonic Heroes window to spawn before adjusting overlay window size.
             Thread Get_Heroes_Window_Thread = new Thread
             (
                 () => 
                 {
+                    // Get Window Name
+                    try { HEROES_WINDOW_NAME = File.ReadAllText(File.ReadAllText(Environment.CurrentDirectory + "\\Mod_Loader_Config.txt") + @"\Mod-Loader-Config\\WindowName.txt"); }
+                    catch { HEROES_WINDOW_NAME = File.ReadAllText(Environment.CurrentDirectory + "\\Mod-Loader-Config\\WindowName.txt"); }
+                    
                     // Wait for Sonic Heroes Window to spawn.
-                    while ((int)Heroes_Window_Handle == 0)
+                    while (true)
                     {
                         // Get the handle for the Sonic_Heroes Window
                         Heroes_Window_Handle = WINAPI_Components.FindWindow(null, HEROES_WINDOW_NAME);
-                        Thread.Sleep(500);
-                    }
+                        if (Heroes_Window_Handle != null) { break; }
+                    } 
 
                     // Wait for the Window to show itself to screen before configuring.
-                    bool Window_Visible = false;
-                    while ( Window_Visible == false )
-                    {
-                        Window_Visible = IsWindowVisible(Heroes_Window_Handle);
-                        Thread.Sleep(1000);
-                    }
-                    
-                    Invoke(Setup_Window_Delegate); // Call Setup_Window in primary thread.
+                    while (IsWindowVisible(Heroes_Window_Handle) == false) { Thread.Sleep(8); }
+
+                    // Sleep 250 in case window wants to change size.
+                    Thread.Sleep(250);
+
+                    // Tell the window that it was found.
+                    Heroes_Window_Found = true;
                 }
             );
             Get_Heroes_Window_Thread.Start();
@@ -97,11 +97,14 @@ namespace SonicHeroes.Overlay
         /// <summary>
         /// Sets up the overlay window properties.
         /// </summary>
-        public void Setup_Window()
+        public void Setup_Window(object sender, EventArgs e)
         {
+            // Wait for Heroes Window to appear.
+            while (Heroes_Window_Found == false) { Thread.Sleep(32); }
+
             // Adjust the Window Style!
-            int initialStyle = WINAPI_Components.GetWindowLong(this.Handle, -20);
-            WINAPI_Components.SetWindowLong(this.Handle, GWL_EXSTYLE, initialStyle | WS_EX_LAYERED | WS_EX_TRANSPARENT); // Set window properties | Window is now clickthrough!
+            long initialStyle = (long)WINAPI_Components.GetWindowLongPtr(this.Handle, GWL_EXSTYLE);
+            WINAPI_Components.SetWindowLongPtr(new HandleRef(this, this.Handle), GWL_EXSTYLE, (IntPtr)(initialStyle | WS_EX_LAYERED | WS_EX_TRANSPARENT)); // Set window properties | Window is now clickthrough!
 
             //Set the Alpha on the Whole Window to 255 (solid)
             WINAPI_Components.SetLayeredWindowAttributes(this.Handle, 0, 255, LWA_ALPHA);
@@ -113,6 +116,7 @@ namespace SonicHeroes.Overlay
             // Set to top most such that this overlay always draws above the game.
             this.TopMost = true;
 
+            // Expand Aero Glass onto Client Area
             Expand_Aero_Glass();
         }
 
@@ -129,11 +133,10 @@ namespace SonicHeroes.Overlay
             Form_Margins.RightBorder = this.Width;
             Form_Margins.BottomBorder = this.Height;
             DwmExtendFrameIntoClientArea(this.Handle, ref Form_Margins);
+
+            // Set Setup as Complete.
             Window_Setup_Complete = true;
         }
-
-        [DllImport("dwmapi.dll")]
-        static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref Margins pMargins);
 
         /// <summary>
         /// Sets the Heroes Overlay Window Location
@@ -204,5 +207,8 @@ namespace SonicHeroes.Overlay
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool IsWindowVisible(IntPtr hWnd);
+
+        [DllImport("dwmapi.dll")]
+        static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref Margins pMargins);
     }
 }

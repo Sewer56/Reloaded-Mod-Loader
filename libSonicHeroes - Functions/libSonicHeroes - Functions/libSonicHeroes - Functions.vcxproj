@@ -22,7 +22,8 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{650788B7-BE74-49C8-A7E4-1CC83932400D}</ProjectGuid>
     <RootNamespace>TestASMDLL</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>Tweakbox</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -71,10 +72,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.dll</TargetExt>
+    <OutDir>..\..\..\..\..\HeroesModLoader\Mod-Loader-Mods\Vanilla-Tweakbox\root</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.dll</TargetExt>
     <OutDir>..\..\Heroes_Mod_Loader\Mod-Loader-Mods\Test-Mod\root</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\..\..\..\..\HeroesModLoader\Mod-Loader-Mods\Vanilla-Tweakbox\root</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

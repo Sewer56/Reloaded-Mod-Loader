@@ -47,11 +47,7 @@ namespace SonicHeroes.Overlay
                     try
                     {
                         // Wait for Sonic Heroes Window to spawn.
-                        while (overlayWinForm.Window_Setup_Complete == false)
-                        {
-                            // Get the handle for the Sonic_Heroes Window
-                            Thread.Sleep(1000);
-                        }
+                        while (overlayWinForm.Window_Setup_Complete == false) { Thread.Sleep(8); }
                         // Create the D2D1 Factory
                         SharpDX.Direct2D1.Factory Direct2D_Factory = new SharpDX.Direct2D1.Factory(SharpDX.Direct2D1.FactoryType.SingleThreaded);
 
@@ -155,11 +151,71 @@ namespace SonicHeroes.Overlay
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
-        [DllImport("user32.dll")]
-        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        /// 
+        /// Set Window Properties 32/64
+        /// 
 
-        [DllImport("user32.dll")]
-        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
+        private static extern int SetWindowLong32(HandleRef hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
+        private static extern IntPtr SetWindowLongPtr64(HandleRef hWnd, int nIndex, IntPtr dwNewLong);
+
+        public static IntPtr SetWindowLongPtr(HandleRef hWnd, int nIndex, IntPtr dwNewLong)
+        {
+            if (IntPtr.Size == 8) return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
+            else return new IntPtr(SetWindowLong32(hWnd, nIndex, dwNewLong.ToInt32()));
+        }
+
+        /// 
+        /// Get Window Properties 32/64
+        /// 
+
+        [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
+        private static extern IntPtr GetWindowLongPtr32(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll", EntryPoint = "GetWindowLongPtr")]
+        private static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, int nIndex);
+
+        // This static method is required because Win32 does not support
+        // GetWindowLongPtr directly
+        public static IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex)
+        {
+            if (IntPtr.Size == 8) return GetWindowLongPtr64(hWnd, nIndex);
+            else return GetWindowLongPtr32(hWnd, nIndex);
+        }
+
+        /// 
+        /// Get Window Class 32/64
+        /// 
+
+        public static IntPtr GetClassLongPtr(HandleRef hWnd, int nIndex)
+        {
+            if (IntPtr.Size > 4) return GetClassLongPtr64(hWnd, nIndex);
+            else return new IntPtr(GetClassLongPtr32(hWnd, nIndex));
+        }
+
+        [DllImport("user32.dll", EntryPoint = "GetClassLong")]
+        public static extern uint GetClassLongPtr32(HandleRef hWnd, int nIndex);
+
+        [DllImport("user32.dll", EntryPoint = "GetClassLongPtr")]
+        public static extern IntPtr GetClassLongPtr64(HandleRef hWnd, int nIndex);
+
+        /// 
+        /// Set Window Class 32/64
+        /// 
+
+        public static IntPtr SetClassLong(HandleRef hWnd, int nIndex, IntPtr dwNewLong)
+        {
+            if (IntPtr.Size > 4) return SetClassLongPtr64(hWnd, nIndex, dwNewLong);
+            else return new IntPtr(SetClassLongPtr32(hWnd, nIndex, unchecked((uint)dwNewLong.ToInt32())));
+        }
+
+        [DllImport("user32.dll", EntryPoint = "SetClassLong")]
+        public static extern uint SetClassLongPtr32(HandleRef hWnd, int nIndex, uint dwNewLong);
+
+        [DllImport("user32.dll", EntryPoint = "SetClassLongPtr")]
+        public static extern IntPtr SetClassLongPtr64(HandleRef hWnd, int nIndex, IntPtr dwNewLong);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool GetWindowRect(IntPtr hwnd, out Form_FakeTransparentOverlay.RECT lpRect);
