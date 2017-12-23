@@ -10,7 +10,7 @@ namespace SonicHeroes.Hooking
 {
     /// <summary>
     /// This hook class executes your own ASM Code from a supplied list of bytes.
-    /// To use this hook, you require at least a hook length of 6 bytes + any stray bytes from any instruction. For more information, do refer to the Wiki on Github.
+    /// To use this hook, you require at least a hook length of 6 bytes + any stray bytes from any instructions. For more information, do refer to the Wiki on Github.
     /// </summary>
     class ASM_Hook : Hook_Base
     {
