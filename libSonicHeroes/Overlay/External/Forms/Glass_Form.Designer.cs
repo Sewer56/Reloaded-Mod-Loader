@@ -1,6 +1,6 @@
-﻿namespace SonicHeroes.Overlay
+﻿namespace SonicHeroes.Overlay.External
 {
-    partial class Form_FakeTransparentOverlay
+    partial class Glass_Form
     {
         /// <summary>
         /// Required designer variable.
@@ -37,7 +37,7 @@
             this.BackColor = System.Drawing.Color.LimeGreen;
             this.ClientSize = new System.Drawing.Size(1, 1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "SonicHeroes_Form_FakeTransparentOverlay";
+            this.Name = "Glass_Form";
             this.Text = "OverlayForm";
             this.TransparencyKey = System.Drawing.Color.LimeGreen;
             this.ResumeLayout(false);
