@@ -72,7 +72,7 @@ namespace SonicHeroes.Overlay.External
             while (true)
             {
                 // Get the handle for the Sonic_Heroes Window
-                gameWindowHandle = WinAPI.FindWindow(null, gameWindowName);
+                gameWindowHandle = WinAPI.Windows.FindWindow(null, gameWindowName);
 
                 // If handle successfully acquired.
                 if (gameWindowHandle != null) { break; }
@@ -82,7 +82,7 @@ namespace SonicHeroes.Overlay.External
             }
 
             // Wait for the Window to show itself to screen before configuring.
-            while (WinAPI.IsWindowVisible(gameWindowHandle) == false) { Thread.Sleep(16); }
+            while (WinAPI.Windows.IsWindowVisible(gameWindowHandle) == false) { Thread.Sleep(16); }
         }
     }
 }

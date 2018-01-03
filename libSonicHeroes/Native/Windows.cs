@@ -24,7 +24,7 @@ namespace SonicHeroes.Native
             WINAPI_Rectangle gameWindowRectangle = new WINAPI_Rectangle();
 
             // Obtains the coordinates of the edges of the window.
-            WinAPI.GetWindowRect(windowHandle, out gameWindowRectangle);
+            WinAPI.Windows.GetWindowRect(windowHandle, out gameWindowRectangle);
 
             // Return
             return gameWindowRectangle;
@@ -42,7 +42,7 @@ namespace SonicHeroes.Native
             WINAPI_Rectangle clientAreaRectangle = new WINAPI_Rectangle();
 
             // Obtains the coordinates of the edges of the window.
-            WinAPI.GetClientRect(windowHandle, out clientAreaRectangle);
+            WinAPI.Windows.GetClientRect(windowHandle, out clientAreaRectangle);
 
             // Return
             return clientAreaRectangle;

@@ -201,7 +201,7 @@ namespace SonicHeroes.Overlay
             IntPtr yourFormHandle = yourForm.Handle;
 
             // Set parent form.
-            WinAPI.SetParent(yourFormHandle, TargetWindowHandle);
+            WinAPI.Windows.SetParent(yourFormHandle, TargetWindowHandle);
 
             // Bring the user's form to front.
             yourForm.BringToFront();

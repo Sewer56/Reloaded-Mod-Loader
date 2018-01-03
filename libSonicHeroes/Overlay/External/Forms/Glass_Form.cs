@@ -112,7 +112,7 @@ namespace SonicHeroes.Overlay.External
             formMargins.bottomBorder = this.Height;
 
             // Extend the frame into client area.
-            DwmExtendFrameIntoClientArea(this.Handle, ref formMargins);
+            WinAPI.Windows.DwmExtendFrameIntoClientArea(this.Handle, ref formMargins);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace SonicHeroes.Overlay.External
         public void Adjust_Overlay_To_Game_Window()
         {
             // Get game client area.
-            WINAPI_Rectangle gameClientRectangle = Windows.Get_ClientArea_Rectangle(gameWindowHandle);
+            WINAPI_Rectangle gameClientRectangle = Native.Windows.Get_ClientArea_Rectangle(gameWindowHandle);
 
             // Set overlay edges to the edges of the client area.
             this.Left = gameClientRectangle.leftBorder;
