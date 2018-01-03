@@ -14,27 +14,27 @@ namespace SonicHeroes.Misc
         /// Specifies the location of the file which informs injected DLLs of the 
         /// current location of the mod loader in question. 
         /// </summary>
-        private static string MOD_LOADER_LINK_FILE = Path.GetTempPath() + "Mod-Loader-Link.txt";
+        private static string MOD_LOADER_LINK_FILE = Path.GetTempPath() + "\\Mod-Loader-Link.txt";
 
         /// <summary>
         /// Specifies the relative location of the main configuration file for the loader.
         /// </summary>
-        private static string RELATIVELOCATION_CONFIGFILE = "Mod-Loader-Config/ModLoader.ini";
+        private static string RELATIVELOCATION_CONFIGFILE = "\\Mod-Loader-Config\\ModLoader.ini";
 
         /// <summary>
         /// Specifies the relative location of the configuration directory for the loader.
         /// </summary>
-        private static string RELATIVELOCATION_CONFIG = "Mod-Loader-Config/";
+        private static string RELATIVELOCATION_CONFIG = "\\Mod-Loader-Config\\";
 
         /// <summary>
         /// Specifies the relative location of the individual game backup files relative to the mod loader.
         /// </summary>
-        private static string RELATIVELOCATION_BACKUP = "Mod-Loader-Backup/";
+        private static string RELATIVELOCATION_BACKUP = "\\Mod-Loader-Backup\\";
 
         /// <summary>
         /// Specifies the relative location of the mod loader libraries relative to the mod loader.
         /// </summary>
-        private static string RELATIVELOCATION_LIBRARIES = "Mod-Loader-Libraries/";
+        private static string RELATIVELOCATION_LIBRARIES = "\\Mod-Loader-Libraries\\";
 
         /// <summary>
         /// Retrieves the directory of the current process where the DLL resides in. i.e. the game directory.
@@ -68,6 +68,14 @@ namespace SonicHeroes.Misc
         public static string GetModLoaderConfigDirectory()
         {
             return GetModLoaderDirectory() + RELATIVELOCATION_CONFIG;
+        }
+
+        /// <summary>
+        /// Retrieves the mod loader's main library directory.
+        /// </summary>
+        public static string GetModLoaderLibraryDirectory()
+        {
+            return GetModLoaderDirectory() + RELATIVELOCATION_LIBRARIES;
         }
 
         /// <summary>
