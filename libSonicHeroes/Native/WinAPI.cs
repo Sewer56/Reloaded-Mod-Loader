@@ -39,56 +39,63 @@ namespace SonicHeroes.Native
         }
 
         /// <summary>
-        /// Allows us to set a window to become a child of another window (thus exist within the space of parent's window).
+        /// Provides various Windows API Functions related to windows, 
+        /// the ones on your desktop, not the operating system.
         /// </summary>
-        /// <param name="hWndChild">The handle of the child window we are attaching.</param>
-        /// <param name="hWndNewParent">The handle to the parent window we are attaching a window to.</param>
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+        public static class Windows
+        {
+            /// <summary>
+            /// Allows us to set a window to become a child of another window (thus exist within the space of parent's window).
+            /// </summary>
+            /// <param name="hWndChild">The handle of the child window we are attaching.</param>
+            /// <param name="hWndNewParent">The handle to the parent window we are attaching a window to.</param>
+            [DllImport("user32.dll", SetLastError = true)]
+            public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
-        /// <summary>
-        /// Obtains the screen coordinates of each of the edges of a window holding a specified handle.
-        /// </summary>
-        /// <param name="hwnd">The handle to the individual window.</param>
-        /// <param name="lpRect">Rectangle structure containing the screen coordinates of all of the edges.</param>
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool GetWindowRect(IntPtr hwnd, out WINAPI_Rectangle lpRect);
+            /// <summary>
+            /// Obtains the screen coordinates of each of the edges of a window holding a specified handle.
+            /// </summary>
+            /// <param name="hwnd">The handle to the individual window.</param>
+            /// <param name="lpRect">Rectangle structure containing the screen coordinates of all of the edges.</param>
+            [DllImport("user32.dll", SetLastError = true)]
+            public static extern bool GetWindowRect(IntPtr hwnd, out WINAPI_Rectangle lpRect);
 
-        /// <summary>
-        /// Obtains the screen coordinates of each of the edges of THE CLIENT AREA (WHAT YOU SEE INSIDE THE BORDERS) of a window holding a specified handle.
-        /// Client coordinates are relative to the upper-left corner of a window's client area, thus likely the right will be the width and bottom the height.
-        /// </summary>
-        /// <param name="hWnd">Handle to the window.</param>
-        /// <param name="lpRect">Rectangle structure containing the screen coordinates of all of the CLIENT AREA edges.</param>
-        /// <returns></returns>
-        [DllImport("user32.dll")]
-        public static extern bool GetClientRect(IntPtr hWnd, out WINAPI_Rectangle lpRect);
+            /// <summary>
+            /// Obtains the screen coordinates of each of the edges of THE CLIENT AREA (WHAT YOU SEE INSIDE THE BORDERS) of a window holding a specified handle.
+            /// Client coordinates are relative to the upper-left corner of a window's client area, thus likely the right will be the width and bottom the height.
+            /// </summary>
+            /// <param name="hWnd">Handle to the window.</param>
+            /// <param name="lpRect">Rectangle structure containing the screen coordinates of all of the CLIENT AREA edges.</param>
+            /// <returns></returns>
+            [DllImport("user32.dll")]
+            public static extern bool GetClientRect(IntPtr hWnd, out WINAPI_Rectangle lpRect);
 
-        /// <summary>
-        /// Tries to find a window by matching the name of the window with all of the current top-level windows (does not search child windows).
-        /// Returns the handle to the window if found.
-        /// </summary>
-        /// <param name="lpClassName">Name of the class the window belongs in. Can be null.</param>
-        /// <param name="lpWindowName">Name of the window we are looking for. Can be null.</param>
-        /// <returns></returns>
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+            /// <summary>
+            /// Tries to find a window by matching the name of the window with all of the current top-level windows (does not search child windows).
+            /// Returns the handle to the window if found.
+            /// </summary>
+            /// <param name="lpClassName">Name of the class the window belongs in. Can be null.</param>
+            /// <param name="lpWindowName">Name of the window we are looking for. Can be null.</param>
+            /// <returns></returns>
+            [DllImport("user32.dll", SetLastError = true)]
+            public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-        /// <summary>
-        /// Returns a boolean true/false declaring whether a specific window is visible given the handle to the specific window.
-        /// </summary>
-        /// <param name="hWnd">The handle of the window to test for visibility.</param>
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool IsWindowVisible(IntPtr hWnd);
+            /// <summary>
+            /// Returns a boolean true/false declaring whether a specific window is visible given the handle to the specific window.
+            /// </summary>
+            /// <param name="hWnd">The handle of the window to test for visibility.</param>
+            [DllImport("user32.dll")]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool IsWindowVisible(IntPtr hWnd);
 
-        /// <summary>
-        /// Extends the window frame into the client area.
-        /// </summary>
-        /// <param name="hWnd">The handle of the window of whose aero glass frame is to be extended.</param>
-        /// <param name="pMargins"></param>
-        [DllImport("dwmapi.dll")]
-        public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref WINAPI_Rectangle pMargins);
+            /// <summary>
+            /// Extends the window frame into the client area.
+            /// </summary>
+            /// <param name="hWnd">The handle of the window of whose aero glass frame is to be extended.</param>
+            /// <param name="pMargins"></param>
+            [DllImport("dwmapi.dll")]
+            public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref WINAPI_Rectangle pMargins);
+        }
 
         /// <summary>
         /// Defines the individual components involved with getting and setting window styles and visuals via the use of Windows API.
