@@ -31,17 +31,17 @@ namespace SonicHeroes.Input.XInput
         /// <summary>
         /// Store the individual button mappings structure for this controller.
         /// </summary>
-        public Controller_Button_Mapping ButtonMapping { get; set; }
+        public ButtonMapping ButtonMapping { get; set; }
 
         /// <summary>
         /// Store the individual axis mappings structure for this controller.
         /// </summary>
-        public Controller_Axis_Mapping AxisMapping { get; set; }
+        public AxisMapping AxisMapping { get; set; }
 
         /// <summary>
         /// Defines the custom botton mapping which simulates the individual axis and analog inputs.
         /// </summary>
-        public Emulation_Button_Mapping EmulationMapping { get; set; }
+        public EmulationButtonMapping EmulationMapping { get; set; }
 
         /// <summary>
         /// Defines the individual port used for this specific controller.
@@ -86,7 +86,7 @@ namespace SonicHeroes.Input.XInput
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="mappingEntry">Specififies the mapping entry containing the axis to be remapped.</param>
-        public void Remap_Axis(int timeoutSeconds, out float currentTimeout, Controller_Axis_Mapping_Entry mappingEntry) { Remapper.Remap_Axis(timeoutSeconds, out currentTimeout, mappingEntry); }
+        public void RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry) { Remapper.RemapAxis(timeoutSeconds, out currentTimeout, mappingEntry); }
 
         /// <summary>
         /// Waits for the user to press a button and retrieves the last pressed button. 
@@ -95,7 +95,7 @@ namespace SonicHeroes.Input.XInput
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
-        public void Remap_Buttons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap) { Remapper.Remap_Buttons(timeoutSeconds, out currentTimeout, ref buttonToMap); }
+        public void RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap) { Remapper.RemapButtons(timeoutSeconds, out currentTimeout, ref buttonToMap); }
 
         /// <summary>
         /// Retrieves whether a specific button is pressed or not. 
@@ -109,7 +109,7 @@ namespace SonicHeroes.Input.XInput
             bool[] buttons = GetButtons();
 
             // Retrieve requested button index.
-            int buttonIndex = DInput_GetMappedButtonIndex(button, ButtonMapping);
+            int buttonIndex = DInputGetMappedButtonIndex(button, ButtonMapping);
 
             // Return the state declaring if the joystick button is pressed.
             return buttons[buttonIndex];
@@ -120,13 +120,13 @@ namespace SonicHeroes.Input.XInput
         /// The return value should be a floating point number between -100 and 100 float.
         /// For triggers, the range is a value between 0 and 100.
         /// </summary>
-        public float GetAxisState(Controller_Axis_Generic axis)
+        public float GetAxisState(ControllerAxis axis)
         {
             // Retrieve requested axis mapping entry.
-            Controller_Axis_Mapping_Entry controllerAxisMapping = DInput_GetMappedAxis(axis, AxisMapping);
+            AxisMappingEntry controllerAxisMapping = DInputGetMappedAxis(axis, AxisMapping);
 
             // Retrieve the intensity of the axis press-in value.
-            return XInput_GetAxisValue(controllerAxisMapping);
+            return XInputGetAxisValue(controllerAxisMapping);
         }
 
         /// <summary>
@@ -134,13 +134,13 @@ namespace SonicHeroes.Input.XInput
         /// Performs any necessary additional operations on the axis values based off of the axis configuration.
         /// </summary>
         /// <param name="mappingEntry">The mapping entry for the axis defining which axis should be used.</param>
-        public float XInput_GetAxisValue(Controller_Axis_Mapping_Entry mappingEntry)
+        public float XInputGetAxisValue(AxisMappingEntry mappingEntry)
         {
             // Obtain the raw scaled value (to match XInput range) for the requested axis.
             int rawValue = GetAxisRawScaledValue(mappingEntry);
 
             // Process the raw axis value and return.
-            return DInput_ProcessRawAxisValue(rawValue, mappingEntry);
+            return DInputProcessAxisRawValue(rawValue, mappingEntry);
         }
 
         /// <summary>
@@ -188,22 +188,22 @@ namespace SonicHeroes.Input.XInput
         /// and retrieves it in a struct format convenient for the modder's use.
         /// </summary>
         /// <returns>Controller inputs as a custom struct.</returns>
-        public Controller_Inputs GetControllerState()
+        public ControllerInputs GetControllerState()
         {
             // Update the current state of the Joystick/Controller
             ControllerState = Controller.GetState();
 
             // Instantiate an instance of controller inputs.
-            Controller_Inputs controllerInputs = new Controller_Inputs();
+            ControllerInputs controllerInputs = new ControllerInputs();
 
             // Check if controller is connected.
             if (Controller.IsConnected)
             {
                 // Retrieve all of the buttons;
-                controllerInputs = GetControllerState_Buttons(controllerInputs);
+                controllerInputs = GetControllerStateButtons(controllerInputs);
 
                 // Retrieve all of the axis.
-                controllerInputs = GetControllerState_Axis(controllerInputs);
+                controllerInputs = GetControllerStateAxis(controllerInputs);
 
                 // Retrieve DPAD Information
                 GamepadButtonFlags buttonFlags = ControllerState.Gamepad.Buttons;
@@ -225,7 +225,7 @@ namespace SonicHeroes.Input.XInput
         /// Retrieves and returns the state of all of the controller's individual buttons.
         /// </summary>
         /// <param name="controllerInputs">The controller input struct.</param>
-        private Controller_Inputs GetControllerState_Buttons(Controller_Inputs controllerInputs)
+        private ControllerInputs GetControllerStateButtons(ControllerInputs controllerInputs)
         {
             // Retrieve all of the buttons.
             controllerInputs.controllerButtons.Button_A = GetButtonState(Controller_Buttons_Generic.Button_A);
@@ -248,17 +248,17 @@ namespace SonicHeroes.Input.XInput
         /// Retrieves and returns the state of all of the controller's individual buttons.
         /// </summary>
         /// <param name="controllerInputs">The controller input struct.</param>
-        private Controller_Inputs GetControllerState_Axis(Controller_Inputs controllerInputs)
+        private ControllerInputs GetControllerStateAxis(ControllerInputs controllerInputs)
         {
             // Retrieve all of the axis.
-            controllerInputs.SetLeftTriggerPressure(GetAxisState(Controller_Axis_Generic.Left_Trigger_Pressure));
-            controllerInputs.SetRightTriggerPressure(GetAxisState(Controller_Axis_Generic.Right_Trigger_Pressure));
+            controllerInputs.SetLeftTriggerPressure(GetAxisState(ControllerAxis.Left_Trigger_Pressure));
+            controllerInputs.SetRightTriggerPressure(GetAxisState(ControllerAxis.Right_Trigger_Pressure));
 
-            controllerInputs.leftStick.SetX(GetAxisState(Controller_Axis_Generic.Left_Stick_X));
-            controllerInputs.leftStick.SetY(GetAxisState(Controller_Axis_Generic.Left_Stick_Y));
+            controllerInputs.leftStick.SetX(GetAxisState(ControllerAxis.Left_Stick_X));
+            controllerInputs.leftStick.SetY(GetAxisState(ControllerAxis.Left_Stick_Y));
 
-            controllerInputs.rightStick.SetX(GetAxisState(Controller_Axis_Generic.Right_Stick_X));
-            controllerInputs.rightStick.SetY(GetAxisState(Controller_Axis_Generic.Right_Stick_Y));
+            controllerInputs.rightStick.SetX(GetAxisState(ControllerAxis.Right_Stick_X));
+            controllerInputs.rightStick.SetY(GetAxisState(ControllerAxis.Right_Stick_Y));
 
             // Return the axis.
             return controllerInputs;
@@ -268,8 +268,7 @@ namespace SonicHeroes.Input.XInput
         /// Retrieves the raw value for a specified passed in requested axis in integer form.
         /// </summary>
         /// <param name="mappingEntry">The specific axis mapping entry that is to be used.</param>
-        /// <param name="joystickState">The current state of the controller in question.</param>
-        private int GetAxisRawScaledValue(Controller_Axis_Mapping_Entry mappingEntry)
+        private int GetAxisRawScaledValue(AxisMappingEntry mappingEntry)
         {
             // Value for the current axis.
             int rawValue = 0;
@@ -277,27 +276,27 @@ namespace SonicHeroes.Input.XInput
             // Return the appropriately mapped axis!
             switch (mappingEntry.axis)
             {
-                case Controller_Axis_Generic.Left_Stick_X: rawValue = ControllerState.Gamepad.LeftThumbX; break;
-                case Controller_Axis_Generic.Left_Stick_Y: rawValue = ControllerState.Gamepad.LeftThumbY; break;
-                case Controller_Axis_Generic.Right_Stick_X: rawValue = ControllerState.Gamepad.RightThumbX; break;
-                case Controller_Axis_Generic.Right_Stick_Y: rawValue = ControllerState.Gamepad.RightThumbY; break;
-                case Controller_Axis_Generic.Left_Trigger_Pressure: rawValue = ControllerState.Gamepad.LeftTrigger; break;
-                case Controller_Axis_Generic.Right_Trigger_Pressure: rawValue = ControllerState.Gamepad.RightTrigger; break;
+                case ControllerAxis.Left_Stick_X: rawValue = ControllerState.Gamepad.LeftThumbX; break;
+                case ControllerAxis.Left_Stick_Y: rawValue = ControllerState.Gamepad.LeftThumbY; break;
+                case ControllerAxis.Right_Stick_X: rawValue = ControllerState.Gamepad.RightThumbX; break;
+                case ControllerAxis.Right_Stick_Y: rawValue = ControllerState.Gamepad.RightThumbY; break;
+                case ControllerAxis.Left_Trigger_Pressure: rawValue = ControllerState.Gamepad.LeftTrigger; break;
+                case ControllerAxis.Right_Trigger_Pressure: rawValue = ControllerState.Gamepad.RightTrigger; break;
                 default: break;
             }
 
             // Process the value to DINput Ranges
             switch (mappingEntry.axis)
             {
-                case Controller_Axis_Generic.Left_Stick_X: 
-                case Controller_Axis_Generic.Left_Stick_Y: 
-                case Controller_Axis_Generic.Right_Stick_X:
-                case Controller_Axis_Generic.Right_Stick_Y:
+                case ControllerAxis.Left_Stick_X: 
+                case ControllerAxis.Left_Stick_Y: 
+                case ControllerAxis.Right_Stick_X:
+                case ControllerAxis.Right_Stick_Y:
                     // Scale from -32768-32767 to -100-100
                     rawValue = (int)( (rawValue / MAX_ANALOG_STICK_RANGE_XINPUT) * DInputManager.AXIS_MAX_VALUE_F); 
                     break;
-                case Controller_Axis_Generic.Left_Trigger_Pressure: 
-                case Controller_Axis_Generic.Right_Trigger_Pressure:
+                case ControllerAxis.Left_Trigger_Pressure: 
+                case ControllerAxis.Right_Trigger_Pressure:
                     rawValue = ControllerState.Gamepad.RightTrigger;
                     
                     // Scale from 0-255 to 0-200
@@ -320,14 +319,14 @@ namespace SonicHeroes.Input.XInput
         /// (i.e. Only overrides if input is sent)
         /// </summary>
         /// <returns></returns>
-        private Controller_Inputs GetControllerState_EmulatedKeys(Controller_Inputs controllerInputs, bool[] buttons)
+        private ControllerInputs GetControllerState_EmulatedKeys(ControllerInputs controllerInputs, bool[] buttons)
         {
             // Retrieve Emulated DPAD Keys
             #region DPAD Keys
             if (EmulationMapping.DPAD_DOWN != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.DPAD_DOWN, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.DPAD_DOWN, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -338,7 +337,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.DPAD_LEFT != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.DPAD_LEFT, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.DPAD_LEFT, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -349,7 +348,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.DPAD_RIGHT != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.DPAD_RIGHT, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.DPAD_RIGHT, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -360,7 +359,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.DPAD_UP != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.DPAD_UP, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.DPAD_UP, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -375,7 +374,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.Left_Stick_Down != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Stick_Down, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Stick_Down, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -388,7 +387,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.Left_Stick_Left != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Stick_Left, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Stick_Left, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -401,7 +400,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.Left_Stick_Right != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Stick_Right, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Stick_Right, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -414,7 +413,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.Left_Stick_Up != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Stick_Up, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Stick_Up, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -430,7 +429,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.Right_Stick_Down != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Stick_Down, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Stick_Down, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -443,7 +442,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.Right_Stick_Left != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Stick_Left, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Stick_Left, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -456,7 +455,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.Right_Stick_Right != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Stick_Right, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Stick_Right, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -469,7 +468,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.Right_Stick_Up != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Stick_Up, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Stick_Up, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -485,7 +484,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.Right_Trigger != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Trigger, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Trigger, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];
@@ -498,7 +497,7 @@ namespace SonicHeroes.Input.XInput
             if (EmulationMapping.Left_Trigger != BUTTON_NULL)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Trigger, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Trigger, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = buttons[buttonIndex];

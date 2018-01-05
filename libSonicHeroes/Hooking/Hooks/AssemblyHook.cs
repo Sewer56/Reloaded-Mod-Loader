@@ -12,7 +12,7 @@ namespace SonicHeroes.Hooking
     /// This hook class executes your own ASM Code from a supplied list of bytes.
     /// To use this hook, you require at least a hook length of 6 bytes + any stray bytes from any instructions. For more information, do refer to the Wiki on Github.
     /// </summary>
-    class ASM_Hook : Hook_Base
+    class ASM_Hook : HookBase
     {
         /// <summary>
         /// This hook class executes your own ASM Code from a supplied list of bytes.
@@ -23,7 +23,7 @@ namespace SonicHeroes.Hooking
         /// <param name="hookLength">The amount of bytes the hook lasts, all stray bytes will be replaced with NOP/No Operation.</param>
         /// <param name="modLoaderServerSocket">Current Socket that is Connected to the Mod Loader Server</param>
         /// <param name="cleanHook">Set true to not execute original bytes after your own ASM</param>
-        public ASM_Hook(IntPtr hookAddress, byte[] asmBytes, int hookLength, WebSocket_Client modLoaderServerSocket, bool cleanHook)
+        public ASM_Hook(IntPtr hookAddress, byte[] asmBytes, int hookLength, Client modLoaderServerSocket, bool cleanHook)
         {
             // Setup Common Hook Properties
             SetupHookCommon(hookAddress, hookLength);
@@ -38,14 +38,14 @@ namespace SonicHeroes.Hooking
         /// <summary>
         /// The inner workings of the Injection Hook Type.
         /// </summary>
-        private void Hook_ASM_Internal(WebSocket_Client modLoaderServerSocket, byte[] asmBytes, bool cleanHook)
+        private void Hook_ASM_Internal(Client modLoaderServerSocket, byte[] asmBytes, bool cleanHook)
         {
             // Allocate memory to write old bytes in Sonic Heroes.
             SetNewInstructionAddress(PUSH_RETURN_INSTRUCTION_LENGTH + asmBytes.Length + hookLength + PUSH_RETURN_INSTRUCTION_LENGTH);
 
-            ///
-            /// The Bytes of code we will overwrite the original to toggle the injection.
-            ///
+            //
+            // The Bytes of code we will overwrite the original to toggle the injection.
+            //
 
             // Assemble a return address to our own injection code.
             newBytes = AssembleReturn((int)newInstructionAddress, modLoaderServerSocket);
@@ -53,9 +53,9 @@ namespace SonicHeroes.Hooking
             // Fill with NOPs until the hook length.
             newBytes = FillNOPs(newBytes);
 
-            ///
-            /// The Bytes of our Injected Code
-            ///
+            //
+            // The Bytes of our Injected Code
+            //
 
             // The bytes to be written to the newly allocated memory.
             List<byte> injectionBytes = new List<byte>();
@@ -73,7 +73,7 @@ namespace SonicHeroes.Hooking
             // List to Array!
             newInstructionBytes = injectionBytes.ToArray();
 
-            /// Write our payload which will be redirected to using activate and deactivate hook!
+            // Write our payload which will be redirected to using activate and deactivate hook!
             Marshal.Copy(newInstructionBytes, 0, newInstructionAddress, newInstructionBytes.Length);
         }
 

@@ -38,6 +38,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\x86\Debug\libSonicHeroes.xml</DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -47,19 +50,26 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\x86\Release\libSonicHeroes.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
+      <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
+      <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+      <HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DirectInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SharpDX.DirectInput.4.0.1\lib\net45\SharpDX.DirectInput.dll</HintPath>
+      <HintPath>..\packages\SharpDX.DirectInput.4.0.1\lib\net45\SharpDX.DirectInput.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DXGI, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
+      <HintPath>..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.XInput.4.0.1\lib\net45\SharpDX.XInput.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -73,31 +83,54 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SonicHeroes_Controller.cs" />
-    <Compile Include="Forms\SonicHeroes_Form_FakeTransparentOverlay.cs">
+    <Compile Include="GameProcess\Libraries.cs" />
+    <Compile Include="GameProcess\Memory.cs" />
+    <Compile Include="GameProcess\Native\Native.cs" />
+    <Compile Include="Hooking\Hooks\AssemblyHook.cs" />
+    <Compile Include="Hooking\HookBase.cs" />
+    <Compile Include="Hooking\Hooks\InjectionHook.cs" />
+    <Compile Include="Input\Common\ControllerCommon.cs" />
+    <Compile Include="Input\Config\ControllerConfigParser.cs" />
+    <Compile Include="Input\ControllerManager.cs" />
+    <Compile Include="Input\DirectInput\DInputCommon.cs" />
+    <Compile Include="Input\DirectInput\DInputController.cs" />
+    <Compile Include="Input\DirectInput\DInputManager.cs" />
+    <Compile Include="Input\Modules\Hotplugger.cs" />
+    <Compile Include="Input\Modules\Remapper.cs" />
+    <Compile Include="Input\XInput\XInputController.cs" />
+    <Compile Include="Misc\AssemblyFinder.cs" />
+    <Compile Include="Misc\Config\Games\GameConfigParser.cs" />
+    <Compile Include="Misc\Config\Loader\LoaderConfigParser.cs" />
+    <Compile Include="Misc\Config\Mods\ModConfigParser.cs" />
+    <Compile Include="Misc\Config\Themes\ThemeConfigParser.cs" />
+    <Compile Include="Misc\FileUnblocker.cs" />
+    <Compile Include="Misc\LoaderPaths.cs" />
+    <Compile Include="Misc\PathSanitizer.cs" />
+    <Compile Include="Native\WinAPI.cs" />
+    <Compile Include="Native\Windows.cs" />
+    <Compile Include="Networking\Client.cs" />
+    <Compile Include="Networking\Host.cs" />
+    <Compile Include="Networking\Message.cs" />
+    <Compile Include="Networking\MessageTypes\ModLoaderServerMessages.cs" />
+    <Compile Include="Overlay\Direct2DWindowRenderTargetBase.cs" />
+    <Compile Include="Overlay\External\Forms\GlassForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SonicHeroes_Form_FakeTransparentOverlay.Designer.cs">
-      <DependentUpon>SonicHeroes_Form_FakeTransparentOverlay.cs</DependentUpon>
+    <Compile Include="Overlay\External\Forms\GlassForm.Designer.cs">
+      <DependentUpon>GlassForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SonicHeroes_Hooking.cs" />
-    <Compile Include="SonicHeroes_Miscallenous.cs" />
-    <Compile Include="SonicHeroes_Networking.cs" />
-    <Compile Include="SonicHeroes_Overlay.cs" />
-    <Compile Include="SonicHeroes_Process.cs" />
+    <Compile Include="Overlay\External\OverlayGlassDirect2D.cs" />
+    <Compile Include="GameProcess\DLLInjector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SonicHeroes_ASMInjections.cs" />
-    <Compile Include="SonicHeroes_Function_Addresses.cs" />
-    <Compile Include="SonicHeroes_Structs.cs" />
-    <Compile Include="SonicHeroes_Variables.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\SonicHeroes_Form_FakeTransparentOverlay.resx">
-      <DependentUpon>SonicHeroes_Form_FakeTransparentOverlay.cs</DependentUpon>
+    <EmbeddedResource Include="Overlay\External\Forms\GlassForm.resx">
+      <DependentUpon>GlassForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

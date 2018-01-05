@@ -20,7 +20,7 @@ namespace SonicHeroes.Input.DirectInput
         /// <param name="button">The requested button whose index is to be obtained.</param>
         /// <param name="buttonMappings">The button mapping for the specified controller.</param>
         /// <returns></returns>
-        public static int DInput_GetMappedButtonIndex(Controller_Buttons_Generic button, Controller_Button_Mapping buttonMappings)
+        public static int DInputGetMappedButtonIndex(Controller_Buttons_Generic button, ButtonMapping buttonMappings)
         {
             // Stores the button that is to be checked.
             int buttonToTest = BUTTON_NULL;
@@ -51,7 +51,7 @@ namespace SonicHeroes.Input.DirectInput
         /// <param name="button">The requested button whose index is to be obtained.</param>
         /// <param name="buttonMappings">The button mapping for the specified controller.</param>
         /// <returns></returns>
-        public static int DInput_GetEmulatedButtonIndex(Emulated_Buttons_Generic button, Emulation_Button_Mapping buttonMappings)
+        public static int DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic button, EmulationButtonMapping buttonMappings)
         {
             // Stores the button that is to be checked.
             int buttonToTest = BUTTON_NULL;
@@ -90,22 +90,22 @@ namespace SonicHeroes.Input.DirectInput
         /// <param name="axis">The axis whose details we want to obtain.</param>
         /// <param name="axisMapping">The axis mapping which stores the axis details for the individual controller.</param>
         /// <returns></returns>
-        public static Controller_Axis_Mapping_Entry DInput_GetMappedAxis(Controller_Axis_Generic axis, Controller_Axis_Mapping axisMapping)
+        public static AxisMappingEntry DInputGetMappedAxis(ControllerAxis axis, AxisMapping axisMapping)
         {
             // Stores the axis configuration that is to be returned.
-            Controller_Axis_Mapping_Entry controllerAxisMapping = new Controller_Axis_Mapping_Entry(); 
+            AxisMappingEntry controllerAxisMapping = new AxisMappingEntry(); 
 
             // Switch statement checks the mapping of each axis to verify where it points to. Then retrieves that axis!
             switch (axis)
             {
-                case Controller_Axis_Generic.Left_Stick_X: controllerAxisMapping = axisMapping.leftStickX; break;
-                case Controller_Axis_Generic.Left_Stick_Y: controllerAxisMapping = axisMapping.leftStickY; break;
+                case ControllerAxis.Left_Stick_X: controllerAxisMapping = axisMapping.leftStickX; break;
+                case ControllerAxis.Left_Stick_Y: controllerAxisMapping = axisMapping.leftStickY; break;
 
-                case Controller_Axis_Generic.Right_Stick_X: controllerAxisMapping = axisMapping.rightStickX; break;
-                case Controller_Axis_Generic.Right_Stick_Y: controllerAxisMapping = axisMapping.rightStickY; break;
+                case ControllerAxis.Right_Stick_X: controllerAxisMapping = axisMapping.rightStickX; break;
+                case ControllerAxis.Right_Stick_Y: controllerAxisMapping = axisMapping.rightStickY; break;
 
-                case Controller_Axis_Generic.Left_Trigger_Pressure: controllerAxisMapping = axisMapping.leftTrigger; break;
-                case Controller_Axis_Generic.Right_Trigger_Pressure: controllerAxisMapping = axisMapping.rightTrigger; break;
+                case ControllerAxis.Left_Trigger_Pressure: controllerAxisMapping = axisMapping.leftTrigger; break;
+                case ControllerAxis.Right_Trigger_Pressure: controllerAxisMapping = axisMapping.rightTrigger; break;
             }
 
             // Retrieve empty struct if null, else the correct axis mapping.
@@ -118,13 +118,13 @@ namespace SonicHeroes.Input.DirectInput
         /// </summary>
         /// <param name="mappingEntry">The mapping entry for the axis defining which axis should be used.</param>
         /// <param name="joystickState">The current state of the controller in question.</param>
-        public static float DInput_GetAxisValue(Controller_Axis_Mapping_Entry mappingEntry, JoystickState joystickState)
+        public static float DInputGetAxisValue(AxisMappingEntry mappingEntry, JoystickState joystickState)
         {
             // Obtain the raw value for the requested axis.
             int rawValue = GetAxisRawValue(mappingEntry, joystickState);
 
             // Process the raw axis value and return.
-            return DInput_ProcessRawAxisValue(rawValue, mappingEntry);
+            return DInputProcessAxisRawValue(rawValue, mappingEntry);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace SonicHeroes.Input.DirectInput
         /// </summary>
         /// <param name="mappingEntry">The mapping entry for the axis defining which axis should be used.</param>
         /// <param name="rawValue">The raw value obtained from the axis query..</param>
-        public static float DInput_ProcessRawAxisValue(int rawValue, Controller_Axis_Mapping_Entry mappingEntry)
+        public static float DInputProcessAxisRawValue(int rawValue, AxisMappingEntry mappingEntry)
         {
             // Reverse Axis if Necessary
             if (mappingEntry.isReversed) { rawValue = -1 * rawValue; }
@@ -144,8 +144,8 @@ namespace SonicHeroes.Input.DirectInput
             // If triggers. scale to between 0 - 100
             switch (mappingEntry.axis)
             {
-                case Controller_Axis_Generic.Left_Trigger_Pressure:
-                case Controller_Axis_Generic.Right_Trigger_Pressure:
+                case ControllerAxis.Left_Trigger_Pressure:
+                case ControllerAxis.Right_Trigger_Pressure:
                     newRawValue += 100;
                     newRawValue *= DInputManager.TRIGGER_SCALE_FACTOR;
                     break;
@@ -166,7 +166,7 @@ namespace SonicHeroes.Input.DirectInput
         /// </summary>
         /// <param name="mappingEntry">The specific axis mapping entry that is to be used.</param>
         /// <param name="joystickState">The current state of the controller in question.</param>
-        private static int GetAxisRawValue(Controller_Axis_Mapping_Entry mappingEntry, JoystickState joystickState)
+        private static int GetAxisRawValue(AxisMappingEntry mappingEntry, JoystickState joystickState)
         {
             // Value for the current axis.
             int rawValue = 0;
@@ -174,12 +174,12 @@ namespace SonicHeroes.Input.DirectInput
             // Return the appropriately mapped axis!
             switch (mappingEntry.axis)
             {
-                case Controller_Axis_Generic.Left_Stick_X: 
-                case Controller_Axis_Generic.Left_Stick_Y: 
-                case Controller_Axis_Generic.Right_Stick_X: 
-                case Controller_Axis_Generic.Right_Stick_Y: 
-                case Controller_Axis_Generic.Left_Trigger_Pressure: 
-                case Controller_Axis_Generic.Right_Trigger_Pressure:
+                case ControllerAxis.Left_Stick_X: 
+                case ControllerAxis.Left_Stick_Y: 
+                case ControllerAxis.Right_Stick_X: 
+                case ControllerAxis.Right_Stick_Y: 
+                case ControllerAxis.Left_Trigger_Pressure: 
+                case ControllerAxis.Right_Trigger_Pressure:
                     rawValue = (int)Reflection_GetValue(joystickState, mappingEntry.propertyName);
                     break;
                 default: break;
@@ -195,16 +195,16 @@ namespace SonicHeroes.Input.DirectInput
         /// </summary>
         /// <param name="axisValue">The scaled value of the prior obtained raw axis reading: Range -100 to 100 (Sticks) or 0-100 (Triggers)</param>
         /// <param name="mappingEntry">The mapping entry for the axis defining the deadzone for the specific axis.</param>
-        public static bool VerifyDeadzones(float axisValue, Controller_Axis_Mapping_Entry mappingEntry)
+        public static bool VerifyDeadzones(float axisValue, AxisMappingEntry mappingEntry)
         {
             // Verify Deadzones
             switch (mappingEntry.axis)
             {
                 // For all analog sticks.
-                case Controller_Axis_Generic.Left_Stick_X:
-                case Controller_Axis_Generic.Left_Stick_Y:
-                case Controller_Axis_Generic.Right_Stick_X:
-                case Controller_Axis_Generic.Right_Stick_Y:
+                case ControllerAxis.Left_Stick_X:
+                case ControllerAxis.Left_Stick_Y:
+                case ControllerAxis.Right_Stick_X:
+                case ControllerAxis.Right_Stick_Y:
 
                     // Get boundaries of deadzone.
                     float deadzoneMax = (DInputManager.AXIS_MAX_VALUE_F / 100.0F) * mappingEntry.deadZone;
@@ -217,8 +217,8 @@ namespace SonicHeroes.Input.DirectInput
                     break;
 
                 // For all triggers
-                case Controller_Axis_Generic.Left_Trigger_Pressure:
-                case Controller_Axis_Generic.Right_Trigger_Pressure:
+                case ControllerAxis.Left_Trigger_Pressure:
+                case ControllerAxis.Right_Trigger_Pressure:
 
                     // Get max deadzone
                     float deadzoneTriggerMax = ((DInputManager.AXIS_MAX_VALUE_F * 2) / 100.0F) * mappingEntry.deadZone;

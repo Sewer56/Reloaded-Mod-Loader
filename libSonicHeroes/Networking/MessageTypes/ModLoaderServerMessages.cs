@@ -11,13 +11,13 @@ namespace SonicHeroes.Networking.MessageTypes
     /// <summary>
     /// Defines the different individual message types accepted by the Mod Loader Server.
     /// </summary>
-    public static class ModLoader
+    public static class ModLoaderServerMessages
     {
         /// <summary>
         /// Defines the individual message types that can be sent towards the mod loader server.
         /// It's recommended that you actually go to the definition of this in your IDE, everything is nicely formatted there.
         /// </summary>
-        public enum Message_Type
+        public enum ModLoaderServerMessageType
         {
             /// <summary>
             /// Expects Response:   False
@@ -30,14 +30,15 @@ namespace SonicHeroes.Networking.MessageTypes
             /// Definition:         Prints message to mod loader's command line. 
             /// Data:               ASCII Encoded String, e.g. Encoding.ASCII.GetBytes("Ayylmao");
             /// </summary>
-            Client_Call_Send_Message = 0x1,
+            sendMessage = 0x1,
 
             /// <summary>
             /// Expects Response:   True 
             /// Definition:         Assembles your x86 mnemonics sent to the mod loader server. Powered by FASM.NET.
             /// Data:               Returns the bytes representing the x86 mnemonics given. 
+            /// Notes:              Return data is 100% raw. Not a message struct.
             /// </summary>
-            Client_Call_Assemble_x86_Mnemonics = 0x2,
+            AssembleX86 = 0x2,
         }
 
         /// <summary>
@@ -69,11 +70,11 @@ namespace SonicHeroes.Networking.MessageTypes
         ///     Rule of thumb: Test your ASM in FASM outside of mod loader mods first for successful compilation.
         ///     Don't forget use32!
         /// </param>
-        public static string[] DeserializeX86Mnemonics(byte[] Mnemonics)
+        public static string[] DeserializeX86Mnemonics(byte[] mnemonics)
         {
             // Initialize MemStream & BinaryFormatter
             BinaryFormatter BinaryFormatter_X = new BinaryFormatter();
-            MemoryStream MnemonicStream = new MemoryStream(Mnemonics);
+            MemoryStream MnemonicStream = new MemoryStream(mnemonics);
 
             // Return deserialized.
             return (string[])BinaryFormatter_X.Deserialize(MnemonicStream);

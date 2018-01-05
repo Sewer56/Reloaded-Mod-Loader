@@ -12,44 +12,44 @@ namespace SonicHeroes.Overlay.External
     /// <summary>
     /// This class is responsible for allowing you to instantiate a Windows Forms overlay which will be drawn ontop of the game, if the game is in windowed mode.
     /// </summary>
-    public class Overlay_Glass_Direct2D : Direct2D_WindowRenderTarget_Base
+    public class OverlayGlassDirect2D : Direct2DWindowRenderTargetBase
     {
         /// <summary>
         /// Fake glass form which we will be overlaying the game with.
         /// </summary>
-        public Glass_Form overlayWinForm;
+        public GlassForm OverlayForm { get; set; }
 
         /// <summary>
         /// A handle to the game window which is found via searching for a window with a title defined in gameWindowName.
         /// </summary>
-        public IntPtr gameWindowHandle;
+        public IntPtr GameWindowHandle { get; set; }
 
         /// <summary>
         /// Defines the name of the game window, this name is used and matched against existing windows to detect window over which to overlay.
         /// </summary>
-        public string gameWindowName;
+        public string GameWindowName { get; set; }
 
         /// <summary>
         /// A thread which hosts the glass overlay windows form, ensuring that it keeps running.
         /// </summary>
-        public Thread Windows_Form_Thread;
+        public Thread WindowsFormThread { get; set; }
 
         /// <summary>
         /// Class constructor. Instantiates both the overlay and DirectX Stuff.
         /// </summary>
-        public Overlay_Glass_Direct2D(string gameWindowName)
+        public OverlayGlassDirect2D(string gameWindowName)
         {
             // Set Window Name
-            this.gameWindowName = gameWindowName;
+            this.GameWindowName = gameWindowName;
 
             // Wait for and find the game window.
             Find_Game_Window();
 
             // Instantiate glass form
-            overlayWinForm = new Glass_Form(gameWindowHandle);
+            OverlayForm = new GlassForm(GameWindowHandle);
 
             // Initialize base (directX Drawing Stuff)
-            base.ConstructorAlias(overlayWinForm.Handle);
+            base.ConstructorAlias(OverlayForm.Handle);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace SonicHeroes.Overlay.External
         public void Enable_Overlay()
         {
             // Enable the Overlay Window.
-            Application.Run(overlayWinForm);
+            Application.Run(OverlayForm);
         }
 
         /// <summary>
@@ -72,17 +72,17 @@ namespace SonicHeroes.Overlay.External
             while (true)
             {
                 // Get the handle for the Sonic_Heroes Window
-                gameWindowHandle = WinAPI.Windows.FindWindow(null, gameWindowName);
+                GameWindowHandle = WinAPI.Windows.FindWindow(null, GameWindowName);
 
                 // If handle successfully acquired.
-                if (gameWindowHandle != null) { break; }
+                if (GameWindowHandle != null) { break; }
 
                 // Sleep to reduce CPU load.
                 Thread.Sleep(16);
             }
 
             // Wait for the Window to show itself to screen before configuring.
-            while (WinAPI.Windows.IsWindowVisible(gameWindowHandle) == false) { Thread.Sleep(16); }
+            while (WinAPI.Windows.IsWindowVisible(GameWindowHandle) == false) { Thread.Sleep(16); }
         }
     }
 }

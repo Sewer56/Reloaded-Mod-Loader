@@ -1,17 +1,20 @@
-﻿using SonicHeroes.Memory;
+﻿using SonicHeroes.GameProcess;
+using SonicHeroes.Networking;
+using SonicHeroes.Networking.MessageTypes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using static SonicHeroes.Networking.Client_Functions;
+using static SonicHeroes.GameProcess.Native;
+using static SonicHeroes.Networking.MessageTypes.ModLoaderServerMessages;
 
 namespace SonicHeroes.Hooking
 {
     /// <summary>
     /// Provides a base storing the common features of each of the Heroes Mod Loader Hook Types
     /// </summary>
-    public abstract class Hook_Base
+    public abstract class HookBase
     {
         /// <summary>
         /// Present for better code readibility, this is the length of the push and return sets of instructions themselves.
@@ -77,7 +80,7 @@ namespace SonicHeroes.Hooking
         /// <summary>
         /// This will store the old original memory protection which we will restore along with the original bytes should we wish to fully dispose of the hook.
         /// </summary>
-        protected HeroesProcess.MemoryProtection originalMemoryProtection;
+        protected MemoryProtection originalMemoryProtection;
 
         /// <summary>
         /// The original source array of bytes which we will be hooking/placing a call jump to our own code from.
@@ -118,21 +121,21 @@ namespace SonicHeroes.Hooking
             this.hookLength = hookLength;
             this.hookAddress = hookAddress;
 
-            /// The Setup
-            /// Getting Ready for Hooking!
+            // The Setup
+            // Getting Ready for Hooking!
             originalBytes = new byte[hookLength]; // Initialize storage of original bytes.
             newBytes = new byte[hookLength]; // Initialize storage of new bytes.
 
-            /// Backup Original Bytes &
-            /// Remove protection from the old set of bytes such that we may alter the bytes.
-            SonicHeroes.Memory.HeroesProcess.VirtualProtect(hookAddress, (uint)hookLength, (SonicHeroes.Memory.HeroesProcess.MemoryProtection)Protection.PAGE_EXECUTE_READWRITE, out originalMemoryProtection);
+            // Backup Original Bytes &
+            // Remove protection from the old set of bytes such that we may alter the bytes.
+            VirtualProtect(hookAddress, (uint)hookLength, (MemoryProtection)Protection.PAGE_EXECUTE_READWRITE, out originalMemoryProtection);
             Marshal.Copy(hookAddress, originalBytes, 0, hookLength);
         }
 
         /// <summary>
         /// Assembles a return instruction to a specified address.
         /// </summary>
-        protected byte[] AssembleReturn(int address, SonicHeroes.Networking.WebSocket_Client modLoaderServerSonic)
+        protected byte[] AssembleReturn(int address, SonicHeroes.Networking.Client modLoaderServerSonic)
         {
             // Assemble code for push from new time string format address.
             string[] x86Mnemonics = new string[]
@@ -141,13 +144,18 @@ namespace SonicHeroes.Hooking
                 "push 0x" + address.ToString("X"),
                 "ret"
             };
-            return modLoaderServerSonic.SendData_Alternate(Message_Type.Client_Call_Assemble_x86_Mnemonics, Serialize_x86_ASM_Mnemonics(x86Mnemonics), true);
+
+            // Assemble The Message to be Sent to the server.
+            Message.MessageStruct messageStruct = new Message.MessageStruct((ushort)ModLoaderServerMessageType.AssembleX86, SerializeX86Mnemonics(x86Mnemonics));
+
+            // Sent the message across.
+            return modLoaderServerSonic.SendDataRaw(messageStruct);
         }
 
         /// <summary>
         /// Assembles a push instruction to a specified address.
         /// </summary>
-        protected byte[] AssemblePush(int address, SonicHeroes.Networking.WebSocket_Client modLoaderServerSonic)
+        protected byte[] AssemblePush(int address, SonicHeroes.Networking.Client modLoaderServerSonic)
         {
             // Assemble code for push from new time string format address.
             string[] x86Mnemonics = new string[]
@@ -155,7 +163,12 @@ namespace SonicHeroes.Hooking
                 "use32",
                 "push 0x" + address.ToString("X"),
             };
-            return modLoaderServerSonic.SendData_Alternate(Message_Type.Client_Call_Assemble_x86_Mnemonics, Serialize_x86_ASM_Mnemonics(x86Mnemonics), true);
+
+            // Assemble The Message to be Sent to the server.
+            Message.MessageStruct messageStruct = new Message.MessageStruct((ushort)ModLoaderServerMessageType.AssembleX86, SerializeX86Mnemonics(x86Mnemonics));
+
+            // Sent the message across.
+            return modLoaderServerSonic.SendDataRaw(messageStruct);
         }
 
         /// <summary>
@@ -164,7 +177,7 @@ namespace SonicHeroes.Hooking
         protected void SetNewInstructionAddress(int length)
         {
             // Retrieve Memory Address where to write to our own.
-            newInstructionAddress = SonicHeroes.Memory.HeroesProcess.AllocateMemory(Process.GetCurrentProcess(),length);
+            newInstructionAddress = Memory.AllocateMemory(Process.GetCurrentProcess(),length);
         }
 
         /// <summary>

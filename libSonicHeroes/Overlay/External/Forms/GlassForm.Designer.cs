@@ -1,6 +1,6 @@
 ﻿namespace SonicHeroes.Overlay.External
 {
-    partial class Glass_Form
+    partial class GlassForm
     {
         /// <summary>
         /// Required designer variable.

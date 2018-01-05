@@ -20,7 +20,7 @@ namespace SonicHeroes.Input
         public const int BUTTON_NULL = 255;
 
         /// <summary>
-        /// Defines an interface for DirectInput & XInput Controller implementations which defines the function names
+        /// Defines an interface for DirectInput + XInput Controller implementations which defines the function names
         /// and signatures to be shared between both the DirectInput and XInput controller implementations.
         /// </summary>
         public interface IController
@@ -28,12 +28,12 @@ namespace SonicHeroes.Input
             /// <summary>
             /// Store the individual button mappings structure for this controller.
             /// </summary>
-            Controller_Button_Mapping ButtonMapping { get; set; }
+            ButtonMapping ButtonMapping { get; set; }
 
             /// <summary>
             /// Store the individual axis mappings structure for this controller.
             /// </summary>
-            Controller_Axis_Mapping AxisMapping { get; set; }
+            AxisMapping AxisMapping { get; set; }
 
             /// <summary>
             /// Defines the individual port used for this specific controller.
@@ -43,7 +43,7 @@ namespace SonicHeroes.Input
             /// <summary>
             /// Defines the custom botton mapping which simulates the individual axis and analog inputs.
             /// </summary>
-            Emulation_Button_Mapping EmulationMapping { get; set; }
+            EmulationButtonMapping EmulationMapping { get; set; }
 
             /// <summary>
             /// Retrieves whether a specific button is pressed or not. 
@@ -59,7 +59,7 @@ namespace SonicHeroes.Input
             /// The return value should be a floating point number between -100 and 100 float.
             /// Note: The current controller state must first be manually updated.
             /// </summary>
-            float GetAxisState(Controller_Axis_Generic axis);
+            float GetAxisState(ControllerAxis axis);
 
             /// <summary>
             /// Retrieves all of the individual button states as an array of boolean values.
@@ -82,7 +82,7 @@ namespace SonicHeroes.Input
             /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
             /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
             /// <param name="mappingEntry">Specififies the mapping entry containing the axis to be remapped.</param>
-            void Remap_Axis(int timeoutSeconds, out float currentTimeout, Controller_Axis_Mapping_Entry mappingEntry);
+            void RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry);
 
             /// <summary>
             /// Waits for the user to press a button and retrieves the last pressed button. 
@@ -91,20 +91,20 @@ namespace SonicHeroes.Input
             /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
             /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
             /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
-            void Remap_Buttons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap);
+            void RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap);
 
             /// <summary>
             /// Retrieves the state of the whole controller in question.
             /// Using a combination of GetAxisState and GetButton state
             /// </summary>
-            Controller_Inputs GetControllerState();
+            ControllerInputs GetControllerState();
         }
 
         /// <summary>
         /// To be used by the mod creator.
         /// Defines all of the individual controller inputs for a specific controller.
         /// </summary>
-        public struct Controller_Inputs
+        public struct ControllerInputs
         {
             /// <summary>
             /// Range -100,100 float. Defines the left analogue stick. Range: -100 to 100
@@ -129,7 +129,7 @@ namespace SonicHeroes.Input
             /// <summary>
             /// Defines which of the buttons are currently pressed at the current moment in time.
             /// </summary>
-            public Controller_Button_Struct controllerButtons;
+            public ControllerBUttonStruct controllerButtons;
 
             /// <summary>
             /// Sets the left trigger pressure such that it falls within the allowable bounds of 
@@ -168,7 +168,7 @@ namespace SonicHeroes.Input
         /// <summary>
         /// Defines the struct which declares if each of the buttons is pressed.
         /// </summary>
-        public struct Controller_Button_Struct
+        public struct ControllerBUttonStruct
         {
             /// <summary>
             /// Playstation: Cross, Nintendo: B 
@@ -238,7 +238,7 @@ namespace SonicHeroes.Input
         /// Sony Playstation and Nintendo equivalents are provided in comments for each button, 
         /// for the convenience of the programmer.
         /// </summary>
-        public struct Controller_Button_Mapping
+        public struct ButtonMapping
         {
             /// <summary>
             /// Playstation: Cross, Nintendo: B 
@@ -301,7 +301,7 @@ namespace SonicHeroes.Input
         /// support analog or POV-hat input such as keyboards and other potential peripherals.
         /// The emulated keys override the real keys if they are set.
         /// </summary>
-        public struct Emulation_Button_Mapping
+        public struct EmulationButtonMapping
         {
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD UP if pressed.
@@ -518,26 +518,26 @@ namespace SonicHeroes.Input
         /// Defines all of the axis mappings for the individual custom controller.
         /// Used for mapping internal XInput and DirectInput axis to own custom defined axis.
         /// </summary>
-        public struct Controller_Axis_Mapping
+        public struct AxisMapping
         {
-            public Controller_Axis_Mapping_Entry leftStickX;
-            public Controller_Axis_Mapping_Entry leftStickY;
-            public Controller_Axis_Mapping_Entry rightStickX;
-            public Controller_Axis_Mapping_Entry rightStickY;
-            public Controller_Axis_Mapping_Entry leftTrigger;
-            public Controller_Axis_Mapping_Entry rightTrigger;
+            public AxisMappingEntry leftStickX;
+            public AxisMappingEntry leftStickY;
+            public AxisMappingEntry rightStickX;
+            public AxisMappingEntry rightStickY;
+            public AxisMappingEntry leftTrigger;
+            public AxisMappingEntry rightTrigger;
         }
 
         /// <summary>
         /// Defines an individual mapping entry for a controller axis as defined in Controller_Axis_Struct.
         /// Serves as a bridge to provide each axis with an individual 
         /// </summary>
-        public struct Controller_Axis_Mapping_Entry
+        public struct AxisMappingEntry
         {
             /// <summary>
             /// Defines the individual axis entry.
             /// </summary>
-            public Controller_Axis_Generic axis;
+            public ControllerAxis axis;
 
             /// <summary>
             /// Stores the name of the property (DirectInput, XInput) that is mapped to the axis type.
@@ -563,7 +563,7 @@ namespace SonicHeroes.Input
         /// <summary>
         /// Defines the individual accepted axis for a generic Playstation/XBOX style controller.
         /// </summary>
-        public enum Controller_Axis_Generic
+        public enum ControllerAxis
         {
             Null,
             Left_Stick_X,
@@ -599,7 +599,7 @@ namespace SonicHeroes.Input
         };
 
         /// <summary>
-        /// Defines an analog stick in terms of X & Y, nothing more.
+        /// Defines an analog stick in terms of X + Y, nothing more.
         /// </summary>
         public struct Analog_Stick
         {

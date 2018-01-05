@@ -27,6 +27,15 @@ namespace SonicHeroes.Networking
             /// The raw data of the message in question.
             /// </summary>
             public byte[] Data { get; set; }
+
+            /// <summary>
+            /// Constructor allowing immediate struct assignment.
+            /// </summary>
+            public MessageStruct(ushort messageType, byte[] data)
+            {
+                MessageType = messageType;
+                Data = data;
+            }
         }
 
         /// <summary>
@@ -34,9 +43,6 @@ namespace SonicHeroes.Networking
         /// A message consists of a message type (two bytes), followed by the raw data of the message, 
         /// which forms the remaining part of the message (this is stored in a struct).
         /// </summary>
-        /// <param name="messageType"> The mod loader server uses Client_Functions.Message_Type</param>
-        /// <param name="data">The data which you want to send, either manually packed into a series of bytes or serialized using an existing serializer e.g. ZeroFormatter</param>
-        /// <returns></returns>
         public static byte[] BuildMessage(MessageStruct message)
         {
             // Allocate enough data to form the message.

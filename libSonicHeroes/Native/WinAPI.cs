@@ -15,7 +15,7 @@ namespace SonicHeroes.Native
         /// <summary>
         /// Defines a rectangle in the format used within the Windows API.
         /// </summary>
-        public struct WINAPI_Rectangle
+        public struct WinAPIRectangle
         {
             /// <summary>
             /// The X coordinate of the left border of the rectangle.
@@ -58,7 +58,7 @@ namespace SonicHeroes.Native
             /// <param name="hwnd">The handle to the individual window.</param>
             /// <param name="lpRect">Rectangle structure containing the screen coordinates of all of the edges.</param>
             [DllImport("user32.dll", SetLastError = true)]
-            public static extern bool GetWindowRect(IntPtr hwnd, out WINAPI_Rectangle lpRect);
+            public static extern bool GetWindowRect(IntPtr hwnd, out WinAPIRectangle lpRect);
 
             /// <summary>
             /// Obtains the screen coordinates of each of the edges of THE CLIENT AREA (WHAT YOU SEE INSIDE THE BORDERS) of a window holding a specified handle.
@@ -68,7 +68,7 @@ namespace SonicHeroes.Native
             /// <param name="lpRect">Rectangle structure containing the screen coordinates of all of the CLIENT AREA edges.</param>
             /// <returns></returns>
             [DllImport("user32.dll")]
-            public static extern bool GetClientRect(IntPtr hWnd, out WINAPI_Rectangle lpRect);
+            public static extern bool GetClientRect(IntPtr hWnd, out WinAPIRectangle lpRect);
 
             /// <summary>
             /// Tries to find a window by matching the name of the window with all of the current top-level windows (does not search child windows).
@@ -94,13 +94,13 @@ namespace SonicHeroes.Native
             /// <param name="hWnd">The handle of the window of whose aero glass frame is to be extended.</param>
             /// <param name="pMargins"></param>
             [DllImport("dwmapi.dll")]
-            public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref WINAPI_Rectangle pMargins);
+            public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref WinAPIRectangle pMargins);
         }
 
         /// <summary>
         /// Defines the individual components involved with getting and setting window styles and visuals via the use of Windows API.
         /// </summary>
-        public static class Window_Styles
+        public static class WindowStyles
         {
             /// <summary>
             /// Defines the individual constants for window styles.
@@ -211,7 +211,7 @@ namespace SonicHeroes.Native
         /// <summary>
         /// Defines the individual components involved with hooking window events via the use of Windows API.
         /// </summary>
-        public static class Window_Events
+        public static class WindowEvents
         {
             /// <summary>
             /// Allows to set an event hook function for a range of events.

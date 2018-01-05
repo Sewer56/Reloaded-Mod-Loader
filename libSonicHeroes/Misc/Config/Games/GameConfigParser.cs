@@ -37,13 +37,13 @@ namespace SonicHeroes.Misc.Config
             /// <summary>
             /// Specifies the directory of the game.
             /// </summary>
-            public string Game_Directory;
+            public string GameDirectory { get; set; }
 
             /// <summary>
             /// Specifies the executable directory.
             /// The executable directory is relative to the game directory.
             /// </summary>
-            public string Executable_Directory;
+            public string ExecutableDirectory { get; set; }
 
             /// <summary>
             /// Defines the game hooking method.
@@ -51,12 +51,12 @@ namespace SonicHeroes.Misc.Config
             /// Delayed will hook at a delay (potential compatibility reasons).
             /// Manual will perform file replacements, and inject on user demand after manually launching the game.
             /// </summary>
-            public HookMethod Hook_Method;
+            public HookMethod HookMethod { get; set; }
 
             /// <summary>
             /// Specifies a list of enabled mods, separated by a comma.
             /// </summary>
-            public List<string> Enabled_Mods;
+            public List<string> EnabledMods { get; set; }
         }
 
         /// <summary>
@@ -106,10 +106,10 @@ namespace SonicHeroes.Misc.Config
             iniData = iniParser.ReadFile(configDirectory);
 
             // Parse the mod loader configuration.
-            gameConfig.Game_Directory = iniData["Game Configuration"]["Game_Directory"];
-            gameConfig.Executable_Directory = iniData["Game Configuration"]["Executable_Directory"];
-            gameConfig.Hook_Method = (HookMethod)Enum.Parse(typeof(HookMethod), iniData["Game Configuration"]["Hook_Method"]);
-            gameConfig.Enabled_Mods = GetEnabledMods();
+            gameConfig.GameDirectory = iniData["Game Configuration"]["Game_Directory"];
+            gameConfig.ExecutableDirectory = iniData["Game Configuration"]["Executable_Directory"];
+            gameConfig.HookMethod = (HookMethod)Enum.Parse(typeof(HookMethod), iniData["Game Configuration"]["Hook_Method"]);
+            gameConfig.EnabledMods = GetEnabledMods();
 
             // Return the config file.
             return gameConfig;
@@ -124,9 +124,9 @@ namespace SonicHeroes.Misc.Config
         public void WriteConfig(GameConfig gameConfig, string gameName)
         {
             // Change the values of the current fields.
-            iniData["Game Configuration"]["Game_Directory"] = gameConfig.Game_Directory;
-            iniData["Game Configuration"]["Executable_Directory"] = gameConfig.Executable_Directory;
-            iniData["Game Configuration"]["Hook_Method"] = Enum.GetName(typeof(HookMethod), gameConfig.Hook_Method);
+            iniData["Game Configuration"]["Game_Directory"] = gameConfig.GameDirectory;
+            iniData["Game Configuration"]["Executable_Directory"] = gameConfig.ExecutableDirectory;
+            iniData["Game Configuration"]["Hook_Method"] = Enum.GetName(typeof(HookMethod), gameConfig.HookMethod);
 
             // Writes the list of currently enabled mods.
             WriteEnabledMods(gameConfig);
@@ -164,10 +164,10 @@ namespace SonicHeroes.Misc.Config
         private void WriteEnabledMods(GameConfig gameConfig)
         {
             // Insert header of the file.
-            gameConfig.Enabled_Mods.Insert(0, "# This file lists the directory names of all currently enabled mods.");
+            gameConfig.EnabledMods.Insert(0, "# This file lists the directory names of all currently enabled mods.");
 
             // Write file list and header.
-            File.WriteAllLines(configDirectory, gameConfig.Enabled_Mods);
+            File.WriteAllLines(configDirectory, gameConfig.EnabledMods);
         }
     }
 }

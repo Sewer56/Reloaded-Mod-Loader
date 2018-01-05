@@ -182,5 +182,47 @@ namespace SonicHeroes.Networking
             // Process the received bytes.
             ProcessBytesMethod(receiveBuffer, ServerSocket);
         }
+
+        /// <summary>
+        /// An alternate way to retrieve requested data.
+        /// Send the data in a byte array to the server. 
+        /// Returns the received data as a byte array.
+        /// </summary>
+        /// <param name="message">The message that is to be sent to the server.</param>
+        /// <param name="socket">The socket to send the message to, usually a member of ClientSockets.</param>
+        public void SendDataRaw(MessageStruct message, Socket socket)
+        {
+            // Convert the message struct into bytes to send.
+            byte[] data = Message.BuildMessage(message);
+
+            // Send the serialized message.
+            socket.Send(data); // Send serialized Message!
+
+            // If we want a response from the client, receive it, copy to a buffer array and send it back to the method delegate linked to the method we want to process the outcome with.
+            Receive(socket);
+        }
+
+        /// <summary>
+        /// Waits for data to be received from the websocket client.
+        /// Can be used to wait for a response from the server in question.
+        /// This version returns the result from the host as a byte array.
+        /// <param name="socket">The socket to send the message to, usually a member of ClientSockets.</param>
+        /// </summary>
+        public byte[] ReceiveRaw(Socket socket)
+        {
+            // Receive the information from the host onto the buffer.
+            // ClientSocket.Receive() returns the data length, stored here.
+            int dataLength = socket.Receive(Buffer);
+
+            // Create a byte array with a buffer of equal size to the received data.
+            byte[] receiveBuffer = new byte[dataLength];
+
+            // Copy the received data into the buffer.
+            Array.Copy(Buffer, receiveBuffer, dataLength);
+
+            // Process the received bytes.
+            return receiveBuffer;
+        }
+
     }
 }

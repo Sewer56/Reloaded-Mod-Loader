@@ -73,21 +73,21 @@ namespace SonicHeroes.Input
         /// Retrieves the inputs for a specific controller port.
         /// </summary>
         /// <param name="controllerPort">The port of the controller. Starting with port 0.</param>
-        public Controller_Inputs GetInput(int controllerPort)
+        public ControllerInputs GetInput(int controllerPort)
         {
             // Retrieve all controllers at port #.
             List<IController> controllersAtPort = Controllers.Where(x => x.ControllerID == controllerPort).ToList();
 
             // Get input for every controller at port # and add onto the input struct.
-            Controller_Inputs controllerInputs = new Controller_Inputs();
-            controllerInputs.controllerButtons = new Controller_Button_Struct();
+            ControllerInputs controllerInputs = new ControllerInputs();
+            controllerInputs.controllerButtons = new ControllerBUttonStruct();
             controllerInputs.leftStick = new Analog_Stick();
 
             // For each controller in port #.
             foreach (IController controller in controllersAtPort)
             {
                 // Get inputs for the controller.
-                Controller_Inputs controllerInputsNew = controller.GetControllerState();
+                ControllerInputs controllerInputsNew = controller.GetControllerState();
 
                 // Add onto Left stick and Right Stick
                 controllerInputs.leftStick.SetX(controllerInputs.leftStick.GetX() + controllerInputsNew.leftStick.GetX());

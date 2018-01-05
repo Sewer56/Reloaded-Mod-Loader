@@ -18,10 +18,10 @@ namespace SonicHeroes.Native
         /// </summary>
         /// <param name="windowHandle">Handle to the window of which the window rectangle should be obtained.</param>
         /// <returns></returns>
-        public static WINAPI_Rectangle Get_Window_Rectangle(IntPtr windowHandle)
+        public static WinAPIRectangle GetWindowRectangle(IntPtr windowHandle)
         {
             // Stores the rectangle which defines Sonic Heroes' game window.
-            WINAPI_Rectangle gameWindowRectangle = new WINAPI_Rectangle();
+            WinAPIRectangle gameWindowRectangle = new WinAPIRectangle();
 
             // Obtains the coordinates of the edges of the window.
             WinAPI.Windows.GetWindowRect(windowHandle, out gameWindowRectangle);
@@ -36,10 +36,10 @@ namespace SonicHeroes.Native
         /// </summary>
         /// <param name="windowHandle">Handle to the window of which the client area rectangle should be obtained.</param>
         /// <returns></returns>
-        public static WINAPI_Rectangle Get_ClientArea_Rectangle(IntPtr windowHandle)
+        public static WinAPIRectangle GetClientAreaRectangle(IntPtr windowHandle)
         {
             // Stores the rectangle which defines Sonic Heroes' game window.
-            WINAPI_Rectangle clientAreaRectangle = new WINAPI_Rectangle();
+            WinAPIRectangle clientAreaRectangle = new WinAPIRectangle();
 
             // Obtains the coordinates of the edges of the window.
             WinAPI.Windows.GetClientRect(windowHandle, out clientAreaRectangle);
@@ -52,7 +52,7 @@ namespace SonicHeroes.Native
         /// Returns the border width in terms of X and Y for a window.
         /// </summary>
         /// <returns></returns>
-        public static Point Get_Border_Width(WINAPI_Rectangle gameWindowRectangle, WINAPI_Rectangle gameClientRectangle)
+        public static Point GetBorderWidth(WinAPIRectangle gameWindowRectangle, WinAPIRectangle gameClientRectangle)
         {
             // Stores the size of the border vertically and horizontally.
             Point totalBorderSize = new Point();
@@ -74,10 +74,10 @@ namespace SonicHeroes.Native
         /// </summary>
         /// <param name="windowHandle">Handle to the window of which the client area rectangle should be obtained.</param>
         /// <returns>Width as X and Height as Y of the window client area requested.</returns>
-        public static Point Get_Window_Client_Size(IntPtr windowHandle)
+        public static Point GetWindowClientSize(IntPtr windowHandle)
         {
             // Get Window Client-Area
-            WINAPI_Rectangle windowClientArea = Get_ClientArea_Rectangle(windowHandle);
+            WinAPIRectangle windowClientArea = GetClientAreaRectangle(windowHandle);
 
             // Return window internal size.
             return new Point(windowClientArea.rightBorder, windowClientArea.bottomBorder);
@@ -89,10 +89,10 @@ namespace SonicHeroes.Native
         /// </summary>
         /// <param name="windowHandle">Handle to the window of which the client area rectangle should be obtained.</param>
         /// <returns>Width as X and Height as Y of the window client area requested.</returns>
-        public static Point Get_Window_Size(IntPtr windowHandle)
+        public static Point GetWindowSize(IntPtr windowHandle)
         {
             // Get Window Client-Area
-            WINAPI_Rectangle windowSizeRectangle = Get_Window_Rectangle(windowHandle);
+            WinAPIRectangle windowSizeRectangle = GetWindowRectangle(windowHandle);
 
             // Define height and width
             int windowWidth = windowSizeRectangle.rightBorder - windowSizeRectangle.leftBorder;

@@ -16,26 +16,6 @@ namespace SonicHeroes.Input
     class Hotplugger : NativeWindow
     {
         /// <summary>
-        /// Provides a delegate signature for controller configuration re-parsing.
-        /// </summary>
-        public delegate void GetConnectedControllersDelegate();
-
-        /// <summary>
-        /// Delegate used when a controller is connected or disconnected.
-        /// </summary>
-        private GetConnectedControllersDelegate controllerConnectDelegate;
-
-        /// <summary>
-        /// Hosts an instance of the deviceNotification class which sends a message to this window whenever a controller device is inserted or removed.
-        /// </summary>
-        private DeviceNotification deviceNotificationDispatcher;
-
-        /// <summary>
-        /// The constant for HWND_MESSAGE, specify this is a parent to a window to make it a message-only window.
-        /// </summary>
-        const long HWND_MESSAGE = -3;
-
-        /// <summary>
         /// Message type which is sent to a window (accessible in C# via Message.Msg).
         /// Notifies an application of a change to the hardware configuration of a device or the computer.
         /// </summary>
@@ -50,6 +30,26 @@ namespace SonicHeroes.Input
         /// The system broadcasts the DBT_DEVICEREMOVECOMPLETE device event when a device or piece of media has been physically removed.
         /// </summary>
         public const int DBT_DEVICEREMOVECOMPLETE = 0x8004;
+
+        /// <summary>
+        /// The constant for HWND_MESSAGE, specify this is a parent to a window to make it a message-only window.
+        /// </summary>
+        const long HWND_MESSAGE = -3;
+
+        /// <summary>
+        /// Provides a delegate signature for controller configuration re-parsing.
+        /// </summary>
+        public delegate void GetConnectedControllersDelegate();
+
+        /// <summary>
+        /// Delegate used when a controller is connected or disconnected.
+        /// </summary>
+        private GetConnectedControllersDelegate controllerConnectDelegate;
+
+        /// <summary>
+        /// Hosts an instance of the deviceNotification class which sends a message to this window whenever a controller device is inserted or removed.
+        /// </summary>
+        private DeviceNotification deviceNotificationDispatcher;
 
         /// <summary>
         /// Constructor for the Hotplugger class. Requires an initial method to which send messages when a device is
@@ -77,7 +77,7 @@ namespace SonicHeroes.Input
         /// <summary>
         /// Removes a specific passed in delegate instance if it exists/is currently assigned.
         /// </summary>
-        public void Remove_Delegate(Delegate methodDelegate)
+        public void RemoveDelegate(Delegate methodDelegate)
         {
             // Get pointer to function
             controllerConnectDelegate -= (GetConnectedControllersDelegate)methodDelegate;
@@ -195,7 +195,7 @@ namespace SonicHeroes.Input
             /// <summary>
             /// Struct which represents a filter for device notifications which contains information about a class of devices.
             /// </summary>
-            /// <see cref="https://msdn.microsoft.com/en-us/library/windows/desktop/aa363244(v=vs.85).aspx"/>
+            /// <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa363244(v=vs.85).aspx"/>
             [StructLayout(LayoutKind.Sequential)]
             private struct DEV_BROADCAST_DEVICEINTERFACE
             {

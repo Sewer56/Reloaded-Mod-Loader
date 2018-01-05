@@ -184,21 +184,21 @@ namespace SonicHeroes.Input
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="mappingEntry">Specififies the mapping entry containing the axis to be remapped.</param>
-        public void Remap_Axis(int timeoutSeconds, out float currentTimeout, Controller_Axis_Mapping_Entry mappingEntry)
+        public void RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry)
         {
             // Retrieve the object type of the controller.
             Type controllerType = Controller.GetType();
 
             // If it's a DirectInput controller.
-            if (controllerType == typeof(DInputController)) { Remap_DInput_Axis(timeoutSeconds, out currentTimeout, mappingEntry); }
-            else if (controllerType == typeof(XInputController)) { Remap_XInput_Axis(timeoutSeconds, out currentTimeout, mappingEntry); }
+            if (controllerType == typeof(DInputController)) { DInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry); }
+            else if (controllerType == typeof(XInputController)) { XInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry); }
             else { currentTimeout = 0; } // Not DInput or XInput
         }
 
         /// <summary>
         /// Remaps the axis of a DirectInput controller.
         /// </summary>
-        private void Remap_DInput_Axis(int timeoutSeconds, out float currentTimeout, Controller_Axis_Mapping_Entry mappingEntry)
+        private void DInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry)
         {
             // Cast Controller to DInput Controller
             DInputController dInputController = (DInputController)Controller;
@@ -265,7 +265,7 @@ namespace SonicHeroes.Input
         /// <summary>
         /// Remaps the axis of an XInput controller.
         /// </summary>
-        private void Remap_XInput_Axis(int timeoutSeconds, out float currentTimeout, Controller_Axis_Mapping_Entry mappingEntry)
+        private void XInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry)
         {
             // Cast Controller to DInput Controller
             XInputController xInputController = (XInputController)Controller;
@@ -296,23 +296,23 @@ namespace SonicHeroes.Input
                 int rightTrigger = joystickState.Gamepad.RightTrigger - joystickStateNew.Gamepad.RightTrigger;
 
                 // Iterate over all axis.
-                if (leftStickX < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = Controller_Axis_Generic.Left_Stick_X; currentTimeout = 0; return; }
-                else if (leftStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = Controller_Axis_Generic.Left_Stick_X; currentTimeout = 0; return; }
+                if (leftStickX < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Stick_X; currentTimeout = 0; return; }
+                else if (leftStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Stick_X; currentTimeout = 0; return; }
 
-                if (rightStickX < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = Controller_Axis_Generic.Right_Stick_X; currentTimeout = 0; return; }
-                else if (rightStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = Controller_Axis_Generic.Right_Stick_X; currentTimeout = 0; return; }
+                if (rightStickX < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_X; currentTimeout = 0; return; }
+                else if (rightStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_X; currentTimeout = 0; return; }
 
-                if (leftStickY < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = Controller_Axis_Generic.Left_Stick_Y; currentTimeout = 0; return; }
-                else if (leftStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = Controller_Axis_Generic.Left_Stick_Y; currentTimeout = 0; return; }
+                if (leftStickY < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Stick_Y; currentTimeout = 0; return; }
+                else if (leftStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Stick_Y; currentTimeout = 0; return; }
 
-                if (rightStickY < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = Controller_Axis_Generic.Right_Stick_Y; currentTimeout = 0; return; }
-                else if (rightStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = Controller_Axis_Generic.Right_Stick_Y; currentTimeout = 0; return; }
+                if (rightStickY < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return; }
+                else if (rightStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return; }
 
-                if (leftTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = Controller_Axis_Generic.Left_Trigger_Pressure; currentTimeout = 0; return; }
-                else if (leftTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = Controller_Axis_Generic.Left_Trigger_Pressure; currentTimeout = 0; return; }
+                if (leftTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Trigger_Pressure; currentTimeout = 0; return; }
+                else if (leftTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Trigger_Pressure; currentTimeout = 0; return; }
 
-                if (rightTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = Controller_Axis_Generic.Right_Trigger_Pressure; currentTimeout = 0; return; }
-                else if (rightTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = Controller_Axis_Generic.Right_Trigger_Pressure; currentTimeout = 0; return; }
+                if (rightTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Trigger_Pressure; currentTimeout = 0; return; }
+                else if (rightTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Trigger_Pressure; currentTimeout = 0; return; }
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
@@ -333,14 +333,14 @@ namespace SonicHeroes.Input
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
-        public void Remap_Buttons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
+        public void RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
         {
             // Retrieve the object type of the controller.
             Type controllerType = Controller.GetType();
 
             // If it's a DirectInput controller.
-            if (controllerType == typeof(DInputController)) { Remap_DInput_Button(timeoutSeconds, out currentTimeout, ref buttonToMap); }
-            else if (controllerType == typeof(XInputController)) { Remap_XInput_Button(timeoutSeconds, out currentTimeout, ref buttonToMap); }
+            if (controllerType == typeof(DInputController)) { DInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap); }
+            else if (controllerType == typeof(XInputController)) { XInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap); }
             else { currentTimeout = 0; }
         }
 
@@ -351,7 +351,7 @@ namespace SonicHeroes.Input
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
-        private void Remap_DInput_Button(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
+        private void DInputRemapButton(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
         {
             // Cast Controller to DInput Controller
             DInputController dInputController = (DInputController)Controller;
@@ -376,7 +376,7 @@ namespace SonicHeroes.Input
                     if (joystickState.Buttons[x] != joystickStateNew.Buttons[x])
                     {
                         // Retrieve the button mapping.
-                        Controller_Button_Mapping buttonMapping = Controller.ButtonMapping;
+                        ButtonMapping buttonMapping = Controller.ButtonMapping;
 
                         // Assign requested button.
                         buttonToMap = (byte)x;
@@ -410,7 +410,7 @@ namespace SonicHeroes.Input
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
-        private void Remap_XInput_Button(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
+        private void XInputRemapButton(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
         {
             // Cast Controller to DInput Controller
             XInputController xInputController = (XInputController)Controller;
@@ -435,7 +435,7 @@ namespace SonicHeroes.Input
                     if (buttonState[x] != buttonStateNew[x])
                     {
                         // Retrieve the button mapping.
-                        Controller_Button_Mapping buttonMapping = Controller.ButtonMapping;
+                        ButtonMapping buttonMapping = Controller.ButtonMapping;
 
                         // Assign requested button.
                         buttonToMap = (byte)x;
