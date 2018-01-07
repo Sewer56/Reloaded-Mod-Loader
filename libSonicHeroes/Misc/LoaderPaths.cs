@@ -19,7 +19,7 @@ namespace SonicHeroes.Misc
         /// <summary>
         /// Specifies the relative location of the main configuration file for the loader.
         /// </summary>
-        private static string RELATIVELOCATION_CONFIGFILE = "\\Mod-Loader-Config\\ModLoader.ini";
+        private static string RELATIVELOCATION_CONFIGFILE = "\\Mod-Loader-Config\\Config.ini";
 
         /// <summary>
         /// Specifies the relative location of the configuration directory for the loader.

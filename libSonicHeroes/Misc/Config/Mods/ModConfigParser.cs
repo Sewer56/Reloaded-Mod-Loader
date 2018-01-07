@@ -90,7 +90,7 @@ namespace SonicHeroes.Misc.Config
             modConfig.ModVersion = iniData["Mod Configuration"]["Mod_Version"];
             modConfig.ModAuthor = iniData["Mod Configuration"]["Mod_Author"];
             modConfig.ModSite = iniData["Mod Configuration"]["Mod_Site"];
-            modConfig.ModGithub = iniData["Mod Configuration"]["Mod_Github"];
+            modConfig.ModGithub = iniData["Mod Configuration"]["Mod_Gi  thub"];
             modConfig.ModConfigEXE = iniData["Mod Configuration"]["Mod_Config"];
 
             // Return the config file.

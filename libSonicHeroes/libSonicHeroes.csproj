@@ -98,6 +98,8 @@
     <Compile Include="Input\Modules\Hotplugger.cs" />
     <Compile Include="Input\Modules\Remapper.cs" />
     <Compile Include="Input\XInput\XInputController.cs" />
+    <Compile Include="IO\Native\Native.cs" />
+    <Compile Include="IO\RelativePaths.cs" />
     <Compile Include="Misc\AssemblyFinder.cs" />
     <Compile Include="Misc\Config\Games\GameConfigParser.cs" />
     <Compile Include="Misc\Config\Loader\LoaderConfigParser.cs" />
