@@ -58,7 +58,7 @@ namespace SonicHeroes.Misc
         /// </summary>
         public static string GetModLoaderConfig()
         {
-            return File.ReadAllText(GetModLoaderDirectory() + RELATIVELOCATION_CONFIGFILE);
+            return GetModLoaderDirectory() + RELATIVELOCATION_CONFIGFILE;
         }
 
 
