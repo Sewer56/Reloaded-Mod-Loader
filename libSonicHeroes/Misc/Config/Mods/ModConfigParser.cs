@@ -70,6 +70,7 @@ namespace SonicHeroes.Misc.Config
         public ModConfigParser()
         {
             iniParser = new FileIniDataParser();
+            iniParser.Parser.Configuration.CommentString = "#";
         }
 
         /// <summary>

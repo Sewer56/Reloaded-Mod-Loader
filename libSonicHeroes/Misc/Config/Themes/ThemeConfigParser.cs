@@ -65,6 +65,7 @@ namespace SonicHeroes.Misc.Config
         public ThemeConfigParser()
         {
             iniParser = new FileIniDataParser();
+            iniParser.Parser.Configuration.CommentString = "#";
         }
 
         /// <summary>

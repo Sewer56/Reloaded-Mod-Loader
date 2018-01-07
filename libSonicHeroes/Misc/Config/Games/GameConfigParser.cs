@@ -99,6 +99,7 @@ namespace SonicHeroes.Misc.Config
         public GameConfigParser()
         {
             iniParser = new FileIniDataParser();
+            iniParser.Parser.Configuration.CommentString = "#";
         }
 
         /// <summary>

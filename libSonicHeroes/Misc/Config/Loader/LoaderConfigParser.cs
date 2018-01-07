@@ -69,6 +69,7 @@ namespace SonicHeroes.Misc.Config
         public LoaderConfigParser()
         {
             iniParser = new FileIniDataParser();
+            iniParser.Parser.Configuration.CommentString = "#";
         }
 
         /// <summary>
