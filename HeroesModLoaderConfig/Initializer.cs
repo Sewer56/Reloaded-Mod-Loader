@@ -1,7 +1,9 @@
 ﻿using HeroesModLoaderConfig.Utilities;
+using SonicHeroes.Misc;
 using SonicHeroes.Misc.Config;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,6 +22,9 @@ namespace HeroesModLoaderConfig
         /// </summary>
         public Initializer()
         {
+            // Write Loader Location
+            File.WriteAllText(LoaderPaths.GetModLoaderLinkLocation(), Environment.CurrentDirectory);
+
             // Initialize the Configs.
             InitializeGlobalProperties();
             

@@ -156,14 +156,42 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Files\Mod-Loader-Config\Config.ini" />
+    <None Include="Resources\Files\Mod-Loader-Config\Controllers\Controller %28XBOX 360 For Windows%29.ini" />
+    <None Include="Resources\Files\Mod-Loader-Config\Games\Sonic-Adventure-2\Config.ini" />
+    <None Include="Resources\Files\Mod-Loader-Config\Games\Sonic-Adventure-2\Enabled_Mods.ini" />
+    <None Include="Resources\Files\Mod-Loader-Config\Themes\Blood-Red\Config.ini" />
+    <None Include="Resources\Files\Mod-Loader-Config\Themes\Default\Config.ini" />
+    <None Include="Resources\Files\Mod-Loader-Config\Themes\Default\Fonts\CategoryFont.ttf" />
+    <None Include="Resources\Files\Mod-Loader-Config\Themes\Default\Fonts\TextFont.ttf" />
+    <None Include="Resources\Files\Mod-Loader-Config\Themes\Default\Fonts\TitleFont.ttf" />
+    <None Include="Resources\Files\Mod-Loader-Mods\Sonic-Adventure-2\Real-Knuckles-Mod\Config.ini" />
+    <None Include="Resources\Files\Mod-Loader-Mods\Sonic-Adventure-DX\SADX-Frame-Limit-II\Config.ini" />
+    <None Include="Resources\Files\Mod-Loader-Mods\Sonic-Generations\Test-Mod\Config.ini" />
+    <None Include="Resources\Files\Mod-Loader-Mods\Sonic-Heroes\Vanilla-Tweakbox-II\Config.ini" />
+    <None Include="Resources\Files\Mod-Loader-Mods\Sonic-Riders\4P-Mod\Config.ini" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Resources\Files\Mod-Loader-Backup\Sonic-Adventure-2\" />
+    <Folder Include="Resources\Files\Mod-Loader-Backup\Sonic-Adventure-DX\" />
+    <Folder Include="Resources\Files\Mod-Loader-Backup\Sonic-Generations\" />
+    <Folder Include="Resources\Files\Mod-Loader-Backup\Sonic-Heroes\" />
+    <Folder Include="Resources\Files\Mod-Loader-Backup\Sonic-Riders\" />
+    <Folder Include="Resources\Files\Mod-Loader-Config\Controllers\Instances\" />
+    <Folder Include="Resources\Files\Mod-Loader-Config\Controllers\XInput\" />
+    <Folder Include="Resources\Files\Mod-Loader-Config\Themes\Blood-Red\Bitmaps\" />
+    <Folder Include="Resources\Files\Mod-Loader-Config\Themes\Blood-Red\Fonts\" />
+    <Folder Include="Resources\Files\Mod-Loader-Config\Themes\Default\Bitmaps\" />
+    <Folder Include="Resources\Files\Mod-Loader-Libraries\" />
     <Folder Include="Resources\Images\128x\" />
     <Folder Include="Resources\Images\Source\" />
     <Folder Include="Utilities\Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>XCOPY "$(SolutionDir)\$(SolutionName)\Resources\Files" "$(TargetDir)" /E</PostBuildEvent>
+  </PropertyGroup>
 </Project>
