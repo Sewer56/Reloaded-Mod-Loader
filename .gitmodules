@@ -1,3 +1,2 @@
-[submodule "HeroesModLoaderConfig/Libraries/libSonicHeroes/"]
-	path = HeroesModLoaderConfig/Libraries/libSonicHeroes/
+[submodule "HeroesModLoaderConfig/Libraries/libSonicHeroes"]
 	url = https://github.com/sewer56lol/libSonicHeroes
