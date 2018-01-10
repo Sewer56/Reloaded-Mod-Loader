@@ -26,6 +26,11 @@ namespace HeroesModLoaderConfig
         public static List<Form> WindowsForms { get; set; }
 
         /// <summary>
+        /// Stores the base form, which contains all of the child forms.
+        /// </summary>
+        public static Base BaseForm { get; set; }
+
+        /// <summary>
         /// Stores the current configuration for the mod loader.
         /// </summary>
         public static LoaderConfigParser.Config LoaderConfiguration { get; set; }

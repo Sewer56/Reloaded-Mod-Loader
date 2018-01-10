@@ -16,22 +16,23 @@ namespace HeroesModLoaderConfig
 {
     public partial class Base : Form
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public Base()
         {
             InitializeComponent();
-            InitializeTheme();
+            Global.WindowsForms.Add(this);
         }
 
         /// <summary>
-        /// Initializes the current windows form theming properties.
+        /// Load the global theme once the base form has finished loading (all MDI children should also have finished loading)
+        /// by then, as they are loaded in the constructor, pretty convenient.
         /// </summary>
-        private void InitializeTheme()
+        private void Base_Load(object sender, EventArgs e)
         {
-            // Add the form to the global forms list.
-            Global.WindowsForms.Add(this);
-
-            // Themes the current windows form.
-            Styles.Themes.ApplyTheme.ThemeWindowsForm(this);
+            // Load the global theme.
+            Global.Theme.LoadTheme();
         }
     }
 }

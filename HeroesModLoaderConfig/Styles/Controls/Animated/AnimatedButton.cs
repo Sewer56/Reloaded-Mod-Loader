@@ -13,7 +13,7 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
     /// <summary>
     /// Provides the animation implementation for EnhancedButton.
     /// </summary>
-    class AnimatedButton : EnhancedButton, IAnimatedControl
+    public class AnimatedButton : EnhancedButton, IAnimatedControl
     {
         #region Mouse Enter Animation Properties
         /// <summary>

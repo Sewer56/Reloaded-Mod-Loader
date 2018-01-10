@@ -51,10 +51,13 @@ namespace HeroesModLoaderConfig.Styles.Themes
         /// <summary>
         /// Loads the theme set at the current directory.
         /// </summary>
-        private void LoadTheme()
+        public void LoadTheme()
         {
             // Load the fonts that are to be used in this session.
             Fonts.LoadFonts(LoaderPaths.GetModLoaderConfigDirectory() + "\\Themes\\" + themeDirectory + "\\Fonts");
+
+            // Load the images for the theme.
+            ApplyTheme.LoadImages(LoaderPaths.GetModLoaderConfigDirectory() + "\\Themes\\" + themeDirectory + "\\Images");
 
             // Apply the theme.
             ApplyTheme.ApplyCurrentTheme();

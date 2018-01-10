@@ -16,7 +16,7 @@ namespace HeroesModLoaderConfig.Styles.Controls
     /// Modifies the default button class such that we may use our own rendering options for the text as well
     /// as reducing the internal text margins, preventing multi-line textboxes.
     /// </summary>
-    class EnhancedButton : Button
+    public class EnhancedButton : Button
     {
         /// <summary>
         /// Defines the hinting style used for text rendering using GDI.

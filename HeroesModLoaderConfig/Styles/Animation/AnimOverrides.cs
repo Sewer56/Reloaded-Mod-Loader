@@ -10,7 +10,7 @@ namespace HeroesModLoaderConfig.Styles.Animation
     /// Specifies enumerables, methods and general structs, variables, etc. used for event overrides.
     /// e.g. diverting OnEnter and OnLeave events for mouse buttons.
     /// </summary>
-    class AnimOverrides
+    public class AnimOverrides
     {
         /// <summary>
         /// Specifies overrides for the mouse enter events for custom animated windows forms

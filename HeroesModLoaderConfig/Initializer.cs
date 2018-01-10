@@ -56,8 +56,11 @@ namespace HeroesModLoaderConfig
         /// </summary>
         private void InitializeForms()
         {
+            // Store the base form in Global
+            Global.BaseForm = new Base();
+
             // Launches the first window.
-            Application.Run(new Base());
+            Application.Run(Global.BaseForm);
         }
     }
 }

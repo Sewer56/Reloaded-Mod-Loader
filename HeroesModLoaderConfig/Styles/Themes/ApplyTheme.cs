@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SonicHeroes.Misc;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -53,6 +54,25 @@ namespace HeroesModLoaderConfig.Styles.Themes
             if (control.Name.StartsWith("categoryBar_")) { control.Font = new Font(Global.Theme.Fonts.CategoryFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
             else if (control.Name.StartsWith("text_")) { control.Font = new Font(Global.Theme.Fonts.TextFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
             else if (control.Name.StartsWith("titleBar_")) { control.Font = new Font(Global.Theme.Fonts.TitleFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
+        }
+
+        /// <summary>
+        /// Loads all of the theme images from storage onto the relevant base form buttons.
+        /// </summary>
+        /// <param name="imagesFolder">Dictates the folder where the images are supposed to be loaded from.</param>
+        public static void LoadImages(string imagesFolder)
+        {
+            // If the baseform is instantiated
+            if (Global.BaseForm != null)
+            {
+                // Load the images from HDD.
+                Global.BaseForm.categoryBar_About.Image = Image.FromFile(imagesFolder + "\\About-Icon.png");
+                Global.BaseForm.categoryBar_Manager.Image = Image.FromFile(imagesFolder + "\\Entry-Icon.png");
+                Global.BaseForm.categoryBar_Theme.Image = Image.FromFile(imagesFolder + "\\Paint-Icon.png");
+                Global.BaseForm.categoryBar_Input.Image = Image.FromFile(imagesFolder + "\\Controller-Icon.png");
+                Global.BaseForm.categoryBar_Mods.Image = Image.FromFile(imagesFolder + "\\Tweaks-Icon.png");
+                Global.BaseForm.categoryBar_Games.Image = Image.FromFile(imagesFolder + "\\Main-Icon.png");
+            }
         }
     }
 }
