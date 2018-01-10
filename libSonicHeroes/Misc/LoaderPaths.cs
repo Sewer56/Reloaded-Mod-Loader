@@ -54,6 +54,14 @@ namespace SonicHeroes.Misc
         }
 
         /// <summary>
+        /// Retrieves the location of the text file where the link file to be written which defines the loader location is stored.
+        /// </summary>
+        public static string GetModLoaderLinkLocation()
+        {
+            return MOD_LOADER_LINK_FILE;
+        }
+
+        /// <summary>
         /// Retrieves the mod loader's main config as an array of strings.
         /// </summary>
         public static string GetModLoaderConfig()
