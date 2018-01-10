@@ -38,8 +38,8 @@ namespace HeroesModLoaderConfig.Styles.Themes
             foreach (Control control in windowForm.Controls)
             {
                 // If the control has embedded controls (thus embeds child controls, apply theme to children.
-                if (control.Controls != null) { foreach (Control controlEmbedded in control.Controls) { ApplyFonts(controlEmbedded); } }
-                else { ApplyFonts(control); }
+                if (control.Controls.Count != 0) { foreach (Control controlEmbedded in control.Controls) { ApplyFonts(controlEmbedded); } }
+                ApplyFonts(control);
             }
         }
 
