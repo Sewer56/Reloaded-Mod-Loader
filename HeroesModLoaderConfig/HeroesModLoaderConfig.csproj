@@ -32,26 +32,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="INIFileParser">
-      <HintPath>..\..\..\libSonicHeroes\libSonicHeroes\bin\Release\INIFileParser.dll</HintPath>
+    <Reference Include="Colorspace, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Colorspace.1.0.2\lib\net40\Colorspace.dll</HintPath>
     </Reference>
-    <Reference Include="libSonicHeroes">
-      <HintPath>..\..\..\libSonicHeroes\libSonicHeroes\bin\Release\libSonicHeroes.dll</HintPath>
+    <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
+      <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX">
-      <HintPath>..\..\..\libSonicHeroes\libSonicHeroes\bin\Release\SharpDX.dll</HintPath>
+    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct2D1">
-      <HintPath>..\..\..\libSonicHeroes\libSonicHeroes\bin\Release\SharpDX.Direct2D1.dll</HintPath>
+    <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.DirectInput">
-      <HintPath>..\..\..\libSonicHeroes\libSonicHeroes\bin\Release\SharpDX.DirectInput.dll</HintPath>
+    <Reference Include="SharpDX.DirectInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DirectInput.4.0.1\lib\net45\SharpDX.DirectInput.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.DXGI">
-      <HintPath>..\..\..\libSonicHeroes\libSonicHeroes\bin\Release\SharpDX.DXGI.dll</HintPath>
+    <Reference Include="SharpDX.DXGI, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.XInput">
-      <HintPath>..\..\..\libSonicHeroes\libSonicHeroes\bin\Release\SharpDX.XInput.dll</HintPath>
+    <Reference Include="SharpDX.XInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.XInput.4.0.1\lib\net45\SharpDX.XInput.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -66,17 +66,76 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Global.cs" />
+    <Compile Include="Styles\Animation\EventOverrides.cs" />
+    <Compile Include="Styles\Animation\IAnimation.cs" />
+    <Compile Include="Styles\Animation\Interpolator.cs" />
+    <Compile Include="Styles\Controls\EnhancedButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\EnhancedLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Themes\ApplyTheme.cs" />
+    <Compile Include="Styles\Themes\ThemeColours.cs" />
+    <Compile Include="Styles\Themes\ThemeFonts.cs" />
+    <Compile Include="Styles\Themes\Theme.cs" />
+    <Compile Include="Utilities\LoaderConfigManager.cs" />
+    <Compile Include="Windows\Base.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Windows\Base.Designer.cs">
+      <DependentUpon>Base.cs</DependentUpon>
     </Compile>
+    <Compile Include="Initializer.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\GameProcess\DLLInjector.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\GameProcess\Libraries.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\GameProcess\Memory.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\GameProcess\Native\Native.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Hooking\HookBase.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Hooking\Hooks\AssemblyHook.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Hooking\Hooks\InjectionHook.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Input\Common\ControllerCommon.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Input\Config\ControllerConfigParser.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Input\ControllerManager.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Input\DirectInput\DInputCommon.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Input\DirectInput\DInputController.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Input\DirectInput\DInputManager.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Input\Modules\Hotplugger.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Input\Modules\Remapper.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Input\XInput\XInputController.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\IO\Native\Native.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\IO\RelativePaths.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Misc\AssemblyFinder.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Misc\Config\Games\GameConfigParser.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Misc\Config\Loader\LoaderConfigParser.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Misc\Config\Mods\ModConfigParser.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Misc\Config\Themes\ThemeConfigParser.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Misc\FileUnblocker.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Misc\LoaderPaths.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Misc\PathSanitizer.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Native\WinAPI.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Native\Windows.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Networking\Client.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Networking\Host.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Networking\Message.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Networking\MessageTypes\ModLoaderServerMessages.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Overlay\Direct2DWindowRenderTargetBase.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Overlay\External\Forms\GlassForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Overlay\External\Forms\GlassForm.Designer.cs">
+      <DependentUpon>GlassForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Overlay\External\OverlayGlassDirect2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Fonts\FontLoader.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Windows\Base.resx">
+      <DependentUpon>Base.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Libraries\libSonicHeroes\libSonicHeroes\Overlay\External\Forms\GlassForm.resx">
+      <DependentUpon>GlassForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -87,6 +146,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -101,10 +161,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="Styles\" />
+    <Folder Include="Resources\Images\128x\" />
+    <Folder Include="Resources\Images\Source\" />
     <Folder Include="Utilities\Controls\" />
-    <Folder Include="Windows\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
