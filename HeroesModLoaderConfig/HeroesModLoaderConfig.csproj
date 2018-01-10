@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Colorspace, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Colorspace.1.0.2\lib\net40\Colorspace.dll</HintPath>
+    <Reference Include="ColorMine, Version=1.2.0.0, Culture=neutral, PublicKeyToken=7a2c4d30138edc39, processorArchitecture=MSIL">
+      <HintPath>..\packages\ColorMine.1.2.0\lib\net45\ColorMine.dll</HintPath>
     </Reference>
     <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
@@ -55,6 +55,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -67,13 +70,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.cs" />
-    <Compile Include="Styles\Animation\EventOverrides.cs" />
-    <Compile Include="Styles\Animation\IAnimation.cs" />
-    <Compile Include="Styles\Animation\Interpolator.cs" />
-    <Compile Include="Styles\Controls\EnhancedButton.cs">
+    <Compile Include="Styles\Animation\AnimAnimations.cs" />
+    <Compile Include="Styles\Animation\AnimMessage.cs" />
+    <Compile Include="Styles\Controls\Animated\AnimatedButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Styles\Controls\EnhancedLabel.cs">
+    <Compile Include="Utilities\Colour\ColorspaceConverter.cs" />
+    <Compile Include="Styles\Animation\AnimOverrides.cs" />
+    <Compile Include="Styles\Animation\IAnimatedControl.cs" />
+    <Compile Include="Styles\Animation\AnimInterpolator.cs" />
+    <Compile Include="Styles\Controls\Enhanced\EnhancedButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Enhanced\EnhancedLabel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Styles\Themes\ApplyTheme.cs" />

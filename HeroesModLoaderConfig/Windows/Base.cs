@@ -33,22 +33,5 @@ namespace HeroesModLoaderConfig
             // Themes the current windows form.
             Styles.Themes.ApplyTheme.ThemeWindowsForm(this);
         }
-
-        private async void AsyncOpacityIn()
-        {
-            Minimize.FlatAppearance.MouseOverBackColor = Color.FromArgb(0,100,100,100);
-
-            for (int x = 0; x < 255; x++)
-            {
-                Color color = Minimize.FlatAppearance.MouseOverBackColor;
-                Minimize.FlatAppearance.MouseOverBackColor = Color.FromArgb(color.A + 1,color.R,color.G,color.B);
-                await Task.Delay(16);
-            }
-        }
-
-        private void Minimize_MouseEnter(object sender, EventArgs e)
-        {
-            Task.Run(() => AsyncOpacityIn());
-        }
     }
 }
