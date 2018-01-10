@@ -24,7 +24,7 @@ namespace SonicHeroes.Misc
         /// <summary>
         /// Specifies the relative location of the configuration directory for the loader.
         /// </summary>
-        private static string RELATIVELOCATION_CONFIG = "\\Mod-Loader-Config\\";
+        private static string RELATIVELOCATION_CONFIG = "\\Mod-Loader-Config";
 
         /// <summary>
         /// Specifies the relative location of the individual game backup files relative to the mod loader.
@@ -34,7 +34,7 @@ namespace SonicHeroes.Misc
         /// <summary>
         /// Specifies the relative location of the mod loader libraries relative to the mod loader.
         /// </summary>
-        private static string RELATIVELOCATION_LIBRARIES = "\\Mod-Loader-Libraries\\";
+        private static string RELATIVELOCATION_LIBRARIES = "\\Mod-Loader-Libraries";
 
         /// <summary>
         /// Retrieves the directory of the current process where the DLL resides in. i.e. the game directory.
