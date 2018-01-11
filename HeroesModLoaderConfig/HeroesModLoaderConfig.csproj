@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ColorMine, Version=1.2.0.0, Culture=neutral, PublicKeyToken=7a2c4d30138edc39, processorArchitecture=MSIL">
       <HintPath>..\packages\ColorMine.1.2.0\lib\net45\ColorMine.dll</HintPath>
@@ -70,6 +73,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Misc\ColourLoader.cs" />
+    <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Misc\Config\Themes\ThemeColourParser.cs" />
     <Compile Include="Styles\Animation\AnimAnimations.cs" />
     <Compile Include="Styles\Animation\AnimMessage.cs" />
     <Compile Include="Styles\Controls\Animated\AnimatedButton.cs">
@@ -86,7 +91,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Styles\Themes\ApplyTheme.cs" />
-    <Compile Include="Styles\Themes\ThemeColours.cs" />
     <Compile Include="Styles\Themes\ThemeFonts.cs" />
     <Compile Include="Styles\Themes\Theme.cs" />
     <Compile Include="Utilities\LoaderConfigManager.cs" />
@@ -205,6 +209,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY "$(SolutionDir)\$(SolutionName)\Resources\Files" "$(TargetDir)" /E /Y</PostBuildEvent>
+    <PostBuildEvent>XCOPY /E /Y "$(SolutionDir)\$(SolutionName)\Resources\Files" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -1,4 +1,6 @@
-﻿using SonicHeroes.Misc;
+﻿using HeroesModLoaderConfig.Styles.Controls.Animated;
+using SonicHeroes.Misc;
+using SonicHeroes.Misc.Config;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static SonicHeroes.Misc.Config.ThemeColourParser;
 
 namespace HeroesModLoaderConfig.Styles.Themes
 {
@@ -16,9 +19,14 @@ namespace HeroesModLoaderConfig.Styles.Themes
     public static class ApplyTheme
     {
         // Note:
-        // Category Bar Text should be named categoryBar_*
-        // Regular Text should be named text_*
-        // Title Bar Text should be named titleBar_
+        // Category Bar Items should be named categoryBar_*
+        // Regular Items should be named item_*
+        // Title Bar Items should be named titleBar_*
+
+        /// <summary>
+        /// Retriieves the colour configuration for the current theme
+        /// </summary>
+        public static ColourConfig ThemeColours { get; set; }
 
         /// <summary>
         /// Applies the currently set theming properties to a new windows form.
@@ -39,10 +47,99 @@ namespace HeroesModLoaderConfig.Styles.Themes
             foreach (Control control in windowForm.Controls)
             {
                 // If the control has embedded controls (thus embeds child controls, apply theme to children.
-                if (control.Controls.Count != 0) { foreach (Control controlEmbedded in control.Controls) { ApplyFonts(controlEmbedded); } }
-                ApplyFonts(control);
+                if (control.Controls.Count != 0) { foreach (Control controlEmbedded in control.Controls) { ThemeControl(controlEmbedded); } }
+
+                // Apply the theme.
+                ThemeControl(control);
             }
         }
+
+        /// <summary>
+        /// Themes an individual windows forms control.
+        /// </summary>
+        /// <param name="control"></param>        
+        private static void ThemeControl(Control control)
+        {
+            // Apply the appropriate fonts to the control.
+            ApplyFonts(control);
+
+            // Theme the Category, Main and Title Buttons
+            if (IsMainItem(control) && control is AnimatedButton) { ThemeButton(control, ThemeColours.MainColours, ThemeColours.MainEnterAnimation, ThemeColours.MainLeaveAnimation, true); }
+            if (IsCategoryItem(control) && control is AnimatedButton){ ThemeButton(control, ThemeColours.CategoryColours, ThemeColours.CategoryEnterAnimation, ThemeColours.CategoryLeaveAnimation, false); }
+            if (IsTitleItem(control) && control is AnimatedButton) { ThemeButton(control, ThemeColours.TitleColours, ThemeColours.TitleEnterAnimation, ThemeColours.TitleLeaveAnimation, false); }
+        }
+
+        /// <summary>
+        /// Sets the common properties of an animated main section (not title/category) button.
+        /// These properties are common for all main buttons placed anywhere.
+        /// Properties that are location dependent, such as borders are set elsewhere.
+        /// </summary>
+        /// <param name="control">The button control whose properties are to be set.</param>
+        /// <param name="ThemeBorder">Adds/Themes the current border if set to true.</param>
+        /// <param name="buttonColours">Defines the main button colours of the button in question</param>
+        /// <param name="enterAnimation">Defines the mouse enter animation of the button.</param>
+        /// <param name="exitAnimation">Defines the mouse exit animation of the buttons.</param>
+        private static void ThemeButton(Control control, BarColours buttonColours, ButtonMouseAnimation enterAnimation, ButtonMouseAnimation exitAnimation, bool ThemeBorder)
+        {
+            // Cast the animated button 
+            AnimatedButton button = (AnimatedButton)control;
+
+            // Set the button backcolor and forecolor.
+            button.ForeColor = buttonColours.TextColour;
+            button.BackColor = buttonColours.ButtonBGColour;
+
+            // Theme the button border.
+            if (ThemeBorder) { ThemeButtonBorder(control); }
+
+            // Set the enter animation.
+            button.MouseEnterBackColor = enterAnimation.BGTargetColour;
+            button.MouseEnterForeColor = enterAnimation.FGTargetColour;
+            button.MouseEnterDuration = enterAnimation.AnimationDuration;
+            button.MouseEnterFramerate = enterAnimation.AnimationFramerate;
+            if (enterAnimation.BlendBGColour) { button.MouseEnterOverride = button.MouseEnterOverride | Animation.AnimOverrides.MouseEnterOverride.BackColorInterpolate; }
+            if (enterAnimation.BlendFGColour) { button.MouseEnterOverride = button.MouseEnterOverride | Animation.AnimOverrides.MouseEnterOverride.ForeColorInterpolate; }
+
+            // Set the exit animation
+            button.MouseLeaveBackColor = exitAnimation.BGTargetColour;
+            button.MouseLeaveForeColor = exitAnimation.FGTargetColour;
+            button.MouseLeaveDuration = exitAnimation.AnimationDuration;
+            button.MouseLeaveFramerate = exitAnimation.AnimationFramerate;
+            if (exitAnimation.BlendBGColour) { button.MouseLeaveOverride = button.MouseLeaveOverride | Animation.AnimOverrides.MouseLeaveOverride.BackColorInterpolate; }
+            if (exitAnimation.BlendFGColour) { button.MouseLeaveOverride = button.MouseLeaveOverride | Animation.AnimOverrides.MouseLeaveOverride.ForeColorInterpolate; }
+        }
+
+        /// <summary>
+        /// Applies the relevant border style to a windows forms button based off of the loaded
+        /// colour/animation configuration file.
+        /// </summary>
+        /// <param name="control">The button control whose properties are to be set.</param>
+        private static void ThemeButtonBorder(Control control)
+        {
+            // Cast the animated button 
+            AnimatedButton button = (AnimatedButton)control;
+
+            // Set border size.
+            button.FlatAppearance.BorderSize = ThemeColours.ButtonBorderProperties.BorderWidth;
+            button.FlatAppearance.BorderColor = ThemeColours.ButtonBorderProperties.BorderColour;
+        }
+
+        /// <summary>
+        /// Returns true if the specified passed in control is part of the main form
+        /// and not the category/title bar.
+        /// </summary>
+        private static bool IsMainItem(Control control) { return control.Name.StartsWith("item_") ? true : false; }
+
+        /// <summary>
+        /// Returns true if the specified passed in control is part of the main form
+        /// and not the category/title bar.
+        /// </summary>
+        private static bool IsCategoryItem(Control control) { return control.Name.StartsWith("categoryBar_") ? true : false; }
+
+        /// <summary>
+        /// Returns true if the specified passed in control is part of the main form
+        /// and not the category/title bar.
+        /// </summary>
+        private static bool IsTitleItem(Control control) { return control.Name.StartsWith("titleBar_") ? true : false; }
 
         /// <summary>
         /// Applies the common font style for an individual control.
@@ -73,6 +170,17 @@ namespace HeroesModLoaderConfig.Styles.Themes
                 Global.BaseForm.categoryBar_Mods.Image = Image.FromFile(imagesFolder + "\\Tweaks-Icon.png");
                 Global.BaseForm.categoryBar_Games.Image = Image.FromFile(imagesFolder + "\\Main-Icon.png");
             }
+        }
+
+        /// <summary>
+        /// Loads all of the colour and animation configuration for various windows forms controls.
+        /// </summary>
+        /// <param name="themeDirectory">Dictates the name of the directory that contains the theme with the colour/animation configuration. e.g. "Default" for default theme.</param>
+        public static void LoadColours(string themeDirectory)
+        {
+            // If the baseform is instantiated
+            ThemeColourParser themeColourParser = new ThemeColourParser();
+            ThemeColours = themeColourParser.ParseConfig(themeDirectory);
         }
     }
 }

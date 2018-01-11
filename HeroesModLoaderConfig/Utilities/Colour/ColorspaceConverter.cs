@@ -36,8 +36,18 @@ namespace HeroesModLoaderConfig.Utilities.Colour
             // First convert to ColorSpace.colorRGB
             ColorMine.ColorSpaces.Rgb colorRGB = new ColorMine.ColorSpaces.Rgb(LCHColor);
 
+            // Retrieve the RGB Components
+            int R = (int)Math.Round(colorRGB.R * 255.0, MidpointRounding.AwayFromZero);
+            int G = (int)Math.Round(colorRGB.G * 255.0, MidpointRounding.AwayFromZero);
+            int B = (int)Math.Round(colorRGB.B * 255.0, MidpointRounding.AwayFromZero);
+
+            // Ensure they are in permissible ranges. (In case of multithreading, concurrency issues)
+            if (R > 255) { R = 255; }
+            if (G > 255) { G = 255; }
+            if (B > 255) { B = 255; }
+
             // Return as System.Drawing.Color
-            return Color.FromArgb((int)Math.Round(colorRGB.R * 255.0, MidpointRounding.AwayFromZero), (int)Math.Round(colorRGB.G * 255.0, MidpointRounding.AwayFromZero), (int)Math.Round(colorRGB.B * 255.0, MidpointRounding.AwayFromZero));
+            return Color.FromArgb(R, G, B);
         }
 
         /// <summary>

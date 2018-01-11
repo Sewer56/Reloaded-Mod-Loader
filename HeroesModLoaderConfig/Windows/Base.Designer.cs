@@ -38,7 +38,7 @@ namespace HeroesModLoaderConfig
             this.categoryBar_Mods = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.categoryBar_Manager = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.categoryBar_Games = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
-            this.titleBar_Title = new HeroesModLoaderConfig.Styles.Controls.EnhancedButton();
+            this.titleBar_Title = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.panel_TitleBar.SuspendLayout();
             this.panel_CategoryBar.SuspendLayout();
             this.SuspendLayout();
@@ -79,6 +79,7 @@ namespace HeroesModLoaderConfig
             this.categoryBar_About.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_About.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.categoryBar_About.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.categoryBar_About.ForeColor = System.Drawing.Color.Silver;
             this.categoryBar_About.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.categoryBar_About.Location = new System.Drawing.Point(750, 0);
             this.categoryBar_About.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
@@ -109,6 +110,7 @@ namespace HeroesModLoaderConfig
             this.categoryBar_Theme.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Theme.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.categoryBar_Theme.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.categoryBar_Theme.ForeColor = System.Drawing.Color.Silver;
             this.categoryBar_Theme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.categoryBar_Theme.Location = new System.Drawing.Point(450, 0);
             this.categoryBar_Theme.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
@@ -139,6 +141,7 @@ namespace HeroesModLoaderConfig
             this.categoryBar_Input.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Input.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.categoryBar_Input.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.categoryBar_Input.ForeColor = System.Drawing.Color.Silver;
             this.categoryBar_Input.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.categoryBar_Input.Location = new System.Drawing.Point(300, 0);
             this.categoryBar_Input.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
@@ -169,6 +172,7 @@ namespace HeroesModLoaderConfig
             this.categoryBar_Mods.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Mods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.categoryBar_Mods.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.categoryBar_Mods.ForeColor = System.Drawing.Color.Silver;
             this.categoryBar_Mods.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.categoryBar_Mods.Location = new System.Drawing.Point(150, 0);
             this.categoryBar_Mods.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
@@ -199,6 +203,7 @@ namespace HeroesModLoaderConfig
             this.categoryBar_Manager.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Manager.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.categoryBar_Manager.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.categoryBar_Manager.ForeColor = System.Drawing.Color.Silver;
             this.categoryBar_Manager.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.categoryBar_Manager.Location = new System.Drawing.Point(600, 0);
             this.categoryBar_Manager.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
@@ -229,18 +234,19 @@ namespace HeroesModLoaderConfig
             this.categoryBar_Games.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Games.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.categoryBar_Games.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.categoryBar_Games.ForeColor = System.Drawing.Color.Silver;
             this.categoryBar_Games.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.categoryBar_Games.Location = new System.Drawing.Point(0, 0);
             this.categoryBar_Games.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
             this.categoryBar_Games.MouseEnterDuration = 150F;
             this.categoryBar_Games.MouseEnterForeColor = System.Drawing.Color.Transparent;
             this.categoryBar_Games.MouseEnterFramerate = 144F;
-            this.categoryBar_Games.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.BackColorInterpolate;
+            this.categoryBar_Games.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
             this.categoryBar_Games.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_Games.MouseLeaveDuration = 150F;
             this.categoryBar_Games.MouseLeaveForeColor = System.Drawing.Color.Transparent;
             this.categoryBar_Games.MouseLeaveFramerate = 144F;
-            this.categoryBar_Games.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.BackColorInterpolate;
+            this.categoryBar_Games.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.categoryBar_Games.Name = "categoryBar_Games";
             this.categoryBar_Games.Size = new System.Drawing.Size(150, 44);
             this.categoryBar_Games.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -252,25 +258,32 @@ namespace HeroesModLoaderConfig
             // 
             // titleBar_Title
             // 
-            this.titleBar_Title.BackColor = System.Drawing.Color.Transparent;
             this.titleBar_Title.Dock = System.Windows.Forms.DockStyle.Fill;
             this.titleBar_Title.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.titleBar_Title.FlatAppearance.BorderSize = 0;
-            this.titleBar_Title.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.titleBar_Title.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.titleBar_Title.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.titleBar_Title.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.titleBar_Title.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.titleBar_Title.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.titleBar_Title.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.titleBar_Title.ForeColor = System.Drawing.Color.White;
             this.titleBar_Title.Location = new System.Drawing.Point(0, 0);
-            this.titleBar_Title.Margin = new System.Windows.Forms.Padding(0);
+            this.titleBar_Title.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            this.titleBar_Title.MouseEnterDuration = 200F;
+            this.titleBar_Title.MouseEnterForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(163)))), ((int)(((byte)(244)))));
+            this.titleBar_Title.MouseEnterFramerate = 144F;
+            this.titleBar_Title.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.ForeColorInterpolate;
+            this.titleBar_Title.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            this.titleBar_Title.MouseLeaveDuration = 200F;
+            this.titleBar_Title.MouseLeaveForeColor = System.Drawing.Color.White;
+            this.titleBar_Title.MouseLeaveFramerate = 144F;
+            this.titleBar_Title.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.ForeColorInterpolate;
             this.titleBar_Title.Name = "titleBar_Title";
             this.titleBar_Title.Size = new System.Drawing.Size(900, 44);
             this.titleBar_Title.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.titleBar_Title.TabIndex = 1;
-            this.titleBar_Title.TabStop = false;
-            this.titleBar_Title.Text = "Heroes Mod Loader MKII";
+            this.titleBar_Title.TabIndex = 3;
+            this.titleBar_Title.Text = "Heroes Mod Loader MKII | Main Screen";
             this.titleBar_Title.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-            this.titleBar_Title.UseVisualStyleBackColor = false;
+            this.titleBar_Title.UseVisualStyleBackColor = true;
             // 
             // Base
             // 
@@ -294,7 +307,6 @@ namespace HeroesModLoaderConfig
         #endregion
 
         private System.Windows.Forms.Panel panel_TitleBar;
-        private Styles.Controls.EnhancedButton titleBar_Title;
         private System.Windows.Forms.Panel panel_CategoryBar;
         public Styles.Controls.Animated.AnimatedButton categoryBar_Games;
         public Styles.Controls.Animated.AnimatedButton categoryBar_Mods;
@@ -302,6 +314,7 @@ namespace HeroesModLoaderConfig
         public Styles.Controls.Animated.AnimatedButton categoryBar_Theme;
         public Styles.Controls.Animated.AnimatedButton categoryBar_Manager;
         public Styles.Controls.Animated.AnimatedButton categoryBar_About;
+        private Styles.Controls.Animated.AnimatedButton titleBar_Title;
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using SonicHeroes.Misc;
+using SonicHeroes.Misc.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,9 @@ namespace HeroesModLoaderConfig.Styles.Themes
 
             // Load the images for the theme.
             ApplyTheme.LoadImages(LoaderPaths.GetModLoaderConfigDirectory() + "\\Themes\\" + themeDirectory + "\\Images");
+
+            // Retrieve the theme colours
+            ApplyTheme.LoadColours(themeDirectory);
 
             // Apply the theme.
             ApplyTheme.ApplyCurrentTheme();
