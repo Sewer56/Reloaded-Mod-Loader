@@ -71,6 +71,29 @@ namespace SonicHeroes.Native
             public static extern bool GetClientRect(IntPtr hWnd, out WinAPIRectangle lpRect);
 
             /// <summary>
+            /// The MoveWindow function changes the position and dimensions of the specified window. 
+            /// For a top-level window, the position and dimensions are relative to the upper-left corner of the screen. 
+            /// For a child window, they are relative to the upper-left corner of the parent window's client area.
+            /// </summary>
+            /// <param name="hWnd">Handle to the window.</param>
+            /// <param name="x">Specifies the new position of the left side of the window.</param>
+            /// <param name="y">Specifies the new position of the top of the window.</param>
+            /// <param name="nWidth">Specifies the new width of the window.</param>
+            /// <param name="nHeight">Specifies the new height of the window.</param>
+            /// <param name="bRepaint">
+            /// Specifies whether the window is to be repainted. If this parameter is TRUE, the window receives a message. 
+            /// If the parameter is FALSE, no repainting of any kind occurs. This applies to the client area, 
+            /// the nonclient area (including the title bar and scroll bars), 
+            /// and any part of the parent window uncovered as a result of moving a child window.
+            /// </param>
+            /// <returns>
+            /// If the function succeeds, the return value is nonzero. 
+            /// If the function fails, the return value is zero. To get extended error information, call GetLastError.
+            /// </returns>
+            [DllImport("user32.dll", SetLastError = true)]
+            internal static extern bool MoveWindow(IntPtr hWnd, int x, int y, int nWidth, int nHeight, bool bRepaint);
+
+            /// <summary>
             /// Tries to find a window by matching the name of the window with all of the current top-level windows (does not search child windows).
             /// Returns the handle to the window if found.
             /// </summary>
@@ -134,6 +157,11 @@ namespace SonicHeroes.Native
                 /// Uses bAlpha to determine the opacity of the layered window, allows for the changing of the opacity of the layered window.
                 /// </summary>
                 public const int LWA_ALPHA = 0x2;
+
+                /// <summary>
+                /// The window has a border with a sunken edge.
+                /// </summary>
+                public const long WS_EX_CLIENTEDGE = 0x00000200;
             }
 
             /// 
@@ -184,7 +212,7 @@ namespace SonicHeroes.Native
             /// Likely to be used in order to retrieve extended window properties.
             /// </summary>
             /// <param name="hWnd">Handle to the window we are modifying.</param>
-            /// <param name="nIndex">See MSDN: https://msdn.microsoft.com/en-us/library/windows/desktop/ms633591(v=vs.85).aspx</param>
+            /// <param name="nIndex">See MSDN: https://msdn.microsoft.com/en-us/library/windows/desktop/ms633591(v=vs.85).aspx </param>
             /// <returns>The requested information stored at nIndex.</returns>
             public static IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex)
             {
