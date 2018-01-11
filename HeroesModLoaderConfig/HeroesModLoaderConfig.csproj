@@ -209,6 +209,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /E /Y "$(SolutionDir)\$(SolutionName)\Resources\Files" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>XCOPY /E /Y "$(SolutionDir)\$(SolutionName)\Resources\Files" "$(TargetDir)"</PreBuildEvent>
   </PropertyGroup>
 </Project>
