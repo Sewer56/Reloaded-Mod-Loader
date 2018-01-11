@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SonicHeroes.Misc.Config
 {
-    public class ThemeColourParser
+    public class ThemePropertyParser
     {
         /// <summary>
         /// Stores the ini data read by the ini-parser.
@@ -22,15 +22,15 @@ namespace SonicHeroes.Misc.Config
         private FileIniDataParser iniParser;
 
         /// <summary>
-        /// Stores all of the colour and animation details of the theme in question.
+        /// Stores all of the general theme colours and properties in question.
         /// </summary>
-        public struct ColourConfig
+        public struct ThemeConfig
         {
             /// <summary>
-            /// Specifies the title of the Mod Loader Window.
-            /// The name of the current menu is appended to the title, without space.
+            /// Specifies the title properties which declare the style of how the mod loader
+            /// title is presented to the user.
             /// </summary>
-            public string LoaderTitle;
+            public TitleProperties TitleProperties { get; set; }
 
             /// <summary>
             /// Specifies the properties of the button and control borders used
@@ -82,6 +82,38 @@ namespace SonicHeroes.Misc.Config
             /// Specifies the mouse enter animation behaviour for the items on the category bar.
             /// </summary>
             public ButtonMouseAnimation MainLeaveAnimation;
+        }
+
+        /// <summary>
+        /// Defines the common properties that define how the mod loader title is presented
+        /// within the theme.
+        /// </summary>
+        public struct TitleProperties
+        {
+            /// <summary>
+            /// Specifies the title of the Mod Loader Window.
+            /// The name of the current menu is appended to the title, without space.
+            /// </summary>
+            public string LoaderTitle;
+
+            /// <summary>
+            /// Sets the character that is shown between the loader title
+            /// and the current menu that the user is in.
+            /// </summary>
+            public string LoaderTitleDelimiter;
+
+            /// <summary>
+            /// Sets the whether the title delimiter and menu name is
+            /// placed before or after the actual LoaderTitle field.
+            /// false sets it after, true places it before.
+            /// </summary>
+            public bool LoaderTitlePrefix;
+
+            /// <summary>
+            /// Set to true if there should be a space before and after
+            /// the delimiter character. (ini parser cannot read spaces)
+            /// </summary>
+            public bool DelimiterHasSpaces;
         }
 
         /// <summary>
@@ -166,7 +198,7 @@ namespace SonicHeroes.Misc.Config
         /// <summary>
         /// Initiates the Theme Colour Parser.
         /// </summary>
-        public ThemeColourParser()
+        public ThemePropertyParser()
         {
             iniParser = new FileIniDataParser();
             iniParser.Parser.Configuration.CommentString = "#";
@@ -176,16 +208,21 @@ namespace SonicHeroes.Misc.Config
         /// Retrieves the Mod Loader Colour Configuration File.
         /// </summary>
         /// <param name="themeDirectory">The relative directory of the individual theme to Mod-Loader-Config/Themes. e.g. Default</param>
-        public ColourConfig ParseConfig(string themeDirectory)
+        public ThemeConfig ParseConfig(string themeDirectory)
         {
             // Instantiate a new configuration struct.
-            ColourConfig colourConfig = new ColourConfig();
+            ThemeConfig colourConfig = new ThemeConfig();
 
             // Read the mod loader configuration.
             iniData = iniParser.ReadFile(LoaderPaths.GetModLoaderConfigDirectory() + "/Themes/" + themeDirectory + "/Theme.ini");
 
-            // Parse the title.
-            colourConfig.LoaderTitle = iniData["Title"]["LoaderTitle"];
+            // Parse the title properties .
+            TitleProperties titleProperties = new TitleProperties();
+            titleProperties.LoaderTitle = iniData["Title"]["LoaderTitle"];
+            titleProperties.LoaderTitleDelimiter = iniData["Title"]["LoaderTitleDelimiter"];
+            titleProperties.LoaderTitlePrefix = bool.Parse(iniData["Title"]["LoaderTitlePrefix"]);
+            titleProperties.DelimiterHasSpaces = bool.Parse(iniData["Title"]["DelimiterHasSpaces"]);
+            colourConfig.TitleProperties = titleProperties; 
 
             // Parse the border properties.
             colourConfig.ButtonBorderProperties = new BorderProperties();
