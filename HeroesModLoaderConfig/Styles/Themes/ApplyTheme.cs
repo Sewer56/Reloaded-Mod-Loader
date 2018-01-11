@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static SonicHeroes.Misc.Config.ThemeColourParser;
+using static SonicHeroes.Misc.Config.ThemePropertyParser;
 
 namespace HeroesModLoaderConfig.Styles.Themes
 {
@@ -24,17 +24,23 @@ namespace HeroesModLoaderConfig.Styles.Themes
         // Title Bar Items should be named titleBar_*
 
         /// <summary>
-        /// Retriieves the colour configuration for the current theme
-        /// </summary>
-        public static ColourConfig ThemeColours { get; set; }
-
-        /// <summary>
         /// Applies the currently set theming properties to a new windows form.
         /// </summary>
         public static void ApplyCurrentTheme()
         {
             // For each currently initialized Windows Form.
             foreach (Form windowForm in Global.WindowsForms) { ThemeWindowsForm(windowForm); }
+
+            // If the initial form has been initialized yet.
+            if (Global.BaseForm != null)
+            {
+                // Update the title.
+                Global.BaseForm.UpdateTitle();
+
+                // Set the background colours
+                Global.BaseForm.panel_CategoryBar.BackColor = Theme.ThemeProperties.CategoryColours.BGColour;
+                Global.BaseForm.panel_TitleBar.BackColor = Theme.ThemeProperties.TitleColours.BGColour;
+            }
         }
 
         /// <summary>
@@ -52,6 +58,9 @@ namespace HeroesModLoaderConfig.Styles.Themes
                 // Apply the theme.
                 ThemeControl(control);
             }
+
+            // Set the BG Colour of the Form
+            windowForm.BackColor = Theme.ThemeProperties.MainColours.BGColour;
         }
 
         /// <summary>
@@ -64,9 +73,9 @@ namespace HeroesModLoaderConfig.Styles.Themes
             ApplyFonts(control);
 
             // Theme the Category, Main and Title Buttons
-            if (IsMainItem(control) && control is AnimatedButton) { ThemeButton(control, ThemeColours.MainColours, ThemeColours.MainEnterAnimation, ThemeColours.MainLeaveAnimation, true); }
-            if (IsCategoryItem(control) && control is AnimatedButton){ ThemeButton(control, ThemeColours.CategoryColours, ThemeColours.CategoryEnterAnimation, ThemeColours.CategoryLeaveAnimation, false); }
-            if (IsTitleItem(control) && control is AnimatedButton) { ThemeButton(control, ThemeColours.TitleColours, ThemeColours.TitleEnterAnimation, ThemeColours.TitleLeaveAnimation, false); }
+            if (IsMainItem(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true); }
+            if (IsCategoryItem(control) && control is AnimatedButton){ ThemeButton(control, Theme.ThemeProperties.CategoryColours, Theme.ThemeProperties.CategoryEnterAnimation, Theme.ThemeProperties.CategoryLeaveAnimation, false); }
+            if (IsTitleItem(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.TitleColours, Theme.ThemeProperties.TitleEnterAnimation, Theme.ThemeProperties.TitleLeaveAnimation, false); }
         }
 
         /// <summary>
@@ -119,8 +128,8 @@ namespace HeroesModLoaderConfig.Styles.Themes
             AnimatedButton button = (AnimatedButton)control;
 
             // Set border size.
-            button.FlatAppearance.BorderSize = ThemeColours.ButtonBorderProperties.BorderWidth;
-            button.FlatAppearance.BorderColor = ThemeColours.ButtonBorderProperties.BorderColour;
+            button.FlatAppearance.BorderSize = Theme.ThemeProperties.ButtonBorderProperties.BorderWidth;
+            button.FlatAppearance.BorderColor = Theme.ThemeProperties.ButtonBorderProperties.BorderColour;
         }
 
         /// <summary>
@@ -148,9 +157,9 @@ namespace HeroesModLoaderConfig.Styles.Themes
         private static void ApplyFonts(Control control)
         {
             // Filter the three text categories.
-            if (control.Name.StartsWith("categoryBar_")) { control.Font = new Font(Global.Theme.Fonts.CategoryFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
-            else if (control.Name.StartsWith("text_")) { control.Font = new Font(Global.Theme.Fonts.TextFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
-            else if (control.Name.StartsWith("titleBar_")) { control.Font = new Font(Global.Theme.Fonts.TitleFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
+            if (control.Name.StartsWith("categoryBar_")) { control.Font = new Font(Theme.Fonts.CategoryFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
+            else if (control.Name.StartsWith("text_")) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
+            else if (control.Name.StartsWith("titleBar_")) { control.Font = new Font(Theme.Fonts.TitleFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
         }
 
         /// <summary>
@@ -173,14 +182,14 @@ namespace HeroesModLoaderConfig.Styles.Themes
         }
 
         /// <summary>
-        /// Loads all of the colour and animation configuration for various windows forms controls.
+        /// Loads the theme configuration including the Windows Control Colours and Animations
         /// </summary>
         /// <param name="themeDirectory">Dictates the name of the directory that contains the theme with the colour/animation configuration. e.g. "Default" for default theme.</param>
-        public static void LoadColours(string themeDirectory)
+        public static void LoadProperties(string themeDirectory)
         {
             // If the baseform is instantiated
-            ThemeColourParser themeColourParser = new ThemeColourParser();
-            ThemeColours = themeColourParser.ParseConfig(themeDirectory);
+            ThemePropertyParser themeColourParser = new ThemePropertyParser();
+            Theme.ThemeProperties = themeColourParser.ParseConfig(themeDirectory);
         }
     }
 }

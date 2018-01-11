@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static SonicHeroes.Misc.Config.ThemePropertyParser;
 
 namespace HeroesModLoaderConfig.Styles.Themes
 {
@@ -17,7 +18,12 @@ namespace HeroesModLoaderConfig.Styles.Themes
         /// <summary>
         /// Stores all of the currently loaded in fonts for this theme in particular.
         /// </summary>
-        public ThemeFonts Fonts { get; set; }
+        public static ThemeFonts Fonts { get; set; }
+
+        /// <summary>
+        /// Retrieves the general theme configuration for the current theme.
+        /// </summary>
+        public static ThemeConfig ThemeProperties { get; set; }
 
         /// <summary>
         /// Changes the directory for the theme to be used.
@@ -60,8 +66,8 @@ namespace HeroesModLoaderConfig.Styles.Themes
             // Load the images for the theme.
             ApplyTheme.LoadImages(LoaderPaths.GetModLoaderConfigDirectory() + "\\Themes\\" + themeDirectory + "\\Images");
 
-            // Retrieve the theme colours
-            ApplyTheme.LoadColours(themeDirectory);
+            // Retrieve the theme properties
+            ApplyTheme.LoadProperties(themeDirectory);
 
             // Apply the theme.
             ApplyTheme.ApplyCurrentTheme();

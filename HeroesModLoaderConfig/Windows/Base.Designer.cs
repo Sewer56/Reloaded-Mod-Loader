@@ -284,6 +284,7 @@ namespace HeroesModLoaderConfig
             this.titleBar_Title.Text = "Heroes Mod Loader MKII | Main Screen";
             this.titleBar_Title.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             this.titleBar_Title.UseVisualStyleBackColor = true;
+            this.titleBar_Title.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleBarMouseDown);
             // 
             // Base
             // 
@@ -305,9 +306,6 @@ namespace HeroesModLoaderConfig
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panel_TitleBar;
-        private System.Windows.Forms.Panel panel_CategoryBar;
         public Styles.Controls.Animated.AnimatedButton categoryBar_Games;
         public Styles.Controls.Animated.AnimatedButton categoryBar_Mods;
         public Styles.Controls.Animated.AnimatedButton categoryBar_Input;
@@ -315,6 +313,8 @@ namespace HeroesModLoaderConfig
         public Styles.Controls.Animated.AnimatedButton categoryBar_Manager;
         public Styles.Controls.Animated.AnimatedButton categoryBar_About;
         private Styles.Controls.Animated.AnimatedButton titleBar_Title;
+        public System.Windows.Forms.Panel panel_TitleBar;
+        public System.Windows.Forms.Panel panel_CategoryBar;
     }
 }
 

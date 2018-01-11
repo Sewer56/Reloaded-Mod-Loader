@@ -20,6 +20,12 @@ namespace HeroesModLoaderConfig
         public static Theme Theme { get; set; }
 
         /// <summary>
+        /// Defines the name of the menu that the user is currently in.
+        /// Used for correctly setting the titlebar title.
+        /// </summary>
+        public static string CurrentMenuName { get; set; }
+
+        /// <summary>
         /// Stores a list of all instantiated windows forms. 
         /// Used for setting themes on each form alongside other misc purposes.
         /// </summary>

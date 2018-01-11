@@ -47,6 +47,9 @@ namespace HeroesModLoaderConfig
             Global.Theme = new Styles.Themes.Theme();
             Global.WindowsForms = new List<Form>();
 
+            // Set the initial menu name.
+            Global.CurrentMenuName = "Main Menu";
+
             // Set the initial theme.
             Global.Theme.ThemeDirectory = Global.LoaderConfiguration.CurrentTheme;
         }
