@@ -136,32 +136,47 @@ namespace SonicHeroes.Native
                 public const int GWL_EXSTYLE = -20;
 
                 /// <summary>
-                /// The extended window style which declares the window as a layered window.
+                /// Defines the nIndex for Get/SetWindowLong which returns or sets the regular window styles.
+                /// </summary>
+                public const int GWL_STYLE = -16;
+
+                /// <summary>
+                /// [Extended Window Style] The extended window style which declares the window as a layered window.
                 /// See MSDN on Layered Windows: https://msdn.microsoft.com/en-us/library/windows/desktop/ms632599(v=vs.85).aspx#layered 
                 /// </summary>
                 public const long WS_EX_LAYERED = 0x80000;
 
                 /// <summary>
-                /// The extended window style which declares the window as a transparent window.
+                /// [Extended Window Style] The extended window style which declares the window as a transparent window.
                 /// The window should not be painted until siblings beneath the window (created by the same thread) have been painted.
                 /// Used alongside WS_EX_LAYERED, it disables hit testing such that windows under wouldn't receive clicks from the windows above.
                 /// </summary>
                 public const long WS_EX_TRANSPARENT = 0x20;
 
                 /// <summary>
-                /// The window should be placed above all non-topmost windows and should stay above them, even when the window is deactivated.
+                /// [Extended Window Style] The window should be placed above all non-topmost windows and should stay above them, even when the window is deactivated.
                 /// </summary>
                 public const long WS_EX_TOPMOST = 0x00000008;
 
                 /// <summary>
-                /// Uses bAlpha to determine the opacity of the layered window, allows for the changing of the opacity of the layered window.
-                /// </summary>
-                public const int LWA_ALPHA = 0x2;
-
-                /// <summary>
-                /// The window has a border with a sunken edge.
+                /// [Extended Window Style] The window has a border with a sunken edge.
                 /// </summary>
                 public const long WS_EX_CLIENTEDGE = 0x00000200;
+
+                /// <summary>
+                /// [Window Style] The Window has a horizontal scrollbar.
+                /// </summary>
+                public const long WS_HSCROLL = 0x00100000;
+
+                /// <summary>
+                /// [Window Style] The Window has a vertical scrollbar.
+                /// </summary>
+                public const long WS_VSCROLL = 0x00200000;
+
+                /// <summary>
+                /// [Layered Window] Uses bAlpha to determine the opacity of the layered window, allows for the changing of the opacity of the layered window.
+                /// </summary>
+                public const int LWA_ALPHA = 0x2;
             }
 
             /// 
