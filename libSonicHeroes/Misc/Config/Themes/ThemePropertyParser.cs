@@ -54,6 +54,11 @@ namespace SonicHeroes.Misc.Config
             public BarColours CategoryColours;
 
             /// <summary>
+            /// Specifies the colours for the WinForm buttons used as decorations that serve no functionality
+            /// </summary>
+            public BarColours BoxColours;
+
+            /// <summary>
             /// Specifies the mouse enter animation behaviour for the items on the category bar.
             /// </summary>
             public ButtonMouseAnimation CategoryEnterAnimation;
@@ -74,14 +79,24 @@ namespace SonicHeroes.Misc.Config
             public ButtonMouseAnimation TitleLeaveAnimation;
 
             /// <summary>
-            /// Specifies the mouse enter animation behaviour for the items on the category bar.
+            /// Specifies the mouse enter animation behaviour for the items in the main forms.
             /// </summary>
             public ButtonMouseAnimation MainEnterAnimation;
 
             /// <summary>
-            /// Specifies the mouse enter animation behaviour for the items on the category bar.
+            /// Specifies the mouse leave animation behaviour for the items in the main forms.
             /// </summary>
             public ButtonMouseAnimation MainLeaveAnimation;
+
+            /// <summary>
+            /// Specifies the mouse enter animation behaviour for the WinForm buttons used for decorations that serve no functionality.
+            /// </summary>
+            public ButtonMouseAnimation BoxEnterAnimation;
+
+            /// <summary>
+            /// Specifies the mouse leave animation behaviour for the WinForm buttons used for decorations that serve no functionality.
+            /// </summary>
+            public ButtonMouseAnimation BoxLeaveAnimation;
         }
 
         /// <summary>
@@ -233,6 +248,7 @@ namespace SonicHeroes.Misc.Config
             colourConfig.MainColours = ParseColours("Main Colours");
             colourConfig.TitleColours = ParseColours("Title Colours");
             colourConfig.CategoryColours = ParseColours("Category Colours");
+            colourConfig.BoxColours = ParseColours("Box Colours");
 
             // Parse the Main, Title and Category Enter and Leave Animations
             colourConfig.CategoryEnterAnimation = ParseAnimations("Category Button Mouse Enter Animation");
@@ -243,6 +259,9 @@ namespace SonicHeroes.Misc.Config
 
             colourConfig.TitleEnterAnimation = ParseAnimations("Title Button Mouse Enter Animation");
             colourConfig.TitleLeaveAnimation = ParseAnimations("Title Button Mouse Leave Animation");
+
+            colourConfig.BoxEnterAnimation = ParseAnimations("Box Mouse Enter Animation");
+            colourConfig.BoxLeaveAnimation = ParseAnimations("Box Mouse Leave Animation");
 
             // Return the config file.
             return colourConfig;
