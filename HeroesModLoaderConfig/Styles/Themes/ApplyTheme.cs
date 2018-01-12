@@ -123,6 +123,16 @@ namespace HeroesModLoaderConfig.Styles.Themes
                 if (exitAnimation.BlendBGColour) { animatedControl.AnimProperties.MouseLeaveOverride = animatedControl.AnimProperties.MouseLeaveOverride | Animation.AnimOverrides.MouseLeaveOverride.BackColorInterpolate; }
                 if (exitAnimation.BlendFGColour) { animatedControl.AnimProperties.MouseLeaveOverride = animatedControl.AnimProperties.MouseLeaveOverride | Animation.AnimOverrides.MouseLeaveOverride.ForeColorInterpolate; }
             }
+
+            // If it is a datagridview, set the 
+            if (control is DataGridView)
+            {
+                DataGridView controlDataGridView = (DataGridView)control;
+                controlDataGridView.DefaultCellStyle.ForeColor = buttonColours.TextColour;
+                controlDataGridView.DefaultCellStyle.BackColor = buttonColours.BGColour;
+                controlDataGridView.DefaultCellStyle.SelectionBackColor = enterAnimation.BGTargetColour;
+                controlDataGridView.DefaultCellStyle.SelectionForeColor = buttonColours.TextColour;
+            }
         }
 
         /// <summary>

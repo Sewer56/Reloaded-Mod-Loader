@@ -1,4 +1,5 @@
-﻿using HeroesModLoaderConfig.Styles.Controls.Enhanced;
+﻿using HeroesModLoaderConfig.Styles.Controls.Animated;
+using HeroesModLoaderConfig.Styles.Controls.Enhanced;
 
 namespace HeroesModLoaderConfig.Windows.Children
 {
@@ -33,6 +34,9 @@ namespace HeroesModLoaderConfig.Windows.Children
             HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties1 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage1 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage2 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties2 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage3 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage4 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
@@ -42,34 +46,35 @@ namespace HeroesModLoaderConfig.Windows.Children
             HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties4 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage7 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage8 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.item_GameList = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedDataGridView();
+            this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box_GameListBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
+            this.box_NoteBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
+            this.box_LocationBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.item_NoteBoxVerPath = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_NoteBoxEXEPath = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_NoteBoxVERTitle = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_NoteBoxEXETitle = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_NoteBoxGameName = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_NoteBoxSeparator = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
-            this.box_NoteBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.item_LocationBoxEXEPath = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_LocationBoxDirectoryPath = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_LocationBoxDirectoryTitle = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_LocationBoxEXETitle = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
-            this.box_LocationBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
-            this.dataGridView1 = new HeroesModLoaderConfig.Styles.Controls.Enhanced.AnimatedDataGridView();
-            this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.item_GameList)).BeginInit();
             this.SuspendLayout();
             // 
-            // box_GameListBox
+            // item_GameList
             // 
-            animMessage1.Control = this.box_GameListBox;
+            this.item_GameList.AllowUserToAddRows = false;
+            this.item_GameList.AllowUserToDeleteRows = false;
+            this.item_GameList.AllowUserToResizeColumns = false;
+            this.item_GameList.AllowUserToResizeRows = false;
+            animMessage1.Control = this.item_GameList;
             animMessage1.PlayAnimation = true;
             animProperties1.BackColorMessage = animMessage1;
-            animMessage2.Control = this.box_GameListBox;
+            animMessage2.Control = this.item_GameList;
             animMessage2.PlayAnimation = true;
             animProperties1.ForeColorMessage = animMessage2;
             animProperties1.MouseEnterBackColor = System.Drawing.Color.Empty;
@@ -82,7 +87,79 @@ namespace HeroesModLoaderConfig.Windows.Children
             animProperties1.MouseLeaveForeColor = System.Drawing.Color.Empty;
             animProperties1.MouseLeaveFramerate = 0F;
             animProperties1.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_GameListBox.AnimProperties = animProperties1;
+            this.item_GameList.AnimProperties = animProperties1;
+            this.item_GameList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.item_GameList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.item_GameList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.item_GameList.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.item_GameList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.item_GameList.ColumnHeadersVisible = false;
+            this.item_GameList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.modName,
+            this.modDirectory});
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Roboto Mono", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.item_GameList.DefaultCellStyle = dataGridViewCellStyle3;
+            this.item_GameList.EnableHeadersVisualStyles = false;
+            this.item_GameList.GridColor = System.Drawing.Color.White;
+            this.item_GameList.Location = new System.Drawing.Point(41, 40);
+            this.item_GameList.MultiSelect = false;
+            this.item_GameList.Name = "item_GameList";
+            this.item_GameList.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.item_GameList.RowHeadersVisible = false;
+            this.item_GameList.RowTemplate.Height = 30;
+            this.item_GameList.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.item_GameList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.item_GameList.Size = new System.Drawing.Size(518, 251);
+            this.item_GameList.TabIndex = 14;
+            // 
+            // modName
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.modName.DefaultCellStyle = dataGridViewCellStyle1;
+            this.modName.FillWeight = 152.2843F;
+            this.modName.HeaderText = "Mod name";
+            this.modName.Name = "modName";
+            this.modName.ReadOnly = true;
+            this.modName.Width = 200;
+            // 
+            // modDirectory
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.modDirectory.DefaultCellStyle = dataGridViewCellStyle2;
+            this.modDirectory.FillWeight = 47.71573F;
+            this.modDirectory.HeaderText = "Mod Directory";
+            this.modDirectory.Name = "modDirectory";
+            this.modDirectory.ReadOnly = true;
+            this.modDirectory.Width = 318;
+            // 
+            // box_GameListBox
+            // 
+            animMessage3.Control = this.box_GameListBox;
+            animMessage3.PlayAnimation = true;
+            animProperties2.BackColorMessage = animMessage3;
+            animMessage4.Control = this.box_GameListBox;
+            animMessage4.PlayAnimation = true;
+            animProperties2.ForeColorMessage = animMessage4;
+            animProperties2.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties2.MouseEnterDuration = 0F;
+            animProperties2.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties2.MouseEnterFramerate = 0F;
+            animProperties2.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties2.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties2.MouseLeaveDuration = 0F;
+            animProperties2.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties2.MouseLeaveFramerate = 0F;
+            animProperties2.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_GameListBox.AnimProperties = animProperties2;
             this.box_GameListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_GameListBox.CaptureChildren = false;
             this.box_GameListBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -100,6 +177,78 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.box_GameListBox.Text = null;
             this.box_GameListBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             this.box_GameListBox.UseVisualStyleBackColor = false;
+            // 
+            // box_NoteBox
+            // 
+            animMessage5.Control = this.box_NoteBox;
+            animMessage5.PlayAnimation = true;
+            animProperties3.BackColorMessage = animMessage5;
+            animMessage6.Control = this.box_NoteBox;
+            animMessage6.PlayAnimation = true;
+            animProperties3.ForeColorMessage = animMessage6;
+            animProperties3.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties3.MouseEnterDuration = 0F;
+            animProperties3.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties3.MouseEnterFramerate = 0F;
+            animProperties3.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties3.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties3.MouseLeaveDuration = 0F;
+            animProperties3.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties3.MouseLeaveFramerate = 0F;
+            animProperties3.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_NoteBox.AnimProperties = animProperties3;
+            this.box_NoteBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_NoteBox.CaptureChildren = true;
+            this.box_NoteBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.box_NoteBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_NoteBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_NoteBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_NoteBox.IgnoreMouse = false;
+            this.box_NoteBox.IgnoreMouseClicks = true;
+            this.box_NoteBox.Location = new System.Drawing.Point(589, 154);
+            this.box_NoteBox.Name = "box_NoteBox";
+            this.box_NoteBox.Size = new System.Drawing.Size(273, 138);
+            this.box_NoteBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            this.box_NoteBox.TabIndex = 5;
+            this.box_NoteBox.Text = null;
+            this.box_NoteBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+            this.box_NoteBox.UseVisualStyleBackColor = false;
+            // 
+            // box_LocationBox
+            // 
+            animMessage7.Control = this.box_LocationBox;
+            animMessage7.PlayAnimation = true;
+            animProperties4.BackColorMessage = animMessage7;
+            animMessage8.Control = this.box_LocationBox;
+            animMessage8.PlayAnimation = true;
+            animProperties4.ForeColorMessage = animMessage8;
+            animProperties4.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties4.MouseEnterDuration = 0F;
+            animProperties4.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties4.MouseEnterFramerate = 0F;
+            animProperties4.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties4.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties4.MouseLeaveDuration = 0F;
+            animProperties4.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties4.MouseLeaveFramerate = 0F;
+            animProperties4.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_LocationBox.AnimProperties = animProperties4;
+            this.box_LocationBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_LocationBox.CaptureChildren = true;
+            this.box_LocationBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.box_LocationBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_LocationBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_LocationBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_LocationBox.IgnoreMouse = false;
+            this.box_LocationBox.IgnoreMouseClicks = true;
+            this.box_LocationBox.Location = new System.Drawing.Point(40, 322);
+            this.box_LocationBox.Name = "box_LocationBox";
+            this.box_LocationBox.Size = new System.Drawing.Size(822, 77);
+            this.box_LocationBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            this.box_LocationBox.TabIndex = 0;
+            this.box_LocationBox.Text = null;
+            this.box_LocationBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+            this.box_LocationBox.UseVisualStyleBackColor = false;
             // 
             // item_NoteBoxVerPath
             // 
@@ -178,11 +327,11 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.item_NoteBoxGameName.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.item_NoteBoxGameName.ForeColor = System.Drawing.Color.White;
             this.item_NoteBoxGameName.IgnoreMouse = false;
-            this.item_NoteBoxGameName.Location = new System.Drawing.Point(590, 164);
+            this.item_NoteBoxGameName.Location = new System.Drawing.Point(592, 164);
             this.item_NoteBoxGameName.Margin = new System.Windows.Forms.Padding(0);
             this.item_NoteBoxGameName.Name = "item_NoteBoxGameName";
             this.item_NoteBoxGameName.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.item_NoteBoxGameName.Size = new System.Drawing.Size(271, 24);
+            this.item_NoteBoxGameName.Size = new System.Drawing.Size(269, 24);
             this.item_NoteBoxGameName.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.item_NoteBoxGameName.TabIndex = 7;
             this.item_NoteBoxGameName.Text = "Sonic Riders";
@@ -196,52 +345,16 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.item_NoteBoxSeparator.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.item_NoteBoxSeparator.ForeColor = System.Drawing.Color.White;
             this.item_NoteBoxSeparator.IgnoreMouse = false;
-            this.item_NoteBoxSeparator.Location = new System.Drawing.Point(590, 185);
+            this.item_NoteBoxSeparator.Location = new System.Drawing.Point(592, 185);
             this.item_NoteBoxSeparator.Margin = new System.Windows.Forms.Padding(0);
             this.item_NoteBoxSeparator.Name = "item_NoteBoxSeparator";
             this.item_NoteBoxSeparator.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.item_NoteBoxSeparator.Size = new System.Drawing.Size(271, 24);
+            this.item_NoteBoxSeparator.Size = new System.Drawing.Size(269, 24);
             this.item_NoteBoxSeparator.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.item_NoteBoxSeparator.TabIndex = 6;
             this.item_NoteBoxSeparator.Text = "_____________________";
             this.item_NoteBoxSeparator.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.item_NoteBoxSeparator.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // box_NoteBox
-            // 
-            animMessage3.Control = this.box_NoteBox;
-            animMessage3.PlayAnimation = true;
-            animProperties2.BackColorMessage = animMessage3;
-            animMessage4.Control = this.box_NoteBox;
-            animMessage4.PlayAnimation = true;
-            animProperties2.ForeColorMessage = animMessage4;
-            animProperties2.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties2.MouseEnterDuration = 0F;
-            animProperties2.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties2.MouseEnterFramerate = 0F;
-            animProperties2.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties2.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties2.MouseLeaveDuration = 0F;
-            animProperties2.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties2.MouseLeaveFramerate = 0F;
-            animProperties2.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_NoteBox.AnimProperties = animProperties2;
-            this.box_NoteBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_NoteBox.CaptureChildren = true;
-            this.box_NoteBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.box_NoteBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_NoteBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_NoteBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_NoteBox.IgnoreMouse = false;
-            this.box_NoteBox.IgnoreMouseClicks = true;
-            this.box_NoteBox.Location = new System.Drawing.Point(589, 154);
-            this.box_NoteBox.Name = "box_NoteBox";
-            this.box_NoteBox.Size = new System.Drawing.Size(273, 138);
-            this.box_NoteBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.box_NoteBox.TabIndex = 5;
-            this.box_NoteBox.Text = null;
-            this.box_NoteBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-            this.box_NoteBox.UseVisualStyleBackColor = false;
             // 
             // item_LocationBoxEXEPath
             // 
@@ -312,125 +425,13 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.item_LocationBoxEXETitle.Text = "EXE PATH:";
             this.item_LocationBoxEXETitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
-            // box_LocationBox
-            // 
-            animMessage5.Control = this.box_LocationBox;
-            animMessage5.PlayAnimation = true;
-            animProperties3.BackColorMessage = animMessage5;
-            animMessage6.Control = this.box_LocationBox;
-            animMessage6.PlayAnimation = true;
-            animProperties3.ForeColorMessage = animMessage6;
-            animProperties3.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties3.MouseEnterDuration = 0F;
-            animProperties3.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties3.MouseEnterFramerate = 0F;
-            animProperties3.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties3.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties3.MouseLeaveDuration = 0F;
-            animProperties3.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties3.MouseLeaveFramerate = 0F;
-            animProperties3.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_LocationBox.AnimProperties = animProperties3;
-            this.box_LocationBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_LocationBox.CaptureChildren = true;
-            this.box_LocationBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.box_LocationBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_LocationBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_LocationBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_LocationBox.IgnoreMouse = false;
-            this.box_LocationBox.IgnoreMouseClicks = true;
-            this.box_LocationBox.Location = new System.Drawing.Point(40, 322);
-            this.box_LocationBox.Name = "box_LocationBox";
-            this.box_LocationBox.Size = new System.Drawing.Size(822, 77);
-            this.box_LocationBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.box_LocationBox.TabIndex = 0;
-            this.box_LocationBox.Text = null;
-            this.box_LocationBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-            this.box_LocationBox.UseVisualStyleBackColor = false;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeColumns = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            animMessage7.Control = this.dataGridView1;
-            animMessage7.PlayAnimation = true;
-            animProperties4.BackColorMessage = animMessage7;
-            animMessage8.Control = this.dataGridView1;
-            animMessage8.PlayAnimation = true;
-            animProperties4.ForeColorMessage = animMessage8;
-            animProperties4.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties4.MouseEnterDuration = 0F;
-            animProperties4.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties4.MouseEnterFramerate = 0F;
-            animProperties4.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties4.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties4.MouseLeaveDuration = 0F;
-            animProperties4.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties4.MouseLeaveFramerate = 0F;
-            animProperties4.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.dataGridView1.AnimProperties = animProperties4;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.ColumnHeadersVisible = false;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.modName,
-            this.modDirectory});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Roboto Mono", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridView1.EnableHeadersVisualStyles = false;
-            this.dataGridView1.GridColor = System.Drawing.Color.White;
-            this.dataGridView1.Location = new System.Drawing.Point(41, 40);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 30;
-            this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(518, 251);
-            this.dataGridView1.TabIndex = 14;
-            // 
-            // modName
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.modName.DefaultCellStyle = dataGridViewCellStyle1;
-            this.modName.FillWeight = 152.2843F;
-            this.modName.HeaderText = "Mod name";
-            this.modName.Name = "modName";
-            this.modName.ReadOnly = true;
-            this.modName.Width = 200;
-            // 
-            // modDirectory
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.modDirectory.DefaultCellStyle = dataGridViewCellStyle2;
-            this.modDirectory.FillWeight = 47.71573F;
-            this.modDirectory.HeaderText = "Mod Directory";
-            this.modDirectory.Name = "modDirectory";
-            this.modDirectory.ReadOnly = true;
-            this.modDirectory.Width = 318;
-            // 
             // Main_Screen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(900, 512);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.item_GameList);
             this.Controls.Add(this.box_GameListBox);
             this.Controls.Add(this.item_NoteBoxVerPath);
             this.Controls.Add(this.item_NoteBoxEXEPath);
@@ -448,7 +449,7 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.Name = "Main_Screen";
             this.Text = "Main_Screen";
             this.Load += new System.EventHandler(this.Main_Screen_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.item_GameList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -469,7 +470,7 @@ namespace HeroesModLoaderConfig.Windows.Children
         private Styles.Controls.EnhancedLabel item_NoteBoxEXEPath;
         private Styles.Controls.EnhancedLabel item_NoteBoxVerPath;
         private Styles.Controls.Animated.AnimatedButton box_GameListBox;
-        private AnimatedDataGridView dataGridView1;
+        private AnimatedDataGridView item_GameList;
         private System.Windows.Forms.DataGridViewTextBoxColumn modName;
         private System.Windows.Forms.DataGridViewTextBoxColumn modDirectory;
     }

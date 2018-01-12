@@ -21,10 +21,14 @@ namespace HeroesModLoaderConfig.Styles.Animation
         /// <param name="animationMessage">The control whose backcolor is meant to be interpolated.</param>
         /// <param name="destinationColor">The target colour to interpolate the backcolor to.</param>
         /// <param name="interpolator">The interpolator object used for calculating interpolations of colours as well as animation durations.</param>
-        public static async void InterpolateBackcolor(AnimMessage animationMessage, AnimInterpolator interpolator, Color destinationColor)
+        /// <param name="sourceColor">The colour to which start interpolating from.</param>
+        public static async void InterpolateBackcolor(AnimMessage animationMessage, AnimInterpolator interpolator, Color sourceColor, Color destinationColor)
         {
+            // Retrieve the BackColor Property via Reflection.
+            var property = animationMessage.Control.GetType().GetProperty("BackColor");
+
             // Calculate all interpolated colours in between.
-            ColorMine.ColorSpaces.Lch originalColorLCH = ColorspaceConverter.ColorToLCH(animationMessage.Control.BackColor);
+            ColorMine.ColorSpaces.Lch originalColorLCH = ColorspaceConverter.ColorToLCH(sourceColor);
             ColorMine.ColorSpaces.Lch newColorLCH = ColorspaceConverter.ColorToLCH(destinationColor);
             List<ColorMine.ColorSpaces.Lch> lchColours = interpolator.CalculateIntermediateColours(originalColorLCH, newColorLCH);
 
@@ -34,14 +38,50 @@ namespace HeroesModLoaderConfig.Styles.Animation
             // Interpolate over the colours.
             foreach (Color newBackgroundColour in interpolatedColours)
             {
-                // Set new BG Colour
-                animationMessage.Control.BackColor = newBackgroundColour;
+                // Set the BackColor
+                property.SetValue(animationMessage.Control, newBackgroundColour, null);
 
                 // Wait
                 await Task.Delay(interpolator.SleepTime);
 
                 // Check exit condition.
-                if (animationMessage.PlayAnimation == false) { return; }
+                if (animationMessage.PlayAnimation == false)
+                { return; }
+            }
+        }
+
+        /// <summary>
+        /// Interpolates the forecolor of a windows forms control.
+        /// </summary>
+        /// <param name="animationMessage">The control whose backcolor is meant to be interpolated.</param>
+        /// <param name="destinationColor">The target colour to interpolate the backcolor to.</param>
+        /// <param name="interpolator">The interpolator object used for calculating interpolations of colours as well as animation durations.</param>
+        /// <param name="sourceColor">The colour to which start interpolating from.</param>
+        public static async void InterpolateForecolor(AnimMessage animationMessage, AnimInterpolator interpolator, Color sourceColor, Color destinationColor)
+        {
+            // Retrieve the BackColor Property via Reflection.
+            var property = animationMessage.Control.GetType().GetProperty("ForeColor");
+
+            // Calculate all interpolated colours in between.
+            ColorMine.ColorSpaces.Lch originalColorLCH = ColorspaceConverter.ColorToLCH((Color)property.GetValue(animationMessage.Control));
+            ColorMine.ColorSpaces.Lch newColorLCH = ColorspaceConverter.ColorToLCH(destinationColor);
+            List<ColorMine.ColorSpaces.Lch> lchColours = interpolator.CalculateIntermediateColours(originalColorLCH, newColorLCH);
+
+            // Converted interpolated colours to RGB.
+            List<Color> interpolatedColours = ColorspaceConverter.LCHListToColor(lchColours);
+
+            // Interpolate over the colours.
+            foreach (Color newBackgroundColour in interpolatedColours)
+            {
+                // Set the BackColor
+                property.SetValue(animationMessage.Control, newBackgroundColour, null);
+
+                // Wait
+                await Task.Delay(interpolator.SleepTime);
+
+                // Check exit condition.
+                if (animationMessage.PlayAnimation == false)
+                { return; }
             }
         }
 
@@ -53,24 +93,32 @@ namespace HeroesModLoaderConfig.Styles.Animation
         /// <param name="interpolator">The interpolator object used for calculating interpolations of colours as well as animation durations.</param>
         public static async void InterpolateForecolor(AnimMessage animationMessage, AnimInterpolator interpolator, Color destinationColor)
         {
+            // Retrieve the BackColor Property via Reflection.
+            var property = animationMessage.Control.GetType().GetProperty("ForeColor");
+
             // Calculate all interpolated colours in between.
-            List<ColorMine.ColorSpaces.Lch> hsvColours = interpolator.CalculateIntermediateColours(ColorspaceConverter.ColorToLCH(animationMessage.Control.ForeColor), ColorspaceConverter.ColorToLCH(destinationColor));
+            Color originalColor = (Color)property.GetValue(animationMessage.Control);
 
-            // Converted interpolated colours to RGB.
-            List<Color> interpolatedColours = ColorspaceConverter.LCHListToColor(hsvColours);
+            // Call internal overload.
+            InterpolateForecolor(animationMessage, interpolator, originalColor, destinationColor);
+        }
 
-            // Interpolate over the colours.
-            foreach (Color newBackgroundColour in interpolatedColours)
-            {
-                // Set new BG Colour
-                animationMessage.Control.ForeColor = newBackgroundColour;
+        /// <summary>
+        /// Interpolates the backcolor of a windows forms control.
+        /// </summary>
+        /// <param name="animationMessage">The control whose backcolor is meant to be interpolated.</param>
+        /// <param name="destinationColor">The target colour to interpolate the backcolor to.</param>
+        /// <param name="interpolator">The interpolator object used for calculating interpolations of colours as well as animation durations.</param>
+        public static async void InterpolateBackcolor(AnimMessage animationMessage, AnimInterpolator interpolator, Color destinationColor)
+        {
+            // Retrieve the BackColor Property via Reflection.
+            var property = animationMessage.Control.GetType().GetProperty("BackColor");
 
-                // Wait
-                await Task.Delay(interpolator.SleepTime);
+            // Calculate all interpolated colours in between.
+            Color originalColor = (Color)property.GetValue(animationMessage.Control);
 
-                // Check exit condition.
-                if (animationMessage.PlayAnimation == false) { return; }
-            }
+            // Call internal overload.
+            InterpolateBackcolor(animationMessage, interpolator, originalColor, destinationColor);
         }
     }
 }

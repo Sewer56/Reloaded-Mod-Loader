@@ -77,6 +77,9 @@ namespace HeroesModLoaderConfig.Styles.Animation
                 );
             }
 
+            // Add target colour
+            colours.Add(destinationColor);
+
             // Return the new colours.
             return colours;
         }

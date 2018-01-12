@@ -15,9 +15,9 @@ namespace HeroesModLoaderConfig.Styles.Animation
     public class AnimMessage
     {
         /// <summary>
-        /// The Windows Forms Control that is to be animated.
+        /// The Windows Forms Control (or any object Implementing BackColor, ForeColor) that is to be animated.
         /// </summary>
-        public Control Control { get; set; }
+        public object Control { get; set; }
 
         /// <summary>
         /// The flag which defines whether the animation should be played.
@@ -31,7 +31,7 @@ namespace HeroesModLoaderConfig.Styles.Animation
         /// should be animated.
         /// </summary>
         /// <param name="control">Defines the control that is intended to be animated.</param>
-        public AnimMessage(Control control)
+        public AnimMessage(object control)
         {
             Control = control;
             PlayAnimation = true;

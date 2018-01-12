@@ -89,23 +89,26 @@ namespace HeroesModLoaderConfig.Styles.Controls
         /// <param name="paintArguments"></param>
         protected override void OnPaint(PaintEventArgs paintArguments)
         {
-            // Set the Smoothing Mode for the Button
-            paintArguments.Graphics.SmoothingMode = SmoothingMode;
-
-            // Set the Text Rendering Mode for the Button 
-            paintArguments.Graphics.TextRenderingHint = TextRenderingHint;
-
             // Call the base method to draw us everything except text of the button.
             base.OnPaint(paintArguments);
 
-            // Create a new String Formatter and set the alignment of the string to our desired alignment.
-            StringFormat stringFormat = new StringFormat(); 
-            stringFormat.Alignment = StringAlignment.Center;
-            stringFormat.LineAlignment = StringAlignment.Center;
-
             // Draw using GDI if there is anything to draw
             if (String.IsNullOrEmpty(Text) && !String.IsNullOrEmpty(customText))
-            { paintArguments.Graphics.DrawString(customText, Font, new SolidBrush(ForeColor), ClientRectangle, stringFormat); }
+            {
+                // Set the Smoothing Mode for the Button
+                paintArguments.Graphics.SmoothingMode = SmoothingMode;
+
+                // Set the Text Rendering Mode for the Button 
+                paintArguments.Graphics.TextRenderingHint = TextRenderingHint;
+
+                // Create a new String Formatter and set the alignment of the string to our desired alignment.
+                StringFormat stringFormat = new StringFormat();
+                stringFormat.Alignment = StringAlignment.Center;
+                stringFormat.LineAlignment = StringAlignment.Center;
+
+                // Paint our text
+                paintArguments.Graphics.DrawString(customText, Font, new SolidBrush(ForeColor), ClientRectangle, stringFormat);
+            }
         }
 
         // Redirects
