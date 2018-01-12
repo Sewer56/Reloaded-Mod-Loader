@@ -1,4 +1,5 @@
-﻿using HeroesModLoaderConfig.Styles.Controls.Animated;
+﻿using HeroesModLoaderConfig.Styles.Animation;
+using HeroesModLoaderConfig.Styles.Controls.Animated;
 using SonicHeroes.Misc;
 using SonicHeroes.Misc.Config;
 using System;
@@ -75,9 +76,10 @@ namespace HeroesModLoaderConfig.Styles.Themes
 
             // Theme the Category, Main and Title Buttons
             if (IsMainItem(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true); }
-            if (IsCategoryItem(control) && control is AnimatedButton){ ThemeButton(control, Theme.ThemeProperties.CategoryColours, Theme.ThemeProperties.CategoryEnterAnimation, Theme.ThemeProperties.CategoryLeaveAnimation, false); }
-            if (IsTitleItem(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.TitleColours, Theme.ThemeProperties.TitleEnterAnimation, Theme.ThemeProperties.TitleLeaveAnimation, false); }
-            if (IsBox(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.BoxColours, Theme.ThemeProperties.BoxEnterAnimation, Theme.ThemeProperties.BoxLeaveAnimation, true); }
+            else if (IsCategoryItem(control) && control is AnimatedButton){ ThemeButton(control, Theme.ThemeProperties.CategoryColours, Theme.ThemeProperties.CategoryEnterAnimation, Theme.ThemeProperties.CategoryLeaveAnimation, false); }
+            else if (IsTitleItem(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.TitleColours, Theme.ThemeProperties.TitleEnterAnimation, Theme.ThemeProperties.TitleLeaveAnimation, false); }
+            else if (IsBox(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.BoxColours, Theme.ThemeProperties.BoxEnterAnimation, Theme.ThemeProperties.BoxLeaveAnimation, true); }
+            else { ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true); }
         }
 
         /// <summary>
@@ -92,31 +94,35 @@ namespace HeroesModLoaderConfig.Styles.Themes
         /// <param name="exitAnimation">Defines the mouse exit animation of the buttons.</param>
         private static void ThemeButton(Control control, BarColours buttonColours, ButtonMouseAnimation enterAnimation, ButtonMouseAnimation exitAnimation, bool ThemeBorder)
         {
-            // Cast the animated button 
-            AnimatedButton button = (AnimatedButton)control;
-
             // Set the button backcolor and forecolor.
-            button.ForeColor = buttonColours.TextColour;
-            button.BackColor = buttonColours.ButtonBGColour;
+            control.ForeColor = buttonColours.TextColour;
+            control.BackColor = buttonColours.ButtonBGColour;
 
             // Theme the button border.
             if (ThemeBorder) { ThemeButtonBorder(control); }
 
-            // Set the enter animation.
-            button.MouseEnterBackColor = enterAnimation.BGTargetColour;
-            button.MouseEnterForeColor = enterAnimation.FGTargetColour;
-            button.MouseEnterDuration = enterAnimation.AnimationDuration;
-            button.MouseEnterFramerate = enterAnimation.AnimationFramerate;
-            if (enterAnimation.BlendBGColour) { button.MouseEnterOverride = button.MouseEnterOverride | Animation.AnimOverrides.MouseEnterOverride.BackColorInterpolate; }
-            if (enterAnimation.BlendFGColour) { button.MouseEnterOverride = button.MouseEnterOverride | Animation.AnimOverrides.MouseEnterOverride.ForeColorInterpolate; }
+            // If it is an animated control
+            if (control is IAnimatedControl)
+            {
+                // Cast to AnimatedControl
+                IAnimatedControl animatedControl = (IAnimatedControl)control;
 
-            // Set the exit animation
-            button.MouseLeaveBackColor = exitAnimation.BGTargetColour;
-            button.MouseLeaveForeColor = exitAnimation.FGTargetColour;
-            button.MouseLeaveDuration = exitAnimation.AnimationDuration;
-            button.MouseLeaveFramerate = exitAnimation.AnimationFramerate;
-            if (exitAnimation.BlendBGColour) { button.MouseLeaveOverride = button.MouseLeaveOverride | Animation.AnimOverrides.MouseLeaveOverride.BackColorInterpolate; }
-            if (exitAnimation.BlendFGColour) { button.MouseLeaveOverride = button.MouseLeaveOverride | Animation.AnimOverrides.MouseLeaveOverride.ForeColorInterpolate; }
+                // Set the enter animation.
+                animatedControl.AnimProperties.MouseEnterBackColor = enterAnimation.BGTargetColour;
+                animatedControl.AnimProperties.MouseEnterForeColor = enterAnimation.FGTargetColour;
+                animatedControl.AnimProperties.MouseEnterDuration = enterAnimation.AnimationDuration;
+                animatedControl.AnimProperties.MouseEnterFramerate = enterAnimation.AnimationFramerate;
+                if (enterAnimation.BlendBGColour) { animatedControl.AnimProperties.MouseEnterOverride = animatedControl.AnimProperties.MouseEnterOverride | Animation.AnimOverrides.MouseEnterOverride.BackColorInterpolate; }
+                if (enterAnimation.BlendFGColour) { animatedControl.AnimProperties.MouseEnterOverride = animatedControl.AnimProperties.MouseEnterOverride | Animation.AnimOverrides.MouseEnterOverride.ForeColorInterpolate; }
+
+                // Set the exit animation
+                animatedControl.AnimProperties.MouseLeaveBackColor = exitAnimation.BGTargetColour;
+                animatedControl.AnimProperties.MouseLeaveForeColor = exitAnimation.FGTargetColour;
+                animatedControl.AnimProperties.MouseLeaveDuration = exitAnimation.AnimationDuration;
+                animatedControl.AnimProperties.MouseLeaveFramerate = exitAnimation.AnimationFramerate;
+                if (exitAnimation.BlendBGColour) { animatedControl.AnimProperties.MouseLeaveOverride = animatedControl.AnimProperties.MouseLeaveOverride | Animation.AnimOverrides.MouseLeaveOverride.BackColorInterpolate; }
+                if (exitAnimation.BlendFGColour) { animatedControl.AnimProperties.MouseLeaveOverride = animatedControl.AnimProperties.MouseLeaveOverride | Animation.AnimOverrides.MouseLeaveOverride.ForeColorInterpolate; }
+            }
         }
 
         /// <summary>
@@ -126,12 +132,16 @@ namespace HeroesModLoaderConfig.Styles.Themes
         /// <param name="control">The button control whose properties are to be set.</param>
         private static void ThemeButtonBorder(Control control)
         {
-            // Cast the animated button 
-            AnimatedButton button = (AnimatedButton)control;
+            // Try to cast the animated button 
+            Button button = control as Button;
 
-            // Set border size.
-            button.FlatAppearance.BorderSize = Theme.ThemeProperties.ButtonBorderProperties.BorderWidth;
-            button.FlatAppearance.BorderColor = Theme.ThemeProperties.ButtonBorderProperties.BorderColour;
+            // If caster, set border style.
+            if (button != null)
+            {
+                // Set border size.
+                button.FlatAppearance.BorderSize = Theme.ThemeProperties.ButtonBorderProperties.BorderWidth;
+                button.FlatAppearance.BorderColor = Theme.ThemeProperties.ButtonBorderProperties.BorderColour;
+            }
         }
 
         /// <summary>

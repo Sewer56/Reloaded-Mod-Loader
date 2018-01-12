@@ -76,11 +76,20 @@
     <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Misc\ColourLoader.cs" />
     <Compile Include="Libraries\libSonicHeroes\libSonicHeroes\Misc\Config\Themes\ThemePropertyParser.cs" />
     <Compile Include="Styles\Animation\AnimAnimations.cs" />
+    <Compile Include="Styles\Animation\AnimHandler.cs" />
     <Compile Include="Styles\Animation\AnimMessage.cs" />
+    <Compile Include="Styles\Animation\AnimProperties.cs" />
     <Compile Include="Styles\Controls\Animated\AnimatedButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Styles\Controls\Animated\AnimatedDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Enhanced\EnhancedListview.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Styles\Controls\Interfaces\IControlIgnorable.cs" />
+    <Compile Include="Styles\Controls\Interfaces\IDecorationBox.cs" />
     <Compile Include="Utilities\Colour\ColorspaceConverter.cs" />
     <Compile Include="Styles\Animation\AnimOverrides.cs" />
     <Compile Include="Styles\Animation\IAnimatedControl.cs" />

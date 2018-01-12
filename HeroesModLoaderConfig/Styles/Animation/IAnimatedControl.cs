@@ -11,18 +11,24 @@ namespace HeroesModLoaderConfig.Styles.Animation
     /// Defines an interface which contains the necessary components for
     /// performing simple animation with the mod loader configuration tool.
     /// </summary>
-    interface IAnimatedControl
+    public interface IAnimatedControl
     {
         /// <summary>
-        /// Defines the animation sequence that is to be played asynchronously while
-        /// the mouse is in focus of the control.
+        /// Calls the object's normally internal protected
+        /// OnMouseEnter if no override is set.
         /// </summary>
-        void AnimateMouseEnter(EventArgs e);
+        void OnMouseEnterWrapper(EventArgs e);
 
         /// <summary>
-        /// Defines the animation sequence that is to be played asynchronously while
-        /// the mouse loses focus of the control.
+        /// Calls the object's normally internal protected
+        /// OnMouseLeave if no override is set.
         /// </summary>
-        void AnimateMouseLeave(EventArgs e);
+        void OnMouseLeaveWrapper(EventArgs e);
+
+        /// <summary>
+        /// Should contain an AnimProperties struct containing all of
+        /// the animation properties.
+        /// </summary>
+        AnimProperties AnimProperties { get; set; }
     }
 }

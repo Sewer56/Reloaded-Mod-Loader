@@ -1,31 +1,27 @@
 ﻿using HeroesModLoaderConfig.Styles.Animation;
+using SonicHeroes.Native;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using static HeroesModLoaderConfig.Styles.Animation.AnimOverrides;
 using System.Windows.Forms;
-using HeroesModLoaderConfig.Styles.Controls.Interfaces;
 
-namespace HeroesModLoaderConfig.Styles.Controls.Animated
+namespace HeroesModLoaderConfig.Styles.Controls.Enhanced
 {
-    /// <summary>
-    /// Provides the animation implementation for EnhancedButton.
-    /// </summary>
-    public class AnimatedButton : EnhancedButton, IAnimatedControl, IDecorationBox
+    [Serializable]
+    class AnimatedDataGridView : DataGridView, IAnimatedControl
     {
         /// <summary>
         /// Stores the animation properties for backcolor and forecolor blending.
         /// </summary>
         public AnimProperties AnimProperties { get; set; }
 
-        /// <summary>
-        /// Constructor for the class.
-        /// </summary>
-        public AnimatedButton()
+        public AnimatedDataGridView()
         {
             // Instantiate all of the animation messages.
             this.AnimProperties = new AnimProperties();

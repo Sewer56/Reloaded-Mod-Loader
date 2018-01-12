@@ -11,6 +11,10 @@ using System.Windows.Forms;
 
 namespace HeroesModLoaderConfig.Styles.Controls
 {
+    /// <summary>
+    /// Modifies the default label class to provide customized rendering hint and smoothing mode customization and
+    /// features such as ignoring of the mouse, etc.
+    /// </summary>
     class EnhancedLabel : Label, IControlIgnorable
     {
         /// <summary>
@@ -61,11 +65,14 @@ namespace HeroesModLoaderConfig.Styles.Controls
         /// <param name="paintEventArguments"></param>
         protected override void OnPaint(PaintEventArgs paintEventArguments)
         {
-            // Modify Hinting Style
+            // Modify Hinting & Smoothing Style
             paintEventArguments.Graphics.TextRenderingHint = TextRenderingHint;
+            paintEventArguments.Graphics.SmoothingMode = SmoothingMode;
 
             // Draw the label as originally intended.
             base.OnPaint(paintEventArguments);
         }
+
+
     }
 }

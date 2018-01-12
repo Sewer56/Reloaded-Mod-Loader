@@ -37,12 +37,8 @@ namespace HeroesModLoaderConfig.Utilities.Controls
             foreach (Control control in allControls)
             {
                 // If the control is of box type.
-                if (control is Button && ApplyTheme.IsBox(control))
+                if ((control is IDecorationBox) && ApplyTheme.IsBox(control))
                 {
-                    // Create a new list of child controls to add to the box control.
-                    // This is done because adding a control inside the foreach would disturb the loop iterator.
-                    List<Control> controlsToAppend = new List<Control>();
-
                     // Find all controls which overlap their location with the region of the box.
                     foreach (Control childControl in allControls)
                     {
@@ -55,22 +51,26 @@ namespace HeroesModLoaderConfig.Utilities.Controls
                             ((childControl.Location.Y > control.Location.Y) && (childControl.Location.Y < control.Location.Y + control.Size.Height))
                         )
                         {
+                            // Cast to decoration box, check if to capture children
+                            IDecorationBox decorationBox = (IDecorationBox)control;
+
                             // Ignore the mouse if it is an EnhancedLabel
                             if (childControl is IControlIgnorable) { IControlIgnorable label = (IControlIgnorable)childControl; label.IgnoreMouse = true; }
 
-                            // Append to the list
-                            controlsToAppend.Add(childControl);
+                            // Add as child if the box is set to capture children.
+                            if (decorationBox.CaptureChildren)
+                            {
+                                // Add the control as child
+                                control.Controls.Add(childControl);
 
-                            // Update BackColor with parent
-                            childControl.BackColorChanged += ChildControl_BackColorChanged;
+                                // Update BackColor with parent
+                                control.BackColorChanged += Control_BackColorChanged;
 
-                            // Set location relative to parent
-                            SetLocationRelative.SetRelativeLocation(control, childControl);
+                                // Set location relative to parent
+                                SetLocationRelative.SetRelativeLocation(control, childControl);
+                            }
                         }
                     }
-
-                    // Append all of the children controls.
-                    control.Controls.AddRange(controlsToAppend.ToArray());
                 }
             }
         }
@@ -80,7 +80,7 @@ namespace HeroesModLoaderConfig.Utilities.Controls
         /// to the colour of the decoration box background (WinForms does not support transparency
         /// properly, this is a workaround).
         /// </summary>
-        private static void ChildControl_BackColorChanged(object sender, EventArgs e)
+        private static void Control_BackColorChanged(object sender, EventArgs e)
         {
             // Cast the sender as the control.
             Control locationBox = (Control)sender;

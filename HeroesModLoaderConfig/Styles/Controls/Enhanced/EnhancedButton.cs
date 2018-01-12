@@ -18,7 +18,7 @@ namespace HeroesModLoaderConfig.Styles.Controls
     /// Modifies the default button class such that we may use our own rendering options for the text as well
     /// as reducing the internal text margins, preventing multi-line textboxes.
     /// </summary>
-    public class EnhancedButton : Button, IControlIgnorable
+    public class EnhancedButton : Button, IControlIgnorable, IDecorationBox
     {
         /// <summary>
         /// Overrides the information needed when the control is created or accessed to
@@ -53,6 +53,11 @@ namespace HeroesModLoaderConfig.Styles.Controls
         /// Defines whether the button ignores mouse clicks.
         /// </summary>
         public bool IgnoreMouseClicks { get; set; }
+
+        /// <summary>
+        /// Declares whether the decoration box should capture the children controls 
+        /// </summary>
+        public bool CaptureChildren { get; set; }
 
         /// <summary>
         /// Redirects the text property to use our own, that is such that the
