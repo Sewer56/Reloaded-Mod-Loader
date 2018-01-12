@@ -80,6 +80,7 @@
     <Compile Include="Styles\Controls\Animated\AnimatedButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Styles\Controls\Interfaces\IControlIgnorable.cs" />
     <Compile Include="Utilities\Colour\ColorspaceConverter.cs" />
     <Compile Include="Styles\Animation\AnimOverrides.cs" />
     <Compile Include="Styles\Animation\IAnimatedControl.cs" />
@@ -93,6 +94,8 @@
     <Compile Include="Styles\Themes\ApplyTheme.cs" />
     <Compile Include="Styles\Themes\ThemeFonts.cs" />
     <Compile Include="Styles\Themes\Theme.cs" />
+    <Compile Include="Utilities\Controls\SetupDecorationBoxes.cs" />
+    <Compile Include="Utilities\Controls\SetLocationRelative.cs" />
     <Compile Include="Utilities\LoaderConfigManager.cs" />
     <Compile Include="Utilities\Windows\MakeRoundedWindow.cs" />
     <Compile Include="Utilities\Windows\MoveWindow.cs" />
@@ -214,7 +217,6 @@
     <Folder Include="Resources\Files\Mod-Loader-Libraries\" />
     <Folder Include="Resources\Images\128x\" />
     <Folder Include="Resources\Images\Source\" />
-    <Folder Include="Utilities\Controls\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\About-Icon.bmp" />

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static HeroesModLoaderConfig.Styles.Animation.AnimOverrides;
+using System.Windows.Forms;
 
 namespace HeroesModLoaderConfig.Styles.Controls.Animated
 {

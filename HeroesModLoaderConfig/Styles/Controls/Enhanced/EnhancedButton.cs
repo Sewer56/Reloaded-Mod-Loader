@@ -1,6 +1,8 @@
 ﻿using HeroesModLoaderConfig.Styles.Animation;
+using HeroesModLoaderConfig.Styles.Controls.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
@@ -16,8 +18,22 @@ namespace HeroesModLoaderConfig.Styles.Controls
     /// Modifies the default button class such that we may use our own rendering options for the text as well
     /// as reducing the internal text margins, preventing multi-line textboxes.
     /// </summary>
-    public class EnhancedButton : Button
+    public class EnhancedButton : Button, IControlIgnorable
     {
+        /// <summary>
+        /// Overrides the information needed when the control is created or accessed to
+        /// either ignore input on the label or not ignore input.
+        /// </summary>
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                var cp = base.CreateParams;
+                if (IgnoreMouse) { cp.Style |= 0x08000000; }  // Enable WS_DISABLED
+                return cp;
+            }
+        }
+
         /// <summary>
         /// Defines the hinting style used for text rendering using GDI.
         /// </summary>
@@ -27,6 +43,16 @@ namespace HeroesModLoaderConfig.Styles.Controls
         /// Defines the smoothing mode used for text rendering.
         /// </summary>
         public SmoothingMode SmoothingMode { get; set; }
+
+        /// <summary>
+        /// If set to true, the control ignores the mouse.
+        /// </summary>
+        public bool IgnoreMouse { get; set; }
+
+        /// <summary>
+        /// Defines whether the button ignores mouse clicks.
+        /// </summary>
+        public bool IgnoreMouseClicks { get; set; }
 
         /// <summary>
         /// Redirects the text property to use our own, that is such that the
@@ -76,5 +102,8 @@ namespace HeroesModLoaderConfig.Styles.Controls
             if (String.IsNullOrEmpty(Text) && !String.IsNullOrEmpty(customText))
             { paintArguments.Graphics.DrawString(customText, Font, new SolidBrush(ForeColor), ClientRectangle, stringFormat); }
         }
+
+        // Redirects
+        protected override void OnMouseDown(MouseEventArgs mevent) { if (!IgnoreMouseClicks) { base.OnMouseDown(mevent); } }
     }
 }

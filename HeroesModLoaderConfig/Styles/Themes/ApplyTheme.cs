@@ -22,6 +22,7 @@ namespace HeroesModLoaderConfig.Styles.Themes
         // Category Bar Items should be named categoryBar_*
         // Regular Items should be named item_*
         // Title Bar Items should be named titleBar_*
+        // Buttons used for decoration should be named box_*
 
         /// <summary>
         /// Applies the currently set theming properties to a new windows form.
@@ -76,6 +77,7 @@ namespace HeroesModLoaderConfig.Styles.Themes
             if (IsMainItem(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true); }
             if (IsCategoryItem(control) && control is AnimatedButton){ ThemeButton(control, Theme.ThemeProperties.CategoryColours, Theme.ThemeProperties.CategoryEnterAnimation, Theme.ThemeProperties.CategoryLeaveAnimation, false); }
             if (IsTitleItem(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.TitleColours, Theme.ThemeProperties.TitleEnterAnimation, Theme.ThemeProperties.TitleLeaveAnimation, false); }
+            if (IsBox(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.BoxColours, Theme.ThemeProperties.BoxEnterAnimation, Theme.ThemeProperties.BoxLeaveAnimation, true); }
         }
 
         /// <summary>
@@ -133,34 +135,41 @@ namespace HeroesModLoaderConfig.Styles.Themes
         }
 
         /// <summary>
-        /// Returns true if the specified passed in control is part of the main form
-        /// and not the category/title bar.
-        /// </summary>
-        private static bool IsMainItem(Control control) { return control.Name.StartsWith("item_") ? true : false; }
-
-        /// <summary>
-        /// Returns true if the specified passed in control is part of the main form
-        /// and not the category/title bar.
-        /// </summary>
-        private static bool IsCategoryItem(Control control) { return control.Name.StartsWith("categoryBar_") ? true : false; }
-
-        /// <summary>
-        /// Returns true if the specified passed in control is part of the main form
-        /// and not the category/title bar.
-        /// </summary>
-        private static bool IsTitleItem(Control control) { return control.Name.StartsWith("titleBar_") ? true : false; }
-
-        /// <summary>
         /// Applies the common font style for an individual control.
         /// Changes the font used for the control to the one derived from the theme.
         /// </summary>
         private static void ApplyFonts(Control control)
         {
             // Filter the three text categories.
-            if (control.Name.StartsWith("categoryBar_")) { control.Font = new Font(Theme.Fonts.CategoryFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
-            else if (control.Name.StartsWith("text_")) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
-            else if (control.Name.StartsWith("titleBar_")) { control.Font = new Font(Theme.Fonts.TitleFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
+            if (IsCategoryItem(control)) { control.Font = new Font(Theme.Fonts.CategoryFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
+            else if (IsMainItem(control)) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
+            else if (IsTitleItem(control)) { control.Font = new Font(Theme.Fonts.TitleFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
+            else if (IsBox(control)) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
         }
+
+        /// <summary>
+        /// Returns true if the specified passed in control is part of the main form
+        /// and not the category/title bar.
+        /// </summary>
+        public static bool IsMainItem(Control control) { return control.Name.StartsWith("item_") ? true : false; }
+
+        /// <summary>
+        /// Returns true if the specified passed in control is a box used for decoration.
+        /// (That is a button with no purposeful functionality)
+        /// </summary>
+        public static bool IsBox(Control control) { return control.Name.StartsWith("box_") ? true : false; }
+
+        /// <summary>
+        /// Returns true if the specified passed in control is part of the main form
+        /// and not the category/title bar.
+        /// </summary>
+        public static bool IsCategoryItem(Control control) { return control.Name.StartsWith("categoryBar_") ? true : false; }
+
+        /// <summary>
+        /// Returns true if the specified passed in control is part of the main form
+        /// and not the category/title bar.
+        /// </summary>
+        public static bool IsTitleItem(Control control) { return control.Name.StartsWith("titleBar_") ? true : false; }
 
         /// <summary>
         /// Loads all of the theme images from storage onto the relevant base form buttons.

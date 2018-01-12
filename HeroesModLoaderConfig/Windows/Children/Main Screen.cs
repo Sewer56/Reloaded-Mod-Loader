@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HeroesModLoaderConfig.Styles.Themes;
+using HeroesModLoaderConfig.Utilities.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +14,19 @@ namespace HeroesModLoaderConfig.Windows.Children
 {
     public partial class Main_Screen : Form
     {
+        /// <summary>
+        /// Gets the creation parameters.
+        /// </summary>
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle = cp.ExStyle | 0x02000000; // WS_EX_TRANSPARENT
+                return cp;
+            }
+        }
+
         /// <summary>
         /// Constructor for this class.
         /// Requires the specification of the MDI Parent
@@ -28,6 +43,9 @@ namespace HeroesModLoaderConfig.Windows.Children
 
             // Add to the window list.
             Global.WindowsForms.Add(this);
+
+            // Add Box Controls
+            SetupDecorationBoxes.FindDecorationControls(this);
         }
     }
 }
