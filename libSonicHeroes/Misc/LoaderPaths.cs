@@ -88,7 +88,6 @@ namespace SonicHeroes.Misc
             return GetModLoaderDirectory() + RELATIVELOCATION_CONFIGFILE;
         }
 
-
         /// <summary>
         /// Retrieves the mod loader's main config directory.
         /// </summary>
