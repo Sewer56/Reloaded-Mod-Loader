@@ -164,6 +164,11 @@ namespace SonicHeroes.Native
                 public const long WS_EX_CLIENTEDGE = 0x00000200;
 
                 /// <summary>
+                /// [Extended Window Style] Paints all descendants of a window in bottom-to-top painting order using double-buffering.
+                /// </summary>
+                public const long WS_EX_COMPOSITED = 0x02000000;
+
+                /// <summary>
                 /// [Window Style] The Window has a horizontal scrollbar.
                 /// </summary>
                 public const long WS_HSCROLL = 0x00100000;
