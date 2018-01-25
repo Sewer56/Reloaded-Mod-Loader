@@ -75,10 +75,10 @@ namespace HeroesModLoaderConfig.Styles.Themes
             ApplyFonts(control);
 
             // Theme the Category, Main and Title Buttons
-            if (IsMainItem(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true); }
-            else if (IsCategoryItem(control) && control is AnimatedButton){ ThemeButton(control, Theme.ThemeProperties.CategoryColours, Theme.ThemeProperties.CategoryEnterAnimation, Theme.ThemeProperties.CategoryLeaveAnimation, false); }
-            else if (IsTitleItem(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.TitleColours, Theme.ThemeProperties.TitleEnterAnimation, Theme.ThemeProperties.TitleLeaveAnimation, false); }
-            else if (IsBox(control) && control is AnimatedButton) { ThemeButton(control, Theme.ThemeProperties.BoxColours, Theme.ThemeProperties.BoxEnterAnimation, Theme.ThemeProperties.BoxLeaveAnimation, true); }
+            if (IsMainItem(control)) { ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true); }
+            else if (IsCategoryItem(control)){ ThemeButton(control, Theme.ThemeProperties.CategoryColours, Theme.ThemeProperties.CategoryEnterAnimation, Theme.ThemeProperties.CategoryLeaveAnimation, false); }
+            else if (IsTitleItem(control)) { ThemeButton(control, Theme.ThemeProperties.TitleColours, Theme.ThemeProperties.TitleEnterAnimation, Theme.ThemeProperties.TitleLeaveAnimation, false); }
+            else if (IsBox(control)) { ThemeButton(control, Theme.ThemeProperties.BoxColours, Theme.ThemeProperties.BoxEnterAnimation, Theme.ThemeProperties.BoxLeaveAnimation, true); }
             else { ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true); }
         }
 
