@@ -37,6 +37,11 @@ namespace SonicHeroes.Misc
         private static string RELATIVELOCATION_LIBRARIES = "\\Mod-Loader-Libraries";
 
         /// <summary>
+        /// Specifies the relative location of the mod loader libraries relative to the mod loader.
+        /// </summary>
+        private static string RELATIVELOCATION_GAMES = "\\Mod-Loader-Config\\Games";
+
+        /// <summary>
         /// Retrieves the directory of the current process where the DLL resides in. i.e. the game directory.
         /// </summary>
         public static string GetProcessDirectory()
@@ -84,6 +89,14 @@ namespace SonicHeroes.Misc
         public static string GetModLoaderLibraryDirectory()
         {
             return GetModLoaderDirectory() + RELATIVELOCATION_LIBRARIES;
+        }
+
+        /// <summary>
+        /// Retrieves the mod loader's game configuration directory.
+        /// </summary>
+        public static string GetModLoaderGameDirectory()
+        {
+            return GetModLoaderDirectory() + RELATIVELOCATION_GAMES;
         }
 
         /// <summary>
