@@ -32,6 +32,11 @@ namespace SonicHeroes.Misc
         private static string RELATIVELOCATION_BACKUP = "\\Mod-Loader-Backup";
 
         /// <summary>
+        /// Specifies the relative location of the mod loader's mod directory.
+        /// </summary>
+        private static string RELATIVELOCATION_MODS = "\\Mod-Loader-Mods";
+
+        /// <summary>
         /// Specifies the relative location of the mod loader libraries relative to the mod loader.
         /// </summary>
         private static string RELATIVELOCATION_LIBRARIES = "\\Mod-Loader-Libraries";
@@ -47,6 +52,15 @@ namespace SonicHeroes.Misc
         public static string GetProcessDirectory()
         {
             return Environment.CurrentDirectory;
+        }
+
+
+        /// <summary>
+        /// Retrieves the directory where the mod DLL (main.dll) is stored.
+        /// </summary>
+        public static string GetModDirectory()
+        {
+            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
 
         /// <summary>
@@ -100,11 +114,22 @@ namespace SonicHeroes.Misc
         }
 
         /// <summary>
-        /// Retrieves the directory where the mod DLL (main.dll) is stored.
+        /// Retrieves the mod loader's main mod directory.
         /// </summary>
-        public static string GetModDirectory()
+        public static string GetModLoaderModDirectory()
         {
-            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            return GetModLoaderDirectory() + RELATIVELOCATION_MODS;
+        }
+
+        /// <summary>
+        /// Returns a path relative to the mod loader directory.
+        /// e.g. D:/Stuff/ModLoader/Mod-Loader-Mods => Mod-Loader-Mods
+        /// </summary>
+        /// <param name="path">The path inside the mod loader configuration.</param>
+        public static string GetModLoaderRelativePath(string path)
+        {
+            // Note: Last character will be a backslash, do not include.
+            return path.Substring(GetModLoaderDirectory().Length + 1);
         }
 
     }
