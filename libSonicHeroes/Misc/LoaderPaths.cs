@@ -29,7 +29,7 @@ namespace SonicHeroes.Misc
         /// <summary>
         /// Specifies the relative location of the individual game backup files relative to the mod loader.
         /// </summary>
-        private static string RELATIVELOCATION_BACKUP = "\\Mod-Loader-Backup\\";
+        private static string RELATIVELOCATION_BACKUP = "\\Mod-Loader-Backup";
 
         /// <summary>
         /// Specifies the relative location of the mod loader libraries relative to the mod loader.
