@@ -55,6 +55,7 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
             this.AnimProperties = new AnimProperties();
             AnimationMessagesBG = new List<AnimMessage>();
             AnimationMessagesFG = new List<AnimMessage>();
+            this.MouseWheel += AnimatedDataGridView_MouseWheel;
             LastIndex = 0;
         }
 
@@ -94,6 +95,120 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
             base.OnRowsAdded(e);
             AnimationMessagesBG.Add(new AnimMessage(this));
             AnimationMessagesFG.Add(new AnimMessage(this));
+        }
+
+        ///////////////////////////
+        // Scrolling Implementation
+        ///////////////////////////
+
+        /// <summary>
+        /// Custom keyboard scrolling implementation.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down) { IncrementRowIndex(); }
+            else if (e.KeyCode == Keys.Up) { DecrementRowIndex(); }
+            else if (e.KeyCode == Keys.Left) { SelectFirstRow(); }
+            else if (e.KeyCode == Keys.Right) { SelectLastRow(); }
+        }
+
+        /// <summary>
+        /// Stores the current change from 0 to the current scrolled to position.
+        /// </summary>
+        private int currentScrollDelta = 0;
+
+        /// <summary>
+        /// The amount of scrolling necessary for the user to move to the next item.
+        /// </summary>
+        const int scrollSensitivity = 120;
+
+        /// <summary>
+        /// Implement selection of the next/previous row with the use of scrolling
+        /// using the mouse wheel.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AnimatedDataGridView_MouseWheel(object sender, MouseEventArgs e)
+        {
+            // Append to the current Delta
+            currentScrollDelta = currentScrollDelta + e.Delta;
+
+            // Obtain the amount of lines to scroll.
+            // MouseWheelScrollLines = User's set amount of lines to scroll as set in Windows' settings.
+            int linesToScroll = SystemInformation.MouseWheelScrollLines * currentScrollDelta / scrollSensitivity;
+
+            // Deselect current item.
+            if (linesToScroll >= 1)
+            {
+                DecrementRowIndex();
+                currentScrollDelta = 0;
+            }
+            else if (linesToScroll <= -1)
+            {
+                IncrementRowIndex();
+                currentScrollDelta = 0;
+            }
+        }
+
+        /// <summary>
+        /// Increments the row index by one, if we are on the last item, the first item
+        /// will be selected.
+        /// </summary>
+        private void IncrementRowIndex()
+        {
+            // Get Next Index
+            int nextRow = SelectedCells[0].RowIndex + 1;
+
+            if (nextRow > Rows.Count - 1)
+            {
+                Rows[0].Selected = true;
+                FirstDisplayedScrollingRowIndex = 0;
+            }
+            else
+            {
+                Rows[nextRow].Selected = true;
+                FirstDisplayedScrollingRowIndex = nextRow;
+            } 
+        }
+
+        /// <summary>
+        /// Decrements the row index by one, if we are on the first item, the first item
+        /// will be selected.
+        /// </summary>
+        private void DecrementRowIndex()
+        {
+            // Get Next Index
+            int nextRow = SelectedCells[0].RowIndex - 1;
+
+            if (nextRow < 0)
+            {
+                FirstDisplayedScrollingRowIndex = Rows.Count - 1;
+                Rows[Rows.Count - 1].Selected = true;
+            }
+            else
+            {
+                FirstDisplayedScrollingRowIndex = nextRow;
+                Rows[nextRow].Selected = true;
+            }
+        }
+
+        /// <summary>
+        /// Selects the first row of the DataGridView
+        /// </summary>
+        private void SelectFirstRow()
+        {
+            Rows[0].Selected = true;
+            FirstDisplayedScrollingRowIndex = 0;
+        }
+
+        /// <summary>
+        /// Selects the last row of the DataGridView
+        /// </summary>
+        private void SelectLastRow()
+        {
+            Rows[Rows.Count - 1].Selected = true;
+            FirstDisplayedScrollingRowIndex = Rows.Count - 1;
         }
 
         // ///////////////////////////////
