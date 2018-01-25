@@ -105,15 +105,15 @@ namespace SonicHeroes.Misc.Config
         /// <summary>
         /// Retrieves the Mod Loader configuration file struct.
         /// </summary>
-        /// <param name="gameName">The name of the game folder containing the configuration file for the game. e.g. Sonic-Heroes</param>
+        /// <param name="gameConfigDirectory">The directory containing the configuration file for the game. e.g. $LOADERPATH\\Mod-Loader-Mods\\Games\\Sonic-Heroes</param>
         /// <returns></returns>
-        public GameConfig ParseConfig(string gameName)
+        public GameConfig ParseConfig(string gameConfigDirectory)
         {
             // Instantiate a new configuration struct.
             GameConfig gameConfig = new GameConfig();
 
             // Configuration directory
-            configDirectory = LoaderPaths.GetModLoaderConfigDirectory() + "/Games/" + gameName;
+            configDirectory = gameConfigDirectory;
 
             // Read the mod loader configuration.
             iniData = iniParser.ReadFile(configDirectory + "/Config.ini");
@@ -129,8 +129,6 @@ namespace SonicHeroes.Misc.Config
             // Return the config file.
             return gameConfig;
         }
-
-
 
         /// <summary>
         /// Writes out the config file to an .ini file.
