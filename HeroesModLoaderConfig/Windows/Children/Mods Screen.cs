@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace HeroesModLoaderConfig.Windows.Children
 {
-    public partial class Main_Screen : Form
+    public partial class Mods_Screen : Form
     {        
         /// <summary>
         /// Constructor for this class.
@@ -23,7 +23,7 @@ namespace HeroesModLoaderConfig.Windows.Children
         /// form that hosts this window in question.
         /// </summary>
         /// <param name="MDIParent">The MDI Parent form, an instance of Base.cs</param>
-        public Main_Screen(Form MDIParent)
+        public Mods_Screen(Form MDIParent)
         {
             // Standard Winforms Initialization
             InitializeComponent();
@@ -39,23 +39,12 @@ namespace HeroesModLoaderConfig.Windows.Children
         }
 
         /// <summary>
-        /// Load all of the games in question.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Main_Screen_Load(object sender, EventArgs e)
-        {
-            // Load the individual game configurations.
-            LoadGames();
-        }
-
-        /// <summary>
         /// Retrieves the list of games from their configurations.
         /// </summary>
-        private void LoadGames()
+        private void LoadMods()
         {
             // Clear the current listview.
-            box_GameList.Rows.Clear();
+            box_ModList.Rows.Clear();
 
             // Retrieve current game list the into Global.
             Global.GameConfigurations = Global.ConfigurationManager.GetAllGameConfigs();
@@ -70,7 +59,7 @@ namespace HeroesModLoaderConfig.Windows.Children
                 string relativeModPath = LoaderPaths.GetModLoaderRelativePath(modPath);
 
                 // Add the relative path.
-                box_GameList.Rows.Add(gameConfig.GameName, relativeModPath);
+                box_ModList.Rows.Add(gameConfig.GameName, relativeModPath);
             }
         }
 
@@ -79,12 +68,13 @@ namespace HeroesModLoaderConfig.Windows.Children
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GameList_SelectionChanged(object sender, EventArgs e)
+        private void ModList_SelectionChanged(object sender, EventArgs e)
         {
             try
             {
+                /*
                 // Retrieve the current game details.
-                GameConfigParser.GameConfig gameConfig = Global.GameConfigurations[box_GameList.SelectedCells[0].RowIndex];
+                GameConfigParser.GameConfig gameConfig = Global.GameConfigurations[box_ModList.SelectedCells[0].RowIndex];
 
                 // Update note box.
                 item_NoteBoxEXEPath.Text = gameConfig.ExecutableDirectory.Substring(gameConfig.ExecutableDirectory.IndexOf("/") + 1);
@@ -101,16 +91,9 @@ namespace HeroesModLoaderConfig.Windows.Children
                 // Load the game image.
                 try { item_GameBanner.BackgroundImage = Image.FromFile(gameConfig.ConfigDirectory + "\\Banner.png"); }
                 catch { item_GameBanner.BackgroundImage = null; }
+                */
             }
             catch { }
-        }
-
-        /// <summary>
-        /// Quits the mod loader.
-        /// </summary>
-        private void QuitBox_Click(object sender, EventArgs e)
-        {
-            Environment.Exit(0);
         }
     }
 }

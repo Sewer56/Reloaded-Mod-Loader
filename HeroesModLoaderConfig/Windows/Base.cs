@@ -19,9 +19,15 @@ namespace HeroesModLoaderConfig
         /// A structure which defines all of the child forms
         /// that this form in question hosts.
         /// </summary>
-        public struct ChildForms
+        public class ChildForms
         {
             public Main_Screen MainMenu { get; set; }
+            public Mods_Screen ModsMenu { get; set; }
+
+            /// <summary>
+            /// Stores the currently opened menu.
+            /// </summary>
+            public Form CurrentMenu { get; set; }
         }
 
         /// <summary>
@@ -95,6 +101,8 @@ namespace HeroesModLoaderConfig
 
             // Create the children
             mdiChildren.MainMenu = new Main_Screen(this);
+            mdiChildren.ModsMenu = new Mods_Screen(this);
+            mdiChildren.CurrentMenu = mdiChildren.MainMenu;
 
             // Replace the struct instance
             MDIChildren = mdiChildren;
@@ -117,6 +125,24 @@ namespace HeroesModLoaderConfig
         }
 
         /// <summary>
+        /// Hides the currently shown MDI Child form and presents a new one.
+        /// </summary>
+        private void SwapMenu(Form targetMenu)
+        {
+            // Hide the current menu.
+            MDIChildren.CurrentMenu.Hide();
+
+            // Show the new menu.
+            targetMenu.Show();
+
+            // Set new menu location.
+            targetMenu.Location = new System.Drawing.Point(0,0);
+
+            // Set new menu.
+            MDIChildren.CurrentMenu = targetMenu;
+        }
+
+        /// <summary>
         /// Called when the mouse is moved within the client area of the button while the
         /// left (or right depending on user setting) mouse is down.
         /// As the title is a button, which covers the entire top panel it
@@ -125,5 +151,12 @@ namespace HeroesModLoaderConfig
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void TitleBarMouseDown(object sender, MouseEventArgs e) { MoveWindow.MoveTheWindow(this.Handle); }
+
+        private void CategoryBar_Games_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.MainMenu); }
+        private void CategoryBar_Mods_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ModsMenu); }
+        private void CategoryBar_Input_Click(object sender, EventArgs e) { }
+        private void CategoryBar_Theme_Click(object sender, EventArgs e) { }
+        private void CategoryBar_Manager_Click(object sender, EventArgs e) { }
+        private void CategoryBar_About_Click(object sender, EventArgs e) { }
     }
 }

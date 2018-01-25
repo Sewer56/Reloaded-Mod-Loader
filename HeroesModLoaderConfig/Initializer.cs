@@ -37,11 +37,12 @@ namespace HeroesModLoaderConfig
         /// </summary>
         private void InitializeGlobalProperties()
         {
-            // Instantiate all the config parser.
-            LoaderConfigManager ConfigManager = new LoaderConfigManager();
+            // Instantiate the Global Config Manager
+            Global.ConfigurationManager = new LoaderConfigManager();
 
             // Grab relevant configs.
-            Global.LoaderConfiguration = ConfigManager.LoaderConfigParser.ParseConfig();
+            // Note: Game list is grabbed upon entry to the main screen form.
+            Global.LoaderConfiguration = Global.ConfigurationManager.LoaderConfigParser.ParseConfig();
 
             // Initialize other Properties.
             Global.Theme = new Styles.Themes.Theme();

@@ -1,4 +1,5 @@
 ﻿using HeroesModLoaderConfig.Styles.Themes;
+using HeroesModLoaderConfig.Utilities;
 using SonicHeroes.Misc.Config;
 using System;
 using System.Collections.Generic;
@@ -37,8 +38,19 @@ namespace HeroesModLoaderConfig
         public static Base BaseForm { get; set; }
 
         /// <summary>
+        /// Provides functionality for retrieving and saving various 
+        /// mod loader configurations.
+        /// </summary>
+        public static LoaderConfigManager ConfigurationManager { get; set; }
+
+        /// <summary>
         /// Stores the current configuration for the mod loader.
         /// </summary>
         public static LoaderConfigParser.Config LoaderConfiguration { get; set; }
+
+        /// <summary>
+        /// Stores the individual game configurations for loaded games.
+        /// </summary>
+        public static List<GameConfigParser.GameConfig> GameConfigurations { get; set; }
     }
 }
