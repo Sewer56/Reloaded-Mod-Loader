@@ -26,42 +26,47 @@ namespace SonicHeroes.Misc.Config
         /// <summary>
         /// Defines a general struct for the loader mod configuration file.
         /// </summary>
-        public struct ModConfig
+        public class ModConfig
         {
             /// <summary>
             /// The name of the mod as it appears in the mod loader configuration tool.
             /// </summary>
-            public string ModName;
+            public string ModName { get; set; }
 
             /// <summary>
             /// The description of the mod.
             /// </summary>
-            public string ModDescription;
+            public string ModDescription { get; set; }
 
             /// <summary>
             /// The version of the mod. (Recommended Format: 1.XX)
             /// </summary>
-            public string ModVersion;
+            public string ModVersion { get; set; }
 
             /// <summary>
             /// The author of the specific mod.
             /// </summary>
-            public string ModAuthor;
+            public string ModAuthor { get; set; }
 
             /// <summary>
             /// The site shown in the hyperlink on the loader for the mod.
             /// </summary>
-            public string ModSite;
+            public string ModSite { get; set; }
 
             /// <summary>
             /// Used for self-updates from source code.
             /// </summary>
-            public string ModGithub;
+            public string ModGithub { get; set; }
 
             /// <summary>
             /// Specifies an executable or file in the same directory to be ran for configuration purposes.
             /// </summary>
-            public string ModConfigEXE;
+            public string ModConfigEXE { get; set; }
+
+            /// <summary>
+            /// [DO NOT MODIFY] Stores the physical directory location of the mod configuration for re-save purposes.
+            /// </summary>
+            public string ModLocation { get; set; }
         }
 
         /// <summary>
@@ -76,14 +81,17 @@ namespace SonicHeroes.Misc.Config
         /// <summary>
         /// Retrieves the Mod Loader configuration file struct.
         /// </summary>
-        /// <param name="modDirectory">The relative directory of the individual mod to Mod-Loader-Mods. e.g. Sonic-Heroes/Vanilla-Tweakbox-II</param>
+        /// <param name="modDirectory">The absolute directory of the individual mod in question.</param>
         public ModConfig ParseConfig(string modDirectory)
         {
             // Instantiate a new configuration struct.
             ModConfig modConfig = new ModConfig();
 
+            // Set the mod directory.
+            modConfig.ModLocation = modDirectory + "\\Config.ini";
+
             // Read the mod loader configuration.
-            iniData = iniParser.ReadFile(LoaderPaths.GetModLoaderConfigDirectory() + "/" + modDirectory + "/Config.ini");
+            iniData = iniParser.ReadFile(modConfig.ModLocation);
 
             // Parse the mod loader configuration.
             modConfig.ModName = iniData["Mod Configuration"]["Mod_Name"];
@@ -91,7 +99,7 @@ namespace SonicHeroes.Misc.Config
             modConfig.ModVersion = iniData["Mod Configuration"]["Mod_Version"];
             modConfig.ModAuthor = iniData["Mod Configuration"]["Mod_Author"];
             modConfig.ModSite = iniData["Mod Configuration"]["Mod_Site"];
-            modConfig.ModGithub = iniData["Mod Configuration"]["Mod_Gi  thub"];
+            modConfig.ModGithub = iniData["Mod Configuration"]["Mod_Github"];
             modConfig.ModConfigEXE = iniData["Mod Configuration"]["Mod_Config"];
 
             // Return the config file.
@@ -114,7 +122,7 @@ namespace SonicHeroes.Misc.Config
             iniData["Mod Configuration"]["Mod_Config"] = modConfig.ModConfigEXE;
 
             // Write the file out to disk.
-            iniParser.WriteFile(LoaderPaths.GetModLoaderConfigDirectory() + "/" + modDirectory + "/Config.ini", iniData);
+            iniParser.WriteFile(modConfig.ModLocation, iniData);
         }
     }
 }

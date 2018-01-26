@@ -27,7 +27,7 @@ namespace SonicHeroes.Misc.Config
         /// <summary>
         /// Defines a general struct for the loader game configuration file.
         /// </summary>
-        public struct GameConfig
+        public class GameConfig
         {
             /// <summary>
             /// Specifies the directory of the game.
