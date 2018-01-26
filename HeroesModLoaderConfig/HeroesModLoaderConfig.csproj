@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Styles\Controls\Interfaces\IControlIgnorable.cs" />
     <Compile Include="Styles\Controls\Interfaces\IDecorationBox.cs" />
+    <Compile Include="Styles\Misc\TextButtons.cs" />
     <Compile Include="Utilities\Colour\ColorspaceConverter.cs" />
     <Compile Include="Resources\Animation\AnimOverrides.cs" />
     <Compile Include="Resources\Animation\IAnimatedControl.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Utilities\Controls\SetupDecorationBoxes.cs" />
     <Compile Include="Utilities\Controls\SetLocationRelative.cs" />
     <Compile Include="Utilities\LoaderConfigManager.cs" />
+    <Compile Include="Utilities\Windows\ApplyCompositing.cs" />
     <Compile Include="Utilities\Windows\MakeRoundedWindow.cs" />
     <Compile Include="Utilities\Windows\MoveWindow.cs" />
     <Compile Include="Utilities\Windows\RemoveMDIChildBorder.cs" />

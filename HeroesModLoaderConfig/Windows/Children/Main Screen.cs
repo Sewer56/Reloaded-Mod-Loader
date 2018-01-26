@@ -1,5 +1,6 @@
 ﻿using HeroesModLoaderConfig.Styles.Themes;
 using HeroesModLoaderConfig.Utilities.Controls;
+using HeroesModLoaderConfig.Utilities.Windows;
 using SonicHeroes.Misc;
 using SonicHeroes.Misc.Config;
 using System;
@@ -16,7 +17,7 @@ using System.Windows.Forms;
 namespace HeroesModLoaderConfig.Windows.Children
 {
     public partial class Main_Screen : Form
-    {        
+    {
         /// <summary>
         /// Constructor for this class.
         /// Requires the specification of the MDI Parent
@@ -39,14 +40,25 @@ namespace HeroesModLoaderConfig.Windows.Children
         }
 
         /// <summary>
-        /// Load all of the games in question.
+        /// Is executed once the windows form has finshed loading.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Main_Screen_Load(object sender, EventArgs e)
         {
             // Load the individual game configurations.
             LoadGames();
+        }
+
+        /// <summary>
+        /// Changes the titlebar & other properties when the form visibility of the form changes.
+        /// </summary>
+        private void Main_Screen_VisibleChanged(object sender, EventArgs e)
+        {
+            // If set to visible
+            if (this.Visible)
+            {
+                Global.CurrentMenuName = "Main Menu";
+                Global.BaseForm.UpdateTitle("");
+            }
         }
 
         /// <summary>
@@ -84,22 +96,22 @@ namespace HeroesModLoaderConfig.Windows.Children
             try
             {
                 // Retrieve the current game details.
-                GameConfigParser.GameConfig gameConfig = Global.GameConfigurations[box_GameList.SelectedCells[0].RowIndex];
+                Global.CurrentGameConfig = Global.GameConfigurations[box_GameList.SelectedCells[0].RowIndex];
 
                 // Update note box.
-                item_NoteBoxEXEPath.Text = gameConfig.ExecutableDirectory.Substring(gameConfig.ExecutableDirectory.IndexOf("/") + 1);
-                item_NoteBoxVerPath.Text = gameConfig.GameVersion;
-                item_NoteBoxGameName.Text = gameConfig.GameName;
+                item_NoteBoxEXEPath.Text = Global.CurrentGameConfig.ExecutableDirectory.Substring(Global.CurrentGameConfig.ExecutableDirectory.IndexOf("/") + 1);
+                item_NoteBoxVerPath.Text = Global.CurrentGameConfig.GameVersion;
+                item_NoteBoxGameName.Text = Global.CurrentGameConfig.GameName;
 
                 // Update location box.
-                item_LocationBoxDirectoryPath.Text = gameConfig.GameDirectory;
-                item_LocationBoxEXEPath.Text = "$DIRECTORY + " + gameConfig.ExecutableDirectory;
+                item_LocationBoxDirectoryPath.Text = Global.CurrentGameConfig.GameDirectory;
+                item_LocationBoxEXEPath.Text = "$DIRECTORY + " + Global.CurrentGameConfig.ExecutableDirectory;
 
                 // Update injection details.
-                item_InjectionBoxInjection.Text = "INJECTION: " + gameConfig.HookMethod.ToString();
+                item_InjectionBoxInjection.Text = "INJECTION: " + Global.CurrentGameConfig.HookMethod.ToString();
 
                 // Load the game image.
-                try { item_GameBanner.BackgroundImage = Image.FromFile(gameConfig.ConfigDirectory + "\\Banner.png"); }
+                try { item_GameBanner.BackgroundImage = Image.FromFile(Global.CurrentGameConfig.ConfigDirectory + "\\Banner.png"); }
                 catch { item_GameBanner.BackgroundImage = null; }
             }
             catch { }

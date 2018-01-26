@@ -31,40 +31,38 @@ namespace HeroesModLoaderConfig.Windows.Children
         /// </summary>
         private void InitializeComponent()
         {
-            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties10 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage19 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage20 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties11 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage21 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage22 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties12 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage23 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage24 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties13 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage25 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage26 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties14 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage27 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage28 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties15 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage29 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage30 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties16 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage31 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage32 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties17 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage33 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage34 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties18 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage35 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage36 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties1 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage1 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage2 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties2 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage3 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage4 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties3 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage5 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage6 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties4 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage7 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage8 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties5 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage9 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage10 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties6 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage11 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage12 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties7 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage13 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage14 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties8 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage15 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage16 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties9 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage17 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage18 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Screen));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.box_GameList = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedDataGridView();
-            this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box_GameListBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.box_NoteBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.box_LocationBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
@@ -86,6 +84,8 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.item_GameBanner = new System.Windows.Forms.PictureBox();
             this.item_VersionBoxVersion = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_InjectionBoxInjection = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
+            this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).BeginInit();
             this.SuspendLayout();
@@ -96,23 +96,23 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.box_GameList.AllowUserToDeleteRows = false;
             this.box_GameList.AllowUserToResizeColumns = false;
             this.box_GameList.AllowUserToResizeRows = false;
-            animMessage19.Control = this.box_GameList;
-            animMessage19.PlayAnimation = true;
-            animProperties10.BackColorMessage = animMessage19;
-            animMessage20.Control = this.box_GameList;
-            animMessage20.PlayAnimation = true;
-            animProperties10.ForeColorMessage = animMessage20;
-            animProperties10.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties10.MouseEnterDuration = 0F;
-            animProperties10.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties10.MouseEnterFramerate = 0F;
-            animProperties10.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties10.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties10.MouseLeaveDuration = 0F;
-            animProperties10.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties10.MouseLeaveFramerate = 0F;
-            animProperties10.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_GameList.AnimProperties = animProperties10;
+            animMessage1.Control = this.box_GameList;
+            animMessage1.PlayAnimation = true;
+            animProperties1.BackColorMessage = animMessage1;
+            animMessage2.Control = this.box_GameList;
+            animMessage2.PlayAnimation = true;
+            animProperties1.ForeColorMessage = animMessage2;
+            animProperties1.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties1.MouseEnterDuration = 0F;
+            animProperties1.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties1.MouseEnterFramerate = 0F;
+            animProperties1.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties1.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties1.MouseLeaveDuration = 0F;
+            animProperties1.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties1.MouseLeaveFramerate = 0F;
+            animProperties1.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_GameList.AnimProperties = animProperties1;
             this.box_GameList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.box_GameList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.box_GameList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -123,15 +123,15 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.box_GameList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.modName,
             this.modDirectory});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Roboto Mono", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.box_GameList.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Roboto Mono", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.box_GameList.DefaultCellStyle = dataGridViewCellStyle3;
             this.box_GameList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.box_GameList.EnableHeadersVisualStyles = false;
             this.box_GameList.GridColor = System.Drawing.Color.White;
@@ -150,47 +150,25 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.box_GameList.TabIndex = 14;
             this.box_GameList.SelectionChanged += new System.EventHandler(this.GameList_SelectionChanged);
             // 
-            // modName
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.modName.DefaultCellStyle = dataGridViewCellStyle4;
-            this.modName.FillWeight = 152.2843F;
-            this.modName.HeaderText = "Mod name";
-            this.modName.Name = "modName";
-            this.modName.ReadOnly = true;
-            this.modName.Width = 200;
-            // 
-            // modDirectory
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.modDirectory.DefaultCellStyle = dataGridViewCellStyle5;
-            this.modDirectory.FillWeight = 47.71573F;
-            this.modDirectory.HeaderText = "Mod Directory";
-            this.modDirectory.Name = "modDirectory";
-            this.modDirectory.ReadOnly = true;
-            this.modDirectory.Width = 318;
-            // 
             // box_GameListBox
             // 
-            animMessage21.Control = this.box_GameListBox;
-            animMessage21.PlayAnimation = true;
-            animProperties11.BackColorMessage = animMessage21;
-            animMessage22.Control = this.box_GameListBox;
-            animMessage22.PlayAnimation = true;
-            animProperties11.ForeColorMessage = animMessage22;
-            animProperties11.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties11.MouseEnterDuration = 0F;
-            animProperties11.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties11.MouseEnterFramerate = 0F;
-            animProperties11.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties11.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties11.MouseLeaveDuration = 0F;
-            animProperties11.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties11.MouseLeaveFramerate = 0F;
-            animProperties11.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_GameListBox.AnimProperties = animProperties11;
+            animMessage3.Control = this.box_GameListBox;
+            animMessage3.PlayAnimation = true;
+            animProperties2.BackColorMessage = animMessage3;
+            animMessage4.Control = this.box_GameListBox;
+            animMessage4.PlayAnimation = true;
+            animProperties2.ForeColorMessage = animMessage4;
+            animProperties2.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties2.MouseEnterDuration = 0F;
+            animProperties2.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties2.MouseEnterFramerate = 0F;
+            animProperties2.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties2.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties2.MouseLeaveDuration = 0F;
+            animProperties2.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties2.MouseLeaveFramerate = 0F;
+            animProperties2.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_GameListBox.AnimProperties = animProperties2;
             this.box_GameListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_GameListBox.CaptureChildren = false;
             this.box_GameListBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -211,23 +189,23 @@ namespace HeroesModLoaderConfig.Windows.Children
             // 
             // box_NoteBox
             // 
-            animMessage23.Control = this.box_NoteBox;
-            animMessage23.PlayAnimation = true;
-            animProperties12.BackColorMessage = animMessage23;
-            animMessage24.Control = this.box_NoteBox;
-            animMessage24.PlayAnimation = true;
-            animProperties12.ForeColorMessage = animMessage24;
-            animProperties12.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties12.MouseEnterDuration = 0F;
-            animProperties12.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties12.MouseEnterFramerate = 0F;
-            animProperties12.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties12.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties12.MouseLeaveDuration = 0F;
-            animProperties12.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties12.MouseLeaveFramerate = 0F;
-            animProperties12.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_NoteBox.AnimProperties = animProperties12;
+            animMessage5.Control = this.box_NoteBox;
+            animMessage5.PlayAnimation = true;
+            animProperties3.BackColorMessage = animMessage5;
+            animMessage6.Control = this.box_NoteBox;
+            animMessage6.PlayAnimation = true;
+            animProperties3.ForeColorMessage = animMessage6;
+            animProperties3.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties3.MouseEnterDuration = 0F;
+            animProperties3.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties3.MouseEnterFramerate = 0F;
+            animProperties3.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties3.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties3.MouseLeaveDuration = 0F;
+            animProperties3.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties3.MouseLeaveFramerate = 0F;
+            animProperties3.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_NoteBox.AnimProperties = animProperties3;
             this.box_NoteBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_NoteBox.CaptureChildren = true;
             this.box_NoteBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -247,23 +225,23 @@ namespace HeroesModLoaderConfig.Windows.Children
             // 
             // box_LocationBox
             // 
-            animMessage25.Control = this.box_LocationBox;
-            animMessage25.PlayAnimation = true;
-            animProperties13.BackColorMessage = animMessage25;
-            animMessage26.Control = this.box_LocationBox;
-            animMessage26.PlayAnimation = true;
-            animProperties13.ForeColorMessage = animMessage26;
-            animProperties13.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties13.MouseEnterDuration = 0F;
-            animProperties13.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties13.MouseEnterFramerate = 0F;
-            animProperties13.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties13.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties13.MouseLeaveDuration = 0F;
-            animProperties13.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties13.MouseLeaveFramerate = 0F;
-            animProperties13.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_LocationBox.AnimProperties = animProperties13;
+            animMessage7.Control = this.box_LocationBox;
+            animMessage7.PlayAnimation = true;
+            animProperties4.BackColorMessage = animMessage7;
+            animMessage8.Control = this.box_LocationBox;
+            animMessage8.PlayAnimation = true;
+            animProperties4.ForeColorMessage = animMessage8;
+            animProperties4.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties4.MouseEnterDuration = 0F;
+            animProperties4.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties4.MouseEnterFramerate = 0F;
+            animProperties4.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties4.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties4.MouseLeaveDuration = 0F;
+            animProperties4.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties4.MouseLeaveFramerate = 0F;
+            animProperties4.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_LocationBox.AnimProperties = animProperties4;
             this.box_LocationBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_LocationBox.CaptureChildren = true;
             this.box_LocationBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -283,23 +261,23 @@ namespace HeroesModLoaderConfig.Windows.Children
             // 
             // box_PictureBox
             // 
-            animMessage27.Control = this.box_PictureBox;
-            animMessage27.PlayAnimation = true;
-            animProperties14.BackColorMessage = animMessage27;
-            animMessage28.Control = this.box_PictureBox;
-            animMessage28.PlayAnimation = true;
-            animProperties14.ForeColorMessage = animMessage28;
-            animProperties14.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties14.MouseEnterDuration = 0F;
-            animProperties14.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties14.MouseEnterFramerate = 0F;
-            animProperties14.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties14.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties14.MouseLeaveDuration = 0F;
-            animProperties14.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties14.MouseLeaveFramerate = 0F;
-            animProperties14.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_PictureBox.AnimProperties = animProperties14;
+            animMessage9.Control = this.box_PictureBox;
+            animMessage9.PlayAnimation = true;
+            animProperties5.BackColorMessage = animMessage9;
+            animMessage10.Control = this.box_PictureBox;
+            animMessage10.PlayAnimation = true;
+            animProperties5.ForeColorMessage = animMessage10;
+            animProperties5.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties5.MouseEnterDuration = 0F;
+            animProperties5.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties5.MouseEnterFramerate = 0F;
+            animProperties5.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties5.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties5.MouseLeaveDuration = 0F;
+            animProperties5.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties5.MouseLeaveFramerate = 0F;
+            animProperties5.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_PictureBox.AnimProperties = animProperties5;
             this.box_PictureBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_PictureBox.CaptureChildren = true;
             this.box_PictureBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -319,23 +297,23 @@ namespace HeroesModLoaderConfig.Windows.Children
             // 
             // box_VersionBox
             // 
-            animMessage29.Control = this.box_VersionBox;
-            animMessage29.PlayAnimation = true;
-            animProperties15.BackColorMessage = animMessage29;
-            animMessage30.Control = this.box_VersionBox;
-            animMessage30.PlayAnimation = true;
-            animProperties15.ForeColorMessage = animMessage30;
-            animProperties15.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties15.MouseEnterDuration = 0F;
-            animProperties15.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties15.MouseEnterFramerate = 0F;
-            animProperties15.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties15.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties15.MouseLeaveDuration = 0F;
-            animProperties15.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties15.MouseLeaveFramerate = 0F;
-            animProperties15.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_VersionBox.AnimProperties = animProperties15;
+            animMessage11.Control = this.box_VersionBox;
+            animMessage11.PlayAnimation = true;
+            animProperties6.BackColorMessage = animMessage11;
+            animMessage12.Control = this.box_VersionBox;
+            animMessage12.PlayAnimation = true;
+            animProperties6.ForeColorMessage = animMessage12;
+            animProperties6.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties6.MouseEnterDuration = 0F;
+            animProperties6.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties6.MouseEnterFramerate = 0F;
+            animProperties6.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties6.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties6.MouseLeaveDuration = 0F;
+            animProperties6.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties6.MouseLeaveFramerate = 0F;
+            animProperties6.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_VersionBox.AnimProperties = animProperties6;
             this.box_VersionBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_VersionBox.CaptureChildren = true;
             this.box_VersionBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -355,23 +333,23 @@ namespace HeroesModLoaderConfig.Windows.Children
             // 
             // box_InjectionBox
             // 
-            animMessage31.Control = this.box_InjectionBox;
-            animMessage31.PlayAnimation = true;
-            animProperties16.BackColorMessage = animMessage31;
-            animMessage32.Control = this.box_InjectionBox;
-            animMessage32.PlayAnimation = true;
-            animProperties16.ForeColorMessage = animMessage32;
-            animProperties16.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties16.MouseEnterDuration = 0F;
-            animProperties16.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties16.MouseEnterFramerate = 0F;
-            animProperties16.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties16.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties16.MouseLeaveDuration = 0F;
-            animProperties16.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties16.MouseLeaveFramerate = 0F;
-            animProperties16.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_InjectionBox.AnimProperties = animProperties16;
+            animMessage13.Control = this.box_InjectionBox;
+            animMessage13.PlayAnimation = true;
+            animProperties7.BackColorMessage = animMessage13;
+            animMessage14.Control = this.box_InjectionBox;
+            animMessage14.PlayAnimation = true;
+            animProperties7.ForeColorMessage = animMessage14;
+            animProperties7.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties7.MouseEnterDuration = 0F;
+            animProperties7.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties7.MouseEnterFramerate = 0F;
+            animProperties7.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties7.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties7.MouseLeaveDuration = 0F;
+            animProperties7.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties7.MouseLeaveFramerate = 0F;
+            animProperties7.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_InjectionBox.AnimProperties = animProperties7;
             this.box_InjectionBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_InjectionBox.CaptureChildren = true;
             this.box_InjectionBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -391,23 +369,23 @@ namespace HeroesModLoaderConfig.Windows.Children
             // 
             // item_QuitBox
             // 
-            animMessage33.Control = this.item_QuitBox;
-            animMessage33.PlayAnimation = true;
-            animProperties17.BackColorMessage = animMessage33;
-            animMessage34.Control = this.item_QuitBox;
-            animMessage34.PlayAnimation = true;
-            animProperties17.ForeColorMessage = animMessage34;
-            animProperties17.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties17.MouseEnterDuration = 0F;
-            animProperties17.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties17.MouseEnterFramerate = 0F;
-            animProperties17.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties17.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties17.MouseLeaveDuration = 0F;
-            animProperties17.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties17.MouseLeaveFramerate = 0F;
-            animProperties17.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.item_QuitBox.AnimProperties = animProperties17;
+            animMessage15.Control = this.item_QuitBox;
+            animMessage15.PlayAnimation = true;
+            animProperties8.BackColorMessage = animMessage15;
+            animMessage16.Control = this.item_QuitBox;
+            animMessage16.PlayAnimation = true;
+            animProperties8.ForeColorMessage = animMessage16;
+            animProperties8.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterDuration = 0F;
+            animProperties8.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterFramerate = 0F;
+            animProperties8.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties8.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveDuration = 0F;
+            animProperties8.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveFramerate = 0F;
+            animProperties8.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.item_QuitBox.AnimProperties = animProperties8;
             this.item_QuitBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
             this.item_QuitBox.CaptureChildren = true;
             this.item_QuitBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -430,23 +408,23 @@ namespace HeroesModLoaderConfig.Windows.Children
             // 
             // item_LaunchBox
             // 
-            animMessage35.Control = this.item_LaunchBox;
-            animMessage35.PlayAnimation = true;
-            animProperties18.BackColorMessage = animMessage35;
-            animMessage36.Control = this.item_LaunchBox;
-            animMessage36.PlayAnimation = true;
-            animProperties18.ForeColorMessage = animMessage36;
-            animProperties18.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties18.MouseEnterDuration = 0F;
-            animProperties18.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties18.MouseEnterFramerate = 0F;
-            animProperties18.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties18.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties18.MouseLeaveDuration = 0F;
-            animProperties18.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties18.MouseLeaveFramerate = 0F;
-            animProperties18.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.item_LaunchBox.AnimProperties = animProperties18;
+            animMessage17.Control = this.item_LaunchBox;
+            animMessage17.PlayAnimation = true;
+            animProperties9.BackColorMessage = animMessage17;
+            animMessage18.Control = this.item_LaunchBox;
+            animMessage18.PlayAnimation = true;
+            animProperties9.ForeColorMessage = animMessage18;
+            animProperties9.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterDuration = 0F;
+            animProperties9.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterFramerate = 0F;
+            animProperties9.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties9.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveDuration = 0F;
+            animProperties9.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveFramerate = 0F;
+            animProperties9.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.item_LaunchBox.AnimProperties = animProperties9;
             this.item_LaunchBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
             this.item_LaunchBox.CaptureChildren = true;
             this.item_LaunchBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -684,6 +662,28 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.item_InjectionBoxInjection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.item_InjectionBoxInjection.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
+            // modName
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.modName.DefaultCellStyle = dataGridViewCellStyle1;
+            this.modName.FillWeight = 152.2843F;
+            this.modName.HeaderText = "Mod name";
+            this.modName.Name = "modName";
+            this.modName.ReadOnly = true;
+            this.modName.Width = 200;
+            // 
+            // modDirectory
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.modDirectory.DefaultCellStyle = dataGridViewCellStyle2;
+            this.modDirectory.FillWeight = 47.71573F;
+            this.modDirectory.HeaderText = "Mod Directory";
+            this.modDirectory.Name = "modDirectory";
+            this.modDirectory.ReadOnly = true;
+            this.modDirectory.Width = 318;
+            // 
             // Main_Screen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -717,6 +717,7 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.Name = "Main_Screen";
             this.Text = "Main_Screen";
             this.Load += new System.EventHandler(this.Main_Screen_Load);
+            this.VisibleChanged += new System.EventHandler(this.Main_Screen_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).EndInit();
             this.ResumeLayout(false);
@@ -740,8 +741,6 @@ namespace HeroesModLoaderConfig.Windows.Children
         private Styles.Controls.EnhancedLabel item_NoteBoxVerPath;
         private Styles.Controls.Animated.AnimatedButton box_GameListBox;
         private AnimatedDataGridView box_GameList;
-        private System.Windows.Forms.DataGridViewTextBoxColumn modName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn modDirectory;
         private System.Windows.Forms.PictureBox item_GameBanner;
         private AnimatedButton box_PictureBox;
         private AnimatedButton box_VersionBox;
@@ -750,5 +749,7 @@ namespace HeroesModLoaderConfig.Windows.Children
         private AnimatedButton box_InjectionBox;
         private AnimatedButton item_QuitBox;
         private AnimatedButton item_LaunchBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn modName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn modDirectory;
     }
 }

@@ -49,8 +49,19 @@ namespace HeroesModLoaderConfig
         public static LoaderConfigParser.Config LoaderConfiguration { get; set; }
 
         /// <summary>
+        /// Stores the currently loaded/highlighted game configuration.
+        /// Changed when the user changes the game in the main menu.
+        /// </summary>
+        public static GameConfigParser.GameConfig CurrentGameConfig { get; set; }
+
+        /// <summary>
         /// Stores the individual game configurations for loaded games.
         /// </summary>
         public static List<GameConfigParser.GameConfig> GameConfigurations { get; set; }
+
+        /// <summary>
+        /// Stores the individual mod configuration for the currently selected game.
+        /// </summary>
+        public static List<ModConfigParser.ModConfig> ModConfigurations { get; set; }
     }
 }

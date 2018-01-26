@@ -4,11 +4,32 @@ using HeroesModLoaderConfig.Styles.Themes;
 using static SonicHeroes.Misc.Config.ThemePropertyParser;
 using HeroesModLoaderConfig.Utilities.Windows;
 using HeroesModLoaderConfig.Windows.Children;
+using HeroesModLoaderConfig.Windows;
+using SonicHeroes.Native;
 
 namespace HeroesModLoaderConfig
 {
     public partial class Base : Form
     {
+        #region Compositing
+        /// <summary>
+        /// Gets the creation parameters.
+        /// The parameters are overridden to set the window as composited.
+        /// Normally this would go into a child window class and other forms would
+        /// derive from this, however this has shown to make the VS WinForm designer
+        /// to be buggy.
+        /// </summary>
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle = cp.ExStyle | (int)WinAPI.WindowStyles.Constants.WS_EX_COMPOSITED;
+                return cp;
+            }
+        }
+        #endregion
+
         /// <summary>
         /// Stores all of the child forms to this Windows form which
         /// effectively are represented each of the tabs.
@@ -51,11 +72,22 @@ namespace HeroesModLoaderConfig
             InitializeMDIChildren();
         }
 
+        // Click Events for Category Buttons
+        #region Category Buttons
+        private void CategoryBar_Games_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.MainMenu); }
+        private void CategoryBar_Mods_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ModsMenu); }
+        private void CategoryBar_Input_Click(object sender, EventArgs e) { }
+        private void CategoryBar_Theme_Click(object sender, EventArgs e) { }
+        private void CategoryBar_Manager_Click(object sender, EventArgs e) { }
+        private void CategoryBar_About_Click(object sender, EventArgs e) { }
+        #endregion
+
         /// <summary>
         /// Updates the current title for the mod loader menu, taking in mind theme configuration
         /// and the delimiter + delimiter settings.
         /// </summary>
-        public void UpdateTitle()
+        /// <param name="extraText">This text is appended to the end of the menu title.</param>
+        public void UpdateTitle(string extraText)
         {
             // Retrieve the theme properties.
             ThemeConfig themeProperties = Theme.ThemeProperties;
@@ -85,6 +117,10 @@ namespace HeroesModLoaderConfig
                 loaderTitle += Global.CurrentMenuName;
             }
 
+            // Append extra text
+            if (extraText.Length != 0) { loaderTitle += delimiter; }
+            loaderTitle += extraText;
+
             // Set the title of the loader.
             titleBar_Title.Text = loaderTitle;
         }
@@ -96,22 +132,19 @@ namespace HeroesModLoaderConfig
         /// </summary>
         private void InitializeMDIChildren()
         {
-            // Instantiate the Struct of children
-            ChildForms mdiChildren = new ChildForms();
+            // Instantiate the class of children
+            MDIChildren = new ChildForms();
 
             // Create the children
-            mdiChildren.MainMenu = new Main_Screen(this);
-            mdiChildren.ModsMenu = new Mods_Screen(this);
-            mdiChildren.CurrentMenu = mdiChildren.MainMenu;
-
-            // Replace the struct instance
-            MDIChildren = mdiChildren;
+            MDIChildren.MainMenu = new Main_Screen(this);
+            MDIChildren.ModsMenu = new Mods_Screen(this);
+            MDIChildren.CurrentMenu = MDIChildren.MainMenu;
 
             // Remove the borders from the children forms
             RemoveMDIChildBorder.SetBevel(this, false);
 
             // Show the main menu
-            mdiChildren.MainMenu.Show();
+            MDIChildren.MainMenu.Show();
         }
 
         /// <summary>
@@ -151,12 +184,5 @@ namespace HeroesModLoaderConfig
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void TitleBarMouseDown(object sender, MouseEventArgs e) { MoveWindow.MoveTheWindow(this.Handle); }
-
-        private void CategoryBar_Games_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.MainMenu); }
-        private void CategoryBar_Mods_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ModsMenu); }
-        private void CategoryBar_Input_Click(object sender, EventArgs e) { }
-        private void CategoryBar_Theme_Click(object sender, EventArgs e) { }
-        private void CategoryBar_Manager_Click(object sender, EventArgs e) { }
-        private void CategoryBar_About_Click(object sender, EventArgs e) { }
     }
 }

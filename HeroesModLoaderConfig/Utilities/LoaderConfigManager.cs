@@ -20,9 +20,14 @@ namespace HeroesModLoaderConfig.Utilities
         public LoaderConfigParser LoaderConfigParser { get; set; }
 
         /// <summary>
-        /// Stores the Mod Loader Configuration Parser.
+        /// Stores the Mod Loader Game Configuration Parser.
         /// </summary>
         public GameConfigParser GameConfigParser { get; set; }
+
+        /// <summary>
+        /// Stores the Mod Loader Mod Configuration Parser.
+        /// </summary>
+        public ModConfigParser ModConfigParser { get; set; }
 
         /// <summary>
         /// Starts up all of the individual parsers.
@@ -32,6 +37,7 @@ namespace HeroesModLoaderConfig.Utilities
             // Instantiate the Parsers
             LoaderConfigParser = new LoaderConfigParser();
             GameConfigParser = new GameConfigParser();
+            ModConfigParser = new ModConfigParser();
         }
 
         /// <summary>
@@ -57,6 +63,35 @@ namespace HeroesModLoaderConfig.Utilities
         /// </summary>
         /// <param name="gameConfigurations">List of game configurations to be written back.</param>
         public void WriteAllGameConfigs(List<GameConfigParser.GameConfig> gameConfigurations)
+        {
+            // Read each game configuration
+            foreach (GameConfigParser.GameConfig gameConfiguration in gameConfigurations) { GameConfigParser.WriteConfig(gameConfiguration); }
+        }
+
+        /// <summary>
+        /// Retrieves all of the game individual mod configurations for the currently selected game.
+        /// </summary>
+        /// <param name="gameDirectory">The game configuration which holds the path to the mods.</param>
+        public List<ModConfigParser.ModConfig> GetAllMods(GameConfigParser.GameConfig gameConfiguration)
+        {
+            // Retrieves the name of all directories in the 'Mods' folder for the game.
+            string[] modDirectories = Directory.GetDirectories(LoaderPaths.GetModLoaderModDirectory() + "\\" + gameConfiguration.ModDirectory);
+
+            // Retrieve the game configurations
+            List<ModConfigParser.ModConfig> modConfigurations = new List<ModConfigParser.ModConfig>(modDirectories.Length);
+
+            // Read each game configuration
+            foreach (string directory in modDirectories) { modConfigurations.Add(ModConfigParser.ParseConfig(directory)); }
+
+            // Return.
+            return modConfigurations;
+        }
+
+        /// <summary>
+        /// Writes all of the game individual mod configurations for the currently selected game.
+        /// </summary>
+        /// <param name="gameConfigurations">List of game configurations to be written back.</param>
+        public void WriteAllMods(List<GameConfigParser.GameConfig> gameConfigurations)
         {
             // Read each game configuration
             foreach (GameConfigParser.GameConfig gameConfiguration in gameConfigurations) { GameConfigParser.WriteConfig(gameConfiguration); }

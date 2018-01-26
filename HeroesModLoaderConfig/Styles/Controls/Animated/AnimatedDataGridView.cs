@@ -141,12 +141,12 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
             // Deselect current item.
             if (linesToScroll >= 1)
             {
-                DecrementRowIndex();
+                try { DecrementRowIndex(); } catch { }
                 currentScrollDelta = 0;
             }
             else if (linesToScroll <= -1)
             {
-                IncrementRowIndex();
+                try { IncrementRowIndex(); } catch { }
                 currentScrollDelta = 0;
             }
         }

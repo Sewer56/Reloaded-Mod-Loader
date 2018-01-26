@@ -37,7 +37,7 @@ namespace HeroesModLoaderConfig.Styles.Themes
             if (Global.BaseForm != null)
             {
                 // Update the title.
-                Global.BaseForm.UpdateTitle();
+                Global.BaseForm.UpdateTitle("");
 
                 // Set the background colours
                 Global.BaseForm.panel_CategoryBar.BackColor = Theme.ThemeProperties.CategoryColours.BGColour;
