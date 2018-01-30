@@ -54,6 +54,11 @@ namespace SonicHeroes.Misc.Config
             public BarColours CategoryColours;
 
             /// <summary>
+            /// Specifies the category bar colours.
+            /// </summary>
+            public BarColours BorderlessColours;
+
+            /// <summary>
             /// Specifies the colours for the WinForm buttons used as decorations that serve no functionality
             /// </summary>
             public BarColours BoxColours;
@@ -97,6 +102,16 @@ namespace SonicHeroes.Misc.Config
             /// Specifies the mouse leave animation behaviour for the WinForm buttons used for decorations that serve no functionality.
             /// </summary>
             public ButtonMouseAnimation BoxLeaveAnimation;
+
+            /// <summary>
+            /// Specifies the mouse enter animation behaviour for the WinForm buttons used for decorations that serve no functionality.
+            /// </summary>
+            public ButtonMouseAnimation BorderlessEnterAnimation;
+
+            /// <summary>
+            /// Specifies the mouse leave animation behaviour for the WinForm buttons used for decorations that serve no functionality.
+            /// </summary>
+            public ButtonMouseAnimation BorderlessLeaveAnimation;
         }
 
         /// <summary>
@@ -249,6 +264,7 @@ namespace SonicHeroes.Misc.Config
             colourConfig.TitleColours = ParseColours("Title Colours");
             colourConfig.CategoryColours = ParseColours("Category Colours");
             colourConfig.BoxColours = ParseColours("Box Colours");
+            colourConfig.BorderlessColours = ParseColours("Borderless Colours");
 
             // Parse the Main, Title and Category Enter and Leave Animations
             colourConfig.CategoryEnterAnimation = ParseAnimations("Category Button Mouse Enter Animation");
@@ -262,6 +278,9 @@ namespace SonicHeroes.Misc.Config
 
             colourConfig.BoxEnterAnimation = ParseAnimations("Box Mouse Enter Animation");
             colourConfig.BoxLeaveAnimation = ParseAnimations("Box Mouse Leave Animation");
+
+            colourConfig.BorderlessEnterAnimation = ParseAnimations("Borderless Mouse Enter Animation");
+            colourConfig.BorderlessLeaveAnimation = ParseAnimations("Borderless Mouse Leave Animation");
 
             // Return the config file.
             return colourConfig;
