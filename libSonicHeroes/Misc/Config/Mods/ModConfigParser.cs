@@ -110,7 +110,7 @@ namespace SonicHeroes.Misc.Config
         /// Writes out the config file to an .ini file.
         /// </summary>
         /// <param name="modDirectory">The relative directory of the individual mod to Mod-Loader-Mods. e.g. Sonic-Heroes/Vanilla-Tweakbox-II</param>
-        public void WriteConfig(ModConfig modConfig, string modDirectory)
+        public void WriteConfig(ModConfig modConfig)
         {
             // Change the values of the current fields.
             iniData["Mod Configuration"]["Mod_Name"] = modConfig.ModName;
