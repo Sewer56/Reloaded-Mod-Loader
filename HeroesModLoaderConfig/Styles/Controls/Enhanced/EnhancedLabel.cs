@@ -1,12 +1,7 @@
 ﻿using HeroesModLoaderConfig.Styles.Controls.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HeroesModLoaderConfig.Styles.Controls

@@ -1,10 +1,4 @@
 ﻿using SonicHeroes.Misc;
-using SonicHeroes.Misc.Config;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static SonicHeroes.Misc.Config.ThemePropertyParser;
 
 namespace HeroesModLoaderConfig.Styles.Themes

@@ -1,11 +1,6 @@
 ﻿using HeroesModLoaderConfig.Utilities.Fonts;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HeroesModLoaderConfig.Styles.Themes
 {

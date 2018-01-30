@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+using System.Drawing;
 using System.Threading.Tasks;
 using static HeroesModLoaderConfig.Styles.Animation.AnimOverrides;
-using System.Drawing;
-using static HeroesModLoaderConfig.Styles.Animation.AnimMessage;
 
 namespace HeroesModLoaderConfig.Styles.Animation
 {

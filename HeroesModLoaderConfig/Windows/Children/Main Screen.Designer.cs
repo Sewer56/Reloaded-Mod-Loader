@@ -1,5 +1,4 @@
 ﻿using HeroesModLoaderConfig.Styles.Controls.Animated;
-using HeroesModLoaderConfig.Styles.Controls.Enhanced;
 
 namespace HeroesModLoaderConfig.Windows.Children
 {

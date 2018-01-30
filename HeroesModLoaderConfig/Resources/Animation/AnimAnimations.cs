@@ -1,12 +1,7 @@
-﻿using System;
+﻿using HeroesModLoaderConfig.Utilities.Colour;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ColorMine;
-using System.Windows.Forms;
 using System.Drawing;
-using HeroesModLoaderConfig.Utilities.Colour;
+using System.Threading.Tasks;
 
 namespace HeroesModLoaderConfig.Styles.Animation
 {

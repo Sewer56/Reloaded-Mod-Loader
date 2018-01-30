@@ -1,12 +1,7 @@
 ﻿using HeroesModLoaderConfig.Styles.Themes;
 using HeroesModLoaderConfig.Utilities;
-using HeroesModLoaderConfig.Windows.Children;
 using SonicHeroes.Misc.Config;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HeroesModLoaderConfig

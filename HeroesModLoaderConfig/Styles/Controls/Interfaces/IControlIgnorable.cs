@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace HeroesModLoaderConfig.Styles.Controls.Interfaces
+﻿namespace HeroesModLoaderConfig.Styles.Controls.Interfaces
 {
     /// <summary>
     /// Interface which allows controls to specify whether they may be ignored by mouse or other user inputs.

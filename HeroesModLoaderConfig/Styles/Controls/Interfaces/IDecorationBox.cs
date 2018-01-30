@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HeroesModLoaderConfig.Styles.Controls.Interfaces
+﻿namespace HeroesModLoaderConfig.Styles.Controls.Interfaces
 {
     /// <summary>
     /// Declares the variables a control must posess if it is to be potentially used as a decoration box.

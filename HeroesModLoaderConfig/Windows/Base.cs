@@ -1,11 +1,10 @@
-﻿using System;
-using System.Windows.Forms;
-using HeroesModLoaderConfig.Styles.Themes;
-using static SonicHeroes.Misc.Config.ThemePropertyParser;
+﻿using HeroesModLoaderConfig.Styles.Themes;
 using HeroesModLoaderConfig.Utilities.Windows;
 using HeroesModLoaderConfig.Windows.Children;
-using HeroesModLoaderConfig.Windows;
 using SonicHeroes.Native;
+using System;
+using System.Windows.Forms;
+using static SonicHeroes.Misc.Config.ThemePropertyParser;
 
 namespace HeroesModLoaderConfig
 {
