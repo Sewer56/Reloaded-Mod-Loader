@@ -1,6 +1,5 @@
 ﻿using SonicHeroes.GameProcess;
 using SonicHeroes.Networking;
-using SonicHeroes.Networking.MessageTypes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

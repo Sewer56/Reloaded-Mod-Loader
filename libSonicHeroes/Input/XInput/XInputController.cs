@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpDX.XInput;
-using SonicHeroes.Input;
-using static SonicHeroes.Input.DirectInput.DInputCommon;
-using static SonicHeroes.Input.ControllerCommon;
+﻿using SharpDX.XInput;
 using SonicHeroes.Input.DirectInput;
+using System;
+using static SonicHeroes.Input.ControllerCommon;
+using static SonicHeroes.Input.DirectInput.DInputCommon;
 
 namespace SonicHeroes.Input.XInput
 {

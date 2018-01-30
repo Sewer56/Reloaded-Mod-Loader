@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using SonicHeroes.IO;
-using SonicHeroes.IO.Native;
-using System.Threading.Tasks;
 
 namespace SonicHeroes.IO
 {

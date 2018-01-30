@@ -1,10 +1,4 @@
 ﻿using SharpDX.DirectInput;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SonicHeroes.Input.DirectInput;
 using static SonicHeroes.Input.ControllerCommon;
 
 namespace SonicHeroes.Input.DirectInput

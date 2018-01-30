@@ -1,10 +1,7 @@
-﻿using System;
+﻿using SonicHeroes.Input.DirectInput;
+using SonicHeroes.Input.XInput;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SonicHeroes.Input.DirectInput;
-using SonicHeroes.Input.XInput;
 using static SonicHeroes.Input.ControllerCommon;
 using static SonicHeroes.Input.Hotplugger;
 

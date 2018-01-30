@@ -3,12 +3,8 @@ using SonicHeroes.Input.DirectInput;
 using SonicHeroes.Input.XInput;
 using SonicHeroes.Misc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using static SonicHeroes.Input.ControllerCommon;
 
 namespace SonicHeroes.Input

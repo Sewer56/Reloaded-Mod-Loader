@@ -1,11 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using SharpDX.Direct2D1;
+﻿using SonicHeroes.Native;
+using System;
 using System.Threading;
-using SharpDX.DXGI;
-using SonicHeroes.Native;
-using SonicHeroes.Overlay.External;
+using System.Windows.Forms;
 
 namespace SonicHeroes.Overlay.External
 {

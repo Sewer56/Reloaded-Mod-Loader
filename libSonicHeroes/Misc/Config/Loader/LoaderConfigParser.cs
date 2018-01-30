@@ -1,7 +1,6 @@
-﻿using System;
-using IniParser;
+﻿using IniParser;
 using IniParser.Model;
-using SonicHeroes.Input;
+using System;
 using static SonicHeroes.Input.Remapper;
 
 namespace SonicHeroes.Misc.Config
