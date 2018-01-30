@@ -35,6 +35,8 @@ namespace HeroesModLoaderConfig.Windows.Children
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage1 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage2 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties2 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage3 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage4 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
@@ -60,9 +62,9 @@ namespace HeroesModLoaderConfig.Windows.Children
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage17 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage18 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Screen));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.box_GameList = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedDataGridView();
+            this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box_GameListBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.box_NoteBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.box_LocationBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
@@ -84,8 +86,6 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.item_GameBanner = new System.Windows.Forms.PictureBox();
             this.item_VersionBoxVersion = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_InjectionBoxInjection = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
-            this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).BeginInit();
             this.SuspendLayout();
@@ -149,6 +149,28 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.box_GameList.StandardTab = true;
             this.box_GameList.TabIndex = 14;
             this.box_GameList.SelectionChanged += new System.EventHandler(this.GameList_SelectionChanged);
+            // 
+            // modName
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.modName.DefaultCellStyle = dataGridViewCellStyle1;
+            this.modName.FillWeight = 152.2843F;
+            this.modName.HeaderText = "Mod name";
+            this.modName.Name = "modName";
+            this.modName.ReadOnly = true;
+            this.modName.Width = 200;
+            // 
+            // modDirectory
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.modDirectory.DefaultCellStyle = dataGridViewCellStyle2;
+            this.modDirectory.FillWeight = 47.71573F;
+            this.modDirectory.HeaderText = "Mod Directory";
+            this.modDirectory.Name = "modDirectory";
+            this.modDirectory.ReadOnly = true;
+            this.modDirectory.Width = 318;
             // 
             // box_GameListBox
             // 
@@ -661,28 +683,6 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.item_InjectionBoxInjection.Text = "Injection: Instant";
             this.item_InjectionBoxInjection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.item_InjectionBoxInjection.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // modName
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.modName.DefaultCellStyle = dataGridViewCellStyle1;
-            this.modName.FillWeight = 152.2843F;
-            this.modName.HeaderText = "Mod name";
-            this.modName.Name = "modName";
-            this.modName.ReadOnly = true;
-            this.modName.Width = 200;
-            // 
-            // modDirectory
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.modDirectory.DefaultCellStyle = dataGridViewCellStyle2;
-            this.modDirectory.FillWeight = 47.71573F;
-            this.modDirectory.HeaderText = "Mod Directory";
-            this.modDirectory.Name = "modDirectory";
-            this.modDirectory.ReadOnly = true;
-            this.modDirectory.Width = 318;
             // 
             // Main_Screen
             // 

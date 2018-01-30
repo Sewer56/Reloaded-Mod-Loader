@@ -24,6 +24,7 @@ namespace HeroesModLoaderConfig.Styles.Themes
         // Regular Items should be named item_*
         // Title Bar Items should be named titleBar_*
         // Buttons used for decoration should be named box_*
+        // Buttons (Alternative style) should be named borderless_*
 
         /// <summary>
         /// Applies the currently set theming properties to a new windows form.
@@ -79,6 +80,7 @@ namespace HeroesModLoaderConfig.Styles.Themes
             else if (IsCategoryItem(control)){ ThemeButton(control, Theme.ThemeProperties.CategoryColours, Theme.ThemeProperties.CategoryEnterAnimation, Theme.ThemeProperties.CategoryLeaveAnimation, false); }
             else if (IsTitleItem(control)) { ThemeButton(control, Theme.ThemeProperties.TitleColours, Theme.ThemeProperties.TitleEnterAnimation, Theme.ThemeProperties.TitleLeaveAnimation, false); }
             else if (IsBox(control)) { ThemeButton(control, Theme.ThemeProperties.BoxColours, Theme.ThemeProperties.BoxEnterAnimation, Theme.ThemeProperties.BoxLeaveAnimation, true); }
+            else if (IsBorderless(control)) { ThemeButton(control, Theme.ThemeProperties.BorderlessColours, Theme.ThemeProperties.BorderlessEnterAnimation, Theme.ThemeProperties.BorderlessLeaveAnimation, false); }
             else { ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true); }
         }
 
@@ -165,6 +167,7 @@ namespace HeroesModLoaderConfig.Styles.Themes
             else if (IsMainItem(control)) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
             else if (IsTitleItem(control)) { control.Font = new Font(Theme.Fonts.TitleFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
             else if (IsBox(control)) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
+            //else { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
         }
 
         /// <summary>
@@ -178,6 +181,11 @@ namespace HeroesModLoaderConfig.Styles.Themes
         /// (That is a button with no purposeful functionality)
         /// </summary>
         public static bool IsBox(Control control) { return control.Name.StartsWith("box_") ? true : false; }
+
+        /// <summary>
+        /// Returns true if the specified passed in control is an alternative style button (borderless)
+        /// </summary>
+        public static bool IsBorderless(Control control) { return control.Name.StartsWith("borderless_") ? true : false; }
 
         /// <summary>
         /// Returns true if the specified passed in control is part of the main form
@@ -207,6 +215,15 @@ namespace HeroesModLoaderConfig.Styles.Themes
                 Global.BaseForm.categoryBar_Input.Image = Image.FromFile(imagesFolder + "\\Controller-Icon.png");
                 Global.BaseForm.categoryBar_Mods.Image = Image.FromFile(imagesFolder + "\\Tweaks-Icon.png");
                 Global.BaseForm.categoryBar_Games.Image = Image.FromFile(imagesFolder + "\\Main-Icon.png");
+
+                // If the mods form is created.
+                if (Global.BaseForm.MDIChildren.ModsMenu != null)
+                {
+                    // Load the images from HDD.
+                    Global.BaseForm.MDIChildren.ModsMenu.borderless_ConfigBox.Image = Image.FromFile(imagesFolder + "\\Tweaks2-Icon.png");
+                    Global.BaseForm.MDIChildren.ModsMenu.borderless_SourceBox.Image = Image.FromFile(imagesFolder + "\\Github-Icon.png");
+                    Global.BaseForm.MDIChildren.ModsMenu.borderless_WebBox.Image = Image.FromFile(imagesFolder + "\\World-Icon.png");
+                }
             }
         }
 

@@ -4,6 +4,7 @@ using HeroesModLoaderConfig.Utilities.Controls;
 using HeroesModLoaderConfig.Utilities.Windows;
 using SonicHeroes.Misc;
 using SonicHeroes.Misc.Config;
+using SonicHeroes.Native;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,29 +49,28 @@ namespace HeroesModLoaderConfig.Windows.Children
 
         }
 
-        /// <summary>
-        /// Triggers when the user leaves for another menu.
-        /// Saves all of the mods' states.
-        /// </summary>
-        private void Mods_Screen_Leave(object sender, EventArgs e)
+        /// <summary> 
+        /// Loads the relevant menu contents when the visibility changes (user enters menu). 
+        /// Saves and backs up when the user leaves for another menu (selects another tab). 
+        /// </summary> 
+        private void MenuVisibleChanged(object sender, EventArgs e)
         {
-            SaveMods();
-        }
-
-        /// <summary>
-        /// Loads the relevant menu contents when the visibility changes.
-        /// </summary>
-        private void Mods_Screen_VisibleChanged(object sender, EventArgs e)
-        {
-            // If set to visible
+            // If set to visible 
             if (this.Visible)
             {
-                // Set the titlebar. 
+                // Set the titlebar.  
                 Global.CurrentMenuName = "Mods Menu";
                 Global.BaseForm.UpdateTitle(Global.CurrentGameConfig.GameName);
 
-                // Load the mod list for the game.
+                // Set the button text for mod buttons to N/A.
+                InitializeButtons();
+
+                // Load the mod list for the game. 
                 LoadMods();
+            }
+            else
+            {
+                SaveMods();
             }
         }
 
@@ -82,31 +82,35 @@ namespace HeroesModLoaderConfig.Windows.Children
             // Clear the current listview.
             box_ModList.Rows.Clear();
 
-            // Retrieve current game list the into Global.
-            Global.ModConfigurations = Global.ConfigurationManager.GetAllMods(Global.CurrentGameConfig);
-
-            // For each config, append it.
-            foreach (ModConfigParser.ModConfig modConfig in Global.ModConfigurations)
+            try
             {
-                // Get the folder name of the durrent mod.
-                string directoryName = Path.GetFileName(Path.GetDirectoryName(modConfig.ModLocation));
+                // Retrieve current game list the into Global.
+                Global.ModConfigurations = Global.ConfigurationManager.GetAllMods(Global.CurrentGameConfig);
 
-                // If the current mod is enabled.
-                string enabled;
+                // For each config, append it.
+                foreach (ModConfigParser.ModConfig modConfig in Global.ModConfigurations)
+                {
+                    // Get the folder name of the durrent mod.
+                    string directoryName = Path.GetFileName(Path.GetDirectoryName(modConfig.ModLocation));
 
-                if (Global.CurrentGameConfig.EnabledMods.Contains(directoryName)) { enabled = TextButtons.BUTTON_ENABLED; }
-                else { enabled = TextButtons.BUTTON_DISABLED; }
+                    // If the current mod is enabled.
+                    string enabled;
 
-                // Add the relative path.
-                box_ModList.Rows.Add
-                (
-                    enabled,                                                     // Enabled/Disabled
-                    modConfig.ModName,                                           // The name of the mod in question
-                    modConfig.ModAuthor,                                         // Author of the theme in question
-                    Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter,  // Separator character as set by theme
-                    modConfig.ModVersion                                         // Version of the mod
-               );
+                    if (Global.CurrentGameConfig.EnabledMods.Contains(directoryName)) { enabled = TextButtons.BUTTON_ENABLED; }
+                    else { enabled = TextButtons.BUTTON_DISABLED; }
+
+                    // Add the relative path.
+                    box_ModList.Rows.Add
+                    (
+                        enabled,                                                     // Enabled/Disabled
+                        modConfig.ModName,                                           // The name of the mod in question
+                        modConfig.ModAuthor,                                         // Author of the theme in question
+                        Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter,  // Separator character as set by theme
+                        modConfig.ModVersion                                         // Version of the mod
+                   );
+                }
             }
+            catch { }
         }
 
         /// <summary>
@@ -143,6 +147,9 @@ namespace HeroesModLoaderConfig.Windows.Children
 
             // Swap the currently enabled mods for the game.
             Global.CurrentGameConfig.EnabledMods = enabledMods;
+
+            // Save the game configuration.
+            Global.ConfigurationManager.GameConfigParser.WriteConfig(Global.CurrentGameConfig);
         }
 
         /// <summary>
@@ -204,32 +211,88 @@ namespace HeroesModLoaderConfig.Windows.Children
 
                 // Get the mod configuration.
                 ModConfigParser.ModConfig modConfiguration = FindModConfiguration(modTitle, modVersion);
+                Global.CurrentModConfig = modConfiguration;
 
                 // Set the description.
                 item_ModDescription.Text = modConfiguration.ModDescription;
 
-                /*
-                // Retrieve the current game details.
-                GameConfigParser.GameConfig gameConfig = Global.GameConfigurations[box_ModList.SelectedCells[0].RowIndex];
+                // Set the button text for website, config, source.
+                if (modConfiguration.ModConfigEXE.Length == 0) { borderless_ConfigBox.Text = "N/A"; } else { borderless_ConfigBox.Text = "Configuration"; }
+                if (modConfiguration.ModSite.Length == 0) { borderless_WebBox.Text = "N/A"; } else { borderless_WebBox.Text = "Webpage"; }
+                if (modConfiguration.ModGithub.Length == 0) { borderless_SourceBox.Text = "N/A"; } else { borderless_SourceBox.Text = "Source Code"; }
 
-                // Update note box.
-                item_NoteBoxEXEPath.Text = gameConfig.ExecutableDirectory.Substring(gameConfig.ExecutableDirectory.IndexOf("/") + 1);
-                item_NoteBoxVerPath.Text = gameConfig.GameVersion;
-                item_NoteBoxGameName.Text = gameConfig.GameName;
+                // Obtain mod directory.
+                string modDirectory = Path.GetDirectoryName(modConfiguration.ModLocation);
 
-                // Update location box.
-                item_LocationBoxDirectoryPath.Text = gameConfig.GameDirectory;
-                item_LocationBoxEXEPath.Text = "$DIRECTORY + " + gameConfig.ExecutableDirectory;
-
-                // Update injection details.
-                item_InjectionBoxInjection.Text = "INJECTION: " + gameConfig.HookMethod.ToString();
-
-                // Load the game image.
-                try { item_GameBanner.BackgroundImage = Image.FromFile(gameConfig.ConfigDirectory + "\\Banner.png"); }
-                catch { item_GameBanner.BackgroundImage = null; }
-                */
+                // Attempt to load image.
+                try { box_ModPreview.BackgroundImage = Image.FromFile(modDirectory + "\\Banner.png"); }
+                catch { box_ModPreview.BackgroundImage = null; }
             }
             catch { }
+        }
+
+        /// <summary>
+        /// Opens the link to the source code website.
+        /// </summary>
+        private void SourceBox_Click(object sender, EventArgs e)
+        {
+            if (CheckIfEnabled((Control)sender))
+            {
+                OpenFile(Global.CurrentModConfig.ModGithub);
+            }
+        }
+
+        /// <summary>
+        /// Opens the link to the code website.
+        /// </summary>
+        private void WebBox_Click(object sender, EventArgs e)
+        {
+            if (CheckIfEnabled((Control)sender))
+            {
+                OpenFile(Global.CurrentModConfig.ModSite);
+            }
+        }
+
+        /// <summary>
+        /// Opens the configuration file or program.
+        /// </summary>
+        private void ConfigBox_Click(object sender, EventArgs e)
+        {
+            if (CheckIfEnabled((Control)sender))
+            {
+                OpenFile(Global.CurrentModConfig.ModConfigEXE);
+            }
+        }
+
+        /// <summary>
+        /// Opens a file with a specified path.
+        /// </summary>
+        /// <param name="filePath">The path to the file to be opened.</param>
+        private void OpenFile(string filePath)
+        {
+            try { System.Diagnostics.Process.Start(filePath); }
+            catch { }
+        }
+
+        /// <summary>
+        /// String checks control text to check if the button is enabled.
+        /// </summary>
+        /// <param name="control">The control (typically button) to check.</param>
+        private bool CheckIfEnabled(Control control)
+        {
+            if (control.Text != "N/A") { return true; }
+            else { return false; }
+        }
+
+        /// <summary>
+        /// Sets the button text for mod buttons to N/A.
+        /// </summary>
+        private void InitializeButtons()
+        {
+            borderless_ConfigBox.Text = "N/A";
+            borderless_SourceBox.Text = "N/A";
+            borderless_WebBox.Text = "N/A";
+            item_ModDescription.Text = "You have no mods, heheheheh.";
         }
     }
 }

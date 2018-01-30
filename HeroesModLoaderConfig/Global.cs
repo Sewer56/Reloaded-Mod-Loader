@@ -1,5 +1,6 @@
 ﻿using HeroesModLoaderConfig.Styles.Themes;
 using HeroesModLoaderConfig.Utilities;
+using HeroesModLoaderConfig.Windows.Children;
 using SonicHeroes.Misc.Config;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,12 @@ namespace HeroesModLoaderConfig
         /// Changed when the user changes the game in the main menu.
         /// </summary>
         public static GameConfigParser.GameConfig CurrentGameConfig { get; set; }
+
+        /// <summary>
+        /// Stores the currently loaded/highlighted modification configuration.
+        /// Changed when the user changes the modification in the mods menu.
+        /// </summary>
+        public static ModConfigParser.ModConfig CurrentModConfig { get; set; }
 
         /// <summary>
         /// Stores the individual game configurations for loaded games.

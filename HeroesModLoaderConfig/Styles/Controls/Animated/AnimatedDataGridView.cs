@@ -93,6 +93,7 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
         protected override void OnRowsAdded(DataGridViewRowsAddedEventArgs e)
         {
             base.OnRowsAdded(e);
+            LastIndex = 0;
             AnimationMessagesBG.Add(new AnimMessage(this));
             AnimationMessagesFG.Add(new AnimMessage(this));
         }
