@@ -1,6 +1,4 @@
-﻿using HeroesModLoaderConfig.Properties;
-
-namespace HeroesModLoaderConfig
+﻿namespace HeroesModLoaderConfig
 {
     partial class Base
     {
