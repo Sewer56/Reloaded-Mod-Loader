@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static SonicHeroes.GameProcess.Native;
 
@@ -317,5 +318,76 @@ namespace SonicHeroes.GameProcess
             // Return value
             return success;
         }
+
+        /// <summary>
+        /// Generally useful when looking for game code 
+        /// for games which receive periodic updates.
+        /// Attempts to locate the given pattern inside a supplied memory region,
+        /// with support for checking against a given mask. 
+        /// If the pattern is found, the offset within the supplied memory region
+        /// where the pattern matches is returned.
+        /// </summary>
+        /// <param name="memoryRegion">The memory region in which to look for the specified pattern.</param>
+        /// <param name="bytePattern">Byte pattern to look for in the dumped region. e.g. new byte[] { 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88 }</param>
+        /// <param name="stringMask">The mask string to compare against. `x` represents check while `?` ignores. Each `x` and `?` represent 1 byte.</param>
+        /// <returns>0 if not found, offset in memory region if found.</returns>
+        public static IntPtr FindPattern(byte[] memoryRegion, byte[] bytePattern, string stringMask)
+        {
+            try
+            {
+                // Ensure mask and pattern length match.
+                if (stringMask.Length != bytePattern.Length) { return IntPtr.Zero; }
+
+                // Loop the region and look for the pattern.
+                for (int x = 0; x < memoryRegion.Length; x++)
+                {
+                    // Check for the mask, incrementing start offset each time.
+                    if (MaskCheck(memoryRegion, bytePattern, stringMask, x))
+                    {
+                        // The pattern was found, return the offset of it.
+                        return new IntPtr(x);
+                    }
+                }
+
+                // Pattern was not found.
+                return IntPtr.Zero;
+            }
+            catch (Exception ex) { return IntPtr.Zero; }
+        }
+
+
+        /// <summary>
+        /// Compares the current pattern byte to the supplied memory dump
+        /// byte to check for a match. Uses wildcards to skip bytes that
+        /// are deemed unneeded in the compares.
+        /// </summary>
+        /// <param name="memoryRegion">The memory region in which to look for the specified pattern.</param>
+        /// <param name="bytePattern">Byte pattern to look for in the dumped region.</param>
+        /// <param name="stringMask">The mask string to compare against. `XX` represents check while `??` ignores.</param>
+        /// <param name="startOffset">Offset in the dump to start comparing bytes against at.</param>
+        /// <returns>Boolean depending on if the pattern was found.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] // Compile inline.
+        private static bool MaskCheck(byte[] memoryRegion, byte[] bytePattern, string stringMask, int startOffset)
+        {
+            // Loop the pattern and compare to the mask and our memory region.
+            for (int x = 0; x < bytePattern.Length; x++)
+            {
+                // If the mask char is a wildcard, ignore.
+                if (stringMask[x] == '?') { continue; }
+
+                // If the mask char is not a wildcard, check if a match is not made in the pattern.
+                if
+                (
+                    (stringMask[x] == 'x') &&                     // Check if not wildcard.
+                    (bytePattern[x] != memoryRegion[startOffset + x]) // Check if not match false.
+                )
+                { return false; } 
+            }
+
+            // The loop was successful, as everything matched up to this point.
+            // We found the pattern.
+            return true;
+        }
+
     }
 }
