@@ -64,6 +64,7 @@ namespace HeroesModLoaderConfig.Windows.Children
             }
             else
             {
+                // Save mod list when user exits screen.
                 SaveMods();
             }
         }
@@ -78,31 +79,83 @@ namespace HeroesModLoaderConfig.Windows.Children
 
             try
             {
-                // Retrieve current game list the into Global.
+                // Retrieve current mod list the into Global.
                 Global.ModConfigurations = Global.ConfigurationManager.GetAllMods(Global.CurrentGameConfig);
 
-                // For each config, append it.
+                // Hold enabled rows which we will later reverse order of and append to disabled rows.
+                // Also store disabled rows.
+                List<DataGridViewRow> enabledRows = new List<DataGridViewRow>();
+                List<DataGridViewRow> disabledRows = new List<DataGridViewRow>();
+
+                // Appends all enabled mods to enabled mod list.
+                // Iterate over each "enabled" mod folder.
+                foreach (string modFolder in Global.CurrentGameConfig.EnabledMods)
+                {
+                    // Iterate over mod configurations and find relevant mod config.
+                    foreach (ModConfigParser.ModConfig modConfig in Global.ModConfigurations)
+                    {
+                        // Mod-Loader-Mods/SA2/Testmod => Testmod
+                        string modConfigFolderName = Path.GetFileName(Path.GetDirectoryName(modConfig.ModLocation));
+
+                        // Check if the mod folder and configuration match.
+                        // If there is no match in all loop iterations for a folder, the mod does not exist
+                        if (modConfigFolderName == modFolder)
+                        {
+                            // Clone row style.
+                            DataGridViewRow dataGridViewRow = (DataGridViewRow)box_ModList.RowTemplate.Clone();
+                            dataGridViewRow.CreateCells(box_ModList);
+ 
+                            // Assign row
+                            dataGridViewRow.Cells[0].Value = TextButtons.BUTTON_ENABLED;    // Enabled Mod
+                            dataGridViewRow.Cells[1].Value = modConfig.ModName;             // The name of the mod
+                            dataGridViewRow.Cells[2].Value = modConfig.ModAuthor;           // Author of the mod
+                            dataGridViewRow.Cells[3].Value = Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter; // Separator character as set by theme
+                            dataGridViewRow.Cells[4].Value = modConfig.ModVersion;          // The version of the mod
+
+                            // Append the row.
+                            enabledRows.Add(dataGridViewRow);
+                        }
+                    }
+                }
+                
+                // Appends all disabled mods to disabled mod list.
                 foreach (ModConfigParser.ModConfig modConfig in Global.ModConfigurations)
                 {
                     // Get the folder name of the durrent mod.
                     string directoryName = Path.GetFileName(Path.GetDirectoryName(modConfig.ModLocation));
 
-                    // If the current mod is enabled.
-                    string enabled;
+                    // Store the datagridviewrow
+                    DataGridViewRow dataGridViewRow = (DataGridViewRow)box_ModList.RowTemplate.Clone();
+                    dataGridViewRow.CreateCells(box_ModList);
 
-                    if (Global.CurrentGameConfig.EnabledMods.Contains(directoryName)) { enabled = TextButtons.BUTTON_ENABLED; }
-                    else { enabled = TextButtons.BUTTON_DISABLED; }
+                    // Cells[0] = Enabled/Disabled Tickbox
+                    // Cells[1] = Mod Title
+                    // Cells[2] = Author
+                    // Cells[3] = Separator
+                    // Cells[4] = Version
 
-                    // Add the relative path.
-                    box_ModList.Rows.Add
-                    (
-                        enabled,                                                     // Enabled/Disabled
-                        modConfig.ModName,                                           // The name of the mod in question
-                        modConfig.ModAuthor,                                         // Author of the theme in question
-                        Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter,  // Separator character as set by theme
-                        modConfig.ModVersion                                         // Version of the mod
-                   );
+
+                    // Check if the mod is disabled.
+                    if (! Global.CurrentGameConfig.EnabledMods.Contains(directoryName))
+                    {
+                        // Disabled
+                        dataGridViewRow.Cells[0].Value = TextButtons.BUTTON_DISABLED;
+                        dataGridViewRow.Cells[1].Value = modConfig.ModName;     // The name of the mod
+                        dataGridViewRow.Cells[2].Value = modConfig.ModAuthor;   // Author of the mod
+                        dataGridViewRow.Cells[3].Value = Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter; // Separator character as set by theme
+                        dataGridViewRow.Cells[4].Value = modConfig.ModVersion;  // The version of the mod
+
+                        // Append the row.
+                        disabledRows.Add(dataGridViewRow);
+                    }
                 }
+
+                // Reverse the enabled rows (present highest priority as topmost)
+                enabledRows.Reverse();
+
+                // And merge with disabled rows, append to DataGridView rows.
+                for (int x = 0; x < enabledRows.Count; x++) { box_ModList.Rows.Add(enabledRows[x]); }
+                for (int x = 0; x < disabledRows.Count; x++) { box_ModList.Rows.Add(disabledRows[x]); }
             }
             catch { }
         }
@@ -122,8 +175,11 @@ namespace HeroesModLoaderConfig.Windows.Children
             // Cells[4] = Version
 
             // Cycle each row of the DataGridView
-            foreach (DataGridViewRow row in box_ModList.Rows)
+            for (int x = 0; x < box_ModList.Rows.Count; x++)
             {
+                // Assign DataGridView Row
+                DataGridViewRow row = box_ModList.Rows[x];
+
                 // Check if the mod in the row is enabled.
                 bool modEnabled = (string)row.Cells[0].Value == TextButtons.BUTTON_ENABLED ? true : false;
 
@@ -139,7 +195,10 @@ namespace HeroesModLoaderConfig.Windows.Children
                 }
             }
 
-            // Swap the currently enabled mods for the game.
+            // Reverse the mod order such that mods on top take priority.
+            enabledMods.Reverse();
+
+            // Assign the currently enabled mods for the game.
             Global.CurrentGameConfig.EnabledMods = enabledMods;
 
             // Save the game configuration.
@@ -193,9 +252,12 @@ namespace HeroesModLoaderConfig.Windows.Children
                 // Cast the sender to the datagridview
                 var senderGrid = (DataGridView)sender;
 
+                // Obtain current row index. (Note: CurrentRow is invalid)
+                int rowIndex = senderGrid.SelectedCells[0].RowIndex;
+
                 // Get the mod title and version.
-                string modTitle = (string)senderGrid.CurrentRow.Cells[1].Value;
-                string modVersion = (string)senderGrid.CurrentRow.Cells[4].Value;
+                string modTitle = (string)senderGrid.Rows[rowIndex].Cells[1].Value;
+                string modVersion = (string)senderGrid.Rows[rowIndex].Cells[4].Value;
 
                 // Cells[0] = Enabled/Disabled Tickbox
                 // Cells[1] = Mod Title

@@ -1,7 +1,10 @@
 ﻿using HeroesModLoaderConfig.Styles.Animation;
+using HeroesModLoaderConfig.Styles.Controls.Enhanced;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace HeroesModLoaderConfig.Styles.Controls.Animated
@@ -9,7 +12,7 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
     /// <summary>
     /// Animated Data Grid View, Provides a Custom Implementation of the Animation Functions.
     /// </summary>
-    class AnimatedDataGridView : DataGridView, IAnimatedControl
+    class AnimatedDataGridView : EnhancedDataGridView, IAnimatedControl
     {
         /// <summary>
         /// Stores the animation properties for backcolor and forecolor blending.
@@ -49,7 +52,11 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
             this.AnimProperties = new AnimProperties();
             AnimationMessagesBG = new List<AnimMessage>();
             AnimationMessagesFG = new List<AnimMessage>();
-            this.MouseWheel += AnimatedDataGridView_MouseWheel;
+
+            // Set delegate for swapping items with CTRL + Mouse Wheel
+            this.OnRowSwapped += AnimateSwap;
+
+            // Set initial index for last animation (default selection)
             LastIndex = 0;
         }
 
@@ -64,21 +71,42 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
             // Terminate Existing Messages/Effects and Start MouseLeaveAnimation on those.
             for (int x = 0; x < this.Rows.Count; x++)
             {
-                // Play Entry Animation if selected.
+                // Play Leave Animation for previously selected.
+                // You only want to cancel last animation.
+                // This loop gets current item to set next item to animate leave for.
+                // Note: At this point Rows[x].Selected is outdated and actually is the value of the last row.
+                // Note: SelectedCells[0].RowIndex stores the actual selected row index.
                 if (this.Rows[x].Selected)
                 {
-                    // Play Enter Animation
-                    var newMessages = AnimHandler.AnimateMouseLeave(e, this.Rows[LastIndex].DefaultCellStyle, AnimProperties, AnimationMessagesBG[LastIndex], AnimationMessagesFG[LastIndex], DefaultCellStyle.SelectionBackColor);
-
-                    // Retirieve the new messages.
-                    AnimationMessagesBG[LastIndex] = newMessages.Item1;
-                    AnimationMessagesFG[LastIndex] = newMessages.Item2;
-
-                    // Set the index.
-                    LastIndex = x;
-                    return;
+                    try
+                    {
+                        AnimateLeaveAtIndex(LastIndex, x);
+                        return;
+                    }
+                    // Last index does not exist.
+                    // Can happen if last index was at the end of the datagridview and was removed since.
+                    // Ignore :V
+                    catch { }
                 }
             }
+        }
+
+        /// <summary>
+        /// Plays the leave animation for a specific particular row at the passed in index.
+        /// </summary>
+        /// <param name="leaveIndex">The index of the row for which to play the leave animation for.</param>
+        /// <param name="lastIndex">The current selection index.</param>
+        private void AnimateLeaveAtIndex(int leaveIndex, int lastIndex)
+        {
+            // Play Leave Animation for the last item.
+            var newMessages = AnimHandler.AnimateMouseLeave(null, this.Rows[leaveIndex].DefaultCellStyle, AnimProperties, AnimationMessagesBG[leaveIndex], AnimationMessagesFG[leaveIndex], DefaultCellStyle.SelectionBackColor);
+
+            // Retrieve the new message instances.
+            AnimationMessagesBG[leaveIndex] = newMessages.Item1;
+            AnimationMessagesFG[leaveIndex] = newMessages.Item2;
+
+            // Set the index of the last item.
+            LastIndex = lastIndex;
         }
 
         /// <summary>
@@ -86,124 +114,55 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
         /// </summary>
         protected override void OnRowsAdded(DataGridViewRowsAddedEventArgs e)
         {
+            // Run base.
             base.OnRowsAdded(e);
-            LastIndex = 0;
-            AnimationMessagesBG.Add(new AnimMessage(this));
-            AnimationMessagesFG.Add(new AnimMessage(this));
-        }
 
-        ///////////////////////////
-        // Scrolling Implementation
-        ///////////////////////////
-
-        /// <summary>
-        /// Custom keyboard scrolling implementation.
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Down) { IncrementRowIndex(); }
-            else if (e.KeyCode == Keys.Up) { DecrementRowIndex(); }
-            else if (e.KeyCode == Keys.Left) { SelectFirstRow(); }
-            else if (e.KeyCode == Keys.Right) { SelectLastRow(); }
+            // Reset animations.
+            ResetAnimationsOnRowAdd();
         }
 
         /// <summary>
-        /// Stores the current change from 0 to the current scrolled to position.
+        /// Resets all animations and sets up the list of animation states.
         /// </summary>
-        private int currentScrollDelta = 0;
-
-        /// <summary>
-        /// The amount of scrolling necessary for the user to move to the next item.
-        /// </summary>
-        const int scrollSensitivity = 120;
-
-        /// <summary>
-        /// Implement selection of the next/previous row with the use of scrolling
-        /// using the mouse wheel.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AnimatedDataGridView_MouseWheel(object sender, MouseEventArgs e)
+        private void ResetAnimationsOnRowAdd()
         {
-            // Append to the current Delta
-            currentScrollDelta = currentScrollDelta + e.Delta;
+            // Cancel all current animations.
+            foreach (AnimMessage message in AnimationMessagesBG) { message.PlayAnimation = false; }
+            foreach (AnimMessage message in AnimationMessagesFG) { message.PlayAnimation = false; }
 
-            // Obtain the amount of lines to scroll.
-            // MouseWheelScrollLines = User's set amount of lines to scroll as set in Windows' settings.
-            int linesToScroll = SystemInformation.MouseWheelScrollLines * currentScrollDelta / scrollSensitivity;
+            // Create animation messages of count equal to newly added rows.
+            AnimMessage[] animMessageBG = new AnimMessage[RowCount];
+            AnimMessage[] animMessageFG = new AnimMessage[RowCount];
 
-            // Deselect current item.
-            if (linesToScroll >= 1)
+            // Fill array.
+            for (int x = 0; x < RowCount; x++)
             {
-                try { DecrementRowIndex(); } catch { }
-                currentScrollDelta = 0;
+                animMessageBG[x] = new AnimMessage();
+                animMessageFG[x] = new AnimMessage();
             }
-            else if (linesToScroll <= -1)
-            {
-                try { IncrementRowIndex(); } catch { }
-                currentScrollDelta = 0;
-            }
+
+            // Assign list of animations.
+            AnimationMessagesBG = animMessageBG.ToList();
+            AnimationMessagesFG = animMessageFG.ToList();
         }
 
         /// <summary>
-        /// Increments the row index by one, if we are on the last item, the first item
-        /// will be selected.
+        /// Resets all of the colours then fades out the last item location.
         /// </summary>
-        private void IncrementRowIndex()
+        private void AnimateSwap(int itemToAnimate)
         {
-            // Get Next Index
-            int nextRow = SelectedCells[0].RowIndex + 1;
+            // Reset animations.
+            ResetAnimationsOnRowAdd();
 
-            if (nextRow > Rows.Count - 1)
+            // Reset all colours. (After killing animations)
+            for (int x = 0; x < this.Rows.Count; x++)
             {
-                Rows[0].Selected = true;
-                FirstDisplayedScrollingRowIndex = 0;
+                Rows[x].DefaultCellStyle.BackColor = this.DefaultCellStyle.BackColor;
+                Rows[x].DefaultCellStyle.ForeColor = this.DefaultCellStyle.ForeColor;
             }
-            else
-            {
-                Rows[nextRow].Selected = true;
-                FirstDisplayedScrollingRowIndex = nextRow;
-            } 
-        }
 
-        /// <summary>
-        /// Decrements the row index by one, if we are on the first item, the first item
-        /// will be selected.
-        /// </summary>
-        private void DecrementRowIndex()
-        {
-            // Get Next Index
-            int nextRow = SelectedCells[0].RowIndex - 1;
-
-            if (nextRow < 0)
-            {
-                FirstDisplayedScrollingRowIndex = Rows.Count - 1;
-                Rows[Rows.Count - 1].Selected = true;
-            }
-            else
-            {
-                FirstDisplayedScrollingRowIndex = nextRow;
-                Rows[nextRow].Selected = true;
-            }
-        }
-
-        /// <summary>
-        /// Selects the first row of the DataGridView
-        /// </summary>
-        private void SelectFirstRow()
-        {
-            Rows[0].Selected = true;
-            FirstDisplayedScrollingRowIndex = 0;
-        }
-
-        /// <summary>
-        /// Selects the last row of the DataGridView
-        /// </summary>
-        private void SelectLastRow()
-        {
-            Rows[Rows.Count - 1].Selected = true;
-            FirstDisplayedScrollingRowIndex = Rows.Count - 1;
+            // Animate the last index row.
+            AnimateLeaveAtIndex(itemToAnimate, SelectedCells[0].RowIndex);
         }
 
         // ///////////////////////////////
@@ -211,5 +170,40 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
         // ///////////////////////////////
         public void OnMouseEnterWrapper(EventArgs e) { base.OnMouseEnter(e); }
         public void OnMouseLeaveWrapper(EventArgs e) { base.OnMouseEnter(e); }
+
+        // //////////////////////////////////////////////////
+        // Override for EnhancedListView's Drag/Drop Finisher
+        // //////////////////////////////////////////////////
+
+        /// <summary>
+        /// See parent/base class implementation.
+        /// Fixes possible case of items with leftover highlight colour after
+        /// the mouse is released.
+        /// </summary>
+        protected override void EnhancedDataGridView_DragDrop(object sender, DragEventArgs e)
+        {
+            // Call base method.
+            base.EnhancedDataGridView_DragDrop(sender, e);
+
+            // Reset colour for last selection + 1 (if exists)
+            // When the user drops the item into a new location, when the original location of the item removed
+            // the next element would automatically be marked as selected. 
+
+            // Problem:
+            // If an item is inserted, the selection below would still remain selected, but if we set the selection.
+            // To our new dragged element, a leave animation would play, causing leave animations to be played on 2 items.
+            // Extra note: Leave animation terminated immediately due to OnRowsAdded() cancelling it.
+
+            // This workaround sets the fore and backcolor of the row as if it were never to be animated in the first place.
+            int nextRow = base.DragRowIndex + 1;
+            if (nextRow < this.Rows.Count)
+            {
+                Rows[base.DragRowIndex + 1].DefaultCellStyle.BackColor = this.DefaultCellStyle.BackColor;
+                Rows[base.DragRowIndex + 1].DefaultCellStyle.ForeColor = this.DefaultCellStyle.ForeColor;
+            }
+
+            // Animate the last selection.
+            AnimateLeaveAtIndex(base.DragRowIndex, SelectedCells[0].RowIndex);
+        }
     }
 }

@@ -161,17 +161,21 @@ namespace HeroesModLoaderConfig
         /// </summary>
         private void SwapMenu(Form targetMenu)
         {
-            // Hide the current menu.
-            MDIChildren.CurrentMenu.Hide();
+            // Check if we are not in the target menu already.
+            if (targetMenu != MDIChildren.CurrentMenu)
+            {
+                // Hide the current menu.
+                MDIChildren.CurrentMenu.Hide();
 
-            // Show the new menu.
-            targetMenu.Show();
+                // Show the new menu.
+                targetMenu.Show();
 
-            // Set new menu location.
-            targetMenu.Location = new System.Drawing.Point(0,0);
+                // Set new menu location.
+                targetMenu.Location = new System.Drawing.Point(0, 0);
 
-            // Set new menu.
-            MDIChildren.CurrentMenu = targetMenu;
+                // Set new menu.
+                MDIChildren.CurrentMenu = targetMenu;
+            }
         }
 
         /// <summary>

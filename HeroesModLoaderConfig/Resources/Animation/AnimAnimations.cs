@@ -33,6 +33,11 @@ namespace HeroesModLoaderConfig.Styles.Animation
             // Interpolate over the colours.
             foreach (Color newBackgroundColour in interpolatedColours)
             {
+                // Check exit condition.
+                // Double check of exit condition appears necessary as awaiting may potentially skip the check at the end.
+                if (animationMessage.PlayAnimation == false)
+                { return; }
+
                 // Set the BackColor
                 property.SetValue(animationMessage.Control, newBackgroundColour, null);
 
@@ -68,6 +73,11 @@ namespace HeroesModLoaderConfig.Styles.Animation
             // Interpolate over the colours.
             foreach (Color newBackgroundColour in interpolatedColours)
             {
+                // Check exit condition.
+                // Double check of exit condition appears necessary as awaiting may potentially skip the check at the end.
+                if (animationMessage.PlayAnimation == false)
+                { return; }
+
                 // Set the BackColor
                 property.SetValue(animationMessage.Control, newBackgroundColour, null);
 

@@ -33,7 +33,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ColorMine, Version=1.2.0.0, Culture=neutral, PublicKeyToken=7a2c4d30138edc39, processorArchitecture=MSIL">
@@ -87,6 +87,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Styles\Controls\Animated\AnimatedDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Enhanced\EnhancedDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Styles\Controls\Enhanced\EnhancedListview.cs">

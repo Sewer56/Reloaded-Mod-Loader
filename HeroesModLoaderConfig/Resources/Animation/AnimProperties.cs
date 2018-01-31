@@ -64,15 +64,15 @@ namespace HeroesModLoaderConfig.Styles.Animation
         public float MouseLeaveFramerate { get; set; }
 
         /// <summary>
-        /// Target colour for mouse enter animation. Specifies the colour that should be blended in if the backcolor mouse enter override is set.
+        /// Target colour for mouse leave animation. Specifies the colour that should be blended in if the backcolor mouse enter override is set.
         /// </summary>
-        [Category("Mouse Leave Animation"), Description("Target colour for mouse enter animation. Specifies the colour that should be blended in if the backcolor mouse leave override is set.")]
+        [Category("Mouse Leave Animation"), Description("Target colour for mouse leave animation. Specifies the colour that should be blended in if the backcolor mouse leave override is set.")]
         public Color MouseLeaveBackColor { get; set; }
 
         /// <summary>
-        /// Target colour for mouse enter animation. Specifies the colour that should be blended in if the forecolor mouse enter override is set.
+        /// Target colour for mouse leave animation. Specifies the colour that should be blended in if the forecolor mouse enter override is set.
         /// </summary>
-        [Category("Mouse Leave Animation"), Description("Target colour for mouse enter animation. Specifies the colour that should be blended in if the forecolor mouse leave override is set.")]
+        [Category("Mouse Leave Animation"), Description("Target colour for mouse leave animation. Specifies the colour that should be blended in if the forecolor mouse leave override is set.")]
         public Color MouseLeaveForeColor { get; set; }
         #endregion
 
