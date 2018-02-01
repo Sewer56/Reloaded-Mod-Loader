@@ -1,4 +1,5 @@
 ﻿using HeroesModLoaderConfig.Utilities.Fonts;
+using SonicHeroes.Misc.Config;
 using System.Drawing;
 using System.IO;
 
@@ -25,16 +26,36 @@ namespace HeroesModLoaderConfig.Styles.Themes
         /// </summary>
         public Font TextFont { get; set; }
 
+        // Store the style of the current theme's fonts.
+        private static System.Drawing.FontStyle textFontStyle;
+        private static System.Drawing.FontStyle titleFontStyle;
+        private static System.Drawing.FontStyle categoryFontStyle;
+
+        // Store font locations.
+        string titleFontLocation;
+        string categoryFontLocation;
+        string textFontLocation;
+
         /// <summary>
         /// Loads all of the fonts used by this individual theme.
         /// </summary>
         /// <param name="fontDirectory">Path to the directory where the fonts for the current theme are stored.</param>
         public void LoadFonts(string fontDirectory)
         {
-            // Store font locations.
-            string titleFontLocation = "";
-            string categoryFontLocation = "";
-            string textFontLocation = "";
+            // Instantiate font styles.
+            textFontStyle = FontStyle.Regular;
+            titleFontStyle = FontStyle.Regular;
+            categoryFontStyle = FontStyle.Regular;
+
+            // Calculate font styles.
+            textFontStyle = GetFontStyle(textFontStyle, Theme.ThemeProperties.TextFontStyle);
+            categoryFontStyle = GetFontStyle(categoryFontStyle, Theme.ThemeProperties.CategoryFontStyle);
+            titleFontStyle = GetFontStyle(titleFontStyle, Theme.ThemeProperties.TitleFontStyle);
+
+            // Initialize font locations.
+            titleFontLocation = "";
+            categoryFontLocation = "";
+            textFontLocation = "";
 
             // Check if any file paths exist.
             if (File.Exists(fontDirectory + "\\TitleFont.ttf")) { titleFontLocation = fontDirectory + "\\TitleFont.ttf"; }
@@ -55,6 +76,28 @@ namespace HeroesModLoaderConfig.Styles.Themes
 
             if (textFontLocation != "") { TextFont = FontLoader.LoadExternalFont(textFontLocation, 18F); }
             else { TextFont = new Font("Times New Roman", 18F, FontStyle.Regular); }
+
+            // Set font style.
+            TitleFont = new Font(TitleFont, titleFontStyle);
+            TextFont = new Font(TextFont, textFontStyle);
+            CategoryFont = new Font(CategoryFont, categoryFontStyle);
+        }
+
+        /// <summary>
+        /// Sets the font style for the fonts.
+        /// </summary>
+        /// <param name="fontStyle">The font style as set in the theme properties.</param>
+        /// <param name="systemFontStyle">The System.Drawing.Fontstyle to change. (Should be initialized to regular)</param>
+        private FontStyle GetFontStyle(FontStyle systemFontStyle, ThemePropertyParser.FontStyle fontStyle)
+        {
+            // Check font style flags and apply.
+            if (fontStyle.Bold) { systemFontStyle = systemFontStyle | FontStyle.Bold; }
+            if (fontStyle.Underlined) { systemFontStyle = systemFontStyle | FontStyle.Underline; }
+            if (fontStyle.Striked) { systemFontStyle = systemFontStyle | FontStyle.Strikeout; }
+            if (fontStyle.Italic) { systemFontStyle = systemFontStyle | FontStyle.Italic; }
+
+            // Return new font.
+            return systemFontStyle;
         }
     }
 }

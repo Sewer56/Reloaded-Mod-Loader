@@ -3,6 +3,8 @@ using HeroesModLoaderConfig.Utilities.Windows;
 using HeroesModLoaderConfig.Windows.Children;
 using SonicHeroes.Native;
 using System;
+using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using static SonicHeroes.Misc.Config.ThemePropertyParser;
 
@@ -36,6 +38,13 @@ namespace HeroesModLoaderConfig
         public ChildForms MDIChildren { get; set; }
 
         /// <summary>
+        /// Thread which checks forward and back mouse buttons for
+        /// switching tabs.
+        /// </summary>
+        private Thread mouseCheckThread;
+
+
+        /// <summary>
         /// A structure which defines all of the child forms
         /// that this form in question hosts.
         /// </summary>
@@ -43,6 +52,8 @@ namespace HeroesModLoaderConfig
         {
             public Main_Screen MainMenu { get; set; }
             public Mods_Screen ModsMenu { get; set; }
+            public Theme_Screen ThemeMenu { get; set; }
+            public About_Screen AboutMenu { get; set; }
 
             /// <summary>
             /// Stores the currently opened menu.
@@ -69,6 +80,10 @@ namespace HeroesModLoaderConfig
 
             // Open all child forms
             InitializeMDIChildren();
+
+            // Run mouse check thread.
+            mouseCheckThread = new Thread(CheckMouseInput);
+            mouseCheckThread.Start();
         }
 
         // Click Events for Category Buttons
@@ -76,9 +91,9 @@ namespace HeroesModLoaderConfig
         private void CategoryBar_Games_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.MainMenu); }
         private void CategoryBar_Mods_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ModsMenu); }
         private void CategoryBar_Input_Click(object sender, EventArgs e) { }
-        private void CategoryBar_Theme_Click(object sender, EventArgs e) { }
+        private void CategoryBar_Theme_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ThemeMenu); }
         private void CategoryBar_Manager_Click(object sender, EventArgs e) { }
-        private void CategoryBar_About_Click(object sender, EventArgs e) { }
+        private void CategoryBar_About_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.AboutMenu); }
         #endregion
 
         /// <summary>
@@ -137,6 +152,8 @@ namespace HeroesModLoaderConfig
             // Create the children
             MDIChildren.MainMenu = new Main_Screen(this);
             MDIChildren.ModsMenu = new Mods_Screen(this);
+            MDIChildren.ThemeMenu = new Theme_Screen(this);
+            MDIChildren.AboutMenu = new About_Screen(this);
             MDIChildren.CurrentMenu = MDIChildren.MainMenu;
 
             // Remove the borders from the children forms
@@ -179,6 +196,118 @@ namespace HeroesModLoaderConfig
         }
 
         /// <summary>
+        /// Enters the menu either to the right or to the left of the current menu.
+        /// </summary>
+        /// <param name="forward">Set to true to cycle right, else cycle left.</param>
+        private void CycleMenu(bool forward)
+        {
+            // Get the current menu.
+            int currentMenu = (int)GetCurrentMenuEnum();
+
+            // Obtain the last number for the menus
+            // This is the modulus for forward looping.
+            int maxMenu = Enum.GetValues(typeof(MenuScreens)).Cast<int>().Max() + 1;
+
+            // Add or remove the value.
+            if (forward)
+            {
+                // Add to the current menu.
+                currentMenu += 1;
+
+                // Add 1 to modulus and perform mod operation to forward cycle.
+                currentMenu = currentMenu % maxMenu;  
+            }
+            else
+            {
+                // Take away from current menu.
+                currentMenu -= 1;
+
+                // Check for cycling, remove from max menu if last.
+                // e.g. 2 + (-1) = 1
+                // (2 = maxMenu)
+                if (currentMenu < 0) { currentMenu = maxMenu + currentMenu; }
+            }
+
+            // Open new menu.
+            OpenNewMenu((MenuScreens)currentMenu);
+        }
+
+        /// <summary>
+        /// Opens a new menu using the SwapMenus method.
+        /// </summary>
+        /// <param name="menuScreen">The menu screen to be opeened.</param>
+        private void OpenNewMenu(MenuScreens menuScreen)
+        {
+            switch (menuScreen)
+            {
+                case MenuScreens.MainMenu: SwapMenu(MDIChildren.MainMenu); break;
+                case MenuScreens.ModsMenu: SwapMenu(MDIChildren.ModsMenu); break;
+                case MenuScreens.ThemeMenu: SwapMenu(MDIChildren.ThemeMenu); break;
+                case MenuScreens.AboutMenu: SwapMenu(MDIChildren.AboutMenu); break;
+            }
+        }
+
+        /// <summary>
+        /// Iterates over the MDI Children to return enumerable storing the current menu.
+        /// </summary>
+        private MenuScreens GetCurrentMenuEnum()
+        {
+            // Grab a copy of the curernt menu reference.
+            Form currentMenu = MDIChildren.CurrentMenu;
+
+            // Iterate over children and find matching menu.
+            if (currentMenu == MDIChildren.MainMenu) { return MenuScreens.MainMenu; }
+            else if (currentMenu == MDIChildren.ModsMenu) { return MenuScreens.ModsMenu; }
+            else if (currentMenu == MDIChildren.ThemeMenu) { return MenuScreens.ThemeMenu; }
+            else if (currentMenu == MDIChildren.AboutMenu) { return MenuScreens.AboutMenu; }
+
+            // Return main menu as default.
+            return MenuScreens.MainMenu;
+        }
+
+        /// <summary>
+        /// Stores the menu screens.
+        /// </summary>
+        enum MenuScreens
+        {
+            MainMenu,
+            ModsMenu,
+            //InputMenu,
+            ThemeMenu,
+            //ManageMenu,
+            AboutMenu
+        }
+
+        /// <summary>
+        /// Runs an infinite loop to check current mouse input.
+        /// </summary>
+        private delegate void CycleMouseDelegate(bool forward);
+        private void CheckMouseInput()
+        {
+            // Create delegate for thread-safe tab cycling.
+            CycleMouseDelegate cycleMenuDelegate = new CycleMouseDelegate(CycleMenu);
+
+            while (true)
+            {
+                // Check input.
+                // Back button.
+                if (MouseButtons.HasFlag(MouseButtons.XButton1)) {
+                    Invoke(cycleMenuDelegate, false);
+                    while (MouseButtons.HasFlag(MouseButtons.XButton1)) { Thread.Sleep(32); }
+                }
+
+                // Forward button.
+                if (MouseButtons.HasFlag(MouseButtons.XButton2)) {
+                    Invoke(cycleMenuDelegate, true);
+                    while (MouseButtons.HasFlag(MouseButtons.XButton2)) { Thread.Sleep(32); }
+                }
+
+                // Sleep
+                Thread.Sleep(32);
+            }
+        }
+
+        /// <summary>
         /// Called when the mouse is moved within the client area of the button while the
         /// left (or right depending on user setting) mouse is down.
         /// As the title is a button, which covers the entire top panel it
@@ -187,5 +316,27 @@ namespace HeroesModLoaderConfig
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void TitleBarMouseDown(object sender, MouseEventArgs e) { MoveWindow.MoveTheWindow(this.Handle); }
+
+        /// <summary>
+        /// If the user htis ALT + F4, close the program.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Base_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Shutdown();
+        }
+
+        /// <summary>
+        /// Kills the mod loader safely.
+        /// </summary>
+        public void Shutdown()
+        {
+            // Close all forms.
+            foreach (Form winForm in Global.WindowsForms) { winForm.Close(); }
+
+            // Shut the program.
+            Environment.Exit(0);
+        }
     }
 }

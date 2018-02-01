@@ -48,6 +48,9 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
         /// </summary>
         public AnimatedDataGridView()
         {
+            // 2x Buffering
+            DoubleBuffered = true;
+
             // Instantiate all of the animation messages.
             this.AnimProperties = new AnimProperties();
             AnimationMessagesBG = new List<AnimMessage>();
@@ -204,6 +207,15 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
 
             // Animate the last selection.
             AnimateLeaveAtIndex(base.DragRowIndex, SelectedCells[0].RowIndex);
+        }
+
+        /// <summary>
+        /// Stops ongoing animations.
+        /// </summary>
+        public void KillAnimations()
+        {
+            foreach (AnimMessage animMessage in AnimationMessagesBG) { animMessage.PlayAnimation = false; }
+            foreach (AnimMessage animMessage in AnimationMessagesFG) { animMessage.PlayAnimation = false; }
         }
     }
 }

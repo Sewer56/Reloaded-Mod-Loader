@@ -26,6 +26,11 @@ namespace HeroesModLoaderConfig.Utilities
         public ModConfigParser ModConfigParser { get; set; }
 
         /// <summary>
+        /// Stores the theme configuration parser.
+        /// </summary>
+        public ThemeConfigParser ThemeConfigParser { get; set; }
+
+        /// <summary>
         /// Starts up all of the individual parsers.
         /// </summary>
         public LoaderConfigManager()
@@ -34,6 +39,7 @@ namespace HeroesModLoaderConfig.Utilities
             LoaderConfigParser = new LoaderConfigParser();
             GameConfigParser = new GameConfigParser();
             ModConfigParser = new ModConfigParser();
+            ThemeConfigParser = new ThemeConfigParser();
         }
 
         /// <summary>
@@ -91,6 +97,34 @@ namespace HeroesModLoaderConfig.Utilities
         {
             // Read each game configuration
             foreach (GameConfigParser.GameConfig gameConfiguration in gameConfigurations) { GameConfigParser.WriteConfig(gameConfiguration); }
+        }
+
+        /// <summary>
+        /// Retrieves all of the individual theme configurations.
+        /// </summary>
+        public List<ThemeConfigParser.ThemeConfig> GetAllThemeConfigs()
+        {
+            // Retrieves the name of all directories in the 'Themes' folder.
+            string[] directories = Directory.GetDirectories(LoaderPaths.GetModLoaderThemeDirectory());
+
+            // Retrieve the game configurations
+            List<ThemeConfigParser.ThemeConfig> themeConfigurations = new List<ThemeConfigParser.ThemeConfig>(directories.Length);
+
+            // Read each game configuration
+            foreach (string directory in directories) { themeConfigurations.Add(ThemeConfigParser.ParseConfig(directory)); }
+
+            // Return.
+            return themeConfigurations;
+        }
+
+        /// <summary>
+        /// Writes all of the game individual game configurations.
+        /// </summary>
+        /// <param name="gameConfigurations">List of game configurations to be written back.</param>
+        public void WriteAllThemeConfigs(List<ThemeConfigParser.ThemeConfig> gameConfigurations)
+        {
+            // Read each game configuration
+            foreach (ThemeConfigParser.ThemeConfig themeConfiguration in gameConfigurations) { ThemeConfigParser.WriteConfig(themeConfiguration); }
         }
     }
 }

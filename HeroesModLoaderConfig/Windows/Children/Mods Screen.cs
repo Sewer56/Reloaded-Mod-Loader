@@ -35,14 +35,6 @@ namespace HeroesModLoaderConfig.Windows.Children
             SetupDecorationBoxes.FindDecorationControls(this);
         }
 
-        /// <summary>
-        /// Is executed once the windows form has finshed loading.
-        /// </summary>
-        private void Mods_Screen_Load(object sender, EventArgs e)
-        {
-
-        }
-
         /// <summary> 
         /// Loads the relevant menu contents when the visibility changes (user enters menu). 
         /// Saves and backs up when the user leaves for another menu (selects another tab). 
@@ -274,8 +266,8 @@ namespace HeroesModLoaderConfig.Windows.Children
 
                 // Set the button text for website, config, source.
                 if (modConfiguration.ModConfigEXE.Length == 0) { borderless_ConfigBox.Text = "N/A"; } else { borderless_ConfigBox.Text = "Configuration"; }
-                if (modConfiguration.ModSite.Length == 0) { borderless_WebBox.Text = "N/A"; } else { borderless_WebBox.Text = "Webpage"; }
-                if (modConfiguration.ModGithub.Length == 0) { borderless_SourceBox.Text = "N/A"; } else { borderless_SourceBox.Text = "Source Code"; }
+                if (modConfiguration.ThemeSite.Length == 0) { borderless_WebBox.Text = "N/A"; } else { borderless_WebBox.Text = "Webpage"; }
+                if (modConfiguration.ThemeGithub.Length == 0) { borderless_SourceBox.Text = "N/A"; } else { borderless_SourceBox.Text = "Source Code"; }
 
                 // Obtain mod directory.
                 string modDirectory = Path.GetDirectoryName(modConfiguration.ModLocation);
@@ -294,7 +286,7 @@ namespace HeroesModLoaderConfig.Windows.Children
         {
             if (CheckIfEnabled((Control)sender))
             {
-                OpenFile(Global.CurrentModConfig.ModGithub);
+                OpenFile(Global.CurrentModConfig.ThemeGithub);
             }
         }
 
@@ -305,7 +297,7 @@ namespace HeroesModLoaderConfig.Windows.Children
         {
             if (CheckIfEnabled((Control)sender))
             {
-                OpenFile(Global.CurrentModConfig.ModSite);
+                OpenFile(Global.CurrentModConfig.ThemeSite);
             }
         }
 

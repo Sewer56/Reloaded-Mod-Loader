@@ -25,6 +25,15 @@ namespace HeroesModLoaderConfig.Styles.Controls.Animated
             this.AnimProperties.BackColorMessage = new AnimMessage(this);
         }
 
+        /// <summary>
+        /// Stops ongoing animations.
+        /// </summary>
+        public void KillAnimations()
+        {
+            this.AnimProperties.BackColorMessage.PlayAnimation = false;
+            this.AnimProperties.ForeColorMessage.PlayAnimation = false;
+        }
+
         // //////////////////////////
         // Common Animation Redirects
         // //////////////////////////

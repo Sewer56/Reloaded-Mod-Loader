@@ -25,5 +25,10 @@ namespace HeroesModLoaderConfig.Styles.Animation
         /// the animation properties.
         /// </summary>
         AnimProperties AnimProperties { get; set; }
+
+        /// <summary>
+        /// Stops all currently ongoing animations.
+        /// </summary>
+        void KillAnimations();
     }
 }

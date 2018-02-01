@@ -113,7 +113,8 @@ namespace HeroesModLoaderConfig.Windows.Children
         /// </summary>
         private void QuitBox_Click(object sender, EventArgs e)
         {
-            Environment.Exit(0);
+            // Shutdown program.
+            Global.BaseForm.Shutdown();
         }
     }
 }

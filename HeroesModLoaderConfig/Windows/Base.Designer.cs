@@ -49,78 +49,38 @@
             HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties7 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage13 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage14 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            this.titleBar_Title = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.categoryBar_About = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.categoryBar_Theme = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.categoryBar_Input = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.categoryBar_Mods = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.categoryBar_Manager = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.categoryBar_Games = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
+            this.titleBar_Title = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.panel_TitleBar = new System.Windows.Forms.Panel();
             this.panel_CategoryBar = new System.Windows.Forms.Panel();
             this.panel_TitleBar.SuspendLayout();
             this.panel_CategoryBar.SuspendLayout();
             this.SuspendLayout();
             // 
-            // titleBar_Title
-            // 
-            animMessage1.Control = this.titleBar_Title;
-            animMessage1.PlayAnimation = true;
-            animProperties1.BackColorMessage = animMessage1;
-            animMessage2.Control = this.titleBar_Title;
-            animMessage2.PlayAnimation = true;
-            animProperties1.ForeColorMessage = animMessage2;
-            animProperties1.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
-            animProperties1.MouseEnterDuration = 200F;
-            animProperties1.MouseEnterForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(163)))), ((int)(((byte)(244)))));
-            animProperties1.MouseEnterFramerate = 144F;
-            animProperties1.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.ForeColorInterpolate;
-            animProperties1.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
-            animProperties1.MouseLeaveDuration = 200F;
-            animProperties1.MouseLeaveForeColor = System.Drawing.Color.White;
-            animProperties1.MouseLeaveFramerate = 144F;
-            animProperties1.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.ForeColorInterpolate;
-            this.titleBar_Title.AnimProperties = animProperties1;
-            this.titleBar_Title.CaptureChildren = false;
-            this.titleBar_Title.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.titleBar_Title.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.titleBar_Title.FlatAppearance.BorderSize = 0;
-            this.titleBar_Title.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.titleBar_Title.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.titleBar_Title.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.titleBar_Title.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.titleBar_Title.ForeColor = System.Drawing.Color.White;
-            this.titleBar_Title.IgnoreMouse = false;
-            this.titleBar_Title.IgnoreMouseClicks = false;
-            this.titleBar_Title.Location = new System.Drawing.Point(0, 0);
-            this.titleBar_Title.Name = "titleBar_Title";
-            this.titleBar_Title.Size = new System.Drawing.Size(900, 44);
-            this.titleBar_Title.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.titleBar_Title.TabIndex = 3;
-            this.titleBar_Title.Text = "Heroes Mod Loader MKII | Main Screen";
-            this.titleBar_Title.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-            this.titleBar_Title.UseVisualStyleBackColor = true;
-            this.titleBar_Title.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleBarMouseDown);
-            // 
             // categoryBar_About
             // 
-            animMessage3.Control = this.categoryBar_About;
-            animMessage3.PlayAnimation = true;
-            animProperties2.BackColorMessage = animMessage3;
-            animMessage4.Control = this.categoryBar_About;
-            animMessage4.PlayAnimation = true;
-            animProperties2.ForeColorMessage = animMessage4;
-            animProperties2.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
-            animProperties2.MouseEnterDuration = 150F;
-            animProperties2.MouseEnterForeColor = System.Drawing.Color.Transparent;
-            animProperties2.MouseEnterFramerate = 144F;
-            animProperties2.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.BackColorInterpolate;
-            animProperties2.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
-            animProperties2.MouseLeaveDuration = 150F;
-            animProperties2.MouseLeaveForeColor = System.Drawing.Color.Transparent;
-            animProperties2.MouseLeaveFramerate = 144F;
-            animProperties2.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.BackColorInterpolate;
-            this.categoryBar_About.AnimProperties = animProperties2;
+            animMessage1.Control = this.categoryBar_About;
+            animMessage1.PlayAnimation = true;
+            animProperties1.BackColorMessage = animMessage1;
+            animMessage2.Control = this.categoryBar_About;
+            animMessage2.PlayAnimation = true;
+            animProperties1.ForeColorMessage = animMessage2;
+            animProperties1.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
+            animProperties1.MouseEnterDuration = 150F;
+            animProperties1.MouseEnterForeColor = System.Drawing.Color.Transparent;
+            animProperties1.MouseEnterFramerate = 144F;
+            animProperties1.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties1.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
+            animProperties1.MouseLeaveDuration = 150F;
+            animProperties1.MouseLeaveForeColor = System.Drawing.Color.Transparent;
+            animProperties1.MouseLeaveFramerate = 144F;
+            animProperties1.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.categoryBar_About.AnimProperties = animProperties1;
             this.categoryBar_About.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_About.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.categoryBar_About.CaptureChildren = false;
@@ -146,23 +106,23 @@
             // 
             // categoryBar_Theme
             // 
-            animMessage5.Control = this.categoryBar_Theme;
-            animMessage5.PlayAnimation = true;
-            animProperties3.BackColorMessage = animMessage5;
-            animMessage6.Control = this.categoryBar_Theme;
-            animMessage6.PlayAnimation = true;
-            animProperties3.ForeColorMessage = animMessage6;
-            animProperties3.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
-            animProperties3.MouseEnterDuration = 150F;
-            animProperties3.MouseEnterForeColor = System.Drawing.Color.Transparent;
-            animProperties3.MouseEnterFramerate = 144F;
-            animProperties3.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.BackColorInterpolate;
-            animProperties3.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
-            animProperties3.MouseLeaveDuration = 150F;
-            animProperties3.MouseLeaveForeColor = System.Drawing.Color.Transparent;
-            animProperties3.MouseLeaveFramerate = 144F;
-            animProperties3.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.BackColorInterpolate;
-            this.categoryBar_Theme.AnimProperties = animProperties3;
+            animMessage3.Control = this.categoryBar_Theme;
+            animMessage3.PlayAnimation = true;
+            animProperties2.BackColorMessage = animMessage3;
+            animMessage4.Control = this.categoryBar_Theme;
+            animMessage4.PlayAnimation = true;
+            animProperties2.ForeColorMessage = animMessage4;
+            animProperties2.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
+            animProperties2.MouseEnterDuration = 150F;
+            animProperties2.MouseEnterForeColor = System.Drawing.Color.Transparent;
+            animProperties2.MouseEnterFramerate = 144F;
+            animProperties2.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties2.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
+            animProperties2.MouseLeaveDuration = 150F;
+            animProperties2.MouseLeaveForeColor = System.Drawing.Color.Transparent;
+            animProperties2.MouseLeaveFramerate = 144F;
+            animProperties2.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.categoryBar_Theme.AnimProperties = animProperties2;
             this.categoryBar_Theme.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_Theme.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.categoryBar_Theme.CaptureChildren = false;
@@ -188,23 +148,23 @@
             // 
             // categoryBar_Input
             // 
-            animMessage7.Control = this.categoryBar_Input;
-            animMessage7.PlayAnimation = true;
-            animProperties4.BackColorMessage = animMessage7;
-            animMessage8.Control = this.categoryBar_Input;
-            animMessage8.PlayAnimation = true;
-            animProperties4.ForeColorMessage = animMessage8;
-            animProperties4.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
-            animProperties4.MouseEnterDuration = 150F;
-            animProperties4.MouseEnterForeColor = System.Drawing.Color.Transparent;
-            animProperties4.MouseEnterFramerate = 144F;
-            animProperties4.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.BackColorInterpolate;
-            animProperties4.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
-            animProperties4.MouseLeaveDuration = 150F;
-            animProperties4.MouseLeaveForeColor = System.Drawing.Color.Transparent;
-            animProperties4.MouseLeaveFramerate = 144F;
-            animProperties4.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.BackColorInterpolate;
-            this.categoryBar_Input.AnimProperties = animProperties4;
+            animMessage5.Control = this.categoryBar_Input;
+            animMessage5.PlayAnimation = true;
+            animProperties3.BackColorMessage = animMessage5;
+            animMessage6.Control = this.categoryBar_Input;
+            animMessage6.PlayAnimation = true;
+            animProperties3.ForeColorMessage = animMessage6;
+            animProperties3.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
+            animProperties3.MouseEnterDuration = 150F;
+            animProperties3.MouseEnterForeColor = System.Drawing.Color.Transparent;
+            animProperties3.MouseEnterFramerate = 144F;
+            animProperties3.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties3.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
+            animProperties3.MouseLeaveDuration = 150F;
+            animProperties3.MouseLeaveForeColor = System.Drawing.Color.Transparent;
+            animProperties3.MouseLeaveFramerate = 144F;
+            animProperties3.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.categoryBar_Input.AnimProperties = animProperties3;
             this.categoryBar_Input.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_Input.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.categoryBar_Input.CaptureChildren = false;
@@ -230,23 +190,23 @@
             // 
             // categoryBar_Mods
             // 
-            animMessage9.Control = this.categoryBar_Mods;
-            animMessage9.PlayAnimation = true;
-            animProperties5.BackColorMessage = animMessage9;
-            animMessage10.Control = this.categoryBar_Mods;
-            animMessage10.PlayAnimation = true;
-            animProperties5.ForeColorMessage = animMessage10;
-            animProperties5.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
-            animProperties5.MouseEnterDuration = 150F;
-            animProperties5.MouseEnterForeColor = System.Drawing.Color.Transparent;
-            animProperties5.MouseEnterFramerate = 144F;
-            animProperties5.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.BackColorInterpolate;
-            animProperties5.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
-            animProperties5.MouseLeaveDuration = 150F;
-            animProperties5.MouseLeaveForeColor = System.Drawing.Color.Transparent;
-            animProperties5.MouseLeaveFramerate = 144F;
-            animProperties5.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.BackColorInterpolate;
-            this.categoryBar_Mods.AnimProperties = animProperties5;
+            animMessage7.Control = this.categoryBar_Mods;
+            animMessage7.PlayAnimation = true;
+            animProperties4.BackColorMessage = animMessage7;
+            animMessage8.Control = this.categoryBar_Mods;
+            animMessage8.PlayAnimation = true;
+            animProperties4.ForeColorMessage = animMessage8;
+            animProperties4.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
+            animProperties4.MouseEnterDuration = 150F;
+            animProperties4.MouseEnterForeColor = System.Drawing.Color.Transparent;
+            animProperties4.MouseEnterFramerate = 144F;
+            animProperties4.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties4.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
+            animProperties4.MouseLeaveDuration = 150F;
+            animProperties4.MouseLeaveForeColor = System.Drawing.Color.Transparent;
+            animProperties4.MouseLeaveFramerate = 144F;
+            animProperties4.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.categoryBar_Mods.AnimProperties = animProperties4;
             this.categoryBar_Mods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_Mods.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.categoryBar_Mods.CaptureChildren = false;
@@ -272,23 +232,23 @@
             // 
             // categoryBar_Manager
             // 
-            animMessage11.Control = this.categoryBar_Manager;
-            animMessage11.PlayAnimation = true;
-            animProperties6.BackColorMessage = animMessage11;
-            animMessage12.Control = this.categoryBar_Manager;
-            animMessage12.PlayAnimation = true;
-            animProperties6.ForeColorMessage = animMessage12;
-            animProperties6.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
-            animProperties6.MouseEnterDuration = 150F;
-            animProperties6.MouseEnterForeColor = System.Drawing.Color.Transparent;
-            animProperties6.MouseEnterFramerate = 144F;
-            animProperties6.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.BackColorInterpolate;
-            animProperties6.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
-            animProperties6.MouseLeaveDuration = 150F;
-            animProperties6.MouseLeaveForeColor = System.Drawing.Color.Transparent;
-            animProperties6.MouseLeaveFramerate = 144F;
-            animProperties6.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.BackColorInterpolate;
-            this.categoryBar_Manager.AnimProperties = animProperties6;
+            animMessage9.Control = this.categoryBar_Manager;
+            animMessage9.PlayAnimation = true;
+            animProperties5.BackColorMessage = animMessage9;
+            animMessage10.Control = this.categoryBar_Manager;
+            animMessage10.PlayAnimation = true;
+            animProperties5.ForeColorMessage = animMessage10;
+            animProperties5.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
+            animProperties5.MouseEnterDuration = 150F;
+            animProperties5.MouseEnterForeColor = System.Drawing.Color.Transparent;
+            animProperties5.MouseEnterFramerate = 144F;
+            animProperties5.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties5.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
+            animProperties5.MouseLeaveDuration = 150F;
+            animProperties5.MouseLeaveForeColor = System.Drawing.Color.Transparent;
+            animProperties5.MouseLeaveFramerate = 144F;
+            animProperties5.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.categoryBar_Manager.AnimProperties = animProperties5;
             this.categoryBar_Manager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_Manager.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.categoryBar_Manager.CaptureChildren = false;
@@ -314,23 +274,23 @@
             // 
             // categoryBar_Games
             // 
-            animMessage13.Control = this.categoryBar_Games;
-            animMessage13.PlayAnimation = true;
-            animProperties7.BackColorMessage = animMessage13;
-            animMessage14.Control = this.categoryBar_Games;
-            animMessage14.PlayAnimation = true;
-            animProperties7.ForeColorMessage = animMessage14;
-            animProperties7.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
-            animProperties7.MouseEnterDuration = 150F;
-            animProperties7.MouseEnterForeColor = System.Drawing.Color.Transparent;
-            animProperties7.MouseEnterFramerate = 144F;
-            animProperties7.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties7.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
-            animProperties7.MouseLeaveDuration = 150F;
-            animProperties7.MouseLeaveForeColor = System.Drawing.Color.Transparent;
-            animProperties7.MouseLeaveFramerate = 144F;
-            animProperties7.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.categoryBar_Games.AnimProperties = animProperties7;
+            animMessage11.Control = this.categoryBar_Games;
+            animMessage11.PlayAnimation = true;
+            animProperties6.BackColorMessage = animMessage11;
+            animMessage12.Control = this.categoryBar_Games;
+            animMessage12.PlayAnimation = true;
+            animProperties6.ForeColorMessage = animMessage12;
+            animProperties6.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(63)))), ((int)(((byte)(67)))));
+            animProperties6.MouseEnterDuration = 150F;
+            animProperties6.MouseEnterForeColor = System.Drawing.Color.Transparent;
+            animProperties6.MouseEnterFramerate = 144F;
+            animProperties6.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties6.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
+            animProperties6.MouseLeaveDuration = 150F;
+            animProperties6.MouseLeaveForeColor = System.Drawing.Color.Transparent;
+            animProperties6.MouseLeaveFramerate = 144F;
+            animProperties6.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.categoryBar_Games.AnimProperties = animProperties6;
             this.categoryBar_Games.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_Games.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.categoryBar_Games.CaptureChildren = false;
@@ -353,6 +313,46 @@
             this.categoryBar_Games.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             this.categoryBar_Games.UseVisualStyleBackColor = false;
             this.categoryBar_Games.Click += new System.EventHandler(this.CategoryBar_Games_Click);
+            // 
+            // titleBar_Title
+            // 
+            animMessage13.Control = this.titleBar_Title;
+            animMessage13.PlayAnimation = true;
+            animProperties7.BackColorMessage = animMessage13;
+            animMessage14.Control = this.titleBar_Title;
+            animMessage14.PlayAnimation = true;
+            animProperties7.ForeColorMessage = animMessage14;
+            animProperties7.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            animProperties7.MouseEnterDuration = 200F;
+            animProperties7.MouseEnterForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(163)))), ((int)(((byte)(244)))));
+            animProperties7.MouseEnterFramerate = 144F;
+            animProperties7.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties7.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            animProperties7.MouseLeaveDuration = 200F;
+            animProperties7.MouseLeaveForeColor = System.Drawing.Color.White;
+            animProperties7.MouseLeaveFramerate = 144F;
+            animProperties7.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.titleBar_Title.AnimProperties = animProperties7;
+            this.titleBar_Title.CaptureChildren = false;
+            this.titleBar_Title.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.titleBar_Title.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.titleBar_Title.FlatAppearance.BorderSize = 0;
+            this.titleBar_Title.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.titleBar_Title.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.titleBar_Title.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.titleBar_Title.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.titleBar_Title.ForeColor = System.Drawing.Color.White;
+            this.titleBar_Title.IgnoreMouse = false;
+            this.titleBar_Title.IgnoreMouseClicks = false;
+            this.titleBar_Title.Location = new System.Drawing.Point(0, 0);
+            this.titleBar_Title.Name = "titleBar_Title";
+            this.titleBar_Title.Size = new System.Drawing.Size(900, 44);
+            this.titleBar_Title.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.titleBar_Title.TabIndex = 3;
+            this.titleBar_Title.Text = "Heroes Mod Loader MKII | Main Screen";
+            this.titleBar_Title.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            this.titleBar_Title.UseVisualStyleBackColor = true;
+            this.titleBar_Title.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleBarMouseDown);
             // 
             // panel_TitleBar
             // 
@@ -394,6 +394,7 @@
             this.Name = "Base";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Doki Doki Modification Club!";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Base_FormClosed);
             this.Load += new System.EventHandler(this.Base_Load);
             this.panel_TitleBar.ResumeLayout(false);
             this.panel_CategoryBar.ResumeLayout(false);

@@ -67,7 +67,5 @@ namespace HeroesModLoaderConfig.Styles.Controls
             // Draw the label as originally intended.
             base.OnPaint(paintEventArguments);
         }
-
-
     }
 }

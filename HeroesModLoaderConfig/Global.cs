@@ -57,6 +57,12 @@ namespace HeroesModLoaderConfig
         public static ModConfigParser.ModConfig CurrentModConfig { get; set; }
 
         /// <summary>
+        /// Stores the current loaded/highlighted theme configuration.
+        /// Changes when the user changes the theme in the themes menu.
+        /// </summary>
+        public static ThemeConfigParser.ThemeConfig CurrentThemeConfig { get; set; }
+
+        /// <summary>
         /// Stores the individual game configurations for loaded games.
         /// </summary>
         public static List<GameConfigParser.GameConfig> GameConfigurations { get; set; }
@@ -65,5 +71,10 @@ namespace HeroesModLoaderConfig
         /// Stores the individual mod configuration for the currently selected game.
         /// </summary>
         public static List<ModConfigParser.ModConfig> ModConfigurations { get; set; }
+
+        /// <summary>
+        /// Stores the individual theme configurations.
+        /// </summary>
+        public static List<ThemeConfigParser.ThemeConfig> ThemeConfigurations { get; set; }
     }
 }

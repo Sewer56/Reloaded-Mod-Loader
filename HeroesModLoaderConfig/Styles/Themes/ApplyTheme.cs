@@ -1,6 +1,9 @@
 ﻿using HeroesModLoaderConfig.Styles.Animation;
+using HeroesModLoaderConfig.Styles.Controls.Interfaces;
 using SonicHeroes.Misc.Config;
+using System;
 using System.Drawing;
+using HeroesModLoaderConfig.Utilities.Windows;
 using System.Windows.Forms;
 using static SonicHeroes.Misc.Config.ThemePropertyParser;
 
@@ -27,7 +30,7 @@ namespace HeroesModLoaderConfig.Styles.Themes
             // For each currently initialized Windows Form.
             foreach (Form windowForm in Global.WindowsForms) { ThemeWindowsForm(windowForm); }
 
-            // If the initial form has been initialized yet.
+            // If the initial form has been initialized.
             if (Global.BaseForm != null)
             {
                 // Update the title.
@@ -89,18 +92,18 @@ namespace HeroesModLoaderConfig.Styles.Themes
         /// <param name="exitAnimation">Defines the mouse exit animation of the buttons.</param>
         private static void ThemeButton(Control control, BarColours buttonColours, ButtonMouseAnimation enterAnimation, ButtonMouseAnimation exitAnimation, bool ThemeBorder)
         {
-            // Set the button backcolor and forecolor.
-            control.ForeColor = buttonColours.TextColour;
-            control.BackColor = buttonColours.ButtonBGColour;
-
-            // Theme the button border.
-            if (ThemeBorder) { ThemeButtonBorder(control); }
-
             // If it is an animated control
             if (control is IAnimatedControl)
             {
                 // Cast to AnimatedControl
                 IAnimatedControl animatedControl = (IAnimatedControl)control;
+
+                // Stop ongoing messages.
+                animatedControl.KillAnimations();
+
+                // Reset animations.
+                animatedControl.AnimProperties.MouseEnterOverride = AnimOverrides.MouseEnterOverride.None;
+                animatedControl.AnimProperties.MouseLeaveOverride = AnimOverrides.MouseLeaveOverride.None;
 
                 // Set the enter animation.
                 animatedControl.AnimProperties.MouseEnterBackColor = enterAnimation.BGTargetColour;
@@ -127,7 +130,33 @@ namespace HeroesModLoaderConfig.Styles.Themes
                 controlDataGridView.DefaultCellStyle.BackColor = buttonColours.BGColour;
                 controlDataGridView.DefaultCellStyle.SelectionBackColor = enterAnimation.BGTargetColour;
                 controlDataGridView.DefaultCellStyle.SelectionForeColor = buttonColours.TextColour;
+                controlDataGridView.BackgroundColor = buttonColours.ButtonBGColour;
+                
+                // Set row properties
+                foreach (DataGridViewRow row in controlDataGridView.Rows)
+                {
+                    row.DefaultCellStyle.ForeColor = buttonColours.TextColour;
+                    row.DefaultCellStyle.BackColor = buttonColours.BGColour;
+                    row.DefaultCellStyle.SelectionBackColor = enterAnimation.BGTargetColour;
+                    row.DefaultCellStyle.SelectionForeColor = buttonColours.TextColour;
+                }
             }
+
+            // If the control is a box, set BG colour of children.
+            if (control is IDecorationBox)
+            {
+                foreach (Control childControl in control.Controls)
+                {
+                    childControl.BackColor = control.BackColor;
+                }
+            }
+
+            // Set the control backcolor and forecolor.
+            control.ForeColor = buttonColours.TextColour;
+            control.BackColor = buttonColours.ButtonBGColour;
+
+            // Theme the control border.
+            if (ThemeBorder) { ThemeButtonBorder(control); }
         }
 
         /// <summary>
@@ -156,11 +185,12 @@ namespace HeroesModLoaderConfig.Styles.Themes
         private static void ApplyFonts(Control control)
         {
             // Filter the three text categories.
-            if (IsCategoryItem(control)) { control.Font = new Font(Theme.Fonts.CategoryFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
-            else if (IsMainItem(control)) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
-            else if (IsTitleItem(control)) { control.Font = new Font(Theme.Fonts.TitleFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
-            else if (IsBox(control)) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
-            //else { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, control.Font.Style, control.Font.Unit); }
+            if (IsTitleItem(control)) { control.Font = new Font(Theme.Fonts.TitleFont.FontFamily, control.Font.Size, Theme.Fonts.TitleFont.Style, control.Font.Unit); }
+            else if (IsCategoryItem(control)) { control.Font = new Font(Theme.Fonts.CategoryFont.FontFamily, control.Font.Size, Theme.Fonts.CategoryFont.Style, control.Font.Unit); }
+
+            else if (IsMainItem(control)) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, Theme.Fonts.TextFont.Style, control.Font.Unit); }
+            else if (IsBorderless(control)) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, Theme.Fonts.TextFont.Style, control.Font.Unit); }
+            else if (IsBox(control)) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, Theme.Fonts.TextFont.Style, control.Font.Unit); }
         }
 
         /// <summary>
@@ -216,6 +246,15 @@ namespace HeroesModLoaderConfig.Styles.Themes
                     Global.BaseForm.MDIChildren.ModsMenu.borderless_ConfigBox.Image = Image.FromFile(imagesFolder + "\\Tweaks2-Icon.png");
                     Global.BaseForm.MDIChildren.ModsMenu.borderless_SourceBox.Image = Image.FromFile(imagesFolder + "\\Github-Icon.png");
                     Global.BaseForm.MDIChildren.ModsMenu.borderless_WebBox.Image = Image.FromFile(imagesFolder + "\\World-Icon.png");
+                }
+
+                // If the theme form is created.
+                if (Global.BaseForm.MDIChildren.ThemeMenu != null)
+                {
+                    // Load the images from HDD.
+                    Global.BaseForm.MDIChildren.ThemeMenu.borderless_ConfigBox.Image = Image.FromFile(imagesFolder + "\\Tweaks2-Icon.png");
+                    Global.BaseForm.MDIChildren.ThemeMenu.borderless_SourceBox.Image = Image.FromFile(imagesFolder + "\\Github-Icon.png");
+                    Global.BaseForm.MDIChildren.ThemeMenu.borderless_WebBox.Image = Image.FromFile(imagesFolder + "\\World-Icon.png");
                 }
             }
         }
