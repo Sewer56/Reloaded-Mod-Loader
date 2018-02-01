@@ -23,7 +23,7 @@ namespace SonicHeroes.Misc.Config
         /// <summary>
         /// Defines a general struct for the Mod Loader Configuration tile.
         /// </summary>
-        public struct Config
+        public class Config
         {
             /// <summary>
             /// Specifies the preferred configuration for DirectInput devices.

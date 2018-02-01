@@ -29,6 +29,21 @@ namespace SonicHeroes.Misc.Config
             public TitleProperties TitleProperties { get; set; }
 
             /// <summary>
+            /// The style of title font.
+            /// </summary>
+            public FontStyle TitleFontStyle { get; set; }
+
+            /// <summary>
+            /// The style of category font.
+            /// </summary>
+            public FontStyle CategoryFontStyle { get; set; }
+
+            /// <summary>
+            /// The style of text font.
+            /// </summary>
+            public FontStyle TextFontStyle { get; set; }
+
+            /// <summary>
             /// Specifies the properties of the button and control borders used
             /// for the theme in question.
             /// </summary>
@@ -180,6 +195,32 @@ namespace SonicHeroes.Misc.Config
         }
 
         /// <summary>
+        /// Defines the font style for fonts used to represent particular elements.
+        /// </summary>
+        public struct FontStyle
+        {
+            /// <summary>
+            /// Declares whether the font is underlined (line under text).
+            /// </summary>
+            public bool Underlined { get; set; }
+
+            /// <summary>
+            /// Declares whether the font is striked (line through text).
+            /// </summary>
+            public bool Striked { get; set; }
+
+            /// <summary>
+            /// Declares whether the font is bold.
+            /// </summary>
+            public bool Bold { get; set; }
+
+            /// <summary>
+            /// Declares whether the font is italic (tilted text).
+            /// </summary>
+            public bool Italic { get; set; }
+        }
+
+        /// <summary>
         /// Defines the colours used for controls and buttons on the category bar.
         /// </summary>
         public struct ButtonMouseAnimation
@@ -248,7 +289,12 @@ namespace SonicHeroes.Misc.Config
             titleProperties.LoaderTitleDelimiter = iniData["Title"]["LoaderTitleDelimiter"];
             titleProperties.LoaderTitlePrefix = bool.Parse(iniData["Title"]["LoaderTitlePrefix"]);
             titleProperties.DelimiterHasSpaces = bool.Parse(iniData["Title"]["DelimiterHasSpaces"]);
-            colourConfig.TitleProperties = titleProperties; 
+            colourConfig.TitleProperties = titleProperties;
+
+            // Parse font style.
+            colourConfig.TitleFontStyle = ParseFontStyle("Title Font");
+            colourConfig.CategoryFontStyle = ParseFontStyle("Category Font");
+            colourConfig.TextFontStyle = ParseFontStyle("Text Font");
 
             // Parse the border properties.
             colourConfig.ButtonBorderProperties = new BorderProperties();
@@ -299,6 +345,27 @@ namespace SonicHeroes.Misc.Config
 
             // Return
             return colours;
+        }
+
+        /// <summary>
+        /// Parses the FontStyle struct of font style properties for a certain item/section inside the .ini file.
+        /// FontStyle defines the style of the fonts.
+        /// </summary>
+        /// <param name="iniCategoryTitleName">The category inside the .ini file containing the font style. e.g. "Category Font"</param>
+        /// <returns></returns>
+        private FontStyle ParseFontStyle(string iniCategoryTitleName)
+        {
+            // Store font style
+            FontStyle fontStyle = new FontStyle();
+
+            // Parse font style.
+            fontStyle.Underlined = bool.Parse(iniData[iniCategoryTitleName]["FontIsUnderlined"]);
+            fontStyle.Bold = bool.Parse(iniData[iniCategoryTitleName]["FontIsBold"]);
+            fontStyle.Italic = bool.Parse(iniData[iniCategoryTitleName]["FontIsItalic"]);
+            fontStyle.Striked = bool.Parse(iniData[iniCategoryTitleName]["FontIsStriked"]);
+
+            // Return font style.
+            return fontStyle;
         }
 
         /// <summary>

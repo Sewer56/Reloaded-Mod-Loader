@@ -6,7 +6,7 @@ namespace SonicHeroes.Misc.Config
     /// <summary>
     /// Provides a quick and easy parser for the .ini files used to define theme configurations.
     /// </summary>
-    class ThemeConfigParser
+    public class ThemeConfigParser
     {
         /// <summary>
         /// Stores the ini data read by the ini-parser.
@@ -52,6 +52,11 @@ namespace SonicHeroes.Misc.Config
             /// Use if you want to provide self-updates from source code..
             /// </summary>
             public string ThemeGithub;
+
+            /// <summary>
+            /// [DO NOT MODIFY] Stores the physical directory location of the theme configuration for re-save purposes.
+            /// </summary>
+            public string ThemeLocation;
         }
 
         /// <summary>
@@ -66,14 +71,17 @@ namespace SonicHeroes.Misc.Config
         /// <summary>
         /// Retrieves the Mod Loader configuration file struct.
         /// </summary>
-        /// <param name="themeDirectory">The relative directory of the individual theme to Mod-Loader-Config/Themes. e.g. Default</param>
-        public ThemeConfig ParseConfig(string themeDirectory)
+        /// <param name="themeLocations">The absolute path to the theme file.</param>
+        public ThemeConfig ParseConfig(string themeLocations)
         {
             // Instantiate a new configuration struct.
             ThemeConfig themeConfig = new ThemeConfig();
 
+            // Set theme location.
+            themeConfig.ThemeLocation = themeLocations + "\\Config.ini";
+
             // Read the mod loader configuration.
-            iniData = iniParser.ReadFile(LoaderPaths.GetModLoaderConfigDirectory() + "/Themes/" + themeDirectory + "/Config.ini");
+            iniData = iniParser.ReadFile(themeConfig.ThemeLocation);
 
             // Parse the mod loader configuration.
             themeConfig.ThemeName = iniData["Theme Configuration"]["Theme_Name"];
@@ -90,20 +98,19 @@ namespace SonicHeroes.Misc.Config
         /// <summary>
         /// Writes out the config file to an .ini file.
         /// </summary>
-        /// <param name="themeDirectory">The relative directory of the individual mod to Mod-Loader-Mods. e.g. Sonic-Heroes/Vanilla-Tweakbox-II</param>
-        /// <param name="modConfig">The mod configuration struct.</param>
-        public void WriteConfig(ThemeConfig modConfig, string themeDirectory)
+        /// <param name="themeConfig">The theme configuration struct.</param>
+        public void WriteConfig(ThemeConfig themeConfig)
         {
             // Change the values of the current fields.
-            iniData["Theme Configuration"]["Theme_Name"] = modConfig.ThemeName;
-            iniData["Theme Configuration"]["Theme_Description"] = modConfig.ThemeDescription;
-            iniData["Theme Configuration"]["Theme_Version"] = modConfig.ThemeVersion;
-            iniData["Theme Configuration"]["Theme_Author"] = modConfig.ThemeAuthor;
-            iniData["Theme Configuration"]["Theme_Site"] = modConfig.ThemeSite;
-            iniData["Theme Configuration"]["Theme_Github"] = modConfig.ThemeGithub;
+            iniData["Theme Configuration"]["Theme_Name"] = themeConfig.ThemeName;
+            iniData["Theme Configuration"]["Theme_Description"] = themeConfig.ThemeDescription;
+            iniData["Theme Configuration"]["Theme_Version"] = themeConfig.ThemeVersion;
+            iniData["Theme Configuration"]["Theme_Author"] = themeConfig.ThemeAuthor;
+            iniData["Theme Configuration"]["Theme_Site"] = themeConfig.ThemeSite;
+            iniData["Theme Configuration"]["Theme_Github"] = themeConfig.ThemeGithub;
 
             // Write the file out to disk.
-            iniParser.WriteFile(LoaderPaths.GetModLoaderConfigDirectory() + "/Themes/" + themeDirectory + "/Config.ini", iniData);
+            iniParser.WriteFile(themeConfig.ThemeLocation, iniData);
         }
     }
 }

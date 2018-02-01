@@ -46,12 +46,12 @@ namespace SonicHeroes.Misc.Config
             /// <summary>
             /// The site shown in the hyperlink on the loader for the mod.
             /// </summary>
-            public string ModSite { get; set; }
+            public string ThemeSite { get; set; }
 
             /// <summary>
             /// Used for self-updates from source code.
             /// </summary>
-            public string ModGithub { get; set; }
+            public string ThemeGithub { get; set; }
 
             /// <summary>
             /// Specifies an executable or file in the same directory to be ran for configuration purposes.
@@ -93,8 +93,8 @@ namespace SonicHeroes.Misc.Config
             modConfig.ModDescription = iniData["Mod Configuration"]["Mod_Description"];
             modConfig.ModVersion = iniData["Mod Configuration"]["Mod_Version"];
             modConfig.ModAuthor = iniData["Mod Configuration"]["Mod_Author"];
-            modConfig.ModSite = iniData["Mod Configuration"]["Mod_Site"];
-            modConfig.ModGithub = iniData["Mod Configuration"]["Mod_Github"];
+            modConfig.ThemeSite = iniData["Mod Configuration"]["Mod_Site"];
+            modConfig.ThemeGithub = iniData["Mod Configuration"]["Mod_Github"];
             modConfig.ModConfigEXE = iniData["Mod Configuration"]["Mod_Config"];
 
             // Return the config file.
@@ -112,8 +112,8 @@ namespace SonicHeroes.Misc.Config
             iniData["Mod Configuration"]["Mod_Description"] = modConfig.ModDescription;
             iniData["Mod Configuration"]["Mod_Version"] = modConfig.ModVersion;
             iniData["Mod Configuration"]["Mod_Author"] = modConfig.ModAuthor;
-            iniData["Mod Configuration"]["Mod_Site"] = modConfig.ModSite;
-            iniData["Mod Configuration"]["Mod_Github"] = modConfig.ModGithub;
+            iniData["Mod Configuration"]["Mod_Site"] = modConfig.ThemeSite;
+            iniData["Mod Configuration"]["Mod_Github"] = modConfig.ThemeGithub;
             iniData["Mod Configuration"]["Mod_Config"] = modConfig.ModConfigEXE;
 
             // Write the file out to disk.

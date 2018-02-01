@@ -27,6 +27,11 @@ namespace SonicHeroes.Misc
         private static string RELATIVELOCATION_CONFIG = "\\Mod-Loader-Config";
 
         /// <summary>
+        /// Specifies the relative location of the configuration directory for the loader.
+        /// </summary>
+        private static string RELATIVELOCATION_THEMES = "\\Mod-Loader-Config\\Themes";
+
+        /// <summary>
         /// Specifies the relative location of the individual game backup files relative to the mod loader.
         /// </summary>
         private static string RELATIVELOCATION_BACKUP = "\\Mod-Loader-Backup";
@@ -81,7 +86,7 @@ namespace SonicHeroes.Misc
         }
 
         /// <summary>
-        /// Retrieves the mod loader's main config as an array of strings.
+        /// Retrieves the location of the mod loader's main configuration file.
         /// </summary>
         public static string GetModLoaderConfig()
         {
@@ -110,6 +115,14 @@ namespace SonicHeroes.Misc
         public static string GetModLoaderGameDirectory()
         {
             return GetModLoaderDirectory() + RELATIVELOCATION_GAMES;
+        }
+
+        /// <summary>
+        /// Retrieves the mod loader's theme configuration directory.
+        /// </summary>
+        public static string GetModLoaderThemeDirectory()
+        {
+            return GetModLoaderDirectory() + RELATIVELOCATION_THEMES;
         }
 
         /// <summary>
