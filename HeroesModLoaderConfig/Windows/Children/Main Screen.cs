@@ -2,7 +2,9 @@
 using SonicHeroes.Misc;
 using SonicHeroes.Misc.Config;
 using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace HeroesModLoaderConfig.Windows.Children
@@ -49,6 +51,9 @@ namespace HeroesModLoaderConfig.Windows.Children
             {
                 Global.CurrentMenuName = "Main Menu";
                 Global.BaseForm.UpdateTitle("");
+
+                // Set version
+                this.item_VersionBoxVersion.Text = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
             }
         }
 

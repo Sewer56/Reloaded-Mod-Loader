@@ -30,7 +30,6 @@ namespace HeroesModLoaderConfig.Windows.Children
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Screen));
             HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties1 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage1 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage2 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
@@ -61,42 +60,34 @@ namespace HeroesModLoaderConfig.Windows.Children
             HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties9 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage17 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage18 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
-            this.item_GameBanner = new System.Windows.Forms.PictureBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Screen));
             this.item_LaunchBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.item_QuitBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
-            this.item_InjectionBoxInjection = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.box_InjectionBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
-            this.item_VersionBoxVersion = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.box_VersionBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.box_PictureBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.box_GameList = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedDataGridView();
             this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box_GameListBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
+            this.box_NoteBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
+            this.box_LocationBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
+            this.item_GameBanner = new System.Windows.Forms.PictureBox();
+            this.item_InjectionBoxInjection = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
+            this.item_VersionBoxVersion = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_NoteBoxVerPath = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_NoteBoxEXEPath = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_NoteBoxVERTitle = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_NoteBoxEXETitle = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_NoteBoxGameName = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_NoteBoxSeparator = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
-            this.box_NoteBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.item_LocationBoxEXEPath = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_LocationBoxDirectoryPath = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_LocationBoxDirectoryTitle = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
             this.item_LocationBoxEXETitle = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
-            this.box_LocationBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
-            ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).BeginInit();
             this.SuspendLayout();
-            // 
-            // item_GameBanner
-            // 
-            this.item_GameBanner.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("item_GameBanner.BackgroundImage")));
-            this.item_GameBanner.Location = new System.Drawing.Point(590, 40);
-            this.item_GameBanner.Name = "item_GameBanner";
-            this.item_GameBanner.Size = new System.Drawing.Size(271, 83);
-            this.item_GameBanner.TabIndex = 15;
-            this.item_GameBanner.TabStop = false;
             // 
             // item_LaunchBox
             // 
@@ -175,23 +166,6 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.item_QuitBox.UseVisualStyleBackColor = false;
             this.item_QuitBox.Click += new System.EventHandler(this.QuitBox_Click);
             // 
-            // item_InjectionBoxInjection
-            // 
-            this.item_InjectionBoxInjection.BackColor = System.Drawing.Color.Transparent;
-            this.item_InjectionBoxInjection.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_InjectionBoxInjection.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_InjectionBoxInjection.ForeColor = System.Drawing.Color.White;
-            this.item_InjectionBoxInjection.IgnoreMouse = false;
-            this.item_InjectionBoxInjection.Location = new System.Drawing.Point(244, 438);
-            this.item_InjectionBoxInjection.Margin = new System.Windows.Forms.Padding(0);
-            this.item_InjectionBoxInjection.Name = "item_InjectionBoxInjection";
-            this.item_InjectionBoxInjection.Size = new System.Drawing.Size(228, 24);
-            this.item_InjectionBoxInjection.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_InjectionBoxInjection.TabIndex = 20;
-            this.item_InjectionBoxInjection.Text = "Injection: Instant";
-            this.item_InjectionBoxInjection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_InjectionBoxInjection.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
             // box_InjectionBox
             // 
             animMessage5.Control = this.box_InjectionBox;
@@ -227,23 +201,6 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.box_InjectionBox.Text = null;
             this.box_InjectionBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             this.box_InjectionBox.UseVisualStyleBackColor = false;
-            // 
-            // item_VersionBoxVersion
-            // 
-            this.item_VersionBoxVersion.BackColor = System.Drawing.Color.Transparent;
-            this.item_VersionBoxVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_VersionBoxVersion.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_VersionBoxVersion.ForeColor = System.Drawing.Color.White;
-            this.item_VersionBoxVersion.IgnoreMouse = false;
-            this.item_VersionBoxVersion.Location = new System.Drawing.Point(42, 438);
-            this.item_VersionBoxVersion.Margin = new System.Windows.Forms.Padding(0);
-            this.item_VersionBoxVersion.Name = "item_VersionBoxVersion";
-            this.item_VersionBoxVersion.Size = new System.Drawing.Size(168, 24);
-            this.item_VersionBoxVersion.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_VersionBoxVersion.TabIndex = 18;
-            this.item_VersionBoxVersion.Text = "Version: 0.85";
-            this.item_VersionBoxVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_VersionBoxVersion.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
             // box_VersionBox
             // 
@@ -438,6 +395,121 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.box_GameListBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             this.box_GameListBox.UseVisualStyleBackColor = false;
             // 
+            // box_NoteBox
+            // 
+            animMessage15.Control = this.box_NoteBox;
+            animMessage15.PlayAnimation = true;
+            animProperties8.BackColorMessage = animMessage15;
+            animMessage16.Control = this.box_NoteBox;
+            animMessage16.PlayAnimation = true;
+            animProperties8.ForeColorMessage = animMessage16;
+            animProperties8.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterDuration = 0F;
+            animProperties8.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterFramerate = 0F;
+            animProperties8.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties8.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveDuration = 0F;
+            animProperties8.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveFramerate = 0F;
+            animProperties8.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_NoteBox.AnimProperties = animProperties8;
+            this.box_NoteBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_NoteBox.CaptureChildren = true;
+            this.box_NoteBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.box_NoteBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_NoteBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_NoteBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_NoteBox.IgnoreMouse = false;
+            this.box_NoteBox.IgnoreMouseClicks = true;
+            this.box_NoteBox.Location = new System.Drawing.Point(589, 154);
+            this.box_NoteBox.Name = "box_NoteBox";
+            this.box_NoteBox.Size = new System.Drawing.Size(273, 138);
+            this.box_NoteBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            this.box_NoteBox.TabIndex = 5;
+            this.box_NoteBox.Text = null;
+            this.box_NoteBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+            this.box_NoteBox.UseVisualStyleBackColor = false;
+            // 
+            // box_LocationBox
+            // 
+            animMessage17.Control = this.box_LocationBox;
+            animMessage17.PlayAnimation = true;
+            animProperties9.BackColorMessage = animMessage17;
+            animMessage18.Control = this.box_LocationBox;
+            animMessage18.PlayAnimation = true;
+            animProperties9.ForeColorMessage = animMessage18;
+            animProperties9.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterDuration = 0F;
+            animProperties9.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterFramerate = 0F;
+            animProperties9.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties9.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveDuration = 0F;
+            animProperties9.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveFramerate = 0F;
+            animProperties9.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_LocationBox.AnimProperties = animProperties9;
+            this.box_LocationBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_LocationBox.CaptureChildren = true;
+            this.box_LocationBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.box_LocationBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_LocationBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_LocationBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_LocationBox.IgnoreMouse = false;
+            this.box_LocationBox.IgnoreMouseClicks = true;
+            this.box_LocationBox.Location = new System.Drawing.Point(40, 322);
+            this.box_LocationBox.Name = "box_LocationBox";
+            this.box_LocationBox.Size = new System.Drawing.Size(822, 77);
+            this.box_LocationBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            this.box_LocationBox.TabIndex = 0;
+            this.box_LocationBox.Text = null;
+            this.box_LocationBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+            this.box_LocationBox.UseVisualStyleBackColor = false;
+            // 
+            // item_GameBanner
+            // 
+            this.item_GameBanner.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("item_GameBanner.BackgroundImage")));
+            this.item_GameBanner.Location = new System.Drawing.Point(590, 40);
+            this.item_GameBanner.Name = "item_GameBanner";
+            this.item_GameBanner.Size = new System.Drawing.Size(271, 83);
+            this.item_GameBanner.TabIndex = 15;
+            this.item_GameBanner.TabStop = false;
+            // 
+            // item_InjectionBoxInjection
+            // 
+            this.item_InjectionBoxInjection.BackColor = System.Drawing.Color.Transparent;
+            this.item_InjectionBoxInjection.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_InjectionBoxInjection.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_InjectionBoxInjection.ForeColor = System.Drawing.Color.White;
+            this.item_InjectionBoxInjection.IgnoreMouse = false;
+            this.item_InjectionBoxInjection.Location = new System.Drawing.Point(244, 438);
+            this.item_InjectionBoxInjection.Margin = new System.Windows.Forms.Padding(0);
+            this.item_InjectionBoxInjection.Name = "item_InjectionBoxInjection";
+            this.item_InjectionBoxInjection.Size = new System.Drawing.Size(228, 24);
+            this.item_InjectionBoxInjection.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_InjectionBoxInjection.TabIndex = 20;
+            this.item_InjectionBoxInjection.Text = "Injection: Instant";
+            this.item_InjectionBoxInjection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.item_InjectionBoxInjection.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_VersionBoxVersion
+            // 
+            this.item_VersionBoxVersion.BackColor = System.Drawing.Color.Transparent;
+            this.item_VersionBoxVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_VersionBoxVersion.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_VersionBoxVersion.ForeColor = System.Drawing.Color.White;
+            this.item_VersionBoxVersion.IgnoreMouse = false;
+            this.item_VersionBoxVersion.Location = new System.Drawing.Point(42, 438);
+            this.item_VersionBoxVersion.Margin = new System.Windows.Forms.Padding(0);
+            this.item_VersionBoxVersion.Name = "item_VersionBoxVersion";
+            this.item_VersionBoxVersion.Size = new System.Drawing.Size(168, 24);
+            this.item_VersionBoxVersion.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_VersionBoxVersion.TabIndex = 18;
+            this.item_VersionBoxVersion.Text = "Version: 0.85";
+            this.item_VersionBoxVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.item_VersionBoxVersion.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
             // item_NoteBoxVerPath
             // 
             this.item_NoteBoxVerPath.BackColor = System.Drawing.Color.Transparent;
@@ -544,42 +616,6 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.item_NoteBoxSeparator.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.item_NoteBoxSeparator.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
-            // box_NoteBox
-            // 
-            animMessage15.Control = this.box_NoteBox;
-            animMessage15.PlayAnimation = true;
-            animProperties8.BackColorMessage = animMessage15;
-            animMessage16.Control = this.box_NoteBox;
-            animMessage16.PlayAnimation = true;
-            animProperties8.ForeColorMessage = animMessage16;
-            animProperties8.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties8.MouseEnterDuration = 0F;
-            animProperties8.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties8.MouseEnterFramerate = 0F;
-            animProperties8.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties8.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties8.MouseLeaveDuration = 0F;
-            animProperties8.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties8.MouseLeaveFramerate = 0F;
-            animProperties8.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_NoteBox.AnimProperties = animProperties8;
-            this.box_NoteBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_NoteBox.CaptureChildren = true;
-            this.box_NoteBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.box_NoteBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_NoteBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_NoteBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_NoteBox.IgnoreMouse = false;
-            this.box_NoteBox.IgnoreMouseClicks = true;
-            this.box_NoteBox.Location = new System.Drawing.Point(589, 154);
-            this.box_NoteBox.Name = "box_NoteBox";
-            this.box_NoteBox.Size = new System.Drawing.Size(273, 138);
-            this.box_NoteBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-            this.box_NoteBox.TabIndex = 5;
-            this.box_NoteBox.Text = null;
-            this.box_NoteBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            this.box_NoteBox.UseVisualStyleBackColor = false;
-            // 
             // item_LocationBoxEXEPath
             // 
             this.item_LocationBoxEXEPath.BackColor = System.Drawing.Color.Transparent;
@@ -649,42 +685,6 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.item_LocationBoxEXETitle.Text = "EXE PATH:";
             this.item_LocationBoxEXETitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
-            // box_LocationBox
-            // 
-            animMessage17.Control = this.box_LocationBox;
-            animMessage17.PlayAnimation = true;
-            animProperties9.BackColorMessage = animMessage17;
-            animMessage18.Control = this.box_LocationBox;
-            animMessage18.PlayAnimation = true;
-            animProperties9.ForeColorMessage = animMessage18;
-            animProperties9.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties9.MouseEnterDuration = 0F;
-            animProperties9.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties9.MouseEnterFramerate = 0F;
-            animProperties9.MouseEnterOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties9.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties9.MouseLeaveDuration = 0F;
-            animProperties9.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties9.MouseLeaveFramerate = 0F;
-            animProperties9.MouseLeaveOverride = HeroesModLoaderConfig.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_LocationBox.AnimProperties = animProperties9;
-            this.box_LocationBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_LocationBox.CaptureChildren = true;
-            this.box_LocationBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.box_LocationBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_LocationBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_LocationBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_LocationBox.IgnoreMouse = false;
-            this.box_LocationBox.IgnoreMouseClicks = true;
-            this.box_LocationBox.Location = new System.Drawing.Point(40, 322);
-            this.box_LocationBox.Name = "box_LocationBox";
-            this.box_LocationBox.Size = new System.Drawing.Size(822, 77);
-            this.box_LocationBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-            this.box_LocationBox.TabIndex = 0;
-            this.box_LocationBox.Text = null;
-            this.box_LocationBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            this.box_LocationBox.UseVisualStyleBackColor = false;
-            // 
             // Main_Screen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -719,8 +719,8 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.Text = "Main_Screen";
             this.Load += new System.EventHandler(this.Main_Screen_Load);
             this.VisibleChanged += new System.EventHandler(this.Main_Screen_VisibleChanged);
-            ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

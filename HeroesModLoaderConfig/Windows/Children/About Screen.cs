@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace HeroesModLoaderConfig.Windows.Children
@@ -48,6 +49,9 @@ namespace HeroesModLoaderConfig.Windows.Children
                 // Set the titlebar.  
                 Global.CurrentMenuName = "About [Reloaded]";
                 Global.BaseForm.UpdateTitle("");
+
+                // Set version
+                item_Version.Text = "Version: " + Application.ProductVersion.ToString() + " | Compiled on " + File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location).ToString(); 
             }
         }
     }

@@ -22,6 +22,10 @@
     If you like the Mod Loader, feel free to contribute.
 */
 
+/*
+    Note: Application version may be set by modifying <Major>, <Minor> and <Build> properties in the project file. (.csproj)
+    Visual Studio: Unload project, then an edit button shall appear.
+*/
 using System;
 using System.Windows.Forms;
 
