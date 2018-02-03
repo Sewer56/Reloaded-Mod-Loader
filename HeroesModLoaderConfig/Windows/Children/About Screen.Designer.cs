@@ -30,7 +30,6 @@ namespace HeroesModLoaderConfig.Windows.Children
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About_Screen));
             HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties1 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage1 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage2 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
@@ -43,44 +42,18 @@ namespace HeroesModLoaderConfig.Windows.Children
             HeroesModLoaderConfig.Styles.Animation.AnimProperties animProperties4 = new HeroesModLoaderConfig.Styles.Animation.AnimProperties();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage7 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
             HeroesModLoaderConfig.Styles.Animation.AnimMessage animMessage8 = new HeroesModLoaderConfig.Styles.Animation.AnimMessage();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About_Screen));
+            this.box_StallmanBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
+            this.box_VersionBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
+            this.box_AuthorBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
+            this.box_ReloadedModLoaderBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.box_ReloadedLogo = new System.Windows.Forms.PictureBox();
             this.item_Stallman = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
-            this.box_StallmanBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.item_Version = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
-            this.box_VersionBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.item_Author = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
-            this.box_AuthorBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             this.item_ReloadedModLoader = new HeroesModLoaderConfig.Styles.Controls.EnhancedLabel();
-            this.box_ReloadedModLoaderBox = new HeroesModLoaderConfig.Styles.Controls.Animated.AnimatedButton();
             ((System.ComponentModel.ISupportInitialize)(this.box_ReloadedLogo)).BeginInit();
             this.SuspendLayout();
-            // 
-            // box_ReloadedLogo
-            // 
-            this.box_ReloadedLogo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("box_ReloadedLogo.BackgroundImage")));
-            this.box_ReloadedLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.box_ReloadedLogo.Location = new System.Drawing.Point(106, 20);
-            this.box_ReloadedLogo.Name = "box_ReloadedLogo";
-            this.box_ReloadedLogo.Size = new System.Drawing.Size(688, 223);
-            this.box_ReloadedLogo.TabIndex = 0;
-            this.box_ReloadedLogo.TabStop = false;
-            // 
-            // item_Stallman
-            // 
-            this.item_Stallman.BackColor = System.Drawing.Color.Transparent;
-            this.item_Stallman.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_Stallman.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_Stallman.ForeColor = System.Drawing.Color.White;
-            this.item_Stallman.IgnoreMouse = false;
-            this.item_Stallman.Location = new System.Drawing.Point(159, 453);
-            this.item_Stallman.Margin = new System.Windows.Forms.Padding(0);
-            this.item_Stallman.Name = "item_Stallman";
-            this.item_Stallman.Size = new System.Drawing.Size(583, 24);
-            this.item_Stallman.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_Stallman.TabIndex = 28;
-            this.item_Stallman.Text = "Reloaded is Free Software ~ Licensed under GPL V3";
-            this.item_Stallman.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_Stallman.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
             // box_StallmanBox
             // 
@@ -118,23 +91,6 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.box_StallmanBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             this.box_StallmanBox.UseVisualStyleBackColor = false;
             // 
-            // item_Version
-            // 
-            this.item_Version.BackColor = System.Drawing.Color.Transparent;
-            this.item_Version.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_Version.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_Version.ForeColor = System.Drawing.Color.White;
-            this.item_Version.IgnoreMouse = false;
-            this.item_Version.Location = new System.Drawing.Point(107, 391);
-            this.item_Version.Margin = new System.Windows.Forms.Padding(0);
-            this.item_Version.Name = "item_Version";
-            this.item_Version.Size = new System.Drawing.Size(686, 24);
-            this.item_Version.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_Version.TabIndex = 26;
-            this.item_Version.Text = "Version: 0.8.5 | Compiled on 01/02/2018 20:57";
-            this.item_Version.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_Version.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
             // box_VersionBox
             // 
             animMessage3.Control = this.box_VersionBox;
@@ -170,23 +126,6 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.box_VersionBox.Text = null;
             this.box_VersionBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             this.box_VersionBox.UseVisualStyleBackColor = false;
-            // 
-            // item_Author
-            // 
-            this.item_Author.BackColor = System.Drawing.Color.Transparent;
-            this.item_Author.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_Author.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_Author.ForeColor = System.Drawing.Color.White;
-            this.item_Author.IgnoreMouse = false;
-            this.item_Author.Location = new System.Drawing.Point(250, 329);
-            this.item_Author.Margin = new System.Windows.Forms.Padding(0);
-            this.item_Author.Name = "item_Author";
-            this.item_Author.Size = new System.Drawing.Size(400, 24);
-            this.item_Author.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_Author.TabIndex = 24;
-            this.item_Author.Text = "Written by Sewer56 ~ (C) 2018";
-            this.item_Author.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_Author.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
             // box_AuthorBox
             // 
@@ -224,23 +163,6 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.box_AuthorBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             this.box_AuthorBox.UseVisualStyleBackColor = false;
             // 
-            // item_ReloadedModLoader
-            // 
-            this.item_ReloadedModLoader.BackColor = System.Drawing.Color.Transparent;
-            this.item_ReloadedModLoader.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_ReloadedModLoader.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_ReloadedModLoader.ForeColor = System.Drawing.Color.White;
-            this.item_ReloadedModLoader.IgnoreMouse = false;
-            this.item_ReloadedModLoader.Location = new System.Drawing.Point(326, 267);
-            this.item_ReloadedModLoader.Margin = new System.Windows.Forms.Padding(0);
-            this.item_ReloadedModLoader.Name = "item_ReloadedModLoader";
-            this.item_ReloadedModLoader.Size = new System.Drawing.Size(248, 24);
-            this.item_ReloadedModLoader.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_ReloadedModLoader.TabIndex = 22;
-            this.item_ReloadedModLoader.Text = "Reloaded Mod Loader";
-            this.item_ReloadedModLoader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_ReloadedModLoader.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
             // box_ReloadedModLoaderBox
             // 
             animMessage7.Control = this.box_ReloadedModLoaderBox;
@@ -276,6 +198,84 @@ namespace HeroesModLoaderConfig.Windows.Children
             this.box_ReloadedModLoaderBox.Text = null;
             this.box_ReloadedModLoaderBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             this.box_ReloadedModLoaderBox.UseVisualStyleBackColor = false;
+            // 
+            // box_ReloadedLogo
+            // 
+            this.box_ReloadedLogo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("box_ReloadedLogo.BackgroundImage")));
+            this.box_ReloadedLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.box_ReloadedLogo.Location = new System.Drawing.Point(106, 20);
+            this.box_ReloadedLogo.Name = "box_ReloadedLogo";
+            this.box_ReloadedLogo.Size = new System.Drawing.Size(688, 223);
+            this.box_ReloadedLogo.TabIndex = 0;
+            this.box_ReloadedLogo.TabStop = false;
+            // 
+            // item_Stallman
+            // 
+            this.item_Stallman.BackColor = System.Drawing.Color.Transparent;
+            this.item_Stallman.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_Stallman.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_Stallman.ForeColor = System.Drawing.Color.White;
+            this.item_Stallman.IgnoreMouse = false;
+            this.item_Stallman.Location = new System.Drawing.Point(159, 453);
+            this.item_Stallman.Margin = new System.Windows.Forms.Padding(0);
+            this.item_Stallman.Name = "item_Stallman";
+            this.item_Stallman.Size = new System.Drawing.Size(583, 24);
+            this.item_Stallman.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_Stallman.TabIndex = 28;
+            this.item_Stallman.Text = "Reloaded is Free Software ~ Licensed under GPL V3";
+            this.item_Stallman.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.item_Stallman.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_Version
+            // 
+            this.item_Version.BackColor = System.Drawing.Color.Transparent;
+            this.item_Version.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_Version.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_Version.ForeColor = System.Drawing.Color.White;
+            this.item_Version.IgnoreMouse = false;
+            this.item_Version.Location = new System.Drawing.Point(107, 391);
+            this.item_Version.Margin = new System.Windows.Forms.Padding(0);
+            this.item_Version.Name = "item_Version";
+            this.item_Version.Size = new System.Drawing.Size(686, 24);
+            this.item_Version.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_Version.TabIndex = 26;
+            this.item_Version.Text = "Version: 0.8.5 | Compiled on 01/02/2018 20:57";
+            this.item_Version.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.item_Version.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_Author
+            // 
+            this.item_Author.BackColor = System.Drawing.Color.Transparent;
+            this.item_Author.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_Author.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_Author.ForeColor = System.Drawing.Color.White;
+            this.item_Author.IgnoreMouse = false;
+            this.item_Author.Location = new System.Drawing.Point(250, 329);
+            this.item_Author.Margin = new System.Windows.Forms.Padding(0);
+            this.item_Author.Name = "item_Author";
+            this.item_Author.Size = new System.Drawing.Size(400, 24);
+            this.item_Author.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_Author.TabIndex = 24;
+            this.item_Author.Text = "Written by Sewer56 ~ (C) 2018";
+            this.item_Author.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.item_Author.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_ReloadedModLoader
+            // 
+            this.item_ReloadedModLoader.BackColor = System.Drawing.Color.Transparent;
+            this.item_ReloadedModLoader.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_ReloadedModLoader.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_ReloadedModLoader.ForeColor = System.Drawing.Color.White;
+            this.item_ReloadedModLoader.IgnoreMouse = false;
+            this.item_ReloadedModLoader.Location = new System.Drawing.Point(326, 267);
+            this.item_ReloadedModLoader.Margin = new System.Windows.Forms.Padding(0);
+            this.item_ReloadedModLoader.Name = "item_ReloadedModLoader";
+            this.item_ReloadedModLoader.Size = new System.Drawing.Size(248, 24);
+            this.item_ReloadedModLoader.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_ReloadedModLoader.TabIndex = 22;
+            this.item_ReloadedModLoader.Text = "Reloaded Mod Loader";
+            this.item_ReloadedModLoader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.item_ReloadedModLoader.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
             // About_Screen
             // 

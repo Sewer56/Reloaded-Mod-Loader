@@ -6,6 +6,7 @@ using System.Drawing;
 using HeroesModLoaderConfig.Utilities.Windows;
 using System.Windows.Forms;
 using static SonicHeroes.Misc.Config.ThemePropertyParser;
+using HeroesModLoaderConfig.Styles.Controls.Enhanced;
 
 namespace HeroesModLoaderConfig.Styles.Themes
 {
@@ -140,6 +141,27 @@ namespace HeroesModLoaderConfig.Styles.Themes
                     row.DefaultCellStyle.SelectionBackColor = enterAnimation.BGTargetColour;
                     row.DefaultCellStyle.SelectionForeColor = buttonColours.TextColour;
                 }
+            }
+
+
+            // If it is a enhanced combobox
+            if (control is EnhancedComboBox)
+            {
+                // Enhanced ComboBox
+                EnhancedComboBox enhancedComboBox = (EnhancedComboBox)control;
+
+                enhancedComboBox.DropDownButtonColour = buttonColours.ButtonBGColour;
+                enhancedComboBox.DropDownArrowColour = buttonColours.TextColour;
+
+                enhancedComboBox.BottomBorderColour = Theme.ThemeProperties.ButtonBorderProperties.BorderColour;
+                enhancedComboBox.LeftBorderColour = Theme.ThemeProperties.ButtonBorderProperties.BorderColour;
+                enhancedComboBox.TopBorderColour = Theme.ThemeProperties.ButtonBorderProperties.BorderColour;
+                enhancedComboBox.RightBorderColour = Theme.ThemeProperties.ButtonBorderProperties.BorderColour;
+
+                enhancedComboBox.LeftBorderWidth = Theme.ThemeProperties.ButtonBorderProperties.BorderWidth;
+                enhancedComboBox.RightBorderWidth = Theme.ThemeProperties.ButtonBorderProperties.BorderWidth;
+                enhancedComboBox.TopBorderWidth = Theme.ThemeProperties.ButtonBorderProperties.BorderWidth;
+                enhancedComboBox.BottomBorderWidth = Theme.ThemeProperties.ButtonBorderProperties.BorderWidth;
             }
 
             // If the control is a box, set BG colour of children.

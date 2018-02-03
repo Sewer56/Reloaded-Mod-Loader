@@ -54,6 +54,7 @@ namespace HeroesModLoaderConfig
             public Mods_Screen ModsMenu { get; set; }
             public Theme_Screen ThemeMenu { get; set; }
             public About_Screen AboutMenu { get; set; }
+            public Manage_Screen ManageMenu { get; set; }
 
             /// <summary>
             /// Stores the currently opened menu.
@@ -92,7 +93,7 @@ namespace HeroesModLoaderConfig
         private void CategoryBar_Mods_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ModsMenu); }
         private void CategoryBar_Input_Click(object sender, EventArgs e) { }
         private void CategoryBar_Theme_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ThemeMenu); }
-        private void CategoryBar_Manager_Click(object sender, EventArgs e) { }
+        private void CategoryBar_Manager_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ManageMenu); }
         private void CategoryBar_About_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.AboutMenu); }
         #endregion
 
@@ -154,6 +155,7 @@ namespace HeroesModLoaderConfig
             MDIChildren.ModsMenu = new Mods_Screen(this);
             MDIChildren.ThemeMenu = new Theme_Screen(this);
             MDIChildren.AboutMenu = new About_Screen(this);
+            MDIChildren.ManageMenu = new Manage_Screen(this);
             MDIChildren.CurrentMenu = MDIChildren.MainMenu;
 
             // Remove the borders from the children forms
@@ -244,6 +246,7 @@ namespace HeroesModLoaderConfig
                 case MenuScreens.ModsMenu: SwapMenu(MDIChildren.ModsMenu); break;
                 case MenuScreens.ThemeMenu: SwapMenu(MDIChildren.ThemeMenu); break;
                 case MenuScreens.AboutMenu: SwapMenu(MDIChildren.AboutMenu); break;
+                case MenuScreens.ManageMenu: SwapMenu(MDIChildren.ManageMenu); break;
             }
         }
 
@@ -260,6 +263,7 @@ namespace HeroesModLoaderConfig
             else if (currentMenu == MDIChildren.ModsMenu) { return MenuScreens.ModsMenu; }
             else if (currentMenu == MDIChildren.ThemeMenu) { return MenuScreens.ThemeMenu; }
             else if (currentMenu == MDIChildren.AboutMenu) { return MenuScreens.AboutMenu; }
+            else if (currentMenu == MDIChildren.ManageMenu) { return MenuScreens.ManageMenu; }
 
             // Return main menu as default.
             return MenuScreens.MainMenu;
@@ -274,7 +278,7 @@ namespace HeroesModLoaderConfig
             ModsMenu,
             //InputMenu,
             ThemeMenu,
-            //ManageMenu,
+            ManageMenu,
             AboutMenu
         }
 

@@ -24,11 +24,6 @@ namespace HeroesModLoaderConfig.Styles.Themes
         public static ThemeConfig ThemeProperties { get; set; }
 
         /// <summary>
-        /// Prevents theming from being performed on different threads.
-        /// </summary>
-        private Object threadLock = new Object();
-
-        /// <summary>
         /// Changes the directory for the theme to be used.
         /// After setting, the current theme is automatically changed/loaded.
         /// </summary>
@@ -60,46 +55,8 @@ namespace HeroesModLoaderConfig.Styles.Themes
         
         /// <summary>
         /// Loads the theme set at the current directory.
-        /// This method specifically places intact the necessary safety procedures,
-        /// the actual theming is done in LoadThemeInternal()
         /// </summary>
         public void LoadTheme()
-        {
-            // Lock to prevent multiple thread access.
-            lock (threadLock)
-            {
-                // Collect Garbage
-                GC.Collect();
-
-                // Change the Garbage Collector Latency Mode to prevent Garbage Collection
-                // during theme change.
-                GCLatencyMode oldMode = GCSettings.LatencyMode;
-
-                // Make sure we can always go to the catch block, 
-                // so we can set the latency mode back to `oldMode`
-                RuntimeHelpers.PrepareConstrainedRegions();
-
-                try
-                {
-                    GCSettings.LatencyMode = GCLatencyMode.LowLatency;
-
-                    // Generation 2 garbage collection is now
-                    // deferred, except in extremely low-memory situations
-
-                    // Change the theme.
-                    LoadThemeInternal();
-                }
-                finally
-                {
-                    // ALWAYS set the latency mode back
-                    GCSettings.LatencyMode = oldMode;
-                }
-            }
-        }
-        /// <summary>
-        /// Loads the theme set at the current directory.
-        /// </summary>
-        private void LoadThemeInternal()
         {
             // Retrieve the theme properties
             ApplyTheme.LoadProperties(themeDirectory);

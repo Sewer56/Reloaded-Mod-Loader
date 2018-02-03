@@ -1,6 +1,7 @@
 ﻿using HeroesModLoaderConfig.Utilities.Fonts;
 using SonicHeroes.Misc.Config;
 using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
 
 namespace HeroesModLoaderConfig.Styles.Themes
@@ -36,6 +37,11 @@ namespace HeroesModLoaderConfig.Styles.Themes
         string categoryFontLocation;
         string textFontLocation;
 
+        // Private font collections. (Store to prevent Garbage Collection)
+        FontLoader textFontLoader;
+        FontLoader categoryFontLoader;
+        FontLoader titleFontLoader;
+
         /// <summary>
         /// Loads all of the fonts used by this individual theme.
         /// </summary>
@@ -46,6 +52,11 @@ namespace HeroesModLoaderConfig.Styles.Themes
             textFontStyle = FontStyle.Regular;
             titleFontStyle = FontStyle.Regular;
             categoryFontStyle = FontStyle.Regular;
+
+            // Create the font loaders.
+            textFontLoader = new FontLoader();
+            categoryFontLoader = new FontLoader();
+            titleFontLoader = new FontLoader();
 
             // Calculate font styles.
             textFontStyle = GetFontStyle(textFontStyle, Theme.ThemeProperties.TextFontStyle);
@@ -68,13 +79,13 @@ namespace HeroesModLoaderConfig.Styles.Themes
             else if (File.Exists(fontDirectory + "\\TextFont.otf")) { textFontLocation = fontDirectory + "\\TextFont.ttf"; }
 
             // Load appropriate fonts.
-            if (titleFontLocation != "") { TitleFont = FontLoader.LoadExternalFont(titleFontLocation, 20.25F); }
+            if (titleFontLocation != "") { TitleFont = titleFontLoader.LoadExternalFont(titleFontLocation, 20.25F); }
             else { TitleFont = new Font("Times New Roman", 20.25F, FontStyle.Regular); }
 
-            if (categoryFontLocation != "") { CategoryFont = FontLoader.LoadExternalFont(categoryFontLocation, 20.25F); }
+            if (categoryFontLocation != "") { CategoryFont = categoryFontLoader.LoadExternalFont(categoryFontLocation, 20.25F); }
             else { CategoryFont = new Font("Times New Roman", 20.25F, FontStyle.Regular); }
 
-            if (textFontLocation != "") { TextFont = FontLoader.LoadExternalFont(textFontLocation, 18F); }
+            if (textFontLocation != "") { TextFont = textFontLoader.LoadExternalFont(textFontLocation, 18F); }
             else { TextFont = new Font("Times New Roman", 18F, FontStyle.Regular); }
 
             // Set font style.
