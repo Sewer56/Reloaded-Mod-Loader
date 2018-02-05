@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Version;Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D13B793E-D12D-4E3B-AB02-ADFBDF61807F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ReloadedLauncher</RootNamespace>
+    <AssemblyName>ReloadedLauncher</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>appicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ColorMine, Version=1.2.0.0, Culture=neutral, PublicKeyToken=7a2c4d30138edc39, processorArchitecture=MSIL">
+      <HintPath>..\packages\ColorMine.1.2.0\lib\net45\ColorMine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
+      <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DirectInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DirectInput.4.0.1\lib\net45\SharpDX.DirectInput.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.XInput.4.0.1\lib\net45\SharpDX.XInput.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Global.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Misc\ColourLoader.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Misc\Config\Themes\ThemePropertyParser.cs" />
+    <Compile Include="Styles\Animation\AnimAnimations.cs" />
+    <Compile Include="Styles\Animation\AnimHandler.cs" />
+    <Compile Include="Styles\Animation\AnimMessage.cs" />
+    <Compile Include="Styles\Animation\AnimProperties.cs" />
+    <Compile Include="Styles\Controls\Animated\AnimatedComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Animated\AnimatedRichTextbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Animated\AnimatedTextbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Animated\AnimatedButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Animated\AnimatedDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Enhanced\EnhancedComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Enhanced\EnhancedDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Enhanced\EnhancedListview.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Enhanced\EnhancedRichTextbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Enhanced\EnhancedTextbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Interfaces\IBorderedControl.cs" />
+    <Compile Include="Styles\Controls\Interfaces\IControlIgnorable.cs" />
+    <Compile Include="Styles\Controls\Interfaces\IDecorationBox.cs" />
+    <Compile Include="Styles\Misc\TextButtons.cs" />
+    <Compile Include="Styles\Themes\ApplyTheme\ApplyTheme_Fonts.cs" />
+    <Compile Include="Styles\Themes\ApplyTheme\ApplyTheme_KillAnimations.cs" />
+    <Compile Include="Styles\Themes\ApplyTheme\ApplyTheme_Images.cs" />
+    <Compile Include="Utilities\Colour\ColorspaceConverter.cs" />
+    <Compile Include="Styles\Animation\AnimOverrides.cs" />
+    <Compile Include="Styles\Animation\IAnimatedControl.cs" />
+    <Compile Include="Styles\Animation\AnimInterpolator.cs" />
+    <Compile Include="Styles\Controls\Enhanced\EnhancedButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Enhanced\EnhancedLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Themes\ApplyTheme\ApplyTheme.cs" />
+    <Compile Include="Styles\Themes\ThemeFonts.cs" />
+    <Compile Include="Styles\Themes\Theme.cs" />
+    <Compile Include="Utilities\Controls\SetupDecorationBoxes.cs" />
+    <Compile Include="Utilities\Controls\SetLocationRelative.cs" />
+    <Compile Include="Utilities\LoaderConfigManager.cs" />
+    <Compile Include="Utilities\Windows\ApplyCompositing.cs" />
+    <Compile Include="Utilities\Windows\MakeRoundedWindow.cs" />
+    <Compile Include="Utilities\Windows\MoveWindow.cs" />
+    <Compile Include="Utilities\Windows\RemoveMDIChildBorder.cs" />
+    <Compile Include="Utilities\Windows\DrawingControl.cs" />
+    <Compile Include="Windows\Base.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Base.Designer.cs">
+      <DependentUpon>Base.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Initializer.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\GameProcess\DLLInjector.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\GameProcess\Libraries.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\GameProcess\Memory.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\GameProcess\Native\Native.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Hooking\HookBase.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Hooking\Hooks\AssemblyHook.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Hooking\Hooks\InjectionHook.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Input\Common\ControllerCommon.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Input\Config\ControllerConfigParser.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Input\ControllerManager.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Input\DirectInput\DInputCommon.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Input\DirectInput\DInputController.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Input\DirectInput\DInputManager.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Input\Modules\Hotplugger.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Input\Modules\Remapper.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Input\XInput\XInputController.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\IO\Native\Native.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\IO\RelativePaths.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Misc\AssemblyFinder.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Misc\Config\Games\GameConfigParser.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Misc\Config\Loader\LoaderConfigParser.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Misc\Config\Mods\ModConfigParser.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Misc\Config\Themes\ThemeConfigParser.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Misc\FileUnblocker.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Misc\LoaderPaths.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Misc\PathSanitizer.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Native\WinAPI.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Native\Windows.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Networking\Client.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Networking\Host.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Networking\Message.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Networking\MessageTypes\ModLoaderServerMessages.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Overlay\Direct2DWindowRenderTargetBase.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Overlay\External\Forms\GlassForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Libraries\libReloaded\libReloaded\Overlay\External\Forms\GlassForm.Designer.cs">
+      <DependentUpon>GlassForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Libraries\libReloaded\libReloaded\Overlay\External\OverlayGlassDirect2D.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Fonts\FontLoader.cs" />
+    <Compile Include="Windows\Children\About Screen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Children\About Screen.Designer.cs">
+      <DependentUpon>About Screen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Children\Manage Screen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Children\Manage Screen.Designer.cs">
+      <DependentUpon>Manage Screen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Children\Theme Screen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Children\Theme Screen.Designer.cs">
+      <DependentUpon>Theme Screen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Children\Mods Screen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Children\Mods Screen.Designer.cs">
+      <DependentUpon>Mods Screen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Children\Main Screen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Children\Main Screen.Designer.cs">
+      <DependentUpon>Main Screen.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Windows\Base.resx">
+      <DependentUpon>Base.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Libraries\libReloaded\libReloaded\Overlay\External\Forms\GlassForm.resx">
+      <DependentUpon>GlassForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Windows\Children\About Screen.resx">
+      <DependentUpon>About Screen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Children\Manage Screen.resx">
+      <DependentUpon>Manage Screen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Children\Theme Screen.resx">
+      <DependentUpon>Theme Screen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Children\Mods Screen.resx">
+      <DependentUpon>Mods Screen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Children\Main Screen.resx">
+      <DependentUpon>Main Screen.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Resources\Files\Reloaded-Config\Config.ini" />
+    <None Include="Resources\Files\Reloaded-Config\Controllers\Controller %28XBOX 360 For Windows%29.ini" />
+    <None Include="Resources\Files\Reloaded-Config\Games\Sonic-Adventure-2\Config.ini" />
+    <None Include="Resources\Files\Reloaded-Config\Games\Sonic-Adventure-2\Enabled_Mods.ini" />
+    <None Include="Resources\Files\Reloaded-Config\Themes\Default\Config.ini" />
+    <None Include="Resources\Files\Reloaded-Config\Themes\Default\Fonts\CategoryFont.ttf" />
+    <None Include="Resources\Files\Reloaded-Config\Themes\Default\Fonts\TextFont.ttf" />
+    <None Include="Resources\Files\Reloaded-Config\Themes\Default\Fonts\TitleFont.ttf" />
+    <None Include="Resources\Files\Reloaded-Mods\Sonic-Adventure-2\Real-Knuckles-Mod\Config.ini" />
+    <None Include="Resources\Files\Reloaded-Mods\Sonic-Adventure-DX\SADX-Frame-Limit-II\Config.ini" />
+    <None Include="Resources\Files\Reloaded-Mods\Sonic-Generations\Test-Mod\Config.ini" />
+    <None Include="Resources\Files\Reloaded-Mods\Sonic-Heroes\Vanilla-Tweakbox-II\Config.ini" />
+    <None Include="Resources\Files\Reloaded-Mods\Sonic-Riders\4P-Mod\Config.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Files\Reloaded-Backup\Sonic-Adventure-2\" />
+    <Folder Include="Resources\Files\Reloaded-Backup\Sonic-Adventure-DX\" />
+    <Folder Include="Resources\Files\Reloaded-Backup\Sonic-Generations\" />
+    <Folder Include="Resources\Files\Reloaded-Backup\Sonic-Heroes\" />
+    <Folder Include="Resources\Files\Reloaded-Backup\Sonic-Riders\" />
+    <Folder Include="Resources\Files\Reloaded-Config\Controllers\Instances\" />
+    <Folder Include="Resources\Files\Reloaded-Config\Controllers\XInput\" />
+    <Folder Include="Resources\Files\Reloaded-Config\Themes\Default\Bitmaps\" />
+    <Folder Include="Resources\Files\Reloaded-Libraries\" />
+    <Folder Include="Resources\Images\128x\" />
+    <Folder Include="Resources\Images\Source\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\About-Icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appicon.ico" />
+    <Content Include="Resources\Files\LICENSE.TXT" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>MOVE /Y "$(TargetDir)*.dll" "$(TargetDir)Reloaded-Libraries\"
+MOVE /Y "$(TargetDir)*.xml" "$(TargetDir)Reloaded-Libraries\"
+DEL "$(TargetDir)Reloaded-Libraries\*.xml"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>XCOPY /E /Y "$(SolutionDir)\$(SolutionName)\Resources\Files" "$(TargetDir)"</PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets" Condition="Exists('..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets'))" />
+  </Target>
+  <PropertyGroup>
+    <Major>0</Major>
+    <Minor>8</Minor>
+    <Build>5</Build>
+    <Revision>0</Revision>
+  </PropertyGroup>
+  <Target Name="Version">
+    <GitVersion LocalPath="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="CommitHash" PropertyName="Revision" />
+    </GitVersion>
+    <AssemblyInfo CodeLanguage="CS" OutputFile="Properties\AssemblyInfo.cs" AssemblyTitle="Reloaded Launcher" AssemblyDescription="Reloaded Mod Loader Launcher" AssemblyCompany="" AssemblyProduct="Reloaded Mod Loader" AssemblyCopyright="Sewer56lol, 2018" ComVisible="false" CLSCompliant="true" AssemblyInformationalVersion="$(Major).$(Minor).$(Build).$(Revision)" AssemblyVersion="$(Major).$(Minor).$(Build)" AssemblyFileVersion="$(Major).$(Minor).$(Build)" />
+  </Target>
+</Project>

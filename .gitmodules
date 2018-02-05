@@ -1,2 +1,3 @@
-[submodule "HeroesModLoaderConfig/Libraries/libSonicHeroes"]
-	url = https://github.com/sewer56lol/libSonicHeroes
+[submodule "Reloaded-Launcher/Libraries/libReloaded"]
+	path = Reloaded-Launcher/Libraries/libReloaded
+	url = https://github.com/sewer56lol/libReloaded
