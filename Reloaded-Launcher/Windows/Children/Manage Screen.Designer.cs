@@ -534,7 +534,6 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // item_GameBanner
             // 
-            this.item_GameBanner.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("item_GameBanner.BackgroundImage")));
             this.item_GameBanner.Location = new System.Drawing.Point(590, 41);
             this.item_GameBanner.Name = "item_GameBanner";
             this.item_GameBanner.Size = new System.Drawing.Size(271, 83);

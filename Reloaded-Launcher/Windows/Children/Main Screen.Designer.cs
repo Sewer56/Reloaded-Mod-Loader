@@ -60,7 +60,6 @@ namespace ReloadedLauncher.Windows.Children
             ReloadedLauncher.Styles.Animation.AnimProperties animProperties9 = new ReloadedLauncher.Styles.Animation.AnimProperties();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage17 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage18 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Screen));
             this.item_LaunchBox = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
             this.item_QuitBox = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
             this.box_InjectionBox = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
@@ -469,7 +468,6 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // item_GameBanner
             // 
-            this.item_GameBanner.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("item_GameBanner.BackgroundImage")));
             this.item_GameBanner.Location = new System.Drawing.Point(590, 40);
             this.item_GameBanner.Name = "item_GameBanner";
             this.item_GameBanner.Size = new System.Drawing.Size(271, 83);
