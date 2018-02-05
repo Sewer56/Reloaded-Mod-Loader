@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Reloaded</RootNamespace>
+    <AssemblyName>libReloaded</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\x86\Debug\libReloaded.xml</DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\x86\Release\libReloaded.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
+      <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DirectInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DirectInput.4.0.1\lib\net45\SharpDX.DirectInput.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.XInput.4.0.1\lib\net45\SharpDX.XInput.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GameProcess\Libraries.cs" />
+    <Compile Include="GameProcess\Memory.cs" />
+    <Compile Include="GameProcess\Native\Native.cs" />
+    <Compile Include="Hooking\Hooks\AssemblyHook.cs" />
+    <Compile Include="Hooking\HookBase.cs" />
+    <Compile Include="Hooking\Hooks\InjectionHook.cs" />
+    <Compile Include="Input\Common\ControllerCommon.cs" />
+    <Compile Include="Input\Config\ControllerConfigParser.cs" />
+    <Compile Include="Input\ControllerManager.cs" />
+    <Compile Include="Input\DirectInput\DInputCommon.cs" />
+    <Compile Include="Input\DirectInput\DInputController.cs" />
+    <Compile Include="Input\DirectInput\DInputManager.cs" />
+    <Compile Include="Input\Modules\Hotplugger.cs" />
+    <Compile Include="Input\Modules\Remapper.cs" />
+    <Compile Include="Input\XInput\XInputController.cs" />
+    <Compile Include="IO\Native\Native.cs" />
+    <Compile Include="IO\RelativePaths.cs" />
+    <Compile Include="Misc\AssemblyFinder.cs" />
+    <Compile Include="Misc\Config\Games\GameConfigParser.cs" />
+    <Compile Include="Misc\Config\Loader\LoaderConfigParser.cs" />
+    <Compile Include="Misc\Config\Mods\ModConfigParser.cs" />
+    <Compile Include="Misc\Config\Themes\ThemeConfigParser.cs" />
+    <Compile Include="Misc\FileUnblocker.cs" />
+    <Compile Include="Misc\LoaderPaths.cs" />
+    <Compile Include="Misc\PathSanitizer.cs" />
+    <Compile Include="Native\WinAPI.cs" />
+    <Compile Include="Native\Windows.cs" />
+    <Compile Include="Networking\Client.cs" />
+    <Compile Include="Networking\Host.cs" />
+    <Compile Include="Networking\Message.cs" />
+    <Compile Include="Networking\MessageTypes\ModLoaderServerMessages.cs" />
+    <Compile Include="Overlay\Direct2DWindowRenderTargetBase.cs" />
+    <Compile Include="Overlay\External\Forms\GlassForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Overlay\External\Forms\GlassForm.Designer.cs">
+      <DependentUpon>GlassForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Overlay\External\OverlayGlassDirect2D.cs" />
+    <Compile Include="GameProcess\DLLInjector.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Overlay\External\Forms\GlassForm.resx">
+      <DependentUpon>GlassForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
