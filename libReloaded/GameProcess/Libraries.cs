@@ -1,4 +1,23 @@
-﻿using System;
+﻿/*
+    [Reloaded] Mod Loader Launcher
+    A universal, powerful multi-game, multi-process mod loader based on DLL Injection. 
+    Copyright (C) 2018  Sewer. Sz (Sewer56)
+
+    [Reloaded] is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    [Reloaded] is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+*/
+
+using System;
 using System.Diagnostics;
 
 namespace Reloaded.GameProcess
@@ -9,12 +28,15 @@ namespace Reloaded.GameProcess
     public static class Libraries
     {
         /// <summary>
-        /// Calls a function at a specified address with a singular parameter at the specified pointer within the virtual address space of a target process.
-        /// Generally used to call singular Windows API functions such as LoadLibraryA inside a target process.
+        /// CallLibrary
+        ///     Calls a function at a specified address with a singular parameter at the 
+        ///     specified pointer within the virtual address space of a target process.
+        ///     Generally used to call singular Windows API functions such as 
+        ///     LoadLibraryA inside a target process while not executing in the same process.
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">Address to the starting point of the library, module or library method to be executed.</param>
-        /// <param name="parameteraddress">Address of parameters for the method to be called.</param>
+        /// <param name="parameteraddress">Address of a singular parameter for the method to be called.</param>
         /// <returns>An exit code.</returns>
         public static int CallLibrary(this Process process, IntPtr address, IntPtr parameteraddress)
         {
@@ -54,15 +76,21 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
-        /// Returns the address of an exported function (generally marked __declspec(dllexport)) in a loaded library.
-        /// The handle of the library is first acquired then GetProcAddress() is called with a function name and 
-        /// then GetProcAddress() is used to acquire an address of a specific function.
-        /// For injected DLLs, this will work because the library which we are calling is mapped in the address space of the game process to its real location,
-        /// which all programs, utilities, etc. share
+        /// GetLibraryFunctionAddress
+        ///     Returns the address of an exported function (generally marked __declspec(dllexport))
+        ///     in the library supplied by the parameter (which may already be loaded).
+        ///     The method loads the DLL using LoadLibrary and using GetProcAddress(),
+        ///     obtains the address of a specified function with the matching name.
         /// </summary>
-        /// <param name="libraryPath">The name of the specific DLL/Library whose function address you would want to grab.</param>
+        /// <param name="libraryPath">The path to the specific DLL/Library to obtain function from.</param>
         /// <param name="functionName">The function name of a C/C++/Native exported function in a library.</param>
-        /// <returns></returns>
+        /// <remarks>
+        ///     For injected DLLs into target processes, this will work because the library in reality is only
+        ///     allocated once to a location and not reloaded per-process. It is loaded from the same real physical
+        ///     address and always mapped onto equivalent address in the virtual address space for each process.
+        ///     i.e. Our pointer for Function1 would also be valid for another process, provided the other process
+        ///     has at first loaded the library with LoadLibraryA.
+        /// </remarks>
         public static IntPtr GetLibraryFunctionAddress(string libraryPath, string functionName)
         {
             // Obtain the handle to the library.

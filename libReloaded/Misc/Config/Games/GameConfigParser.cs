@@ -32,10 +32,10 @@ namespace Reloaded.Misc.Config
             public string GameDirectory { get; set; }
 
             /// <summary>
-            /// Specifies the executable directory.
-            /// The executable directory is relative to the game directory.
+            /// Specifies the executable location.
+            /// The executable location is relative to the game directory.
             /// </summary>
-            public string ExecutableDirectory { get; set; }
+            public string ExecutableLocation { get; set; }
 
             /// <summary>
             /// Defines the game hooking method.
@@ -122,7 +122,7 @@ namespace Reloaded.Misc.Config
             gameConfig.GameName = iniData["Game Configuration"]["Game_Name"];
             gameConfig.GameVersion = iniData["Game Configuration"]["Game_Version"];
             gameConfig.GameDirectory = iniData["Game Configuration"]["Game_Directory"];
-            gameConfig.ExecutableDirectory = iniData["Game Configuration"]["Executable_Directory"];
+            gameConfig.ExecutableLocation = iniData["Game Configuration"]["Executable_Directory"];
             gameConfig.ModDirectory = iniData["Game Configuration"]["Mod_Directory"];
             gameConfig.HookMethod = (HookMethod)Enum.Parse(typeof(HookMethod), iniData["Game Configuration"]["Hook_Method"]);
             gameConfig.ConfigDirectory = gameConfigDirectory;
@@ -142,7 +142,7 @@ namespace Reloaded.Misc.Config
             iniData["Game Configuration"]["Game_Name"] = gameConfig.GameName;
             iniData["Game Configuration"]["Game_Version"] = gameConfig.GameVersion;
             iniData["Game Configuration"]["Game_Directory"] = gameConfig.GameDirectory;
-            iniData["Game Configuration"]["Executable_Directory"] = gameConfig.ExecutableDirectory;
+            iniData["Game Configuration"]["Executable_Directory"] = gameConfig.ExecutableLocation;
             iniData["Game Configuration"]["Mod_Directory"] = gameConfig.ModDirectory;
             iniData["Game Configuration"]["Hook_Method"] = Enum.GetName(typeof(HookMethod), gameConfig.HookMethod);
 

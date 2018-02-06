@@ -67,10 +67,10 @@ namespace Reloaded.Hooking
             // PUSH, PUSH, RET, <JUMP BACK HERE>
             /* 
              * e.g. 
-             * [1000] PUSH 1007
+             * [1000] PUSH 1011
              * [1005] PUSH <Own Code Address>
-             * [1006] RET
-             * [1007] pop edi
+             * [1010] RET
+             * [1011] pop edi
             */
             injectionBytes.AddRange(AssemblePush((int)newInstructionAddress + REGISTERS_TO_BACKUP_LENGTH + PUSH_INSTRUCTION_LENGTH + PUSH_RETURN_INSTRUCTION_LENGTH, modLoaderServerSocket));
 

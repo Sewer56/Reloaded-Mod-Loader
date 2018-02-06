@@ -1,4 +1,23 @@
-﻿using System;
+﻿/*
+    [Reloaded] Mod Loader Launcher
+    A universal, powerful multi-game, multi-process mod loader based on DLL Injection. 
+    Copyright (C) 2018  Sewer. Sz (Sewer56)
+
+    [Reloaded] is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    [Reloaded] is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+*/
+
+using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -7,40 +26,14 @@ using static Reloaded.GameProcess.Native;
 namespace Reloaded.GameProcess
 {
     /// <summary>
-    /// Class which allows the manipulation of in-game memory status.
+    /// Class which allows the manipulation of in-game memory.
+    /// This file provides the implementation for reading/writing of memory.
     /// </summary>
-    public static class Memory
+    public static partial class Memory
     {
         /// <summary>
-        /// Allows for allocation of memory space inside the target process. 
-        /// The return value for this method is the address at which the new memory has been reserved. 
-        /// </summary>
-        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
-        /// <param name="length">Length of free bytes you want to allocate.</param>
-        /// <returns>Base pointer address to the newly allocated memory.</returns>
-        public static IntPtr AllocateMemory(this Process process, int length)
-        {
-            // Call VirtualAllocEx to allocate memory of fixed chosen size.
-            return VirtualAllocEx(process.Handle, IntPtr.Zero, (IntPtr)length,
-                AllocationType.Commit | AllocationType.Reserve,
-                MemoryProtection.ExecuteReadWrite);
-        }
-
-        /// <summary>
-        /// Allows for the freeing of memory space inside the target process. 
-        /// Releases memory such that it may be cleaned and re-used by the Windows Operating System.
-        /// </summary>
-        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
-        /// <param name="address">The address of the first byte you want to free memory from.</param>
-        /// <returns>A value that is not 0 if the operation is successful.</returns>
-        public static bool FreeMemory(this Process process, IntPtr address)
-        {
-            return VirtualFreeEx(process.Handle, address, 0,
-                FreeType.Decommit | FreeType.Release);
-        }
-
-        /// <summary>
-        /// Reads a specified specific amount of bytes to the process using the native ReadProcessMemory call. 
+        /// ReadMemory
+        ///     Reads a specified specific amount of bytes from memory of the current process.
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
@@ -64,7 +57,7 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
-        /// See <see cref="ReadMemory"/>. Use only if you are denied normally reading memory. Reads game memory but first removes protection on a page of memory before reading the memory followed by restoring it.
+        /// See <see cref="ReadMemory"/>. Use if you are denied normally reading memory. Reads game memory but first removes protection on a page of memory before reading the memory followed by restoring it.
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
@@ -97,7 +90,9 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
-        /// Reads a specified specific amount of bytes using ReadProcessMemory(), does no conversion and returns as untouched byte array. 
+        /// ReadMemory
+        ///     Reads a specified specific amount of bytes from memory of the current process.
+        ///     Returns the raw bytes back, without conversion.
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
@@ -116,7 +111,7 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
-        /// <see cref="ReadMemory"/> Use only if you are denied normally reading memory. Reads game memory but first removes protection on a page of memory before reading the memory followed by restoring it. 
+        /// <see cref="ReadMemory"/> Use if you are denied normally reading memory. Reads game memory but first removes protection on a page of memory before reading the memory followed by restoring it. 
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
@@ -144,7 +139,8 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
-        /// Writes a specified specific amount of bytes to the process using the native WriteProcessMemory call. 
+        /// WriteMemory
+        ///     Writes a specified specific amount of bytes to the process memory. 
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
@@ -157,7 +153,7 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
-        /// See <see cref="WriteMemory"/> Use only if you are denied normally writing memory. Writes game memory but first removes protection on a page of memory before writing the memory followed by restoring it. 
+        /// See <see cref="WriteMemory"/> Use if you are denied normally writing memory. Writes game memory but first removes protection on a page of memory before writing the memory followed by restoring it. 
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
@@ -179,7 +175,8 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
-        /// Reads a specified specific amount of bytes to the process using the native ReadProcessMemory call. 
+        /// ReadMemoryExternal
+        ///     Reads a specified specific amount of bytes from process memory using ReadProcessMemory.
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
@@ -206,7 +203,7 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
-        /// See <see cref="ReadMemoryExternal"/>. Use only if you are denied normally reading memory. Reads game memory but first removes protection on a page of memory before reading the memory followed by restoring it.  
+        /// See <see cref="ReadMemoryExternal"/>. Use if you are denied normally reading memory. Reads game memory but first removes protection on a page of memory before reading the memory followed by restoring it.  
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
@@ -242,7 +239,8 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
-        /// Reads a specified specific amount of bytes using ReadProcessMemory(), does no conversion and returns as untouched byte array. 
+        /// ReadMemoryExternal
+        ///     Reads a specified specific amount of bytes using ReadProcessMemory(), does no conversion and returns as untouched byte array. 
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
@@ -264,7 +262,8 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
-        /// Writes a specified specific amount of bytes to the process using the native WriteProcessMemory call. 
+        /// WriteMemoryExternal
+        ///     Writes a specified specific amount of bytes to the process using the native WriteProcessMemory call. 
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
@@ -320,74 +319,14 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
-        /// Generally useful when looking for game code 
-        /// for games which receive periodic updates.
-        /// Attempts to locate the given pattern inside a supplied memory region,
-        /// with support for checking against a given mask. 
-        /// If the pattern is found, the offset within the supplied memory region
-        /// where the pattern matches is returned.
+        /// GetBaseAddress
+        ///     Retrieves the base address of the module, i.e. 0x400000 for executables
+        ///     not using Address Space Layout Randomization.
         /// </summary>
-        /// <param name="memoryRegion">The memory region in which to look for the specified pattern.</param>
-        /// <param name="bytePattern">Byte pattern to look for in the dumped region. e.g. new byte[] { 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88 }</param>
-        /// <param name="stringMask">The mask string to compare against. `x` represents check while `?` ignores. Each `x` and `?` represent 1 byte.</param>
-        /// <returns>0 if not found, offset in memory region if found.</returns>
-        public static IntPtr FindPattern(byte[] memoryRegion, byte[] bytePattern, string stringMask)
+        /// <returns></returns>
+        public static IntPtr GetBaseAddress()
         {
-            try
-            {
-                // Ensure mask and pattern length match.
-                if (stringMask.Length != bytePattern.Length) { return IntPtr.Zero; }
-
-                // Loop the region and look for the pattern.
-                for (int x = 0; x < memoryRegion.Length; x++)
-                {
-                    // Check for the mask, incrementing start offset each time.
-                    if (MaskCheck(memoryRegion, bytePattern, stringMask, x))
-                    {
-                        // The pattern was found, return the offset of it.
-                        return new IntPtr(x);
-                    }
-                }
-
-                // Pattern was not found.
-                return IntPtr.Zero;
-            }
-            catch (Exception ex) { return IntPtr.Zero; }
+            return GetModuleHandle(null);
         }
-
-
-        /// <summary>
-        /// Compares the current pattern byte to the supplied memory dump
-        /// byte to check for a match. Uses wildcards to skip bytes that
-        /// are deemed unneeded in the compares.
-        /// </summary>
-        /// <param name="memoryRegion">The memory region in which to look for the specified pattern.</param>
-        /// <param name="bytePattern">Byte pattern to look for in the dumped region.</param>
-        /// <param name="stringMask">The mask string to compare against. `XX` represents check while `??` ignores.</param>
-        /// <param name="startOffset">Offset in the dump to start comparing bytes against at.</param>
-        /// <returns>Boolean depending on if the pattern was found.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] // Compile inline.
-        private static bool MaskCheck(byte[] memoryRegion, byte[] bytePattern, string stringMask, int startOffset)
-        {
-            // Loop the pattern and compare to the mask and our memory region.
-            for (int x = 0; x < bytePattern.Length; x++)
-            {
-                // If the mask char is a wildcard, ignore.
-                if (stringMask[x] == '?') { continue; }
-
-                // If the mask char is not a wildcard, check if a match is not made in the pattern.
-                if
-                (
-                    (stringMask[x] == 'x') &&                     // Check if not wildcard.
-                    (bytePattern[x] != memoryRegion[startOffset + x]) // Check if not match false.
-                )
-                { return false; } 
-            }
-
-            // The loop was successful, as everything matched up to this point.
-            // We found the pattern.
-            return true;
-        }
-
     }
 }

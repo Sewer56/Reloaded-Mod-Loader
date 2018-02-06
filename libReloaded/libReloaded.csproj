@@ -84,7 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameProcess\Libraries.cs" />
-    <Compile Include="GameProcess\Memory.cs" />
+    <Compile Include="GameProcess\Memory\PatternScan.cs" />
+    <Compile Include="GameProcess\Memory\Allocate.cs" />
+    <Compile Include="GameProcess\Memory\ReadWrite.cs" />
     <Compile Include="GameProcess\Native\Native.cs" />
     <Compile Include="Hooking\Hooks\AssemblyHook.cs" />
     <Compile Include="Hooking\HookBase.cs" />

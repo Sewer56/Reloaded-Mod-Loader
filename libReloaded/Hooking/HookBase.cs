@@ -11,7 +11,7 @@ using static Reloaded.Networking.MessageTypes.ModLoaderServerMessages;
 namespace Reloaded.Hooking
 {
     /// <summary>
-    /// Provides a base storing the common features of each of the Heroes Mod Loader Hook Types
+    /// Provides a base storing the common features and aspects of each of the [Reloaded] Mod Loader Hooks.
     /// </summary>
     public abstract class HookBase
     {
@@ -127,7 +127,7 @@ namespace Reloaded.Hooking
 
             // Backup Original Bytes &
             // Remove protection from the old set of bytes such that we may alter the bytes.
-            VirtualProtect(hookAddress, (uint)hookLength, (MemoryProtection)Protection.PAGE_EXECUTE_READWRITE, out originalMemoryProtection);
+            VirtualProtect(hookAddress, (uint)hookLength, (MemoryProtection)Protection.ExecuteReadWrite, out originalMemoryProtection);
             Marshal.Copy(hookAddress, originalBytes, 0, hookLength);
         }
 
@@ -222,21 +222,25 @@ namespace Reloaded.Hooking
         public void Deactivate() { Marshal.Copy(originalBytes, 0, hookAddress, hookLength); }
 
         /// <summary>
-        /// Defines the different memory protection states. This is the same as in the Process flags, except in non-flag form.
+        /// Protection
+        ///     Specifies the memory protection constants for the region of pages 
+        ///     to be allocated, referenced or used for a similar purpose.
+        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366786(v=vs.85).aspx
         /// </summary>
+        [Flags]
         public enum Protection
         {
-            PAGE_NOACCESS = 0x01,
-            PAGE_READONLY = 0x02,
-            PAGE_READWRITE = 0x04,
-            PAGE_WRITECOPY = 0x08,
-            PAGE_EXECUTE = 0x10,
-            PAGE_EXECUTE_READ = 0x20,
-            PAGE_EXECUTE_READWRITE = 0x40,
-            PAGE_EXECUTE_WRITECOPY = 0x80,
-            PAGE_GUARD = 0x100,
-            PAGE_NOCACHE = 0x200,
-            PAGE_WRITECOMBINE = 0x400
+            Execute = 0x10,
+            ExecuteRead = 0x20,
+            ExecuteReadWrite = 0x40,
+            ExecuteWriteCopy = 0x80,
+            NoAccess = 0x01,
+            ReadOnly = 0x02,
+            ReadWrite = 0x04,
+            WriteCopy = 0x08,
+            GuardModifierflag = 0x100,
+            NoCacheModifierflag = 0x200,
+            WriteCombineModifierflag = 0x400
         }
     }
 }

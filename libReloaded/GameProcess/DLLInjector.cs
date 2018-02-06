@@ -1,4 +1,23 @@
-﻿using System;
+﻿/*
+    [Reloaded] Mod Loader Launcher
+    A universal, powerful multi-game, multi-process mod loader based on DLL Injection. 
+    Copyright (C) 2018  Sewer. Sz (Sewer56)
+
+    [Reloaded] is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    [Reloaded] is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+*/
+
+using System;
 using System.Diagnostics;
 using System.Text;
 
@@ -6,10 +25,17 @@ namespace Reloaded.GameProcess
 {
     /// <summary>
     /// Provides a means by which a target DLLs may be injected into an individual process.
-    /// First this class should be instantiated, and DLLs with path X may be injected by calling Inject().
+    /// If the target process is running the administrator, the injector should also be
+    /// ran as administrator.
     /// </summary>
     class DLLInjector
     {
+        /// <summary>
+        /// The name of the function to be executed inside of the target
+        /// process. 
+        /// </summary>
+        public string FunctionToExecute { get; set; }
+
         /// <summary>
         /// A handle to the Kernel32 Module, whereby LoadLibraryA is stored.
         /// </summary>
@@ -22,12 +48,15 @@ namespace Reloaded.GameProcess
         private static IntPtr LoadLibraryAddress { get; set; }
 
         /// <summary>
-        /// The handle to the process that is to be injected. The handle can be obtained by Process.Handle for an existing process or found via various other means.
+        /// The handle to the process that is to be injected. The handle can be obtained by 
+        /// Process.Handle for an existing process or found via various other means.
         /// </summary>
         private Process Process { get; set; }
 
         /// <summary>
-        /// Initialtes the DLL Injectior.
+        /// Initializes the DLL Injector of Reloaded Mod Loader.
+        /// Once the DLL Injector is initialted, DLL injection may be performed by calling
+        /// InjectDLL();
         /// </summary>
         /// <param name="process">
         /// The process object that is to be used. 
@@ -39,14 +68,22 @@ namespace Reloaded.GameProcess
             Process = process;
 
             // This should automatically resolve to kernel32.dll as it is already registered by Windows.
+            // The handle should return from already loaded library in memory, following the standard search strategy.
             Kernel32Handle = Native.LoadLibrary("kernel32");
 
             // Retrieves the address to the LoadLibraryA function.
-            LoadLibraryAddress = Native.GetProcAddress(Kernel32Handle, "LoadLibraryA"); 
+            // We will later call LoadLibraryA inside the target process using CreateRemoteThread,
+            // which will load our own wanted DLL (game modification) inside of the target process.
+            LoadLibraryAddress = Native.GetProcAddress(Kernel32Handle, "LoadLibraryA");
+
+            // Set the name of the function we will execute in the target process.
+            FunctionToExecute = "Main";
         }
 
         /// <summary>
-        /// Injects a DLL onto the set target process with the specified library path.
+        /// Injects a DLL onto the set target process.
+        /// If the target process is running the administrator, the injector should also be
+        /// ran as administrator.
         /// </summary>
         /// <param name="libraryPath">The absolute path to your DLL to be injected.</param>
         public void InjectDLL(string libraryPath)
@@ -57,10 +94,13 @@ namespace Reloaded.GameProcess
             // Call Kernel32's LoadLibrary function and execute it within the target process.
             // Execution within the target process works by creating a thread within the virtual address space of the target process.
             // Our library will now be loaded within the address space of the game/game module to use and ready for us to execute.
+            // This means that the game will now be able to access it ;)
             Libraries.CallLibrary(Process, LoadLibraryAddress, libraryNameMemoryAddress);
 
-            // Get the address of the "Main" function.
-            IntPtr mainFunctionAddress = Libraries.GetLibraryFunctionAddress(libraryPath, "Main");
+            // Get the address of the "Main" function by loading the library into
+            // ourselves. The address we will receive should be identical to the address
+            // that has been allocated within the target process.
+            IntPtr mainFunctionAddress = Libraries.GetLibraryFunctionAddress(libraryPath, FunctionToExecute);
 
             // Call our main function within the target executable.
             Libraries.CallLibrary(Process, mainFunctionAddress, IntPtr.Zero);
@@ -68,9 +108,10 @@ namespace Reloaded.GameProcess
 
         /// <summary>
         /// Writes the module name and target path as a series of bytes into the executable memory space.
-        /// This is such that we may call the internal LoadLibaryA of Kernel32 to load our DLL module.
+        /// This is such that we may call the LoadLibaryA of Kernel32 to load our DLL module inside
+        /// the virtual memory space of the target process.
         /// </summary>
-        /// <param name="libraryPath">The path to the DLL library that is to have their name written to memory.</param>
+        /// <param name="libraryPath">The path to the DLL library to be written to memory.</param>
         /// <returns>The address at which the library path was written to.</returns>
         private IntPtr WriteModuleNameBytes(string libraryPath)
         {
@@ -86,9 +127,5 @@ namespace Reloaded.GameProcess
             // Return the address of written path.
             return processPointer;
         }
-
-
-
-
     }
 }
