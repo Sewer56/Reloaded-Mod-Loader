@@ -94,6 +94,11 @@ namespace Reloaded.Input
             /// Using a combination of GetAxisState and GetButton state
             /// </summary>
             ControllerInputs GetControllerState();
+
+            /// <summary>
+            /// Provides an implementation to be used for remapping of controller inputs.
+            /// </summary>
+            Remapper Remapper { get; set; }
         }
 
         /// <summary>
@@ -526,7 +531,7 @@ namespace Reloaded.Input
 
         /// <summary>
         /// Defines an individual mapping entry for a controller axis as defined in Controller_Axis_Struct.
-        /// Serves as a bridge to provide each axis with an individual 
+        /// Serves as a bridge to provide each axis with an individual name and misc properties.
         /// </summary>
         public struct AxisMappingEntry
         {
@@ -566,8 +571,8 @@ namespace Reloaded.Input
             Left_Stick_Y,
             Right_Stick_X,
             Right_Stick_Y,
-            Left_Trigger_Pressure,
-            Right_Trigger_Pressure
+            Left_Trigger,
+            Right_Trigger
         }
 
 

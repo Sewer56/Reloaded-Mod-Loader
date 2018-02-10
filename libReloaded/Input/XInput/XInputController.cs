@@ -68,7 +68,7 @@ namespace Reloaded.Input.XInput
             ControllerID = controllerID;
 
             // Instantiate the remapper.
-            Remapper = new Remapper(Remapper.InputDeviceType.DirectInput, this);
+            Remapper = new Remapper(Remapper.InputDeviceType.XInput, this);
 
             // Get the controller key binding.
             Remapper.GetMappings();
@@ -246,8 +246,8 @@ namespace Reloaded.Input.XInput
         private ControllerInputs GetControllerStateAxis(ControllerInputs controllerInputs)
         {
             // Retrieve all of the axis.
-            controllerInputs.SetLeftTriggerPressure(GetAxisState(ControllerAxis.Left_Trigger_Pressure));
-            controllerInputs.SetRightTriggerPressure(GetAxisState(ControllerAxis.Right_Trigger_Pressure));
+            controllerInputs.SetLeftTriggerPressure(GetAxisState(ControllerAxis.Left_Trigger));
+            controllerInputs.SetRightTriggerPressure(GetAxisState(ControllerAxis.Right_Trigger));
 
             controllerInputs.leftStick.SetX(GetAxisState(ControllerAxis.Left_Stick_X));
             controllerInputs.leftStick.SetY(GetAxisState(ControllerAxis.Left_Stick_Y));
@@ -275,8 +275,8 @@ namespace Reloaded.Input.XInput
                 case ControllerAxis.Left_Stick_Y: rawValue = ControllerState.Gamepad.LeftThumbY; break;
                 case ControllerAxis.Right_Stick_X: rawValue = ControllerState.Gamepad.RightThumbX; break;
                 case ControllerAxis.Right_Stick_Y: rawValue = ControllerState.Gamepad.RightThumbY; break;
-                case ControllerAxis.Left_Trigger_Pressure: rawValue = ControllerState.Gamepad.LeftTrigger; break;
-                case ControllerAxis.Right_Trigger_Pressure: rawValue = ControllerState.Gamepad.RightTrigger; break;
+                case ControllerAxis.Left_Trigger: rawValue = ControllerState.Gamepad.LeftTrigger; break;
+                case ControllerAxis.Right_Trigger: rawValue = ControllerState.Gamepad.RightTrigger; break;
                 default: break;
             }
 
@@ -290,8 +290,8 @@ namespace Reloaded.Input.XInput
                     // Scale from -32768-32767 to -100-100
                     rawValue = (int)( (rawValue / MAX_ANALOG_STICK_RANGE_XINPUT) * DInputManager.AXIS_MAX_VALUE_F); 
                     break;
-                case ControllerAxis.Left_Trigger_Pressure: 
-                case ControllerAxis.Right_Trigger_Pressure:
+                case ControllerAxis.Left_Trigger: 
+                case ControllerAxis.Right_Trigger:
                     rawValue = ControllerState.Gamepad.RightTrigger;
                     
                     // Scale from 0-255 to 0-200

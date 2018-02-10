@@ -98,7 +98,14 @@ namespace Reloaded.Input.DirectInput
         private void CreateAcquisitionLock()
         {
             // Wait for potential lock.
-            while (File.Exists(CONTROLLER_ACQUIRE_FILENAME_FLAG)) { Thread.Sleep(16); }
+            // 1 second timeout.
+            int timeout = 0;
+            while (File.Exists(CONTROLLER_ACQUIRE_FILENAME_FLAG))
+            {
+                timeout += 1;
+                if (timeout == 60) { break; }
+                Thread.Sleep(16);
+            }
 
             // Create lock.
             File.Create(CONTROLLER_ACQUIRE_FILENAME_FLAG).Close();

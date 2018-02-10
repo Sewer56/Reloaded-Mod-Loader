@@ -123,6 +123,11 @@ namespace Reloaded.Misc.Config
             /// Specifies the mouse leave animation behaviour for the WinForm buttons used for decorations that serve no functionality.
             /// </summary>
             public ButtonMouseAnimation BorderlessLeaveAnimation;
+            
+            /// <summary>
+            /// [DO NOT MODIFY] Specifies the location of this theme property configuration file.
+            /// </summary>
+            public string ThemePropertyLocation;
         }
 
         /// <summary>
@@ -278,10 +283,11 @@ namespace Reloaded.Misc.Config
         public ThemeConfig ParseConfig(string themeDirectory)
         {
             // Instantiate a new configuration struct.
-            ThemeConfig colourConfig = new ThemeConfig();
+            ThemeConfig themeProperties = new ThemeConfig();
 
             // Read the mod loader configuration.
-            iniData = iniParser.ReadFile(LoaderPaths.GetModLoaderConfigDirectory() + "/Themes/" + themeDirectory + "/Theme.ini");
+            themeProperties.ThemePropertyLocation = LoaderPaths.GetModLoaderThemeDirectory() + "/" + themeDirectory + "/Theme.ini";
+            iniData = iniParser.ReadFile(themeProperties.ThemePropertyLocation);
 
             // Parse the title properties .
             TitleProperties titleProperties = new TitleProperties();
@@ -289,43 +295,43 @@ namespace Reloaded.Misc.Config
             titleProperties.LoaderTitleDelimiter = iniData["Title"]["LoaderTitleDelimiter"];
             titleProperties.LoaderTitlePrefix = bool.Parse(iniData["Title"]["LoaderTitlePrefix"]);
             titleProperties.DelimiterHasSpaces = bool.Parse(iniData["Title"]["DelimiterHasSpaces"]);
-            colourConfig.TitleProperties = titleProperties;
+            themeProperties.TitleProperties = titleProperties;
 
             // Parse font style.
-            colourConfig.TitleFontStyle = ParseFontStyle("Title Font");
-            colourConfig.CategoryFontStyle = ParseFontStyle("Category Font");
-            colourConfig.TextFontStyle = ParseFontStyle("Text Font");
+            themeProperties.TitleFontStyle = ParseFontStyle("Title Font");
+            themeProperties.CategoryFontStyle = ParseFontStyle("Category Font");
+            themeProperties.TextFontStyle = ParseFontStyle("Text Font");
 
             // Parse the border properties.
-            colourConfig.ButtonBorderProperties = new BorderProperties();
-            colourConfig.ButtonBorderProperties.BorderColour = ColourLoader.AARRGGBBToColor(iniData["Border Properties"]["BorderColour"]);
-            colourConfig.ButtonBorderProperties.BorderWidth = Convert.ToInt32(iniData["Border Properties"]["BorderWidth"]);
+            themeProperties.ButtonBorderProperties = new BorderProperties();
+            themeProperties.ButtonBorderProperties.BorderColour = ColourLoader.AARRGGBBToColor(iniData["Border Properties"]["BorderColour"]);
+            themeProperties.ButtonBorderProperties.BorderWidth = Convert.ToInt32(iniData["Border Properties"]["BorderWidth"]);
 
             // Parse the Main, Title and Category Colours.
-            colourConfig.MainColours = ParseColours("Main Colours");
-            colourConfig.TitleColours = ParseColours("Title Colours");
-            colourConfig.CategoryColours = ParseColours("Category Colours");
-            colourConfig.BoxColours = ParseColours("Box Colours");
-            colourConfig.BorderlessColours = ParseColours("Borderless Colours");
+            themeProperties.MainColours = ParseColours("Main Colours");
+            themeProperties.TitleColours = ParseColours("Title Colours");
+            themeProperties.CategoryColours = ParseColours("Category Colours");
+            themeProperties.BoxColours = ParseColours("Box Colours");
+            themeProperties.BorderlessColours = ParseColours("Borderless Colours");
 
             // Parse the Main, Title and Category Enter and Leave Animations
-            colourConfig.CategoryEnterAnimation = ParseAnimations("Category Button Mouse Enter Animation");
-            colourConfig.CategoryLeaveAnimation = ParseAnimations("Category Button Mouse Leave Animation");
+            themeProperties.CategoryEnterAnimation = ParseAnimations("Category Button Mouse Enter Animation");
+            themeProperties.CategoryLeaveAnimation = ParseAnimations("Category Button Mouse Leave Animation");
 
-            colourConfig.MainEnterAnimation = ParseAnimations("Main Button Mouse Enter Animation");
-            colourConfig.MainLeaveAnimation = ParseAnimations("Main Button Mouse Leave Animation");
+            themeProperties.MainEnterAnimation = ParseAnimations("Main Button Mouse Enter Animation");
+            themeProperties.MainLeaveAnimation = ParseAnimations("Main Button Mouse Leave Animation");
 
-            colourConfig.TitleEnterAnimation = ParseAnimations("Title Button Mouse Enter Animation");
-            colourConfig.TitleLeaveAnimation = ParseAnimations("Title Button Mouse Leave Animation");
+            themeProperties.TitleEnterAnimation = ParseAnimations("Title Button Mouse Enter Animation");
+            themeProperties.TitleLeaveAnimation = ParseAnimations("Title Button Mouse Leave Animation");
 
-            colourConfig.BoxEnterAnimation = ParseAnimations("Box Mouse Enter Animation");
-            colourConfig.BoxLeaveAnimation = ParseAnimations("Box Mouse Leave Animation");
+            themeProperties.BoxEnterAnimation = ParseAnimations("Box Mouse Enter Animation");
+            themeProperties.BoxLeaveAnimation = ParseAnimations("Box Mouse Leave Animation");
 
-            colourConfig.BorderlessEnterAnimation = ParseAnimations("Borderless Mouse Enter Animation");
-            colourConfig.BorderlessLeaveAnimation = ParseAnimations("Borderless Mouse Leave Animation");
+            themeProperties.BorderlessEnterAnimation = ParseAnimations("Borderless Mouse Enter Animation");
+            themeProperties.BorderlessLeaveAnimation = ParseAnimations("Borderless Mouse Leave Animation");
 
             // Return the config file.
-            return colourConfig;
+            return themeProperties;
         }
 
         /// <summary>

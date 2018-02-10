@@ -98,8 +98,8 @@ namespace Reloaded.Input.DirectInput
                 case ControllerAxis.Right_Stick_X: controllerAxisMapping = axisMapping.rightStickX; break;
                 case ControllerAxis.Right_Stick_Y: controllerAxisMapping = axisMapping.rightStickY; break;
 
-                case ControllerAxis.Left_Trigger_Pressure: controllerAxisMapping = axisMapping.leftTrigger; break;
-                case ControllerAxis.Right_Trigger_Pressure: controllerAxisMapping = axisMapping.rightTrigger; break;
+                case ControllerAxis.Left_Trigger: controllerAxisMapping = axisMapping.leftTrigger; break;
+                case ControllerAxis.Right_Trigger: controllerAxisMapping = axisMapping.rightTrigger; break;
             }
 
             // Retrieve empty struct if null, else the correct axis mapping.
@@ -138,8 +138,8 @@ namespace Reloaded.Input.DirectInput
             // If triggers. scale to between 0 - 100
             switch (mappingEntry.axis)
             {
-                case ControllerAxis.Left_Trigger_Pressure:
-                case ControllerAxis.Right_Trigger_Pressure:
+                case ControllerAxis.Left_Trigger:
+                case ControllerAxis.Right_Trigger:
                     newRawValue += 100;
                     newRawValue *= DInputManager.TRIGGER_SCALE_FACTOR;
                     break;
@@ -172,8 +172,8 @@ namespace Reloaded.Input.DirectInput
                 case ControllerAxis.Left_Stick_Y: 
                 case ControllerAxis.Right_Stick_X: 
                 case ControllerAxis.Right_Stick_Y: 
-                case ControllerAxis.Left_Trigger_Pressure: 
-                case ControllerAxis.Right_Trigger_Pressure:
+                case ControllerAxis.Left_Trigger: 
+                case ControllerAxis.Right_Trigger:
                     rawValue = (int)Reflection_GetValue(joystickState, mappingEntry.propertyName);
                     break;
                 default: break;
@@ -211,8 +211,8 @@ namespace Reloaded.Input.DirectInput
                     break;
 
                 // For all triggers
-                case ControllerAxis.Left_Trigger_Pressure:
-                case ControllerAxis.Right_Trigger_Pressure:
+                case ControllerAxis.Left_Trigger:
+                case ControllerAxis.Right_Trigger:
 
                     // Get max deadzone
                     float deadzoneTriggerMax = ((DInputManager.AXIS_MAX_VALUE_F * 2) / 100.0F) * mappingEntry.deadZone;

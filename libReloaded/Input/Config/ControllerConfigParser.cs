@@ -1,6 +1,7 @@
 ﻿using IniParser;
 using IniParser.Model;
 using System;
+using System.IO;
 using static Reloaded.Input.ControllerCommon;
 
 namespace Reloaded.Input
@@ -26,6 +27,7 @@ namespace Reloaded.Input
         public ControllerConfigParser()
         {
             iniParser = new FileIniDataParser();
+            iniParser.Parser.Configuration.CommentString = "#";
         }
 
         /// <summary>
@@ -39,6 +41,9 @@ namespace Reloaded.Input
             AxisMapping axisMapping = new AxisMapping();
             EmulationButtonMapping emulationMapping = new EmulationButtonMapping();
             ButtonMapping buttonMapping = new ButtonMapping();
+
+            // Check if the config exists, if it doesn't, first write an empty config.
+            if (! File.Exists(configLocation)) { File.WriteAllText(configLocation, SampleConfig.Sample); }
 
             // Read the controller configuration.
             iniData = iniParser.ReadFile(configLocation);

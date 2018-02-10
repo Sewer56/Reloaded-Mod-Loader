@@ -193,8 +193,8 @@ namespace Reloaded.Input.DirectInput
         private ControllerInputs GetCurrentAxis(ControllerInputs controllerInputs)
         {
             // Retrieve all of the axis.
-            controllerInputs.SetLeftTriggerPressure(GetAxisState(ControllerAxis.Left_Trigger_Pressure));
-            controllerInputs.SetRightTriggerPressure(GetAxisState(ControllerAxis.Right_Trigger_Pressure));
+            controllerInputs.SetLeftTriggerPressure(GetAxisState(ControllerAxis.Left_Trigger));
+            controllerInputs.SetRightTriggerPressure(GetAxisState(ControllerAxis.Right_Trigger));
 
             controllerInputs.leftStick.SetX(GetAxisState(ControllerAxis.Left_Stick_X));
             controllerInputs.leftStick.SetY(GetAxisState(ControllerAxis.Left_Stick_Y));

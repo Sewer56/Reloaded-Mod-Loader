@@ -6,6 +6,7 @@ using System;
 using System.Reflection;
 using System.Threading;
 using static Reloaded.Input.ControllerCommon;
+using System.IO;
 
 namespace Reloaded.Input
 {
@@ -16,6 +17,20 @@ namespace Reloaded.Input
     /// </summary>
     public class Remapper
     {
+        /// <summary>
+        /// Retrieves the file name of the controller, specifying
+        /// the name of the file whereby the controller is stored.
+        /// </summary>
+        public string GetControllerName
+        {
+            get { return Path.GetFileNameWithoutExtension(ConfigurationFileLocation); }
+        }
+
+        /// <summary>
+        /// Specifies the type of the input device which is being remapped.
+        /// </summary>
+        public InputDeviceType DeviceType { get; }
+
         /// <summary>
         /// The amount of percent an axis requires to be moved by to register by the remapper.
         /// </summary>
@@ -52,13 +67,8 @@ namespace Reloaded.Input
         private DirectInputConfigType ConfigType { get; set; }
 
         /// <summary>
-        /// Specifies the type of the input device which is being remapped.
-        /// </summary>
-        private InputDeviceType DeviceType { get; }
-
-        /// <summary>
         /// Stores the individual location of the controller configuration file.
-        /// This is determined with the use of the individual controller 
+        /// This is determined with the use of the individual controller.
         /// </summary>
         private string ConfigurationFileLocation { get; set; }
 
@@ -134,6 +144,9 @@ namespace Reloaded.Input
             // Get Configuration Details
             Misc.Config.LoaderConfigParser loaderConfigParser = new Misc.Config.LoaderConfigParser();
             Misc.Config.LoaderConfigParser.Config config = loaderConfigParser.ParseConfig();
+
+            // Instantiate Controller Config Parser
+            ConfigParser = new ControllerConfigParser();
 
             // Set the device type
             ConfigType = config.DirectInputConfigType;
@@ -304,11 +317,11 @@ namespace Reloaded.Input
                 if (rightStickY < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return; }
                 else if (rightStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return; }
 
-                if (leftTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Trigger_Pressure; currentTimeout = 0; return; }
-                else if (leftTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Trigger_Pressure; currentTimeout = 0; return; }
+                if (leftTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Trigger; currentTimeout = 0; return; }
+                else if (leftTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Trigger; currentTimeout = 0; return; }
 
-                if (rightTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Trigger_Pressure; currentTimeout = 0; return; }
-                else if (rightTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Trigger_Pressure; currentTimeout = 0; return; }
+                if (rightTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Trigger; currentTimeout = 0; return; }
+                else if (rightTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Trigger; currentTimeout = 0; return; }
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
