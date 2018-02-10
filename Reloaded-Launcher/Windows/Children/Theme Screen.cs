@@ -42,7 +42,6 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary> 
         private void MenuVisibleChanged(object sender, EventArgs e)
         {
-            // If set to visible 
             if (this.Visible)
             {
                 // Set the titlebar.  
@@ -68,7 +67,7 @@ namespace ReloadedLauncher.Windows.Children
         private void LoadThemes()
         {
             // Unhook the theme change event.
-            box_ThemeList.SelectionChanged -= ModList_SelectionChanged;
+            box_ThemeList.SelectionChanged -= LoadCurrentTheme;
 
             // Clear the current listview.
             box_ThemeList.Rows.Clear();
@@ -103,34 +102,45 @@ namespace ReloadedLauncher.Windows.Children
                 // Select the currently enabled theme.
                 string currentThemeFolder = Global.LoaderConfiguration.CurrentTheme;
 
-                // Find the row with current theme and select it.
-                foreach (DataGridViewRow row in box_ThemeList.Rows)
-                {
-                    // Get the theme title and version.
-                    string themeName = (string)row.Cells[0].Value;
-                    string themeVersion = (string)row.Cells[4].Value;
-
-                    // Get the theme configuration.
-                    ThemeConfigParser.ThemeConfig themeConfiguration = FindThemeConfiguration(themeName, themeVersion);
-
-                    // Obtain theme directory.
-                    string themeDirectory = Path.GetFileName(Path.GetDirectoryName(themeConfiguration.ThemeLocation));
-
-                    // Check if the theme configuration folder matches current theme folder.
-                    if (themeDirectory == Global.LoaderConfiguration.CurrentTheme)
-                    {
-                        // Set theme config, select row and exit loop.
-                        row.Selected = true;
-                        Global.CurrentThemeConfig = themeConfiguration;
-                        Global.LoaderConfiguration.CurrentTheme = themeDirectory;
-                        break;
-                    }
-                }
+                // Select currently loaded theme.
+                SelectLoadedTheme();
             }
             catch { }
 
             // Hook the theme change event.
-            box_ThemeList.SelectionChanged += ModList_SelectionChanged;
+            box_ThemeList.SelectionChanged += LoadCurrentTheme;
+        }
+
+        /// <summary>
+        /// Finds the row which is equivalent to the current loaded
+        /// theme out of the theme selector loads and selects the row
+        /// upon the user's entry to the menu.
+        /// </summary>
+        private void SelectLoadedTheme()
+        {
+            // Find the row with current theme and select it.
+            foreach (DataGridViewRow row in box_ThemeList.Rows)
+            {
+                // Get the theme title and version.
+                string themeName = (string)row.Cells[0].Value;
+                string themeVersion = (string)row.Cells[4].Value;
+
+                // Get the theme configuration.
+                ThemeConfigParser.ThemeConfig themeConfiguration = FindThemeConfiguration(themeName, themeVersion);
+
+                // Obtain theme directory.
+                string themeDirectory = Path.GetFileName(Path.GetDirectoryName(themeConfiguration.ThemeLocation));
+
+                // Check if the theme configuration folder matches current theme folder.
+                if (themeDirectory == Global.LoaderConfiguration.CurrentTheme)
+                {
+                    // Set theme config, select row and exit loop.
+                    row.Selected = true;
+                    Global.CurrentThemeConfig = themeConfiguration;
+                    Global.LoaderConfiguration.CurrentTheme = themeDirectory;
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -147,7 +157,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ModList_SelectionChanged(object sender, EventArgs e)
+        private void LoadCurrentTheme(object sender, EventArgs e)
         {
             try
             {
@@ -231,7 +241,7 @@ namespace ReloadedLauncher.Windows.Children
         {
             if (CheckIfEnabled((Control)sender))
             {
-                //OpenFile(Global.CurrentThemeConfig.ModConfigEXE);
+                OpenFile(Theme.ThemeProperties.ThemePropertyLocation);
             }
         }
 

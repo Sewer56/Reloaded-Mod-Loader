@@ -93,7 +93,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_SourceBox.IgnoreMouseClicks = false;
             this.borderless_SourceBox.Image = ((System.Drawing.Image)(resources.GetObject("borderless_SourceBox.Image")));
             this.borderless_SourceBox.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borderless_SourceBox.Location = new System.Drawing.Point(609, 439);
+            this.borderless_SourceBox.Location = new System.Drawing.Point(609, 429);
             this.borderless_SourceBox.Name = "borderless_SourceBox";
             this.borderless_SourceBox.Size = new System.Drawing.Size(253, 50);
             this.borderless_SourceBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -133,7 +133,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_WebBox.IgnoreMouseClicks = false;
             this.borderless_WebBox.Image = ((System.Drawing.Image)(resources.GetObject("borderless_WebBox.Image")));
             this.borderless_WebBox.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borderless_WebBox.Location = new System.Drawing.Point(323, 439);
+            this.borderless_WebBox.Location = new System.Drawing.Point(323, 429);
             this.borderless_WebBox.Name = "borderless_WebBox";
             this.borderless_WebBox.Size = new System.Drawing.Size(253, 50);
             this.borderless_WebBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -173,7 +173,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ConfigBox.IgnoreMouseClicks = false;
             this.borderless_ConfigBox.Image = ((System.Drawing.Image)(resources.GetObject("borderless_ConfigBox.Image")));
             this.borderless_ConfigBox.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borderless_ConfigBox.Location = new System.Drawing.Point(40, 439);
+            this.borderless_ConfigBox.Location = new System.Drawing.Point(40, 429);
             this.borderless_ConfigBox.Name = "borderless_ConfigBox";
             this.borderless_ConfigBox.Size = new System.Drawing.Size(253, 50);
             this.borderless_ConfigBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -234,7 +234,7 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ThemeList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.box_ThemeList.EnableHeadersVisualStyles = false;
             this.box_ThemeList.GridColor = System.Drawing.Color.White;
-            this.box_ThemeList.Location = new System.Drawing.Point(41, 40);
+            this.box_ThemeList.Location = new System.Drawing.Point(41, 30);
             this.box_ThemeList.MultiSelect = false;
             this.box_ThemeList.Name = "box_ThemeList";
             this.box_ThemeList.ReadOnly = true;
@@ -248,7 +248,7 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ThemeList.Size = new System.Drawing.Size(820, 377);
             this.box_ThemeList.StandardTab = true;
             this.box_ThemeList.TabIndex = 14;
-            this.box_ThemeList.SelectionChanged += new System.EventHandler(this.ModList_SelectionChanged);
+            this.box_ThemeList.SelectionChanged += new System.EventHandler(this.LoadCurrentTheme);
             // 
             // modName
             // 
@@ -334,7 +334,7 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ThemeListBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.box_ThemeListBox.IgnoreMouse = true;
             this.box_ThemeListBox.IgnoreMouseClicks = true;
-            this.box_ThemeListBox.Location = new System.Drawing.Point(40, 39);
+            this.box_ThemeListBox.Location = new System.Drawing.Point(40, 29);
             this.box_ThemeListBox.Margin = new System.Windows.Forms.Padding(0);
             this.box_ThemeListBox.Name = "box_ThemeListBox";
             this.box_ThemeListBox.Size = new System.Drawing.Size(822, 379);

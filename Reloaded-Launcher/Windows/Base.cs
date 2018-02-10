@@ -55,6 +55,7 @@ namespace ReloadedLauncher
             public Theme_Screen ThemeMenu { get; set; }
             public About_Screen AboutMenu { get; set; }
             public Manage_Screen ManageMenu { get; set; }
+            public Input_Screen InputMenu { get; set; }
 
             /// <summary>
             /// Stores the currently opened menu.
@@ -91,7 +92,7 @@ namespace ReloadedLauncher
         #region Category Buttons
         private void CategoryBar_Games_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.MainMenu); }
         private void CategoryBar_Mods_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ModsMenu); }
-        private void CategoryBar_Input_Click(object sender, EventArgs e) { }
+        private void CategoryBar_Input_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.InputMenu); }
         private void CategoryBar_Theme_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ThemeMenu); }
         private void CategoryBar_Manager_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ManageMenu); }
         private void CategoryBar_About_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.AboutMenu); }
@@ -156,6 +157,7 @@ namespace ReloadedLauncher
             MDIChildren.ThemeMenu = new Theme_Screen(this);
             MDIChildren.AboutMenu = new About_Screen(this);
             MDIChildren.ManageMenu = new Manage_Screen(this);
+            MDIChildren.InputMenu = new Input_Screen(this);
             MDIChildren.CurrentMenu = MDIChildren.MainMenu;
 
             // Remove the borders from the children forms
@@ -247,6 +249,7 @@ namespace ReloadedLauncher
                 case MenuScreens.ThemeMenu: SwapMenu(MDIChildren.ThemeMenu); break;
                 case MenuScreens.AboutMenu: SwapMenu(MDIChildren.AboutMenu); break;
                 case MenuScreens.ManageMenu: SwapMenu(MDIChildren.ManageMenu); break;
+                case MenuScreens.InputMenu: SwapMenu(MDIChildren.InputMenu); break;
             }
         }
 
@@ -264,6 +267,7 @@ namespace ReloadedLauncher
             else if (currentMenu == MDIChildren.ThemeMenu) { return MenuScreens.ThemeMenu; }
             else if (currentMenu == MDIChildren.AboutMenu) { return MenuScreens.AboutMenu; }
             else if (currentMenu == MDIChildren.ManageMenu) { return MenuScreens.ManageMenu; }
+            else if (currentMenu == MDIChildren.InputMenu) { return MenuScreens.InputMenu; }
 
             // Return main menu as default.
             return MenuScreens.MainMenu;
@@ -276,7 +280,7 @@ namespace ReloadedLauncher
         {
             MainMenu,
             ModsMenu,
-            //InputMenu,
+            InputMenu,
             ThemeMenu,
             ManageMenu,
             AboutMenu

@@ -33,27 +33,21 @@ namespace ReloadedLauncher.Windows.Children
         }
 
         /// <summary>
-        /// Is executed once the windows form has finshed loading.
-        /// </summary>
-        private void Main_Screen_Load(object sender, EventArgs e)
-        {
-            // Load the individual game configurations.
-            LoadGames();
-        }
-
-        /// <summary>
         /// Changes the titlebar & other properties when the form visibility of the form changes.
         /// </summary>
         private void Main_Screen_VisibleChanged(object sender, EventArgs e)
         {
-            // If set to visible
             if (this.Visible)
             {
+                // Update title
                 Global.CurrentMenuName = "Main Menu";
                 Global.BaseForm.UpdateTitle("");
 
                 // Set version
                 this.item_VersionBoxVersion.Text = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
+
+                // Load games.
+                LoadGames();
             }
         }
 
@@ -95,13 +89,13 @@ namespace ReloadedLauncher.Windows.Children
                 Global.CurrentGameConfig = Global.GameConfigurations[box_GameList.SelectedCells[0].RowIndex];
 
                 // Update note box.
-                item_NoteBoxEXEPath.Text = Global.CurrentGameConfig.ExecutableDirectory.Substring(Global.CurrentGameConfig.ExecutableDirectory.IndexOf("/") + 1);
+                item_NoteBoxEXEPath.Text = Global.CurrentGameConfig.ExecutableLocation.Substring(Global.CurrentGameConfig.ExecutableLocation.IndexOf("/") + 1);
                 item_NoteBoxVerPath.Text = Global.CurrentGameConfig.GameVersion;
                 item_NoteBoxGameName.Text = Global.CurrentGameConfig.GameName;
 
                 // Update location box.
                 item_LocationBoxDirectoryPath.Text = Global.CurrentGameConfig.GameDirectory;
-                item_LocationBoxEXEPath.Text = "$DIRECTORY + " + Global.CurrentGameConfig.ExecutableDirectory;
+                item_LocationBoxEXEPath.Text = "$DIRECTORY + " + Global.CurrentGameConfig.ExecutableLocation;
 
                 // Update injection details.
                 item_InjectionBoxInjection.Text = "INJECTION: " + Global.CurrentGameConfig.HookMethod.ToString();

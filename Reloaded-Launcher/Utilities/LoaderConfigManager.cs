@@ -1,7 +1,9 @@
 ﻿using Reloaded.Misc;
 using Reloaded.Misc.Config;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 
 namespace ReloadedLauncher.Utilities
 {
@@ -54,7 +56,11 @@ namespace ReloadedLauncher.Utilities
             List<GameConfigParser.GameConfig> gameConfigurations = new List<GameConfigParser.GameConfig>(directories.Length);
 
             // Read each game configuration
-            foreach (string directory in directories) { gameConfigurations.Add(GameConfigParser.ParseConfig(directory)); }
+            foreach (string directory in directories)
+            {
+                try { gameConfigurations.Add(GameConfigParser.ParseConfig(directory)); }
+                catch (Exception ex) { MessageBox.Show("One of your game configurations is missing or corrupt: " + ex.Message); }
+            }
 
             // Return.
             return gameConfigurations;
@@ -73,7 +79,6 @@ namespace ReloadedLauncher.Utilities
         /// <summary>
         /// Retrieves all of the game individual mod configurations for the currently selected game.
         /// </summary>
-        /// <param name="gameDirectory">The game configuration which holds the path to the mods.</param>
         public List<ModConfigParser.ModConfig> GetAllMods(GameConfigParser.GameConfig gameConfiguration)
         {
             // Retrieves the name of all directories in the 'Mods' folder for the game.
@@ -83,7 +88,11 @@ namespace ReloadedLauncher.Utilities
             List<ModConfigParser.ModConfig> modConfigurations = new List<ModConfigParser.ModConfig>(modDirectories.Length);
 
             // Read each game configuration
-            foreach (string directory in modDirectories) { modConfigurations.Add(ModConfigParser.ParseConfig(directory)); }
+            foreach (string directory in modDirectories)
+            {
+                try { modConfigurations.Add(ModConfigParser.ParseConfig(directory)); }
+                catch (Exception ex) { MessageBox.Show("One of your mod configurations is missing or corrupt: " + ex.Message); }
+            }
 
             // Return.
             return modConfigurations;
@@ -111,7 +120,11 @@ namespace ReloadedLauncher.Utilities
             List<ThemeConfigParser.ThemeConfig> themeConfigurations = new List<ThemeConfigParser.ThemeConfig>(directories.Length);
 
             // Read each game configuration
-            foreach (string directory in directories) { themeConfigurations.Add(ThemeConfigParser.ParseConfig(directory)); }
+            foreach (string directory in directories)
+            {
+                try { themeConfigurations.Add(ThemeConfigParser.ParseConfig(directory)); }
+                catch (Exception ex) { MessageBox.Show("One of your theme configurations is missing or corrupt: " + ex.Message); }
+            }
 
             // Return.
             return themeConfigurations;

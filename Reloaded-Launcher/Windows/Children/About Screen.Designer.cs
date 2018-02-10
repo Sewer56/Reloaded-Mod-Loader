@@ -30,6 +30,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             ReloadedLauncher.Styles.Animation.AnimProperties animProperties1 = new ReloadedLauncher.Styles.Animation.AnimProperties();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage1 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage2 = new ReloadedLauncher.Styles.Animation.AnimMessage();
@@ -52,6 +53,7 @@ namespace ReloadedLauncher.Windows.Children
             this.item_Version = new ReloadedLauncher.Styles.Controls.EnhancedLabel();
             this.item_Author = new ReloadedLauncher.Styles.Controls.EnhancedLabel();
             this.item_ReloadedModLoader = new ReloadedLauncher.Styles.Controls.EnhancedLabel();
+            this.toolTipHelper = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.box_ReloadedLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -313,5 +315,6 @@ namespace ReloadedLauncher.Windows.Children
         private AnimatedButton box_VersionBox;
         private Styles.Controls.EnhancedLabel item_Stallman;
         private AnimatedButton box_StallmanBox;
+        private System.Windows.Forms.ToolTip toolTipHelper;
     }
 }

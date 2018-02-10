@@ -10,51 +10,60 @@ using System.Windows.Forms;
 namespace ReloadedLauncher.Styles.Animation
 {
     /// <summary>
-    /// Provides the individual animation implementations for windows forms controls.
+    /// Provides the individual animation implementations for generic objects implementing
+    /// certain properties, such as Windows Forms Controls.
     /// </summary>
     public static class AnimAnimations
     {
         /// <summary>
         /// Delegate used for invocation that will change the color of a control element.
+        /// Used for the purpose of invokation of colour change on an object that may require
+        /// invokation, such as Windows Forms Controls.
         /// </summary>
         delegate void ChangeColorDelegate(PropertyInfo propertyInfo, object control, Color newColor);
 
         /// <summary>
         /// Interpolates the value of a System.Drawing.Color property such as BackColor or ForeColor of a generic object.
+        /// The property to interpolate is provided via the propertyInfo object.
         /// </summary>
-        /// <param name="animationMessage">The control whose backcolor is meant to be interpolated.</param>
+        /// <param name="propertyInfo">The property of an object such as BackColor of whose color is to be interpolated. </param>
+        /// <param name="animationMessage">A message structure that can be modified by the calling structure to prematurely end the animation. </param>
         /// <param name="destinationColor">The target colour to interpolate the backcolor to.</param>
         /// <param name="interpolator">The interpolator object used for calculating interpolations of colours as well as animation durations.</param>
         /// <param name="sourceColor">The colour to which start interpolating from.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static async void InterpolateColor(PropertyInfo propertyInfo, AnimMessage animationMessage, AnimInterpolator interpolator, Color sourceColor, Color destinationColor)
+        private static async void InterpolateColor(PropertyInfo propertyInfo, AnimMessage animationMessage, AnimInterpolator interpolator, Color sourceColor, Color destinationColor)
         {
-            // Calculate all interpolated colours in between.
-            ColorMine.ColorSpaces.Lch originalColorLCH = ColorspaceConverter.ColorToLCH(sourceColor);
-            ColorMine.ColorSpaces.Lch newColorLCH = ColorspaceConverter.ColorToLCH(destinationColor);
-            List<ColorMine.ColorSpaces.Lch> lchColours = interpolator.CalculateIntermediateColours(originalColorLCH, newColorLCH);
-
-            // Converted interpolated colours to RGB.
-            List<Color> interpolatedColours = ColorspaceConverter.LCHListToColor(lchColours);
-
-            // Check if object is a winform control.
-            Control winFormControl = animationMessage.Control as Control;
-            bool isWinFormControl = winFormControl != null ? true : false;
-
-            // Interpolate over the colours.
-            foreach (Color newBackgroundColour in interpolatedColours)
+            // Safety procedure
+            try
             {
-                // Check exit condition.
-                if (animationMessage.PlayAnimation == false)
-                { return; }
+                // Calculate all interpolated colours in between.
+                ColorMine.ColorSpaces.Lch originalColorLCH = ColorspaceConverter.ColorToLCH(sourceColor);
+                ColorMine.ColorSpaces.Lch newColorLCH = ColorspaceConverter.ColorToLCH(destinationColor);
+                List<ColorMine.ColorSpaces.Lch> lchColours = interpolator.CalculateIntermediateColours(originalColorLCH, newColorLCH);
 
-                // Set the BackColor
-                if (isWinFormControl) { winFormControl.Invoke((ChangeColorDelegate)ChangeColor, propertyInfo, winFormControl, newBackgroundColour); }
-                else { propertyInfo.SetValue(animationMessage.Control, newBackgroundColour, null); }
+                // Converted interpolated colours to RGB.
+                List<Color> interpolatedColours = ColorspaceConverter.LCHListToColor(lchColours);
 
-                // Wait
-                await Task.Delay(interpolator.SleepTime);
-            }
+                // Check if object is a winform control.
+                Control winFormControl = animationMessage.Control as Control;
+                bool isWinFormControl = winFormControl != null ? true : false;
+
+                // Interpolate over the colours.
+                foreach (Color newBackgroundColour in interpolatedColours)
+                {
+                    // Check exit condition.
+                    if (animationMessage.PlayAnimation == false)
+                    { return; }
+
+                    // Set the BackColor
+                    if (isWinFormControl) { winFormControl.Invoke((ChangeColorDelegate)ChangeColor, propertyInfo, winFormControl, newBackgroundColour); }
+                    else { propertyInfo.SetValue(animationMessage.Control, newBackgroundColour, null); }
+
+                    // Wait
+                    await Task.Delay(interpolator.SleepTime);
+                }
+            } catch { }
         }
 
         /// <summary>

@@ -715,7 +715,6 @@ namespace ReloadedLauncher.Windows.Children
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Main_Screen";
             this.Text = "Main_Screen";
-            this.Load += new System.EventHandler(this.Main_Screen_Load);
             this.VisibleChanged += new System.EventHandler(this.Main_Screen_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).EndInit();
@@ -740,7 +739,6 @@ namespace ReloadedLauncher.Windows.Children
         private Styles.Controls.EnhancedLabel item_NoteBoxVerPath;
         private Styles.Controls.Animated.AnimatedButton box_GameListBox;
         private AnimatedDataGridView box_GameList;
-        private System.Windows.Forms.PictureBox item_GameBanner;
         private AnimatedButton box_PictureBox;
         private AnimatedButton box_VersionBox;
         private Styles.Controls.EnhancedLabel item_VersionBoxVersion;
@@ -750,5 +748,6 @@ namespace ReloadedLauncher.Windows.Children
         private AnimatedButton item_LaunchBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn modName;
         private System.Windows.Forms.DataGridViewTextBoxColumn modDirectory;
+        public System.Windows.Forms.PictureBox item_GameBanner;
     }
 }

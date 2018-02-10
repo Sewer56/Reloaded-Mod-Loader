@@ -7,6 +7,7 @@ using ReloadedLauncher.Utilities.Windows;
 using System.Windows.Forms;
 using static Reloaded.Misc.Config.ThemePropertyParser;
 using ReloadedLauncher.Styles.Controls.Enhanced;
+using ReloadedLauncher.Styles.Controls.Custom;
 
 namespace ReloadedLauncher.Styles.Themes
 {
@@ -93,6 +94,10 @@ namespace ReloadedLauncher.Styles.Themes
         /// <param name="exitAnimation">Defines the mouse exit animation of the buttons.</param>
         private static void ThemeButton(Control control, BarColours buttonColours, ButtonMouseAnimation enterAnimation, ButtonMouseAnimation exitAnimation, bool ThemeBorder)
         {
+            // Set the control backcolor and forecolor.
+            control.ForeColor = buttonColours.TextColour;
+            control.BackColor = buttonColours.ButtonBGColour;
+
             // If it is an animated control
             #region Animated Controls
             if (control is IAnimatedControl)
@@ -159,11 +164,37 @@ namespace ReloadedLauncher.Styles.Themes
                 // Enhanced ComboBox
                 EnhancedComboBox enhancedComboBox = (EnhancedComboBox)control;
 
+                enhancedComboBox.BackColor = buttonColours.ButtonBGColour;
                 enhancedComboBox.DropDownButtonColour = buttonColours.ButtonBGColour;
                 enhancedComboBox.DropDownArrowColour = buttonColours.TextColour;
                 enhancedComboBox.HighlightColor = enterAnimation.BGTargetColour;
+                enhancedComboBox.ForeColor = Theme.ThemeProperties.ButtonBorderProperties.BorderColour;
             }
             #endregion EnhancedComboBox
+
+            // Analog stick indicator
+            #region Analog Stick Indicator
+            if (control is CustomAnalogStickIndicator)
+            {
+                // Cast Bordered Control
+                CustomAnalogStickIndicator stickIndicator = (CustomAnalogStickIndicator)control;
+
+                // Set Indicator Colour.
+                stickIndicator.IndicatorColour = buttonColours.TextColour;
+            }
+            #endregion Analog Stick Indicator
+
+            // If the box has a border.
+            #region Vertical Progress Bar
+            if (control is CustomVerticalProgressBar)
+            {
+                // Cast Bordered Control
+                CustomVerticalProgressBar verticalProgressBar = (CustomVerticalProgressBar)control;
+
+                // Set Indicator Colour.
+                verticalProgressBar.ProgressColour = buttonColours.TextColour;
+            }
+            #endregion Vertical Progress Bar
 
             // If the box has a border.
             #region IBordered Control (Bordered Controls)
@@ -181,6 +212,10 @@ namespace ReloadedLauncher.Styles.Themes
                 borderedControl.RightBorderWidth = Theme.ThemeProperties.ButtonBorderProperties.BorderWidth;
                 borderedControl.TopBorderWidth = Theme.ThemeProperties.ButtonBorderProperties.BorderWidth;
                 borderedControl.BottomBorderWidth = Theme.ThemeProperties.ButtonBorderProperties.BorderWidth;
+
+                // Match forecolor to borders if it's a textbox.
+                EnhancedTextbox textbox = control as EnhancedTextbox;
+                if (textbox != null) { textbox.ForeColor = Theme.ThemeProperties.ButtonBorderProperties.BorderColour; }
             }
             #endregion IBordered Control (Bordered Controls)
 
@@ -194,10 +229,6 @@ namespace ReloadedLauncher.Styles.Themes
                 }
             }
             #endregion Decoration Boxes
-
-            // Set the control backcolor and forecolor.
-            control.ForeColor = buttonColours.TextColour;
-            control.BackColor = buttonColours.ButtonBGColour;
 
             // Theme the control border.
             if (ThemeBorder) { ThemeButtonBorder(control); }

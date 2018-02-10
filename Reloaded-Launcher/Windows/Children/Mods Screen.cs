@@ -41,7 +41,6 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary> 
         private void MenuVisibleChanged(object sender, EventArgs e)
         {
-            // If set to visible 
             if (this.Visible)
             {
                 // Set the titlebar.  
@@ -57,7 +56,7 @@ namespace ReloadedLauncher.Windows.Children
             else
             {
                 // Save mod list when user exits screen.
-                SaveMods();
+                try { SaveMods(); } catch { }
             }
         }
 
@@ -79,68 +78,11 @@ namespace ReloadedLauncher.Windows.Children
                 List<DataGridViewRow> enabledRows = new List<DataGridViewRow>();
                 List<DataGridViewRow> disabledRows = new List<DataGridViewRow>();
 
-                // Appends all enabled mods to enabled mod list.
-                // Iterate over each "enabled" mod folder.
-                foreach (string modFolder in Global.CurrentGameConfig.EnabledMods)
-                {
-                    // Iterate over mod configurations and find relevant mod config.
-                    foreach (ModConfigParser.ModConfig modConfig in Global.ModConfigurations)
-                    {
-                        // Reloaded-Mods/SA2/Testmod => Testmod
-                        string modConfigFolderName = Path.GetFileName(Path.GetDirectoryName(modConfig.ModLocation));
+                // Retrieve enabled mods.
+                GetEnabledMods(enabledRows);
 
-                        // Check if the mod folder and configuration match.
-                        // If there is no match in all loop iterations for a folder, the mod does not exist
-                        if (modConfigFolderName == modFolder)
-                        {
-                            // Clone row style.
-                            DataGridViewRow dataGridViewRow = (DataGridViewRow)box_ModList.RowTemplate.Clone();
-                            dataGridViewRow.CreateCells(box_ModList);
- 
-                            // Assign row
-                            dataGridViewRow.Cells[0].Value = TextButtons.BUTTON_ENABLED;    // Enabled Mod
-                            dataGridViewRow.Cells[1].Value = modConfig.ModName;             // The name of the mod
-                            dataGridViewRow.Cells[2].Value = modConfig.ModAuthor;           // Author of the mod
-                            dataGridViewRow.Cells[3].Value = Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter; // Separator character as set by theme
-                            dataGridViewRow.Cells[4].Value = modConfig.ModVersion;          // The version of the mod
-
-                            // Append the row.
-                            enabledRows.Add(dataGridViewRow);
-                        }
-                    }
-                }
-                
-                // Appends all disabled mods to disabled mod list.
-                foreach (ModConfigParser.ModConfig modConfig in Global.ModConfigurations)
-                {
-                    // Get the folder name of the durrent mod.
-                    string directoryName = Path.GetFileName(Path.GetDirectoryName(modConfig.ModLocation));
-
-                    // Store the datagridviewrow
-                    DataGridViewRow dataGridViewRow = (DataGridViewRow)box_ModList.RowTemplate.Clone();
-                    dataGridViewRow.CreateCells(box_ModList);
-
-                    // Cells[0] = Enabled/Disabled Tickbox
-                    // Cells[1] = Mod Title
-                    // Cells[2] = Author
-                    // Cells[3] = Separator
-                    // Cells[4] = Version
-
-
-                    // Check if the mod is disabled.
-                    if (! Global.CurrentGameConfig.EnabledMods.Contains(directoryName))
-                    {
-                        // Disabled
-                        dataGridViewRow.Cells[0].Value = TextButtons.BUTTON_DISABLED;
-                        dataGridViewRow.Cells[1].Value = modConfig.ModName;     // The name of the mod
-                        dataGridViewRow.Cells[2].Value = modConfig.ModAuthor;   // Author of the mod
-                        dataGridViewRow.Cells[3].Value = Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter; // Separator character as set by theme
-                        dataGridViewRow.Cells[4].Value = modConfig.ModVersion;  // The version of the mod
-
-                        // Append the row.
-                        disabledRows.Add(dataGridViewRow);
-                    }
-                }
+                // Retrieve disabled mods.
+                GetDisabledMods(disabledRows);
 
                 // Reverse the enabled rows (present highest priority as topmost)
                 enabledRows.Reverse();
@@ -153,18 +95,90 @@ namespace ReloadedLauncher.Windows.Children
         }
 
         /// <summary>
+        /// Finds the currently enabled mods for this game configuration and
+        /// appends them onto the list of enabled mods.
+        /// </summary>
+        /// <param name="enabledRows">List of enabled mods for this game.</param>
+        private void GetEnabledMods(List<DataGridViewRow> enabledRows)
+        {
+            // Appends all enabled mods to enabled mod list.
+            // Iterate over each "enabled" mod folder list.
+            foreach (string modFolder in Global.CurrentGameConfig.EnabledMods)
+            {
+                // Iterate over mod configurations and find relevant mod config.
+                foreach (ModConfigParser.ModConfig modConfig in Global.ModConfigurations)
+                {
+                    // Reloaded-Mods/SA2/Testmod => Testmod
+                    string modConfigFolderName = Path.GetFileName(Path.GetDirectoryName(modConfig.ModLocation));
+
+                    // Check if the mod folder and configuration match.
+                    // If there is no match in all loop iterations for a folder, the mod does not exist
+                    if (modConfigFolderName == modFolder)
+                    {
+                        // Clone row style.
+                        DataGridViewRow dataGridViewRow = (DataGridViewRow)box_ModList.RowTemplate.Clone();
+                        dataGridViewRow.CreateCells(box_ModList);
+
+                        // Assign row
+                        dataGridViewRow.Cells[0].Value = TextButtons.BUTTON_ENABLED;    // Enabled Mod
+                        dataGridViewRow.Cells[1].Value = modConfig.ModName;             // The name of the mod
+                        dataGridViewRow.Cells[2].Value = modConfig.ModAuthor;           // Author of the mod
+                        dataGridViewRow.Cells[3].Value = Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter; // Separator character as set by theme
+                        dataGridViewRow.Cells[4].Value = modConfig.ModVersion;          // The version of the mod
+
+                        // Append the row.
+                        enabledRows.Add(dataGridViewRow);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finds the currently disabled mods for this game configuration and
+        /// appends them onto the list of disabled mods.
+        /// </summary>
+        /// <param name="disabledRows">List of disabled mods for this game.</param>
+        private void GetDisabledMods(List<DataGridViewRow> disabledRows)
+        {
+            // Append all disabled mods to disabled mod list.
+            foreach (ModConfigParser.ModConfig modConfig in Global.ModConfigurations)
+            {
+                // Get the folder name of the durrent mod.
+                string directoryName = Path.GetFileName(Path.GetDirectoryName(modConfig.ModLocation));
+
+                // Store the datagridviewrow
+                DataGridViewRow dataGridViewRow = (DataGridViewRow)box_ModList.RowTemplate.Clone();
+                dataGridViewRow.CreateCells(box_ModList);
+
+                // Cells[0] = Enabled/Disabled Tickbox
+                // Cells[1] = Mod Title
+                // Cells[2] = Author
+                // Cells[3] = Separator
+                // Cells[4] = Version
+
+                // Check if the mod is disabled.
+                if (!Global.CurrentGameConfig.EnabledMods.Contains(directoryName))
+                {
+                    // Disabled
+                    dataGridViewRow.Cells[0].Value = TextButtons.BUTTON_DISABLED;
+                    dataGridViewRow.Cells[1].Value = modConfig.ModName;     // The name of the mod
+                    dataGridViewRow.Cells[2].Value = modConfig.ModAuthor;   // Author of the mod
+                    dataGridViewRow.Cells[3].Value = Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter; // Separator character as set by theme
+                    dataGridViewRow.Cells[4].Value = modConfig.ModVersion;  // The version of the mod
+
+                    // Append the row.
+                    disabledRows.Add(dataGridViewRow);
+                }
+            }
+        }
+
+        /// <summary>
         /// Saves the mods from their listview onto the mod configuration for the game.
         /// </summary>
         private void SaveMods()
         {
             // Stores the currently enabled mods.
             List<string> enabledMods = new List<string>();
-
-            // Cells[0] = Enabled/Disabled Tickbox
-            // Cells[1] = Mod Title
-            // Cells[2] = Author
-            // Cells[3] = Separator
-            // Cells[4] = Version
 
             // Cycle each row of the DataGridView
             for (int x = 0; x < box_ModList.Rows.Count; x++)
@@ -179,6 +193,7 @@ namespace ReloadedLauncher.Windows.Children
                 if (modEnabled)
                 {
                     // Find the mod configuration from the set row and column.
+                    // Match by mod title and version.
                     ModConfigParser.ModConfig modConfiguration = FindModConfiguration((string)row.Cells[1].Value, (string)row.Cells[4].Value);
 
                     // Append the folder name only to the list of mods.

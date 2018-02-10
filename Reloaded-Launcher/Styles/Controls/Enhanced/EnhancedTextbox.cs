@@ -41,7 +41,7 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
             this.DoubleBuffered = true;
 
             // Set textbox style.
-            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
         }
 
         /// <summary>
@@ -63,12 +63,16 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
         // Override the paint event sent to the control, draw our own stuff :V
         //////////////////////////////////////////////////////////////////////
         private static int WM_PAINT = 0x000F;
+        private static int WM_MOUSEMOVE = 0x0200;
 
         /// <summary>
         /// Override the window message handler.
         /// </summary>
         protected override void WndProc(ref Message m)
         {
+            // Filter out the WM_MOUSEMOVE message (to prevent flickering during user selection)
+            if (m.Msg == WM_MOUSEMOVE) { return; }
+
             // Call base
             base.WndProc(ref m);
 

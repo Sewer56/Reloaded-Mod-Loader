@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>ReloadedLauncher</RootNamespace>
     <AssemblyName>ReloadedLauncher</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
@@ -51,6 +51,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -108,6 +110,15 @@
     <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.ShellExtensions, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
     </Reference>
@@ -129,7 +140,7 @@
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -143,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Input\Config\SampleConfig.cs" />
     <Compile Include="Libraries\libReloaded\libReloaded\Misc\ColourLoader.cs" />
     <Compile Include="Libraries\libReloaded\libReloaded\Misc\Config\Themes\ThemePropertyParser.cs" />
     <Compile Include="Styles\Animation\AnimAnimations.cs" />
@@ -164,6 +176,12 @@
     <Compile Include="Styles\Controls\Animated\AnimatedDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Styles\Controls\Custom\CustomAnalogStickIndicator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Custom\CustomControllerButtonPressIndicator.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Styles\Controls\Enhanced\EnhancedComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -174,6 +192,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Styles\Controls\Enhanced\EnhancedRichTextbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Styles\Controls\Custom\CustomVerticalProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Styles\Controls\Enhanced\EnhancedTextbox.cs">
@@ -216,7 +237,6 @@
     <Compile Include="Initializer.cs" />
     <None Include="Libraries\libReloaded\libReloaded\GameProcess\DLLInjector.cs" />
     <None Include="Libraries\libReloaded\libReloaded\GameProcess\Libraries.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\GameProcess\Memory.cs" />
     <None Include="Libraries\libReloaded\libReloaded\GameProcess\Native\Native.cs" />
     <None Include="Libraries\libReloaded\libReloaded\Hooking\HookBase.cs" />
     <None Include="Libraries\libReloaded\libReloaded\Hooking\Hooks\AssemblyHook.cs" />
@@ -257,6 +277,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Fonts\FontLoader.cs" />
+    <Compile Include="Windows\Children\Input Screen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Children\Input Screen.Designer.cs">
+      <DependentUpon>Input Screen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Children\About Screen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -303,6 +329,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Windows\Children\Input Screen.resx">
+      <DependentUpon>Input Screen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Windows\Children\About Screen.resx">
       <DependentUpon>About Screen.cs</DependentUpon>
     </EmbeddedResource>
@@ -376,7 +405,11 @@
   <PropertyGroup>
     <PostBuildEvent>MOVE /Y "$(TargetDir)*.dll" "$(TargetDir)Reloaded-Libraries\"
 MOVE /Y "$(TargetDir)*.xml" "$(TargetDir)Reloaded-Libraries\"
-DEL "$(TargetDir)Reloaded-Libraries\*.xml"</PostBuildEvent>
+MOVE /Y "$(TargetDir)*.xml" "$(TargetDir)Reloaded-Libraries\"
+DEL "$(TargetDir)Reloaded-Libraries\*.xml"
+DEL "$(TargetDir)Microsoft.WindowsAPICodePack.pdb"
+DEL "$(TargetDir)Microsoft.WindowsAPICodePack.Shell.pdb"
+DEL "$(TargetDir)Microsoft.WindowsAPICodePack.ShellExtensions.pdb"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>XCOPY /E /Y "$(SolutionDir)\$(SolutionName)\Resources\Files" "$(TargetDir)"</PreBuildEvent>

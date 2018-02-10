@@ -33,7 +33,6 @@ namespace ReloadedLauncher.Styles.Themes
                 // If the mods form is created.
                 if (Global.BaseForm.MDIChildren.ModsMenu != null)
                 {
-                    // Load the images from HDD.
                     Global.BaseForm.MDIChildren.ModsMenu.borderless_ConfigBox.Image = Image.FromFile(imagesFolder + "\\Tweaks2-Icon.png");
                     Global.BaseForm.MDIChildren.ModsMenu.borderless_SourceBox.Image = Image.FromFile(imagesFolder + "\\Github-Icon.png");
                     Global.BaseForm.MDIChildren.ModsMenu.borderless_WebBox.Image = Image.FromFile(imagesFolder + "\\World-Icon.png");
@@ -42,10 +41,17 @@ namespace ReloadedLauncher.Styles.Themes
                 // If the theme form is created.
                 if (Global.BaseForm.MDIChildren.ThemeMenu != null)
                 {
-                    // Load the images from HDD.
                     Global.BaseForm.MDIChildren.ThemeMenu.borderless_ConfigBox.Image = Image.FromFile(imagesFolder + "\\Tweaks2-Icon.png");
                     Global.BaseForm.MDIChildren.ThemeMenu.borderless_SourceBox.Image = Image.FromFile(imagesFolder + "\\Github-Icon.png");
                     Global.BaseForm.MDIChildren.ThemeMenu.borderless_WebBox.Image = Image.FromFile(imagesFolder + "\\World-Icon.png");
+                }
+
+                // If the manage form is created.
+                if (Global.BaseForm.MDIChildren.ManageMenu != null)
+                {
+                    Global.BaseForm.MDIChildren.ManageMenu.box_GameDirectorySelect.BackgroundImage = Image.FromFile(imagesFolder + "\\Tweaks-Icon.png");
+                    Global.BaseForm.MDIChildren.ManageMenu.box_GameEXESelect.BackgroundImage = Image.FromFile(imagesFolder + "\\Tweaks-Icon.png");
+                    Global.BaseForm.MDIChildren.ManageMenu.box_GameFolderSelect.BackgroundImage = Image.FromFile(imagesFolder + "\\Tweaks-Icon.png");
                 }
             }
         }

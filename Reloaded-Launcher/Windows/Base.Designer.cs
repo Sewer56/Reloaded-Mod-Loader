@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             ReloadedLauncher.Styles.Animation.AnimProperties animProperties1 = new ReloadedLauncher.Styles.Animation.AnimProperties();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage1 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage2 = new ReloadedLauncher.Styles.Animation.AnimMessage();
@@ -58,6 +59,7 @@
             this.titleBar_Title = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
             this.panel_TitleBar = new System.Windows.Forms.Panel();
             this.panel_CategoryBar = new System.Windows.Forms.Panel();
+            this.toolTipHelper = new System.Windows.Forms.ToolTip(this.components);
             this.panel_TitleBar.SuspendLayout();
             this.panel_CategoryBar.SuspendLayout();
             this.SuspendLayout();
@@ -412,6 +414,7 @@
         private Styles.Controls.Animated.AnimatedButton titleBar_Title;
         public System.Windows.Forms.Panel panel_TitleBar;
         public System.Windows.Forms.Panel panel_CategoryBar;
+        private System.Windows.Forms.ToolTip toolTipHelper;
     }
 }
 

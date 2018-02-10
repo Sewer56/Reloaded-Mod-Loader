@@ -1,6 +1,7 @@
 ﻿/*
-    [Reloaded] Mod Loader
-    A universal, powerful multi-game, multi-process mod loader based on DLL Injection. 
+    [Reloaded] Mod Loader Launcher
+    The launcher for a universal, powerful, multi-game and multi-process mod loader
+    based off of the concept of DLL Injection to execute arbitrary program code.
     Copyright (C) 2018  Sewer. Sz (Sewer56)
 
     [Reloaded] is free software: you can redistribute it and/or modify
@@ -26,6 +27,7 @@
     Note: Application version may be set by modifying <Major>, <Minor> and <Build> properties in the project file. (.csproj)
     Visual Studio: Unload project, then an edit button shall appear.
 */
+
 using System;
 using System.Windows.Forms;
 

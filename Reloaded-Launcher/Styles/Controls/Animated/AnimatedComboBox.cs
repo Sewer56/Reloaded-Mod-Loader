@@ -51,6 +51,7 @@ namespace ReloadedLauncher.Styles.Controls.Animated
             this.LeftBorderColour = this.ForeColor;
             this.RightBorderColour = this.ForeColor;
             this.TopBorderColour = this.ForeColor;
+            this.DropDownArrowColour = this.ForeColor;
 
             // Change the BackColor.
             base.OnBackColorChanged(e);
