@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using static Reloaded.Native.WinAPI;
 
@@ -98,5 +99,51 @@ namespace Reloaded.Native
             return new Point(windowSizeRectangle.rightBorder, windowSizeRectangle.bottomBorder);
         }
 
+        /// <summary>
+        /// Checks whether the current application is activated.
+        /// The method compares the current active foreground window to the
+        /// window thread of the current caller. 
+        /// 
+        /// The function is not specific
+        /// to any technology and works for both child windows and the current window,
+        /// also independently of the thread which owns a specific window.
+        /// </summary>
+        /// <returns>Returns true if the current application has focus/is foreground/is activated. Else false.</returns>
+        public static bool IsWindowActivated()
+        {
+            // Obtain the active window handle.
+            IntPtr activatedHandle = WinAPI.Windows.GetForegroundWindow();
+
+            // Check if any window is active.
+            if (activatedHandle == IntPtr.Zero) { return false; }
+
+            // Retrieve unique identifier for this process.
+            int currentProcessIdentifier = Process.GetCurrentProcess().Id;
+
+            // Retrieve the process identifier for the active window.
+            int activeProcessIdentifier;
+            WinAPI.Windows.GetWindowThreadProcessId(activatedHandle, out activeProcessIdentifier);
+
+            // Compare the process identifiers of active window and our process.
+            return activeProcessIdentifier == currentProcessIdentifier;
+        }
+
+        /// <summary>
+        /// This variant of IsWindowActivated simply checks whether a specified window handle
+        /// is currently focused rather than whether any window belonging to the current process
+        /// is focused.
+        /// </summary>
+        /// <returns>Returns true if the specified handle has focus, else false.</returns>
+        public static bool IsWindowActivated(IntPtr windowHandle)
+        {
+            // Obtain the active window handle.
+            IntPtr activatedHandle = WinAPI.Windows.GetForegroundWindow();
+
+            // Check if any window is active.
+            if (activatedHandle == IntPtr.Zero) { return false; }
+
+            // Compare the process identifiers of active window and our process.
+            return activatedHandle == windowHandle;
+        }
     }
 }

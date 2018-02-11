@@ -41,6 +41,31 @@ namespace Reloaded.Native
         public static class Windows
         {
             /// <summary>
+            /// Retrieves a handle to the foreground window (the window with which the user is currently working). 
+            /// The system assigns a slightly higher priority to the thread that creates the foreground window than it does to other threads. 
+            /// </summary>
+            /// <returns>
+            /// The return value is a handle to the foreground window. 
+            /// The foreground window can be NULL in certain circumstances, such as when a window is losing activation. 
+            /// </returns>
+            [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+            public static extern IntPtr GetForegroundWindow();
+
+            /// <summary>
+            /// Retrieves the identifier of the thread that created the specified window and, 
+            /// optionally, the identifier of the process that created the window. 
+            /// </summary>
+            /// <param name="handle">A handle to the window. </param>
+            /// <param name="processId">
+            /// A pointer to a variable that receives the process identifier. 
+            /// If this parameter is not NULL, GetWindowThreadProcessId copies the 
+            /// identifier of the process to the variable; otherwise, it does not.
+            /// </param>
+            /// <returns>The return value is the identifier of the thread that created the window. </returns>
+            [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+            public static extern int GetWindowThreadProcessId(IntPtr handle, out int processId);
+
+            /// <summary>
             /// Allows us to set a window to become a child of another window (thus exist within the space of parent's window).
             /// </summary>
             /// <param name="hWndChild">The handle of the child window we are attaching.</param>
@@ -286,6 +311,5 @@ namespace Reloaded.Native
             /// </summary>
             public const uint WINEVENT_OUTOFCONTEXT = 0;
         }
-
     }
 }
