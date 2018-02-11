@@ -78,7 +78,7 @@ namespace Reloaded.Input
             /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
             /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
             /// <param name="mappingEntry">Specififies the mapping entry containing the axis to be remapped.</param>
-            void RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry);
+            bool RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry);
 
             /// <summary>
             /// Waits for the user to press a button and retrieves the last pressed button. 
@@ -87,7 +87,7 @@ namespace Reloaded.Input
             /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
             /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
             /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
-            void RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap);
+            bool RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap);
 
             /// <summary>
             /// Retrieves the state of the whole controller in question.

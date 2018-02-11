@@ -193,21 +193,23 @@ namespace Reloaded.Input
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="mappingEntry">Specififies the mapping entry containing the axis to be remapped.</param>
-        public void RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry)
+        /// <returns>True if a new axis has been assigned to the current mapping entry.</returns>
+        public bool RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry)
         {
             // Retrieve the object type of the controller.
             Type controllerType = Controller.GetType();
 
             // If it's a DirectInput controller.
-            if (controllerType == typeof(DInputController)) { DInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry); }
-            else if (controllerType == typeof(XInputController)) { XInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry); }
-            else { currentTimeout = 0; } // Not DInput or XInput
+            if (controllerType == typeof(DInputController)) { return DInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry); }
+            else if (controllerType == typeof(XInputController)) { return XInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry); }
+            else { currentTimeout = 0; return false; } // Not DInput or XInput
         }
 
         /// <summary>
         /// Remaps the axis of a DirectInput controller.
         /// </summary>
-        private void DInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry)
+        /// <returns>True if a new axis has been assigned to the current mapping entry.</returns>
+        private bool DInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry)
         {
             // Cast Controller to DInput Controller
             DInputController dInputController = (DInputController)Controller;
@@ -246,14 +248,14 @@ namespace Reloaded.Input
                             mappingEntry.isReversed = true;
                             mappingEntry.propertyName = propertyInfo.Name;
                             currentTimeout = 0;
-                            return;
+                            return true;
                         }
                         else if (valueDelta > percentDelta)
                         {
                             mappingEntry.isReversed = false;
                             mappingEntry.propertyName = propertyInfo.Name;
                             currentTimeout = 0;
-                            return;
+                            return true;
                         }
                     }
                 }
@@ -268,13 +270,14 @@ namespace Reloaded.Input
 
             // Set current timeout (suppress compiler)
             currentTimeout = 0;
+            return false;
         }
 
 
         /// <summary>
         /// Remaps the axis of an XInput controller.
         /// </summary>
-        private void XInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry)
+        private bool XInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry)
         {
             // Cast Controller to DInput Controller
             XInputController xInputController = (XInputController)Controller;
@@ -305,23 +308,23 @@ namespace Reloaded.Input
                 int rightTrigger = joystickState.Gamepad.RightTrigger - joystickStateNew.Gamepad.RightTrigger;
 
                 // Iterate over all axis.
-                if (leftStickX < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Stick_X; currentTimeout = 0; return; }
-                else if (leftStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Stick_X; currentTimeout = 0; return; }
+                if (leftStickX < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Stick_X; currentTimeout = 0; return true; }
+                else if (leftStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Stick_X; currentTimeout = 0; return true; }
 
-                if (rightStickX < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_X; currentTimeout = 0; return; }
-                else if (rightStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_X; currentTimeout = 0; return; }
+                if (rightStickX < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_X; currentTimeout = 0; return true; }
+                else if (rightStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_X; currentTimeout = 0; return true; }
 
-                if (leftStickY < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Stick_Y; currentTimeout = 0; return; }
-                else if (leftStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Stick_Y; currentTimeout = 0; return; }
+                if (leftStickY < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Stick_Y; currentTimeout = 0; return true; }
+                else if (leftStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Stick_Y; currentTimeout = 0; return true; }
 
-                if (rightStickY < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return; }
-                else if (rightStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return; }
+                if (rightStickY < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return true; }
+                else if (rightStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return true; }
 
-                if (leftTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Trigger; currentTimeout = 0; return; }
-                else if (leftTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Trigger; currentTimeout = 0; return; }
+                if (leftTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Trigger; currentTimeout = 0; return true; }
+                else if (leftTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Trigger; currentTimeout = 0; return true; }
 
-                if (rightTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Trigger; currentTimeout = 0; return; }
-                else if (rightTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Trigger; currentTimeout = 0; return; }
+                if (rightTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Trigger; currentTimeout = 0; return true; }
+                else if (rightTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Trigger; currentTimeout = 0; return true; }
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
@@ -333,6 +336,7 @@ namespace Reloaded.Input
 
             // Set current timeout (suppress compiler)
             currentTimeout = 0;
+            return false;
         }
 
         /// <summary>
@@ -342,15 +346,16 @@ namespace Reloaded.Input
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
-        public void RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
+        /// <returns>True if a new button has successfully been assigned by the user.</returns>
+        public bool RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
         {
             // Retrieve the object type of the controller.
             Type controllerType = Controller.GetType();
 
             // If it's a DirectInput controller.
-            if (controllerType == typeof(DInputController)) { DInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap); }
-            else if (controllerType == typeof(XInputController)) { XInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap); }
-            else { currentTimeout = 0; }
+            if (controllerType == typeof(DInputController)) { return DInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap); }
+            else if (controllerType == typeof(XInputController)) { return XInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap); }
+            else { currentTimeout = 0; return false; }
         }
 
 
@@ -360,7 +365,8 @@ namespace Reloaded.Input
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
-        private void DInputRemapButton(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
+        /// <returns>True if a new button has successfully been assigned by the user.</returns>
+        private bool DInputRemapButton(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
         {
             // Cast Controller to DInput Controller
             DInputController dInputController = (DInputController)Controller;
@@ -397,7 +403,7 @@ namespace Reloaded.Input
                         currentTimeout = 0;
 
                         // Return
-                        return;
+                        return true;
                     }
                 }
 
@@ -411,6 +417,7 @@ namespace Reloaded.Input
 
             // Assign the current timeout.
             currentTimeout = 0;
+            return false;
         }
 
         /// <summary>
@@ -419,7 +426,8 @@ namespace Reloaded.Input
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
-        private void XInputRemapButton(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
+        /// <returns>True if a new button has successfully been assigned by the user.</returns>
+        private bool XInputRemapButton(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
         {
             // Cast Controller to DInput Controller
             XInputController xInputController = (XInputController)Controller;
@@ -456,7 +464,7 @@ namespace Reloaded.Input
                         currentTimeout = 0;
 
                         // Return
-                        return;
+                        return true;
                     }
                 }
 
@@ -470,6 +478,7 @@ namespace Reloaded.Input
 
             // Assign the current timeout.
             currentTimeout = 0;
+            return false;
         }
     }
 }
