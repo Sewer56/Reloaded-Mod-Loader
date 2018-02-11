@@ -93,6 +93,7 @@
     <Compile Include="Hooking\Hooks\InjectionHook.cs" />
     <Compile Include="Input\Common\ControllerCommon.cs" />
     <Compile Include="Input\Config\ControllerConfigParser.cs" />
+    <Compile Include="Input\Config\SampleConfig.cs" />
     <Compile Include="Input\ControllerManager.cs" />
     <Compile Include="Input\DirectInput\DInputCommon.cs" />
     <Compile Include="Input\DirectInput\DInputController.cs" />

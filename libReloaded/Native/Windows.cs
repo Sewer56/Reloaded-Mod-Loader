@@ -8,7 +8,7 @@ namespace Reloaded.Native
     /// <summary>
     /// Provides various classes for obtaining information about various windows that are currently present.
     /// </summary>
-    static class Windows
+    public static class Windows
     {
         /// <summary>
         /// Returns the coordinates of the edges of a specific window relative to the desktop the window is presented on.
