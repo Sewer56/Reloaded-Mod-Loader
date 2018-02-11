@@ -136,14 +136,17 @@ namespace Reloaded.Input.DirectInput
             // Allocate a list of device instances.
             List<DeviceInstance> DInputDevices = new List<DeviceInstance>();
 
-            // Acquire all Joysticks, Keyboards, Mice
-            DInputDevices.AddRange(directInputAdapter.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly));
-            DInputDevices.AddRange(directInputAdapter.GetDevices(DeviceClass.Keyboard, DeviceEnumerationFlags.AttachedOnly));
-            DInputDevices.AddRange(directInputAdapter.GetDevices(DeviceType.Mouse, DeviceEnumerationFlags.AttachedOnly));
+            // Acquire all DInput devices.
+            DInputDevices.AddRange(directInputAdapter.GetDevices(DeviceClass.All, DeviceEnumerationFlags.AttachedOnly));
 
             // Acquire and initialize each device.
-            foreach (DeviceInstance DInputDevice in DInputDevices) {
-                dInputControllers.Add(SetupController(DInputDevice));
+            foreach (DeviceInstance DInputDevice in DInputDevices)
+            {
+                // Filter devices to initialize by type.
+                if (DInputDevice.Type == DeviceType.Joystick) { dInputControllers.Add(SetupController(DInputDevice)); }
+                else if (DInputDevice.Type == DeviceType.Gamepad) { dInputControllers.Add(SetupController(DInputDevice)); }
+                else if (DInputDevice.Type == DeviceType.Keyboard) { dInputControllers.Add(SetupController(DInputDevice)); }
+                else if (DInputDevice.Type == DeviceType.Mouse) { dInputControllers.Add(SetupController(DInputDevice)); }
             }
         }
 
