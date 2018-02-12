@@ -245,6 +245,7 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ThemeList.RowTemplate.Height = 30;
             this.box_ThemeList.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.box_ThemeList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.box_ThemeList.ShowCellToolTips = false;
             this.box_ThemeList.Size = new System.Drawing.Size(820, 377);
             this.box_ThemeList.StandardTab = true;
             this.box_ThemeList.TabIndex = 14;

@@ -261,7 +261,7 @@
     <Compile Include="Libraries\libReloaded\libReloaded\Misc\LoaderPaths.cs" />
     <Compile Include="Libraries\libReloaded\libReloaded\Misc\PathSanitizer.cs" />
     <Compile Include="Libraries\libReloaded\libReloaded\Native\WinAPI.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\Native\Windows.cs" />
+    <Compile Include="Libraries\libReloaded\libReloaded\Native\Windows.cs" />
     <None Include="Libraries\libReloaded\libReloaded\Networking\Client.cs" />
     <None Include="Libraries\libReloaded\libReloaded\Networking\Host.cs" />
     <None Include="Libraries\libReloaded\libReloaded\Networking\Message.cs" />
@@ -277,6 +277,19 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Fonts\FontLoader.cs" />
+    <Compile Include="Windows\Children\Dialogs\IDialog.cs" />
+    <Compile Include="Windows\Children\Dialogs\Input Screen\GetDestinationAxisDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Children\Dialogs\Input Screen\GetDestinationAxisDialog.Designer.cs">
+      <DependentUpon>GetDestinationAxisDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Children\Dialogs\Input Screen\GetNumberDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Children\Dialogs\Input Screen\GetNumberDialog.Designer.cs">
+      <DependentUpon>GetNumberDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Children\Input Screen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -288,6 +301,12 @@
     </Compile>
     <Compile Include="Windows\Children\About Screen.Designer.cs">
       <DependentUpon>About Screen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Children\Dialogs\DialogSample.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Children\Dialogs\DialogSample.Designer.cs">
+      <DependentUpon>DialogSample.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\Children\Manage Screen.cs">
       <SubType>Form</SubType>
@@ -329,11 +348,20 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Windows\Children\Dialogs\Input Screen\GetDestinationAxisDialog.resx">
+      <DependentUpon>GetDestinationAxisDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Children\Dialogs\Input Screen\GetNumberDialog.resx">
+      <DependentUpon>GetNumberDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Windows\Children\Input Screen.resx">
       <DependentUpon>Input Screen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\Children\About Screen.resx">
       <DependentUpon>About Screen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Children\Dialogs\DialogSample.resx">
+      <DependentUpon>DialogSample.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\Children\Manage Screen.resx">
       <DependentUpon>Manage Screen.cs</DependentUpon>

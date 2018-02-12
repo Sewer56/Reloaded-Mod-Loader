@@ -58,12 +58,10 @@ namespace ReloadedLauncher.Windows.Children
             ReloadedLauncher.Styles.Animation.AnimProperties animProperties7 = new ReloadedLauncher.Styles.Animation.AnimProperties();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage13 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage14 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            this.box_ModPreview = new System.Windows.Forms.PictureBox();
             this.borderless_SourceBox = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
             this.borderless_WebBox = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
             this.box_ModPreviewBox = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
             this.borderless_ConfigBox = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            this.item_ModDescription = new ReloadedLauncher.Styles.Controls.EnhancedLabel();
             this.box_DescriptionBox = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
             this.box_ModList = new ReloadedLauncher.Styles.Controls.Animated.AnimatedDataGridView();
             this.modEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,18 +70,11 @@ namespace ReloadedLauncher.Windows.Children
             this.separator = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box_ModListBox = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            ((System.ComponentModel.ISupportInitialize)(this.box_ModPreview)).BeginInit();
+            this.box_ModPreview = new System.Windows.Forms.PictureBox();
+            this.item_ModDescription = new ReloadedLauncher.Styles.Controls.EnhancedLabel();
             ((System.ComponentModel.ISupportInitialize)(this.box_ModList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.box_ModPreview)).BeginInit();
             this.SuspendLayout();
-            // 
-            // box_ModPreview
-            // 
-            this.box_ModPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.box_ModPreview.Location = new System.Drawing.Point(590, 40);
-            this.box_ModPreview.Name = "box_ModPreview";
-            this.box_ModPreview.Size = new System.Drawing.Size(271, 271);
-            this.box_ModPreview.TabIndex = 21;
-            this.box_ModPreview.TabStop = false;
             // 
             // borderless_SourceBox
             // 
@@ -242,23 +233,6 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ConfigBox.UseVisualStyleBackColor = true;
             this.borderless_ConfigBox.Click += new System.EventHandler(this.ConfigBox_Click);
             // 
-            // item_ModDescription
-            // 
-            this.item_ModDescription.BackColor = System.Drawing.Color.Transparent;
-            this.item_ModDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_ModDescription.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_ModDescription.ForeColor = System.Drawing.Color.White;
-            this.item_ModDescription.IgnoreMouse = false;
-            this.item_ModDescription.Location = new System.Drawing.Point(59, 418);
-            this.item_ModDescription.Margin = new System.Windows.Forms.Padding(0);
-            this.item_ModDescription.Name = "item_ModDescription";
-            this.item_ModDescription.Size = new System.Drawing.Size(482, 55);
-            this.item_ModDescription.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_ModDescription.TabIndex = 16;
-            this.item_ModDescription.Text = "Sample Description\r\nHello World!\r\n";
-            this.item_ModDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_ModDescription.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
             // box_DescriptionBox
             // 
             animMessage9.Control = this.box_DescriptionBox;
@@ -356,10 +330,11 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ModList.RowTemplate.Height = 30;
             this.box_ModList.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.box_ModList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.box_ModList.ShowCellToolTips = false;
             this.box_ModList.Size = new System.Drawing.Size(518, 330);
             this.box_ModList.StandardTab = true;
             this.box_ModList.TabIndex = 14;
-            this.box_ModList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Box_ModList_CellContentClick);
+            this.box_ModList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Box_ModList_CellClick);
             this.box_ModList.SelectionChanged += new System.EventHandler(this.ModList_SelectionChanged);
             // 
             // modEnabled
@@ -455,6 +430,32 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ModListBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             this.box_ModListBox.UseVisualStyleBackColor = false;
             // 
+            // box_ModPreview
+            // 
+            this.box_ModPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.box_ModPreview.Location = new System.Drawing.Point(590, 40);
+            this.box_ModPreview.Name = "box_ModPreview";
+            this.box_ModPreview.Size = new System.Drawing.Size(271, 271);
+            this.box_ModPreview.TabIndex = 21;
+            this.box_ModPreview.TabStop = false;
+            // 
+            // item_ModDescription
+            // 
+            this.item_ModDescription.BackColor = System.Drawing.Color.Transparent;
+            this.item_ModDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_ModDescription.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_ModDescription.ForeColor = System.Drawing.Color.White;
+            this.item_ModDescription.IgnoreMouse = false;
+            this.item_ModDescription.Location = new System.Drawing.Point(59, 418);
+            this.item_ModDescription.Margin = new System.Windows.Forms.Padding(0);
+            this.item_ModDescription.Name = "item_ModDescription";
+            this.item_ModDescription.Size = new System.Drawing.Size(482, 55);
+            this.item_ModDescription.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_ModDescription.TabIndex = 16;
+            this.item_ModDescription.Text = "Sample Description\r\nHello World!\r\n";
+            this.item_ModDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.item_ModDescription.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
             // Mods_Screen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -475,8 +476,8 @@ namespace ReloadedLauncher.Windows.Children
             this.Name = "Mods_Screen";
             this.Text = "Main_Screen";
             this.VisibleChanged += new System.EventHandler(this.MenuVisibleChanged);
-            ((System.ComponentModel.ISupportInitialize)(this.box_ModPreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_ModList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.box_ModPreview)).EndInit();
             this.ResumeLayout(false);
 
         }

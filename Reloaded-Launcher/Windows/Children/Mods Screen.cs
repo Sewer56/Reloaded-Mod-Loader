@@ -232,7 +232,7 @@ namespace ReloadedLauncher.Windows.Children
         /// <summary>
         /// Handle clicking of the enable and disable buttons for themes.
         /// </summary>
-        private void Box_ModList_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void Box_ModList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Cast the sender to the datagridview
             var senderGrid = (DataGridView)sender;

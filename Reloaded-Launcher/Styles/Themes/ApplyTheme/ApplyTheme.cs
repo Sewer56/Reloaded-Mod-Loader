@@ -140,10 +140,28 @@ namespace ReloadedLauncher.Styles.Themes
             if (control is DataGridView)
             {
                 DataGridView controlDataGridView = (DataGridView)control;
+
+                // Cells
                 controlDataGridView.DefaultCellStyle.ForeColor = buttonColours.TextColour;
                 controlDataGridView.DefaultCellStyle.BackColor = buttonColours.BGColour;
                 controlDataGridView.DefaultCellStyle.SelectionBackColor = enterAnimation.BGTargetColour;
                 controlDataGridView.DefaultCellStyle.SelectionForeColor = buttonColours.TextColour;
+
+                // Columns
+                controlDataGridView.ColumnHeadersDefaultCellStyle.ForeColor = buttonColours.TextColour;
+                controlDataGridView.ColumnHeadersDefaultCellStyle.BackColor = buttonColours.BGColour;
+                controlDataGridView.ColumnHeadersDefaultCellStyle.SelectionBackColor = enterAnimation.BGTargetColour;
+                controlDataGridView.ColumnHeadersDefaultCellStyle.SelectionForeColor = buttonColours.TextColour;
+
+                // Fonts
+                controlDataGridView.ColumnHeadersDefaultCellStyle.Font = new Font
+                (
+                    Theme.Fonts.TextFont.FontFamily,
+                    controlDataGridView.ColumnHeadersDefaultCellStyle.Font.Size, 
+                    Theme.Fonts.TextFont.Style,
+                    controlDataGridView.ColumnHeadersDefaultCellStyle.Font.Unit
+                );
+
                 controlDataGridView.BackgroundColor = buttonColours.ButtonBGColour;
                 
                 // Set row properties

@@ -82,6 +82,17 @@ namespace ReloadedLauncher
 
             // Open all child forms
             InitializeMDIChildren();
+        }
+
+        /// <summary>
+        /// Performs various tasks such as loading the global theme once the base form 
+        /// has finished loading. Starts the mouse checking thread for forward/back
+        /// button polling support.
+        /// </summary>
+        private void Base_Load(object sender, EventArgs e)
+        {
+            // Load the global theme.
+            Global.Theme.LoadTheme();
 
             // Run mouse check thread.
             mouseCheckThread = new Thread(CheckMouseInput);
@@ -165,16 +176,6 @@ namespace ReloadedLauncher
 
             // Show the main menu
             MDIChildren.MainMenu.Show();
-        }
-
-        /// <summary>
-        /// Load the global theme once the base form has finished loading (all MDI children should also have finished loading)
-        /// by then, as they are loaded in the constructor, pretty convenient.
-        /// </summary>
-        private void Base_Load(object sender, EventArgs e)
-        {
-            // Load the global theme.
-            Global.Theme.LoadTheme();
         }
 
         /// <summary>
@@ -286,28 +287,43 @@ namespace ReloadedLauncher
             AboutMenu
         }
 
+        //
+        // Delegates for Cross-Thread Functions
+        //
+        
+        private delegate IntPtr GetBaseHandleDelegate();
+        private delegate void CycleMouseDelegate(bool forward);
+
         /// <summary>
         /// Runs an infinite loop to check current mouse input.
         /// </summary>
-        private delegate void CycleMouseDelegate(bool forward);
         private void CheckMouseInput()
         {
             // Create delegate for thread-safe tab cycling.
             CycleMouseDelegate cycleMenuDelegate = new CycleMouseDelegate(CycleMenu);
 
+            // Obtain handle of Base window.
+            IntPtr baseHandle = (IntPtr)this.Invoke( (GetBaseHandleDelegate)delegate { return this.Handle; } );
+
             while (true)
             {
-                // Check input.
-                // Back button.
-                if (MouseButtons.HasFlag(MouseButtons.XButton1)) {
-                    Invoke(cycleMenuDelegate, false);
-                    while (MouseButtons.HasFlag(MouseButtons.XButton1)) { Thread.Sleep(32); }
-                }
+                // Check if the base form has focus first.
+                if (Reloaded.Native.Windows.IsWindowActivated(baseHandle))
+                {
+                    // Check input.
+                    // Back button.
+                    if (MouseButtons.HasFlag(MouseButtons.XButton1))
+                    {
+                        Invoke(cycleMenuDelegate, false);
+                        while (MouseButtons.HasFlag(MouseButtons.XButton1)) { Thread.Sleep(32); }
+                    }
 
-                // Forward button.
-                if (MouseButtons.HasFlag(MouseButtons.XButton2)) {
-                    Invoke(cycleMenuDelegate, true);
-                    while (MouseButtons.HasFlag(MouseButtons.XButton2)) { Thread.Sleep(32); }
+                    // Forward button.
+                    if (MouseButtons.HasFlag(MouseButtons.XButton2))
+                    {
+                        Invoke(cycleMenuDelegate, true);
+                        while (MouseButtons.HasFlag(MouseButtons.XButton2)) { Thread.Sleep(32); }
+                    }
                 }
 
                 // Sleep

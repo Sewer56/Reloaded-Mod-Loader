@@ -330,6 +330,7 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameList.RowTemplate.Height = 30;
             this.box_GameList.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.box_GameList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.box_GameList.ShowCellToolTips = false;
             this.box_GameList.Size = new System.Drawing.Size(518, 251);
             this.box_GameList.StandardTab = true;
             this.box_GameList.TabIndex = 14;
