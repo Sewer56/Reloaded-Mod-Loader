@@ -22,12 +22,12 @@ namespace Reloaded.Input
         public interface IController
         {
             /// <summary>
-            /// Store the individual button mappings structure for this controller.
+            /// Stores the individual button mappings structure for this controller.
             /// </summary>
             ButtonMapping ButtonMapping { get; set; }
 
             /// <summary>
-            /// Store the individual axis mappings structure for this controller.
+            /// Stores the individual axis mappings structure for this controller.
             /// </summary>
             AxisMapping AxisMapping { get; set; }
 
@@ -45,24 +45,25 @@ namespace Reloaded.Input
             /// Retrieves whether a specific button is pressed or not. 
             /// Accepts an enum of Controller_Buttons_Generic as parameter and returns the button ID mapped to
             /// the requested Controller_Buttons_Generic member of the "emulated" 360 pad.
-            /// True if said button is pressed, else false.
             /// Note: The current controller state must first be manually updated.
             /// </summary>
+            /// <returns>True if said button is pressed, else false.</returns>
             bool GetButtonState(Controller_Buttons_Generic button);
 
             /// <summary>
             /// Retrieves the specific intensity in terms of how far/deep an axis is pressed in.
             /// The return value should be a floating point number between -100 and 100 float.
-            /// Note: The current controller state must first be manually updated.
+            /// Note: The current controller state must first be manually updated prior.
             /// </summary>
+            /// <returns>The value of the axis between -100 and 100.</returns>
             float GetAxisState(ControllerAxis axis);
 
             /// <summary>
             /// Retrieves all of the individual button states as an array of boolean values.
             /// True if a button is pressed, false if a button is not pressed.
-            /// Note: The current controller state must first be manually updated.
+            /// Note: The current controller state must first be manually updated prior.
             /// </summary>
-            /// <returns></returns>
+            /// <returns>Array of currently pressed/held in buttons.</returns>
             bool[] GetButtons();
 
             /// <summary>
@@ -78,15 +79,17 @@ namespace Reloaded.Input
             /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
             /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
             /// <param name="mappingEntry">Specififies the mapping entry containing the axis to be remapped.</param>
+            /// <returns>True if the axis has been successfully remapped, else false.</returns>
             bool RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry);
 
             /// <summary>
             /// Waits for the user to press a button and retrieves the last pressed button. 
-            /// Accepts any axis as input. Returns the read-in axis.
+            /// Accepts any button as input, changes value of passed in button.
             /// </summary>
             /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
             /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
             /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
+            /// <returns>True if the button has been successfully remapped, else false.</returns>
             bool RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap);
 
             /// <summary>
