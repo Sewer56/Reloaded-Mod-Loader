@@ -77,36 +77,6 @@ namespace Reloaded.Input.DirectInput
         }
 
         /// <summary>
-        /// Returns the appropriate axis mapping entry for each individual specific axis.
-        /// The axis have a 1-1 relationship (oldaxis -> new axis) and a set of properties as defined in
-        /// Controller_Axis_Mapping.
-        /// </summary>
-        /// <param name="axis">The axis whose details we want to obtain.</param>
-        /// <param name="axisMapping">The axis mapping which stores the axis details for the individual controller.</param>
-        /// <returns></returns>
-        public static AxisMappingEntry DInputGetMappedAxis(ControllerAxis axis, AxisMapping axisMapping)
-        {
-            // Stores the axis configuration that is to be returned.
-            AxisMappingEntry controllerAxisMapping = new AxisMappingEntry(); 
-
-            // Switch statement checks the mapping of each axis to verify where it points to. Then retrieves that axis!
-            switch (axis)
-            {
-                case ControllerAxis.Left_Stick_X: controllerAxisMapping = axisMapping.leftStickX; break;
-                case ControllerAxis.Left_Stick_Y: controllerAxisMapping = axisMapping.leftStickY; break;
-
-                case ControllerAxis.Right_Stick_X: controllerAxisMapping = axisMapping.rightStickX; break;
-                case ControllerAxis.Right_Stick_Y: controllerAxisMapping = axisMapping.rightStickY; break;
-
-                case ControllerAxis.Left_Trigger: controllerAxisMapping = axisMapping.leftTrigger; break;
-                case ControllerAxis.Right_Trigger: controllerAxisMapping = axisMapping.rightTrigger; break;
-            }
-
-            // Retrieve empty struct if null, else the correct axis mapping.
-            return controllerAxisMapping; 
-        }
-
-        /// <summary>
         /// Returns the current value for a given axis based off of the set axis in the axis mapping entry and the joystick state.
         /// Performs any necessary additional operations on the axis values based off of the axis configuration.
         /// </summary>
@@ -118,41 +88,7 @@ namespace Reloaded.Input.DirectInput
             int rawValue = GetAxisRawValue(mappingEntry, joystickState);
 
             // Process the raw axis value and return.
-            return DInputProcessAxisRawValue(rawValue, mappingEntry);
-        }
-
-        /// <summary>
-        /// Processes the obtained raw value with DInput ranges and performs modifications on it such
-        /// as changing the radius of the axis reading or checking for deadzones.
-        /// </summary>
-        /// <param name="mappingEntry">The mapping entry for the axis defining which axis should be used.</param>
-        /// <param name="rawValue">The raw value obtained from the axis query..</param>
-        public static float DInputProcessAxisRawValue(int rawValue, AxisMappingEntry mappingEntry)
-        {
-            // Reverse Axis if Necessary
-            if (mappingEntry.isReversed) { rawValue = -1 * rawValue; }
-
-            // Scale Axis
-            float newRawValue = ((float)rawValue / (float)DInputManager.AXIS_MAX_VALUE) * DInputManager.AXIS_MAX_VALUE_F;
-
-            // If triggers. scale to between 0 - 100
-            switch (mappingEntry.axis)
-            {
-                case ControllerAxis.Left_Trigger:
-                case ControllerAxis.Right_Trigger:
-                    newRawValue += 100;
-                    newRawValue *= DInputManager.TRIGGER_SCALE_FACTOR;
-                    break;
-            }
-
-            // If the input lays within the acceptable deadzone range, return null.
-            if (VerifyDeadzones(newRawValue, mappingEntry)) { return 0F; }
-
-            // Scale Radius Scale Value
-            newRawValue *= mappingEntry.radiusScale;
-
-            // Return axis value.
-            return newRawValue;
+            return InputProcessAxisRawValue(rawValue, mappingEntry, false);
         }
 
         /// <summary>
@@ -162,70 +98,14 @@ namespace Reloaded.Input.DirectInput
         /// <param name="joystickState">The current state of the controller in question.</param>
         private static int GetAxisRawValue(AxisMappingEntry mappingEntry, JoystickState joystickState)
         {
-            // Value for the current axis.
-            int rawValue = 0;
+            // If axis source is null, and the axis is a trigger, return minimum float.
+            if (mappingEntry.propertyName == "Null" && (mappingEntry.axis == ControllerAxis.Left_Trigger || mappingEntry.axis == ControllerAxis.Right_Trigger)) { return DInputManager.AXIS_MIN_VALUE; }
+
+            // Else return 0 if the axis source is null.
+            else if (mappingEntry.propertyName == "Null") { return 0; }
 
             // Return the appropriately mapped axis!
-            switch (mappingEntry.axis)
-            {
-                case ControllerAxis.Left_Stick_X: 
-                case ControllerAxis.Left_Stick_Y: 
-                case ControllerAxis.Right_Stick_X: 
-                case ControllerAxis.Right_Stick_Y: 
-                case ControllerAxis.Left_Trigger: 
-                case ControllerAxis.Right_Trigger:
-                    rawValue = (int)Reflection_GetValue(joystickState, mappingEntry.propertyName);
-                    break;
-                default: break;
-            }
-
-            // Returm the raw value.
-            return rawValue;
-        }
-
-        /// <summary>
-        /// Returns true the input raw value is within a deadzone specified
-        /// by the specific axis mapping entry. 
-        /// </summary>
-        /// <param name="axisValue">The scaled value of the prior obtained raw axis reading: Range -100 to 100 (Sticks) or 0-100 (Triggers)</param>
-        /// <param name="mappingEntry">The mapping entry for the axis defining the deadzone for the specific axis.</param>
-        public static bool VerifyDeadzones(float axisValue, AxisMappingEntry mappingEntry)
-        {
-            // Verify Deadzones
-            switch (mappingEntry.axis)
-            {
-                // For all analog sticks.
-                case ControllerAxis.Left_Stick_X:
-                case ControllerAxis.Left_Stick_Y:
-                case ControllerAxis.Right_Stick_X:
-                case ControllerAxis.Right_Stick_Y:
-
-                    // Get boundaries of deadzone.
-                    float deadzoneMax = (DInputManager.AXIS_MAX_VALUE_F / 100.0F) * mappingEntry.deadZone;
-                    float deadzoneMin = (DInputManager.AXIS_MIN_VALUE_F / 100.0F) * mappingEntry.deadZone;
-
-                    // If within boundaries, axis value is 0.
-                    if ((axisValue < deadzoneMax) && (axisValue > deadzoneMin)) { return true; }
-
-                    // Else break.
-                    break;
-
-                // For all triggers
-                case ControllerAxis.Left_Trigger:
-                case ControllerAxis.Right_Trigger:
-
-                    // Get max deadzone
-                    float deadzoneTriggerMax = ((DInputManager.AXIS_MAX_VALUE_F * 2) / 100.0F) * mappingEntry.deadZone;
-
-                    // If within bounds, axis value is 0.
-                    if (axisValue < deadzoneTriggerMax) { return true; }
-
-                    // Else break.
-                    break;
-            }
-
-            // If not in deadzones return false.
-            return false;
+            return (int)Reflection_GetValue(joystickState, mappingEntry.propertyName); 
         }
     }
 }

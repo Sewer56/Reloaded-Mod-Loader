@@ -16,6 +16,16 @@ namespace Reloaded.Input
         public const int BUTTON_NULL = 255;
 
         /// <summary>
+        /// Represents the maximum value of the axis as returned to the modder/user.
+        /// </summary>
+        public static float AXIS_MAX_VALUE_F = 100;
+
+        /// <summary>
+        /// Represents the minimum value of the axis as returned to the modder/user.
+        /// </summary>
+        public static float AXIS_MIN_VALUE_F = -100;
+
+        /// <summary>
         /// Defines an interface for DirectInput + XInput Controller implementations which defines the function names
         /// and signatures to be shared between both the DirectInput and XInput controller implementations.
         /// </summary>
@@ -56,6 +66,11 @@ namespace Reloaded.Input
             /// Note: The current controller state must first be manually updated prior.
             /// </summary>
             /// <returns>The value of the axis between -100 and 100.</returns>
+            /// <remarks>
+            /// This does not take into account the destination axis and reads the value
+            /// of the equivalent source axis. If the user has Left Stick mapped to e.g. Right Stick
+            /// and you request the right stick axis, the value will return 0 (assuming right stick is centered).
+            /// </remarks>
             float GetAxisState(ControllerAxis axis);
 
             /// <summary>
@@ -79,8 +94,9 @@ namespace Reloaded.Input
             /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
             /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
             /// <param name="mappingEntry">Specififies the mapping entry containing the axis to be remapped.</param>
+            /// <param name="cancellationToken">The method polls on this boolean such that if it is set to true, the method will exit.</param>
             /// <returns>True if the axis has been successfully remapped, else false.</returns>
-            bool RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry);
+            bool RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry, ref bool cancellationToken);
 
             /// <summary>
             /// Waits for the user to press a button and retrieves the last pressed button. 
@@ -89,8 +105,9 @@ namespace Reloaded.Input
             /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
             /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
             /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
+            /// <param name="cancellationToken">The method polls on this boolean such that if it is set to true, the method will exit.</param>
             /// <returns>True if the button has been successfully remapped, else false.</returns>
-            bool RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap);
+            bool RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap, ref bool cancellationToken);
 
             /// <summary>
             /// Retrieves the state of the whole controller in question.
@@ -133,7 +150,7 @@ namespace Reloaded.Input
             /// <summary>
             /// Defines which of the buttons are currently pressed at the current moment in time.
             /// </summary>
-            public ControllerBUttonStruct controllerButtons;
+            public ControllerButtonStruct controllerButtons;
 
             /// <summary>
             /// Sets the left trigger pressure such that it falls within the allowable bounds of 
@@ -142,8 +159,8 @@ namespace Reloaded.Input
             public void SetLeftTriggerPressure(float value)
             {
                 leftTriggerPressure = value;
-                if (leftTriggerPressure > DInputManager.AXIS_MAX_VALUE_F) { leftTriggerPressure = DInputManager.AXIS_MAX_VALUE_F; }
-                if (leftTriggerPressure < DInputManager.AXIS_MIN_VALUE_F) { leftTriggerPressure = DInputManager.AXIS_MIN_VALUE_F; }
+                if (leftTriggerPressure > ControllerCommon.AXIS_MAX_VALUE_F) { leftTriggerPressure = ControllerCommon.AXIS_MAX_VALUE_F; }
+                if (leftTriggerPressure < ControllerCommon.AXIS_MIN_VALUE_F) { leftTriggerPressure = ControllerCommon.AXIS_MIN_VALUE_F; }
             }
 
             /// <summary>
@@ -153,8 +170,8 @@ namespace Reloaded.Input
             public void SetRightTriggerPressure(float value)
             {
                 rightTriggerPressure = value;
-                if (rightTriggerPressure > DInputManager.AXIS_MAX_VALUE_F) { rightTriggerPressure = DInputManager.AXIS_MAX_VALUE_F; }
-                if (rightTriggerPressure < DInputManager.AXIS_MIN_VALUE_F) { rightTriggerPressure = DInputManager.AXIS_MIN_VALUE_F; }
+                if (rightTriggerPressure > ControllerCommon.AXIS_MAX_VALUE_F) { rightTriggerPressure = ControllerCommon.AXIS_MAX_VALUE_F; }
+                if (rightTriggerPressure < ControllerCommon.AXIS_MIN_VALUE_F) { rightTriggerPressure = ControllerCommon.AXIS_MIN_VALUE_F; }
             }
 
             /// <summary>
@@ -172,7 +189,7 @@ namespace Reloaded.Input
         /// <summary>
         /// Defines the struct which declares if each of the buttons is pressed.
         /// </summary>
-        public struct ControllerBUttonStruct
+        public struct ControllerButtonStruct
         {
             /// <summary>
             /// Playstation: Cross, Nintendo: B 
@@ -242,7 +259,7 @@ namespace Reloaded.Input
         /// Sony Playstation and Nintendo equivalents are provided in comments for each button, 
         /// for the convenience of the programmer.
         /// </summary>
-        public struct ButtonMapping
+        public class ButtonMapping
         {
             /// <summary>
             /// Playstation: Cross, Nintendo: B 
@@ -305,7 +322,7 @@ namespace Reloaded.Input
         /// support analog or POV-hat input such as keyboards and other potential peripherals.
         /// The emulated keys override the real keys if they are set.
         /// </summary>
-        public struct EmulationButtonMapping
+        public class EmulationButtonMapping
         {
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD UP if pressed.
@@ -522,29 +539,31 @@ namespace Reloaded.Input
         /// Defines all of the axis mappings for the individual custom controller.
         /// Used for mapping internal XInput and DirectInput axis to own custom defined axis.
         /// </summary>
-        public struct AxisMapping
+        public class AxisMapping
         {
-            public AxisMappingEntry leftStickX;
-            public AxisMappingEntry leftStickY;
-            public AxisMappingEntry rightStickX;
-            public AxisMappingEntry rightStickY;
-            public AxisMappingEntry leftTrigger;
-            public AxisMappingEntry rightTrigger;
+            public AxisMappingEntry leftStickX = new AxisMappingEntry();
+            public AxisMappingEntry leftStickY = new AxisMappingEntry();
+            public AxisMappingEntry rightStickX = new AxisMappingEntry();
+            public AxisMappingEntry rightStickY = new AxisMappingEntry();
+            public AxisMappingEntry leftTrigger = new AxisMappingEntry();
+            public AxisMappingEntry rightTrigger = new AxisMappingEntry();
         }
 
         /// <summary>
         /// Defines an individual mapping entry for a controller axis as defined in Controller_Axis_Struct.
         /// Serves as a bridge to provide each axis with an individual name and misc properties.
         /// </summary>
-        public struct AxisMappingEntry
+        public class AxisMappingEntry
         {
             /// <summary>
-            /// Defines the individual axis entry.
+            /// Defines the mapping for the individual axis entry.
+            /// Also sometimes known in the source code as the Destination Axis.
             /// </summary>
             public ControllerAxis axis;
 
             /// <summary>
             /// Stores the name of the property (DirectInput, XInput) that is mapped to the axis type.
+            /// Sometimes known in the source code as the Source Axis.
             /// </summary>
             public string propertyName;
 
@@ -629,8 +648,8 @@ namespace Reloaded.Input
                 X = value;
 
                 // Do not allow X to be lesser or greater than man/mix.
-                if (X > DInputManager.AXIS_MAX_VALUE_F) { X = DInputManager.AXIS_MAX_VALUE_F; }
-                else if (X < DInputManager.AXIS_MIN_VALUE_F) { X = DInputManager.AXIS_MIN_VALUE_F; }
+                if (X > ControllerCommon.AXIS_MAX_VALUE_F) { X = ControllerCommon.AXIS_MAX_VALUE_F; }
+                else if (X < ControllerCommon.AXIS_MIN_VALUE_F) { X = ControllerCommon.AXIS_MIN_VALUE_F; }
             }
 
 
@@ -643,9 +662,137 @@ namespace Reloaded.Input
                 Y = value;
 
                 // Do not allow X to be lesser or greater than man/mix.
-                if (Y > DInputManager.AXIS_MAX_VALUE_F) { Y = DInputManager.AXIS_MAX_VALUE_F; }
-                else if (Y < DInputManager.AXIS_MIN_VALUE_F) { Y = DInputManager.AXIS_MIN_VALUE_F; }
+                if (Y > ControllerCommon.AXIS_MAX_VALUE_F) { Y = ControllerCommon.AXIS_MAX_VALUE_F; }
+                else if (Y < ControllerCommon.AXIS_MIN_VALUE_F) { Y = ControllerCommon.AXIS_MIN_VALUE_F; }
             }
+        }
+
+        /// <summary>
+        /// Processes the obtained raw value with DInput/XInput ranges and performs modifications on it such
+        /// as changing the radius of the axis reading or checking for deadzones.
+        /// </summary>
+        /// <param name="mappingEntry">The mapping entry for the axis defining which axis should be used.</param>
+        /// <param name="rawValue">The raw value obtained from the axis query..</param>
+        /// <param name="isScaled">Declares whether the value is already scaled appropriately before reaching the function or not. Currently false for DInput and true for XInput.</param>
+        public static float InputProcessAxisRawValue(int rawValue, AxisMappingEntry mappingEntry, bool isScaled)
+        {
+            // Reverse Axis if Necessary
+            if (mappingEntry.isReversed) { rawValue = -1 * rawValue; }
+
+            // Scale Axis if Necessary.
+            float newRawValue = rawValue;
+            if (!isScaled) { newRawValue = ((float)rawValue / (float)DInputManager.AXIS_MAX_VALUE) * ControllerCommon.AXIS_MAX_VALUE_F; }
+
+            // If triggers. scale to between 0 - 100 (from -100 - 100)
+            switch (mappingEntry.axis)
+            {
+                case ControllerAxis.Left_Trigger:
+                case ControllerAxis.Right_Trigger:
+                    newRawValue += ControllerCommon.AXIS_MAX_VALUE_F;
+                    newRawValue *= DInputManager.TRIGGER_SCALE_FACTOR;
+                    break;
+            }
+
+            // If the input lays within the acceptable deadzone range, return null.
+            if (VerifyDeadzones(newRawValue, mappingEntry)) { return 0F; }
+
+            // Scale Radius Scale Value
+            newRawValue *= mappingEntry.radiusScale;
+
+            // Return axis value.
+            return newRawValue;
+        }
+
+        /// <summary>
+        /// Returns true the input raw value is within a deadzone specified
+        /// by the specific axis mapping entry. 
+        /// </summary>
+        /// <param name="axisValue">The scaled value of the prior obtained raw axis reading: Range -100 to 100 (Sticks) or 0-100 (Triggers)</param>
+        /// <param name="mappingEntry">The mapping entry for the axis defining the deadzone for the specific axis.</param>
+        public static bool VerifyDeadzones(float axisValue, AxisMappingEntry mappingEntry)
+        {
+            // Verify Deadzones
+            switch (mappingEntry.axis)
+            {
+                // For all analog sticks.
+                case ControllerAxis.Left_Stick_X:
+                case ControllerAxis.Left_Stick_Y:
+                case ControllerAxis.Right_Stick_X:
+                case ControllerAxis.Right_Stick_Y:
+
+                    // Get boundaries of deadzone.
+                    float deadzoneMax = (ControllerCommon.AXIS_MAX_VALUE_F / 100.0F) * mappingEntry.deadZone;
+                    float deadzoneMin = -(ControllerCommon.AXIS_MAX_VALUE_F / 100.0F) * mappingEntry.deadZone;
+
+                    // If within boundaries, axis value is 0.
+                    if ((axisValue < deadzoneMax) && (axisValue > deadzoneMin))
+                    {
+                        return true;
+                    }
+
+                    // Else break.
+                    break;
+
+                // For all triggers
+                case ControllerAxis.Left_Trigger:
+                case ControllerAxis.Right_Trigger:
+
+                    // Get max deadzone
+                    float deadzoneTriggerMax = ((ControllerCommon.AXIS_MAX_VALUE_F) / 100.0F) * mappingEntry.deadZone;
+
+                    // If within bounds, axis value is 0.
+                    if (axisValue < deadzoneTriggerMax)
+                    {
+                        return true;
+                    }
+
+                    // Else break.
+                    break;
+            }
+
+            // If not in deadzones return false.
+            return false;
+        }
+
+
+        /// <summary>
+        /// Returns the appropriate axis mapping entry for each individual specific axis.
+        /// The axis have a 1-1 relationship (oldaxis -> new axis) and a set of properties as defined in
+        /// Controller_Axis_Mapping.
+        /// </summary>
+        /// <param name="axis">The axis whose details we want to obtain.</param>
+        /// <param name="axisMapping">The axis mapping which stores the axis details for the individual controller.</param>
+        /// <returns></returns>
+        public static AxisMappingEntry InputGetMappedAxis(ControllerAxis axis, AxisMapping axisMapping)
+        {
+            // Stores the axis configuration that is to be returned.
+            AxisMappingEntry controllerAxisMapping = new AxisMappingEntry();
+
+            // Find axis mapped to the requested controller axis.
+            // Check every axis manually, until one of the axes contains the desired destination axis.
+            if (IsCorrectAxisMappingEntry(axisMapping.leftStickX, axis)) { return axisMapping.leftStickX; }
+            if (IsCorrectAxisMappingEntry(axisMapping.leftStickY, axis)) { return axisMapping.leftStickY; }
+
+            if (IsCorrectAxisMappingEntry(axisMapping.rightStickX, axis)) { return axisMapping.rightStickX; }
+            if (IsCorrectAxisMappingEntry(axisMapping.rightStickY, axis)) { return axisMapping.rightStickY; }
+
+            if (IsCorrectAxisMappingEntry(axisMapping.leftTrigger, axis)) { return axisMapping.leftTrigger; }
+            if (IsCorrectAxisMappingEntry(axisMapping.rightTrigger, axis)) { return axisMapping.rightTrigger; }
+
+            // Retrieve empty struct if null, else the correct axis mapping.
+            return controllerAxisMapping;
+        }
+
+        /// <summary>
+        /// Verifies whether a passed in axis mapping entry's axis is the one requested
+        /// by the user/programmer. i.e. axisMappingEntry.axis == axis
+        /// </summary>
+        /// <param name="axis">The requested axis to verify if there is a match with the other parameter axis of axis mapping entry.</param>
+        /// <param name="axisMappingEntry">The mapping entry to check if matches the currently requested axis.</param>
+        /// <returns>True if it is the correct entry, else false.</returns>
+        private static bool IsCorrectAxisMappingEntry(AxisMappingEntry axisMappingEntry, ControllerAxis axis)
+        {
+            return axisMappingEntry.axis == axis ? true : false;
         }
 
         /// <summary>
@@ -654,7 +801,8 @@ namespace Reloaded.Input
         /// </summary>
         public static object Reflection_GetValue(object sourceObject, string propertyName)
         {
-            return sourceObject.GetType().GetProperty(propertyName).GetValue(sourceObject, null);
+            try { return sourceObject.GetType().GetProperty(propertyName).GetValue(sourceObject, null); }
+            catch { return 0; }
         }
     }
 }

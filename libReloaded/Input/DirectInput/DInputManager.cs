@@ -21,16 +21,6 @@ namespace Reloaded.Input.DirectInput
         public static int AXIS_MIN_VALUE = -10000;
 
         /// <summary>
-        /// Represents the maximum value of the axis as returned to the modder/user.
-        /// </summary>
-        public static float AXIS_MAX_VALUE_F = 100;
-
-        /// <summary>
-        /// Represents the minimum value of the axis as returned to the modder/user.
-        /// </summary>
-        public static float AXIS_MIN_VALUE_F = -100;
-
-        /// <summary>
         /// Defines the factor by which the range of the values for the trigger (max - min)
         /// is scaled.
         /// </summary>
@@ -146,6 +136,8 @@ namespace Reloaded.Input.DirectInput
                 if (DInputDevice.Type == DeviceType.Joystick) { dInputControllers.Add(SetupController(DInputDevice)); }
                 else if (DInputDevice.Type == DeviceType.Gamepad) { dInputControllers.Add(SetupController(DInputDevice)); }
                 else if (DInputDevice.Type == DeviceType.Keyboard) { dInputControllers.Add(SetupController(DInputDevice)); }
+
+                // TODO: Mouse Axis Support
                 else if (DInputDevice.Type == DeviceType.Mouse) { dInputControllers.Add(SetupController(DInputDevice)); }
             }
         }
@@ -159,6 +151,9 @@ namespace Reloaded.Input.DirectInput
             // Initialize Joystick/Controller
             DInputController dInputController = new DInputController(directInputAdapter, DInputDevice.InstanceGuid);
 
+            // If the device is a mouse, set the axis mode to relative.
+            if (dInputController.Information.Type == DeviceType.Mouse) { dInputController.Properties.AxisMode = DeviceAxisMode.Relative; }
+
             // Acquire the DInput Device
             dInputController.Acquire();
 
@@ -166,8 +161,8 @@ namespace Reloaded.Input.DirectInput
             // If it contains an axis, set the range of the axis to AXIS_MIN_VALUE, AXIS_MAX_VALUE
             foreach (DeviceObjectInstance deviceObject in dInputController.GetObjects())
             {
-                // Check if the object flags contain axis.
-                if (deviceObject.ObjectId.Flags.HasFlag(DeviceObjectTypeFlags.Axis))
+                // Check if the object flags contain axis bits.
+                if (deviceObject.ObjectId.Flags.HasFlag(DeviceObjectTypeFlags.AbsoluteAxis))
                 {
                     // Set the range of the axis as defined in the class header.
                     dInputController.GetObjectPropertiesById(deviceObject.ObjectId).Range = new SharpDX.DirectInput.InputRange(AXIS_MIN_VALUE, AXIS_MAX_VALUE);

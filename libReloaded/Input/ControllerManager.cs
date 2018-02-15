@@ -28,7 +28,20 @@ namespace Reloaded.Input
         public Hotplugger Hotplugger { get; set; }
 
         /// <summary>
+        /// Delegate for controller hotplugging which gets fired when a controller is attached or detached
+        /// from the currently connected controllers. Fires after the new controllers are acquired.
+        /// </summary>
+        public ControllerHotplugDelegate ControllerHotplugEventDelegate { get; set; }
+
+        /// <summary>
+        /// Delegate for controller hotplugging which gets fired when a controller is attached or detached
+        /// from the currently connected controllers. Fires after the new controllers are acquired.
+        /// </summary>
+        public delegate void ControllerHotplugDelegate();
+
+        /// <summary>
         /// Initializes the controller manager which loads all of the DInput and XInput controllers and 
+        /// allows for quick and easy remapping and input obtaining from controllers.
         /// </summary>
         public ControllerManager()
         {
@@ -49,6 +62,9 @@ namespace Reloaded.Input
         /// </summary>
         public void SetupControllerManager()
         {
+            // Clear current controller (on hotplug events)
+            Controllers.Clear();
+
             // Acquire the DirectInput devices. (Finds, loads and sets up all DInput Devices)
             DInputManager.AcquireDevices();
 
@@ -64,6 +80,9 @@ namespace Reloaded.Input
             Controllers.Add(xInputController2);
             Controllers.Add(xInputController3);
             Controllers.Add(xInputController4);
+
+            // Fire hotplug delegate.
+            ControllerHotplugEventDelegate?.Invoke();
         }
 
         /// <summary>
@@ -77,7 +96,7 @@ namespace Reloaded.Input
 
             // Get input for every controller at port # and add onto the input struct.
             ControllerInputs controllerInputs = new ControllerInputs();
-            controllerInputs.controllerButtons = new ControllerBUttonStruct();
+            controllerInputs.controllerButtons = new ControllerButtonStruct();
             controllerInputs.leftStick = new Analog_Stick();
 
             // For each controller in port #.

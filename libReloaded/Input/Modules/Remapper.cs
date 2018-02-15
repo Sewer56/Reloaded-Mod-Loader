@@ -193,15 +193,16 @@ namespace Reloaded.Input
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="mappingEntry">Specififies the mapping entry containing the axis to be remapped.</param>
+        /// <param name="cancellationToken">The method polls on this boolean such that if it is set to true, the method will exit.</param>
         /// <returns>True if a new axis has been assigned to the current mapping entry.</returns>
-        public bool RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry)
+        public bool RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry, ref bool cancellationToken)
         {
             // Retrieve the object type of the controller.
             Type controllerType = Controller.GetType();
 
             // If it's a DirectInput controller.
-            if (controllerType == typeof(DInputController)) { return DInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry); }
-            else if (controllerType == typeof(XInputController)) { return XInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry); }
+            if (controllerType == typeof(DInputController)) { return DInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry, ref cancellationToken); }
+            else if (controllerType == typeof(XInputController)) { return XInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry, ref cancellationToken); }
             else { currentTimeout = 0; return false; } // Not DInput or XInput
         }
 
@@ -209,7 +210,7 @@ namespace Reloaded.Input
         /// Remaps the axis of a DirectInput controller.
         /// </summary>
         /// <returns>True if a new axis has been assigned to the current mapping entry.</returns>
-        private bool DInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry)
+        private bool DInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry, ref bool cancellationToken)
         {
             // Cast Controller to DInput Controller
             DInputController dInputController = (DInputController)Controller;
@@ -227,6 +228,19 @@ namespace Reloaded.Input
             // Get % Change for recognition of input.
             int percentDelta = (int)((DInputManager.AXIS_MAX_VALUE / 100.0F) * PERCENTAGE_AXIS_DELTA);
 
+            // If the axis is relative, instead set the delta very low, as relative acceleration based inputs cannot be scaled to a range.
+            if (dInputController.Properties.AxisMode == DeviceAxisMode.Relative)
+            {
+                // Set low delta
+                percentDelta = 50;
+
+                // Additionally reset every property.
+                foreach (PropertyInfo propertyInfo in stateType.GetProperties())
+                {
+                    if (propertyInfo.PropertyType == typeof(int)) { propertyInfo.SetValue(joystickState, 0); }
+                }
+            }
+
             // Poll the controller properties.
             while (pollCounter < pollAttempts)
             {
@@ -237,7 +251,7 @@ namespace Reloaded.Input
                 foreach (PropertyInfo propertyInfo in stateType.GetProperties())
                 {
                     // If the property type is an integer. (This covers, nearly all possible axis readings and all in common controllers.)
-                    if (propertyInfo.GetType() == typeof(int))
+                    if (propertyInfo.PropertyType == typeof(int))
                     {
                         // Calculate the change of value from last time.
                         int valueDelta = (int)propertyInfo.GetValue(joystickState) - (int)propertyInfo.GetValue(joystickStateNew);
@@ -245,14 +259,14 @@ namespace Reloaded.Input
                         // If the value has changed over X amount
                         if (valueDelta < (-1 * percentDelta) )
                         {
-                            mappingEntry.isReversed = true;
+                            //mappingEntry.isReversed = true;
                             mappingEntry.propertyName = propertyInfo.Name;
                             currentTimeout = 0;
                             return true;
                         }
                         else if (valueDelta > percentDelta)
                         {
-                            mappingEntry.isReversed = false;
+                            //mappingEntry.isReversed = false;
                             mappingEntry.propertyName = propertyInfo.Name;
                             currentTimeout = 0;
                             return true;
@@ -262,7 +276,10 @@ namespace Reloaded.Input
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
-                currentTimeout = (float)timeoutSeconds - ( (pollCounter * SLEEP_TIME_POLLING) / MILLISECONDS_IN_SECOND);
+                currentTimeout = (float)timeoutSeconds - ( (pollCounter * SLEEP_TIME_POLLING) / (float)MILLISECONDS_IN_SECOND);
+
+                // Check exit condition
+                if (cancellationToken) { return false; }
 
                 // Sleep
                 Thread.Sleep(SLEEP_TIME_POLLING);
@@ -270,6 +287,7 @@ namespace Reloaded.Input
 
             // Set current timeout (suppress compiler)
             currentTimeout = 0;
+            mappingEntry.propertyName = "Null";
             return false;
         }
 
@@ -277,7 +295,7 @@ namespace Reloaded.Input
         /// <summary>
         /// Remaps the axis of an XInput controller.
         /// </summary>
-        private bool XInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry)
+        private bool XInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry, ref bool cancellationToken)
         {
             // Cast Controller to DInput Controller
             XInputController xInputController = (XInputController)Controller;
@@ -330,6 +348,9 @@ namespace Reloaded.Input
                 pollCounter += 1;
                 currentTimeout = (float)timeoutSeconds - ((pollCounter * SLEEP_TIME_POLLING) / MILLISECONDS_IN_SECOND);
 
+                // Check exit condition
+                if (cancellationToken) { return false; }
+
                 // Sleep
                 Thread.Sleep(SLEEP_TIME_POLLING);
             }
@@ -346,15 +367,16 @@ namespace Reloaded.Input
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
+        /// <param name="cancellationToken">The method polls on this boolean such that if it is set to true, the method will exit.</param>
         /// <returns>True if a new button has successfully been assigned by the user.</returns>
-        public bool RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
+        public bool RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap, ref bool cancellationToken)
         {
             // Retrieve the object type of the controller.
             Type controllerType = Controller.GetType();
 
             // If it's a DirectInput controller.
-            if (controllerType == typeof(DInputController)) { return DInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap); }
-            else if (controllerType == typeof(XInputController)) { return XInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap); }
+            if (controllerType == typeof(DInputController)) { return DInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap, ref cancellationToken); }
+            else if (controllerType == typeof(XInputController)) { return XInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap, ref cancellationToken); }
             else { currentTimeout = 0; return false; }
         }
 
@@ -365,8 +387,9 @@ namespace Reloaded.Input
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
+        /// <param name="cancellationToken">The method polls on this boolean such that if it is set to true, the method will exit.</param>
         /// <returns>True if a new button has successfully been assigned by the user.</returns>
-        private bool DInputRemapButton(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
+        private bool DInputRemapButton(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap, ref bool cancellationToken)
         {
             // Cast Controller to DInput Controller
             DInputController dInputController = (DInputController)Controller;
@@ -409,7 +432,10 @@ namespace Reloaded.Input
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
-                currentTimeout = (float)timeoutSeconds - ((pollCounter * SLEEP_TIME_POLLING) / MILLISECONDS_IN_SECOND);
+                currentTimeout = (float)timeoutSeconds - ((pollCounter * SLEEP_TIME_POLLING) / (float)MILLISECONDS_IN_SECOND);
+
+                // Check exit condition
+                if (cancellationToken) { return false; }
 
                 // Sleep
                 Thread.Sleep(SLEEP_TIME_POLLING);
@@ -426,8 +452,9 @@ namespace Reloaded.Input
         /// <param name="timeoutSeconds">The timeout in seconds for the controller assignment.</param>
         /// <param name="currentTimeout">The current amount of time left in seconds, use this to update the GUI.</param>
         /// <param name="buttonToMap">Specififies the button variable where the index of the pressed button will be written to. Either a member of Controller_Button_Mapping or Emulation_Button_Mapping</param>
+        /// <param name="cancellationToken">The method polls on this boolean such that if it is set to true, the method will exit.</param>
         /// <returns>True if a new button has successfully been assigned by the user.</returns>
-        private bool XInputRemapButton(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap)
+        private bool XInputRemapButton(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap, ref bool cancellationToken)
         {
             // Cast Controller to DInput Controller
             XInputController xInputController = (XInputController)Controller;
@@ -470,7 +497,10 @@ namespace Reloaded.Input
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
-                currentTimeout = (float)timeoutSeconds - ((pollCounter * SLEEP_TIME_POLLING) / MILLISECONDS_IN_SECOND);
+                currentTimeout = (float)timeoutSeconds - ((pollCounter * SLEEP_TIME_POLLING) / (float)MILLISECONDS_IN_SECOND);
+
+                // Check exit condition
+                if (cancellationToken) { return false; }
 
                 // Sleep
                 Thread.Sleep(SLEEP_TIME_POLLING);

@@ -51,7 +51,7 @@ namespace Reloaded.Input
         /// Constructor for the Hotplugger class. Requires an initial method to which send messages when a device is
         /// connected or disconencted.
         /// </summary>
-        /// <param name="methodDelegate"></param>
+        /// <param name="methodDelegate">The method to be executed when a new controller is connected or disconnected.</param>
         public Hotplugger(Delegate methodDelegate)
         {
             // Create a new CreateParameters object.

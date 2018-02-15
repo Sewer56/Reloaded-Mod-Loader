@@ -145,10 +145,10 @@ namespace Reloaded.Input
         /// <param name="controller">A DirectInput or XInput controller instance.</param>
         public void WriteConfig(string configLocation, IController controller)
         {
-            // Read the controller port ID.
-            controller.ControllerID = Convert.ToInt32(iniData["Main Settings"]["Controller_Port"]);
+            // Controller port ID.
+            iniData["Main Settings"]["Controller_Port"] = Convert.ToString(controller.ControllerID);
 
-            // Read the controller button mappings.
+            // Controller button mappings.
             #region Button Mappings
             iniData["Button Mappings"]["Button_A"] = Convert.ToString((int)controller.ButtonMapping.Button_A);
             iniData["Button Mappings"]["Button_B"] = Convert.ToString((int)controller.ButtonMapping.Button_B);
@@ -166,7 +166,7 @@ namespace Reloaded.Input
             iniData["Button Mappings"]["Button_Start"] = Convert.ToString((int)controller.ButtonMapping.Button_Start);
             #endregion
 
-            // Read the controller axis emulation mappings.
+            // Controller axis emulation mappings.
             #region Emulation Mappings
             iniData["Emulation Mapping"]["DPAD_UP"] = Convert.ToString((int)controller.EmulationMapping.DPAD_UP);
             iniData["Emulation Mapping"]["DPAD_LEFT"] = Convert.ToString((int)controller.EmulationMapping.DPAD_LEFT);
@@ -187,7 +187,7 @@ namespace Reloaded.Input
             iniData["Emulation Mapping"]["Right_Stick_Right"] = Convert.ToString((int)controller.EmulationMapping.Right_Stick_Right);
             #endregion
 
-            // Read the controller axis mappings.
+            // Controller axis mappings.
             #region Axis Mappings
             iniData["Axis"]["Left_Stick_X"] = Convert.ToString(controller.AxisMapping.leftStickX.propertyName);
             iniData["Axis Type"]["Left_Stick_X"] = Enum.GetName(typeof(ControllerAxis),controller.AxisMapping.leftStickX.axis);
