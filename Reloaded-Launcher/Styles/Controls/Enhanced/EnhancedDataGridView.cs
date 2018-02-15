@@ -268,12 +268,12 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
             if (nextRow > Rows.Count - 1)
             {
                 Rows[0].Selected = true;
-                FirstDisplayedScrollingRowIndex = 0;
+                CurrentCell = Rows[0].Cells[0];
             }
             else
             {
                 Rows[nextRow].Selected = true;
-                FirstDisplayedScrollingRowIndex = nextRow;
+                CurrentCell = Rows[nextRow].Cells[0];
             }
         }
 
@@ -288,13 +288,13 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
 
             if (nextRow < 0)
             {
-                FirstDisplayedScrollingRowIndex = Rows.Count - 1;
                 Rows[Rows.Count - 1].Selected = true;
+                CurrentCell = Rows[Rows.Count - 1].Cells[0];
             }
             else
             {
-                FirstDisplayedScrollingRowIndex = nextRow;
                 Rows[nextRow].Selected = true;
+                CurrentCell = Rows[nextRow].Cells[0];
             }
         }
 

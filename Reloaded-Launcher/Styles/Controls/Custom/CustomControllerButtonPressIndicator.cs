@@ -48,7 +48,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         public override string Text
         {
             get { return base.Text; }
-            set { base.Text = value; Invalidate(); }
+            set { base.Text = value; this.Invoke((Action)delegate { Refresh(); }); }
         }
 
         /// <summary>
@@ -57,7 +57,14 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         public bool ButtonEnabled
         {
             get { return buttonEnabled; }
-            set { buttonEnabled = value; Invalidate(); }
+            set
+            {
+                if (buttonEnabled != value)
+                {
+                    buttonEnabled = value;
+                    this.Invoke((Action)delegate { Refresh(); });
+                }
+            }
         }
 
         /// <summary>
@@ -71,7 +78,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         public CustomControllerButtonPressIndicator()
         {
             // Redirect all painting to us.
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
 
             // Setup default text format.
             StringFormat = new StringFormat();

@@ -113,7 +113,6 @@ namespace ReloadedLauncher.Styles.Themes
                 animatedControl.AnimProperties.MouseEnterBackColor = enterAnimation.BGTargetColour;
                 animatedControl.AnimProperties.MouseEnterForeColor = enterAnimation.FGTargetColour;
                 animatedControl.AnimProperties.MouseEnterDuration = enterAnimation.AnimationDuration;
-                animatedControl.AnimProperties.MouseEnterFramerate = enterAnimation.AnimationFramerate;
                 if (enterAnimation.BlendBGColour) { animatedControl.AnimProperties.MouseEnterOverride = animatedControl.AnimProperties.MouseEnterOverride | Animation.AnimOverrides.MouseEnterOverride.BackColorInterpolate; }
                 if (enterAnimation.BlendFGColour) { animatedControl.AnimProperties.MouseEnterOverride = animatedControl.AnimProperties.MouseEnterOverride | Animation.AnimOverrides.MouseEnterOverride.ForeColorInterpolate; }
 
@@ -121,9 +120,13 @@ namespace ReloadedLauncher.Styles.Themes
                 animatedControl.AnimProperties.MouseLeaveBackColor = exitAnimation.BGTargetColour;
                 animatedControl.AnimProperties.MouseLeaveForeColor = exitAnimation.FGTargetColour;
                 animatedControl.AnimProperties.MouseLeaveDuration = exitAnimation.AnimationDuration;
-                animatedControl.AnimProperties.MouseLeaveFramerate = exitAnimation.AnimationFramerate;
+                
                 if (exitAnimation.BlendBGColour) { animatedControl.AnimProperties.MouseLeaveOverride = animatedControl.AnimProperties.MouseLeaveOverride | Animation.AnimOverrides.MouseLeaveOverride.BackColorInterpolate; }
                 if (exitAnimation.BlendFGColour) { animatedControl.AnimProperties.MouseLeaveOverride = animatedControl.AnimProperties.MouseLeaveOverride | Animation.AnimOverrides.MouseLeaveOverride.ForeColorInterpolate; }
+
+                // Overrate Framerates if not specified
+                if (animatedControl.AnimProperties.MouseEnterFramerate == 0) { animatedControl.AnimProperties.MouseEnterFramerate = enterAnimation.AnimationFramerate; }
+                if (animatedControl.AnimProperties.MouseLeaveFramerate == 0) { animatedControl.AnimProperties.MouseLeaveFramerate = exitAnimation.AnimationFramerate; }
 
                 // If it is a bordered, control, override.
                 if (control is IBorderedControl)

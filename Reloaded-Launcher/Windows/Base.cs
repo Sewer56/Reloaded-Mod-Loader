@@ -38,6 +38,28 @@ namespace ReloadedLauncher
         public ChildForms MDIChildren { get; set; }
 
         /// <summary>
+        /// Allows for the enabling/disabling of tab switching
+        /// with the mouse forward and back button. Use it to temporarily
+        /// suspend tab switching for when, e.g. a mouse button is being actively 
+        /// binded.
+        /// </summary>
+        private bool enableTabSwitching;
+
+        /// <summary>
+        /// Waits for the user to release the tab mouse buttons before allowing
+        /// tab switching to be disabled or enabled.
+        /// </summary>
+        public bool EnableTabSwitching
+        {
+            get { return enableTabSwitching; }
+            set
+            {
+                while (MouseButtons.HasFlag(MouseButtons.XButton1) || MouseButtons.HasFlag(MouseButtons.XButton2)) { Thread.Sleep(8); }
+                enableTabSwitching = value;
+            }
+        }
+
+        /// <summary>
         /// Thread which checks forward and back mouse buttons for
         /// switching tabs.
         /// </summary>
@@ -82,6 +104,9 @@ namespace ReloadedLauncher
 
             // Open all child forms
             InitializeMDIChildren();
+
+            // Enable Tab Switching
+            enableTabSwitching = true;
         }
 
         /// <summary>
@@ -308,7 +333,7 @@ namespace ReloadedLauncher
             while (true)
             {
                 // Check if the base form has focus first.
-                if (Reloaded.Native.Windows.IsWindowActivated(baseHandle))
+                if (Reloaded.Native.Windows.IsWindowActivated(baseHandle) && enableTabSwitching)
                 {
                     // Check input.
                     // Back button.

@@ -34,6 +34,15 @@ namespace ReloadedLauncher.Windows.Children
             ReloadedLauncher.Styles.Animation.AnimProperties animProperties1 = new ReloadedLauncher.Styles.Animation.AnimProperties();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage1 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage2 = new ReloadedLauncher.Styles.Animation.AnimMessage();
+            ReloadedLauncher.Styles.Animation.AnimProperties animProperties2 = new ReloadedLauncher.Styles.Animation.AnimProperties();
+            ReloadedLauncher.Styles.Animation.AnimMessage animMessage3 = new ReloadedLauncher.Styles.Animation.AnimMessage();
+            ReloadedLauncher.Styles.Animation.AnimMessage animMessage4 = new ReloadedLauncher.Styles.Animation.AnimMessage();
+            ReloadedLauncher.Styles.Animation.AnimProperties animProperties3 = new ReloadedLauncher.Styles.Animation.AnimProperties();
+            ReloadedLauncher.Styles.Animation.AnimMessage animMessage5 = new ReloadedLauncher.Styles.Animation.AnimMessage();
+            ReloadedLauncher.Styles.Animation.AnimMessage animMessage6 = new ReloadedLauncher.Styles.Animation.AnimMessage();
+            ReloadedLauncher.Styles.Animation.AnimProperties animProperties4 = new ReloadedLauncher.Styles.Animation.AnimProperties();
+            ReloadedLauncher.Styles.Animation.AnimMessage animMessage7 = new ReloadedLauncher.Styles.Animation.AnimMessage();
+            ReloadedLauncher.Styles.Animation.AnimMessage animMessage8 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -43,36 +52,30 @@ namespace ReloadedLauncher.Windows.Children
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties2 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage3 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage4 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties3 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage5 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage6 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties4 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage7 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage8 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             ReloadedLauncher.Styles.Animation.AnimProperties animProperties5 = new ReloadedLauncher.Styles.Animation.AnimProperties();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage9 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage10 = new ReloadedLauncher.Styles.Animation.AnimMessage();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             ReloadedLauncher.Styles.Animation.AnimProperties animProperties6 = new ReloadedLauncher.Styles.Animation.AnimProperties();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage11 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage12 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             ReloadedLauncher.Styles.Animation.AnimProperties animProperties7 = new ReloadedLauncher.Styles.Animation.AnimProperties();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage13 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage14 = new ReloadedLauncher.Styles.Animation.AnimMessage();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             ReloadedLauncher.Styles.Animation.AnimProperties animProperties8 = new ReloadedLauncher.Styles.Animation.AnimProperties();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage15 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage16 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             ReloadedLauncher.Styles.Animation.AnimProperties animProperties9 = new ReloadedLauncher.Styles.Animation.AnimProperties();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage17 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             ReloadedLauncher.Styles.Animation.AnimMessage animMessage18 = new ReloadedLauncher.Styles.Animation.AnimMessage();
+            ReloadedLauncher.Styles.Animation.AnimProperties animProperties10 = new ReloadedLauncher.Styles.Animation.AnimProperties();
+            ReloadedLauncher.Styles.Animation.AnimMessage animMessage19 = new ReloadedLauncher.Styles.Animation.AnimMessage();
+            ReloadedLauncher.Styles.Animation.AnimMessage animMessage20 = new ReloadedLauncher.Styles.Animation.AnimMessage();
             System.Drawing.StringFormat stringFormat1 = new System.Drawing.StringFormat();
             System.Drawing.StringFormat stringFormat2 = new System.Drawing.StringFormat();
             System.Drawing.StringFormat stringFormat3 = new System.Drawing.StringFormat();
@@ -85,6 +88,9 @@ namespace ReloadedLauncher.Windows.Children
             System.Drawing.StringFormat stringFormat10 = new System.Drawing.StringFormat();
             System.Drawing.StringFormat stringFormat11 = new System.Drawing.StringFormat();
             System.Drawing.StringFormat stringFormat12 = new System.Drawing.StringFormat();
+            this.borderless_ControllerPort = new ReloadedLauncher.Styles.Controls.Animated.AnimatedTextbox();
+            this.borderless_TitleButtonToAxisMappings = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
+            this.borderless_TitleButtonMappings = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
             this.box_AxisList = new ReloadedLauncher.Styles.Controls.Animated.AnimatedDataGridView();
             this.Axis = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AxisProperty = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -102,8 +108,6 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ButtonListBox = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
             this.borderless_CurrentController = new ReloadedLauncher.Styles.Controls.Animated.AnimatedComboBox();
             this.box_AxisListBox = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            this.borderless_TitleButtonMappings = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            this.borderless_TitleButtonToAxisMappings = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
             this.toolTipHelper = new System.Windows.Forms.ToolTip(this.components);
             this.borderless_ButtonSTART = new ReloadedLauncher.Styles.Controls.Custom.CustomControllerButtonPressIndicator();
             this.borderless_ButtonSELECT = new ReloadedLauncher.Styles.Controls.Custom.CustomControllerButtonPressIndicator();
@@ -126,17 +130,12 @@ namespace ReloadedLauncher.Windows.Children
             ((System.ComponentModel.ISupportInitialize)(this.box_ButtonList)).BeginInit();
             this.SuspendLayout();
             // 
-            // box_AxisList
+            // borderless_ControllerPort
             // 
-            this.box_AxisList.AllowDrop = true;
-            this.box_AxisList.AllowUserToAddRows = false;
-            this.box_AxisList.AllowUserToDeleteRows = false;
-            this.box_AxisList.AllowUserToResizeColumns = false;
-            this.box_AxisList.AllowUserToResizeRows = false;
-            animMessage1.Control = this.box_AxisList;
+            animMessage1.Control = this.borderless_ControllerPort;
             animMessage1.PlayAnimation = true;
             animProperties1.BackColorMessage = animMessage1;
-            animMessage2.Control = this.box_AxisList;
+            animMessage2.Control = this.borderless_ControllerPort;
             animMessage2.PlayAnimation = true;
             animProperties1.ForeColorMessage = animMessage2;
             animProperties1.MouseEnterBackColor = System.Drawing.Color.Empty;
@@ -149,7 +148,134 @@ namespace ReloadedLauncher.Windows.Children
             animProperties1.MouseLeaveForeColor = System.Drawing.Color.Empty;
             animProperties1.MouseLeaveFramerate = 0F;
             animProperties1.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_AxisList.AnimProperties = animProperties1;
+            this.borderless_ControllerPort.AnimProperties = animProperties1;
+            this.borderless_ControllerPort.BackColor = System.Drawing.Color.Gray;
+            this.borderless_ControllerPort.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.borderless_ControllerPort.BottomBorderColour = System.Drawing.Color.Red;
+            this.borderless_ControllerPort.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            this.borderless_ControllerPort.BottomBorderWidth = 1;
+            this.borderless_ControllerPort.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_ControllerPort.ForeColor = System.Drawing.Color.Red;
+            this.borderless_ControllerPort.LeftBorderColour = System.Drawing.Color.Red;
+            this.borderless_ControllerPort.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            this.borderless_ControllerPort.LeftBorderWidth = 0;
+            this.borderless_ControllerPort.Location = new System.Drawing.Point(591, 43);
+            this.borderless_ControllerPort.Name = "borderless_ControllerPort";
+            this.borderless_ControllerPort.RightBorderColour = System.Drawing.Color.Red;
+            this.borderless_ControllerPort.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            this.borderless_ControllerPort.RightBorderWidth = 0;
+            this.borderless_ControllerPort.Size = new System.Drawing.Size(32, 24);
+            this.borderless_ControllerPort.TabIndex = 29;
+            this.borderless_ControllerPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTipHelper.SetToolTip(this.borderless_ControllerPort, "Specifies the name of the game as seen in Reloaded Launcher");
+            this.borderless_ControllerPort.TopBorderColour = System.Drawing.Color.Red;
+            this.borderless_ControllerPort.TopBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            this.borderless_ControllerPort.TopBorderWidth = 1;
+            this.borderless_ControllerPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ControllerPort_KeyPress);
+            this.borderless_ControllerPort.Leave += new System.EventHandler(this.ControllerPort_Leave);
+            // 
+            // borderless_TitleButtonToAxisMappings
+            // 
+            animMessage3.Control = this.borderless_TitleButtonToAxisMappings;
+            animMessage3.PlayAnimation = true;
+            animProperties2.BackColorMessage = animMessage3;
+            animMessage4.Control = this.borderless_TitleButtonToAxisMappings;
+            animMessage4.PlayAnimation = true;
+            animProperties2.ForeColorMessage = animMessage4;
+            animProperties2.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties2.MouseEnterDuration = 0F;
+            animProperties2.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties2.MouseEnterFramerate = 0F;
+            animProperties2.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties2.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties2.MouseLeaveDuration = 0F;
+            animProperties2.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties2.MouseLeaveFramerate = 0F;
+            animProperties2.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_TitleButtonToAxisMappings.AnimProperties = animProperties2;
+            this.borderless_TitleButtonToAxisMappings.CaptureChildren = false;
+            this.borderless_TitleButtonToAxisMappings.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.borderless_TitleButtonToAxisMappings.FlatAppearance.BorderSize = 0;
+            this.borderless_TitleButtonToAxisMappings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_TitleButtonToAxisMappings.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_TitleButtonToAxisMappings.ForeColor = System.Drawing.Color.White;
+            this.borderless_TitleButtonToAxisMappings.IgnoreMouse = false;
+            this.borderless_TitleButtonToAxisMappings.IgnoreMouseClicks = true;
+            this.borderless_TitleButtonToAxisMappings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.borderless_TitleButtonToAxisMappings.Location = new System.Drawing.Point(314, 40);
+            this.borderless_TitleButtonToAxisMappings.Name = "borderless_TitleButtonToAxisMappings";
+            this.borderless_TitleButtonToAxisMappings.Size = new System.Drawing.Size(253, 32);
+            this.borderless_TitleButtonToAxisMappings.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_TitleButtonToAxisMappings.TabIndex = 28;
+            this.borderless_TitleButtonToAxisMappings.Text = "Btn => Axis Mappings";
+            this.borderless_TitleButtonToAxisMappings.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            this.toolTipHelper.SetToolTip(this.borderless_TitleButtonToAxisMappings, "Allows for the binding of buttons to various axis, supporting \"analog\" controls f" +
+        "or e.g. Keyboards.");
+            this.borderless_TitleButtonToAxisMappings.UseVisualStyleBackColor = true;
+            // 
+            // borderless_TitleButtonMappings
+            // 
+            animMessage5.Control = this.borderless_TitleButtonMappings;
+            animMessage5.PlayAnimation = true;
+            animProperties3.BackColorMessage = animMessage5;
+            animMessage6.Control = this.borderless_TitleButtonMappings;
+            animMessage6.PlayAnimation = true;
+            animProperties3.ForeColorMessage = animMessage6;
+            animProperties3.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties3.MouseEnterDuration = 0F;
+            animProperties3.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties3.MouseEnterFramerate = 0F;
+            animProperties3.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties3.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties3.MouseLeaveDuration = 0F;
+            animProperties3.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties3.MouseLeaveFramerate = 0F;
+            animProperties3.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_TitleButtonMappings.AnimProperties = animProperties3;
+            this.borderless_TitleButtonMappings.CaptureChildren = false;
+            this.borderless_TitleButtonMappings.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.borderless_TitleButtonMappings.FlatAppearance.BorderSize = 0;
+            this.borderless_TitleButtonMappings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_TitleButtonMappings.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_TitleButtonMappings.ForeColor = System.Drawing.Color.White;
+            this.borderless_TitleButtonMappings.IgnoreMouse = false;
+            this.borderless_TitleButtonMappings.IgnoreMouseClicks = true;
+            this.borderless_TitleButtonMappings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.borderless_TitleButtonMappings.Location = new System.Drawing.Point(40, 40);
+            this.borderless_TitleButtonMappings.Name = "borderless_TitleButtonMappings";
+            this.borderless_TitleButtonMappings.Size = new System.Drawing.Size(253, 32);
+            this.borderless_TitleButtonMappings.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_TitleButtonMappings.TabIndex = 27;
+            this.borderless_TitleButtonMappings.Text = "Button Mappings";
+            this.borderless_TitleButtonMappings.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            this.toolTipHelper.SetToolTip(this.borderless_TitleButtonMappings, "Double click an entry to bind a new joystick button to the \"virtual\" XBOX 360 con" +
+        "troller used by Reloaded.");
+            this.borderless_TitleButtonMappings.UseVisualStyleBackColor = true;
+            // 
+            // box_AxisList
+            // 
+            this.box_AxisList.AllowDrop = true;
+            this.box_AxisList.AllowUserToAddRows = false;
+            this.box_AxisList.AllowUserToDeleteRows = false;
+            this.box_AxisList.AllowUserToResizeColumns = false;
+            this.box_AxisList.AllowUserToResizeRows = false;
+            animMessage7.Control = this.box_AxisList;
+            animMessage7.PlayAnimation = true;
+            animProperties4.BackColorMessage = animMessage7;
+            animMessage8.Control = this.box_AxisList;
+            animMessage8.PlayAnimation = true;
+            animProperties4.ForeColorMessage = animMessage8;
+            animProperties4.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties4.MouseEnterDuration = 0F;
+            animProperties4.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties4.MouseEnterFramerate = 0F;
+            animProperties4.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties4.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties4.MouseLeaveDuration = 0F;
+            animProperties4.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties4.MouseLeaveFramerate = 0F;
+            animProperties4.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_AxisList.AnimProperties = animProperties4;
             this.box_AxisList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.box_AxisList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.box_AxisList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -276,23 +402,23 @@ namespace ReloadedLauncher.Windows.Children
             this.box_EmulatedAxisList.AllowUserToDeleteRows = false;
             this.box_EmulatedAxisList.AllowUserToResizeColumns = false;
             this.box_EmulatedAxisList.AllowUserToResizeRows = false;
-            animMessage3.Control = this.box_EmulatedAxisList;
-            animMessage3.PlayAnimation = true;
-            animProperties2.BackColorMessage = animMessage3;
-            animMessage4.Control = this.box_EmulatedAxisList;
-            animMessage4.PlayAnimation = true;
-            animProperties2.ForeColorMessage = animMessage4;
-            animProperties2.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties2.MouseEnterDuration = 0F;
-            animProperties2.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties2.MouseEnterFramerate = 0F;
-            animProperties2.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties2.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties2.MouseLeaveDuration = 0F;
-            animProperties2.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties2.MouseLeaveFramerate = 0F;
-            animProperties2.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_EmulatedAxisList.AnimProperties = animProperties2;
+            animMessage9.Control = this.box_EmulatedAxisList;
+            animMessage9.PlayAnimation = true;
+            animProperties5.BackColorMessage = animMessage9;
+            animMessage10.Control = this.box_EmulatedAxisList;
+            animMessage10.PlayAnimation = true;
+            animProperties5.ForeColorMessage = animMessage10;
+            animProperties5.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties5.MouseEnterDuration = 0F;
+            animProperties5.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties5.MouseEnterFramerate = 0F;
+            animProperties5.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties5.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties5.MouseLeaveDuration = 0F;
+            animProperties5.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties5.MouseLeaveFramerate = 0F;
+            animProperties5.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_EmulatedAxisList.AnimProperties = animProperties5;
             this.box_EmulatedAxisList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.box_EmulatedAxisList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.box_EmulatedAxisList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -331,6 +457,11 @@ namespace ReloadedLauncher.Windows.Children
             this.box_EmulatedAxisList.Size = new System.Drawing.Size(252, 205);
             this.box_EmulatedAxisList.StandardTab = true;
             this.box_EmulatedAxisList.TabIndex = 22;
+            this.toolTipHelper.SetToolTip(this.box_EmulatedAxisList, "Allows for devices with only buttons e.g. keyboards simulate analog movement.\r\nPS" +
+        ". Did you know you can clear the current highlighted selection with the middle m" +
+        "ouse button instead of waiting?");
+            this.box_EmulatedAxisList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ButtonList_DoubleClick);
+            this.box_EmulatedAxisList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ButtonList_MouseDown);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -358,23 +489,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // box_EmulatedAxisListBox
             // 
-            animMessage5.Control = this.box_EmulatedAxisListBox;
-            animMessage5.PlayAnimation = true;
-            animProperties3.BackColorMessage = animMessage5;
-            animMessage6.Control = this.box_EmulatedAxisListBox;
-            animMessage6.PlayAnimation = true;
-            animProperties3.ForeColorMessage = animMessage6;
-            animProperties3.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties3.MouseEnterDuration = 0F;
-            animProperties3.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties3.MouseEnterFramerate = 0F;
-            animProperties3.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties3.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties3.MouseLeaveDuration = 0F;
-            animProperties3.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties3.MouseLeaveFramerate = 0F;
-            animProperties3.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_EmulatedAxisListBox.AnimProperties = animProperties3;
+            animMessage11.Control = this.box_EmulatedAxisListBox;
+            animMessage11.PlayAnimation = true;
+            animProperties6.BackColorMessage = animMessage11;
+            animMessage12.Control = this.box_EmulatedAxisListBox;
+            animMessage12.PlayAnimation = true;
+            animProperties6.ForeColorMessage = animMessage12;
+            animProperties6.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties6.MouseEnterDuration = 0F;
+            animProperties6.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties6.MouseEnterFramerate = 0F;
+            animProperties6.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties6.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties6.MouseLeaveDuration = 0F;
+            animProperties6.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties6.MouseLeaveFramerate = 0F;
+            animProperties6.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_EmulatedAxisListBox.AnimProperties = animProperties6;
             this.box_EmulatedAxisListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_EmulatedAxisListBox.CaptureChildren = false;
             this.box_EmulatedAxisListBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -400,23 +531,23 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ButtonList.AllowUserToDeleteRows = false;
             this.box_ButtonList.AllowUserToResizeColumns = false;
             this.box_ButtonList.AllowUserToResizeRows = false;
-            animMessage7.Control = this.box_ButtonList;
-            animMessage7.PlayAnimation = true;
-            animProperties4.BackColorMessage = animMessage7;
-            animMessage8.Control = this.box_ButtonList;
-            animMessage8.PlayAnimation = true;
-            animProperties4.ForeColorMessage = animMessage8;
-            animProperties4.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties4.MouseEnterDuration = 0F;
-            animProperties4.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties4.MouseEnterFramerate = 0F;
-            animProperties4.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties4.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties4.MouseLeaveDuration = 0F;
-            animProperties4.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties4.MouseLeaveFramerate = 0F;
-            animProperties4.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_ButtonList.AnimProperties = animProperties4;
+            animMessage13.Control = this.box_ButtonList;
+            animMessage13.PlayAnimation = true;
+            animProperties7.BackColorMessage = animMessage13;
+            animMessage14.Control = this.box_ButtonList;
+            animMessage14.PlayAnimation = true;
+            animProperties7.ForeColorMessage = animMessage14;
+            animProperties7.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties7.MouseEnterDuration = 0F;
+            animProperties7.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties7.MouseEnterFramerate = 0F;
+            animProperties7.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties7.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties7.MouseLeaveDuration = 0F;
+            animProperties7.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties7.MouseLeaveFramerate = 0F;
+            animProperties7.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_ButtonList.AnimProperties = animProperties7;
             this.box_ButtonList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.box_ButtonList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.box_ButtonList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -455,6 +586,9 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ButtonList.Size = new System.Drawing.Size(252, 205);
             this.box_ButtonList.StandardTab = true;
             this.box_ButtonList.TabIndex = 20;
+            this.toolTipHelper.SetToolTip(this.box_ButtonList, "Double click item to remap the button to be used.");
+            this.box_ButtonList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ButtonList_DoubleClick);
+            this.box_ButtonList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ButtonList_MouseDown);
             // 
             // modName
             // 
@@ -482,23 +616,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // box_ButtonListBox
             // 
-            animMessage9.Control = this.box_ButtonListBox;
-            animMessage9.PlayAnimation = true;
-            animProperties5.BackColorMessage = animMessage9;
-            animMessage10.Control = this.box_ButtonListBox;
-            animMessage10.PlayAnimation = true;
-            animProperties5.ForeColorMessage = animMessage10;
-            animProperties5.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties5.MouseEnterDuration = 0F;
-            animProperties5.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties5.MouseEnterFramerate = 0F;
-            animProperties5.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties5.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties5.MouseLeaveDuration = 0F;
-            animProperties5.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties5.MouseLeaveFramerate = 0F;
-            animProperties5.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_ButtonListBox.AnimProperties = animProperties5;
+            animMessage15.Control = this.box_ButtonListBox;
+            animMessage15.PlayAnimation = true;
+            animProperties8.BackColorMessage = animMessage15;
+            animMessage16.Control = this.box_ButtonListBox;
+            animMessage16.PlayAnimation = true;
+            animProperties8.ForeColorMessage = animMessage16;
+            animProperties8.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterDuration = 0F;
+            animProperties8.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterFramerate = 0F;
+            animProperties8.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties8.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveDuration = 0F;
+            animProperties8.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveFramerate = 0F;
+            animProperties8.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_ButtonListBox.AnimProperties = animProperties8;
             this.box_ButtonListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_ButtonListBox.CaptureChildren = false;
             this.box_ButtonListBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -519,23 +653,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // borderless_CurrentController
             // 
-            animMessage11.Control = this.borderless_CurrentController;
-            animMessage11.PlayAnimation = true;
-            animProperties6.BackColorMessage = animMessage11;
-            animMessage12.Control = this.borderless_CurrentController;
-            animMessage12.PlayAnimation = true;
-            animProperties6.ForeColorMessage = animMessage12;
-            animProperties6.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties6.MouseEnterDuration = 0F;
-            animProperties6.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties6.MouseEnterFramerate = 0F;
-            animProperties6.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties6.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties6.MouseLeaveDuration = 0F;
-            animProperties6.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties6.MouseLeaveFramerate = 0F;
-            animProperties6.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_CurrentController.AnimProperties = animProperties6;
+            animMessage17.Control = this.borderless_CurrentController;
+            animMessage17.PlayAnimation = true;
+            animProperties9.BackColorMessage = animMessage17;
+            animMessage18.Control = this.borderless_CurrentController;
+            animMessage18.PlayAnimation = true;
+            animProperties9.ForeColorMessage = animMessage18;
+            animProperties9.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterDuration = 0F;
+            animProperties9.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterFramerate = 0F;
+            animProperties9.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties9.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveDuration = 0F;
+            animProperties9.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveFramerate = 0F;
+            animProperties9.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_CurrentController.AnimProperties = animProperties9;
             this.borderless_CurrentController.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.borderless_CurrentController.BottomBorderColour = System.Drawing.Color.White;
             this.borderless_CurrentController.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
@@ -559,12 +693,12 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_CurrentController.LeftBorderColour = System.Drawing.Color.Empty;
             this.borderless_CurrentController.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_CurrentController.LeftBorderWidth = 0;
-            this.borderless_CurrentController.Location = new System.Drawing.Point(591, 40);
+            this.borderless_CurrentController.Location = new System.Drawing.Point(629, 40);
             this.borderless_CurrentController.Name = "borderless_CurrentController";
             this.borderless_CurrentController.RightBorderColour = System.Drawing.Color.Empty;
             this.borderless_CurrentController.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_CurrentController.RightBorderWidth = 0;
-            this.borderless_CurrentController.Size = new System.Drawing.Size(271, 32);
+            this.borderless_CurrentController.Size = new System.Drawing.Size(233, 32);
             this.borderless_CurrentController.TabIndex = 3;
             this.borderless_CurrentController.TopBorderColour = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.borderless_CurrentController.TopBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
@@ -573,23 +707,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // box_AxisListBox
             // 
-            animMessage13.Control = this.box_AxisListBox;
-            animMessage13.PlayAnimation = true;
-            animProperties7.BackColorMessage = animMessage13;
-            animMessage14.Control = this.box_AxisListBox;
-            animMessage14.PlayAnimation = true;
-            animProperties7.ForeColorMessage = animMessage14;
-            animProperties7.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties7.MouseEnterDuration = 0F;
-            animProperties7.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties7.MouseEnterFramerate = 0F;
-            animProperties7.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties7.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties7.MouseLeaveDuration = 0F;
-            animProperties7.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties7.MouseLeaveFramerate = 0F;
-            animProperties7.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_AxisListBox.AnimProperties = animProperties7;
+            animMessage19.Control = this.box_AxisListBox;
+            animMessage19.PlayAnimation = true;
+            animProperties10.BackColorMessage = animMessage19;
+            animMessage20.Control = this.box_AxisListBox;
+            animMessage20.PlayAnimation = true;
+            animProperties10.ForeColorMessage = animMessage20;
+            animProperties10.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties10.MouseEnterDuration = 0F;
+            animProperties10.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties10.MouseEnterFramerate = 0F;
+            animProperties10.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties10.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties10.MouseLeaveDuration = 0F;
+            animProperties10.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties10.MouseLeaveFramerate = 0F;
+            animProperties10.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_AxisListBox.AnimProperties = animProperties10;
             this.box_AxisListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_AxisListBox.CaptureChildren = false;
             this.box_AxisListBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -608,83 +742,11 @@ namespace ReloadedLauncher.Windows.Children
             this.box_AxisListBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             this.box_AxisListBox.UseVisualStyleBackColor = false;
             // 
-            // borderless_TitleButtonMappings
+            // toolTipHelper
             // 
-            animMessage15.Control = this.borderless_TitleButtonMappings;
-            animMessage15.PlayAnimation = true;
-            animProperties8.BackColorMessage = animMessage15;
-            animMessage16.Control = this.borderless_TitleButtonMappings;
-            animMessage16.PlayAnimation = true;
-            animProperties8.ForeColorMessage = animMessage16;
-            animProperties8.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties8.MouseEnterDuration = 0F;
-            animProperties8.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties8.MouseEnterFramerate = 0F;
-            animProperties8.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties8.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties8.MouseLeaveDuration = 0F;
-            animProperties8.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties8.MouseLeaveFramerate = 0F;
-            animProperties8.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_TitleButtonMappings.AnimProperties = animProperties8;
-            this.borderless_TitleButtonMappings.CaptureChildren = false;
-            this.borderless_TitleButtonMappings.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.borderless_TitleButtonMappings.FlatAppearance.BorderSize = 0;
-            this.borderless_TitleButtonMappings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_TitleButtonMappings.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.borderless_TitleButtonMappings.ForeColor = System.Drawing.Color.White;
-            this.borderless_TitleButtonMappings.IgnoreMouse = false;
-            this.borderless_TitleButtonMappings.IgnoreMouseClicks = true;
-            this.borderless_TitleButtonMappings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borderless_TitleButtonMappings.Location = new System.Drawing.Point(40, 40);
-            this.borderless_TitleButtonMappings.Name = "borderless_TitleButtonMappings";
-            this.borderless_TitleButtonMappings.Size = new System.Drawing.Size(253, 32);
-            this.borderless_TitleButtonMappings.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.borderless_TitleButtonMappings.TabIndex = 27;
-            this.borderless_TitleButtonMappings.Text = "Button Mappings";
-            this.borderless_TitleButtonMappings.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-            this.toolTipHelper.SetToolTip(this.borderless_TitleButtonMappings, "Double click an entry to bind a new joystick button to the \"virtual\" XBOX 360 con" +
-        "troller used by Reloaded.");
-            this.borderless_TitleButtonMappings.UseVisualStyleBackColor = true;
-            // 
-            // borderless_TitleButtonToAxisMappings
-            // 
-            animMessage17.Control = this.borderless_TitleButtonToAxisMappings;
-            animMessage17.PlayAnimation = true;
-            animProperties9.BackColorMessage = animMessage17;
-            animMessage18.Control = this.borderless_TitleButtonToAxisMappings;
-            animMessage18.PlayAnimation = true;
-            animProperties9.ForeColorMessage = animMessage18;
-            animProperties9.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties9.MouseEnterDuration = 0F;
-            animProperties9.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties9.MouseEnterFramerate = 0F;
-            animProperties9.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties9.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties9.MouseLeaveDuration = 0F;
-            animProperties9.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties9.MouseLeaveFramerate = 0F;
-            animProperties9.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_TitleButtonToAxisMappings.AnimProperties = animProperties9;
-            this.borderless_TitleButtonToAxisMappings.CaptureChildren = false;
-            this.borderless_TitleButtonToAxisMappings.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.borderless_TitleButtonToAxisMappings.FlatAppearance.BorderSize = 0;
-            this.borderless_TitleButtonToAxisMappings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_TitleButtonToAxisMappings.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.borderless_TitleButtonToAxisMappings.ForeColor = System.Drawing.Color.White;
-            this.borderless_TitleButtonToAxisMappings.IgnoreMouse = false;
-            this.borderless_TitleButtonToAxisMappings.IgnoreMouseClicks = true;
-            this.borderless_TitleButtonToAxisMappings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borderless_TitleButtonToAxisMappings.Location = new System.Drawing.Point(314, 40);
-            this.borderless_TitleButtonToAxisMappings.Name = "borderless_TitleButtonToAxisMappings";
-            this.borderless_TitleButtonToAxisMappings.Size = new System.Drawing.Size(253, 32);
-            this.borderless_TitleButtonToAxisMappings.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.borderless_TitleButtonToAxisMappings.TabIndex = 28;
-            this.borderless_TitleButtonToAxisMappings.Text = "Btn => Axis Mappings";
-            this.borderless_TitleButtonToAxisMappings.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-            this.toolTipHelper.SetToolTip(this.borderless_TitleButtonToAxisMappings, "Allows for the binding of buttons to various axis, supporting \"analog\" controls f" +
-        "or e.g. Keyboards.");
-            this.borderless_TitleButtonToAxisMappings.UseVisualStyleBackColor = true;
+            this.toolTipHelper.AutoPopDelay = 10500;
+            this.toolTipHelper.InitialDelay = 1669;
+            this.toolTipHelper.ReshowDelay = 100;
             // 
             // borderless_ButtonSTART
             // 
@@ -1087,8 +1149,8 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_LeftStick.TopBorderColour = System.Drawing.Color.Gray;
             this.borderless_LeftStick.TopBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_LeftStick.TopBorderWidth = 1;
-            this.borderless_LeftStick.ValueX = 500;
-            this.borderless_LeftStick.ValueY = 500;
+            this.borderless_LeftStick.ValueX = 0;
+            this.borderless_LeftStick.ValueY = 0;
             // 
             // Input_Screen
             // 
@@ -1096,6 +1158,7 @@ namespace ReloadedLauncher.Windows.Children
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(900, 512);
+            this.Controls.Add(this.borderless_ControllerPort);
             this.Controls.Add(this.borderless_TitleButtonToAxisMappings);
             this.Controls.Add(this.borderless_TitleButtonMappings);
             this.Controls.Add(this.box_AxisList);
@@ -1125,11 +1188,13 @@ namespace ReloadedLauncher.Windows.Children
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Input_Screen";
             this.Text = "Main_Screen";
+            this.Load += new System.EventHandler(this.Input_Screen_Load);
             this.VisibleChanged += new System.EventHandler(this.MenuVisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.box_AxisList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_EmulatedAxisList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_ButtonList)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1170,5 +1235,6 @@ namespace ReloadedLauncher.Windows.Children
         private System.Windows.Forms.DataGridViewTextBoxColumn AxisInverse;
         private System.Windows.Forms.DataGridViewTextBoxColumn AxisDeadzonePercent;
         private System.Windows.Forms.DataGridViewTextBoxColumn AxisRadiusScale;
+        private AnimatedTextbox borderless_ControllerPort;
     }
 }

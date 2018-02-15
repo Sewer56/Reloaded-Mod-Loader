@@ -40,20 +40,23 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         // Note: Width of indicator equals the border width.
         public int IndicatorWidth { get; set; } // Defines the width of the dot.
         public Color IndicatorColour { get; set; } // Defines the colour of the dot.
-        public int MAX_VALUE = 1000;
-        public int MIN_VALUE = 0;
-        public int valueX;
-        public int valueY;
+        public int MAX_VALUE_RADIUS = 1000;
+        private int valueX;
+        private int valueY;
 
 
         /// <summary>
-        /// Gets or sets the X value of the position indicator, from MIN_VALUE (0) to MAX_VALUE (1000)
+        /// Gets or sets the X value of the position indicator, from MIN_VALUE (MAX_VALUE_RADIUS*-1) to MAX_VALUE_RADIUS (1000)
         /// </summary>
-        [Description("Specifies the X value of the analog stick indicator, from MIN_VALUE (0) to MAX_VALUE (1000)")]
+        [Description("Specifies the X value of the analog stick indicator, from MIN_VALUE (MAX_VALUE_RADIUS*-1) to MAX_VALUE_RADIUS (1000)")]
         public int ValueX
         {
             get { return valueX; }
-            set { valueX = value; Invalidate(); }
+            set
+            {
+                valueX = value;
+                this.Invoke((Action)delegate { Refresh(); });
+            }
         }
 
         /// <summary>
@@ -63,7 +66,11 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         public int ValueY
         {
             get { return valueY; }
-            set { valueY = value; Invalidate(); }
+            set
+            {
+                valueY = value;
+                this.Invoke((Action)delegate { Refresh(); });
+            }
         }
 
         /// <summary>
@@ -75,7 +82,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         {
             valueX = positionX;
             valueY = positionY;
-            Invalidate();
+            this.Invoke((Action)delegate { Refresh(); });
         }
 
         /// <summary>
@@ -84,7 +91,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         public CustomAnalogStickIndicator()
         {
             // Redirect all painting to us.
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
 
             // Setup double buffering.
             graphicManager = BufferedGraphicsManager.Current;
@@ -197,9 +204,13 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         /// <param name="graphics">The GDI+ graphics object to use for painting.</param>
         protected void PaintIndicator(Graphics graphics)
         {
+            // Convert Coordinates Relative to 0,0 to Coordinates Across from Top Left
+            float positionCenterHorizontal = MAX_VALUE_RADIUS;
+            float positionCenterVertical = MAX_VALUE_RADIUS;
+
             // Convert current value into height percentage.
-            float positionHorizontal = valueX / (float)MAX_VALUE;
-            float positionVertical = valueY / (float)MAX_VALUE;
+            float positionHorizontal = (positionCenterHorizontal + valueX) / (MAX_VALUE_RADIUS * 2);
+            float positionVertical = (positionCenterHorizontal + valueY) / (MAX_VALUE_RADIUS * 2);
 
             // Height, Width minus borders
             int borderlessHeight = this.Height - BottomBorderWidth - TopBorderWidth;

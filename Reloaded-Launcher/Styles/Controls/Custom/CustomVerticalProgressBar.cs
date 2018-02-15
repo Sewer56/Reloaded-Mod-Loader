@@ -40,7 +40,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         public Color ProgressColour { get; set; }
         public int MAX_VALUE = 1000;
         public int MIN_VALUE = 0;
-        public int progressValue;
+        private int progressValue;
 
         /// <summary>
         /// Gets or sets the value of the progress bar, from MIN_VALUE (0) to MAX_VALUE (1000)
@@ -49,7 +49,14 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         public int Value
         {
             get { return progressValue; }
-            set { progressValue = value; Invalidate(); }
+            set
+            {
+                if (progressValue != value)
+                {
+                    progressValue = value;
+                    this.Invoke((Action)delegate { Refresh(); }); 
+                }
+            }
         }
 
         /// <summary>
@@ -58,7 +65,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         public CustomVerticalProgressBar()
         {
             // Redirect all painting to us.
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
 
             // Setup double buffering.
             graphicManager = BufferedGraphicsManager.Current;
