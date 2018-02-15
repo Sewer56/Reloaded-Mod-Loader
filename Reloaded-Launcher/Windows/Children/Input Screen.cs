@@ -1,21 +1,31 @@
-﻿using ReloadedLauncher.Styles.Misc;
-using ReloadedLauncher.Styles.Themes;
-using ReloadedLauncher.Utilities.Controls;
-using Reloaded.Misc.Config;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Windows.Forms;
-using System.Threading;
+﻿/*
+    [Reloaded] Mod Loader Launcher
+    The launcher for a universal, powerful, multi-game and multi-process mod loader
+    based off of the concept of DLL Injection to execute arbitrary program code.
+    Copyright (C) 2018  Sewer. Sz (Sewer56)
+
+    [Reloaded] is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    [Reloaded] is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+*/
+
 using Reloaded.Input;
-using static Reloaded.Input.ControllerCommon;
+using ReloadedLauncher.Utilities.Controls;
 using ReloadedLauncher.Windows.Children.Dialogs;
+using System;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static Reloaded.Input.ControllerCommon;
 
 namespace ReloadedLauncher.Windows.Children
 {

@@ -1,7 +1,7 @@
-﻿using ReloadedLauncher.Styles.Themes;
+﻿using Reloaded.Native;
+using ReloadedLauncher.Styles.Themes;
 using ReloadedLauncher.Utilities.Windows;
 using ReloadedLauncher.Windows.Children;
-using Reloaded.Native;
 using System;
 using System.Linq;
 using System.Threading;
