@@ -18,8 +18,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Styles.Animation;
 using System.Windows.Forms;
+using ReloadedLauncher.Styles.Animation;
 
 namespace ReloadedLauncher.Styles.Themes
 {
@@ -35,7 +35,7 @@ namespace ReloadedLauncher.Styles.Themes
         public static void KillAnimations()
         {
             // For each currently initialized Windows Form.
-            foreach (Form windowForm in Global.WindowsForms) { KillAnimationsRecursive(windowForm); }
+            foreach (Form windowForm in Global.WindowsForms) KillAnimationsRecursive(windowForm);
         }
 
         /// <summary>
@@ -48,7 +48,8 @@ namespace ReloadedLauncher.Styles.Themes
             foreach (Control control in windowForm.Controls)
             {
                 // If the control has embedded controls (thus embeds child controls, apply theme to children.
-                if (control.Controls.Count != 0) { foreach (Control controlEmbedded in control.Controls) { KillAnimationControl(controlEmbedded); } }
+                if (control.Controls.Count != 0)
+                    foreach (Control controlEmbedded in control.Controls) KillAnimationControl(controlEmbedded);
 
                 // Apply the theme.
                 KillAnimationControl(control);

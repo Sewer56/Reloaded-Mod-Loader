@@ -18,16 +18,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Styles.Misc;
-using ReloadedLauncher.Styles.Themes;
-using ReloadedLauncher.Utilities.Controls;
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Reloaded.Misc.Config;
+using ReloadedLauncher.Styles.Misc;
+using ReloadedLauncher.Styles.Themes;
+using ReloadedLauncher.Utilities.Controls;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -60,7 +61,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary> 
         private void MenuVisibleChanged(object sender, EventArgs e)
         {
-            if (this.Visible)
+            if (Visible)
             {
                 // Set the titlebar.  
                 Global.CurrentMenuName = "Mods Menu";
@@ -107,8 +108,8 @@ namespace ReloadedLauncher.Windows.Children
                 enabledRows.Reverse();
 
                 // And merge with disabled rows, append to DataGridView rows.
-                for (int x = 0; x < enabledRows.Count; x++) { box_ModList.Rows.Add(enabledRows[x]); }
-                for (int x = 0; x < disabledRows.Count; x++) { box_ModList.Rows.Add(disabledRows[x]); }
+                for (int x = 0; x < enabledRows.Count; x++) box_ModList.Rows.Add(enabledRows[x]);
+                for (int x = 0; x < disabledRows.Count; x++) box_ModList.Rows.Add(disabledRows[x]);
             }
             catch { }
         }
@@ -123,31 +124,29 @@ namespace ReloadedLauncher.Windows.Children
             // Appends all enabled mods to enabled mod list.
             // Iterate over each "enabled" mod folder list.
             foreach (string modFolder in Global.CurrentGameConfig.EnabledMods)
+            // Iterate over mod configurations and find relevant mod config.
+            foreach (ModConfigParser.ModConfig modConfig in Global.ModConfigurations)
             {
-                // Iterate over mod configurations and find relevant mod config.
-                foreach (ModConfigParser.ModConfig modConfig in Global.ModConfigurations)
+                // Reloaded-Mods/SA2/Testmod => Testmod
+                string modConfigFolderName = Path.GetFileName(Path.GetDirectoryName(modConfig.ModLocation));
+
+                // Check if the mod folder and configuration match.
+                // If there is no match in all loop iterations for a folder, the mod does not exist
+                if (modConfigFolderName == modFolder)
                 {
-                    // Reloaded-Mods/SA2/Testmod => Testmod
-                    string modConfigFolderName = Path.GetFileName(Path.GetDirectoryName(modConfig.ModLocation));
+                    // Clone row style.
+                    DataGridViewRow dataGridViewRow = (DataGridViewRow)box_ModList.RowTemplate.Clone();
+                    dataGridViewRow.CreateCells(box_ModList);
 
-                    // Check if the mod folder and configuration match.
-                    // If there is no match in all loop iterations for a folder, the mod does not exist
-                    if (modConfigFolderName == modFolder)
-                    {
-                        // Clone row style.
-                        DataGridViewRow dataGridViewRow = (DataGridViewRow)box_ModList.RowTemplate.Clone();
-                        dataGridViewRow.CreateCells(box_ModList);
+                    // Assign row
+                    dataGridViewRow.Cells[0].Value = TextButtons.BUTTON_ENABLED;    // Enabled Mod
+                    dataGridViewRow.Cells[1].Value = modConfig.ModName;             // The name of the mod
+                    dataGridViewRow.Cells[2].Value = modConfig.ModAuthor;           // Author of the mod
+                    dataGridViewRow.Cells[3].Value = Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter; // Separator character as set by theme
+                    dataGridViewRow.Cells[4].Value = modConfig.ModVersion;          // The version of the mod
 
-                        // Assign row
-                        dataGridViewRow.Cells[0].Value = TextButtons.BUTTON_ENABLED;    // Enabled Mod
-                        dataGridViewRow.Cells[1].Value = modConfig.ModName;             // The name of the mod
-                        dataGridViewRow.Cells[2].Value = modConfig.ModAuthor;           // Author of the mod
-                        dataGridViewRow.Cells[3].Value = Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter; // Separator character as set by theme
-                        dataGridViewRow.Cells[4].Value = modConfig.ModVersion;          // The version of the mod
-
-                        // Append the row.
-                        enabledRows.Add(dataGridViewRow);
-                    }
+                    // Append the row.
+                    enabledRows.Add(dataGridViewRow);
                 }
             }
         }
@@ -243,7 +242,7 @@ namespace ReloadedLauncher.Windows.Children
             (
                 x =>
                 {
-                    return (x.ModName == modName && x.ModVersion == (string)modVersion);
+                    return x.ModName == modName && x.ModVersion == modVersion;
                 }
             ).First();
         }
@@ -258,12 +257,10 @@ namespace ReloadedLauncher.Windows.Children
 
             // Check if the column index is the first column
             if (e.ColumnIndex == 0)
-            {
-                // Switch state from disabled to enabled and vice versa.
                 if ((string)senderGrid.Rows[e.RowIndex].Cells[0].Value == TextButtons.BUTTON_DISABLED)
-                { senderGrid.Rows[e.RowIndex].Cells[0].Value = TextButtons.BUTTON_ENABLED; }
-                else { senderGrid.Rows[e.RowIndex].Cells[0].Value = TextButtons.BUTTON_DISABLED; }
-            }
+                    senderGrid.Rows[e.RowIndex].Cells[0].Value = TextButtons.BUTTON_ENABLED;
+                else
+                    senderGrid.Rows[e.RowIndex].Cells[0].Value = TextButtons.BUTTON_DISABLED;
         }
 
         /// <summary>
@@ -299,9 +296,18 @@ namespace ReloadedLauncher.Windows.Children
                 item_ModDescription.Text = modConfiguration.ModDescription;
 
                 // Set the button text for website, config, source.
-                if (modConfiguration.ModConfigEXE.Length == 0) { borderless_ConfigBox.Text = "N/A"; } else { borderless_ConfigBox.Text = "Configuration"; }
-                if (modConfiguration.ThemeSite.Length == 0) { borderless_WebBox.Text = "N/A"; } else { borderless_WebBox.Text = "Webpage"; }
-                if (modConfiguration.ThemeGithub.Length == 0) { borderless_SourceBox.Text = "N/A"; } else { borderless_SourceBox.Text = "Source Code"; }
+                if (modConfiguration.ModConfigEXE.Length == 0)
+                    borderless_ConfigBox.Text = "N/A";
+                else
+                    borderless_ConfigBox.Text = "Configuration";
+                if (modConfiguration.ThemeSite.Length == 0)
+                    borderless_WebBox.Text = "N/A";
+                else
+                    borderless_WebBox.Text = "Webpage";
+                if (modConfiguration.ThemeGithub.Length == 0)
+                    borderless_SourceBox.Text = "N/A";
+                else
+                    borderless_SourceBox.Text = "Source Code";
 
                 // Obtain mod directory.
                 string modDirectory = Path.GetDirectoryName(modConfiguration.ModLocation);
@@ -318,10 +324,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void SourceBox_Click(object sender, EventArgs e)
         {
-            if (CheckIfEnabled((Control)sender))
-            {
-                OpenFile(Global.CurrentModConfig.ThemeGithub);
-            }
+            if (CheckIfEnabled((Control)sender)) OpenFile(Global.CurrentModConfig.ThemeGithub);
         }
 
         /// <summary>
@@ -329,10 +332,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void WebBox_Click(object sender, EventArgs e)
         {
-            if (CheckIfEnabled((Control)sender))
-            {
-                OpenFile(Global.CurrentModConfig.ThemeSite);
-            }
+            if (CheckIfEnabled((Control)sender)) OpenFile(Global.CurrentModConfig.ThemeSite);
         }
 
         /// <summary>
@@ -340,10 +340,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void ConfigBox_Click(object sender, EventArgs e)
         {
-            if (CheckIfEnabled((Control)sender))
-            {
-                OpenFile(Global.CurrentModConfig.ModConfigEXE);
-            }
+            if (CheckIfEnabled((Control)sender)) OpenFile(Global.CurrentModConfig.ModConfigEXE);
         }
 
         /// <summary>
@@ -352,7 +349,7 @@ namespace ReloadedLauncher.Windows.Children
         /// <param name="filePath">The path to the file to be opened.</param>
         private void OpenFile(string filePath)
         {
-            try { System.Diagnostics.Process.Start(filePath); }
+            try { Process.Start(filePath); }
             catch { }
         }
 
@@ -362,8 +359,9 @@ namespace ReloadedLauncher.Windows.Children
         /// <param name="control">The control (typically button) to check.</param>
         private bool CheckIfEnabled(Control control)
         {
-            if (control.Text != "N/A") { return true; }
-            else { return false; }
+            if (control.Text != "N/A")
+                return true;
+            return false;
         }
 
         /// <summary>

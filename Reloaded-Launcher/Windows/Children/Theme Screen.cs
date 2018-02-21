@@ -18,13 +18,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Styles.Themes;
-using ReloadedLauncher.Utilities.Controls;
 using System;
-using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Reloaded.Misc.Config;
+using ReloadedLauncher.Styles.Themes;
+using ReloadedLauncher.Utilities.Controls;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -57,7 +58,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary> 
         private void MenuVisibleChanged(object sender, EventArgs e)
         {
-            if (this.Visible)
+            if (Visible)
             {
                 // Set the titlebar.  
                 Global.CurrentMenuName = "Theme Menu";
@@ -97,8 +98,7 @@ namespace ReloadedLauncher.Windows.Children
 
                 // Iterate over each theme, populate the list.
                 foreach (ThemeConfigParser.ThemeConfig themeConfig in Global.ThemeConfigurations)
-                {
-                    // Cells[0] = Theme Name
+                // Cells[0] = Theme Name
                     // Cells[1] = Theme Description
                     // Cells[2] = Author
                     // Cells[3] = Separator
@@ -112,7 +112,6 @@ namespace ReloadedLauncher.Windows.Children
                         Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter,
                         themeConfig.ThemeVersion
                     );
-                }
 
                 // Select the currently enabled theme.
                 string currentThemeFolder = Global.LoaderConfiguration.CurrentTheme;
@@ -197,8 +196,14 @@ namespace ReloadedLauncher.Windows.Children
                 Global.CurrentThemeConfig = themeConfiguration;
 
                 // Set the button text for website, source.
-                if (themeConfiguration.ThemeSite.Length == 0) { borderless_WebBox.Text = "N/A"; } else { borderless_WebBox.Text = "Webpage"; }
-                if (themeConfiguration.ThemeGithub.Length == 0) { borderless_SourceBox.Text = "N/A"; } else { borderless_SourceBox.Text = "Github"; }
+                if (themeConfiguration.ThemeSite.Length == 0)
+                    borderless_WebBox.Text = "N/A";
+                else
+                    borderless_WebBox.Text = "Webpage";
+                if (themeConfiguration.ThemeGithub.Length == 0)
+                    borderless_SourceBox.Text = "N/A";
+                else
+                    borderless_SourceBox.Text = "Github";
 
                 // Obtain theme directory.
                 string themeDirectory = Path.GetFileName(Path.GetDirectoryName(themeConfiguration.ThemeLocation));
@@ -222,7 +227,7 @@ namespace ReloadedLauncher.Windows.Children
             (
                 x =>
                 {
-                    return (x.ThemeName == themeName && x.ThemeVersion == (string)themeVersion);
+                    return x.ThemeName == themeName && x.ThemeVersion == themeVersion;
                 }
             ).First();
         }
@@ -232,10 +237,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void SourceBox_Click(object sender, EventArgs e)
         {
-            if (CheckIfEnabled((Control)sender))
-            {
-                OpenFile(Global.CurrentThemeConfig.ThemeGithub);
-            }
+            if (CheckIfEnabled((Control)sender)) OpenFile(Global.CurrentThemeConfig.ThemeGithub);
         }
 
         /// <summary>
@@ -243,10 +245,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void WebBox_Click(object sender, EventArgs e)
         {
-            if (CheckIfEnabled((Control)sender))
-            {
-                OpenFile(Global.CurrentThemeConfig.ThemeSite);
-            }
+            if (CheckIfEnabled((Control)sender)) OpenFile(Global.CurrentThemeConfig.ThemeSite);
         }
 
         /// <summary>
@@ -254,10 +253,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void ConfigBox_Click(object sender, EventArgs e)
         {
-            if (CheckIfEnabled((Control)sender))
-            {
-                OpenFile(Theme.ThemeProperties.ThemePropertyLocation);
-            }
+            if (CheckIfEnabled((Control)sender)) OpenFile(Theme.ThemeProperties.ThemePropertyLocation);
         }
 
         /// <summary>
@@ -266,7 +262,7 @@ namespace ReloadedLauncher.Windows.Children
         /// <param name="filePath">The path to the file to be opened.</param>
         private void OpenFile(string filePath)
         {
-            try { System.Diagnostics.Process.Start(filePath); }
+            try { Process.Start(filePath); }
             catch { }
         }
 
@@ -276,8 +272,9 @@ namespace ReloadedLauncher.Windows.Children
         /// <param name="control">The control (typically button) to check.</param>
         private bool CheckIfEnabled(Control control)
         {
-            if (control.Text != "N/A") { return true; }
-            else { return false; }
+            if (control.Text != "N/A")
+                return true;
+            return false;
         }
 
         /// <summary>

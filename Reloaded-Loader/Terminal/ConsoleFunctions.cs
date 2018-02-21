@@ -27,15 +27,6 @@ namespace Reloaded_Loader.Terminal
 {
     public static class ConsoleFunctions
     {
-
-        /// <summary>
-        /// Delegate used for the dynamic printing of text to the command line.
-        /// Used for extension and arbitrary methods, such as print to center of console,
-        /// while combining it with existing colour and format print messages.
-        /// </summary>
-        /// <param name="message">The message to print to the screen.</param>
-        public delegate void PrintTextDelegate(string message);
-
         /// <summary>
         /// Delegate used for passing onward
         /// Used for extension and arbitrary methods, such as print to center of console,
@@ -44,6 +35,14 @@ namespace Reloaded_Loader.Terminal
         /// <param name="message">The message to print to the screen.</param>
         /// <param name="printTextDelegate">Delegate to the internal/nested method used for the combining of text formatting specifiers.</param>
         public delegate void PrintFormattedTextDelegate(string message, PrintTextDelegate printTextDelegate);
+
+        /// <summary>
+        /// Delegate used for the dynamic printing of text to the command line.
+        /// Used for extension and arbitrary methods, such as print to center of console,
+        /// while combining it with existing colour and format print messages.
+        /// </summary>
+        /// <param name="message">The message to print to the screen.</param>
+        public delegate void PrintTextDelegate(string message);
 
         // ///////////////
         // Console Colours
@@ -161,9 +160,7 @@ namespace Reloaded_Loader.Terminal
                 string[] lines = Regex.Split(message, "\n");
 
                 // Call self to print lines.
-                foreach (string line in lines) {
-                    PrintMessageCenter(line, printTextDelegate);
-                }
+                foreach (string line in lines) PrintMessageCenter(line, printTextDelegate);
 
                 // Early exit
                 return;
@@ -173,7 +170,7 @@ namespace Reloaded_Loader.Terminal
             int consolePointer = (Console.WindowWidth - message.Length) / 2;
 
             // Check/resolve text overflow possibilities.
-            if (consolePointer < 0) { consolePointer = 0; }
+            if (consolePointer < 0) consolePointer = 0;
 
             // Set the cursor position to our new left edge.
             Console.SetCursorPosition(consolePointer, Console.CursorTop);
@@ -199,7 +196,7 @@ namespace Reloaded_Loader.Terminal
             int consolePointer = (Console.WindowWidth - message.Length) / 2;
 
             // Check/resolve text overflow possibilities.
-            if (consolePointer < 0) { consolePointer = 0; }
+            if (consolePointer < 0) consolePointer = 0;
 
             // Set the cursor position to our new left edge.
             Console.SetCursorPosition(consolePointer, Console.CursorTop);

@@ -18,9 +18,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System;
 using ReloadedLauncher.Styles.Animation;
 using ReloadedLauncher.Styles.Controls.Enhanced;
-using System;
 
 namespace ReloadedLauncher.Styles.Controls.Animated
 {
@@ -30,29 +30,32 @@ namespace ReloadedLauncher.Styles.Controls.Animated
     public class AnimatedComboBox : EnhancedComboBox, IAnimatedControl
     {
         /// <summary>
-        /// Stores the animation properties for backcolor and forecolor blending.
-        /// </summary>
-        public AnimProperties AnimProperties { get; set; }
-
-        /// <summary>
         /// Constructor for the class.
         /// </summary>
         public AnimatedComboBox()
         {
             // Instantiate all of the animation messages.
-            this.AnimProperties = new AnimProperties();
-            this.AnimProperties.ForeColorMessage = new AnimMessage(this);
-            this.AnimProperties.BackColorMessage = new AnimMessage(this);
+            AnimProperties = new AnimProperties();
+            AnimProperties.ForeColorMessage = new AnimMessage(this);
+            AnimProperties.BackColorMessage = new AnimMessage(this);
         }
+
+        /// <summary>
+        /// Stores the animation properties for backcolor and forecolor blending.
+        /// </summary>
+        public AnimProperties AnimProperties { get; set; }
 
         /// <summary>
         /// Stops ongoing animations.
         /// </summary>
         public void KillAnimations()
         {
-            this.AnimProperties.BackColorMessage.PlayAnimation = false;
-            this.AnimProperties.ForeColorMessage.PlayAnimation = false;
+            AnimProperties.BackColorMessage.PlayAnimation = false;
+            AnimProperties.ForeColorMessage.PlayAnimation = false;
         }
+
+        public void OnMouseEnterWrapper(EventArgs e) { base.OnMouseEnter(e); }
+        public void OnMouseLeaveWrapper(EventArgs e) { base.OnMouseEnter(e); }
 
 
         // ////////////////////////////
@@ -66,14 +69,14 @@ namespace ReloadedLauncher.Styles.Controls.Animated
         protected override void OnForeColorChanged(EventArgs e)
         {
             // Change the border colour.
-            this.BottomBorderColour = this.ForeColor;
-            this.LeftBorderColour = this.ForeColor;
-            this.RightBorderColour = this.ForeColor;
-            this.TopBorderColour = this.ForeColor;
-            this.DropDownArrowColour = this.ForeColor;
+            BottomBorderColour = ForeColor;
+            LeftBorderColour = ForeColor;
+            RightBorderColour = ForeColor;
+            TopBorderColour = ForeColor;
+            DropDownArrowColour = ForeColor;
 
             // Change the BackColor.
-            base.OnBackColorChanged(e);
+            OnBackColorChanged(e);
         }
 
         /// <summary>
@@ -107,13 +110,11 @@ namespace ReloadedLauncher.Styles.Controls.Animated
         // Common Animation Redirects
         // //////////////////////////
         protected override void OnMouseEnter(EventArgs e) { AnimHandler.AnimateMouseEnter(e, this, AnimProperties); }
+
         protected override void OnMouseLeave(EventArgs e)
         {
             // "Mouse" doesn't leave if textbox is currently selected/user is typing.
-            if (!Focused) { AnimHandler.AnimateMouseLeave(e, this, AnimProperties); }
+            if (!Focused) AnimHandler.AnimateMouseLeave(e, this, AnimProperties);
         }
-
-        public void OnMouseEnterWrapper(EventArgs e) { base.OnMouseEnter(e); }
-        public void OnMouseLeaveWrapper(EventArgs e) { base.OnMouseEnter(e); }
     }
 }

@@ -28,17 +28,6 @@ namespace ReloadedLauncher.Styles.Animation
     public class AnimMessage
     {
         /// <summary>
-        /// The Windows Forms Control (or any object Implementing BackColor, ForeColor) that is to be animated.
-        /// </summary>
-        public object Control { get; set; }
-
-        /// <summary>
-        /// The flag which defines whether the animation should be played.
-        /// If set to false, the animation will permanently cease.
-        /// </summary>
-        public bool PlayAnimation { get; set; }
-
-        /// <summary>
         /// Instantiates an animation message which defines a flag declaring whether
         /// the animation should be immediately halted and the Windows Forms control that
         /// should be animated.
@@ -54,5 +43,16 @@ namespace ReloadedLauncher.Styles.Animation
         /// Default constructor, not worth using.
         /// </summary>
         public AnimMessage() { PlayAnimation = true; }
+
+        /// <summary>
+        /// The Windows Forms Control (or any object Implementing BackColor, ForeColor) that is to be animated.
+        /// </summary>
+        public object Control { get; set; }
+
+        /// <summary>
+        /// The flag which defines whether the animation should be played.
+        /// If set to false, the animation will permanently cease.
+        /// </summary>
+        public bool PlayAnimation { get; set; }
     }
 }

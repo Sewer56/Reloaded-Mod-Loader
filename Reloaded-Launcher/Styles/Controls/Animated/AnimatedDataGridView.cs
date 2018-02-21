@@ -18,25 +18,40 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Styles.Animation;
-using ReloadedLauncher.Styles.Controls.Enhanced;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using ReloadedLauncher.Styles.Animation;
+using ReloadedLauncher.Styles.Controls.Enhanced;
 
 namespace ReloadedLauncher.Styles.Controls.Animated
 {
     /// <summary>
     /// Animated Data Grid View, Provides a Custom Implementation of the Animation Functions.
     /// </summary>
-    class AnimatedDataGridView : EnhancedDataGridView, IAnimatedControl
+    internal class AnimatedDataGridView : EnhancedDataGridView, IAnimatedControl
     {
         /// <summary>
-        /// Stores the animation properties for backcolor and forecolor blending.
+        /// Constructor for the class.
         /// </summary>
-        public AnimProperties AnimProperties { get; set; }
+        public AnimatedDataGridView()
+        {
+            // 2x Buffering
+            DoubleBuffered = true;
+
+            // Instantiate all of the animation messages.
+            AnimProperties = new AnimProperties();
+            AnimationMessagesBG = new List<AnimMessage>();
+            AnimationMessagesFG = new List<AnimMessage>();
+
+            // Set delegate for swapping items with CTRL + Mouse Wheel
+            OnRowSwapped += AnimateSwap;
+
+            // Set initial index for last animation (default selection)
+            LastIndex = 0;
+        }
 
         /// <summary>
         /// Defines the index of the last pressed button/element.
@@ -58,28 +73,28 @@ namespace ReloadedLauncher.Styles.Controls.Animated
         /// </summary>
         public override Font Font
         {
-            get { return this.DefaultCellStyle.Font; }
-            set { this.DefaultCellStyle.Font = value; }
+            get => DefaultCellStyle.Font;
+            set => DefaultCellStyle.Font = value;
         }
 
         /// <summary>
-        /// Constructor for the class.
+        /// Stores the animation properties for backcolor and forecolor blending.
         /// </summary>
-        public AnimatedDataGridView()
+        public AnimProperties AnimProperties { get; set; }
+
+        // ///////////////////////////////
+        // IAnimatedControl implementation
+        // ///////////////////////////////
+        public void OnMouseEnterWrapper(EventArgs e) { OnMouseEnter(e); }
+        public void OnMouseLeaveWrapper(EventArgs e) { OnMouseEnter(e); }
+
+        /// <summary>
+        /// Stops ongoing animations.
+        /// </summary>
+        public void KillAnimations()
         {
-            // 2x Buffering
-            DoubleBuffered = true;
-
-            // Instantiate all of the animation messages.
-            this.AnimProperties = new AnimProperties();
-            AnimationMessagesBG = new List<AnimMessage>();
-            AnimationMessagesFG = new List<AnimMessage>();
-
-            // Set delegate for swapping items with CTRL + Mouse Wheel
-            this.OnRowSwapped += AnimateSwap;
-
-            // Set initial index for last animation (default selection)
-            LastIndex = 0;
+            foreach (AnimMessage animMessage in AnimationMessagesBG) animMessage.PlayAnimation = false;
+            foreach (AnimMessage animMessage in AnimationMessagesFG) animMessage.PlayAnimation = false;
         }
 
         // ////////////////////////
@@ -91,15 +106,13 @@ namespace ReloadedLauncher.Styles.Controls.Animated
             base.OnSelectionChanged(e);
 
             // Terminate Existing Messages/Effects and Start MouseLeaveAnimation on those.
-            for (int x = 0; x < this.Rows.Count; x++)
-            {
-                // Play Leave Animation for previously selected.
+            for (int x = 0; x < Rows.Count; x++)
+            // Play Leave Animation for previously selected.
                 // You only want to cancel last animation.
                 // This loop gets current item to set next item to animate leave for.
                 // Note: At this point Rows[x].Selected is outdated and actually is the value of the last row.
                 // Note: SelectedCells[0].RowIndex stores the actual selected row index.
-                if (this.Rows[x].Selected)
-                {
+                if (Rows[x].Selected)
                     try
                     {
                         AnimateLeaveAtIndex(LastIndex, x);
@@ -109,8 +122,6 @@ namespace ReloadedLauncher.Styles.Controls.Animated
                     // Can happen if last index was at the end of the datagridview and was removed since.
                     // Ignore :V
                     catch { }
-                }
-            }
         }
 
         /// <summary>
@@ -121,7 +132,7 @@ namespace ReloadedLauncher.Styles.Controls.Animated
         private void AnimateLeaveAtIndex(int leaveIndex, int lastIndex)
         {
             // Play Leave Animation for the last item.
-            var newMessages = AnimHandler.AnimateMouseLeave(null, this.Rows[leaveIndex].DefaultCellStyle, AnimProperties, AnimationMessagesBG[leaveIndex], AnimationMessagesFG[leaveIndex], DefaultCellStyle.SelectionBackColor);
+            var newMessages = AnimHandler.AnimateMouseLeave(null, Rows[leaveIndex].DefaultCellStyle, AnimProperties, AnimationMessagesBG[leaveIndex], AnimationMessagesFG[leaveIndex], DefaultCellStyle.SelectionBackColor);
 
             // Retrieve the new message instances.
             AnimationMessagesBG[leaveIndex] = newMessages.Item1;
@@ -149,8 +160,8 @@ namespace ReloadedLauncher.Styles.Controls.Animated
         private void ResetAnimationsOnRowAdd()
         {
             // Cancel all current animations.
-            foreach (AnimMessage message in AnimationMessagesBG) { message.PlayAnimation = false; }
-            foreach (AnimMessage message in AnimationMessagesFG) { message.PlayAnimation = false; }
+            foreach (AnimMessage message in AnimationMessagesBG) message.PlayAnimation = false;
+            foreach (AnimMessage message in AnimationMessagesFG) message.PlayAnimation = false;
 
             // Create animation messages of count equal to newly added rows.
             AnimMessage[] animMessageBG = new AnimMessage[RowCount];
@@ -177,21 +188,15 @@ namespace ReloadedLauncher.Styles.Controls.Animated
             ResetAnimationsOnRowAdd();
 
             // Reset all colours. (After killing animations)
-            for (int x = 0; x < this.Rows.Count; x++)
+            for (int x = 0; x < Rows.Count; x++)
             {
-                Rows[x].DefaultCellStyle.BackColor = this.DefaultCellStyle.BackColor;
-                Rows[x].DefaultCellStyle.ForeColor = this.DefaultCellStyle.ForeColor;
+                Rows[x].DefaultCellStyle.BackColor = DefaultCellStyle.BackColor;
+                Rows[x].DefaultCellStyle.ForeColor = DefaultCellStyle.ForeColor;
             }
 
             // Animate the last index row.
             AnimateLeaveAtIndex(itemToAnimate, SelectedCells[0].RowIndex);
         }
-
-        // ///////////////////////////////
-        // IAnimatedControl implementation
-        // ///////////////////////////////
-        public void OnMouseEnterWrapper(EventArgs e) { base.OnMouseEnter(e); }
-        public void OnMouseLeaveWrapper(EventArgs e) { base.OnMouseEnter(e); }
 
         // //////////////////////////////////////////////////
         // Override for EnhancedListView's Drag/Drop Finisher
@@ -217,24 +222,15 @@ namespace ReloadedLauncher.Styles.Controls.Animated
             // Extra note: Leave animation terminated immediately due to OnRowsAdded() cancelling it.
 
             // This workaround sets the fore and backcolor of the row as if it were never to be animated in the first place.
-            int nextRow = base.DragRowIndex + 1;
-            if (nextRow < this.Rows.Count)
+            int nextRow = DragRowIndex + 1;
+            if (nextRow < Rows.Count)
             {
-                Rows[base.DragRowIndex + 1].DefaultCellStyle.BackColor = this.DefaultCellStyle.BackColor;
-                Rows[base.DragRowIndex + 1].DefaultCellStyle.ForeColor = this.DefaultCellStyle.ForeColor;
+                Rows[DragRowIndex + 1].DefaultCellStyle.BackColor = DefaultCellStyle.BackColor;
+                Rows[DragRowIndex + 1].DefaultCellStyle.ForeColor = DefaultCellStyle.ForeColor;
             }
 
             // Animate the last selection.
-            AnimateLeaveAtIndex(base.DragRowIndex, SelectedCells[0].RowIndex);
-        }
-
-        /// <summary>
-        /// Stops ongoing animations.
-        /// </summary>
-        public void KillAnimations()
-        {
-            foreach (AnimMessage animMessage in AnimationMessagesBG) { animMessage.PlayAnimation = false; }
-            foreach (AnimMessage animMessage in AnimationMessagesFG) { animMessage.PlayAnimation = false; }
+            AnimateLeaveAtIndex(DragRowIndex, SelectedCells[0].RowIndex);
         }
     }
 }

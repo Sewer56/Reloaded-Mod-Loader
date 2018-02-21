@@ -18,10 +18,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Styles.Controls.Interfaces;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using ReloadedLauncher.Styles.Controls.Interfaces;
 
 namespace ReloadedLauncher.Styles.Controls.Custom
 {
@@ -32,60 +32,23 @@ namespace ReloadedLauncher.Styles.Controls.Custom
     /// </summary>
     public class CustomControllerButtonPressIndicator : Control, IBorderedControl
     {
-        // Border Colours
-        public Color LeftBorderColour { get; set; }
-        public Color TopBorderColour { get; set; }
-        public Color RightBorderColour { get; set; }
-        public Color BottomBorderColour { get; set; }
+        ////////////////////////////////////////////////////////////////////////
+        // Override the paint event sent to the control, draw our own control :V
+        ////////////////////////////////////////////////////////////////////////
+        private static readonly int WM_PAINT = 0x000F;
+        private BufferedGraphics backBuffer;
 
-        // Border Styles
-        public ButtonBorderStyle LeftBorderStyle { get; set; }
-        public ButtonBorderStyle RightBorderStyle { get; set; }
-        public ButtonBorderStyle TopBorderStyle { get; set; }
-        public ButtonBorderStyle BottomBorderStyle { get; set; }
-
-        // Border Widths
-        public int LeftBorderWidth { get; set; }
-        public int RightBorderWidth { get; set; }
-        public int TopBorderWidth { get; set; }
-        public int BottomBorderWidth { get; set; }
+        // Painting brushes
+        private Brush backgroundBrush;
 
         // Is button enabled?
         private bool buttonEnabled;
 
-        // Painting brushes
-        Brush backgroundBrush;
-        Brush textBrush;
-
-        /// <summary>
-        /// Gets or sets the text to be drawn inside the button.
-        /// </summary>
-        public override string Text
-        {
-            get { return base.Text; }
-            set { base.Text = value; this.Invoke((Action)delegate { Refresh(); }); }
-        }
-
-        /// <summary>
-        /// Set to true to swap the background and foreground colour.
-        /// </summary>
-        public bool ButtonEnabled
-        {
-            get { return buttonEnabled; }
-            set
-            {
-                if (buttonEnabled != value)
-                {
-                    buttonEnabled = value;
-                    this.Invoke((Action)delegate { Refresh(); });
-                }
-            }
-        }
-
-        /// <summary>
-        /// Defines the format of the button text to be displayed.
-        /// </summary>
-        public StringFormat StringFormat { get; set; }
+        /////////////////////////////////
+        // Implement own Double Buffering
+        /////////////////////////////////
+        private readonly BufferedGraphicsContext graphicManager;
+        private Brush textBrush;
 
         /// <summary>
         /// Constructor for the enhanced textbox.
@@ -105,11 +68,53 @@ namespace ReloadedLauncher.Styles.Controls.Custom
             ReallocateBuffer();
         }
 
-        /////////////////////////////////
-        // Implement own Double Buffering
-        /////////////////////////////////
-        BufferedGraphicsContext graphicManager;
-        BufferedGraphics backBuffer;
+        /// <summary>
+        /// Gets or sets the text to be drawn inside the button.
+        /// </summary>
+        public override string Text
+        {
+            get => base.Text;
+            set { base.Text = value; Invoke((Action)delegate { Refresh(); }); }
+        }
+
+        /// <summary>
+        /// Set to true to swap the background and foreground colour.
+        /// </summary>
+        public bool ButtonEnabled
+        {
+            get => buttonEnabled;
+            set
+            {
+                if (buttonEnabled != value)
+                {
+                    buttonEnabled = value;
+                    Invoke((Action)delegate { Refresh(); });
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines the format of the button text to be displayed.
+        /// </summary>
+        public StringFormat StringFormat { get; set; }
+
+        // Border Colours
+        public Color LeftBorderColour { get; set; }
+        public Color TopBorderColour { get; set; }
+        public Color RightBorderColour { get; set; }
+        public Color BottomBorderColour { get; set; }
+
+        // Border Styles
+        public ButtonBorderStyle LeftBorderStyle { get; set; }
+        public ButtonBorderStyle RightBorderStyle { get; set; }
+        public ButtonBorderStyle TopBorderStyle { get; set; }
+        public ButtonBorderStyle BottomBorderStyle { get; set; }
+
+        // Border Widths
+        public int LeftBorderWidth { get; set; }
+        public int RightBorderWidth { get; set; }
+        public int TopBorderWidth { get; set; }
+        public int BottomBorderWidth { get; set; }
 
         /// <summary>
         /// Calls the method to reallocate buffer when the control size changes.
@@ -130,14 +135,9 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         private void ReallocateBuffer()
         {
             // Reallocate buffer.
-            graphicManager.MaximumBuffer = new Size(this.Width + 1, this.Height + 1);
-            backBuffer = graphicManager.Allocate(this.CreateGraphics(), new Rectangle(0, 0, this.Width, this.Height));
+            graphicManager.MaximumBuffer = new Size(Width + 1, Height + 1);
+            backBuffer = graphicManager.Allocate(CreateGraphics(), new Rectangle(0, 0, Width, Height));
         }
-
-        ////////////////////////////////////////////////////////////////////////
-        // Override the paint event sent to the control, draw our own control :V
-        ////////////////////////////////////////////////////////////////////////
-        private static int WM_PAINT = 0x000F;
 
         /// <summary>
         /// Override the window message handler.
@@ -148,7 +148,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
             base.WndProc(ref m);
 
             // If it's a paint call, draw our own control.
-            if (m.Msg == WM_PAINT) { DrawControl(); }
+            if (m.Msg == WM_PAINT) DrawControl();
         }
 
         //////////////////////////////////////////////////////////////
@@ -180,8 +180,8 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         protected void PaintBackground(Graphics graphics)
         {
             // Define and paint the background area.
-            Brush brush = new SolidBrush(this.BackColor);
-            Rectangle controlBounds = new Rectangle(0, 0, this.Width, this.Height);
+            Brush brush = new SolidBrush(BackColor);
+            Rectangle controlBounds = new Rectangle(0, 0, Width, Height);
 
             // Draw
             graphics.FillRectangle(brush, controlBounds);
@@ -189,7 +189,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
             // Cleanup
             brush.Dispose();
         }
-        
+
         /// <summary>
         /// Paints our own border around the current control.
         /// </summary>
@@ -197,14 +197,14 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         protected void PaintBorders(Graphics graphics)
         {
             // Obtain the control borders.
-            Rectangle controlBounds = new Rectangle(0, 0, this.Width, this.Height);
+            Rectangle controlBounds = new Rectangle(0, 0, Width, Height);
             
             // Draw the border!
             ControlPaint.DrawBorder(graphics, controlBounds, LeftBorderColour,
                 LeftBorderWidth, LeftBorderStyle, TopBorderColour, TopBorderWidth, TopBorderStyle, RightBorderColour,
                 RightBorderWidth, RightBorderStyle, BottomBorderColour, BottomBorderWidth, BottomBorderStyle);
         }
-       
+
         /// <summary>
         /// Fills the vertical progress bar with the current level of progression.
         /// </summary>
@@ -212,35 +212,38 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         protected void PaintButton(Graphics graphics)
         {
             // Set brush to draw the background.
-            if (buttonEnabled) { backgroundBrush = new SolidBrush(this.ForeColor); }
-            else { backgroundBrush = new SolidBrush(this.BackColor); }
+            if (buttonEnabled)
+                backgroundBrush = new SolidBrush(ForeColor);
+            else
+                backgroundBrush = new SolidBrush(BackColor);
 
             // Region of the background.
             Rectangle backgroundRegion = new Rectangle
             (
-                this.LeftBorderWidth,
-                this.TopBorderWidth,
-                this.Width - LeftBorderWidth - RightBorderWidth,
-                this.Height - TopBorderWidth - BottomBorderWidth
+                LeftBorderWidth,
+                TopBorderWidth,
+                Width - LeftBorderWidth - RightBorderWidth,
+                Height - TopBorderWidth - BottomBorderWidth
             );
 
             // Paint the background.
             graphics.FillRectangle(backgroundBrush, backgroundRegion);
 
             // Obtain the control borders.
-            Rectangle controlBounds = new Rectangle(0, 0, this.Width, this.Height);
+            Rectangle controlBounds = new Rectangle(0, 0, Width, Height);
 
             // Set brush to draw the text.
-            if (buttonEnabled) { textBrush = new SolidBrush(this.BackColor); }
-            else { textBrush = new SolidBrush(this.ForeColor); }
+            if (buttonEnabled)
+                textBrush = new SolidBrush(BackColor);
+            else
+                textBrush = new SolidBrush(ForeColor);
 
             // Draw the text.
-            graphics.DrawString(this.Text, this.Font, textBrush, controlBounds, StringFormat);
+            graphics.DrawString(Text, Font, textBrush, controlBounds, StringFormat);
 
             // Cleanup
             textBrush.Dispose();
             backgroundBrush.Dispose();
         }
-        
     }
 }

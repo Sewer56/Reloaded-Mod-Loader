@@ -24,7 +24,7 @@ namespace ReloadedLauncher.Styles.Controls.Interfaces
     /// Interface which allows controls to specify whether they may be ignored by mouse or other user inputs.
     /// Interface elements should also override CreateParams, of access modifier protected. 
     /// </summary>
-    interface IControlIgnorable
+    internal interface IControlIgnorable
     {
         /// <summary>
         /// If set to true, the control ignores the mouse.

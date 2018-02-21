@@ -33,7 +33,7 @@ namespace ReloadedLauncher.Utilities.Fonts
         /// <summary>
         /// Stores the fonts to be loaded from files for this class (prevent font Garbage Collection).
         /// </summary>
-        PrivateFontCollection privateFontCollection;
+        private PrivateFontCollection privateFontCollection;
 
         /// <summary>
         /// Loads a font from a specified path/location and returns the instance of the requested specified font.

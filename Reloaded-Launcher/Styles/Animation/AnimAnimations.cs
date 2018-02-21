@@ -18,13 +18,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Utilities.Colour;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ColorMine.ColorSpaces;
+using ReloadedLauncher.Utilities.Colour;
 
 namespace ReloadedLauncher.Styles.Animation
 {
@@ -34,13 +35,6 @@ namespace ReloadedLauncher.Styles.Animation
     /// </summary>
     public static class AnimAnimations
     {
-        /// <summary>
-        /// Delegate used for invocation that will change the color of a control element.
-        /// Used for the purpose of invokation of colour change on an object that may require
-        /// invokation, such as Windows Forms Controls.
-        /// </summary>
-        delegate void ChangeColorDelegate(PropertyInfo propertyInfo, object control, Color newColor);
-
         /// <summary>
         /// Interpolates the value of a System.Drawing.Color property such as BackColor or ForeColor of a generic object.
         /// The property to interpolate is provided via the propertyInfo object.
@@ -57,9 +51,9 @@ namespace ReloadedLauncher.Styles.Animation
             try
             {
                 // Calculate all interpolated colours in between.
-                ColorMine.ColorSpaces.Lch originalColorLCH = ColorspaceConverter.ColorToLCH(sourceColor);
-                ColorMine.ColorSpaces.Lch newColorLCH = ColorspaceConverter.ColorToLCH(destinationColor);
-                List<ColorMine.ColorSpaces.Lch> lchColours = interpolator.CalculateIntermediateColours(originalColorLCH, newColorLCH);
+                Lch originalColorLCH = ColorspaceConverter.ColorToLCH(sourceColor);
+                Lch newColorLCH = ColorspaceConverter.ColorToLCH(destinationColor);
+                List<Lch> lchColours = interpolator.CalculateIntermediateColours(originalColorLCH, newColorLCH);
 
                 // Converted interpolated colours to RGB.
                 List<Color> interpolatedColours = ColorspaceConverter.LCHListToColor(lchColours);
@@ -72,12 +66,13 @@ namespace ReloadedLauncher.Styles.Animation
                 foreach (Color newBackgroundColour in interpolatedColours)
                 {
                     // Check exit condition.
-                    if (animationMessage.PlayAnimation == false)
-                    { return; }
+                    if (animationMessage.PlayAnimation == false) return;
 
                     // Set the BackColor
-                    if (isWinFormControl) { winFormControl.Invoke((ChangeColorDelegate)ChangeColor, propertyInfo, winFormControl, newBackgroundColour); }
-                    else { propertyInfo.SetValue(animationMessage.Control, newBackgroundColour, null); }
+                    if (isWinFormControl)
+                        winFormControl.Invoke((ChangeColorDelegate)ChangeColor, propertyInfo, winFormControl, newBackgroundColour);
+                    else
+                        propertyInfo.SetValue(animationMessage.Control, newBackgroundColour, null);
 
                     // Wait
                     await Task.Delay(interpolator.SleepTime);
@@ -164,5 +159,12 @@ namespace ReloadedLauncher.Styles.Animation
         {
             propertyInfo.SetValue(control, newColor);
         }
+
+        /// <summary>
+        /// Delegate used for invocation that will change the color of a control element.
+        /// Used for the purpose of invokation of colour change on an object that may require
+        /// invokation, such as Windows Forms Controls.
+        /// </summary>
+        private delegate void ChangeColorDelegate(PropertyInfo propertyInfo, object control, Color newColor);
     }
 }

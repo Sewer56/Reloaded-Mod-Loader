@@ -24,7 +24,7 @@ namespace ReloadedLauncher.Styles.Controls.Interfaces
     /// Declares the variables a control must posess if it is to be potentially used as a decoration box.
     /// Allows/Disallows the capturing of children controls if they are in the region of the 
     /// </summary>
-    interface IDecorationBox
+    internal interface IDecorationBox
     {
         /// <summary>
         /// Declares whether the decoration box should capture the children controls 

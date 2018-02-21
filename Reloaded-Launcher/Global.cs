@@ -18,10 +18,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Styles.Themes;
-using ReloadedLauncher.Utilities;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Reloaded.Misc.Config;
+using ReloadedLauncher.Styles.Themes;
+using ReloadedLauncher.Utilities;
 
 namespace ReloadedLauncher
 {

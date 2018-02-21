@@ -36,12 +36,16 @@ namespace ReloadedLauncher.Styles.Themes
         private static void ApplyFonts(Control control)
         {
             // Filter the three text categories.
-            if (IsTitleItem(control)) { control.Font = new Font(Theme.Fonts.TitleFont.FontFamily, control.Font.Size, Theme.Fonts.TitleFont.Style, control.Font.Unit); }
-            else if (IsCategoryItem(control)) { control.Font = new Font(Theme.Fonts.CategoryFont.FontFamily, control.Font.Size, Theme.Fonts.CategoryFont.Style, control.Font.Unit); }
+            if (IsTitleItem(control))
+                control.Font = new Font(Theme.Fonts.TitleFont.FontFamily, control.Font.Size, Theme.Fonts.TitleFont.Style, control.Font.Unit);
+            else if (IsCategoryItem(control))
+                control.Font = new Font(Theme.Fonts.CategoryFont.FontFamily, control.Font.Size, Theme.Fonts.CategoryFont.Style, control.Font.Unit);
 
-            else if (IsMainItem(control)) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, Theme.Fonts.TextFont.Style, control.Font.Unit); }
-            else if (IsBorderless(control)) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, Theme.Fonts.TextFont.Style, control.Font.Unit); }
-            else if (IsBox(control)) { control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, Theme.Fonts.TextFont.Style, control.Font.Unit); }
+            else if (IsMainItem(control))
+                control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, Theme.Fonts.TextFont.Style, control.Font.Unit);
+            else if (IsBorderless(control))
+                control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, Theme.Fonts.TextFont.Style, control.Font.Unit);
+            else if (IsBox(control)) control.Font = new Font(Theme.Fonts.TextFont.FontFamily, control.Font.Size, Theme.Fonts.TextFont.Style, control.Font.Unit);
         }
     }
 }

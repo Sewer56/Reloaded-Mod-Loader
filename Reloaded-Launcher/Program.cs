@@ -33,18 +33,18 @@ using System.Windows.Forms;
 
 namespace ReloadedLauncher
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// Defines the initializer class which starts up the Windows Forms application.
         /// </summary>
-        static Initializer initializer;
+        private static Initializer initializer;
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             // Enable Visual Styles
             Application.EnableVisualStyles();

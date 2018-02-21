@@ -18,12 +18,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System.Drawing;
+using System.Windows.Forms;
+using Reloaded.Misc.Config;
 using ReloadedLauncher.Styles.Animation;
 using ReloadedLauncher.Styles.Controls.Custom;
 using ReloadedLauncher.Styles.Controls.Enhanced;
 using ReloadedLauncher.Styles.Controls.Interfaces;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace ReloadedLauncher.Styles.Themes
 {
@@ -46,7 +47,7 @@ namespace ReloadedLauncher.Styles.Themes
         public static void ApplyCurrentTheme()
         {
             // For each currently initialized Windows Form.
-            foreach (Form windowForm in Global.WindowsForms) { ThemeWindowsForm(windowForm); }
+            foreach (Form windowForm in Global.WindowsForms) ThemeWindowsForm(windowForm);
 
             // If the initial form has been initialized.
             if (Global.BaseForm != null)
@@ -70,7 +71,8 @@ namespace ReloadedLauncher.Styles.Themes
             foreach (Control control in windowForm.Controls)
             {
                 // If the control has embedded controls (thus embeds child controls, apply theme to children.
-                if (control.Controls.Count != 0) { foreach (Control controlEmbedded in control.Controls) { ThemeControl(controlEmbedded); } }
+                if (control.Controls.Count != 0)
+                    foreach (Control controlEmbedded in control.Controls) ThemeControl(controlEmbedded);
 
                 // Apply the theme.
                 ThemeControl(control);
@@ -90,12 +92,18 @@ namespace ReloadedLauncher.Styles.Themes
             ApplyFonts(control);
 
             // Theme the Category, Main and Title Buttons
-            if (IsMainItem(control)) { ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true); }
-            else if (IsCategoryItem(control)){ ThemeButton(control, Theme.ThemeProperties.CategoryColours, Theme.ThemeProperties.CategoryEnterAnimation, Theme.ThemeProperties.CategoryLeaveAnimation, false); }
-            else if (IsTitleItem(control)) { ThemeButton(control, Theme.ThemeProperties.TitleColours, Theme.ThemeProperties.TitleEnterAnimation, Theme.ThemeProperties.TitleLeaveAnimation, false); }
-            else if (IsBox(control)) { ThemeButton(control, Theme.ThemeProperties.BoxColours, Theme.ThemeProperties.BoxEnterAnimation, Theme.ThemeProperties.BoxLeaveAnimation, true); }
-            else if (IsBorderless(control)) { ThemeButton(control, Theme.ThemeProperties.BorderlessColours, Theme.ThemeProperties.BorderlessEnterAnimation, Theme.ThemeProperties.BorderlessLeaveAnimation, false); }
-            else { ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true); }
+            if (IsMainItem(control))
+                ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true);
+            else if (IsCategoryItem(control))
+                ThemeButton(control, Theme.ThemeProperties.CategoryColours, Theme.ThemeProperties.CategoryEnterAnimation, Theme.ThemeProperties.CategoryLeaveAnimation, false);
+            else if (IsTitleItem(control))
+                ThemeButton(control, Theme.ThemeProperties.TitleColours, Theme.ThemeProperties.TitleEnterAnimation, Theme.ThemeProperties.TitleLeaveAnimation, false);
+            else if (IsBox(control))
+                ThemeButton(control, Theme.ThemeProperties.BoxColours, Theme.ThemeProperties.BoxEnterAnimation, Theme.ThemeProperties.BoxLeaveAnimation, true);
+            else if (IsBorderless(control))
+                ThemeButton(control, Theme.ThemeProperties.BorderlessColours, Theme.ThemeProperties.BorderlessEnterAnimation, Theme.ThemeProperties.BorderlessLeaveAnimation, false);
+            else
+                ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true);
         }
 
         /// <summary>
@@ -108,7 +116,7 @@ namespace ReloadedLauncher.Styles.Themes
         /// <param name="buttonColours">Defines the main button colours of the button in question</param>
         /// <param name="enterAnimation">Defines the mouse enter animation of the button.</param>
         /// <param name="exitAnimation">Defines the mouse exit animation of the buttons.</param>
-        private static void ThemeButton(Control control, BarColours buttonColours, ButtonMouseAnimation enterAnimation, ButtonMouseAnimation exitAnimation, bool ThemeBorder)
+        private static void ThemeButton(Control control, ThemePropertyParser.BarColours buttonColours, ThemePropertyParser.ButtonMouseAnimation enterAnimation, ThemePropertyParser.ButtonMouseAnimation exitAnimation, bool ThemeBorder)
         {
             // Set the control backcolor and forecolor.
             control.ForeColor = buttonColours.TextColour;
@@ -129,20 +137,20 @@ namespace ReloadedLauncher.Styles.Themes
                 animatedControl.AnimProperties.MouseEnterBackColor = enterAnimation.BGTargetColour;
                 animatedControl.AnimProperties.MouseEnterForeColor = enterAnimation.FGTargetColour;
                 animatedControl.AnimProperties.MouseEnterDuration = enterAnimation.AnimationDuration;
-                if (enterAnimation.BlendBGColour) { animatedControl.AnimProperties.MouseEnterOverride = animatedControl.AnimProperties.MouseEnterOverride | Animation.AnimOverrides.MouseEnterOverride.BackColorInterpolate; }
-                if (enterAnimation.BlendFGColour) { animatedControl.AnimProperties.MouseEnterOverride = animatedControl.AnimProperties.MouseEnterOverride | Animation.AnimOverrides.MouseEnterOverride.ForeColorInterpolate; }
+                if (enterAnimation.BlendBGColour) animatedControl.AnimProperties.MouseEnterOverride = animatedControl.AnimProperties.MouseEnterOverride | AnimOverrides.MouseEnterOverride.BackColorInterpolate;
+                if (enterAnimation.BlendFGColour) animatedControl.AnimProperties.MouseEnterOverride = animatedControl.AnimProperties.MouseEnterOverride | AnimOverrides.MouseEnterOverride.ForeColorInterpolate;
 
                 // Set the exit animation
                 animatedControl.AnimProperties.MouseLeaveBackColor = exitAnimation.BGTargetColour;
                 animatedControl.AnimProperties.MouseLeaveForeColor = exitAnimation.FGTargetColour;
                 animatedControl.AnimProperties.MouseLeaveDuration = exitAnimation.AnimationDuration;
                 
-                if (exitAnimation.BlendBGColour) { animatedControl.AnimProperties.MouseLeaveOverride = animatedControl.AnimProperties.MouseLeaveOverride | Animation.AnimOverrides.MouseLeaveOverride.BackColorInterpolate; }
-                if (exitAnimation.BlendFGColour) { animatedControl.AnimProperties.MouseLeaveOverride = animatedControl.AnimProperties.MouseLeaveOverride | Animation.AnimOverrides.MouseLeaveOverride.ForeColorInterpolate; }
+                if (exitAnimation.BlendBGColour) animatedControl.AnimProperties.MouseLeaveOverride = animatedControl.AnimProperties.MouseLeaveOverride | AnimOverrides.MouseLeaveOverride.BackColorInterpolate;
+                if (exitAnimation.BlendFGColour) animatedControl.AnimProperties.MouseLeaveOverride = animatedControl.AnimProperties.MouseLeaveOverride | AnimOverrides.MouseLeaveOverride.ForeColorInterpolate;
 
                 // Overrate Framerates if not specified
-                if (animatedControl.AnimProperties.MouseEnterFramerate == 0) { animatedControl.AnimProperties.MouseEnterFramerate = enterAnimation.AnimationFramerate; }
-                if (animatedControl.AnimProperties.MouseLeaveFramerate == 0) { animatedControl.AnimProperties.MouseLeaveFramerate = exitAnimation.AnimationFramerate; }
+                if (animatedControl.AnimProperties.MouseEnterFramerate == 0) animatedControl.AnimProperties.MouseEnterFramerate = enterAnimation.AnimationFramerate;
+                if (animatedControl.AnimProperties.MouseLeaveFramerate == 0) animatedControl.AnimProperties.MouseLeaveFramerate = exitAnimation.AnimationFramerate;
 
                 // If it is a bordered, control, override.
                 if (control is IBorderedControl)
@@ -252,23 +260,19 @@ namespace ReloadedLauncher.Styles.Themes
 
                 // Match forecolor to borders if it's a textbox.
                 EnhancedTextbox textbox = control as EnhancedTextbox;
-                if (textbox != null) { textbox.ForeColor = Theme.ThemeProperties.ButtonBorderProperties.BorderColour; }
+                if (textbox != null) textbox.ForeColor = Theme.ThemeProperties.ButtonBorderProperties.BorderColour;
             }
             #endregion IBordered Control (Bordered Controls)
 
             // If the control is a box, set BG colour of children.
             #region Decoration Boxes
             if (control is IDecorationBox)
-            {
-                foreach (Control childControl in control.Controls)
-                {
-                    childControl.BackColor = control.BackColor;
-                }
-            }
+                foreach (Control childControl in control.Controls) childControl.BackColor = control.BackColor;
+
             #endregion Decoration Boxes
 
             // Theme the control border.
-            if (ThemeBorder) { ThemeButtonBorder(control); }
+            if (ThemeBorder) ThemeButtonBorder(control);
         }
 
         /// <summary>

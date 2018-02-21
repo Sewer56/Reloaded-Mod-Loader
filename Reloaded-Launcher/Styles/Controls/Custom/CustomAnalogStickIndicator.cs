@@ -18,11 +18,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Styles.Controls.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using ReloadedLauncher.Styles.Controls.Interfaces;
 
 namespace ReloadedLauncher.Styles.Controls.Custom
 {
@@ -34,6 +34,67 @@ namespace ReloadedLauncher.Styles.Controls.Custom
     /// </summary>
     public class CustomAnalogStickIndicator : Control, IBorderedControl
     {
+        ////////////////////////////////////////////////////////////////////////
+        // Override the paint event sent to the control, draw our own control :V
+        ////////////////////////////////////////////////////////////////////////
+        private static readonly int WM_PAINT = 0x000F;
+        private BufferedGraphics backBuffer;
+
+        /////////////////////////////////
+        // Implement own Double Buffering
+        /////////////////////////////////
+        private readonly BufferedGraphicsContext graphicManager;
+        public int MAX_VALUE_RADIUS = 1000;
+        private int valueX;
+        private int valueY;
+
+        /// <summary>
+        /// Constructor for the enhanced textbox.
+        /// </summary>
+        public CustomAnalogStickIndicator()
+        {
+            // Redirect all painting to us.
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+
+            // Setup double buffering.
+            graphicManager = BufferedGraphicsManager.Current;
+            ReallocateBuffer();
+        }
+
+        // Stores progress and details of position indicator.
+        // Note: Width of indicator equals the border width.
+        public int IndicatorWidth { get; set; } // Defines the width of the dot.
+        public Color IndicatorColour { get; set; } // Defines the colour of the dot.
+
+
+        /// <summary>
+        /// Gets or sets the X value of the position indicator, from MIN_VALUE (MAX_VALUE_RADIUS*-1) to MAX_VALUE_RADIUS (1000)
+        /// </summary>
+        [Description("Specifies the X value of the analog stick indicator, from MIN_VALUE (MAX_VALUE_RADIUS*-1) to MAX_VALUE_RADIUS (1000)")]
+        public int ValueX
+        {
+            get => valueX;
+            set
+            {
+                valueX = value;
+                Invoke((Action)delegate { Refresh(); });
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the Y value of the position indicator, from MIN_VALUE (0) to MAX_VALUE (1000)
+        /// </summary>
+        [Description("Specifies the Y value of the analog stick indicator, from MIN_VALUE (0) to MAX_VALUE (1000)")]
+        public int ValueY
+        {
+            get => valueY;
+            set
+            {
+                valueY = value;
+                Invoke((Action)delegate { Refresh(); });
+            }
+        }
+
         // Border Colours
         public Color LeftBorderColour { get; set; }
         public Color TopBorderColour { get; set; }
@@ -52,43 +113,6 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         public int TopBorderWidth { get; set; }
         public int BottomBorderWidth { get; set; }
 
-        // Stores progress and details of position indicator.
-        // Note: Width of indicator equals the border width.
-        public int IndicatorWidth { get; set; } // Defines the width of the dot.
-        public Color IndicatorColour { get; set; } // Defines the colour of the dot.
-        public int MAX_VALUE_RADIUS = 1000;
-        private int valueX;
-        private int valueY;
-
-
-        /// <summary>
-        /// Gets or sets the X value of the position indicator, from MIN_VALUE (MAX_VALUE_RADIUS*-1) to MAX_VALUE_RADIUS (1000)
-        /// </summary>
-        [Description("Specifies the X value of the analog stick indicator, from MIN_VALUE (MAX_VALUE_RADIUS*-1) to MAX_VALUE_RADIUS (1000)")]
-        public int ValueX
-        {
-            get { return valueX; }
-            set
-            {
-                valueX = value;
-                this.Invoke((Action)delegate { Refresh(); });
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the Y value of the position indicator, from MIN_VALUE (0) to MAX_VALUE (1000)
-        /// </summary>
-        [Description("Specifies the Y value of the analog stick indicator, from MIN_VALUE (0) to MAX_VALUE (1000)")]
-        public int ValueY
-        {
-            get { return valueY; }
-            set
-            {
-                valueY = value;
-                this.Invoke((Action)delegate { Refresh(); });
-            }
-        }
-
         /// <summary>
         /// Sets the new X and Y value simultaneously, reducing drawing overhead per each change.
         /// </summary>
@@ -98,27 +122,8 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         {
             valueX = positionX;
             valueY = positionY;
-            this.Invoke((Action)delegate { Refresh(); });
+            Invoke((Action)delegate { Refresh(); });
         }
-
-        /// <summary>
-        /// Constructor for the enhanced textbox.
-        /// </summary>
-        public CustomAnalogStickIndicator()
-        {
-            // Redirect all painting to us.
-            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
-
-            // Setup double buffering.
-            graphicManager = BufferedGraphicsManager.Current;
-            ReallocateBuffer();
-        }
-
-        /////////////////////////////////
-        // Implement own Double Buffering
-        /////////////////////////////////
-        BufferedGraphicsContext graphicManager;
-        BufferedGraphics backBuffer;
 
         /// <summary>
         /// Calls the method to reallocate buffer when the control size changes.
@@ -139,14 +144,9 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         private void ReallocateBuffer()
         {
             // Reallocate buffer.
-            graphicManager.MaximumBuffer = new Size(this.Width + 1, this.Height + 1);
-            backBuffer = graphicManager.Allocate(this.CreateGraphics(), new Rectangle(0, 0, this.Width, this.Height));
+            graphicManager.MaximumBuffer = new Size(Width + 1, Height + 1);
+            backBuffer = graphicManager.Allocate(CreateGraphics(), new Rectangle(0, 0, Width, Height));
         }
-
-        ////////////////////////////////////////////////////////////////////////
-        // Override the paint event sent to the control, draw our own control :V
-        ////////////////////////////////////////////////////////////////////////
-        private static int WM_PAINT = 0x000F;
 
         /// <summary>
         /// Override the window message handler.
@@ -157,7 +157,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
             base.WndProc(ref m);
 
             // If it's a paint call, draw our own control.
-            if (m.Msg == WM_PAINT) { DrawControl(); }
+            if (m.Msg == WM_PAINT) DrawControl();
         }
 
         //////////////////////////////////////////////////////////////
@@ -189,8 +189,8 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         protected void PaintBackground(Graphics graphics)
         {
             // Define and paint the background area.
-            Brush brush = new SolidBrush(this.BackColor);
-            Rectangle controlBounds = new Rectangle(0, 0, this.Width, this.Height);
+            Brush brush = new SolidBrush(BackColor);
+            Rectangle controlBounds = new Rectangle(0, 0, Width, Height);
 
             // Draw
             graphics.FillRectangle(brush, controlBounds);
@@ -198,7 +198,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
             // Cleanup
             brush.Dispose();
         }
-        
+
         /// <summary>
         /// Paints our own border around the current textbox control.
         /// </summary>
@@ -206,7 +206,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         protected void PaintBorders(Graphics graphics)
         {
             // Obtain the control borders.
-            Rectangle controlBounds = new Rectangle(0, 0, this.Width, this.Height);
+            Rectangle controlBounds = new Rectangle(0, 0, Width, Height);
 
             // Draw the border!
             ControlPaint.DrawBorder(graphics, controlBounds, LeftBorderColour,
@@ -229,8 +229,8 @@ namespace ReloadedLauncher.Styles.Controls.Custom
             float positionVertical = (positionCenterHorizontal + valueY) / (MAX_VALUE_RADIUS * 2);
 
             // Height, Width minus borders
-            int borderlessHeight = this.Height - BottomBorderWidth - TopBorderWidth;
-            int borderlessWidth = this.Width - LeftBorderWidth - RightBorderWidth;
+            int borderlessHeight = Height - BottomBorderWidth - TopBorderWidth;
+            int borderlessWidth = Width - LeftBorderWidth - RightBorderWidth;
 
             // Get left border of rectangle.
             int leftRectangle = (int)(borderlessWidth * positionHorizontal);
@@ -246,7 +246,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
             topRectangle -= IndicatorWidth / 2;
 
             // Define and paint the rectangle.
-            Brush brush = new SolidBrush(this.IndicatorColour);
+            Brush brush = new SolidBrush(IndicatorColour);
             Rectangle rectangle = new Rectangle(leftRectangle, topRectangle, IndicatorWidth, IndicatorWidth);
 
             // Draw

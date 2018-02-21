@@ -18,16 +18,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Microsoft.WindowsAPICodePack.Dialogs;
-using ReloadedLauncher.Styles.Themes;
-using ReloadedLauncher.Utilities.Controls;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using Reloaded.Misc;
+using Reloaded.Misc.Config;
+using ReloadedLauncher.Styles.Themes;
+using ReloadedLauncher.Utilities.Controls;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -60,7 +61,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary> 
         private void MenuVisibleChanged(object sender, EventArgs e)
         {
-            if (this.Visible)
+            if (Visible)
             {
                 // Set the titlebar.  
                 Global.CurrentMenuName = "Game Manager + Mod Loader Plugins";
@@ -89,17 +90,15 @@ namespace ReloadedLauncher.Windows.Children
 
             // For each config, append the name of the game.
             foreach (GameConfigParser.GameConfig gameConfig in Global.GameConfigurations)
-            {
                 borderless_CurrentGame.Items.Add
                 (
                     gameConfig.GameName + " " + Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter + " " + 
                     gameConfig.ExecutableLocation + " " + Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter + " " +
                     gameConfig.GameVersion
                 );
-            }
 
             // Change selected index to 0.
-            try { this.borderless_CurrentGame.SelectedIndex = 0; } catch { }
+            try { borderless_CurrentGame.SelectedIndex = 0; } catch { }
         }
 
         /// <summary>
@@ -112,8 +111,7 @@ namespace ReloadedLauncher.Windows.Children
 
             // Find and remove first by details.
             for (int x = 0; x < Global.GameConfigurations.Count; x++)
-            {
-                // Find the first match to game name, executable and version.
+            // Find the first match to game name, executable and version.
                 if
                 (
                     Global.GameConfigurations[x].GameName == comboBoxDetails.GameName &&
@@ -136,7 +134,6 @@ namespace ReloadedLauncher.Windows.Children
 
                     break;
                 }
-            }
         }
 
         /// <summary>
@@ -149,8 +146,7 @@ namespace ReloadedLauncher.Windows.Children
 
             // Find and remove first by details.
             for (int x = 0; x < Global.GameConfigurations.Count; x++)
-            {
-                // Find the first match to game name, executable and version.
+            // Find the first match to game name, executable and version.
                 if
                 (
                     Global.GameConfigurations[x].GameName == comboBoxDetails.GameName &&
@@ -176,7 +172,6 @@ namespace ReloadedLauncher.Windows.Children
 
                     break;
                 }
-            }
         }
 
         /// <summary>
@@ -193,14 +188,10 @@ namespace ReloadedLauncher.Windows.Children
 
             // Open dialog.
             if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                // Check if the new path is a subfolder of game configs folder.
                 if (folderDialog.FileName.Contains(LoaderPaths.GetModLoaderGameDirectory()))
-                {
                     CreateNewGameConfig(folderDialog.FileName);
-                }
-                else { MessageBox.Show("Your chosen directory should be a subdirectory of Reloaded-Config/Games (" + LoaderPaths.GetModLoaderGameDirectory() + ")"); }
-            }
+                else
+                    MessageBox.Show("Your chosen directory should be a subdirectory of Reloaded-Config/Games (" + LoaderPaths.GetModLoaderGameDirectory() + ")");
 
             // Dispose dialog.
             folderDialog.Dispose();
@@ -298,10 +289,10 @@ namespace ReloadedLauncher.Windows.Children
                 string executableDirectory = Path.GetDirectoryName(executableDialog.FileName);
 
                 // If the game directory is not set, default it. 
-                if (borderless_GameDirectory.Text.Length == 0) { borderless_GameDirectory.Text = executableDirectory; }
+                if (borderless_GameDirectory.Text.Length == 0) borderless_GameDirectory.Text = executableDirectory;
 
                 // If the executable path is not a subdirectory, default it.
-                if (! (executableDialog.FileName.Contains(borderless_GameDirectory.Text)))
+                if (! executableDialog.FileName.Contains(borderless_GameDirectory.Text))
                 {
                     MessageBox.Show("The executable location should be a subdirectory of the game folder, dummy. For convenience, it's been reset to game executable directory.");
                     borderless_GameDirectory.Text = executableDirectory;
@@ -338,10 +329,7 @@ namespace ReloadedLauncher.Windows.Children
                 borderless_GameDirectory.Text = gameDirectory;
 
                 // Check if executable path contains game path.
-                if (borderless_GameExecutableDirectory.Text.Contains(gameDirectory))
-                {
-                    borderless_GameExecutableDirectory.Text = borderless_GameExecutableDirectory.Text.Substring(gameDirectory.Length + 1);
-                }
+                if (borderless_GameExecutableDirectory.Text.Contains(gameDirectory)) borderless_GameExecutableDirectory.Text = borderless_GameExecutableDirectory.Text.Substring(gameDirectory.Length + 1);
             }
 
             // Dispose dialog.
@@ -364,8 +352,6 @@ namespace ReloadedLauncher.Windows.Children
 
             // Open dialog.
             if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                // Check if the new path is a subfolder of mods folder.
                 if (folderDialog.FileName.Contains(LoaderPaths.GetModLoaderModDirectory()))
                 {
                     // Check if a folder was selected.
@@ -379,7 +365,6 @@ namespace ReloadedLauncher.Windows.Children
                 {
                     MessageBox.Show("Your chosen directory should be a subdirectory of Reloaded-Mods (" + LoaderPaths.GetModLoaderModDirectory() + ")");
                 }
-            }
 
             // Dispose dialog.
             folderDialog.Dispose();
@@ -434,7 +419,7 @@ namespace ReloadedLauncher.Windows.Children
             string splitString = " " + Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter + " ";
 
             // Split the game details
-            string[] gameDetails = currentGame.Split(new string[] { splitString }, StringSplitOptions.None);
+            string[] gameDetails = currentGame.Split(new[] { splitString }, StringSplitOptions.None);
 
             // gameDetails[0] = Game Name
             // gameDetails[1] = Game Executable Relative Location
@@ -448,18 +433,18 @@ namespace ReloadedLauncher.Windows.Children
         }
 
         /// <summary>
+        /// Handles the Save Game Button, merely calls save game function.
+        /// </summary>
+        private void SaveGameButton(object sender, EventArgs e) { SaveCurrentGame(); }
+
+        /// <summary>
         /// Stores the details of the current ComboBox selection.
         /// </summary>
-        struct GameComboBoxDetails
+        private struct GameComboBoxDetails
         {
             public string GameName;
             public string GameVersion;
             public string ExecutableRelativeLocation;
         }
-
-        /// <summary>
-        /// Handles the Save Game Button, merely calls save game function.
-        /// </summary>
-        private void SaveGameButton(object sender, EventArgs e) { SaveCurrentGame(); }
     }
 }

@@ -18,9 +18,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using Colorful;
 using Reloaded_Loader.Terminal;
 using Reloaded_Loader.Terminal.Information;
-using Console = Colorful.Console;
 
 namespace Reloaded_Loader
 {
@@ -28,9 +28,9 @@ namespace Reloaded_Loader
     /// The main program class provides code only for the initialization of the Reloaded Mod Loader
     /// loader, the main brawl and logic code is provided elsewhere in the mod loader.
     /// </summary>
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             // Initialize the console.
             ConsoleFunctions.Initialize();

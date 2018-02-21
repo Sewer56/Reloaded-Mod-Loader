@@ -29,6 +29,12 @@ namespace ReloadedLauncher.Styles.Animation
     public interface IAnimatedControl
     {
         /// <summary>
+        /// Should contain an AnimProperties struct containing all of
+        /// the animation properties.
+        /// </summary>
+        AnimProperties AnimProperties { get; set; }
+
+        /// <summary>
         /// Calls the object's normally internal protected
         /// OnMouseEnter if no override is set.
         /// </summary>
@@ -39,12 +45,6 @@ namespace ReloadedLauncher.Styles.Animation
         /// OnMouseLeave if no override is set.
         /// </summary>
         void OnMouseLeaveWrapper(EventArgs e);
-
-        /// <summary>
-        /// Should contain an AnimProperties struct containing all of
-        /// the animation properties.
-        /// </summary>
-        AnimProperties AnimProperties { get; set; }
 
         /// <summary>
         /// Stops all currently ongoing animations.

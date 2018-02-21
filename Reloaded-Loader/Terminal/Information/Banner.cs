@@ -1,10 +1,10 @@
-﻿using Colorful;
-using System;
+﻿using System;
+using Colorful;
 using Console = Colorful.Console;
 
 namespace Reloaded_Loader.Terminal.Information
 {
-    static class Banner
+    internal static class Banner
     {
         /// <summary>
         /// Prints all of the text to be displayed on startup of the Reloaded Launcher.
@@ -27,15 +27,14 @@ namespace Reloaded_Loader.Terminal.Information
             ConsoleFunctions.PrintMessage("");
 
             // Reloaded Banner Stylesheet
-            Formatter[] reloadedFormatter = new Formatter[]
-            {
+            Formatter[] reloadedFormatter = {
                 new Formatter(@"MMMMMMMMMMMMNmyyyyyyyyyyyy-:yy`           /syyyyyyyyo.     `/     :yyyyyyyyyys: /yyyyyyyyyyyy`+yyyyyyyyyyo.", ConsoleFunctions.TextColor),
                 new Formatter(@"MMMMM   MNMMhodmhmo:::::::.:hh.          /hho:::::/yhy`   `sh/    :hh+:::::/yhh./hh/:::::::::`ohy::::::/yhy", ConsoleFunctions.TextColor),
                 new Formatter(@"MMMMM   :+MMo-hh/./.....   :hh.          +hh       /hh`  `ohhh/   :hh.      -hh-/hh-......`   ohy       +hh", ConsoleFunctions.TextColor),
                 new Formatter(@"MMMMM  MMMMm--dddddddddh   /dd.          odd       +dd`  sdy-dd/  :dd.      :dd-+dddddddddo   sdh       odd", ConsoleFunctions.TextColor),
                 new Formatter(@"MMoyMMMMMMd/ :NN:          +NN.          sNN`      oNN``dNd::+NNs /NN-      :NN:oNN`          yNm       sNN", ConsoleFunctions.TextColor),
                 new Formatter(@"MMN.m   :dMMh+hhhhhhhhhhhh::hhhhhhhhhhhh./hhhhhhhhhhhy.yhhhhhhhhho:hhhhhhhhhhhh./hhhhhhhhhhhh`ohhhhhhhhhhhy", ConsoleFunctions.TextColor),
-                new Formatter(@"MMM/h     :ssso+++++++++++.-++++++++++++` :+++++++++/.:+/      `++/++++++++++/- -++++++++++++`:++++++++++:.", ConsoleFunctions.TextColor),
+                new Formatter(@"MMM/h     :ssso+++++++++++.-++++++++++++` :+++++++++/.:+/      `++/++++++++++/- -++++++++++++`:++++++++++:.", ConsoleFunctions.TextColor)
             };
 
             // Reloaded Text to Print
@@ -72,8 +71,7 @@ mMNMMMMMMMMMMMm.Nh
         /// </summary>
         private static void PrintRandomMessage()
         {
-            string[] messages = new[]
-            {
+            string[] messages = {
                 "Think your Mod Loader has EDGE? Think again.",
                 "A Mod Loader by Sewer56?",
                 "Cuteness is Justice. It is the law!",

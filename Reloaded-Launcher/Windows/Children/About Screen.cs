@@ -18,11 +18,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Utilities.Controls;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using ReloadedLauncher.Utilities.Controls;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -56,14 +56,14 @@ namespace ReloadedLauncher.Windows.Children
         private void MenuVisibleChanged(object sender, EventArgs e)
         {
             // If set to visible 
-            if (this.Visible)
+            if (Visible)
             {
                 // Set the titlebar.  
                 Global.CurrentMenuName = "About [Reloaded]";
                 Global.BaseForm.UpdateTitle("");
 
                 // Set version
-                item_Version.Text = "Version: " + Application.ProductVersion.ToString() + " | Compiled on " + File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location).ToString(); 
+                item_Version.Text = "Version: " + Application.ProductVersion + " | Compiled on " + File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location); 
             }
         }
     }

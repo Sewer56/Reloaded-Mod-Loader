@@ -30,6 +30,12 @@ namespace ReloadedLauncher.Utilities.Windows
     public static class DrawingControl
     {
         /// <summary>
+        /// An application sends the WM_SETREDRAW message to a window to allow changes 
+        /// in that window to be redrawn or to prevent changes in that window from being redrawn.
+        /// </summary>
+        private const int WM_SETREDRAW = 11;
+
+        /// <summary>
         /// Sends the specified message to a window or windows. 
         /// The SendMessage function calls the window procedure for the specified window and does not return until the window procedure has processed the message.
         /// </summary>
@@ -40,12 +46,6 @@ namespace ReloadedLauncher.Utilities.Windows
         /// <returns></returns>
         [DllImport("user32.dll")]
         private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
-
-        /// <summary>
-        /// An application sends the WM_SETREDRAW message to a window to allow changes 
-        /// in that window to be redrawn or to prevent changes in that window from being redrawn.
-        /// </summary>
-        private const int WM_SETREDRAW = 11;
 
         /// <summary>
         /// Suspends all draw operations for the specific control.

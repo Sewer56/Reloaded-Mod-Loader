@@ -18,9 +18,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Utilities.Fonts;
 using System.Drawing;
 using System.IO;
+using Reloaded.Misc.Config;
+using ReloadedLauncher.Utilities.Fonts;
 
 namespace ReloadedLauncher.Styles.Themes
 {
@@ -30,6 +31,21 @@ namespace ReloadedLauncher.Styles.Themes
     /// </summary>
     public class ThemeFonts
     {
+        // Store the style of the current theme's fonts.
+        private static FontStyle textFontStyle;
+        private static FontStyle titleFontStyle;
+        private static FontStyle categoryFontStyle;
+        private FontLoader categoryFontLoader;
+        private string categoryFontLocation;
+
+        // Private font collections. (Store to prevent Garbage Collection)
+        private FontLoader textFontLoader;
+        private string textFontLocation;
+        private FontLoader titleFontLoader;
+
+        // Store font locations.
+        private string titleFontLocation;
+
         /// <summary>
         /// Font displayed on the title bar of the application.
         /// </summary>
@@ -44,21 +60,6 @@ namespace ReloadedLauncher.Styles.Themes
         /// The main font used for text within the application.
         /// </summary>
         public Font TextFont { get; set; }
-
-        // Store the style of the current theme's fonts.
-        private static System.Drawing.FontStyle textFontStyle;
-        private static System.Drawing.FontStyle titleFontStyle;
-        private static System.Drawing.FontStyle categoryFontStyle;
-
-        // Store font locations.
-        string titleFontLocation;
-        string categoryFontLocation;
-        string textFontLocation;
-
-        // Private font collections. (Store to prevent Garbage Collection)
-        FontLoader textFontLoader;
-        FontLoader categoryFontLoader;
-        FontLoader titleFontLoader;
 
         /// <summary>
         /// Loads all of the fonts used by this individual theme.
@@ -87,24 +88,33 @@ namespace ReloadedLauncher.Styles.Themes
             textFontLocation = "";
 
             // Check if any file paths exist.
-            if (File.Exists(fontDirectory + "\\TitleFont.ttf")) { titleFontLocation = fontDirectory + "\\TitleFont.ttf"; }
-            else if (File.Exists(fontDirectory + "\\TitleFont.otf")) { titleFontLocation = fontDirectory + "\\TitleFont.otf"; }
+            if (File.Exists(fontDirectory + "\\TitleFont.ttf"))
+                titleFontLocation = fontDirectory + "\\TitleFont.ttf";
+            else if (File.Exists(fontDirectory + "\\TitleFont.otf")) titleFontLocation = fontDirectory + "\\TitleFont.otf";
 
-            if (File.Exists(fontDirectory + "\\CategoryFont.ttf")) { categoryFontLocation = fontDirectory + "\\CategoryFont.ttf"; }
-            else if (File.Exists(fontDirectory + "\\CategoryFont.otf")) { categoryFontLocation = fontDirectory + "\\CategoryFont.otf"; }
+            if (File.Exists(fontDirectory + "\\CategoryFont.ttf"))
+                categoryFontLocation = fontDirectory + "\\CategoryFont.ttf";
+            else if (File.Exists(fontDirectory + "\\CategoryFont.otf")) categoryFontLocation = fontDirectory + "\\CategoryFont.otf";
 
-            if (File.Exists(fontDirectory + "\\TextFont.ttf")) { textFontLocation = fontDirectory + "\\TextFont.ttf"; }
-            else if (File.Exists(fontDirectory + "\\TextFont.otf")) { textFontLocation = fontDirectory + "\\TextFont.ttf"; }
+            if (File.Exists(fontDirectory + "\\TextFont.ttf"))
+                textFontLocation = fontDirectory + "\\TextFont.ttf";
+            else if (File.Exists(fontDirectory + "\\TextFont.otf")) textFontLocation = fontDirectory + "\\TextFont.ttf";
 
             // Load appropriate fonts.
-            if (titleFontLocation != "") { TitleFont = titleFontLoader.LoadExternalFont(titleFontLocation, 20.25F); }
-            else { TitleFont = new Font("Times New Roman", 20.25F, FontStyle.Regular); }
+            if (titleFontLocation != "")
+                TitleFont = titleFontLoader.LoadExternalFont(titleFontLocation, 20.25F);
+            else
+                TitleFont = new Font("Times New Roman", 20.25F, FontStyle.Regular);
 
-            if (categoryFontLocation != "") { CategoryFont = categoryFontLoader.LoadExternalFont(categoryFontLocation, 20.25F); }
-            else { CategoryFont = new Font("Times New Roman", 20.25F, FontStyle.Regular); }
+            if (categoryFontLocation != "")
+                CategoryFont = categoryFontLoader.LoadExternalFont(categoryFontLocation, 20.25F);
+            else
+                CategoryFont = new Font("Times New Roman", 20.25F, FontStyle.Regular);
 
-            if (textFontLocation != "") { TextFont = textFontLoader.LoadExternalFont(textFontLocation, 18F); }
-            else { TextFont = new Font("Times New Roman", 18F, FontStyle.Regular); }
+            if (textFontLocation != "")
+                TextFont = textFontLoader.LoadExternalFont(textFontLocation, 18F);
+            else
+                TextFont = new Font("Times New Roman", 18F, FontStyle.Regular);
 
             // Set font style.
             TitleFont = new Font(TitleFont, titleFontStyle);
@@ -120,10 +130,10 @@ namespace ReloadedLauncher.Styles.Themes
         private FontStyle GetFontStyle(FontStyle systemFontStyle, ThemePropertyParser.FontStyle fontStyle)
         {
             // Check font style flags and apply.
-            if (fontStyle.Bold) { systemFontStyle = systemFontStyle | FontStyle.Bold; }
-            if (fontStyle.Underlined) { systemFontStyle = systemFontStyle | FontStyle.Underline; }
-            if (fontStyle.Striked) { systemFontStyle = systemFontStyle | FontStyle.Strikeout; }
-            if (fontStyle.Italic) { systemFontStyle = systemFontStyle | FontStyle.Italic; }
+            if (fontStyle.Bold) systemFontStyle = systemFontStyle | FontStyle.Bold;
+            if (fontStyle.Underlined) systemFontStyle = systemFontStyle | FontStyle.Underline;
+            if (fontStyle.Striked) systemFontStyle = systemFontStyle | FontStyle.Strikeout;
+            if (fontStyle.Italic) systemFontStyle = systemFontStyle | FontStyle.Italic;
 
             // Return new font.
             return systemFontStyle;

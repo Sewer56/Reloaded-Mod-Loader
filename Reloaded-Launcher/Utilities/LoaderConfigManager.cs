@@ -22,6 +22,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using Reloaded.Misc;
+using Reloaded.Misc.Config;
 
 namespace ReloadedLauncher.Utilities
 {
@@ -30,6 +32,18 @@ namespace ReloadedLauncher.Utilities
     /// </summary>
     public class LoaderConfigManager
     {
+        /// <summary>
+        /// Starts up all of the individual parsers.
+        /// </summary>
+        public LoaderConfigManager()
+        {
+            // Instantiate the Parsers
+            LoaderConfigParser = new LoaderConfigParser();
+            GameConfigParser = new GameConfigParser();
+            ModConfigParser = new ModConfigParser();
+            ThemeConfigParser = new ThemeConfigParser();
+        }
+
         /// <summary>
         /// Stores the Mod Loader Configuration Parser.
         /// </summary>
@@ -51,18 +65,6 @@ namespace ReloadedLauncher.Utilities
         public ThemeConfigParser ThemeConfigParser { get; set; }
 
         /// <summary>
-        /// Starts up all of the individual parsers.
-        /// </summary>
-        public LoaderConfigManager()
-        {
-            // Instantiate the Parsers
-            LoaderConfigParser = new LoaderConfigParser();
-            GameConfigParser = new GameConfigParser();
-            ModConfigParser = new ModConfigParser();
-            ThemeConfigParser = new ThemeConfigParser();
-        }
-
-        /// <summary>
         /// Retrieves all of the game individual game configurations.
         /// </summary>
         public List<GameConfigParser.GameConfig> GetAllGameConfigs()
@@ -75,10 +77,8 @@ namespace ReloadedLauncher.Utilities
 
             // Read each game configuration
             foreach (string directory in directories)
-            {
                 try { gameConfigurations.Add(GameConfigParser.ParseConfig(directory)); }
                 catch (Exception ex) { MessageBox.Show("One of your game configurations is missing or corrupt: " + ex.Message); }
-            }
 
             // Return.
             return gameConfigurations;
@@ -91,7 +91,7 @@ namespace ReloadedLauncher.Utilities
         public void WriteAllGameConfigs(List<GameConfigParser.GameConfig> gameConfigurations)
         {
             // Read each game configuration
-            foreach (GameConfigParser.GameConfig gameConfiguration in gameConfigurations) { GameConfigParser.WriteConfig(gameConfiguration); }
+            foreach (GameConfigParser.GameConfig gameConfiguration in gameConfigurations) GameConfigParser.WriteConfig(gameConfiguration);
         }
 
         /// <summary>
@@ -107,10 +107,8 @@ namespace ReloadedLauncher.Utilities
 
             // Read each game configuration
             foreach (string directory in modDirectories)
-            {
                 try { modConfigurations.Add(ModConfigParser.ParseConfig(directory)); }
                 catch (Exception ex) { MessageBox.Show("One of your mod configurations is missing or corrupt: " + ex.Message); }
-            }
 
             // Return.
             return modConfigurations;
@@ -123,7 +121,7 @@ namespace ReloadedLauncher.Utilities
         public void WriteAllMods(List<GameConfigParser.GameConfig> gameConfigurations)
         {
             // Read each game configuration
-            foreach (GameConfigParser.GameConfig gameConfiguration in gameConfigurations) { GameConfigParser.WriteConfig(gameConfiguration); }
+            foreach (GameConfigParser.GameConfig gameConfiguration in gameConfigurations) GameConfigParser.WriteConfig(gameConfiguration);
         }
 
         /// <summary>
@@ -139,10 +137,8 @@ namespace ReloadedLauncher.Utilities
 
             // Read each game configuration
             foreach (string directory in directories)
-            {
                 try { themeConfigurations.Add(ThemeConfigParser.ParseConfig(directory)); }
                 catch (Exception ex) { MessageBox.Show("One of your theme configurations is missing or corrupt: " + ex.Message); }
-            }
 
             // Return.
             return themeConfigurations;
@@ -155,7 +151,7 @@ namespace ReloadedLauncher.Utilities
         public void WriteAllThemeConfigs(List<ThemeConfigParser.ThemeConfig> gameConfigurations)
         {
             // Read each game configuration
-            foreach (ThemeConfigParser.ThemeConfig themeConfiguration in gameConfigurations) { ThemeConfigParser.WriteConfig(themeConfiguration); }
+            foreach (ThemeConfigParser.ThemeConfig themeConfiguration in gameConfigurations) ThemeConfigParser.WriteConfig(themeConfiguration);
         }
     }
 }

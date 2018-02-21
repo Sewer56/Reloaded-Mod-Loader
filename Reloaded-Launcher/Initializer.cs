@@ -18,12 +18,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-
+using Reloaded.Misc;
+using ReloadedLauncher.Styles.Themes;
+using ReloadedLauncher.Utilities;
 
 namespace ReloadedLauncher
 {
@@ -31,7 +32,7 @@ namespace ReloadedLauncher
     /// Defines the class that sets up and starts off the mod loader config manager.
     /// The actual real entry point for the application is Program.cs, this is merely an abstraction.
     /// </summary>
-    class Initializer
+    internal class Initializer
     {
         /// <summary>
         /// Initializes the Windows Forms Application.
@@ -61,7 +62,7 @@ namespace ReloadedLauncher
             Global.LoaderConfiguration = Global.ConfigurationManager.LoaderConfigParser.ParseConfig();
 
             // Initialize other Properties.
-            Global.Theme = new Styles.Themes.Theme();
+            Global.Theme = new Theme();
             Global.WindowsForms = new List<Form>();
 
             // Set the initial menu name.

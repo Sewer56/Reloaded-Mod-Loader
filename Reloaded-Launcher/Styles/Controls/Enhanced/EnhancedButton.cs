@@ -18,12 +18,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Styles.Controls.Interfaces;
-using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
+using ReloadedLauncher.Styles.Controls.Interfaces;
 
 namespace ReloadedLauncher.Styles.Controls
 {
@@ -34,6 +33,20 @@ namespace ReloadedLauncher.Styles.Controls
     public class EnhancedButton : Button, IControlIgnorable, IDecorationBox
     {
         /// <summary>
+        /// Defines our own custom text object that is to be used for drawing.
+        /// </summary>
+        private string customText;
+
+        /// <summary>
+        /// Define the rendering hint upon instantiation.
+        /// </summary>
+        public EnhancedButton()
+        {
+            TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+            SmoothingMode = SmoothingMode.HighQuality;
+        }
+
+        /// <summary>
         /// Overrides the information needed when the control is created or accessed to
         /// either ignore input on the label or not ignore input.
         /// </summary>
@@ -42,7 +55,7 @@ namespace ReloadedLauncher.Styles.Controls
             get
             {
                 var cp = base.CreateParams;
-                if (IgnoreMouse) { cp.Style |= 0x08000000; }  // Enable WS_DISABLED
+                if (IgnoreMouse) cp.Style |= 0x08000000;
                 return cp;
             }
         }
@@ -58,19 +71,9 @@ namespace ReloadedLauncher.Styles.Controls
         public SmoothingMode SmoothingMode { get; set; }
 
         /// <summary>
-        /// If set to true, the control ignores the mouse.
-        /// </summary>
-        public bool IgnoreMouse { get; set; }
-
-        /// <summary>
         /// Defines whether the button ignores mouse clicks.
         /// </summary>
         public bool IgnoreMouseClicks { get; set; }
-
-        /// <summary>
-        /// Declares whether the decoration box should capture the children controls 
-        /// </summary>
-        public bool CaptureChildren { get; set; }
 
         /// <summary>
         /// Redirects the text property to use our own, that is such that the
@@ -78,23 +81,19 @@ namespace ReloadedLauncher.Styles.Controls
         /// </summary>
         public override string Text
         {
-            get { return customText; }
+            get => customText;
             set { customText = value; Invalidate(); }
         }
 
         /// <summary>
-        /// Defines our own custom text object that is to be used for drawing.
+        /// If set to true, the control ignores the mouse.
         /// </summary>
-        private string customText;
+        public bool IgnoreMouse { get; set; }
 
         /// <summary>
-        /// Define the rendering hint upon instantiation.
+        /// Declares whether the decoration box should capture the children controls 
         /// </summary>
-        public EnhancedButton() : base()
-        {
-            TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-            SmoothingMode = SmoothingMode.HighQuality;
-        }
+        public bool CaptureChildren { get; set; }
 
         /// <summary>
         /// The default painting event for the button.
@@ -106,7 +105,7 @@ namespace ReloadedLauncher.Styles.Controls
             base.OnPaint(paintArguments);
 
             // Draw using GDI if there is anything to draw
-            if (String.IsNullOrEmpty(Text) && !String.IsNullOrEmpty(customText))
+            if (string.IsNullOrEmpty(Text) && !string.IsNullOrEmpty(customText))
             {
                 // Set the Smoothing Mode for the Button
                 paintArguments.Graphics.SmoothingMode = SmoothingMode;
@@ -125,6 +124,7 @@ namespace ReloadedLauncher.Styles.Controls
         }
 
         // Redirects
-        protected override void OnMouseDown(MouseEventArgs mevent) { if (!IgnoreMouseClicks) { base.OnMouseDown(mevent); } }
+        protected override void OnMouseDown(MouseEventArgs mevent) { if (!IgnoreMouseClicks) base.OnMouseDown(mevent);
+        }
     }
 }

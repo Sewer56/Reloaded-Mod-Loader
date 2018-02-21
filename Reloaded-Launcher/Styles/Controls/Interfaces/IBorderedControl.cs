@@ -7,7 +7,7 @@ namespace ReloadedLauncher.Styles.Controls.Interfaces
     /// Defines a control which supports the use of borders.
     /// Allows for the drawing of borders around controls.
     /// </summary>
-    interface IBorderedControl
+    internal interface IBorderedControl
     {
         // Border Colours
         Color LeftBorderColour { get; set; }

@@ -18,9 +18,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Styles.Controls.Interfaces;
 using System.Drawing;
 using System.Windows.Forms;
+using ReloadedLauncher.Styles.Controls.Interfaces;
 
 namespace ReloadedLauncher.Styles.Controls.Enhanced
 {
@@ -29,6 +29,20 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
     /// </summary>
     public class EnhancedRichTextbox : RichTextBox, IBorderedControl
     {
+        //////////////////////////////////////////////////////////////////////
+        // Override the paint event sent to the control, draw our own stuff :V
+        //////////////////////////////////////////////////////////////////////
+        private static readonly int WM_PAINT = 0x000F;
+
+        /// <summary>
+        /// Constructor for the enhanced textbox.
+        /// </summary>
+        public EnhancedRichTextbox()
+        {
+            // Set control style.
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+        }
+
         // Border Colours
         public Color LeftBorderColour { get; set; }
         public Color TopBorderColour { get; set; }
@@ -48,33 +62,19 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
         public int BottomBorderWidth { get; set; }
 
         /// <summary>
-        /// Constructor for the enhanced textbox.
-        /// </summary>
-        public EnhancedRichTextbox()
-        {
-            // Set control style.
-            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
-        }
-
-        /// <summary>
         /// Paints our own border around the current textbox control.
         /// </summary>
         /// <param name="graphics">The GDI+ graphics object to use for painting.</param>
         protected void PaintBorders(Graphics graphics)
         {
             // Obtain the control borders.
-            Rectangle controlBounds = new Rectangle(0, 0, this.Width, this.Height);
+            Rectangle controlBounds = new Rectangle(0, 0, Width, Height);
 
             // Draw the border!
             ControlPaint.DrawBorder(graphics, controlBounds, LeftBorderColour,
                 LeftBorderWidth, LeftBorderStyle, TopBorderColour, TopBorderWidth, TopBorderStyle, RightBorderColour,
                 RightBorderWidth, RightBorderStyle, BottomBorderColour, BottomBorderWidth, BottomBorderStyle);
         }
-
-        //////////////////////////////////////////////////////////////////////
-        // Override the paint event sent to the control, draw our own stuff :V
-        //////////////////////////////////////////////////////////////////////
-        private static int WM_PAINT = 0x000F;
 
         /// <summary>
         /// Override the window message handler.

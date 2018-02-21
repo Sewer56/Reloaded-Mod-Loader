@@ -1,40 +1,18 @@
-﻿using ReloadedLauncher.Styles.Themes;
-using ReloadedLauncher.Utilities.Windows;
-using ReloadedLauncher.Windows.Children;
-using System;
+﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using Reloaded.Misc.Config;
+using Reloaded.Native;
+using ReloadedLauncher.Styles.Themes;
+using ReloadedLauncher.Utilities.Windows;
+using ReloadedLauncher.Windows.Children;
 
 namespace ReloadedLauncher
 {
     public partial class Base : Form
     {
-        #region Compositing
-        /// <summary>
-        /// Gets the creation parameters.
-        /// The parameters are overridden to set the window as composited.
-        /// Normally this would go into a child window class and other forms would
-        /// derive from this, however this has shown to make the VS WinForm designer
-        /// to be buggy.
-        /// </summary>
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle = cp.ExStyle | (int)WinAPI.WindowStyles.Constants.WS_EX_COMPOSITED;
-                return cp;
-            }
-        }
-        #endregion
-
-        /// <summary>
-        /// Stores all of the child forms to this Windows form which
-        /// effectively are represented each of the tabs.
-        /// </summary>
-        public ChildForms MDIChildren { get; set; }
-
         /// <summary>
         /// Allows for the enabling/disabling of tab switching
         /// with the mouse forward and back button. Use it to temporarily
@@ -44,44 +22,10 @@ namespace ReloadedLauncher
         private bool enableTabSwitching;
 
         /// <summary>
-        /// Waits for the user to release the tab mouse buttons before allowing
-        /// tab switching to be disabled or enabled.
-        /// </summary>
-        public bool EnableTabSwitching
-        {
-            get { return enableTabSwitching; }
-            set
-            {
-                while (MouseButtons.HasFlag(MouseButtons.XButton1) || MouseButtons.HasFlag(MouseButtons.XButton2)) { Thread.Sleep(8); }
-                enableTabSwitching = value;
-            }
-        }
-
-        /// <summary>
         /// Thread which checks forward and back mouse buttons for
         /// switching tabs.
         /// </summary>
         private Thread mouseCheckThread;
-
-
-        /// <summary>
-        /// A structure which defines all of the child forms
-        /// that this form in question hosts.
-        /// </summary>
-        public class ChildForms
-        {
-            public Main_Screen MainMenu { get; set; }
-            public Mods_Screen ModsMenu { get; set; }
-            public Theme_Screen ThemeMenu { get; set; }
-            public About_Screen AboutMenu { get; set; }
-            public Manage_Screen ManageMenu { get; set; }
-            public Input_Screen InputMenu { get; set; }
-
-            /// <summary>
-            /// Stores the currently opened menu.
-            /// </summary>
-            public Form CurrentMenu { get; set; }
-        }
 
         /// <summary>
         /// Initializes the form.
@@ -107,6 +51,47 @@ namespace ReloadedLauncher
             enableTabSwitching = true;
         }
 
+        #region Compositing
+
+        /// <summary>
+        /// Gets the creation parameters.
+        /// The parameters are overridden to set the window as composited.
+        /// Normally this would go into a child window class and other forms would
+        /// derive from this, however this has shown to make the VS WinForm designer
+        /// to be buggy.
+        /// </summary>
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle = cp.ExStyle | (int)WinAPI.WindowStyles.Constants.WS_EX_COMPOSITED;
+                return cp;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Stores all of the child forms to this Windows form which
+        /// effectively are represented each of the tabs.
+        /// </summary>
+        public ChildForms MDIChildren { get; set; }
+
+        /// <summary>
+        /// Waits for the user to release the tab mouse buttons before allowing
+        /// tab switching to be disabled or enabled.
+        /// </summary>
+        public bool EnableTabSwitching
+        {
+            get => enableTabSwitching;
+            set
+            {
+                while (MouseButtons.HasFlag(MouseButtons.XButton1) || MouseButtons.HasFlag(MouseButtons.XButton2)) Thread.Sleep(8);
+                enableTabSwitching = value;
+            }
+        }
+
         /// <summary>
         /// Performs various tasks such as loading the global theme once the base form 
         /// has finished loading. Starts the mouse checking thread for forward/back
@@ -122,16 +107,6 @@ namespace ReloadedLauncher
             mouseCheckThread.Start();
         }
 
-        // Click Events for Category Buttons
-        #region Category Buttons
-        private void CategoryBar_Games_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.MainMenu); }
-        private void CategoryBar_Mods_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ModsMenu); }
-        private void CategoryBar_Input_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.InputMenu); }
-        private void CategoryBar_Theme_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ThemeMenu); }
-        private void CategoryBar_Manager_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ManageMenu); }
-        private void CategoryBar_About_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.AboutMenu); }
-        #endregion
-
         /// <summary>
         /// Updates the current title for the mod loader menu, taking in mind theme configuration
         /// and the delimiter + delimiter settings.
@@ -140,7 +115,7 @@ namespace ReloadedLauncher
         public void UpdateTitle(string extraText)
         {
             // Retrieve the theme properties.
-            ThemeConfig themeProperties = Theme.ThemeProperties;
+            ThemePropertyParser.ThemeConfig themeProperties = Theme.ThemeProperties;
 
             // Stores the title of the mod loader, before it is set and rendered.
             string loaderTitle = "";
@@ -168,7 +143,7 @@ namespace ReloadedLauncher
             }
 
             // Append extra text
-            if (extraText.Length != 0) { loaderTitle += delimiter; }
+            if (extraText.Length != 0) loaderTitle += delimiter;
             loaderTitle += extraText;
 
             // Set the title of the loader.
@@ -195,7 +170,7 @@ namespace ReloadedLauncher
             MDIChildren.CurrentMenu = MDIChildren.MainMenu;
 
             // Remove the borders from the children forms
-            RemoveMDIChildBorder.SetBevel(this, false);
+            this.SetBevel(false);
 
             // Show the main menu
             MDIChildren.MainMenu.Show();
@@ -216,7 +191,7 @@ namespace ReloadedLauncher
                 targetMenu.Show();
 
                 // Set new menu location.
-                targetMenu.Location = new System.Drawing.Point(0, 0);
+                targetMenu.Location = new Point(0, 0);
 
                 // Set new menu.
                 MDIChildren.CurrentMenu = targetMenu;
@@ -253,7 +228,7 @@ namespace ReloadedLauncher
                 // Check for cycling, remove from max menu if last.
                 // e.g. 2 + (-1) = 1
                 // (2 = maxMenu)
-                if (currentMenu < 0) { currentMenu = maxMenu + currentMenu; }
+                if (currentMenu < 0) currentMenu = maxMenu + currentMenu;
             }
 
             // Open new menu.
@@ -286,36 +261,21 @@ namespace ReloadedLauncher
             Form currentMenu = MDIChildren.CurrentMenu;
 
             // Iterate over children and find matching menu.
-            if (currentMenu == MDIChildren.MainMenu) { return MenuScreens.MainMenu; }
-            else if (currentMenu == MDIChildren.ModsMenu) { return MenuScreens.ModsMenu; }
-            else if (currentMenu == MDIChildren.ThemeMenu) { return MenuScreens.ThemeMenu; }
-            else if (currentMenu == MDIChildren.AboutMenu) { return MenuScreens.AboutMenu; }
-            else if (currentMenu == MDIChildren.ManageMenu) { return MenuScreens.ManageMenu; }
-            else if (currentMenu == MDIChildren.InputMenu) { return MenuScreens.InputMenu; }
+            if (currentMenu == MDIChildren.MainMenu)
+                return MenuScreens.MainMenu;
+            if (currentMenu == MDIChildren.ModsMenu)
+                return MenuScreens.ModsMenu;
+            if (currentMenu == MDIChildren.ThemeMenu)
+                return MenuScreens.ThemeMenu;
+            if (currentMenu == MDIChildren.AboutMenu)
+                return MenuScreens.AboutMenu;
+            if (currentMenu == MDIChildren.ManageMenu)
+                return MenuScreens.ManageMenu;
+            if (currentMenu == MDIChildren.InputMenu) return MenuScreens.InputMenu;
 
             // Return main menu as default.
             return MenuScreens.MainMenu;
         }
-
-        /// <summary>
-        /// Stores the menu screens.
-        /// </summary>
-        enum MenuScreens
-        {
-            MainMenu,
-            ModsMenu,
-            InputMenu,
-            ThemeMenu,
-            ManageMenu,
-            AboutMenu
-        }
-
-        //
-        // Delegates for Cross-Thread Functions
-        //
-        
-        private delegate IntPtr GetBaseHandleDelegate();
-        private delegate void CycleMouseDelegate(bool forward);
 
         /// <summary>
         /// Runs an infinite loop to check current mouse input.
@@ -323,10 +283,10 @@ namespace ReloadedLauncher
         private void CheckMouseInput()
         {
             // Create delegate for thread-safe tab cycling.
-            CycleMouseDelegate cycleMenuDelegate = new CycleMouseDelegate(CycleMenu);
+            CycleMouseDelegate cycleMenuDelegate = CycleMenu;
 
             // Obtain handle of Base window.
-            IntPtr baseHandle = (IntPtr)this.Invoke( (GetBaseHandleDelegate)delegate { return this.Handle; } );
+            IntPtr baseHandle = (IntPtr)Invoke( (GetBaseHandleDelegate)delegate { return Handle; } );
 
             while (true)
             {
@@ -338,14 +298,14 @@ namespace ReloadedLauncher
                     if (MouseButtons.HasFlag(MouseButtons.XButton1))
                     {
                         Invoke(cycleMenuDelegate, false);
-                        while (MouseButtons.HasFlag(MouseButtons.XButton1)) { Thread.Sleep(32); }
+                        while (MouseButtons.HasFlag(MouseButtons.XButton1)) Thread.Sleep(32);
                     }
 
                     // Forward button.
                     if (MouseButtons.HasFlag(MouseButtons.XButton2))
                     {
                         Invoke(cycleMenuDelegate, true);
-                        while (MouseButtons.HasFlag(MouseButtons.XButton2)) { Thread.Sleep(32); }
+                        while (MouseButtons.HasFlag(MouseButtons.XButton2)) Thread.Sleep(32);
                     }
                 }
 
@@ -362,7 +322,7 @@ namespace ReloadedLauncher
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TitleBarMouseDown(object sender, MouseEventArgs e) { MoveWindow.MoveTheWindow(this.Handle); }
+        private void TitleBarMouseDown(object sender, MouseEventArgs e) { MoveWindow.MoveTheWindow(Handle); }
 
         /// <summary>
         /// If the user htis ALT + F4, close the program.
@@ -380,10 +340,64 @@ namespace ReloadedLauncher
         public void Shutdown()
         {
             // Close all forms.
-            foreach (Form winForm in Global.WindowsForms) { winForm.Close(); }
+            foreach (Form winForm in Global.WindowsForms) winForm.Close();
 
             // Shut the program.
             Environment.Exit(0);
         }
+
+
+        /// <summary>
+        /// A structure which defines all of the child forms
+        /// that this form in question hosts.
+        /// </summary>
+        public class ChildForms
+        {
+            public Main_Screen MainMenu { get; set; }
+            public Mods_Screen ModsMenu { get; set; }
+            public Theme_Screen ThemeMenu { get; set; }
+            public About_Screen AboutMenu { get; set; }
+            public Manage_Screen ManageMenu { get; set; }
+            public Input_Screen InputMenu { get; set; }
+
+            /// <summary>
+            /// Stores the currently opened menu.
+            /// </summary>
+            public Form CurrentMenu { get; set; }
+        }
+
+        /// <summary>
+        /// Stores the menu screens.
+        /// </summary>
+        private enum MenuScreens
+        {
+            MainMenu,
+            ModsMenu,
+            InputMenu,
+            ThemeMenu,
+            ManageMenu,
+            AboutMenu
+        }
+
+        //
+        // Delegates for Cross-Thread Functions
+        //
+
+        private delegate IntPtr GetBaseHandleDelegate();
+
+        private delegate void CycleMouseDelegate(bool forward);
+
+        // Click Events for Category Buttons
+
+        #region Category Buttons
+
+        private void CategoryBar_Games_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.MainMenu); }
+        private void CategoryBar_Mods_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ModsMenu); }
+        private void CategoryBar_Input_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.InputMenu); }
+        private void CategoryBar_Theme_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ThemeMenu); }
+        private void CategoryBar_Manager_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.ManageMenu); }
+        private void CategoryBar_About_Click(object sender, EventArgs e) { SwapMenu(MDIChildren.AboutMenu); }
+
+        #endregion
     }
 }

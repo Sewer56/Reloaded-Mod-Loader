@@ -30,6 +30,22 @@ namespace ReloadedLauncher.Utilities.Windows
     public static class MoveWindow
     {
         /// <summary>
+        /// A window receives this message when the user chooses a command from the Window menu (formerly known as the system or control menu) 
+        /// or when the user chooses the maximize button, minimize button, restore button, or close button.
+        /// </summary>
+        private const int WM_SYSCOMMAND = 0x112;
+
+        /// <summary>
+        /// wParam that moves the window.
+        /// </summary>
+        /// <remarks>
+        /// Why does this even work? This is undocumented on MSDN when it comes to 
+        /// SYSCOMMAND messages, it also appears that all 0xF01X where X is a value from 1-F work.
+        /// Closest documented SYSCOMMAND param is SC_MOVE, 0xF010.
+        /// </remarks>
+        private const int MOUSE_MOVE = 0xF012;
+
+        /// <summary>
         /// Sends the specified message to a window or windows. 
         /// The SendMessage function calls the window procedure for the specified window and does not return until the window procedure has processed the message.
         /// </summary>
@@ -47,23 +63,7 @@ namespace ReloadedLauncher.Utilities.Windows
         /// except when a mouse button is clicked while the cursor hot spot is in the window of another thread. 
         /// </summary>
         [DllImport("user32.dll")]
-        static extern bool ReleaseCapture();
-
-        /// <summary>
-        /// A window receives this message when the user chooses a command from the Window menu (formerly known as the system or control menu) 
-        /// or when the user chooses the maximize button, minimize button, restore button, or close button.
-        /// </summary>
-        private const int WM_SYSCOMMAND = 0x112;
-
-        /// <summary>
-        /// wParam that moves the window.
-        /// </summary>
-        /// <remarks>
-        /// Why does this even work? This is undocumented on MSDN when it comes to 
-        /// SYSCOMMAND messages, it also appears that all 0xF01X where X is a value from 1-F work.
-        /// Closest documented SYSCOMMAND param is SC_MOVE, 0xF010.
-        /// </remarks>
-        private const int MOUSE_MOVE = 0xF012;
+        private static extern bool ReleaseCapture();
 
         /// <summary>
         /// Moves the window if executed, accepts the windows form that is

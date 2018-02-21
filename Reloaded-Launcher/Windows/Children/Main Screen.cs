@@ -18,12 +18,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Utilities.Controls;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using Reloaded.Misc;
+using Reloaded.Misc.Config;
+using ReloadedLauncher.Utilities.Controls;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -55,14 +57,14 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void Main_Screen_VisibleChanged(object sender, EventArgs e)
         {
-            if (this.Visible)
+            if (Visible)
             {
                 // Update title
                 Global.CurrentMenuName = "Main Menu";
                 Global.BaseForm.UpdateTitle("");
 
                 // Set version
-                this.item_VersionBoxVersion.Text = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
+                item_VersionBoxVersion.Text = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
 
                 // Load games.
                 LoadGames();

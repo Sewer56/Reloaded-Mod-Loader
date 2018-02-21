@@ -18,10 +18,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Styles.Themes;
-using ReloadedLauncher.Utilities.Windows;
 using System;
 using System.Windows.Forms;
+using Reloaded.Native;
+using ReloadedLauncher.Styles.Themes;
+using ReloadedLauncher.Utilities.Windows;
 
 namespace ReloadedLauncher.Windows.Children.Dialogs
 {
@@ -31,7 +32,20 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
     /// </summary>
     public partial class DialogSample : Form, IDialog
     {
+        /// <summary>
+        /// Initializes the form.
+        /// </summary>
+        public DialogSample()
+        {
+            // Standard WinForms Init
+            InitializeComponent();
+
+            // Make the form rounded.
+            MakeRoundedWindow.RoundWindow(this, 30, 30);
+        }
+
         #region Compositing
+
         /// <summary>
         /// Gets the creation parameters.
         /// The parameters are overridden to set the window as composited.
@@ -48,19 +62,8 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
                 return cp;
             }
         }
+
         #endregion
-
-        /// <summary>
-        /// Initializes the form.
-        /// </summary>
-        public DialogSample()
-        {
-            // Standard WinForms Init
-            InitializeComponent();
-
-            // Make the form rounded.
-            MakeRoundedWindow.RoundWindow(this, 30, 30);
-        }
 
         // /////////////////////////////
         // Null Interface Implementation
@@ -90,6 +93,6 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TitleBarMouseDown(object sender, MouseEventArgs e) { MoveWindow.MoveTheWindow(this.Handle); }
+        private void TitleBarMouseDown(object sender, MouseEventArgs e) { MoveWindow.MoveTheWindow(Handle); }
     }
 }

@@ -18,11 +18,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Styles.Controls.Interfaces;
-using ReloadedLauncher.Styles.Themes;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using ReloadedLauncher.Styles.Controls.Interfaces;
+using ReloadedLauncher.Styles.Themes;
 
 namespace ReloadedLauncher.Utilities.Controls
 {
@@ -46,24 +46,17 @@ namespace ReloadedLauncher.Utilities.Controls
             // We need to first grab all controls into a list ourselves, as adding
             // a control to be a child of X will cause it to no longer to be a child of the form,
             // causing otherwise the foreach loop to end early as winForm.Controls changes.
-            foreach (Control control in winForm.Controls) { allControls.Add(control); }
+            foreach (Control control in winForm.Controls) allControls.Add(control);
 
             // Find every Box Control
             foreach (Control control in allControls)
-            {
-                // If the control is of box type.
-                if ((control is IDecorationBox) && ApplyTheme.IsBox(control))
-                {
-                    // Find all controls which overlap their location with the region of the box.
+            // If the control is of box type.
+                if (control is IDecorationBox && ApplyTheme.IsBox(control))
                     foreach (Control childControl in allControls)
-                    {
                         if
                         (
                             // Check if the control fits in the X Axis Region
-                            ((childControl.Location.X > control.Location.X) && (childControl.Location.X < control.Location.X + control.Size.Width)) &&
-
-                            // Check if the control fits in the Y Axis Region
-                            ((childControl.Location.Y > control.Location.Y) && (childControl.Location.Y < control.Location.Y + control.Size.Height))
+                            childControl.Location.X > control.Location.X && childControl.Location.X < control.Location.X + control.Size.Width && childControl.Location.Y > control.Location.Y && childControl.Location.Y < control.Location.Y + control.Size.Height
                         )
                         {
                             // Cast to decoration box, check if to capture children
@@ -85,9 +78,6 @@ namespace ReloadedLauncher.Utilities.Controls
                                 SetLocationRelative.SetRelativeLocation(control, childControl);
                             }
                         }
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -101,7 +91,7 @@ namespace ReloadedLauncher.Utilities.Controls
             Control locationBox = (Control)sender;
 
             // For each child, set the backcolour.
-            foreach (Control childControl in locationBox.Controls) { childControl.BackColor = locationBox.BackColor; }
+            foreach (Control childControl in locationBox.Controls) childControl.BackColor = locationBox.BackColor;
         }
     }
 }

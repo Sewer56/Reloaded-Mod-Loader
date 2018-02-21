@@ -18,10 +18,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using ReloadedLauncher.Styles.Themes;
-using ReloadedLauncher.Utilities.Windows;
 using System;
 using System.Windows.Forms;
+using Reloaded.Native;
+using ReloadedLauncher.Styles.Themes;
+using ReloadedLauncher.Utilities.Windows;
 
 namespace ReloadedLauncher.Windows.Children.Dialogs
 {
@@ -31,25 +32,6 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
     /// </summary>
     public partial class GetDestinationAxisDialog : Form, IDialog
     {
-        #region Compositing
-        /// <summary>
-        /// Gets the creation parameters.
-        /// The parameters are overridden to set the window as composited.
-        /// Normally this would go into a child window class and other forms would
-        /// derive from this, however this has shown to make the VS WinForm designer
-        /// to be buggy.
-        /// </summary>
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle = cp.ExStyle | (int)WinAPI.WindowStyles.Constants.WS_EX_COMPOSITED;
-                return cp;
-            }
-        }
-        #endregion
-
         /// <summary>
         /// Initializes the form.
         /// </summary>
@@ -91,6 +73,27 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             MakeRoundedWindow.RoundWindow(this, 30, 30);
         }
 
+        #region Compositing
+
+        /// <summary>
+        /// Gets the creation parameters.
+        /// The parameters are overridden to set the window as composited.
+        /// Normally this would go into a child window class and other forms would
+        /// derive from this, however this has shown to make the VS WinForm designer
+        /// to be buggy.
+        /// </summary>
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle = cp.ExStyle | (int)WinAPI.WindowStyles.Constants.WS_EX_COMPOSITED;
+                return cp;
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// Spawns the dialog window prompts the user to enter the specified
         /// floating value to enter. Returns the results of the dialog back.
@@ -99,18 +102,13 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         public object GetValue()
         {
             // Show this dialog.
-            this.ShowDialog();
+            ShowDialog();
 
             // Check if an object is selected, else retry recursively.
-            if (borderless_ValueBox.SelectedIndex != -1)
-            {
-                return borderless_ValueBox.Text;
-            }
-            else
-            {
-                MessageBox.Show("You should select something, dummy.");
-                return this.GetValue();
-            }
+            if (borderless_ValueBox.SelectedIndex != -1) return borderless_ValueBox.Text;
+
+            MessageBox.Show("You should select something, dummy.");
+            return GetValue();
         }
 
         /// <summary>
@@ -144,14 +142,14 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TitleBarMouseDown(object sender, MouseEventArgs e) { MoveWindow.MoveTheWindow(this.Handle); }
+        private void TitleBarMouseDown(object sender, MouseEventArgs e) { MoveWindow.MoveTheWindow(Handle); }
 
         /// <summary>
         /// Close this window if the user hits ok.
         /// </summary>
         private void OKButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         /// <summary>
@@ -159,10 +157,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// </summary>
         private void ValueBox_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyValue == (int)Keys.Enter)
-            {
-                this.Close();
-            }
+            if (e.KeyValue == (int)Keys.Enter) Close();
         }
     }
 }

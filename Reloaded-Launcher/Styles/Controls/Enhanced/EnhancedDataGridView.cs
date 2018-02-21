@@ -27,33 +27,26 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
     /// <summary>
     /// Customized DataGridView with support for dragging items.
     /// </summary>
-    class EnhancedDataGridView : DataGridView
+    internal class EnhancedDataGridView : DataGridView
     {
-        /// <summary>
-        /// Constructor for the custom class.
-        /// </summary>
-        public EnhancedDataGridView()
-        {
-            // Add wheel support
-            this.MouseWheel += AnimatedDataGridView_MouseWheel;
-
-            // Drag & Drop
-            this.DragEnter += EnhancedDataGridView_DragEnter;
-            this.MouseMove += EnhancedDataGridView_MouseMove;
-            this.MouseDown += EnhancedDataGridView_MouseDown;
-            this.DragOver += EnhancedDataGridView_DragOver;
-            this.DragDrop += EnhancedDataGridView_DragDrop;
-        }
-
-        /////////////////////////////
-        // Drag & Drop Implementation
-        /////////////////////////////
+        ///////////////////////////
+        // Scrolling Implementation
+        ///////////////////////////
 
         /// <summary>
-        /// Allows/disables drag & drop reordering.
+        /// Empty delegate for fiding events when user swaps two items by holding CTRL while scrolling mouse wheel.
         /// </summary>
-        [Category("| Custom Options"), Description("Allows reordering (for single row) via Drag + Drop & Ctrl+Scroll. Requires AllowDrop to be set to true.")]
-        public bool ReorderingEnabled { get; set; }
+        public delegate void OnWheelDelegate(int lastRow);
+
+        /// <summary>
+        /// The amount of scrolling necessary for the user to move to the next item.
+        /// </summary>
+        private const int scrollSensitivity = 120;
+
+        /// <summary>
+        /// Stores the current change from 0 to the current scrolled to position.
+        /// </summary>
+        private int currentScrollDelta;
 
         /// <summary>
         /// Stores the dimension of the listview row (rectangle) that is to be dragged. 
@@ -64,6 +57,32 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
         /// Stores the individual cell that the user clicks to start the drag operation.
         /// </summary>
         private DataGridViewRow rowToDrag;
+
+        /// <summary>
+        /// Constructor for the custom class.
+        /// </summary>
+        public EnhancedDataGridView()
+        {
+            // Add wheel support
+            MouseWheel += AnimatedDataGridView_MouseWheel;
+
+            // Drag & Drop
+            DragEnter += EnhancedDataGridView_DragEnter;
+            MouseMove += EnhancedDataGridView_MouseMove;
+            MouseDown += EnhancedDataGridView_MouseDown;
+            DragOver += EnhancedDataGridView_DragOver;
+            DragDrop += EnhancedDataGridView_DragDrop;
+        }
+
+        /////////////////////////////
+        // Drag & Drop Implementation
+        /////////////////////////////
+
+        /// <summary>
+        /// Allows/disables drag & drop reordering.
+        /// </summary>
+        [Category("| Custom Options")][Description("Allows reordering (for single row) via Drag + Drop & Ctrl+Scroll. Requires AllowDrop to be set to true.")]
+        public bool ReorderingEnabled { get; set; }
 
         /// <summary>
         /// Stores the row index where the row drag operation started from.
@@ -81,7 +100,7 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
             dimensionsOfRowToDrag = Rectangle.Empty;
 
             // Get the index of the item the mouse has hit below.
-            var hittestInfo = this.HitTest(e.X, e.Y);
+            var hittestInfo = HitTest(e.X, e.Y);
 
             // Check if the mouse is over an item in the DataGridView.
             // Otherwise do nothing.
@@ -91,7 +110,7 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
                 DragRowIndex = hittestInfo.RowIndex;
 
                 // Assign row the user clicks to start drag operation. 
-                rowToDrag = this.Rows[DragRowIndex];
+                rowToDrag = Rows[DragRowIndex];
 
                 if (rowToDrag != null)
                 {
@@ -112,8 +131,8 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
                         // The location of the rectangle, top left corner.
                         new Point
                         (
-                            e.X - (dragSize.Width), // Left Edge
-                            e.Y - (dragSize.Height) // Top Edge
+                            e.X - dragSize.Width, // Left Edge
+                            e.Y - dragSize.Height // Top Edge
                         ), 
 
                         // Set the drag size.
@@ -140,15 +159,7 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
             // Check for left mouse button press.
             // Check if drag/drop is enabled.
             if (e.Button.HasFlag(MouseButtons.Left) && ReorderingEnabled)
-            {
-                // If the mouse cursor `e` is outside of the rectangle &&
-                // If there is a currently held rectangle.
-                if (dimensionsOfRowToDrag != Rectangle.Empty && !dimensionsOfRowToDrag.Contains(e.X, e.Y))
-                {
-                    // Proceed with the drag and drop, passing in the row.                    
-                    this.DoDragDrop(rowToDrag, DragDropEffects.Copy);
-                }
-            }
+                if (dimensionsOfRowToDrag != Rectangle.Empty && !dimensionsOfRowToDrag.Contains(e.X, e.Y)) DoDragDrop(rowToDrag, DragDropEffects.Copy);
         }
 
         /// <summary>
@@ -175,7 +186,7 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
         {
             // The mouse locations set in DragEventArgs e for this events are relative 
             // to the screen (and not the window), they must be converted to client coordinates.
-            Point clientPoint = this.PointToClient(new Point(e.X, e.Y));
+            Point clientPoint = PointToClient(new Point(e.X, e.Y));
 
             // If the drag operation was a copy (our operation). 
             // then find the row the mouse currently overlaps and insert our
@@ -189,31 +200,22 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
                 DataGridViewRow row = (DataGridViewRow)e.Data.GetData(typeof(DataGridViewRow));
 
                 // Obtain the Hit Testing information to obtain row the mouse is currently above.
-                var hitTest = this.HitTest(clientPoint.X, clientPoint.Y);
+                var hitTest = HitTest(clientPoint.X, clientPoint.Y);
 
                 // Check if the drag operation is hovering over a row.
                 if (hitTest.ColumnIndex != -1 && hitTest.RowIndex != -1)
                 {
                     // Remove the original row.
-                    this.Rows.RemoveAt(DragRowIndex);
+                    Rows.RemoveAt(DragRowIndex);
 
                     // Insert the original row at new index where the mouse hit.
-                    this.Rows.Insert(hitTest.RowIndex, row);
+                    Rows.Insert(hitTest.RowIndex, row);
 
                     // Set the currently selected row to dropped row.
-                    this.Rows[hitTest.RowIndex].Selected = true;
+                    Rows[hitTest.RowIndex].Selected = true;
                 }
             }
         }
-
-        ///////////////////////////
-        // Scrolling Implementation
-        ///////////////////////////
-
-        /// <summary>
-        /// Empty delegate for fiding events when user swaps two items by holding CTRL while scrolling mouse wheel.
-        /// </summary>
-        public delegate void OnWheelDelegate(int lastRow);
 
         /// <summary>
         /// Event fires when the user swaps two items by holding CTRL while scrolling the mouse wheel.
@@ -221,25 +223,18 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
         public event OnWheelDelegate OnRowSwapped;
 
         /// <summary>
-        /// Stores the current change from 0 to the current scrolled to position.
-        /// </summary>
-        private int currentScrollDelta = 0;
-
-        /// <summary>
-        /// The amount of scrolling necessary for the user to move to the next item.
-        /// </summary>
-        const int scrollSensitivity = 120;
-
-        /// <summary>
         /// Custom keyboard scrolling implementation.
         /// </summary>
         /// <param name="e"></param>
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Down) { IncrementRowIndex(); }
-            else if (e.KeyCode == Keys.Up) { DecrementRowIndex(); }
-            else if (e.KeyCode == Keys.Left) { SelectFirstRow(); }
-            else if (e.KeyCode == Keys.Right) { SelectLastRow(); }
+            if (e.KeyCode == Keys.Down)
+                IncrementRowIndex();
+            else if (e.KeyCode == Keys.Up)
+                DecrementRowIndex();
+            else if (e.KeyCode == Keys.Left)
+                SelectFirstRow();
+            else if (e.KeyCode == Keys.Right) SelectLastRow();
         }
 
         /// <summary>
@@ -261,16 +256,20 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
             if (linesToScroll >= 1) // Scroll up
             {
                 // If Control is Held & Reorder is Enabled, Reorder As Well as Changing Selection.
-                if (ModifierKeys.HasFlag(Keys.Control) && ReorderingEnabled) { SwapRowUpwards(); }
-                else { DecrementRowIndex(); }
-                
+                if (ModifierKeys.HasFlag(Keys.Control) && ReorderingEnabled)
+                    SwapRowUpwards();
+                else
+                    DecrementRowIndex();
+
                 currentScrollDelta = 0;
             }
             else if (linesToScroll <= -1) // Scroll down
             {
                 // If Control is Held & Reorder is Enabled, Reorder As Well as Changing Selection.
-                if (ModifierKeys.HasFlag(Keys.Control) && ReorderingEnabled) { SwapRowDownwards(); }
-                else { IncrementRowIndex(); }
+                if (ModifierKeys.HasFlag(Keys.Control) && ReorderingEnabled)
+                    SwapRowDownwards();
+                else
+                    IncrementRowIndex();
 
                 currentScrollDelta = 0;
             }
@@ -330,13 +329,13 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
             int currentRowIndex = SelectedCells[0].RowIndex;
 
             // Obtain current row.
-            DataGridViewRow currentRow = this.Rows[currentRowIndex];
+            DataGridViewRow currentRow = Rows[currentRowIndex];
 
             // Select last row index.
             if (nextRowIndex < 0) // Swap first row with last row.
             {
                 // Get rows.
-                DataGridViewRow lastRow = this.Rows[Rows.Count - 1];
+                DataGridViewRow lastRow = Rows[Rows.Count - 1];
 
                 // Remove first and last item.
                 Rows.RemoveAt(currentRowIndex);
@@ -377,13 +376,13 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
             int currentRowIndex = SelectedCells[0].RowIndex;
 
             // Get rows.
-            DataGridViewRow currentRow = this.Rows[currentRowIndex];
+            DataGridViewRow currentRow = Rows[currentRowIndex];
 
             // If the row is the last row.
             if (nextRowIndex > Rows.Count - 1)
             {
                 // Get rows.
-                DataGridViewRow firstRow = this.Rows[0];
+                DataGridViewRow firstRow = Rows[0];
 
                 // Remove last and first row.
                 Rows.RemoveAt(currentRowIndex);

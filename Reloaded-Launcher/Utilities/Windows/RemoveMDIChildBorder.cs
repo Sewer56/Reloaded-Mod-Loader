@@ -21,6 +21,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Reloaded.Native;
 
 namespace ReloadedLauncher.Utilities.Windows
 {
@@ -47,8 +48,10 @@ namespace ReloadedLauncher.Utilities.Windows
                     long windowLong = (long)WinAPI.WindowStyles.GetWindowLongPtr(control.Handle, WinAPI.WindowStyles.Constants.GWL_EXSTYLE);
 
                     // Remove (or append) the border flags.
-                    if (showBorders) { windowLong |= WinAPI.WindowStyles.Constants.WS_EX_CLIENTEDGE; }
-                    else { windowLong &= ~WinAPI.WindowStyles.Constants.WS_EX_CLIENTEDGE; }
+                    if (showBorders)
+                        windowLong |= WinAPI.WindowStyles.Constants.WS_EX_CLIENTEDGE;
+                    else
+                        windowLong &= ~WinAPI.WindowStyles.Constants.WS_EX_CLIENTEDGE;
 
                     // Set the new extended window flags.
                     WinAPI.WindowStyles.SetWindowLongPtr(new HandleRef(control, control.Handle), WinAPI.WindowStyles.Constants.GWL_EXSTYLE, (IntPtr)windowLong);

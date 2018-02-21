@@ -21,6 +21,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Reloaded.Native;
 
 namespace ReloadedLauncher.Utilities.Windows
 {

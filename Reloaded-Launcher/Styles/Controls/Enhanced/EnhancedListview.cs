@@ -21,6 +21,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Reloaded.Native;
 
 namespace ReloadedLauncher.Styles.Controls.Enhanced
 {
@@ -28,8 +29,13 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
     /// Provides a customized implementation of a listview that removes the vertical and horizontal scrollbars from the 
     /// listview control itself. 
     /// </summary>
-    class EnhancedListview : ListView
+    internal class EnhancedListview : ListView
     {
+        public EnhancedListview()
+        {
+            Scrollable = false;
+        }
+
         /// <summary>
         /// Overrides the WndProc function that handles messages sent to the ListView
         /// control in question. It removes the scrollbars from the listview when the listview
@@ -43,18 +49,16 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
                 // WM_NCCALCSIZE | Message that calculates the size of the window.
                 case 0x83:
                     // Obtain Initial Style
-                    long windowStyle = (long)WinAPI.WindowStyles.GetWindowLongPtr(this.Handle, WinAPI.WindowStyles.Constants.GWL_STYLE); 
+                    long windowStyle = (long)WinAPI.WindowStyles.GetWindowLongPtr(Handle, WinAPI.WindowStyles.Constants.GWL_STYLE); 
 
                     // If the initial style for the Window contains the vertical scrollbar, remove it from the window style.
-                    if ((windowStyle & WinAPI.WindowStyles.Constants.WS_HSCROLL) == WinAPI.WindowStyles.Constants.WS_HSCROLL)
-                    { windowStyle = windowStyle & ~WinAPI.WindowStyles.Constants.WS_HSCROLL; }
+                    if ((windowStyle & WinAPI.WindowStyles.Constants.WS_HSCROLL) == WinAPI.WindowStyles.Constants.WS_HSCROLL) windowStyle = windowStyle & ~WinAPI.WindowStyles.Constants.WS_HSCROLL;
 
                     // Repeat for horizontal scrollbar if it is contained in the window style.
-                    if ((windowStyle & WinAPI.WindowStyles.Constants.WS_VSCROLL) == WinAPI.WindowStyles.Constants.WS_VSCROLL)
-                    { windowStyle = windowStyle & ~WinAPI.WindowStyles.Constants.WS_VSCROLL; }
+                    if ((windowStyle & WinAPI.WindowStyles.Constants.WS_VSCROLL) == WinAPI.WindowStyles.Constants.WS_VSCROLL) windowStyle = windowStyle & ~WinAPI.WindowStyles.Constants.WS_VSCROLL;
 
                     // Write the initial window style.
-                    WinAPI.WindowStyles.SetWindowLongPtr(new HandleRef(this, this.Handle), WinAPI.WindowStyles.Constants.GWL_STYLE, (IntPtr)windowStyle);
+                    WinAPI.WindowStyles.SetWindowLongPtr(new HandleRef(this, Handle), WinAPI.WindowStyles.Constants.GWL_STYLE, (IntPtr)windowStyle);
 
                     // Send the message to the base function, for potential painting purposes.
                     base.WndProc(ref message);
@@ -73,11 +77,6 @@ namespace ReloadedLauncher.Styles.Controls.Enhanced
                     base.WndProc(ref message); 
                     break;
             }
-        }
-
-        public EnhancedListview()
-        {
-            this.Scrollable = false;
         }
     }
 }
