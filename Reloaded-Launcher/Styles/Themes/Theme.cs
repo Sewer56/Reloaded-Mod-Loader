@@ -19,7 +19,7 @@
 */
 
 using Reloaded.Misc;
-using static Reloaded.Misc.Config.ThemePropertyParser;
+using Reloaded.Misc.Config;
 
 namespace ReloadedLauncher.Styles.Themes
 {
@@ -37,7 +37,7 @@ namespace ReloadedLauncher.Styles.Themes
         /// <summary>
         /// Retrieves the general theme configuration for the current theme.
         /// </summary>
-        public static ThemeConfig ThemeProperties { get; set; }
+        public static ThemePropertyParser.ThemeConfig ThemeProperties { get; set; }
 
         /// <summary>
         /// Changes the directory for the theme to be used.

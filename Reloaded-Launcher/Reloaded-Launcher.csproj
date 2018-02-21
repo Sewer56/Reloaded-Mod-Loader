@@ -35,7 +35,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Project-Reloaded\Debug\</OutputPath>
+    <OutputPath>..\build\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -46,7 +46,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\build\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -103,6 +103,9 @@
     <ApplicationIcon>appicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Colorful.Console, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Colorful.Console.1.2.6\lib\net461\Colorful.Console.dll</HintPath>
+    </Reference>
     <Reference Include="ColorMine, Version=1.2.0.0, Culture=neutral, PublicKeyToken=7a2c4d30138edc39, processorArchitecture=MSIL">
       <HintPath>..\packages\ColorMine.1.2.0\lib\net45\ColorMine.dll</HintPath>
       <Private>True</Private>
@@ -119,20 +122,20 @@
     <Reference Include="Microsoft.WindowsAPICodePack.ShellExtensions, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
+    <Reference Include="SharpDX, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.1.0-ci217\lib\net45\SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+    <Reference Include="SharpDX.Direct2D1, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.4.1.0-ci217\lib\net45\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.DirectInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.DirectInput.4.0.1\lib\net45\SharpDX.DirectInput.dll</HintPath>
+    <Reference Include="SharpDX.DirectInput, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DirectInput.4.1.0-ci217\lib\net45\SharpDX.DirectInput.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.DXGI, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
+    <Reference Include="SharpDX.DXGI, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.1.0-ci217\lib\net45\SharpDX.DXGI.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.XInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.XInput.4.0.1\lib\net45\SharpDX.XInput.dll</HintPath>
+    <Reference Include="SharpDX.XInput, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.XInput.4.1.0-ci217\lib\net45\SharpDX.XInput.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -154,9 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Input\Config\SampleConfig.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Misc\ColourLoader.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Misc\Config\Themes\ThemePropertyParser.cs" />
     <Compile Include="Styles\Animation\AnimAnimations.cs" />
     <Compile Include="Styles\Animation\AnimHandler.cs" />
     <Compile Include="Styles\Animation\AnimMessage.cs" />
@@ -235,45 +235,6 @@
       <DependentUpon>Base.cs</DependentUpon>
     </Compile>
     <Compile Include="Initializer.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\GameProcess\DLLInjector.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\GameProcess\Libraries.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\GameProcess\Native\Native.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\Hooking\HookBase.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\Hooking\Hooks\AssemblyHook.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\Hooking\Hooks\InjectionHook.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Input\Common\ControllerCommon.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Input\Config\ControllerConfigParser.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Input\ControllerManager.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Input\DirectInput\DInputCommon.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Input\DirectInput\DInputController.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Input\DirectInput\DInputManager.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Input\Modules\Hotplugger.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Input\Modules\Remapper.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Input\XInput\XInputController.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\IO\Native\Native.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\IO\RelativePaths.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\Misc\AssemblyFinder.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Misc\Config\Games\GameConfigParser.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Misc\Config\Loader\LoaderConfigParser.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Misc\Config\Mods\ModConfigParser.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Misc\Config\Themes\ThemeConfigParser.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\Misc\FileUnblocker.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Misc\LoaderPaths.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Misc\PathSanitizer.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Native\WinAPI.cs" />
-    <Compile Include="Libraries\libReloaded\libReloaded\Native\Windows.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\Networking\Client.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\Networking\Host.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\Networking\Message.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\Networking\MessageTypes\ModLoaderServerMessages.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\Overlay\Direct2DWindowRenderTargetBase.cs" />
-    <None Include="Libraries\libReloaded\libReloaded\Overlay\External\Forms\GlassForm.cs">
-      <SubType>Form</SubType>
-    </None>
-    <None Include="Libraries\libReloaded\libReloaded\Overlay\External\Forms\GlassForm.Designer.cs">
-      <DependentUpon>GlassForm.cs</DependentUpon>
-    </None>
-    <None Include="Libraries\libReloaded\libReloaded\Overlay\External\OverlayGlassDirect2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Fonts\FontLoader.cs" />
@@ -335,9 +296,6 @@
     <EmbeddedResource Include="Windows\Base.resx">
       <DependentUpon>Base.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Libraries\libReloaded\libReloaded\Overlay\External\Forms\GlassForm.resx">
-      <DependentUpon>GlassForm.cs</DependentUpon>
-    </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -403,6 +361,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Libraries\" />
     <Folder Include="Resources\Files\Reloaded-Backup\Sonic-Adventure-2\" />
     <Folder Include="Resources\Files\Reloaded-Backup\Sonic-Adventure-DX\" />
     <Folder Include="Resources\Files\Reloaded-Backup\Sonic-Generations\" />
@@ -428,6 +387,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libReloaded\libReloaded\libReloaded.csproj">
+      <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
+      <Name>libReloaded</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

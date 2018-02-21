@@ -4,8 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27205.2004
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Launcher", "Reloaded-Launcher\Reloaded-Launcher.csproj", "{D13B793E-D12D-4E3B-AB02-ADFBDF61807F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF} = {E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Loader", "Reloaded-Loader\Reloaded-Loader.csproj", "{231FAD02-A7C3-46D4-B304-636188FD03D9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF} = {E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libReloaded", "libReloaded\libReloaded\libReloaded.csproj", "{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +49,18 @@ Global
 		{231FAD02-A7C3-46D4-B304-636188FD03D9}.Release|x64.Build.0 = Release|Any CPU
 		{231FAD02-A7C3-46D4-B304-636188FD03D9}.Release|x86.ActiveCfg = Release|Any CPU
 		{231FAD02-A7C3-46D4-B304-636188FD03D9}.Release|x86.Build.0 = Release|Any CPU
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}.Debug|x64.Build.0 = Debug|Any CPU
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}.Debug|x86.ActiveCfg = Debug|x86
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}.Debug|x86.Build.0 = Debug|x86
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}.Release|x64.ActiveCfg = Release|Any CPU
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}.Release|x64.Build.0 = Release|Any CPU
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}.Release|x86.ActiveCfg = Release|x86
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
