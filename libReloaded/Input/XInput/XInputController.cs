@@ -298,17 +298,12 @@ namespace Reloaded.Input.XInput
             int rawValue = 0;
 
             // Check what the mapping entry is natively within the axis mapping, and obtain the relevant raw inputs.
-            if      (mappingEntry == AxisMapping.leftStickX)
-                rawValue = ControllerState.Gamepad.LeftThumbX;
-            else if (mappingEntry == AxisMapping.leftStickY)
-                rawValue = -ControllerState.Gamepad.LeftThumbY;
-            else if (mappingEntry == AxisMapping.rightStickX)
-                rawValue = ControllerState.Gamepad.RightThumbX;
-            else if (mappingEntry == AxisMapping.rightStickY)
-                rawValue = -ControllerState.Gamepad.RightThumbY;
-            else if (mappingEntry == AxisMapping.leftTrigger)
-                rawValue = ControllerState.Gamepad.LeftTrigger;
-            else if (mappingEntry == AxisMapping.rightTrigger) rawValue = ControllerState.Gamepad.RightTrigger;
+            if (mappingEntry == AxisMapping.leftStickX) { rawValue = ControllerState.Gamepad.LeftThumbX; }
+            else if (mappingEntry == AxisMapping.leftStickY) { rawValue = -ControllerState.Gamepad.LeftThumbY; }
+            else if (mappingEntry == AxisMapping.rightStickX) { rawValue = ControllerState.Gamepad.RightThumbX; }
+            else if (mappingEntry == AxisMapping.rightStickY) { rawValue = -ControllerState.Gamepad.RightThumbY; }
+            else if (mappingEntry == AxisMapping.leftTrigger) { rawValue = ControllerState.Gamepad.LeftTrigger; }
+            else if (mappingEntry == AxisMapping.rightTrigger) { rawValue = ControllerState.Gamepad.RightTrigger; }
 
             // Process the value to DInput Ranges
             if (!(mappingEntry == AxisMapping.leftTrigger || mappingEntry == AxisMapping.rightTrigger))
