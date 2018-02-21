@@ -1,6 +1,7 @@
 ﻿/*
-    [Reloaded] Mod Loader Launcher
-    A universal, powerful multi-game, multi-process mod loader based on DLL Injection. 
+    [Reloaded] Mod Loader Common Library (libReloaded)
+    The main library acting as common, shared code between the Reloaded Mod 
+    Loader Launcher, Mods as well as plugins.
     Copyright (C) 2018  Sewer. Sz (Sewer56)
 
     [Reloaded] is free software: you can redistribute it and/or modify
