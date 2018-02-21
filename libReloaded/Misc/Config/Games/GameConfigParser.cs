@@ -18,11 +18,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using IniParser;
-using IniParser.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using IniParser;
+using IniParser.Model;
 
 namespace Reloaded.Misc.Config
 {
@@ -31,69 +31,6 @@ namespace Reloaded.Misc.Config
     /// </summary>
     public class GameConfigParser
     {
-        /// <summary>
-        /// Stores the ini data read by the ini-parser.
-        /// </summary>
-        private IniData iniData;
-
-        /// <summary>
-        /// Holds an instance of ini-parser used for parsing INI files.
-        /// </summary>
-        private FileIniDataParser iniParser;
-
-        /// <summary>
-        /// Defines a general struct for the loader game configuration file.
-        /// </summary>
-        public class GameConfig
-        {
-            /// <summary>
-            /// Specifies the directory of the game.
-            /// </summary>
-            public string GameDirectory { get; set; }
-
-            /// <summary>
-            /// Specifies the executable location.
-            /// The executable location is relative to the game directory.
-            /// </summary>
-            public string ExecutableLocation { get; set; }
-
-            /// <summary>
-            /// Defines the game hooking method.
-            /// Instant will start the application and immediately hook to it.
-            /// Delayed will hook at a delay (potential compatibility reasons).
-            /// Manual will perform file replacements, and inject on user demand after manually launching the game.
-            /// </summary>
-            public HookMethod HookMethod { get; set; }
-
-            /// <summary>
-            /// Specifies the name of the game, as displayed by 
-            /// the mod loader configuration utility. 
-            /// </summary>
-            public string GameName { get; set; }
-
-            /// <summary>
-            /// Specifies the version of the game, as displayed
-            /// by the mod loader configuration utility.
-            /// </summary>
-            public string GameVersion { get; set; }
-
-            /// <summary>
-            /// Specifies the directory where mods for this game are stored.
-            /// The path is relative to Reloaded-Mods.
-            /// </summary>
-            public string ModDirectory { get; set; }
-
-            /// <summary>
-            /// Specifies a list of enabled mods, separated by a comma.
-            /// </summary>
-            public List<string> EnabledMods { get; set; }
-
-            /// <summary>
-            /// [DO NOT MODIFY] Stores the physical directory location of the game configuration for re-save purposes.
-            /// </summary>
-            public string ConfigDirectory { get; set; }
-        }
-
         /// <summary>
         /// Defines the individual game hooking methods.
         /// Instant will start the application and immediately hook to it.
@@ -115,6 +52,16 @@ namespace Reloaded.Misc.Config
             /// </summary>
             Manual
         }
+
+        /// <summary>
+        /// Holds an instance of ini-parser used for parsing INI files.
+        /// </summary>
+        private readonly FileIniDataParser iniParser;
+
+        /// <summary>
+        /// Stores the ini data read by the ini-parser.
+        /// </summary>
+        private IniData iniData;
 
         /// <summary>
         /// Initiates the game config parser.
@@ -187,11 +134,11 @@ namespace Reloaded.Misc.Config
 
             // Iterate over bare config file.
             for (int z = 0; z < configFile.Length; z++)
-            {
-                // Search for enabled mods header.
-                if (configFile[z].StartsWith("#")) { continue; }
-                else { loadedMods.Add(configFile[z]); }
-            }
+            // Search for enabled mods header.
+                if (configFile[z].StartsWith("#"))
+                    continue;
+                else
+                    loadedMods.Add(configFile[z]);
 
             // Return the list of loaded mods.
             return loadedMods;
@@ -208,6 +155,59 @@ namespace Reloaded.Misc.Config
 
             // Write file list and header.
             File.WriteAllLines(gameConfigDirectory + "/Enabled_Mods.ini", gameConfig.EnabledMods);
+        }
+
+        /// <summary>
+        /// Defines a general struct for the loader game configuration file.
+        /// </summary>
+        public class GameConfig
+        {
+            /// <summary>
+            /// Specifies the directory of the game.
+            /// </summary>
+            public string GameDirectory { get; set; }
+
+            /// <summary>
+            /// Specifies the executable location.
+            /// The executable location is relative to the game directory.
+            /// </summary>
+            public string ExecutableLocation { get; set; }
+
+            /// <summary>
+            /// Defines the game hooking method.
+            /// Instant will start the application and immediately hook to it.
+            /// Delayed will hook at a delay (potential compatibility reasons).
+            /// Manual will perform file replacements, and inject on user demand after manually launching the game.
+            /// </summary>
+            public HookMethod HookMethod { get; set; }
+
+            /// <summary>
+            /// Specifies the name of the game, as displayed by 
+            /// the mod loader configuration utility. 
+            /// </summary>
+            public string GameName { get; set; }
+
+            /// <summary>
+            /// Specifies the version of the game, as displayed
+            /// by the mod loader configuration utility.
+            /// </summary>
+            public string GameVersion { get; set; }
+
+            /// <summary>
+            /// Specifies the directory where mods for this game are stored.
+            /// The path is relative to Reloaded-Mods.
+            /// </summary>
+            public string ModDirectory { get; set; }
+
+            /// <summary>
+            /// Specifies a list of enabled mods, separated by a comma.
+            /// </summary>
+            public List<string> EnabledMods { get; set; }
+
+            /// <summary>
+            /// [DO NOT MODIFY] Stores the physical directory location of the game configuration for re-save purposes.
+            /// </summary>
+            public string ConfigDirectory { get; set; }
         }
     }
 }

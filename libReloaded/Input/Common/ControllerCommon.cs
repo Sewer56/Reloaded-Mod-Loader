@@ -18,8 +18,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Input.DirectInput;
 using System;
+using Reloaded.Input.DirectInput;
 
 namespace Reloaded.Input
 {
@@ -30,6 +30,184 @@ namespace Reloaded.Input
     /// </summary>
     public class ControllerCommon
     {
+        /// <summary>
+        /// Reference for the controller buttons as in the ControllerButtons struct. 
+        /// The IDs assigned follow the standard schema for the XBOX controller. 
+        /// </summary>
+        public enum Controller_Buttons_Generic
+        {
+            /// <summary>
+            /// Playstation: Cross, Nintendo: B 
+            /// </summary>
+            Button_A,
+
+            /// <summary>
+            /// Playstation: Circle, Nintendo: A
+            /// </summary>
+            Button_B,
+
+            /// <summary>
+            /// Playstation: Square, Nintendo: Y 
+            /// </summary>
+            Button_X,
+
+            /// <summary>
+            /// Playstation: Triangle, Nintendo: X
+            /// </summary>
+            Button_Y,
+
+            /// <summary>
+            /// Playstation: L1, Nintendo: L
+            /// </summary>
+            Button_LB,
+
+            /// <summary>
+            /// Playstation: R1, Nintendo: R
+            /// </summary>
+            Button_RB,
+
+            /// <summary>
+            /// Playstation: Select, Nintendo: Select
+            /// </summary>
+            Button_Back,
+
+            /// <summary>
+            /// Playstation: Select, Nintendo: Start
+            /// </summary>
+            Button_Start,
+
+            /// <summary>
+            /// Playstation: L3, Nintendo: L Click
+            /// </summary>
+            Button_LS,
+
+            /// <summary>
+            /// Playstation: R3, Nintendo: R Click 
+            /// </summary>
+            Button_RS,
+
+            /// <summary>
+            /// Playstation: PS Button, Nintendo: Home
+            /// </summary>
+            Button_Guide
+        }
+
+        /// <summary>
+        /// Defines the individual accepted axis for a generic Playstation/XBOX style controller.
+        /// </summary>
+        public enum ControllerAxis
+        {
+            Null,
+            Left_Stick_X,
+            Left_Stick_Y,
+            Right_Stick_X,
+            Right_Stick_Y,
+            Left_Trigger,
+            Right_Trigger
+        }
+
+
+        /// <summary>
+        /// Values for the individual directions of the directional pad. 
+        /// These are the common values for a 8 directional DPAD.
+        /// In reality, this value is analog, with a range of 0-36000, albeit this is
+        /// practically never used.
+        /// </summary>
+        [Flags]
+        public enum DPAD_Direction
+        {
+            UP = 0,
+            UP_RIGHT = 4500,
+            UP_LEFT = 31500,
+
+            RIGHT = 9000,
+            LEFT = 27000,
+
+            DOWN = 18000,
+            DOWN_RIGHT = 13500,
+            DOWN_LEFT = 22500,
+
+            NULL = 65535
+        }
+
+        /// <summary>
+        /// Defines a struct specifying a custom mapping of buttons to the DPAD and axis for devices which do not
+        /// support analog or POV-hat input such as keyboards and other potential peripherals.
+        /// The emulated keys override the real keys if they are set.
+        /// </summary>
+        public enum Emulated_Buttons_Generic
+        {
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates DPAD UP if pressed.
+            /// </summary>
+            DPAD_UP,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates DPAD RIGHT if pressed.
+            /// </summary>
+            DPAD_RIGHT,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates DPAD DOWN if pressed.
+            /// </summary>
+            DPAD_DOWN,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates DPAD LEFT if pressed.
+            /// </summary>
+            DPAD_LEFT,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates right trigger if pressed.
+            /// </summary>
+            Right_Trigger,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates left trigger if pressed.
+            /// </summary>
+            Left_Trigger,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
+            /// </summary>
+            Left_Stick_Up,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates left analog stick down if pressed.
+            /// </summary>
+            Left_Stick_Down,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates left analog stick left if pressed.
+            /// </summary>
+            Left_Stick_Left,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates left analog stick right if pressed.
+            /// </summary>
+            Left_Stick_Right,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
+            /// </summary>
+            Right_Stick_Up,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates left analog stick down if pressed.
+            /// </summary>
+            Right_Stick_Down,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates left analog stick left if pressed.
+            /// </summary>
+            Right_Stick_Left,
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates left analog stick right if pressed.
+            /// </summary>
+            Right_Stick_Right
+        }
+
         /// <summary>
         /// Placeholder when no button is set anywhere, whether it'd be remapping or not.
         /// </summary>
@@ -44,6 +222,138 @@ namespace Reloaded.Input
         /// Represents the minimum value of the axis as returned to the modder/user.
         /// </summary>
         public static float AXIS_MIN_VALUE_F = -100;
+
+        /// <summary>
+        /// Processes the obtained raw value with DInput/XInput ranges and performs modifications on it such
+        /// as changing the radius of the axis reading or checking for deadzones.
+        /// </summary>
+        /// <param name="mappingEntry">The mapping entry for the axis defining which axis should be used.</param>
+        /// <param name="rawValue">The raw value obtained from the axis query..</param>
+        /// <param name="isScaled">Declares whether the value is already scaled appropriately before reaching the function or not. Currently false for DInput and true for XInput.</param>
+        public static float InputProcessAxisRawValue(int rawValue, AxisMappingEntry mappingEntry, bool isScaled)
+        {
+            // Reverse Axis if Necessary
+            if (mappingEntry.isReversed) rawValue = -1 * rawValue;
+
+            // Scale Axis if Necessary.
+            float newRawValue = rawValue;
+            if (!isScaled) newRawValue = rawValue / (float)DInputManager.AXIS_MAX_VALUE * AXIS_MAX_VALUE_F;
+
+            // If triggers. scale to between 0 - 100 (from -100 - 100)
+            switch (mappingEntry.axis)
+            {
+                case ControllerAxis.Left_Trigger:
+                case ControllerAxis.Right_Trigger:
+                    newRawValue += AXIS_MAX_VALUE_F;
+                    newRawValue *= DInputManager.TRIGGER_SCALE_FACTOR;
+                    break;
+            }
+
+            // If the input lays within the acceptable deadzone range, return null.
+            if (VerifyDeadzones(newRawValue, mappingEntry)) return 0F;
+
+            // Scale Radius Scale Value
+            newRawValue *= mappingEntry.radiusScale;
+
+            // Return axis value.
+            return newRawValue;
+        }
+
+        /// <summary>
+        /// Returns true the input raw value is within a deadzone specified
+        /// by the specific axis mapping entry. 
+        /// </summary>
+        /// <param name="axisValue">The scaled value of the prior obtained raw axis reading: Range -100 to 100 (Sticks) or 0-100 (Triggers)</param>
+        /// <param name="mappingEntry">The mapping entry for the axis defining the deadzone for the specific axis.</param>
+        public static bool VerifyDeadzones(float axisValue, AxisMappingEntry mappingEntry)
+        {
+            // Verify Deadzones
+            switch (mappingEntry.axis)
+            {
+                // For all analog sticks.
+                case ControllerAxis.Left_Stick_X:
+                case ControllerAxis.Left_Stick_Y:
+                case ControllerAxis.Right_Stick_X:
+                case ControllerAxis.Right_Stick_Y:
+
+                    // Get boundaries of deadzone.
+                    float deadzoneMax = AXIS_MAX_VALUE_F / 100.0F * mappingEntry.deadZone;
+                    float deadzoneMin = -(AXIS_MAX_VALUE_F / 100.0F) * mappingEntry.deadZone;
+
+                    // If within boundaries, axis value is 0.
+                    if (axisValue < deadzoneMax && axisValue > deadzoneMin) return true;
+
+                    // Else break.
+                    break;
+
+                // For all triggers
+                case ControllerAxis.Left_Trigger:
+                case ControllerAxis.Right_Trigger:
+
+                    // Get max deadzone
+                    float deadzoneTriggerMax = AXIS_MAX_VALUE_F / 100.0F * mappingEntry.deadZone;
+
+                    // If within bounds, axis value is 0.
+                    if (axisValue < deadzoneTriggerMax) return true;
+
+                    // Else break.
+                    break;
+            }
+
+            // If not in deadzones return false.
+            return false;
+        }
+
+
+        /// <summary>
+        /// Returns the appropriate axis mapping entry for each individual specific axis.
+        /// The axis have a 1-1 relationship (oldaxis -> new axis) and a set of properties as defined in
+        /// Controller_Axis_Mapping.
+        /// </summary>
+        /// <param name="axis">The axis whose details we want to obtain.</param>
+        /// <param name="axisMapping">The axis mapping which stores the axis details for the individual controller.</param>
+        /// <returns></returns>
+        public static AxisMappingEntry InputGetMappedAxis(ControllerAxis axis, AxisMapping axisMapping)
+        {
+            // Stores the axis configuration that is to be returned.
+            AxisMappingEntry controllerAxisMapping = new AxisMappingEntry();
+
+            // Find axis mapped to the requested controller axis.
+            // Check every axis manually, until one of the axes contains the desired destination axis.
+            if (IsCorrectAxisMappingEntry(axisMapping.leftStickX, axis)) return axisMapping.leftStickX;
+            if (IsCorrectAxisMappingEntry(axisMapping.leftStickY, axis)) return axisMapping.leftStickY;
+
+            if (IsCorrectAxisMappingEntry(axisMapping.rightStickX, axis)) return axisMapping.rightStickX;
+            if (IsCorrectAxisMappingEntry(axisMapping.rightStickY, axis)) return axisMapping.rightStickY;
+
+            if (IsCorrectAxisMappingEntry(axisMapping.leftTrigger, axis)) return axisMapping.leftTrigger;
+            if (IsCorrectAxisMappingEntry(axisMapping.rightTrigger, axis)) return axisMapping.rightTrigger;
+
+            // Retrieve empty struct if null, else the correct axis mapping.
+            return controllerAxisMapping;
+        }
+
+        /// <summary>
+        /// Verifies whether a passed in axis mapping entry's axis is the one requested
+        /// by the user/programmer. i.e. axisMappingEntry.axis == axis
+        /// </summary>
+        /// <param name="axis">The requested axis to verify if there is a match with the other parameter axis of axis mapping entry.</param>
+        /// <param name="axisMappingEntry">The mapping entry to check if matches the currently requested axis.</param>
+        /// <returns>True if it is the correct entry, else false.</returns>
+        private static bool IsCorrectAxisMappingEntry(AxisMappingEntry axisMappingEntry, ControllerAxis axis)
+        {
+            return axisMappingEntry.axis == axis ? true : false;
+        }
+
+        /// <summary>
+        /// Returns the value of a property of an object which shares the same name as the passed in string.
+        /// e.g. joystickState with a string named AccelX would return a theoretical joystickState.AccelX
+        /// </summary>
+        public static object Reflection_GetValue(object sourceObject, string propertyName)
+        {
+            try { return sourceObject.GetType().GetProperty(propertyName).GetValue(sourceObject, null); }
+            catch { return 0; }
+        }
 
         /// <summary>
         /// Defines an interface for DirectInput + XInput Controller implementations which defines the function names
@@ -70,6 +380,11 @@ namespace Reloaded.Input
             /// Defines the custom botton mapping which simulates the individual axis and analog inputs.
             /// </summary>
             EmulationButtonMapping EmulationMapping { get; set; }
+
+            /// <summary>
+            /// Provides an implementation to be used for remapping of controller inputs.
+            /// </summary>
+            Remapper Remapper { get; set; }
 
             /// <summary>
             /// Retrieves whether a specific button is pressed or not. 
@@ -134,11 +449,6 @@ namespace Reloaded.Input
             /// Using a combination of GetAxisState and GetButton state
             /// </summary>
             ControllerInputs GetControllerState();
-
-            /// <summary>
-            /// Provides an implementation to be used for remapping of controller inputs.
-            /// </summary>
-            Remapper Remapper { get; set; }
         }
 
         /// <summary>
@@ -179,8 +489,8 @@ namespace Reloaded.Input
             public void SetLeftTriggerPressure(float value)
             {
                 leftTriggerPressure = value;
-                if (leftTriggerPressure > ControllerCommon.AXIS_MAX_VALUE_F) { leftTriggerPressure = ControllerCommon.AXIS_MAX_VALUE_F; }
-                if (leftTriggerPressure < ControllerCommon.AXIS_MIN_VALUE_F) { leftTriggerPressure = ControllerCommon.AXIS_MIN_VALUE_F; }
+                if (leftTriggerPressure > AXIS_MAX_VALUE_F) leftTriggerPressure = AXIS_MAX_VALUE_F;
+                if (leftTriggerPressure < AXIS_MIN_VALUE_F) leftTriggerPressure = AXIS_MIN_VALUE_F;
             }
 
             /// <summary>
@@ -190,8 +500,8 @@ namespace Reloaded.Input
             public void SetRightTriggerPressure(float value)
             {
                 rightTriggerPressure = value;
-                if (rightTriggerPressure > ControllerCommon.AXIS_MAX_VALUE_F) { rightTriggerPressure = ControllerCommon.AXIS_MAX_VALUE_F; }
-                if (rightTriggerPressure < ControllerCommon.AXIS_MIN_VALUE_F) { rightTriggerPressure = ControllerCommon.AXIS_MIN_VALUE_F; }
+                if (rightTriggerPressure > AXIS_MAX_VALUE_F) rightTriggerPressure = AXIS_MAX_VALUE_F;
+                if (rightTriggerPressure < AXIS_MIN_VALUE_F) rightTriggerPressure = AXIS_MIN_VALUE_F;
             }
 
             /// <summary>
@@ -292,6 +602,41 @@ namespace Reloaded.Input
             public byte Button_B;
 
             /// <summary>
+            /// Playstation: Select, Nintendo: Select
+            /// </summary>
+            public byte Button_Back;
+
+            /// <summary>
+            /// Playstation: PS Button, Nintendo: Home
+            /// </summary>
+            public byte Button_Guide;
+
+            /// <summary>
+            /// Playstation: L1, Nintendo: L
+            /// </summary>
+            public byte Button_LB;
+
+            /// <summary>
+            /// Playstation: L3, Nintendo: L Click
+            /// </summary>
+            public byte Button_LS;
+
+            /// <summary>
+            /// Playstation: R1, Nintendo: R
+            /// </summary>
+            public byte Button_RB;
+
+            /// <summary>
+            /// Playstation: R3, Nintendo: R Click 
+            /// </summary>
+            public byte Button_RS;
+
+            /// <summary>
+            /// Playstation: Select, Nintendo: Start
+            /// </summary>
+            public byte Button_Start;
+
+            /// <summary>
             /// Playstation: Square, Nintendo: Y 
             /// </summary>
             public byte Button_X;
@@ -300,41 +645,6 @@ namespace Reloaded.Input
             /// Playstation: Triangle, Nintendo: X
             /// </summary>
             public byte Button_Y;
-
-            /// <summary>
-            /// Playstation: L1, Nintendo: L
-            /// </summary>
-            public byte Button_LB;
-
-            /// <summary>
-            /// Playstation: R1, Nintendo: R
-            /// </summary>
-            public byte Button_RB;
-
-            /// <summary>
-            /// Playstation: Select, Nintendo: Select
-            /// </summary>
-            public byte Button_Back;
-
-            /// <summary>
-            /// Playstation: Select, Nintendo: Start
-            /// </summary>
-            public byte Button_Start;
-
-            /// <summary>
-            /// Playstation: L3, Nintendo: L Click
-            /// </summary>
-            public byte Button_LS;
-
-            /// <summary>
-            /// Playstation: R3, Nintendo: R Click 
-            /// </summary>
-            public byte Button_RS;
-
-            /// <summary>
-            /// Playstation: PS Button, Nintendo: Home
-            /// </summary>
-            public byte Button_Guide;
         }
 
         /// <summary>
@@ -344,16 +654,6 @@ namespace Reloaded.Input
         /// </summary>
         public class EmulationButtonMapping
         {
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates DPAD UP if pressed.
-            /// </summary>
-            public byte DPAD_UP;
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates DPAD RIGHT if pressed.
-            /// </summary>
-            public byte DPAD_RIGHT;
-
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD DOWN if pressed.
             /// </summary>
@@ -365,19 +665,14 @@ namespace Reloaded.Input
             public byte DPAD_LEFT;
 
             /// <summary>
-            /// For keyboards and other misc input devices. Simulates right trigger if pressed.
+            /// For keyboards and other misc input devices. Simulates DPAD RIGHT if pressed.
             /// </summary>
-            public byte Right_Trigger;
+            public byte DPAD_RIGHT;
 
             /// <summary>
-            /// For keyboards and other misc input devices. Simulates left trigger if pressed.
+            /// For keyboards and other misc input devices. Simulates DPAD UP if pressed.
             /// </summary>
-            public byte Left_Trigger;
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
-            /// </summary>
-            public byte Left_Stick_Up;
+            public byte DPAD_UP;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick down if pressed.
@@ -397,7 +692,12 @@ namespace Reloaded.Input
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
             /// </summary>
-            public byte Right_Stick_Up;
+            public byte Left_Stick_Up;
+
+            /// <summary>
+            /// For keyboards and other misc input devices. Simulates left trigger if pressed.
+            /// </summary>
+            public byte Left_Trigger;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick down if pressed.
@@ -413,146 +713,16 @@ namespace Reloaded.Input
             /// For keyboards and other misc input devices. Simulates left analog stick right if pressed.
             /// </summary>
             public byte Right_Stick_Right;
-        }
-
-        /// <summary>
-        /// Defines a struct specifying a custom mapping of buttons to the DPAD and axis for devices which do not
-        /// support analog or POV-hat input such as keyboards and other potential peripherals.
-        /// The emulated keys override the real keys if they are set.
-        /// </summary>
-        public enum Emulated_Buttons_Generic
-        {
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates DPAD UP if pressed.
-            /// </summary>
-            DPAD_UP,
 
             /// <summary>
-            /// For keyboards and other misc input devices. Simulates DPAD RIGHT if pressed.
+            /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
             /// </summary>
-            DPAD_RIGHT,
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates DPAD DOWN if pressed.
-            /// </summary>
-            DPAD_DOWN,
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates DPAD LEFT if pressed.
-            /// </summary>
-            DPAD_LEFT,
+            public byte Right_Stick_Up;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates right trigger if pressed.
             /// </summary>
-            Right_Trigger,
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates left trigger if pressed.
-            /// </summary>
-            Left_Trigger,
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
-            /// </summary>
-            Left_Stick_Up,
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates left analog stick down if pressed.
-            /// </summary>
-            Left_Stick_Down,
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates left analog stick left if pressed.
-            /// </summary>
-            Left_Stick_Left,
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates left analog stick right if pressed.
-            /// </summary>
-            Left_Stick_Right,
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
-            /// </summary>
-            Right_Stick_Up,
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates left analog stick down if pressed.
-            /// </summary>
-            Right_Stick_Down,
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates left analog stick left if pressed.
-            /// </summary>
-            Right_Stick_Left,
-
-            /// <summary>
-            /// For keyboards and other misc input devices. Simulates left analog stick right if pressed.
-            /// </summary>
-            Right_Stick_Right
-        }
-
-        /// <summary>
-        /// Reference for the controller buttons as in the ControllerButtons struct. 
-        /// The IDs assigned follow the standard schema for the XBOX controller. 
-        /// </summary>
-        public enum Controller_Buttons_Generic
-        {
-            /// <summary>
-            /// Playstation: Cross, Nintendo: B 
-            /// </summary>
-            Button_A,
-
-            /// <summary>
-            /// Playstation: Circle, Nintendo: A
-            /// </summary>
-            Button_B,
-
-            /// <summary>
-            /// Playstation: Square, Nintendo: Y 
-            /// </summary>
-            Button_X,
-
-            /// <summary>
-            /// Playstation: Triangle, Nintendo: X
-            /// </summary>
-            Button_Y,
-
-            /// <summary>
-            /// Playstation: L1, Nintendo: L
-            /// </summary>
-            Button_LB,
-
-            /// <summary>
-            /// Playstation: R1, Nintendo: R
-            /// </summary>
-            Button_RB,
-
-            /// <summary>
-            /// Playstation: Select, Nintendo: Select
-            /// </summary>
-            Button_Back,
-
-            /// <summary>
-            /// Playstation: Select, Nintendo: Start
-            /// </summary>
-            Button_Start,
-
-            /// <summary>
-            /// Playstation: L3, Nintendo: L Click
-            /// </summary>
-            Button_LS,
-
-            /// <summary>
-            /// Playstation: R3, Nintendo: R Click 
-            /// </summary>
-            Button_RS,
-
-            /// <summary>
-            /// Playstation: PS Button, Nintendo: Home
-            /// </summary>
-            Button_Guide
+            public byte Right_Trigger;
         }
 
         /// <summary>
@@ -563,9 +733,9 @@ namespace Reloaded.Input
         {
             public AxisMappingEntry leftStickX = new AxisMappingEntry();
             public AxisMappingEntry leftStickY = new AxisMappingEntry();
+            public AxisMappingEntry leftTrigger = new AxisMappingEntry();
             public AxisMappingEntry rightStickX = new AxisMappingEntry();
             public AxisMappingEntry rightStickY = new AxisMappingEntry();
-            public AxisMappingEntry leftTrigger = new AxisMappingEntry();
             public AxisMappingEntry rightTrigger = new AxisMappingEntry();
         }
 
@@ -582,10 +752,9 @@ namespace Reloaded.Input
             public ControllerAxis axis;
 
             /// <summary>
-            /// Stores the name of the property (DirectInput, XInput) that is mapped to the axis type.
-            /// Sometimes known in the source code as the Source Axis.
+            /// Defines a deadzone between 0 and 100%. Range: 0-100
             /// </summary>
-            public string propertyName;
+            public float deadZone;
 
             /// <summary>
             /// True if the axis is to be reversed when being read.
@@ -593,53 +762,16 @@ namespace Reloaded.Input
             public bool isReversed;
 
             /// <summary>
-            /// Defines a deadzone between 0 and 100%. Range: 0-100
+            /// Stores the name of the property (DirectInput, XInput) that is mapped to the axis type.
+            /// Sometimes known in the source code as the Source Axis.
             /// </summary>
-            public float deadZone;
+            public string propertyName;
 
             /// <summary>
             /// Scales the raw input values by this value.
             /// </summary>
             public float radiusScale;
         }
-
-        /// <summary>
-        /// Defines the individual accepted axis for a generic Playstation/XBOX style controller.
-        /// </summary>
-        public enum ControllerAxis
-        {
-            Null,
-            Left_Stick_X,
-            Left_Stick_Y,
-            Right_Stick_X,
-            Right_Stick_Y,
-            Left_Trigger,
-            Right_Trigger
-        }
-
-
-        /// <summary>
-        /// Values for the individual directions of the directional pad. 
-        /// These are the common values for a 8 directional DPAD.
-        /// In reality, this value is analog, with a range of 0-36000, albeit this is
-        /// practically never used.
-        /// </summary>
-        [Flags]
-        public enum DPAD_Direction
-        {
-            UP = 0,
-            UP_RIGHT = 4500,
-            UP_LEFT = 31500,
-
-            RIGHT = 9000,
-            LEFT = 27000,
-
-            DOWN = 18000,
-            DOWN_RIGHT = 13500,
-            DOWN_LEFT = 22500,
-
-            NULL = 65535
-        };
 
         /// <summary>
         /// Defines an analog stick in terms of X + Y, nothing more.
@@ -668,8 +800,9 @@ namespace Reloaded.Input
                 X = value;
 
                 // Do not allow X to be lesser or greater than man/mix.
-                if (X > ControllerCommon.AXIS_MAX_VALUE_F) { X = ControllerCommon.AXIS_MAX_VALUE_F; }
-                else if (X < ControllerCommon.AXIS_MIN_VALUE_F) { X = ControllerCommon.AXIS_MIN_VALUE_F; }
+                if (X > AXIS_MAX_VALUE_F)
+                    X = AXIS_MAX_VALUE_F;
+                else if (X < AXIS_MIN_VALUE_F) X = AXIS_MIN_VALUE_F;
             }
 
 
@@ -682,147 +815,10 @@ namespace Reloaded.Input
                 Y = value;
 
                 // Do not allow X to be lesser or greater than man/mix.
-                if (Y > ControllerCommon.AXIS_MAX_VALUE_F) { Y = ControllerCommon.AXIS_MAX_VALUE_F; }
-                else if (Y < ControllerCommon.AXIS_MIN_VALUE_F) { Y = ControllerCommon.AXIS_MIN_VALUE_F; }
+                if (Y > AXIS_MAX_VALUE_F)
+                    Y = AXIS_MAX_VALUE_F;
+                else if (Y < AXIS_MIN_VALUE_F) Y = AXIS_MIN_VALUE_F;
             }
-        }
-
-        /// <summary>
-        /// Processes the obtained raw value with DInput/XInput ranges and performs modifications on it such
-        /// as changing the radius of the axis reading or checking for deadzones.
-        /// </summary>
-        /// <param name="mappingEntry">The mapping entry for the axis defining which axis should be used.</param>
-        /// <param name="rawValue">The raw value obtained from the axis query..</param>
-        /// <param name="isScaled">Declares whether the value is already scaled appropriately before reaching the function or not. Currently false for DInput and true for XInput.</param>
-        public static float InputProcessAxisRawValue(int rawValue, AxisMappingEntry mappingEntry, bool isScaled)
-        {
-            // Reverse Axis if Necessary
-            if (mappingEntry.isReversed) { rawValue = -1 * rawValue; }
-
-            // Scale Axis if Necessary.
-            float newRawValue = rawValue;
-            if (!isScaled) { newRawValue = ((float)rawValue / (float)DInputManager.AXIS_MAX_VALUE) * ControllerCommon.AXIS_MAX_VALUE_F; }
-
-            // If triggers. scale to between 0 - 100 (from -100 - 100)
-            switch (mappingEntry.axis)
-            {
-                case ControllerAxis.Left_Trigger:
-                case ControllerAxis.Right_Trigger:
-                    newRawValue += ControllerCommon.AXIS_MAX_VALUE_F;
-                    newRawValue *= DInputManager.TRIGGER_SCALE_FACTOR;
-                    break;
-            }
-
-            // If the input lays within the acceptable deadzone range, return null.
-            if (VerifyDeadzones(newRawValue, mappingEntry)) { return 0F; }
-
-            // Scale Radius Scale Value
-            newRawValue *= mappingEntry.radiusScale;
-
-            // Return axis value.
-            return newRawValue;
-        }
-
-        /// <summary>
-        /// Returns true the input raw value is within a deadzone specified
-        /// by the specific axis mapping entry. 
-        /// </summary>
-        /// <param name="axisValue">The scaled value of the prior obtained raw axis reading: Range -100 to 100 (Sticks) or 0-100 (Triggers)</param>
-        /// <param name="mappingEntry">The mapping entry for the axis defining the deadzone for the specific axis.</param>
-        public static bool VerifyDeadzones(float axisValue, AxisMappingEntry mappingEntry)
-        {
-            // Verify Deadzones
-            switch (mappingEntry.axis)
-            {
-                // For all analog sticks.
-                case ControllerAxis.Left_Stick_X:
-                case ControllerAxis.Left_Stick_Y:
-                case ControllerAxis.Right_Stick_X:
-                case ControllerAxis.Right_Stick_Y:
-
-                    // Get boundaries of deadzone.
-                    float deadzoneMax = (ControllerCommon.AXIS_MAX_VALUE_F / 100.0F) * mappingEntry.deadZone;
-                    float deadzoneMin = -(ControllerCommon.AXIS_MAX_VALUE_F / 100.0F) * mappingEntry.deadZone;
-
-                    // If within boundaries, axis value is 0.
-                    if ((axisValue < deadzoneMax) && (axisValue > deadzoneMin))
-                    {
-                        return true;
-                    }
-
-                    // Else break.
-                    break;
-
-                // For all triggers
-                case ControllerAxis.Left_Trigger:
-                case ControllerAxis.Right_Trigger:
-
-                    // Get max deadzone
-                    float deadzoneTriggerMax = ((ControllerCommon.AXIS_MAX_VALUE_F) / 100.0F) * mappingEntry.deadZone;
-
-                    // If within bounds, axis value is 0.
-                    if (axisValue < deadzoneTriggerMax)
-                    {
-                        return true;
-                    }
-
-                    // Else break.
-                    break;
-            }
-
-            // If not in deadzones return false.
-            return false;
-        }
-
-
-        /// <summary>
-        /// Returns the appropriate axis mapping entry for each individual specific axis.
-        /// The axis have a 1-1 relationship (oldaxis -> new axis) and a set of properties as defined in
-        /// Controller_Axis_Mapping.
-        /// </summary>
-        /// <param name="axis">The axis whose details we want to obtain.</param>
-        /// <param name="axisMapping">The axis mapping which stores the axis details for the individual controller.</param>
-        /// <returns></returns>
-        public static AxisMappingEntry InputGetMappedAxis(ControllerAxis axis, AxisMapping axisMapping)
-        {
-            // Stores the axis configuration that is to be returned.
-            AxisMappingEntry controllerAxisMapping = new AxisMappingEntry();
-
-            // Find axis mapped to the requested controller axis.
-            // Check every axis manually, until one of the axes contains the desired destination axis.
-            if (IsCorrectAxisMappingEntry(axisMapping.leftStickX, axis)) { return axisMapping.leftStickX; }
-            if (IsCorrectAxisMappingEntry(axisMapping.leftStickY, axis)) { return axisMapping.leftStickY; }
-
-            if (IsCorrectAxisMappingEntry(axisMapping.rightStickX, axis)) { return axisMapping.rightStickX; }
-            if (IsCorrectAxisMappingEntry(axisMapping.rightStickY, axis)) { return axisMapping.rightStickY; }
-
-            if (IsCorrectAxisMappingEntry(axisMapping.leftTrigger, axis)) { return axisMapping.leftTrigger; }
-            if (IsCorrectAxisMappingEntry(axisMapping.rightTrigger, axis)) { return axisMapping.rightTrigger; }
-
-            // Retrieve empty struct if null, else the correct axis mapping.
-            return controllerAxisMapping;
-        }
-
-        /// <summary>
-        /// Verifies whether a passed in axis mapping entry's axis is the one requested
-        /// by the user/programmer. i.e. axisMappingEntry.axis == axis
-        /// </summary>
-        /// <param name="axis">The requested axis to verify if there is a match with the other parameter axis of axis mapping entry.</param>
-        /// <param name="axisMappingEntry">The mapping entry to check if matches the currently requested axis.</param>
-        /// <returns>True if it is the correct entry, else false.</returns>
-        private static bool IsCorrectAxisMappingEntry(AxisMappingEntry axisMappingEntry, ControllerAxis axis)
-        {
-            return axisMappingEntry.axis == axis ? true : false;
-        }
-
-        /// <summary>
-        /// Returns the value of a property of an object which shares the same name as the passed in string.
-        /// e.g. joystickState with a string named AccelX would return a theoretical joystickState.AccelX
-        /// </summary>
-        public static object Reflection_GetValue(object sourceObject, string propertyName)
-        {
-            try { return sourceObject.GetType().GetProperty(propertyName).GetValue(sourceObject, null); }
-            catch { return 0; }
         }
     }
 }

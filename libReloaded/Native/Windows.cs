@@ -135,7 +135,7 @@ namespace Reloaded.Native
             IntPtr activatedHandle = WinAPI.Windows.GetForegroundWindow();
 
             // Check if any window is active.
-            if (activatedHandle == IntPtr.Zero) { return false; }
+            if (activatedHandle == IntPtr.Zero) return false;
 
             // Retrieve unique identifier for this process.
             int currentProcessIdentifier = Process.GetCurrentProcess().Id;
@@ -160,7 +160,7 @@ namespace Reloaded.Native
             IntPtr activatedHandle = WinAPI.Windows.GetForegroundWindow();
 
             // Check if any window is active.
-            if (activatedHandle == IntPtr.Zero) { return false; }
+            if (activatedHandle == IntPtr.Zero) return false;
 
             // Compare the process identifiers of active window and our process.
             return activatedHandle == windowHandle;

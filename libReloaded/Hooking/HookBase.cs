@@ -18,13 +18,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.GameProcess;
-using Reloaded.Networking;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Reloaded.GameProcess;
+using Reloaded.Networking;
 using static Reloaded.GameProcess.Native;
 using static Reloaded.Networking.MessageTypes.ModLoaderServerMessages;
 
@@ -35,6 +35,28 @@ namespace Reloaded.Hooking
     /// </summary>
     public abstract class HookBase
     {
+        /// <summary>
+        /// Protection
+        ///     Specifies the memory protection constants for the region of pages 
+        ///     to be allocated, referenced or used for a similar purpose.
+        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366786(v=vs.85).aspx
+        /// </summary>
+        [Flags]
+        public enum Protection
+        {
+            Execute = 0x10,
+            ExecuteRead = 0x20,
+            ExecuteReadWrite = 0x40,
+            ExecuteWriteCopy = 0x80,
+            NoAccess = 0x01,
+            ReadOnly = 0x02,
+            ReadWrite = 0x04,
+            WriteCopy = 0x08,
+            GuardModifierflag = 0x100,
+            NoCacheModifierflag = 0x200,
+            WriteCombineModifierflag = 0x400
+        }
+
         /// <summary>
         /// Present for better code readibility, this is the length of the push and return sets of instructions themselves.
         /// </summary>
@@ -56,21 +78,6 @@ namespace Reloaded.Hooking
         protected const int REGISTERS_TO_BACKUP_LENGTH = 8;
 
         /// <summary>
-        /// Stores the representations of the PUSH instructions used to place the registers on the stack before our own method execution for compatible hooks.
-        /// </summary>
-        protected byte[] ASM_PUSH_REGISTERS_BYTES = new byte[REGISTERS_TO_BACKUP_LENGTH]
-        {
-            0x50, // PUSH EAX
-            0x51, // PUSH ECX
-            0x52, // PUSH EDX
-            0x53, // PUSH EBX
-            0x54, // PUSH ESP
-            0x55, // PUSH EBP
-            0x56, // PUSH ESI
-            0x57 // PUSH EDI
-        };
-
-        /// <summary>
         /// Stores the representations of the POP instructions used to retrieve the registers from the stack post own method execution for compatible hooks.
         /// </summary>
         protected byte[] ASM_POP_REGISTERS_BYTES = new byte[REGISTERS_TO_BACKUP_LENGTH]
@@ -87,9 +94,29 @@ namespace Reloaded.Hooking
         };
 
         /// <summary>
-        /// The user defined number of bytes to replace while performing a hook, there must be no stray bytes left from another instruction or set of instructions.
+        /// Stores the representations of the PUSH instructions used to place the registers on the stack before our own method execution for compatible hooks.
         /// </summary>
-        public int hookLength = 0;
+        protected byte[] ASM_PUSH_REGISTERS_BYTES = new byte[REGISTERS_TO_BACKUP_LENGTH]
+        {
+            0x50, // PUSH EAX
+            0x51, // PUSH ECX
+            0x52, // PUSH EDX
+            0x53, // PUSH EBX
+            0x54, // PUSH ESP
+            0x55, // PUSH EBP
+            0x56, // PUSH ESI
+            0x57 // PUSH EDI
+        };
+
+        /// <summary>
+        /// Hold a copy of the delegate to the method we want to execute. Otherwise the .NET Garbage Collector will nuke it and spectacularly crash Sonic Heroes since it probably thinks the game is garbage.
+        /// </summary>
+        protected Delegate customMethodDelegate;
+
+        /// <summary>
+        /// Might aswell also store the function pointer to this delegate, .NET Garbage Collector is a scary monster! Choo Choo!
+        /// </summary>
+        protected IntPtr funcionPointerToOwnMethodCall;
 
         /// <summary>
         /// This is the address which we will be hooking, the address where a call jmp is placed to redirect our program flow to our own function.
@@ -97,14 +124,9 @@ namespace Reloaded.Hooking
         public IntPtr hookAddress;
 
         /// <summary>
-        /// This will store the old original memory protection which we will restore along with the original bytes should we wish to fully dispose of the hook.
+        /// The user defined number of bytes to replace while performing a hook, there must be no stray bytes left from another instruction or set of instructions.
         /// </summary>
-        protected MemoryProtection originalMemoryProtection;
-
-        /// <summary>
-        /// The original source array of bytes which we will be hooking/placing a call jump to our own code from.
-        /// </summary>
-        protected byte[] originalBytes;
+        public int hookLength;
 
         /// <summary>
         /// The new bytes which we will place to make a call jump to our own code.
@@ -122,14 +144,14 @@ namespace Reloaded.Hooking
         protected byte[] newInstructionBytes;
 
         /// <summary>
-        /// Hold a copy of the delegate to the method we want to execute. Otherwise the .NET Garbage Collector will nuke it and spectacularly crash Sonic Heroes since it probably thinks the game is garbage.
+        /// The original source array of bytes which we will be hooking/placing a call jump to our own code from.
         /// </summary>
-        protected Delegate customMethodDelegate;
+        protected byte[] originalBytes;
 
         /// <summary>
-        /// Might aswell also store the function pointer to this delegate, .NET Garbage Collector is a scary monster! Choo Choo!
+        /// This will store the old original memory protection which we will restore along with the original bytes should we wish to fully dispose of the hook.
         /// </summary>
-        protected IntPtr funcionPointerToOwnMethodCall;
+        protected MemoryProtection originalMemoryProtection;
 
         /// <summary>
         /// Sets up the common hook properties and fields such as length and address.
@@ -154,11 +176,10 @@ namespace Reloaded.Hooking
         /// <summary>
         /// Assembles a return instruction to a specified address.
         /// </summary>
-        protected byte[] AssembleReturn(int address, Reloaded.Networking.Client modLoaderServerSonic)
+        protected byte[] AssembleReturn(int address, Client modLoaderServerSonic)
         {
             // Assemble code for push from new time string format address.
-            string[] x86Mnemonics = new string[]
-            {
+            string[] x86Mnemonics = {
                 "use32",
                 "push 0x" + address.ToString("X"),
                 "ret"
@@ -174,13 +195,12 @@ namespace Reloaded.Hooking
         /// <summary>
         /// Assembles a push instruction to a specified address.
         /// </summary>
-        protected byte[] AssemblePush(int address, Reloaded.Networking.Client modLoaderServerSonic)
+        protected byte[] AssemblePush(int address, Client modLoaderServerSonic)
         {
             // Assemble code for push from new time string format address.
-            string[] x86Mnemonics = new string[]
-            {
+            string[] x86Mnemonics = {
                 "use32",
-                "push 0x" + address.ToString("X"),
+                "push 0x" + address.ToString("X")
             };
 
             // Assemble The Message to be Sent to the server.
@@ -196,7 +216,7 @@ namespace Reloaded.Hooking
         protected void SetNewInstructionAddress(int length)
         {
             // Retrieve Memory Address where to write to our own.
-            newInstructionAddress = Memory.AllocateMemory(Process.GetCurrentProcess(),length);
+            newInstructionAddress = Process.GetCurrentProcess().AllocateMemory(length);
         }
 
         /// <summary>
@@ -210,7 +230,7 @@ namespace Reloaded.Hooking
             List<byte> newByteArray = byteArray.ToList();
 
             // If necessary, replace any stray bytes with NOP.
-            for (int x = PUSH_RETURN_INSTRUCTION_LENGTH - 1; x < hookLength; x++) { newByteArray.Add(0x90); }
+            for (int x = PUSH_RETURN_INSTRUCTION_LENGTH - 1; x < hookLength; x++) newByteArray.Add(0x90);
 
             // Return Byte Array
             return newByteArray.ToArray();
@@ -225,7 +245,7 @@ namespace Reloaded.Hooking
             byte[] nopArray = new byte[length];
 
             // No Operation Array.
-            for (int x = 0; x < nopArray.Length; x++) { nopArray[x] = 0x90; }
+            for (int x = 0; x < nopArray.Length; x++) nopArray[x] = 0x90;
 
             // Return NOP Array
             return nopArray;
@@ -240,27 +260,5 @@ namespace Reloaded.Hooking
         /// Deactivates the hook such that it may be used.
         /// </summary>
         public void Deactivate() { Marshal.Copy(originalBytes, 0, hookAddress, hookLength); }
-
-        /// <summary>
-        /// Protection
-        ///     Specifies the memory protection constants for the region of pages 
-        ///     to be allocated, referenced or used for a similar purpose.
-        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366786(v=vs.85).aspx
-        /// </summary>
-        [Flags]
-        public enum Protection
-        {
-            Execute = 0x10,
-            ExecuteRead = 0x20,
-            ExecuteReadWrite = 0x40,
-            ExecuteWriteCopy = 0x80,
-            NoAccess = 0x01,
-            ReadOnly = 0x02,
-            ReadWrite = 0x04,
-            WriteCopy = 0x08,
-            GuardModifierflag = 0x100,
-            NoCacheModifierflag = 0x200,
-            WriteCombineModifierflag = 0x400
-        }
     }
 }

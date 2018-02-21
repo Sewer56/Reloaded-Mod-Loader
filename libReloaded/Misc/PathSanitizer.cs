@@ -28,10 +28,10 @@ namespace Reloaded.Misc
     /// Used for sanitization of controller names and devices which contain symbols
     /// which would form invalid paths.
     /// </summary>
-    static class PathSanitizer
+    internal static class PathSanitizer
     {
         // Set Invalid Path Characters
-        static char[] invalid = Path.GetInvalidPathChars().Union(Path.GetInvalidFileNameChars()).ToArray();
+        private static readonly char[] invalid = Path.GetInvalidPathChars().Union(Path.GetInvalidFileNameChars()).ToArray();
 
         /// <summary>
         /// Removes invalid characters from a specified path.
@@ -43,10 +43,8 @@ namespace Reloaded.Misc
         {
             // Valid path force
             foreach (char c in invalid)
-            {
-                // Ignore paths
-                if (c != '\\' || c != '/') { text = text.Replace(c.ToString(), ""); }
-            }
+            // Ignore paths
+                if (c != '\\' || c != '/') text = text.Replace(c.ToString(), "");
 
             return text;
         }

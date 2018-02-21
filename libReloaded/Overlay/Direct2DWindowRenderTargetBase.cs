@@ -18,12 +18,16 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Native;
-using SharpDX.Direct2D1;
-using SharpDX.DXGI;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Reloaded.Native;
+using SharpDX;
+using SharpDX.Direct2D1;
+using SharpDX.DXGI;
+using SharpDX.Mathematics.Interop;
+using AlphaMode = SharpDX.Direct2D1.AlphaMode;
+using Factory = SharpDX.Direct2D1.Factory;
 
 namespace Reloaded.Overlay
 {
@@ -35,15 +39,44 @@ namespace Reloaded.Overlay
     public abstract class Direct2DWindowRenderTargetBase
     {
         /// <summary>
+        /// Defines a delegate signature used for running custom code after rendering of the visual elements using direct2D.
+        /// </summary>
+        public delegate void Delegate_OnFrameDelegate();
+
+        /// <summary>
+        /// Defines a delegate signature used for rendering visual elements using direct2D.
+        /// </summary>
+        /// <param name="direct2DWindowTarget"></param>
+        public delegate void Delegate_RenderDirect2D(WindowRenderTarget direct2DWindowTarget);
+
+        /// <summary>
         /// Provides a lock mechanism to disallow multiple threads to render or use DirectX rendering functions at once.
         /// Threads wait until the lock is released to execute DirectX drawing code.
         /// </summary>
-        static readonly object renderLock = new object();
+        private static readonly object renderLock = new object();
+
+        /// <summary>
+        /// Provide empty constructor which does not instantiate the object, merely for inheritance purposes.
+        /// </summary>
+        public Direct2DWindowRenderTargetBase() { }
+
+        /// <summary>
+        /// Class constructor. 
+        /// </summary>
+        /// <param name="targetWindowHandle">Handle to the window which you want to draw ontop of.</param>
+        public Direct2DWindowRenderTargetBase(IntPtr targetWindowHandle)
+        {
+            // Set whether the setup of D2D is complete.
+            Direct2DSetupComplete = false;
+
+            // Redirects the constructor contents to execute in a different location.
+            ConstructorAlias(targetWindowHandle);
+        }
 
         /// <summary>
         /// Declares a render target that is used to render to a window surface.
         /// </summary>
-        public SharpDX.Direct2D1.WindowRenderTarget Direct2DWindowTarget { get; set; }
+        public WindowRenderTarget Direct2DWindowTarget { get; set; }
 
         /// <summary>
         /// Delegate instance which declares/stores references to methods rendering visual elements.
@@ -68,35 +101,6 @@ namespace Reloaded.Overlay
         public bool Direct2DSetupComplete { get; set; }
 
         /// <summary>
-        /// Defines a delegate signature used for rendering visual elements using direct2D.
-        /// </summary>
-        /// <param name="direct2DWindowTarget"></param>
-        public delegate void Delegate_RenderDirect2D(WindowRenderTarget direct2DWindowTarget);
-
-        /// <summary>
-        /// Defines a delegate signature used for running custom code after rendering of the visual elements using direct2D.
-        /// </summary>
-        public delegate void Delegate_OnFrameDelegate();
-
-        /// <summary>
-        /// Provide empty constructor which does not instantiate the object, merely for inheritance purposes.
-        /// </summary>
-        public Direct2DWindowRenderTargetBase() { }
-
-        /// <summary>
-        /// Class constructor. 
-        /// </summary>
-        /// <param name="targetWindowHandle">Handle to the window which you want to draw ontop of.</param>
-        public Direct2DWindowRenderTargetBase(IntPtr targetWindowHandle)
-        {
-            // Set whether the setup of D2D is complete.
-            Direct2DSetupComplete = false;
-
-            // Redirects the constructor contents to execute in a different location.
-            ConstructorAlias(targetWindowHandle);
-        }
-
-        /// <summary>
         /// Contents of the constructor for the class, allowing the constructor to be executed with parameters determined after the creation
         /// of any parent class in an inheritance structure.
         /// </summary>
@@ -104,7 +108,7 @@ namespace Reloaded.Overlay
         public void ConstructorAlias(IntPtr targetWindowHandle)
         {
             // Set handle to which we are drawing on.
-            this.TargetWindowHandle = targetWindowHandle;
+            TargetWindowHandle = targetWindowHandle;
 
             // Initialize Direct2D on a separate thread.
             InitializeDirectX(targetWindowHandle);
@@ -119,22 +123,22 @@ namespace Reloaded.Overlay
             try
             {
                 // Create the D2D Factory which aids with the creation of a WindowRenderTarget object.
-                SharpDX.Direct2D1.Factory direct2DFactory = new SharpDX.Direct2D1.Factory(SharpDX.Direct2D1.FactoryType.SingleThreaded);
+                Factory direct2DFactory = new Factory(FactoryType.SingleThreaded);
 
                 // Retrieve window size of target window.
                 Point windowSize = Windows.GetWindowClientSize(targetWindowHandle);
 
                 // Set the render properties!
-                SharpDX.Direct2D1.HwndRenderTargetProperties direct2DRenderTargetProperties = new HwndRenderTargetProperties();
+                HwndRenderTargetProperties direct2DRenderTargetProperties = new HwndRenderTargetProperties();
                 direct2DRenderTargetProperties.Hwnd = targetWindowHandle;
-                direct2DRenderTargetProperties.PixelSize = new SharpDX.Size2(windowSize.X, windowSize.Y);
+                direct2DRenderTargetProperties.PixelSize = new Size2(windowSize.X, windowSize.Y);
                 direct2DRenderTargetProperties.PresentOptions = PresentOptions.None;
 
                 // Assign the Window Render Target
-                Direct2DWindowTarget = new SharpDX.Direct2D1.WindowRenderTarget
+                Direct2DWindowTarget = new WindowRenderTarget
                 (
                     direct2DFactory,
-                    new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, SharpDX.Direct2D1.AlphaMode.Premultiplied)),
+                    new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)),
                     direct2DRenderTargetProperties
                 );
 
@@ -204,7 +208,7 @@ namespace Reloaded.Overlay
         /// </summary>
         private void ClearScreen(float r, float g, float b, float a)
         {
-            Direct2DWindowTarget.Clear(new SharpDX.Mathematics.Interop.RawColor4(r, g, b, a));
+            Direct2DWindowTarget.Clear(new RawColor4(r, g, b, a));
         }
 
         /// <summary>

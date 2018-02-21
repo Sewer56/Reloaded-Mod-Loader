@@ -18,10 +18,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Networking;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Reloaded.Networking;
 
 namespace Reloaded.Hooking
 {
@@ -29,7 +29,7 @@ namespace Reloaded.Hooking
     /// This hook class executes your own ASM Code from a supplied list of bytes.
     /// To use this hook, you require at least a hook length of 6 bytes + any stray bytes from any instructions. For more information, do refer to the Wiki on Github.
     /// </summary>
-    class ASM_Hook : HookBase
+    internal class ASM_Hook : HookBase
     {
         /// <summary>
         /// This hook class executes your own ASM Code from a supplied list of bytes.
@@ -46,7 +46,7 @@ namespace Reloaded.Hooking
             SetupHookCommon(hookAddress, hookLength);
 
             // Check for compatible Mod Loader Hook Method Signature, If Signature Found, Do not Clean Hook!
-            if (cleanHook) { cleanHook = CheckCleanHook(); }
+            if (cleanHook) cleanHook = CheckCleanHook();
 
             // Run the hook builder.
             Hook_ASM_Internal(modLoaderServerSocket, asmBytes, cleanHook);
@@ -81,8 +81,10 @@ namespace Reloaded.Hooking
             injectionBytes.AddRange(asmBytes);
 
             // Insert the original bytes to be executed.
-            if (cleanHook) { injectionBytes.AddRange(ProduceNOPArray(originalBytes.Length)); }
-            else { injectionBytes.AddRange(originalBytes); }
+            if (cleanHook)
+                injectionBytes.AddRange(ProduceNOPArray(originalBytes.Length));
+            else
+                injectionBytes.AddRange(originalBytes);
 
             // Insert bytes to return back.
             injectionBytes.AddRange(AssembleReturn((int)hookAddress + PUSH_RETURN_INSTRUCTION_LENGTH, modLoaderServerSocket));
@@ -101,8 +103,9 @@ namespace Reloaded.Hooking
         {
             // If the address we are hooking is a PUSH opcode with a return. (a Mod Loader Hook Signature)
             // Do not Clean Hook!
-            if ((originalBytes[0] == 0x68) && (originalBytes[5] == 0xC3)) { return false; }
-            else { return true; }
+            if (originalBytes[0] == 0x68 && originalBytes[5] == 0xC3)
+                return false;
+            return true;
         }
     }
 }

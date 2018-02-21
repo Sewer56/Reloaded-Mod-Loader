@@ -18,7 +18,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Native;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -29,16 +28,6 @@ namespace Reloaded.Overlay.External
     public partial class GlassForm : Form
     {
         /// <summary>
-        /// Sets/Gets a handle for the game window whose client area the window will expand and move to match.
-        /// </summary>
-        public IntPtr GameWindowHandle { get; set; }
-
-        /// <summary>
-        /// Delegate which will be triggered upon the movement of the game window or shape/size changes.
-        /// </summary>
-        public WindowEvents.WinEventDelegate GameWindowMoveDelegate { get; set; }
-
-        /// <summary>
         /// Constructor for the overlay form, is executed upon creation of the overlay.
         /// </summary>
         public GlassForm(IntPtr gameWindowHandle)
@@ -47,11 +36,21 @@ namespace Reloaded.Overlay.External
             InitializeComponent();
 
             // Set handle to game window.
-            this.GameWindowHandle = gameWindowHandle;
+            GameWindowHandle = gameWindowHandle;
 
             // Set up the glass window to overlay over target window.
             SetupWindow();
         }
+
+        /// <summary>
+        /// Sets/Gets a handle for the game window whose client area the window will expand and move to match.
+        /// </summary>
+        public IntPtr GameWindowHandle { get; set; }
+
+        /// <summary>
+        /// Delegate which will be triggered upon the movement of the game window or shape/size changes.
+        /// </summary>
+        public WindowEvents.WinEventDelegate GameWindowMoveDelegate { get; set; }
 
         /// <summary>
         /// Sets up the overlay window properties such as window style, topmost status, etc.
@@ -65,16 +64,16 @@ namespace Reloaded.Overlay.External
             AdjustOverlayToGameWindow(); 
 
             // Setup hook for when the game window is moved, resized, changes shape...
-            GameWindowMoveDelegate = new WindowEvents.WinEventDelegate(WinEventProc);
+            GameWindowMoveDelegate = WinEventProc;
             WindowEvents.SetWinEventHook
             (
-                WinAPI.WindowEvents.EVENT_OBJECT_LOCATIONCHANGE, // Minimum event code to capture
-                WinAPI.WindowEvents.EVENT_OBJECT_LOCATIONCHANGE, // Maximum event code to capture
+                WindowEvents.EVENT_OBJECT_LOCATIONCHANGE, // Minimum event code to capture
+                WindowEvents.EVENT_OBJECT_LOCATIONCHANGE, // Maximum event code to capture
                 IntPtr.Zero,                                      // DLL Handle (none required) 
                 GameWindowMoveDelegate,                           // Pointer to the hook function. (Delegate in our case)
                 0,                                                // Process ID (0 = all)
                 0,                                                // Thread ID (0 = all)
-                WinAPI.WindowEvents.WINEVENT_OUTOFCONTEXT        // Flags: Allow cross-process event hooking
+                WindowEvents.WINEVENT_OUTOFCONTEXT        // Flags: Allow cross-process event hooking
             );
 
             // Expand Aero Glass onto Client Area
@@ -89,15 +88,15 @@ namespace Reloaded.Overlay.External
         private void SetWindowStyles()
         {
             // Retrieve the original window style.
-            long initialStyle = (long)WindowStyles.GetWindowLongPtr(this.Handle, WindowStyles.Constants.GWL_EXSTYLE);
+            long initialStyle = (long)WindowStyles.GetWindowLongPtr(Handle, WindowStyles.Constants.GWL_EXSTYLE);
 
             // Set window as visible
-            this.Visible = true;
+            Visible = true;
 
             // Set the new window style
             WindowStyles.SetWindowLongPtr
             (
-                new HandleRef(this, this.Handle),    // Handle reference for the window.  
+                new HandleRef(this, Handle),    // Handle reference for the window.  
                 WindowStyles.Constants.GWL_EXSTYLE, // nIndex which writes to the currently set window style.
 
                 // Set window as layered window, transparent (removes hit testing when layered) and keep it topmost.
@@ -105,10 +104,10 @@ namespace Reloaded.Overlay.External
             ); 
 
             // Set the Alpha on the Layered Window to 255 (solid)
-            WindowStyles.SetLayeredWindowAttributes(this.Handle, 0, 255, WindowStyles.Constants.LWA_ALPHA);
+            WindowStyles.SetLayeredWindowAttributes(Handle, 0, 255, WindowStyles.Constants.LWA_ALPHA);
 
             // Set window as topmost.
-            this.TopMost = true;
+            TopMost = true;
         }
 
         /// <summary>
@@ -126,11 +125,11 @@ namespace Reloaded.Overlay.External
             // Set the new form margins to conver whole window.
             formMargins.leftBorder = 0;
             formMargins.topBorder= 0;
-            formMargins.rightBorder = this.Width;
-            formMargins.bottomBorder = this.Height;
+            formMargins.rightBorder = Width;
+            formMargins.bottomBorder = Height;
 
             // Extend the frame into client area.
-            WinAPI.Windows.DwmExtendFrameIntoClientArea(this.Handle, ref formMargins);
+            Windows.DwmExtendFrameIntoClientArea(Handle, ref formMargins);
         }
 
         /// <summary>
@@ -143,12 +142,12 @@ namespace Reloaded.Overlay.External
             WinAPIRectangle gameClientRectangle = Native.Windows.GetClientAreaRectangle(GameWindowHandle);
 
             // Set overlay edges to the edges of the client area.
-            this.Left = gameClientRectangle.leftBorder;
-            this.Top = gameClientRectangle.topBorder;
+            Left = gameClientRectangle.leftBorder;
+            Top = gameClientRectangle.topBorder;
 
             // Set width and height.
-            this.Width = gameClientRectangle.rightBorder - gameClientRectangle.leftBorder;
-            this.Height = gameClientRectangle.bottomBorder - gameClientRectangle.topBorder;
+            Width = gameClientRectangle.rightBorder - gameClientRectangle.leftBorder;
+            Height = gameClientRectangle.bottomBorder - gameClientRectangle.topBorder;
         }
 
         /// <summary>
@@ -159,7 +158,7 @@ namespace Reloaded.Overlay.External
         {
             // Filter out non-HWND changes, e.g. items within a listbox.
             // Technically speaking shouldn't be necessary, though just in case.
-            if (idObject != 0 || idChild != 0) { return; }
+            if (idObject != 0 || idChild != 0) return;
 
             // Set the size and location of the external overlay to match the 
             AdjustOverlayToGameWindow();

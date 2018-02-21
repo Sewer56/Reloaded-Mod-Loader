@@ -34,22 +34,22 @@ namespace Reloaded.Misc
         /// Specifies the location of the file which informs injected DLLs of the 
         /// current location of the mod loader in question. 
         /// </summary>
-        private static string MOD_LOADER_LINK_FILE = Path.GetTempPath() + "\\Reloaded-Link.txt";
+        private static readonly string MOD_LOADER_LINK_FILE = Path.GetTempPath() + "\\Reloaded-Link.txt";
 
         /// <summary>
         /// Specifies the relative location of the main configuration file for the loader.
         /// </summary>
-        private static string RELATIVELOCATION_CONFIGFILE = "\\Reloaded-Config\\Config.ini";
+        private static readonly string RELATIVELOCATION_CONFIGFILE = "\\Reloaded-Config\\Config.ini";
 
         /// <summary>
         /// Specifies the relative location of the configuration directory for the loader.
         /// </summary>
-        private static string RELATIVELOCATION_CONFIG = "\\Reloaded-Config";
+        private static readonly string RELATIVELOCATION_CONFIG = "\\Reloaded-Config";
 
         /// <summary>
         /// Specifies the relative location of the configuration directory for the loader.
         /// </summary>
-        private static string RELATIVELOCATION_THEMES = "\\Reloaded-Config\\Themes";
+        private static readonly string RELATIVELOCATION_THEMES = "\\Reloaded-Config\\Themes";
 
         /// <summary>
         /// Specifies the relative location of the individual game backup files relative to the mod loader.
@@ -59,17 +59,17 @@ namespace Reloaded.Misc
         /// <summary>
         /// Specifies the relative location of the mod loader's mod directory.
         /// </summary>
-        private static string RELATIVELOCATION_MODS = "\\Reloaded-Mods";
+        private static readonly string RELATIVELOCATION_MODS = "\\Reloaded-Mods";
 
         /// <summary>
         /// Specifies the relative location of the mod loader libraries relative to the mod loader.
         /// </summary>
-        private static string RELATIVELOCATION_LIBRARIES = "\\Reloaded-Libraries";
+        private static readonly string RELATIVELOCATION_LIBRARIES = "\\Reloaded-Libraries";
 
         /// <summary>
         /// Specifies the relative location of the mod loader libraries relative to the mod loader.
         /// </summary>
-        private static string RELATIVELOCATION_GAMES = "\\Reloaded-Config\\Games";
+        private static readonly string RELATIVELOCATION_GAMES = "\\Reloaded-Config\\Games";
 
         /// <summary>
         /// Retrieves the directory of the current process where the DLL resides in. i.e. the game directory.
@@ -163,6 +163,5 @@ namespace Reloaded.Misc
             // Note: Last character will be a backslash, do not include.
             return path.Substring(GetModLoaderDirectory().Length + 1);
         }
-
     }
 }

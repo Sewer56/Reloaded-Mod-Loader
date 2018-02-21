@@ -18,10 +18,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using IniParser;
-using IniParser.Model;
 using System;
 using System.IO;
+using IniParser;
+using IniParser.Model;
 using static Reloaded.Input.ControllerCommon;
 
 namespace Reloaded.Input
@@ -29,17 +29,17 @@ namespace Reloaded.Input
     /// <summary>
     /// Parses configuration files for XInput, DirectInput controllers.
     /// </summary>
-    class ControllerConfigParser
+    internal class ControllerConfigParser
     {
+        /// <summary>
+        /// Holds an instance of ini-parser used for parsing INI files.
+        /// </summary>
+        private readonly FileIniDataParser iniParser;
+
         /// <summary>
         /// Stores the ini data read by the ini-parser.
         /// </summary>
         private IniData iniData;
-
-        /// <summary>
-        /// Holds an instance of ini-parser used for parsing INI files.
-        /// </summary>
-        private FileIniDataParser iniParser;
 
         /// <summary>
         /// Initiates the Controller Config Parser.
@@ -63,7 +63,7 @@ namespace Reloaded.Input
             ButtonMapping buttonMapping = new ButtonMapping();
 
             // Check if the config exists, if it doesn't, first write an empty config.
-            if (! File.Exists(configLocation)) { File.WriteAllText(configLocation, SampleConfig.Sample); }
+            if (! File.Exists(configLocation)) File.WriteAllText(configLocation, SampleConfig.Sample);
 
             // Read the controller configuration.
             iniData = iniParser.ReadFile(configLocation);

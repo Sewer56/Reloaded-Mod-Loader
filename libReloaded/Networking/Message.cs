@@ -31,32 +31,6 @@ namespace Reloaded.Networking
     public static class Message
     {
         /// <summary>
-        /// A struct which defines a message to be sent over TCP or UDP.
-        /// </summary>
-        public struct MessageStruct
-        {
-            /// <summary>
-            /// The type of the message sent. Types are supposed to be your
-            /// own custom defined enumerables. The mod loader server uses Client_Functions.Message_Type.
-            /// </summary>
-            public ushort MessageType { get; set; }
-
-            /// <summary>
-            /// The raw data of the message in question.
-            /// </summary>
-            public byte[] Data { get; set; }
-
-            /// <summary>
-            /// Constructor allowing immediate struct assignment.
-            /// </summary>
-            public MessageStruct(ushort messageType, byte[] data)
-            {
-                MessageType = messageType;
-                Data = data;
-            }
-        }
-
-        /// <summary>
         /// Builds a message to be sent to the machine A to machine B.
         /// A message consists of a message type (two bytes), followed by the raw data of the message, 
         /// which forms the remaining part of the message (this is stored in a struct).
@@ -97,5 +71,30 @@ namespace Reloaded.Networking
             return messageStruct;
         }
 
+        /// <summary>
+        /// A struct which defines a message to be sent over TCP or UDP.
+        /// </summary>
+        public struct MessageStruct
+        {
+            /// <summary>
+            /// The type of the message sent. Types are supposed to be your
+            /// own custom defined enumerables. The mod loader server uses Client_Functions.Message_Type.
+            /// </summary>
+            public ushort MessageType { get; set; }
+
+            /// <summary>
+            /// The raw data of the message in question.
+            /// </summary>
+            public byte[] Data { get; set; }
+
+            /// <summary>
+            /// Constructor allowing immediate struct assignment.
+            /// </summary>
+            public MessageStruct(ushort messageType, byte[] data)
+            {
+                MessageType = messageType;
+                Data = data;
+            }
+        }
     }
 }

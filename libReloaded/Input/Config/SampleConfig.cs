@@ -121,6 +121,5 @@ Right_Stick_Down=255
 Right_Stick_Left=255
 Right_Stick_Right=255
 ";
-
     }
 }

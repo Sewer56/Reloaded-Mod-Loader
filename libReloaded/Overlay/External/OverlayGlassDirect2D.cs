@@ -18,10 +18,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Native;
 using System;
 using System.Threading;
 using System.Windows.Forms;
+using Reloaded.Native;
 
 namespace Reloaded.Overlay.External
 {
@@ -30,6 +30,24 @@ namespace Reloaded.Overlay.External
     /// </summary>
     public class OverlayGlassDirect2D : Direct2DWindowRenderTargetBase
     {
+        /// <summary>
+        /// Class constructor. Instantiates both the overlay and DirectX Stuff.
+        /// </summary>
+        public OverlayGlassDirect2D(string gameWindowName)
+        {
+            // Set Window Name
+            GameWindowName = gameWindowName;
+
+            // Wait for and find the game window.
+            Find_Game_Window();
+
+            // Instantiate glass form
+            OverlayForm = new GlassForm(GameWindowHandle);
+
+            // Initialize base (directX Drawing Stuff)
+            ConstructorAlias(OverlayForm.Handle);
+        }
+
         /// <summary>
         /// Fake glass form which we will be overlaying the game with.
         /// </summary>
@@ -49,24 +67,6 @@ namespace Reloaded.Overlay.External
         /// A thread which hosts the glass overlay windows form, ensuring that it keeps running.
         /// </summary>
         public Thread WindowsFormThread { get; set; }
-
-        /// <summary>
-        /// Class constructor. Instantiates both the overlay and DirectX Stuff.
-        /// </summary>
-        public OverlayGlassDirect2D(string gameWindowName)
-        {
-            // Set Window Name
-            this.GameWindowName = gameWindowName;
-
-            // Wait for and find the game window.
-            Find_Game_Window();
-
-            // Instantiate glass form
-            OverlayForm = new GlassForm(GameWindowHandle);
-
-            // Initialize base (directX Drawing Stuff)
-            base.ConstructorAlias(OverlayForm.Handle);
-        }
 
         /// <summary>
         /// Calls Application.Run to host the overlay glass window such that it may be displayed.
@@ -91,14 +91,14 @@ namespace Reloaded.Overlay.External
                 GameWindowHandle = WinAPI.Windows.FindWindow(null, GameWindowName);
 
                 // If handle successfully acquired.
-                if (GameWindowHandle != null) { break; }
+                if (GameWindowHandle != null) break;
 
                 // Sleep to reduce CPU load.
                 Thread.Sleep(16);
             }
 
             // Wait for the Window to show itself to screen before configuring.
-            while (WinAPI.Windows.IsWindowVisible(GameWindowHandle) == false) { Thread.Sleep(16); }
+            while (WinAPI.Windows.IsWindowVisible(GameWindowHandle) == false) Thread.Sleep(16);
         }
     }
 }

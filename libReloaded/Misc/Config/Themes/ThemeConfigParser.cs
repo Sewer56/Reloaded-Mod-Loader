@@ -29,55 +29,14 @@ namespace Reloaded.Misc.Config
     public class ThemeConfigParser
     {
         /// <summary>
+        /// Holds an instance of ini-parser used for parsing INI files.
+        /// </summary>
+        private readonly FileIniDataParser iniParser;
+
+        /// <summary>
         /// Stores the ini data read by the ini-parser.
         /// </summary>
         private IniData iniData;
-
-        /// <summary>
-        /// Holds an instance of ini-parser used for parsing INI files.
-        /// </summary>
-        private FileIniDataParser iniParser;
-
-        /// <summary>
-        /// Defines a general struct for the loader theme configuration file.
-        /// </summary>
-        public struct ThemeConfig
-        {
-            /// <summary>
-            /// The name of the theme as it appears in the mod loader configuration tool.
-            /// </summary>
-            public string ThemeName;
-
-            /// <summary>
-            /// The description of the mod.
-            /// </summary>
-            public string ThemeDescription;
-
-            /// <summary>
-            /// The version of the theme. (Recommended Format: 1.XX)
-            /// </summary>
-            public string ThemeVersion;
-
-            /// <summary>
-            /// The author of the specific theme.
-            /// </summary>
-            public string ThemeAuthor;
-
-            /// <summary>
-            /// The site shown in the hyperlink on the loader for your theme.
-            /// </summary>
-            public string ThemeSite;
-
-            /// <summary>
-            /// Use if you want to provide self-updates from source code..
-            /// </summary>
-            public string ThemeGithub;
-
-            /// <summary>
-            /// [DO NOT MODIFY] Stores the physical directory location of the theme configuration for re-save purposes.
-            /// </summary>
-            public string ThemeLocation;
-        }
 
         /// <summary>
         /// Initiates the Theme Config Parser.
@@ -131,6 +90,47 @@ namespace Reloaded.Misc.Config
 
             // Write the file out to disk.
             iniParser.WriteFile(themeConfig.ThemeLocation, iniData);
+        }
+
+        /// <summary>
+        /// Defines a general struct for the loader theme configuration file.
+        /// </summary>
+        public struct ThemeConfig
+        {
+            /// <summary>
+            /// The name of the theme as it appears in the mod loader configuration tool.
+            /// </summary>
+            public string ThemeName;
+
+            /// <summary>
+            /// The description of the mod.
+            /// </summary>
+            public string ThemeDescription;
+
+            /// <summary>
+            /// The version of the theme. (Recommended Format: 1.XX)
+            /// </summary>
+            public string ThemeVersion;
+
+            /// <summary>
+            /// The author of the specific theme.
+            /// </summary>
+            public string ThemeAuthor;
+
+            /// <summary>
+            /// The site shown in the hyperlink on the loader for your theme.
+            /// </summary>
+            public string ThemeSite;
+
+            /// <summary>
+            /// Use if you want to provide self-updates from source code..
+            /// </summary>
+            public string ThemeGithub;
+
+            /// <summary>
+            /// [DO NOT MODIFY] Stores the physical directory location of the theme configuration for re-save purposes.
+            /// </summary>
+            public string ThemeLocation;
         }
     }
 }

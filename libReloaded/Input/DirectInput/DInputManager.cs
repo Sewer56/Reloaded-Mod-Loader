@@ -18,10 +18,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using SharpDX.DirectInput;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using SharpDX.DirectInput;
 
 namespace Reloaded.Input.DirectInput
 {
@@ -54,15 +54,15 @@ namespace Reloaded.Input.DirectInput
         public static string CONTROLLER_ACQUIRE_FILENAME_FLAG = "Controller_Acquire.txt";
 
         /// <summary>
-        /// Declare the directinput adapter used for acquiring directinput devices.
-        /// </summary>
-        private SharpDX.DirectInput.DirectInput directInputAdapter;
-
-        /// <summary>
         /// Stores a list of all DirectInput controller devices such as Mice, Keyboards
         /// and Joysticks used within the mod loader.
         /// </summary>
         private List<DInputController> dInputControllers;
+
+        /// <summary>
+        /// Declare the directinput adapter used for acquiring directinput devices.
+        /// </summary>
+        private SharpDX.DirectInput.DirectInput directInputAdapter;
 
         /// <summary>
         /// Loads and initializes all of the mod loader's DirectInput controllers.
@@ -113,7 +113,7 @@ namespace Reloaded.Input.DirectInput
             while (File.Exists(CONTROLLER_ACQUIRE_FILENAME_FLAG))
             {
                 timeout += 1;
-                if (timeout == 60) { break; }
+                if (timeout == 60) break;
                 Thread.Sleep(16);
             }
 
@@ -151,15 +151,16 @@ namespace Reloaded.Input.DirectInput
 
             // Acquire and initialize each device.
             foreach (DeviceInstance DInputDevice in DInputDevices)
-            {
-                // Filter devices to initialize by type.
-                if (DInputDevice.Type == DeviceType.Joystick) { dInputControllers.Add(SetupController(DInputDevice)); }
-                else if (DInputDevice.Type == DeviceType.Gamepad) { dInputControllers.Add(SetupController(DInputDevice)); }
-                else if (DInputDevice.Type == DeviceType.Keyboard) { dInputControllers.Add(SetupController(DInputDevice)); }
+            // Filter devices to initialize by type.
+                if (DInputDevice.Type == DeviceType.Joystick)
+                    dInputControllers.Add(SetupController(DInputDevice));
+                else if (DInputDevice.Type == DeviceType.Gamepad)
+                    dInputControllers.Add(SetupController(DInputDevice));
+                else if (DInputDevice.Type == DeviceType.Keyboard)
+                    dInputControllers.Add(SetupController(DInputDevice));
 
                 // TODO: Mouse Axis Support
-                else if (DInputDevice.Type == DeviceType.Mouse) { dInputControllers.Add(SetupController(DInputDevice)); }
-            }
+                else if (DInputDevice.Type == DeviceType.Mouse) dInputControllers.Add(SetupController(DInputDevice));
         }
 
         /// <summary>
@@ -172,7 +173,7 @@ namespace Reloaded.Input.DirectInput
             DInputController dInputController = new DInputController(directInputAdapter, DInputDevice.InstanceGuid);
 
             // If the device is a mouse, set the axis mode to relative.
-            if (dInputController.Information.Type == DeviceType.Mouse) { dInputController.Properties.AxisMode = DeviceAxisMode.Relative; }
+            if (dInputController.Information.Type == DeviceType.Mouse) dInputController.Properties.AxisMode = DeviceAxisMode.Relative;
 
             // Acquire the DInput Device
             dInputController.Acquire();
@@ -180,14 +181,8 @@ namespace Reloaded.Input.DirectInput
             // For each Device Object/Controller/Input type in the Direct Input Devices. 
             // If it contains an axis, set the range of the axis to AXIS_MIN_VALUE, AXIS_MAX_VALUE
             foreach (DeviceObjectInstance deviceObject in dInputController.GetObjects())
-            {
-                // Check if the object flags contain axis bits.
-                if (deviceObject.ObjectId.Flags.HasFlag(DeviceObjectTypeFlags.AbsoluteAxis))
-                {
-                    // Set the range of the axis as defined in the class header.
-                    dInputController.GetObjectPropertiesById(deviceObject.ObjectId).Range = new SharpDX.DirectInput.InputRange(AXIS_MIN_VALUE, AXIS_MAX_VALUE);
-                }
-            }
+            // Check if the object flags contain axis bits.
+                if (deviceObject.ObjectId.Flags.HasFlag(DeviceObjectTypeFlags.AbsoluteAxis)) dInputController.GetObjectPropertiesById(deviceObject.ObjectId).Range = new InputRange(AXIS_MIN_VALUE, AXIS_MAX_VALUE);
 
             // Return the DirectInput Device.
             return dInputController;

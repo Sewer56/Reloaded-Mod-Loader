@@ -18,24 +18,155 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using IniParser;
-using IniParser.Model;
 using System;
 using System.Drawing;
+using IniParser;
+using IniParser.Model;
 
 namespace Reloaded.Misc.Config
 {
     public class ThemePropertyParser
     {
         /// <summary>
+        /// Holds an instance of ini-parser used for parsing INI files.
+        /// </summary>
+        private readonly FileIniDataParser iniParser;
+
+        /// <summary>
         /// Stores the ini data read by the ini-parser.
         /// </summary>
         private IniData iniData;
 
         /// <summary>
-        /// Holds an instance of ini-parser used for parsing INI files.
+        /// Initiates the Theme Colour Parser.
         /// </summary>
-        private FileIniDataParser iniParser;
+        public ThemePropertyParser()
+        {
+            iniParser = new FileIniDataParser();
+            iniParser.Parser.Configuration.CommentString = "#";
+        }
+
+        /// <summary>
+        /// Retrieves the Mod Loader Colour Configuration File.
+        /// </summary>
+        /// <param name="themeDirectory">The relative directory of the individual theme to Reloaded-Config/Themes. e.g. Default</param>
+        public ThemeConfig ParseConfig(string themeDirectory)
+        {
+            // Instantiate a new configuration struct.
+            ThemeConfig themeProperties = new ThemeConfig();
+
+            // Read the mod loader configuration.
+            themeProperties.ThemePropertyLocation = LoaderPaths.GetModLoaderThemeDirectory() + "/" + themeDirectory + "/Theme.ini";
+            iniData = iniParser.ReadFile(themeProperties.ThemePropertyLocation);
+
+            // Parse the title properties .
+            TitleProperties titleProperties = new TitleProperties();
+            titleProperties.LoaderTitle = iniData["Title"]["LoaderTitle"];
+            titleProperties.LoaderTitleDelimiter = iniData["Title"]["LoaderTitleDelimiter"];
+            titleProperties.LoaderTitlePrefix = bool.Parse(iniData["Title"]["LoaderTitlePrefix"]);
+            titleProperties.DelimiterHasSpaces = bool.Parse(iniData["Title"]["DelimiterHasSpaces"]);
+            themeProperties.TitleProperties = titleProperties;
+
+            // Parse font style.
+            themeProperties.TitleFontStyle = ParseFontStyle("Title Font");
+            themeProperties.CategoryFontStyle = ParseFontStyle("Category Font");
+            themeProperties.TextFontStyle = ParseFontStyle("Text Font");
+
+            // Parse the border properties.
+            themeProperties.ButtonBorderProperties = new BorderProperties();
+            themeProperties.ButtonBorderProperties.BorderColour = ColourLoader.AARRGGBBToColor(iniData["Border Properties"]["BorderColour"]);
+            themeProperties.ButtonBorderProperties.BorderWidth = Convert.ToInt32(iniData["Border Properties"]["BorderWidth"]);
+
+            // Parse the Main, Title and Category Colours.
+            themeProperties.MainColours = ParseColours("Main Colours");
+            themeProperties.TitleColours = ParseColours("Title Colours");
+            themeProperties.CategoryColours = ParseColours("Category Colours");
+            themeProperties.BoxColours = ParseColours("Box Colours");
+            themeProperties.BorderlessColours = ParseColours("Borderless Colours");
+
+            // Parse the Main, Title and Category Enter and Leave Animations
+            themeProperties.CategoryEnterAnimation = ParseAnimations("Category Button Mouse Enter Animation");
+            themeProperties.CategoryLeaveAnimation = ParseAnimations("Category Button Mouse Leave Animation");
+
+            themeProperties.MainEnterAnimation = ParseAnimations("Main Button Mouse Enter Animation");
+            themeProperties.MainLeaveAnimation = ParseAnimations("Main Button Mouse Leave Animation");
+
+            themeProperties.TitleEnterAnimation = ParseAnimations("Title Button Mouse Enter Animation");
+            themeProperties.TitleLeaveAnimation = ParseAnimations("Title Button Mouse Leave Animation");
+
+            themeProperties.BoxEnterAnimation = ParseAnimations("Box Mouse Enter Animation");
+            themeProperties.BoxLeaveAnimation = ParseAnimations("Box Mouse Leave Animation");
+
+            themeProperties.BorderlessEnterAnimation = ParseAnimations("Borderless Mouse Enter Animation");
+            themeProperties.BorderlessLeaveAnimation = ParseAnimations("Borderless Mouse Leave Animation");
+
+            // Return the config file.
+            return themeProperties;
+        }
+
+        /// <summary>
+        /// Parses the BarColours struct of colours for a certain item/section inside the .ini file.
+        /// BarColours defines button colours, text colours and background colours.
+        /// </summary>
+        /// <param name="iniCategoryTitleName">The category name inside the .ini file storing the properties for <X> type of objects. e.g. Main Colours, Category Colours</param>
+        private BarColours ParseColours(string iniCategoryTitleName)
+        {
+            // Store the colours.
+            BarColours colours = new BarColours();
+
+            // Parse the colours.
+            colours.BGColour = ColourLoader.AARRGGBBToColor(iniData[iniCategoryTitleName]["BGColour"]);
+            colours.ButtonBGColour = ColourLoader.AARRGGBBToColor(iniData[iniCategoryTitleName]["ButtonBGColour"]);
+            colours.TextColour = ColourLoader.AARRGGBBToColor(iniData[iniCategoryTitleName]["TextColour"]);
+
+            // Return
+            return colours;
+        }
+
+        /// <summary>
+        /// Parses the FontStyle struct of font style properties for a certain item/section inside the .ini file.
+        /// FontStyle defines the style of the fonts.
+        /// </summary>
+        /// <param name="iniCategoryTitleName">The category inside the .ini file containing the font style. e.g. "Category Font"</param>
+        /// <returns></returns>
+        private FontStyle ParseFontStyle(string iniCategoryTitleName)
+        {
+            // Store font style
+            FontStyle fontStyle = new FontStyle();
+
+            // Parse font style.
+            fontStyle.Underlined = bool.Parse(iniData[iniCategoryTitleName]["FontIsUnderlined"]);
+            fontStyle.Bold = bool.Parse(iniData[iniCategoryTitleName]["FontIsBold"]);
+            fontStyle.Italic = bool.Parse(iniData[iniCategoryTitleName]["FontIsItalic"]);
+            fontStyle.Striked = bool.Parse(iniData[iniCategoryTitleName]["FontIsStriked"]);
+
+            // Return font style.
+            return fontStyle;
+        }
+
+        /// <summary>
+        /// Parses the ButtonMouseAnimation struct of mouse enter/exit kanimations 
+        /// for a certain item/section inside the .ini file.
+        /// </summary>
+        /// <param name="iniCategoryTitleName">The category name inside the .ini file storing the properties for <X> type of objects. e.g. Main Colours, Category Colours</param>
+        private ButtonMouseAnimation ParseAnimations(string iniCategoryTitleName)
+        {
+            // Store the animations.
+            ButtonMouseAnimation animations = new ButtonMouseAnimation();
+
+            // Parse the animation.
+            animations.BlendBGColour = bool.Parse(iniData[iniCategoryTitleName]["BlendBGColour"]);
+            animations.BlendFGColour = bool.Parse(iniData[iniCategoryTitleName]["BlendFGColour"]);
+
+            animations.AnimationDuration = Convert.ToInt32(iniData[iniCategoryTitleName]["AnimationDuration"]);
+            animations.AnimationFramerate = Convert.ToInt32(iniData[iniCategoryTitleName]["AnimationFramerate"]);
+
+            animations.BGTargetColour = ColourLoader.AARRGGBBToColor(iniData[iniCategoryTitleName]["BGTargetColour"]);
+            animations.FGTargetColour = ColourLoader.AARRGGBBToColor(iniData[iniCategoryTitleName]["FGTargetColour"]);
+
+            // Return
+            return animations;
+        }
 
         /// <summary>
         /// Stores all of the general theme colours and properties in question.
@@ -285,137 +416,6 @@ namespace Reloaded.Misc.Config
             /// if BlendFGColour is set to true and the mouse enters the button area.
             /// </summary>
             public Color FGTargetColour;
-        }
-
-        /// <summary>
-        /// Initiates the Theme Colour Parser.
-        /// </summary>
-        public ThemePropertyParser()
-        {
-            iniParser = new FileIniDataParser();
-            iniParser.Parser.Configuration.CommentString = "#";
-        }
-
-        /// <summary>
-        /// Retrieves the Mod Loader Colour Configuration File.
-        /// </summary>
-        /// <param name="themeDirectory">The relative directory of the individual theme to Reloaded-Config/Themes. e.g. Default</param>
-        public ThemeConfig ParseConfig(string themeDirectory)
-        {
-            // Instantiate a new configuration struct.
-            ThemeConfig themeProperties = new ThemeConfig();
-
-            // Read the mod loader configuration.
-            themeProperties.ThemePropertyLocation = LoaderPaths.GetModLoaderThemeDirectory() + "/" + themeDirectory + "/Theme.ini";
-            iniData = iniParser.ReadFile(themeProperties.ThemePropertyLocation);
-
-            // Parse the title properties .
-            TitleProperties titleProperties = new TitleProperties();
-            titleProperties.LoaderTitle = iniData["Title"]["LoaderTitle"];
-            titleProperties.LoaderTitleDelimiter = iniData["Title"]["LoaderTitleDelimiter"];
-            titleProperties.LoaderTitlePrefix = bool.Parse(iniData["Title"]["LoaderTitlePrefix"]);
-            titleProperties.DelimiterHasSpaces = bool.Parse(iniData["Title"]["DelimiterHasSpaces"]);
-            themeProperties.TitleProperties = titleProperties;
-
-            // Parse font style.
-            themeProperties.TitleFontStyle = ParseFontStyle("Title Font");
-            themeProperties.CategoryFontStyle = ParseFontStyle("Category Font");
-            themeProperties.TextFontStyle = ParseFontStyle("Text Font");
-
-            // Parse the border properties.
-            themeProperties.ButtonBorderProperties = new BorderProperties();
-            themeProperties.ButtonBorderProperties.BorderColour = ColourLoader.AARRGGBBToColor(iniData["Border Properties"]["BorderColour"]);
-            themeProperties.ButtonBorderProperties.BorderWidth = Convert.ToInt32(iniData["Border Properties"]["BorderWidth"]);
-
-            // Parse the Main, Title and Category Colours.
-            themeProperties.MainColours = ParseColours("Main Colours");
-            themeProperties.TitleColours = ParseColours("Title Colours");
-            themeProperties.CategoryColours = ParseColours("Category Colours");
-            themeProperties.BoxColours = ParseColours("Box Colours");
-            themeProperties.BorderlessColours = ParseColours("Borderless Colours");
-
-            // Parse the Main, Title and Category Enter and Leave Animations
-            themeProperties.CategoryEnterAnimation = ParseAnimations("Category Button Mouse Enter Animation");
-            themeProperties.CategoryLeaveAnimation = ParseAnimations("Category Button Mouse Leave Animation");
-
-            themeProperties.MainEnterAnimation = ParseAnimations("Main Button Mouse Enter Animation");
-            themeProperties.MainLeaveAnimation = ParseAnimations("Main Button Mouse Leave Animation");
-
-            themeProperties.TitleEnterAnimation = ParseAnimations("Title Button Mouse Enter Animation");
-            themeProperties.TitleLeaveAnimation = ParseAnimations("Title Button Mouse Leave Animation");
-
-            themeProperties.BoxEnterAnimation = ParseAnimations("Box Mouse Enter Animation");
-            themeProperties.BoxLeaveAnimation = ParseAnimations("Box Mouse Leave Animation");
-
-            themeProperties.BorderlessEnterAnimation = ParseAnimations("Borderless Mouse Enter Animation");
-            themeProperties.BorderlessLeaveAnimation = ParseAnimations("Borderless Mouse Leave Animation");
-
-            // Return the config file.
-            return themeProperties;
-        }
-
-        /// <summary>
-        /// Parses the BarColours struct of colours for a certain item/section inside the .ini file.
-        /// BarColours defines button colours, text colours and background colours.
-        /// </summary>
-        /// <param name="iniCategoryTitleName">The category name inside the .ini file storing the properties for <X> type of objects. e.g. Main Colours, Category Colours</param>
-        private BarColours ParseColours(string iniCategoryTitleName)
-        {
-            // Store the colours.
-            BarColours colours = new BarColours();
-
-            // Parse the colours.
-            colours.BGColour = ColourLoader.AARRGGBBToColor(iniData[iniCategoryTitleName]["BGColour"]);
-            colours.ButtonBGColour = ColourLoader.AARRGGBBToColor(iniData[iniCategoryTitleName]["ButtonBGColour"]);
-            colours.TextColour = ColourLoader.AARRGGBBToColor(iniData[iniCategoryTitleName]["TextColour"]);
-
-            // Return
-            return colours;
-        }
-
-        /// <summary>
-        /// Parses the FontStyle struct of font style properties for a certain item/section inside the .ini file.
-        /// FontStyle defines the style of the fonts.
-        /// </summary>
-        /// <param name="iniCategoryTitleName">The category inside the .ini file containing the font style. e.g. "Category Font"</param>
-        /// <returns></returns>
-        private FontStyle ParseFontStyle(string iniCategoryTitleName)
-        {
-            // Store font style
-            FontStyle fontStyle = new FontStyle();
-
-            // Parse font style.
-            fontStyle.Underlined = bool.Parse(iniData[iniCategoryTitleName]["FontIsUnderlined"]);
-            fontStyle.Bold = bool.Parse(iniData[iniCategoryTitleName]["FontIsBold"]);
-            fontStyle.Italic = bool.Parse(iniData[iniCategoryTitleName]["FontIsItalic"]);
-            fontStyle.Striked = bool.Parse(iniData[iniCategoryTitleName]["FontIsStriked"]);
-
-            // Return font style.
-            return fontStyle;
-        }
-
-        /// <summary>
-        /// Parses the ButtonMouseAnimation struct of mouse enter/exit kanimations 
-        /// for a certain item/section inside the .ini file.
-        /// </summary>
-        /// <param name="iniCategoryTitleName">The category name inside the .ini file storing the properties for <X> type of objects. e.g. Main Colours, Category Colours</param>
-        private ButtonMouseAnimation ParseAnimations(string iniCategoryTitleName)
-        {
-            // Store the animations.
-            ButtonMouseAnimation animations = new ButtonMouseAnimation();
-
-            // Parse the animation.
-            animations.BlendBGColour = bool.Parse(iniData[iniCategoryTitleName]["BlendBGColour"]);
-            animations.BlendFGColour = bool.Parse(iniData[iniCategoryTitleName]["BlendFGColour"]);
-
-            animations.AnimationDuration = Convert.ToInt32(iniData[iniCategoryTitleName]["AnimationDuration"]);
-            animations.AnimationFramerate = Convert.ToInt32(iniData[iniCategoryTitleName]["AnimationFramerate"]);
-
-            animations.BGTargetColour = ColourLoader.AARRGGBBToColor(iniData[iniCategoryTitleName]["BGTargetColour"]);
-            animations.FGTargetColour = ColourLoader.AARRGGBBToColor(iniData[iniCategoryTitleName]["FGTargetColour"]);
-
-            // Return
-            return animations;
         }
     }
 }

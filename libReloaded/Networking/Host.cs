@@ -33,37 +33,6 @@ namespace Reloaded.Networking
     public class Host
     {
         /// <summary>
-        /// The socket we will be using to communicate with the clients.
-        /// Should you wish to configure its options, feel free to grab it and replace it.
-        /// </summary>
-        public Socket ServerSocket { get; set; }
-
-        /// <summary>
-        /// Defines a list of the clients that we will be serving!
-        /// </summary>
-        public List<Socket> ClientSockets { get; set; }
-
-        /// <summary>
-        /// The amount of buffer with each sent message.
-        /// </summary>
-        public byte[] Buffer { get; set; }  
-        
-        /// <summary>
-        /// What kind of addresses should we accept. (Loopback for local, Any for external connections)
-        /// </summary>
-        public IPAddress IPAddressType { get; set; }
-
-        /// <summary>
-        /// The port at which the server itself will be hosted.
-        /// </summary>
-        public int Port { get; set; }
-
-        /// <summary>
-        /// The method used alongside the delegate to process the individual bytes of the delegate.
-        /// </summary>
-        public ProcessBytesDelegate ProcessBytesMethod { get; set; }
-
-        /// <summary>
         /// Delegate to allow the hooking class to call the method which would be of choice to the creator/one who set up this class.
         /// </summary>
         public delegate void ProcessBytesDelegate(byte[] data, Socket socket);
@@ -100,6 +69,37 @@ namespace Reloaded.Networking
         }
 
         /// <summary>
+        /// The socket we will be using to communicate with the clients.
+        /// Should you wish to configure its options, feel free to grab it and replace it.
+        /// </summary>
+        public Socket ServerSocket { get; set; }
+
+        /// <summary>
+        /// Defines a list of the clients that we will be serving!
+        /// </summary>
+        public List<Socket> ClientSockets { get; set; }
+
+        /// <summary>
+        /// The amount of buffer with each sent message.
+        /// </summary>
+        public byte[] Buffer { get; set; }
+
+        /// <summary>
+        /// What kind of addresses should we accept. (Loopback for local, Any for external connections)
+        /// </summary>
+        public IPAddress IPAddressType { get; set; }
+
+        /// <summary>
+        /// The port at which the server itself will be hosted.
+        /// </summary>
+        public int Port { get; set; }
+
+        /// <summary>
+        /// The method used alongside the delegate to process the individual bytes of the delegate.
+        /// </summary>
+        public ProcessBytesDelegate ProcessBytesMethod { get; set; }
+
+        /// <summary>
         /// Starts up the websocket server over which communication will occur on.
         /// </summary>
         public void StartServer()
@@ -109,7 +109,7 @@ namespace Reloaded.Networking
             ServerSocket.Listen(100);
 
             // Start accepting connections!
-            ServerSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
+            ServerSocket.BeginAccept(AcceptCallback, null);
         }
 
         /// <summary>
@@ -125,10 +125,10 @@ namespace Reloaded.Networking
             ClientSockets.Add(clientSocket);
             
             // Start receiving data from the client!
-            clientSocket.BeginReceive(Buffer, 0, Buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), clientSocket);
+            clientSocket.BeginReceive(Buffer, 0, Buffer.Length, SocketFlags.None, ReceiveCallback, clientSocket);
             
             // Start accepting new connections again!
-            ServerSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
+            ServerSocket.BeginAccept(AcceptCallback, null);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace Reloaded.Networking
                 ProcessBytesMethod(DataBuffer, SocketX);
 
                 // Accept connections again!
-                SocketX.BeginReceive(Buffer, 0, Buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), SocketX);
+                SocketX.BeginReceive(Buffer, 0, Buffer.Length, SocketFlags.None, ReceiveCallback, SocketX);
             }
             catch { }
         }
@@ -170,13 +170,13 @@ namespace Reloaded.Networking
         public void SendData(MessageStruct message, bool awaitResponse, Socket socket)
         {
             // Convert the message struct into bytes to send.
-            byte[] data = Message.BuildMessage(message);
+            byte[] data = BuildMessage(message);
 
             // Send the serialized message.
             socket.Send(data); // Send serialized Message!
 
             // If we want a response from the client, receive it, copy to a buffer array and send it back to the method delegate linked to the method we want to process the outcome with.
-            if (awaitResponse) { Receive(socket); }
+            if (awaitResponse) Receive(socket);
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace Reloaded.Networking
         public void SendDataRaw(MessageStruct message, Socket socket)
         {
             // Convert the message struct into bytes to send.
-            byte[] data = Message.BuildMessage(message);
+            byte[] data = BuildMessage(message);
 
             // Send the serialized message.
             socket.Send(data); // Send serialized Message!
@@ -240,6 +240,5 @@ namespace Reloaded.Networking
             // Process the received bytes.
             return receiveBuffer;
         }
-
     }
 }

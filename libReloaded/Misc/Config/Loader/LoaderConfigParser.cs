@@ -18,9 +18,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System;
 using IniParser;
 using IniParser.Model;
-using System;
 using static Reloaded.Input.Remapper;
 
 namespace Reloaded.Misc.Config
@@ -30,45 +30,6 @@ namespace Reloaded.Misc.Config
     /// </summary>
     public class LoaderConfigParser
     {
-        /// <summary>
-        /// Stores the ini data read by the ini-parser.
-        /// </summary>
-        private IniData iniData;
-
-        /// <summary>
-        /// Holds an instance of ini-parser used for parsing INI files.
-        /// </summary>
-        private FileIniDataParser iniParser;
-
-        /// <summary>
-        /// Defines a general struct for the Mod Loader Configuration tile.
-        /// </summary>
-        public class Config
-        {
-            /// <summary>
-            /// Specifies the preferred configuration for DirectInput devices.
-            /// Specifies the current configuration type used for DirectInput devices.
-            /// Controllers can be differentiated by product (identical controllers will carry identical config) or...
-            /// Controllers can be differentiated by instance (each controller is unique but also tied to USB port).
-            /// </summary>
-            public DirectInputConfigType DirectInputConfigType { get; set; }
-
-            /// <summary>
-            /// Specifies the preferred overlay mode.
-            /// External overlay draws a window above the current game/process.
-            /// Internal overlay tries to hook onto DirectX process of the game.
-            /// If Internal overlay fails (unimplemented API e.g. OpenGL, DX12), mods
-            /// will attempt to load an external overlay.
-            /// </summary>
-            public PreferredOverlay PreferredOverlay { get; set; }
-
-            /// <summary>
-            /// Specifies the subdirectory containing the current mod loader theme.
-            /// The subdirectory is relative to Reloaded-Config/Themes/
-            /// </summary>
-            public string CurrentTheme { get; set; }
-        }
-
         /// <summary>
         /// Specifies the preferred overlay mode.
         /// External overlay draws a window above the current game/process.
@@ -81,6 +42,16 @@ namespace Reloaded.Misc.Config
             External,
             Internal
         }
+
+        /// <summary>
+        /// Holds an instance of ini-parser used for parsing INI files.
+        /// </summary>
+        private readonly FileIniDataParser iniParser;
+
+        /// <summary>
+        /// Stores the ini data read by the ini-parser.
+        /// </summary>
+        private IniData iniData;
 
         /// <summary>
         /// Instantiates the Loader Config Parser.
@@ -125,6 +96,35 @@ namespace Reloaded.Misc.Config
 
             // Write the file out to disk
             iniParser.WriteFile(LoaderPaths.GetModLoaderConfig(), iniData);
+        }
+
+        /// <summary>
+        /// Defines a general struct for the Mod Loader Configuration tile.
+        /// </summary>
+        public class Config
+        {
+            /// <summary>
+            /// Specifies the preferred configuration for DirectInput devices.
+            /// Specifies the current configuration type used for DirectInput devices.
+            /// Controllers can be differentiated by product (identical controllers will carry identical config) or...
+            /// Controllers can be differentiated by instance (each controller is unique but also tied to USB port).
+            /// </summary>
+            public DirectInputConfigType DirectInputConfigType { get; set; }
+
+            /// <summary>
+            /// Specifies the preferred overlay mode.
+            /// External overlay draws a window above the current game/process.
+            /// Internal overlay tries to hook onto DirectX process of the game.
+            /// If Internal overlay fails (unimplemented API e.g. OpenGL, DX12), mods
+            /// will attempt to load an external overlay.
+            /// </summary>
+            public PreferredOverlay PreferredOverlay { get; set; }
+
+            /// <summary>
+            /// Specifies the subdirectory containing the current mod loader theme.
+            /// The subdirectory is relative to Reloaded-Config/Themes/
+            /// </summary>
+            public string CurrentTheme { get; set; }
         }
     }
 }

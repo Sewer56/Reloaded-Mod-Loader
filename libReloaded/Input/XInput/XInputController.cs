@@ -18,9 +18,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System;
 using Reloaded.Input.DirectInput;
 using SharpDX.XInput;
-using System;
 using static Reloaded.Input.ControllerCommon;
 using static Reloaded.Input.DirectInput.DInputCommon;
 
@@ -44,6 +44,32 @@ namespace Reloaded.Input.XInput
         public const float MAX_TRIGGER_RANGE_XINPUT = 255;
 
         /// <summary>
+        /// Constructor for this class, defines the individual controller.
+        /// </summary>
+        public XInputController(int controllerID)
+        {
+            // Create controller instance and assign controller port.
+            Controller = new Controller((UserIndex)controllerID);
+            ControllerID = controllerID;
+
+            // Instantiate the remapper.
+            Remapper = new Remapper(Remapper.InputDeviceType.XInput, this);
+
+            // Get the controller key binding.
+            Remapper.GetMappings();
+        }
+
+        /// <summary>
+        /// Holds the current instance of the XImput Controller.
+        /// </summary>
+        public Controller Controller { get; set; }
+
+        /// <summary>
+        /// Holds the current instance of the XImput Controller.
+        /// </summary>
+        private State ControllerState { get; set; }
+
+        /// <summary>
         /// Store the individual button mappings structure for this controller.
         /// </summary>
         public ButtonMapping ButtonMapping { get; set; }
@@ -64,35 +90,9 @@ namespace Reloaded.Input.XInput
         public int ControllerID { get; set; }
 
         /// <summary>
-        /// Holds the current instance of the XImput Controller.
-        /// </summary>
-        public SharpDX.XInput.Controller Controller { get; set; }
-
-        /// <summary>
-        /// Holds the current instance of the XImput Controller.
-        /// </summary>
-        private SharpDX.XInput.State ControllerState { get; set; }
-
-        /// <summary>
         /// Provides a control scheme remapper allowing for buttons to be remapped on the fly.
         /// </summary>
         public Remapper Remapper { get; set; }
-
-        /// <summary>
-        /// Constructor for this class, defines the individual controller.
-        /// </summary>
-        public XInputController(int controllerID)
-        {
-            // Create controller instance and assign controller port.
-            Controller = new SharpDX.XInput.Controller((UserIndex)controllerID);
-            ControllerID = controllerID;
-
-            // Instantiate the remapper.
-            Remapper = new Remapper(Remapper.InputDeviceType.XInput, this);
-
-            // Get the controller key binding.
-            Remapper.GetMappings();
-        }
 
         /// <summary>
         /// Waits for the user to move an axis and retrieves the last pressed axis. 
@@ -154,20 +154,6 @@ namespace Reloaded.Input.XInput
         }
 
         /// <summary>
-        /// Returns the current value for a given axis based off of the set axis in the axis mapping entry and the joystick state.
-        /// Performs any necessary additional operations on the axis values based off of the axis configuration.
-        /// </summary>
-        /// <param name="mappingEntry">The mapping entry for the axis defining which axis should be used.</param>
-        public float XInputGetAxisValue(AxisMappingEntry mappingEntry)
-        {
-            // Obtain the raw scaled value (to match XInput range) for the requested axis.
-            int rawValue = GetAxisRawScaledValue(mappingEntry);
-
-            // Process the raw axis value and return.
-            return InputProcessAxisRawValue(rawValue, mappingEntry, true);
-        }
-
-        /// <summary>
         /// Updates the current state of the controller in question, retrieving the current button presses
         /// and axis measurements.
         /// </summary>
@@ -188,19 +174,19 @@ namespace Reloaded.Input.XInput
             GamepadButtonFlags buttonFlags = ControllerState.Gamepad.Buttons;
 
             // Retrieve Controller Button Status.
-            buttons[(int)Controller_Buttons_Generic.Button_A] = (buttonFlags.HasFlag(GamepadButtonFlags.A)) ? true : false;
-            buttons[(int)Controller_Buttons_Generic.Button_B] = (buttonFlags.HasFlag(GamepadButtonFlags.B)) ? true : false;
-            buttons[(int)Controller_Buttons_Generic.Button_X] = (buttonFlags.HasFlag(GamepadButtonFlags.X)) ? true : false;
-            buttons[(int)Controller_Buttons_Generic.Button_Y] = (buttonFlags.HasFlag(GamepadButtonFlags.Y)) ? true : false;
+            buttons[(int)Controller_Buttons_Generic.Button_A] = buttonFlags.HasFlag(GamepadButtonFlags.A) ? true : false;
+            buttons[(int)Controller_Buttons_Generic.Button_B] = buttonFlags.HasFlag(GamepadButtonFlags.B) ? true : false;
+            buttons[(int)Controller_Buttons_Generic.Button_X] = buttonFlags.HasFlag(GamepadButtonFlags.X) ? true : false;
+            buttons[(int)Controller_Buttons_Generic.Button_Y] = buttonFlags.HasFlag(GamepadButtonFlags.Y) ? true : false;
 
-            buttons[(int)Controller_Buttons_Generic.Button_LS] = (buttonFlags.HasFlag(GamepadButtonFlags.LeftThumb)) ? true : false;
-            buttons[(int)Controller_Buttons_Generic.Button_RS] = (buttonFlags.HasFlag(GamepadButtonFlags.RightThumb)) ? true : false;
+            buttons[(int)Controller_Buttons_Generic.Button_LS] = buttonFlags.HasFlag(GamepadButtonFlags.LeftThumb) ? true : false;
+            buttons[(int)Controller_Buttons_Generic.Button_RS] = buttonFlags.HasFlag(GamepadButtonFlags.RightThumb) ? true : false;
 
-            buttons[(int)Controller_Buttons_Generic.Button_LB] = (buttonFlags.HasFlag(GamepadButtonFlags.LeftShoulder)) ? true : false;
-            buttons[(int)Controller_Buttons_Generic.Button_RB] = (buttonFlags.HasFlag(GamepadButtonFlags.RightShoulder)) ? true : false;
+            buttons[(int)Controller_Buttons_Generic.Button_LB] = buttonFlags.HasFlag(GamepadButtonFlags.LeftShoulder) ? true : false;
+            buttons[(int)Controller_Buttons_Generic.Button_RB] = buttonFlags.HasFlag(GamepadButtonFlags.RightShoulder) ? true : false;
 
-            buttons[(int)Controller_Buttons_Generic.Button_Back] = (buttonFlags.HasFlag(GamepadButtonFlags.Back)) ? true : false;
-            buttons[(int)Controller_Buttons_Generic.Button_Start] = (buttonFlags.HasFlag(GamepadButtonFlags.Start)) ? true : false;
+            buttons[(int)Controller_Buttons_Generic.Button_Back] = buttonFlags.HasFlag(GamepadButtonFlags.Back) ? true : false;
+            buttons[(int)Controller_Buttons_Generic.Button_Start] = buttonFlags.HasFlag(GamepadButtonFlags.Start) ? true : false;
             buttons[(int)Controller_Buttons_Generic.Button_Guide] = false;
 
             // Return buttons.
@@ -232,10 +218,10 @@ namespace Reloaded.Input.XInput
                 // Retrieve DPAD Information
                 GamepadButtonFlags buttonFlags = ControllerState.Gamepad.Buttons;
 
-                if (buttonFlags.HasFlag(GamepadButtonFlags.DPadUp)) { controllerInputs.controllerButtons.DPAD_UP = true; }
-                if (buttonFlags.HasFlag(GamepadButtonFlags.DPadLeft)) { controllerInputs.controllerButtons.DPAD_LEFT = true; }
-                if (buttonFlags.HasFlag(GamepadButtonFlags.DPadRight)) { controllerInputs.controllerButtons.DPAD_RIGHT = true; }
-                if (buttonFlags.HasFlag(GamepadButtonFlags.DPadDown)) { controllerInputs.controllerButtons.DPAD_DOWN = true; }
+                if (buttonFlags.HasFlag(GamepadButtonFlags.DPadUp)) controllerInputs.controllerButtons.DPAD_UP = true;
+                if (buttonFlags.HasFlag(GamepadButtonFlags.DPadLeft)) controllerInputs.controllerButtons.DPAD_LEFT = true;
+                if (buttonFlags.HasFlag(GamepadButtonFlags.DPadRight)) controllerInputs.controllerButtons.DPAD_RIGHT = true;
+                if (buttonFlags.HasFlag(GamepadButtonFlags.DPadDown)) controllerInputs.controllerButtons.DPAD_DOWN = true;
 
                 // Retrieve Emulated Keys
                 controllerInputs = GetControllerState_EmulatedKeys(controllerInputs, GetButtons());
@@ -243,6 +229,20 @@ namespace Reloaded.Input.XInput
 
             // Return to base.
             return controllerInputs;
+        }
+
+        /// <summary>
+        /// Returns the current value for a given axis based off of the set axis in the axis mapping entry and the joystick state.
+        /// Performs any necessary additional operations on the axis values based off of the axis configuration.
+        /// </summary>
+        /// <param name="mappingEntry">The mapping entry for the axis defining which axis should be used.</param>
+        public float XInputGetAxisValue(AxisMappingEntry mappingEntry)
+        {
+            // Obtain the raw scaled value (to match XInput range) for the requested axis.
+            int rawValue = GetAxisRawScaledValue(mappingEntry);
+
+            // Process the raw axis value and return.
+            return InputProcessAxisRawValue(rawValue, mappingEntry, true);
         }
 
         /// <summary>
@@ -298,25 +298,30 @@ namespace Reloaded.Input.XInput
             int rawValue = 0;
 
             // Check what the mapping entry is natively within the axis mapping, and obtain the relevant raw inputs.
-            if      (mappingEntry == AxisMapping.leftStickX)  { rawValue = ControllerState.Gamepad.LeftThumbX; }
-            else if (mappingEntry == AxisMapping.leftStickY)  { rawValue = -ControllerState.Gamepad.LeftThumbY; }
-            else if (mappingEntry == AxisMapping.rightStickX) { rawValue = ControllerState.Gamepad.RightThumbX; }
-            else if (mappingEntry == AxisMapping.rightStickY) { rawValue = -ControllerState.Gamepad.RightThumbY; }
-            else if (mappingEntry == AxisMapping.leftTrigger) { rawValue = ControllerState.Gamepad.LeftTrigger; }
-            else if (mappingEntry == AxisMapping.rightTrigger){ rawValue = ControllerState.Gamepad.RightTrigger; }
+            if      (mappingEntry == AxisMapping.leftStickX)
+                rawValue = ControllerState.Gamepad.LeftThumbX;
+            else if (mappingEntry == AxisMapping.leftStickY)
+                rawValue = -ControllerState.Gamepad.LeftThumbY;
+            else if (mappingEntry == AxisMapping.rightStickX)
+                rawValue = ControllerState.Gamepad.RightThumbX;
+            else if (mappingEntry == AxisMapping.rightStickY)
+                rawValue = -ControllerState.Gamepad.RightThumbY;
+            else if (mappingEntry == AxisMapping.leftTrigger)
+                rawValue = ControllerState.Gamepad.LeftTrigger;
+            else if (mappingEntry == AxisMapping.rightTrigger) rawValue = ControllerState.Gamepad.RightTrigger;
 
             // Process the value to DInput Ranges
-            if (!((mappingEntry == AxisMapping.leftTrigger) || (mappingEntry == AxisMapping.rightTrigger)))
+            if (!(mappingEntry == AxisMapping.leftTrigger || mappingEntry == AxisMapping.rightTrigger))
             {
                 // Axis is analog stick.
                 // Scale from -32768-32767 to -100-100
-                rawValue = (int)((rawValue / MAX_ANALOG_STICK_RANGE_XINPUT) * ControllerCommon.AXIS_MAX_VALUE_F);
+                rawValue = (int)(rawValue / MAX_ANALOG_STICK_RANGE_XINPUT * AXIS_MAX_VALUE_F);
             }
             else
             {
                 // Axis is trigger.
                 // Scale from 0-255 to 0-200
-                rawValue = (int)((rawValue / MAX_TRIGGER_RANGE_XINPUT) * ControllerCommon.AXIS_MAX_VALUE_F * (1.0F / DInputManager.TRIGGER_SCALE_FACTOR));
+                rawValue = (int)(rawValue / MAX_TRIGGER_RANGE_XINPUT * AXIS_MAX_VALUE_F * (1.0F / DInputManager.TRIGGER_SCALE_FACTOR));
 
                 // Scale to -100-100 to simulate DInput.
                 rawValue -= 100;
@@ -346,7 +351,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If it is pressed, override the current value to include the flag.
-                if (isPressed) { controllerInputs.controllerButtons.DPAD_DOWN = true; }
+                if (isPressed) controllerInputs.controllerButtons.DPAD_DOWN = true;
             }
             if (EmulationMapping.DPAD_LEFT != BUTTON_NULL)
             {
@@ -357,7 +362,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If it is pressed, override the current value to include the flag.
-                if (isPressed) { controllerInputs.controllerButtons.DPAD_LEFT = true; }
+                if (isPressed) controllerInputs.controllerButtons.DPAD_LEFT = true;
             }
             if (EmulationMapping.DPAD_RIGHT != BUTTON_NULL)
             {
@@ -368,7 +373,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If it is pressed, override the current value to include the flag.
-                if (isPressed) { controllerInputs.controllerButtons.DPAD_RIGHT = true; }
+                if (isPressed) controllerInputs.controllerButtons.DPAD_RIGHT = true;
             }
             if (EmulationMapping.DPAD_UP != BUTTON_NULL)
             {
@@ -379,7 +384,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If it is pressed, override the current value to include the flag.
-                if (isPressed) { controllerInputs.controllerButtons.DPAD_UP = true; }
+                if (isPressed) controllerInputs.controllerButtons.DPAD_UP = true;
             }
             #endregion
 
@@ -394,8 +399,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed)
-                { controllerInputs.leftStick.SetY(controllerInputs.leftStick.GetY() + ControllerCommon.AXIS_MAX_VALUE_F); }
+                if (isPressed) controllerInputs.leftStick.SetY(controllerInputs.leftStick.GetY() + AXIS_MAX_VALUE_F);
             }
 
             if (EmulationMapping.Left_Stick_Left != BUTTON_NULL)
@@ -407,8 +411,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed)
-                { controllerInputs.leftStick.SetX(controllerInputs.leftStick.GetX() - ControllerCommon.AXIS_MAX_VALUE_F); }
+                if (isPressed) controllerInputs.leftStick.SetX(controllerInputs.leftStick.GetX() - AXIS_MAX_VALUE_F);
             }
 
             if (EmulationMapping.Left_Stick_Right != BUTTON_NULL)
@@ -420,8 +423,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed)
-                { controllerInputs.leftStick.SetX(controllerInputs.leftStick.GetX() + ControllerCommon.AXIS_MAX_VALUE_F); }
+                if (isPressed) controllerInputs.leftStick.SetX(controllerInputs.leftStick.GetX() + AXIS_MAX_VALUE_F);
             }
 
             if (EmulationMapping.Left_Stick_Up != BUTTON_NULL)
@@ -433,8 +435,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed)
-                { controllerInputs.leftStick.SetY(controllerInputs.leftStick.GetY() - ControllerCommon.AXIS_MAX_VALUE_F); }
+                if (isPressed) controllerInputs.leftStick.SetY(controllerInputs.leftStick.GetY() - AXIS_MAX_VALUE_F);
             }
             #endregion
 
@@ -449,8 +450,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed)
-                { controllerInputs.rightStick.SetY(controllerInputs.rightStick.GetY() + ControllerCommon.AXIS_MAX_VALUE_F); }
+                if (isPressed) controllerInputs.rightStick.SetY(controllerInputs.rightStick.GetY() + AXIS_MAX_VALUE_F);
             }
 
             if (EmulationMapping.Right_Stick_Left != BUTTON_NULL)
@@ -462,8 +462,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed)
-                { controllerInputs.rightStick.SetX(controllerInputs.rightStick.GetX() - ControllerCommon.AXIS_MAX_VALUE_F); }
+                if (isPressed) controllerInputs.rightStick.SetX(controllerInputs.rightStick.GetX() - AXIS_MAX_VALUE_F);
             }
 
             if (EmulationMapping.Right_Stick_Right != BUTTON_NULL)
@@ -475,8 +474,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed)
-                { controllerInputs.rightStick.SetX(controllerInputs.rightStick.GetX() + ControllerCommon.AXIS_MAX_VALUE_F); }
+                if (isPressed) controllerInputs.rightStick.SetX(controllerInputs.rightStick.GetX() + AXIS_MAX_VALUE_F);
             }
 
             if (EmulationMapping.Right_Stick_Up != BUTTON_NULL)
@@ -488,8 +486,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed)
-                { controllerInputs.rightStick.SetY(controllerInputs.rightStick.GetY() - ControllerCommon.AXIS_MAX_VALUE_F); }
+                if (isPressed) controllerInputs.rightStick.SetY(controllerInputs.rightStick.GetY() - AXIS_MAX_VALUE_F);
             }
             #endregion
 
@@ -504,8 +501,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed)
-                { controllerInputs.SetRightTriggerPressure(ControllerCommon.AXIS_MAX_VALUE_F / DInputManager.TRIGGER_SCALE_FACTOR); }
+                if (isPressed) controllerInputs.SetRightTriggerPressure(AXIS_MAX_VALUE_F / DInputManager.TRIGGER_SCALE_FACTOR);
             }
 
             if (EmulationMapping.Left_Trigger != BUTTON_NULL)
@@ -517,8 +513,7 @@ namespace Reloaded.Input.XInput
                 bool isPressed = buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed)
-                { controllerInputs.SetLeftTriggerPressure(ControllerCommon.AXIS_MAX_VALUE_F / DInputManager.TRIGGER_SCALE_FACTOR); }
+                if (isPressed) controllerInputs.SetLeftTriggerPressure(AXIS_MAX_VALUE_F / DInputManager.TRIGGER_SCALE_FACTOR);
             }
             #endregion
 

@@ -18,10 +18,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Networking;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Reloaded.Networking;
 
 namespace Reloaded.Hooking
 {
@@ -113,6 +113,5 @@ namespace Reloaded.Hooking
             // Write our payload which will be redirected to using activate and deactivate hook!
             Marshal.Copy(newInstructionBytes, 0, newInstructionAddress, newInstructionBytes.Length);
         }
-
     }
 }

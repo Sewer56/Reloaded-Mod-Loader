@@ -32,6 +32,23 @@ namespace Reloaded.IO
     public static class RelativePaths
     {
         /// <summary>
+        /// Specifies the method by which files are meant to be copied for copy operations.
+        /// Files can either be literally copied with their data being copied or a hardlink 
+        /// (think something like a pointer to the actual file data on the hard drive, and you're just copying the reference to where the data is stored).
+        /// </summary>
+        public enum FileCopyMethod
+        {
+            /// <summary>
+            /// Copies the files, literally from A to B.
+            /// </summary>
+            Copy,
+            /// <summary>
+            /// Creates a hardlink from target A to destination B, both A & B still point to the same physical data on the hard disk.
+            /// </summary>
+            Hardlink
+        }
+
+        /// <summary>
         /// Retrieves the relative paths of all files for the directory currently set.
         /// </summary>
         /// <param name="directory">
@@ -64,8 +81,8 @@ namespace Reloaded.IO
                 string sourcePath = sourceDirectory + relativePath;
 
                 // Confirm source, and target's directory exist.
-                if (! File.Exists(sourcePath)) { continue; }
-                if (! Directory.Exists(Path.GetDirectoryName(targetPath))) { Directory.CreateDirectory(Path.GetDirectoryName(targetPath)); }
+                if (! File.Exists(sourcePath)) continue;
+                if (! Directory.Exists(Path.GetDirectoryName(targetPath))) Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
 
                 // Copy the files from A to B using the specified target method.
                 CopyWithMethod(sourcePath, targetPath, fileCopyMethod);
@@ -102,29 +119,10 @@ namespace Reloaded.IO
 
                     // Try creating hardlink.
                     // If the operation fails, copy the file with replacement.
-                    if (Native.Native.CreateHardLink(targetPath, sourcePath, IntPtr.Zero) == false)
-                    { File.Copy(sourcePath, targetPath, true); }
+                    if (Native.Native.CreateHardLink(targetPath, sourcePath, IntPtr.Zero) == false) File.Copy(sourcePath, targetPath, true);
 
                     break;
             }
         }
-
-        /// <summary>
-        /// Specifies the method by which files are meant to be copied for copy operations.
-        /// Files can either be literally copied with their data being copied or a hardlink 
-        /// (think something like a pointer to the actual file data on the hard drive, and you're just copying the reference to where the data is stored).
-        /// </summary>
-        public enum FileCopyMethod
-        {
-            /// <summary>
-            /// Copies the files, literally from A to B.
-            /// </summary>
-            Copy,
-            /// <summary>
-            /// Creates a hardlink from target A to destination B, both A & B still point to the same physical data on the hard disk.
-            /// </summary>
-            Hardlink
-        }
-
     }
 }

@@ -29,31 +29,8 @@ namespace Reloaded.GameProcess
     /// If the target process is running the administrator, the injector should also be
     /// ran as administrator.
     /// </summary>
-    class DLLInjector
+    internal class DLLInjector
     {
-        /// <summary>
-        /// The name of the function to be executed inside of the target
-        /// process. 
-        /// </summary>
-        public string FunctionToExecute { get; set; }
-
-        /// <summary>
-        /// A handle to the Kernel32 Module, whereby LoadLibraryA is stored.
-        /// </summary>
-        private static IntPtr Kernel32Handle { get; set; }
-
-        /// <summary>
-        /// Pointer to the address of the exported LoadLibraryA function of Kernel32. 
-        /// Allows for loading a specified module into the address space of the calling process. 
-        /// </summary>
-        private static IntPtr LoadLibraryAddress { get; set; }
-
-        /// <summary>
-        /// The handle to the process that is to be injected. The handle can be obtained by 
-        /// Process.Handle for an existing process or found via various other means.
-        /// </summary>
-        private Process Process { get; set; }
-
         /// <summary>
         /// Initializes the DLL Injector of Reloaded Mod Loader.
         /// Once the DLL Injector is initialted, DLL injection may be performed by calling
@@ -82,6 +59,29 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
+        /// The name of the function to be executed inside of the target
+        /// process. 
+        /// </summary>
+        public string FunctionToExecute { get; set; }
+
+        /// <summary>
+        /// A handle to the Kernel32 Module, whereby LoadLibraryA is stored.
+        /// </summary>
+        private static IntPtr Kernel32Handle { get; set; }
+
+        /// <summary>
+        /// Pointer to the address of the exported LoadLibraryA function of Kernel32. 
+        /// Allows for loading a specified module into the address space of the calling process. 
+        /// </summary>
+        private static IntPtr LoadLibraryAddress { get; set; }
+
+        /// <summary>
+        /// The handle to the process that is to be injected. The handle can be obtained by 
+        /// Process.Handle for an existing process or found via various other means.
+        /// </summary>
+        private Process Process { get; }
+
+        /// <summary>
         /// Injects a DLL onto the set target process.
         /// If the target process is running the administrator, the injector should also be
         /// ran as administrator.
@@ -96,7 +96,7 @@ namespace Reloaded.GameProcess
             // Execution within the target process works by creating a thread within the virtual address space of the target process.
             // Our library will now be loaded within the address space of the game/game module to use and ready for us to execute.
             // This means that the game will now be able to access it ;)
-            Libraries.CallLibrary(Process, LoadLibraryAddress, libraryNameMemoryAddress);
+            Process.CallLibrary(LoadLibraryAddress, libraryNameMemoryAddress);
 
             // Get the address of the "Main" function by loading the library into
             // ourselves. The address we will receive should be identical to the address
@@ -104,7 +104,7 @@ namespace Reloaded.GameProcess
             IntPtr mainFunctionAddress = Libraries.GetLibraryFunctionAddress(libraryPath, FunctionToExecute);
 
             // Call our main function within the target executable.
-            Libraries.CallLibrary(Process, mainFunctionAddress, IntPtr.Zero);
+            Process.CallLibrary(mainFunctionAddress, IntPtr.Zero);
         }
 
         /// <summary>

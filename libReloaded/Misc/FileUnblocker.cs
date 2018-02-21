@@ -27,7 +27,7 @@ namespace Reloaded.Misc
     /// with the removal of Zone Identifiers for files such that Zone Information 
     /// is not stored.
     /// </summary>
-    static class FileUnblocker
+    internal static class FileUnblocker
     {
         /// <summary>
         /// Deletes an existing file.
@@ -45,6 +45,5 @@ namespace Reloaded.Misc
         {
             return DeleteFile(fileName + ":Zone.Identifier");
         }
-
     }
 }

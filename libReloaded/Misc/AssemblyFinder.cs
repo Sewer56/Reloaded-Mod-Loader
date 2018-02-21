@@ -50,10 +50,12 @@ namespace Reloaded.Misc
             Assembly assembly;
 
             // Check if the library is present in a static compile.
-            if (File.Exists(localLibraryFolder))  { assembly = Assembly.LoadFrom(localLibraryFolder); }
-            
+            if (File.Exists(localLibraryFolder))
+                assembly = Assembly.LoadFrom(localLibraryFolder);
+
             // Else load it from Reloaded-Libraries. (or not, doesn't matter, program will crash anyway if it doesn't exist)
-            else { assembly = Assembly.LoadFrom(modLoaderLibraryPath); }
+            else
+                assembly = Assembly.LoadFrom(modLoaderLibraryPath);
 
             // Return Assembly
             return assembly;

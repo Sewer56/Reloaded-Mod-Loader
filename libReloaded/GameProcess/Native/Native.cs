@@ -30,6 +30,89 @@ namespace Reloaded.GameProcess
     public class Native
     {
         /// <summary>
+        /// AllocationType
+        ///     Specifies the type of memory allocation to be used alongside functions such as VirtualCommitEx
+        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366890(v=vs.85).aspx
+        /// </summary>
+        [Flags]
+        public enum AllocationType
+        {
+            /// <summary>
+            /// Allocates memory charges (from the overall size of memory and the paging files on disk) 
+            /// for the specified reserved memory pages. The function also guarantees that when the 
+            /// caller later initially accesses the memory, the contents will be zero. 
+            /// </summary>
+            Commit = 0x1000,
+
+            /// <summary>
+            /// Reserves a range of the process's virtual address space without allocating any actual 
+            /// physical storage in memory or in the paging file on disk.
+            /// You commit reserved pages by calling VirtualAllocEx again with MEM_COMMIT.
+            /// </summary>
+            Reserve = 0x2000,
+
+            /// <summary>
+            /// Indicates that data in the memory range specified by lpAddress and dwSize is no longer of interest. 
+            /// The pages should not be read from or written to the paging file.
+            /// However, the memory block will be used again later, so it should not be decommitted. 
+            /// </summary>
+            Reset = 0x80000,
+
+            /// <summary>
+            /// MEM_RESET_UNDO should only be called on an address range to which MEM_RESET was successfully 
+            /// applied earlier. It indicates that the data in the specified memory range specified by lpAddress 
+            /// and dwSize is of interest to the caller and attempts to reverse the effects of MEM_RESET.
+            /// </summary>
+            ResetUndo = 0x1000000,
+
+            /// <summary>
+            /// Allocates memory at the highest possible address. This can be slower than regular allocations, 
+            /// especially when there are many allocations.
+            /// </summary>
+            TopDown = 0x100000
+        }
+
+        /// <summary>
+        /// FreeType
+        ///     The type of free operation. This parameter can be either Decommit or Release.
+        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366894(v=vs.85).aspx
+        /// </summary>
+        [Flags]
+        public enum FreeType
+        {
+            /// <summary>
+            /// Decommits the specified region of committed pages. After the operation, the pages are in the reserved state. 
+            /// </summary>
+            Decommit = 0x4000,
+            /// <summary>
+            /// Releases the specified region of pages. After the operation, the pages are in the free state. 
+            /// </summary>
+            Release = 0x8000
+        }
+
+        /// <summary>
+        /// MemoryProtection
+        ///     Specifies the memory protection constants for the region of pages 
+        ///     to be allocated, referenced or used for a similar purpose.
+        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366786(v=vs.85).aspx
+        /// </summary>
+        [Flags]
+        public enum MemoryProtection
+        {
+            Execute = 0x10,
+            ExecuteRead = 0x20,
+            ExecuteReadWrite = 0x40,
+            ExecuteWriteCopy = 0x80,
+            NoAccess = 0x01,
+            ReadOnly = 0x02,
+            ReadWrite = 0x04,
+            WriteCopy = 0x08,
+            GuardModifierflag = 0x100,
+            NoCacheModifierflag = 0x200,
+            WriteCombineModifierflag = 0x400
+        }
+
+        /// <summary>
         /// LoadLibrary
         ///     Loads the specified module into the address space of the calling process.
         ///     The specified module may cause other modules to be loaded.
@@ -226,88 +309,5 @@ namespace Reloaded.GameProcess
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
-
-        /// <summary>
-        /// MemoryProtection
-        ///     Specifies the memory protection constants for the region of pages 
-        ///     to be allocated, referenced or used for a similar purpose.
-        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366786(v=vs.85).aspx
-        /// </summary>
-        [Flags]
-        public enum MemoryProtection
-        {
-            Execute = 0x10,
-            ExecuteRead = 0x20,
-            ExecuteReadWrite = 0x40,
-            ExecuteWriteCopy = 0x80,
-            NoAccess = 0x01,
-            ReadOnly = 0x02,
-            ReadWrite = 0x04,
-            WriteCopy = 0x08,
-            GuardModifierflag = 0x100,
-            NoCacheModifierflag = 0x200,
-            WriteCombineModifierflag = 0x400
-        }
-
-        /// <summary>
-        /// FreeType
-        ///     The type of free operation. This parameter can be either Decommit or Release.
-        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366894(v=vs.85).aspx
-        /// </summary>
-        [Flags]
-        public enum FreeType
-        {
-            /// <summary>
-            /// Decommits the specified region of committed pages. After the operation, the pages are in the reserved state. 
-            /// </summary>
-            Decommit = 0x4000,
-            /// <summary>
-            /// Releases the specified region of pages. After the operation, the pages are in the free state. 
-            /// </summary>
-            Release = 0x8000,
-        }
-
-        /// <summary>
-        /// AllocationType
-        ///     Specifies the type of memory allocation to be used alongside functions such as VirtualCommitEx
-        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366890(v=vs.85).aspx
-        /// </summary>
-        [Flags]
-        public enum AllocationType
-        {
-            /// <summary>
-            /// Allocates memory charges (from the overall size of memory and the paging files on disk) 
-            /// for the specified reserved memory pages. The function also guarantees that when the 
-            /// caller later initially accesses the memory, the contents will be zero. 
-            /// </summary>
-            Commit = 0x1000,
-
-            /// <summary>
-            /// Reserves a range of the process's virtual address space without allocating any actual 
-            /// physical storage in memory or in the paging file on disk.
-            /// You commit reserved pages by calling VirtualAllocEx again with MEM_COMMIT.
-            /// </summary>
-            Reserve = 0x2000,
-
-            /// <summary>
-            /// Indicates that data in the memory range specified by lpAddress and dwSize is no longer of interest. 
-            /// The pages should not be read from or written to the paging file.
-            /// However, the memory block will be used again later, so it should not be decommitted. 
-            /// </summary>
-            Reset = 0x80000,
-
-            /// <summary>
-            /// MEM_RESET_UNDO should only be called on an address range to which MEM_RESET was successfully 
-            /// applied earlier. It indicates that the data in the specified memory range specified by lpAddress 
-            /// and dwSize is of interest to the caller and attempts to reverse the effects of MEM_RESET.
-            /// </summary>
-            ResetUndo = 0x1000000,
-
-            /// <summary>
-            /// Allocates memory at the highest possible address. This can be slower than regular allocations, 
-            /// especially when there are many allocations.
-            /// </summary>
-            TopDown = 0x100000
-        }
     }
 }

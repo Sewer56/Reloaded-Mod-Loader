@@ -53,7 +53,7 @@ namespace Reloaded.Networking.MessageTypes
             /// Data:               Returns the bytes representing the x86 mnemonics given. 
             /// Notes:              Return data is 100% raw. Not a message struct.
             /// </summary>
-            AssembleX86 = 0x2,
+            AssembleX86 = 0x2
         }
 
         /// <summary>

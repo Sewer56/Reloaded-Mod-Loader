@@ -32,6 +32,11 @@ namespace Reloaded.Input
     public class Hotplugger : NativeWindow
     {
         /// <summary>
+        /// Provides a delegate signature for controller configuration re-parsing.
+        /// </summary>
+        public delegate void GetConnectedControllersDelegate();
+
+        /// <summary>
         /// Message type which is sent to a window (accessible in C# via Message.Msg).
         /// Notifies an application of a change to the hardware configuration of a device or the computer.
         /// </summary>
@@ -50,12 +55,7 @@ namespace Reloaded.Input
         /// <summary>
         /// The constant for HWND_MESSAGE, specify this is a parent to a window to make it a message-only window.
         /// </summary>
-        const long HWND_MESSAGE = -3;
-
-        /// <summary>
-        /// Provides a delegate signature for controller configuration re-parsing.
-        /// </summary>
-        public delegate void GetConnectedControllersDelegate();
+        private const long HWND_MESSAGE = -3;
 
         /// <summary>
         /// Delegate used when a controller is connected or disconnected.
@@ -78,16 +78,16 @@ namespace Reloaded.Input
             CreateParams cp = new CreateParams();
 
             // Specify HWND_MESSAGE in the hwndParent parameter such that the window only receives messages, no rendering, etc.
-            cp.Parent = (IntPtr)(HWND_MESSAGE);
+            cp.Parent = (IntPtr)HWND_MESSAGE;
 
             // Create the handle for the message only window.
-            this.CreateHandle(cp);
+            CreateHandle(cp);
 
             // Adds the specific delegate such that it is ran upon connecting a controller.
             controllerConnectDelegate += (GetConnectedControllersDelegate)methodDelegate;
 
             // Register this window to receive controller connect and disconnect notifications.
-            deviceNotificationDispatcher = new DeviceNotification(this.Handle, false);
+            deviceNotificationDispatcher = new DeviceNotification(Handle, false);
         }
 
         /// <summary>
@@ -106,8 +106,6 @@ namespace Reloaded.Input
         {
             // If the message is a device change event.
             if (message.Msg == WM_DEVICECHANGE)
-            {
-                // Switch on the message code.
                 switch ((int)message.WParam)
                 {
                     // Upon Connecting to a device.
@@ -120,7 +118,6 @@ namespace Reloaded.Input
                         controllerConnectDelegate();
                         break;
                 }
-            }
 
             // Call the original window message procedure for the window. 
             base.WndProc(ref message);
@@ -130,7 +127,7 @@ namespace Reloaded.Input
         /// Allows for listening of individual device changes such as the change in connected controllers.
         /// Registers device notifications to be directed towards the read-only window.
         /// </summary>
-        class DeviceNotification
+        private class DeviceNotification
         {
             /// <summary>
             /// The device type, which determines the event-specific information that follows the first three members.
@@ -152,7 +149,7 @@ namespace Reloaded.Input
             /// <summary>
             /// Specifies a handle to our newly registered device notification to be sent to the specified window.
             /// </summary>
-            private IntPtr notificationHandle; 
+            private readonly IntPtr notificationHandle;
 
             /// <summary>
             /// Constructor. Creates a message-only window to receive notifications when devices are plugged or unplugged and calls a function specified by a delegate.
@@ -241,6 +238,5 @@ namespace Reloaded.Input
                 internal short name;
             }
         }
-
     }
 }

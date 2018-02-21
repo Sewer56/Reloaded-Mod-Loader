@@ -18,14 +18,16 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Input.DirectInput;
-using Reloaded.Input.XInput;
-using Reloaded.Misc;
-using SharpDX.DirectInput;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using Reloaded.Input.DirectInput;
+using Reloaded.Input.XInput;
+using Reloaded.Misc;
+using Reloaded.Misc.Config;
+using SharpDX.DirectInput;
+using SharpDX.XInput;
 using static Reloaded.Input.ControllerCommon;
 
 namespace Reloaded.Input
@@ -38,18 +40,29 @@ namespace Reloaded.Input
     public class Remapper
     {
         /// <summary>
-        /// Retrieves the file name of the controller, specifying
-        /// the name of the file whereby the controller is stored.
+        /// Defines whether a configuration file should be loaded by the instance GUID or
+        /// the product GUID for an individual controller.
         /// </summary>
-        public string GetControllerName
+        public enum DirectInputConfigType
         {
-            get { return Path.GetFileNameWithoutExtension(ConfigurationFileLocation); }
+            /// <summary>
+            /// Differentiate by product (identical controllers will carry identical config).
+            /// </summary>
+            ProductGUID,
+            /// <summary>
+            /// Differentiate by instance (each controller is unique but also tied to USB port).
+            /// </summary>
+            InstanceGUID
         }
 
         /// <summary>
-        /// Specifies the type of the input device which is being remapped.
+        /// Specifies the individual device type for the instantiation of this device.
         /// </summary>
-        public InputDeviceType DeviceType { get; }
+        public enum InputDeviceType
+        {
+            DirectInput,
+            XInput
+        }
 
         /// <summary>
         /// The amount of percent an axis requires to be moved by to register by the remapper.
@@ -66,6 +79,49 @@ namespace Reloaded.Input
         /// Milliseconds in a second. It's not Rocket Science.
         /// </summary>
         private const int MILLISECONDS_IN_SECOND = 1000;
+
+        /// <summary>
+        /// This is the constructor for DirectInput devices. See class description for information
+        /// about this class.
+        /// </summary>
+        /// <param name="deviceType">The type of the device (DirectInput)</param>
+        /// <param name="dInputController">The directInput controller instance.</param>
+        public Remapper(InputDeviceType deviceType, DInputController dInputController)
+        {
+            DeviceType = deviceType;
+            Controller = dInputController;
+
+            // Retrieve the configuration location.
+            GetConfigLocation(dInputController);
+        }
+
+        /// <summary>
+        /// The Remapper class provides the means of loading and saving individual configurations for
+        /// each DirectInput and XInput Device in question.
+        /// Separate implementations are provided for both DirectInput and XInput.
+        /// </summary>
+        /// <param name="deviceType">The type of the device (XInput)</param>
+        /// <param name="xInputController">The directInput controller instance.</param>
+        public Remapper(InputDeviceType deviceType, XInputController xInputController)
+        {
+            DeviceType = deviceType;
+            Controller = xInputController;
+            XInputPort = xInputController.ControllerID;
+
+            // Retrieve the configuration location.
+            GetConfigLocation(null);
+        }
+
+        /// <summary>
+        /// Retrieves the file name of the controller, specifying
+        /// the name of the file whereby the controller is stored.
+        /// </summary>
+        public string GetControllerName => Path.GetFileNameWithoutExtension(ConfigurationFileLocation);
+
+        /// <summary>
+        /// Specifies the type of the input device which is being remapped.
+        /// </summary>
+        public InputDeviceType DeviceType { get; }
 
         /// <summary>
         /// Instance of the controller configurator parser allowing for controller configurations
@@ -96,64 +152,7 @@ namespace Reloaded.Input
         /// Stores the instance of a DirectInput controller used for
         /// remapping DirectInput devices specifically.
         /// </summary>
-        private IController Controller { get; set; }
-
-        /// <summary>
-        /// Specifies the individual device type for the instantiation of this device.
-        /// </summary>
-        public enum InputDeviceType
-        {
-            DirectInput,
-            XInput
-        }
-
-        /// <summary>
-        /// Defines whether a configuration file should be loaded by the instance GUID or
-        /// the product GUID for an individual controller.
-        /// </summary>
-        public enum DirectInputConfigType
-        {
-            /// <summary>
-            /// Differentiate by product (identical controllers will carry identical config).
-            /// </summary>
-            ProductGUID,
-            /// <summary>
-            /// Differentiate by instance (each controller is unique but also tied to USB port).
-            /// </summary>
-            InstanceGUID
-        }
-
-        /// <summary>
-        /// This is the constructor for DirectInput devices. See class description for information
-        /// about this class.
-        /// </summary>
-        /// <param name="deviceType">The type of the device (DirectInput)</param>
-        /// <param name="dInputController">The directInput controller instance.</param>
-        public Remapper(InputDeviceType deviceType, DInputController dInputController)
-        {
-            this.DeviceType = deviceType;
-            this.Controller = dInputController;
-
-            // Retrieve the configuration location.
-            GetConfigLocation(dInputController);
-        }
-
-        /// <summary>
-        /// The Remapper class provides the means of loading and saving individual configurations for
-        /// each DirectInput and XInput Device in question.
-        /// Separate implementations are provided for both DirectInput and XInput.
-        /// </summary>
-        /// <param name="deviceType">The type of the device (XInput)</param>
-        /// <param name="xInputController">The directInput controller instance.</param>
-        public Remapper(InputDeviceType deviceType, XInputController xInputController)
-        {
-            this.DeviceType = deviceType;
-            this.Controller = xInputController;
-            this.XInputPort = xInputController.ControllerID;
-
-            // Retrieve the configuration location.
-            GetConfigLocation(null);
-        }
+        private IController Controller { get; }
 
         /// <summary>
         /// Retrieves the configuration file location for the individual controller.
@@ -162,8 +161,8 @@ namespace Reloaded.Input
         private void GetConfigLocation(DInputController dInputController)
         {
             // Get Configuration Details
-            Misc.Config.LoaderConfigParser loaderConfigParser = new Misc.Config.LoaderConfigParser();
-            Misc.Config.LoaderConfigParser.Config config = loaderConfigParser.ParseConfig();
+            LoaderConfigParser loaderConfigParser = new LoaderConfigParser();
+            LoaderConfigParser.Config config = loaderConfigParser.ParseConfig();
 
             // Instantiate Controller Config Parser
             ConfigParser = new ControllerConfigParser();
@@ -176,13 +175,8 @@ namespace Reloaded.Input
             {
                 // If InstanceGUID or ProductGUID.
                 if (ConfigType == DirectInputConfigType.InstanceGUID)
-                {
                     ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/Instances/" + dInputController.Information.InstanceGuid + ".ini";
-                }
-                else if (ConfigType == DirectInputConfigType.ProductGUID)
-                {
-                    ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/" + dInputController.Information.ProductName + ".ini";
-                }
+                else if (ConfigType == DirectInputConfigType.ProductGUID) ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/" + dInputController.Information.ProductName + ".ini";
             }
             else if (DeviceType == InputDeviceType.XInput)
             {
@@ -221,9 +215,11 @@ namespace Reloaded.Input
             Type controllerType = Controller.GetType();
 
             // If it's a DirectInput controller.
-            if (controllerType == typeof(DInputController)) { return DInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry, ref cancellationToken); }
-            else if (controllerType == typeof(XInputController)) { return XInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry, ref cancellationToken); }
-            else { currentTimeout = 0; return false; } // Not DInput or XInput
+            if (controllerType == typeof(DInputController)) return DInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry, ref cancellationToken);
+
+            if (controllerType == typeof(XInputController)) return XInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry, ref cancellationToken);
+
+            currentTimeout = 0; return false;
         }
 
         /// <summary>
@@ -242,11 +238,11 @@ namespace Reloaded.Input
             JoystickState joystickState = dInputController.GetCurrentState();
 
             // Initialize Timeout
-            int pollAttempts = (timeoutSeconds * MILLISECONDS_IN_SECOND) / SLEEP_TIME_POLLING;
+            int pollAttempts = timeoutSeconds * MILLISECONDS_IN_SECOND / SLEEP_TIME_POLLING;
             int pollCounter = 0;
             
             // Get % Change for recognition of input.
-            int percentDelta = (int)((DInputManager.AXIS_MAX_VALUE / 100.0F) * PERCENTAGE_AXIS_DELTA);
+            int percentDelta = (int)(DInputManager.AXIS_MAX_VALUE / 100.0F * PERCENTAGE_AXIS_DELTA);
 
             // If the axis is relative, instead set the delta very low, as relative acceleration based inputs cannot be scaled to a range.
             if (dInputController.Properties.AxisMode == DeviceAxisMode.Relative)
@@ -256,9 +252,7 @@ namespace Reloaded.Input
 
                 // Additionally reset every property.
                 foreach (PropertyInfo propertyInfo in stateType.GetProperties())
-                {
-                    if (propertyInfo.PropertyType == typeof(int)) { propertyInfo.SetValue(joystickState, 0); }
-                }
+                    if (propertyInfo.PropertyType == typeof(int)) propertyInfo.SetValue(joystickState, 0);
             }
 
             // Poll the controller properties.
@@ -269,22 +263,22 @@ namespace Reloaded.Input
 
                 // Iterate over all properties.
                 foreach (PropertyInfo propertyInfo in stateType.GetProperties())
-                {
-                    // If the property type is an integer. (This covers, nearly all possible axis readings and all in common controllers.)
+                // If the property type is an integer. (This covers, nearly all possible axis readings and all in common controllers.)
                     if (propertyInfo.PropertyType == typeof(int))
                     {
                         // Calculate the change of value from last time.
                         int valueDelta = (int)propertyInfo.GetValue(joystickState) - (int)propertyInfo.GetValue(joystickStateNew);
 
                         // If the value has changed over X amount
-                        if (valueDelta < (-1 * percentDelta) )
+                        if (valueDelta < -1 * percentDelta )
                         {
                             //mappingEntry.isReversed = true;
                             mappingEntry.propertyName = propertyInfo.Name;
                             currentTimeout = 0;
                             return true;
                         }
-                        else if (valueDelta > percentDelta)
+
+                        if (valueDelta > percentDelta)
                         {
                             //mappingEntry.isReversed = false;
                             mappingEntry.propertyName = propertyInfo.Name;
@@ -292,14 +286,13 @@ namespace Reloaded.Input
                             return true;
                         }
                     }
-                }
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
-                currentTimeout = (float)timeoutSeconds - ( (pollCounter * SLEEP_TIME_POLLING) / (float)MILLISECONDS_IN_SECOND);
+                currentTimeout = timeoutSeconds - pollCounter * SLEEP_TIME_POLLING / (float)MILLISECONDS_IN_SECOND;
 
                 // Check exit condition
-                if (cancellationToken) { return false; }
+                if (cancellationToken) return false;
 
                 // Sleep
                 Thread.Sleep(SLEEP_TIME_POLLING);
@@ -321,21 +314,21 @@ namespace Reloaded.Input
             XInputController xInputController = (XInputController)Controller;
 
             // Retrieve Joystick State
-            SharpDX.XInput.State joystickState = xInputController.Controller.GetState();
+            State joystickState = xInputController.Controller.GetState();
 
             // Initialize Timeout
-            int pollAttempts = (timeoutSeconds * MILLISECONDS_IN_SECOND) / SLEEP_TIME_POLLING;
+            int pollAttempts = timeoutSeconds * MILLISECONDS_IN_SECOND / SLEEP_TIME_POLLING;
             int pollCounter = 0;
 
             // Get % Change for recognition of input.
-            int percentDelta = (int)((XInputController.MAX_ANALOG_STICK_RANGE_XINPUT / 100.0F) * PERCENTAGE_AXIS_DELTA);
-            int percentDeltaTrigger = (int)((XInputController.MAX_TRIGGER_RANGE_XINPUT / 100.0F) * PERCENTAGE_AXIS_DELTA);
+            int percentDelta = (int)(XInputController.MAX_ANALOG_STICK_RANGE_XINPUT / 100.0F * PERCENTAGE_AXIS_DELTA);
+            int percentDeltaTrigger = (int)(XInputController.MAX_TRIGGER_RANGE_XINPUT / 100.0F * PERCENTAGE_AXIS_DELTA);
 
             // Poll the controller properties.
             while (pollCounter < pollAttempts)
             {
                 // Get new JoystickState
-                SharpDX.XInput.State joystickStateNew = xInputController.Controller.GetState();
+                State joystickStateNew = xInputController.Controller.GetState();
 
                 // Get Deltas (Differences)
                 int leftStickX = joystickState.Gamepad.LeftThumbX - joystickStateNew.Gamepad.LeftThumbX;
@@ -346,30 +339,36 @@ namespace Reloaded.Input
                 int rightTrigger = joystickState.Gamepad.RightTrigger - joystickStateNew.Gamepad.RightTrigger;
 
                 // Iterate over all axis.
-                if (leftStickX < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Stick_X; currentTimeout = 0; return true; }
-                else if (leftStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Stick_X; currentTimeout = 0; return true; }
+                if (leftStickX < -1 * percentDelta) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Stick_X; currentTimeout = 0; return true; }
 
-                if (rightStickX < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_X; currentTimeout = 0; return true; }
-                else if (rightStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_X; currentTimeout = 0; return true; }
+                if (leftStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Stick_X; currentTimeout = 0; return true; }
 
-                if (leftStickY < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Stick_Y; currentTimeout = 0; return true; }
-                else if (leftStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Stick_Y; currentTimeout = 0; return true; }
+                if (rightStickX < -1 * percentDelta) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_X; currentTimeout = 0; return true; }
 
-                if (rightStickY < (-1 * percentDelta)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return true; }
-                else if (rightStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return true; }
+                if (rightStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_X; currentTimeout = 0; return true; }
 
-                if (leftTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Trigger; currentTimeout = 0; return true; }
-                else if (leftTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Trigger; currentTimeout = 0; return true; }
+                if (leftStickY < -1 * percentDelta) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Stick_Y; currentTimeout = 0; return true; }
 
-                if (rightTrigger < (-1 * percentDeltaTrigger)) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Trigger; currentTimeout = 0; return true; }
-                else if (rightTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Trigger; currentTimeout = 0; return true; }
+                if (leftStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Stick_Y; currentTimeout = 0; return true; }
+
+                if (rightStickY < -1 * percentDelta) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return true; }
+
+                if (rightStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return true; }
+
+                if (leftTrigger < -1 * percentDeltaTrigger) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Trigger; currentTimeout = 0; return true; }
+
+                if (leftTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Trigger; currentTimeout = 0; return true; }
+
+                if (rightTrigger < -1 * percentDeltaTrigger) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Trigger; currentTimeout = 0; return true; }
+
+                if (rightTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Trigger; currentTimeout = 0; return true; }
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
-                currentTimeout = (float)timeoutSeconds - ((pollCounter * SLEEP_TIME_POLLING) / MILLISECONDS_IN_SECOND);
+                currentTimeout = (float)timeoutSeconds - pollCounter * SLEEP_TIME_POLLING / MILLISECONDS_IN_SECOND;
 
                 // Check exit condition
-                if (cancellationToken) { return false; }
+                if (cancellationToken) return false;
 
                 // Sleep
                 Thread.Sleep(SLEEP_TIME_POLLING);
@@ -395,9 +394,11 @@ namespace Reloaded.Input
             Type controllerType = Controller.GetType();
 
             // If it's a DirectInput controller.
-            if (controllerType == typeof(DInputController)) { return DInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap, ref cancellationToken); }
-            else if (controllerType == typeof(XInputController)) { return XInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap, ref cancellationToken); }
-            else { currentTimeout = 0; return false; }
+            if (controllerType == typeof(DInputController)) return DInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap, ref cancellationToken);
+
+            if (controllerType == typeof(XInputController)) return XInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap, ref cancellationToken);
+
+            currentTimeout = 0; return false;
         }
 
 
@@ -418,9 +419,9 @@ namespace Reloaded.Input
             JoystickState joystickState = dInputController.GetCurrentState();
 
             // Initialize Timeout
-            int pollAttempts = (timeoutSeconds * MILLISECONDS_IN_SECOND) / SLEEP_TIME_POLLING;
+            int pollAttempts = timeoutSeconds * MILLISECONDS_IN_SECOND / SLEEP_TIME_POLLING;
             int pollCounter = 0;
-            int percentDelta = (int)((DInputManager.AXIS_MAX_VALUE / 100.0F) * PERCENTAGE_AXIS_DELTA);
+            int percentDelta = (int)(DInputManager.AXIS_MAX_VALUE / 100.0F * PERCENTAGE_AXIS_DELTA);
 
             // Poll the controller properties.
             while (pollCounter < pollAttempts)
@@ -430,7 +431,6 @@ namespace Reloaded.Input
 
                 // Iterate over all buttons.
                 for (int x = 0; x < joystickState.Buttons.Length; x++)
-                {
                     if (joystickState.Buttons[x] != joystickStateNew.Buttons[x])
                     {
                         // Retrieve the button mapping.
@@ -448,14 +448,13 @@ namespace Reloaded.Input
                         // Return
                         return true;
                     }
-                }
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
-                currentTimeout = (float)timeoutSeconds - ((pollCounter * SLEEP_TIME_POLLING) / (float)MILLISECONDS_IN_SECOND);
+                currentTimeout = timeoutSeconds - pollCounter * SLEEP_TIME_POLLING / (float)MILLISECONDS_IN_SECOND;
 
                 // Check exit condition
-                if (cancellationToken) { return false; }
+                if (cancellationToken) return false;
 
                 // Sleep
                 Thread.Sleep(SLEEP_TIME_POLLING);
@@ -483,9 +482,9 @@ namespace Reloaded.Input
             bool[] buttonState = xInputController.GetButtons();
 
             // Initialize Timeout
-            int pollAttempts = (timeoutSeconds * MILLISECONDS_IN_SECOND) / SLEEP_TIME_POLLING;
+            int pollAttempts = timeoutSeconds * MILLISECONDS_IN_SECOND / SLEEP_TIME_POLLING;
             int pollCounter = 0;
-            int percentDelta = (int)((DInputManager.AXIS_MAX_VALUE / 100.0F) * PERCENTAGE_AXIS_DELTA);
+            int percentDelta = (int)(DInputManager.AXIS_MAX_VALUE / 100.0F * PERCENTAGE_AXIS_DELTA);
 
             // Poll the controller properties.
             while (pollCounter < pollAttempts)
@@ -495,7 +494,6 @@ namespace Reloaded.Input
 
                 // Iterate over all buttons.
                 for (int x = 0; x < buttonStateNew.Length; x++)
-                {
                     if (buttonState[x] != buttonStateNew[x])
                     {
                         // Retrieve the button mapping.
@@ -513,14 +511,13 @@ namespace Reloaded.Input
                         // Return
                         return true;
                     }
-                }
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
-                currentTimeout = (float)timeoutSeconds - ((pollCounter * SLEEP_TIME_POLLING) / (float)MILLISECONDS_IN_SECOND);
+                currentTimeout = timeoutSeconds - pollCounter * SLEEP_TIME_POLLING / (float)MILLISECONDS_IN_SECOND;
 
                 // Check exit condition
-                if (cancellationToken) { return false; }
+                if (cancellationToken) return false;
 
                 // Sleep
                 Thread.Sleep(SLEEP_TIME_POLLING);

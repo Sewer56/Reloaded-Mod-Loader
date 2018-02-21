@@ -119,10 +119,11 @@ namespace Reloaded.Input.DirectInput
         private static int GetAxisRawValue(AxisMappingEntry mappingEntry, JoystickState joystickState)
         {
             // If axis source is null, and the axis is a trigger, return minimum float.
-            if (mappingEntry.propertyName == "Null" && (mappingEntry.axis == ControllerAxis.Left_Trigger || mappingEntry.axis == ControllerAxis.Right_Trigger)) { return DInputManager.AXIS_MIN_VALUE; }
+            if (mappingEntry.propertyName == "Null" && (mappingEntry.axis == ControllerAxis.Left_Trigger || mappingEntry.axis == ControllerAxis.Right_Trigger))
+                return DInputManager.AXIS_MIN_VALUE;
 
             // Else return 0 if the axis source is null.
-            else if (mappingEntry.propertyName == "Null") { return 0; }
+            if (mappingEntry.propertyName == "Null") return 0;
 
             // Return the appropriately mapped axis!
             return (int)Reflection_GetValue(joystickState, mappingEntry.propertyName); 
