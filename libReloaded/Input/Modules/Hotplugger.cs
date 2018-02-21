@@ -29,7 +29,7 @@ namespace Reloaded.Input
     /// connections and disconnections. A specific delegate is ran upon device connection and disconnection.
     /// Within the loader, all controllers and input devices are re-evaluated upon device removal or insertion. Their configurations reloaded (if necessary).
     /// </summary>
-    class Hotplugger : NativeWindow
+    public class Hotplugger : NativeWindow
     {
         /// <summary>
         /// Message type which is sent to a window (accessible in C# via Message.Msg).

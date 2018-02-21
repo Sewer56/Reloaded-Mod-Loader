@@ -10,7 +10,7 @@ namespace Reloaded.Input
     /// <summary>
     /// Provides the management of XInput and DInput controllers, loading all of the controllers and receiving + handling input for each controller.
     /// </summary>
-    class ControllerManager
+    public class ControllerManager
     {
         /// <summary>
         /// Manages all currently connected DirectInput devices.
