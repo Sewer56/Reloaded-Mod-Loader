@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Reloaded-Launcher\bin\Project-Reloaded\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,14 +26,18 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Reloaded-Launcher\bin\Project-Reloaded\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Colorful.Console, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Colorful.Console.1.2.6\lib\net461\Colorful.Console.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,11 +46,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Terminal\ConsoleFunctions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Terminal\Information\Banner.cs" />
+    <Compile Include="Terminal\Information\Controllers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Libraries\" />
+    <Folder Include="Networking\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>MOVE /Y "$(TargetDir)*.dll" "$(TargetDir)Reloaded-Libraries\"
+MOVE /Y "$(TargetDir)*.xml" "$(TargetDir)Reloaded-Libraries\"
+MOVE /Y "$(TargetDir)*.xml" "$(TargetDir)Reloaded-Libraries\"
+DEL "$(TargetDir)Reloaded-Libraries\*.xml"
+DEL "$(TargetDir)Microsoft.WindowsAPICodePack.pdb"
+DEL "$(TargetDir)Microsoft.WindowsAPICodePack.Shell.pdb"
+DEL "$(TargetDir)Microsoft.WindowsAPICodePack.ShellExtensions.pdb"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
