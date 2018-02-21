@@ -18,9 +18,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using Reloaded.Native;
 using SharpDX.Direct2D1;
 using SharpDX.DXGI;
-using Reloaded.Native;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
