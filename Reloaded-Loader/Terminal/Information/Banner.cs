@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Colorful;
+﻿using Colorful;
+using System;
 using Console = Colorful.Console;
 
 namespace Reloaded_Loader.Terminal.Information

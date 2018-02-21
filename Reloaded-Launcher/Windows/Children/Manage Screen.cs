@@ -19,8 +19,6 @@
 */
 
 using Microsoft.WindowsAPICodePack.Dialogs;
-using Reloaded.Misc;
-using Reloaded.Misc.Config;
 using ReloadedLauncher.Styles.Themes;
 using ReloadedLauncher.Utilities.Controls;
 using System;

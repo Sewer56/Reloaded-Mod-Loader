@@ -18,14 +18,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Input;
 using ReloadedLauncher.Utilities.Controls;
 using ReloadedLauncher.Windows.Children.Dialogs;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Reloaded.Input.ControllerCommon;
 
 namespace ReloadedLauncher.Windows.Children
 {

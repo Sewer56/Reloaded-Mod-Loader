@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Reloaded_Loader.Terminal.Information
+﻿namespace Reloaded_Loader.Terminal.Information
 {
     /// <summary>
     /// Provides various utility methods pertaining to retrieval of controller details via the use of the mod loader

@@ -1,12 +1,10 @@
-﻿using Reloaded.Native;
-using ReloadedLauncher.Styles.Themes;
+﻿using ReloadedLauncher.Styles.Themes;
 using ReloadedLauncher.Utilities.Windows;
 using ReloadedLauncher.Windows.Children;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using static Reloaded.Misc.Config.ThemePropertyParser;
 
 namespace ReloadedLauncher
 {

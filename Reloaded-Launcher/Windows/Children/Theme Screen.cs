@@ -18,7 +18,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Misc.Config;
 using ReloadedLauncher.Styles.Themes;
 using ReloadedLauncher.Utilities.Controls;
 using System;

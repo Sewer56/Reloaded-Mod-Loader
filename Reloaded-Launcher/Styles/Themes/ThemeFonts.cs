@@ -18,7 +18,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Misc.Config;
 using ReloadedLauncher.Utilities.Fonts;
 using System.Drawing;
 using System.IO;

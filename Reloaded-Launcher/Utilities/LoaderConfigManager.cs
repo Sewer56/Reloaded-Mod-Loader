@@ -18,8 +18,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Misc;
-using Reloaded.Misc.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
