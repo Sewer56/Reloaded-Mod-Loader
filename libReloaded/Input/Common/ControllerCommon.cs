@@ -423,6 +423,12 @@ namespace Reloaded.Input
             void UpdateControllerState();
 
             /// <summary>
+            /// Retrieves true if the input device is connected, else false.
+            /// </summary>
+            /// <returns>Retrieves true if the input device is connected, else false.</returns>
+            bool IsConnected();
+
+            /// <summary>
             /// Waits for the user to move an axis and retrieves the last pressed axis. 
             /// Accepts any axis as input. Returns the read-in axis.
             /// </summary>

@@ -95,6 +95,11 @@ namespace Reloaded.Input.XInput
         public Remapper Remapper { get; set; }
 
         /// <summary>
+        /// Returns true if the XInput Controller is connected.
+        /// </summary>
+        public bool IsConnected() { return Controller.IsConnected; }
+
+        /// <summary>
         /// Waits for the user to move an axis and retrieves the last pressed axis. 
         /// Accepts any axis as input. Returns the read-in axis.
         /// </summary>

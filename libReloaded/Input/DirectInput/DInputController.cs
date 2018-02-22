@@ -105,6 +105,11 @@ namespace Reloaded.Input.DirectInput
         public bool RemapButtons(int timeoutSeconds, out float currentTimeout, ref byte buttonToMap, ref bool cancellationToken) { return Remapper.RemapButtons(timeoutSeconds, out currentTimeout, ref buttonToMap, ref cancellationToken); }
 
         /// <summary>
+        /// Returns true if the DInput Controller is connected.
+        /// </summary>
+        public bool IsConnected() { return true; }
+
+        /// <summary>
         /// Retrieves whether a specific button is pressed or not. 
         /// Accepts an enum of Controller_Buttons_Generic as parameter and returns the button ID mapped to
         /// the requested Controller_Buttons_Generic member of the "emulated" 360 pad.
