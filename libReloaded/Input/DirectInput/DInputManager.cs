@@ -151,16 +151,16 @@ namespace Reloaded.Input.DirectInput
 
             // Acquire and initialize each device.
             foreach (DeviceInstance DInputDevice in DInputDevices)
-            // Filter devices to initialize by type.
-                if (DInputDevice.Type == DeviceType.Joystick)
-                    dInputControllers.Add(SetupController(DInputDevice));
-                else if (DInputDevice.Type == DeviceType.Gamepad)
-                    dInputControllers.Add(SetupController(DInputDevice));
-                else if (DInputDevice.Type == DeviceType.Keyboard)
-                    dInputControllers.Add(SetupController(DInputDevice));
 
-                // TODO: Mouse Axis Support
-                else if (DInputDevice.Type == DeviceType.Mouse) dInputControllers.Add(SetupController(DInputDevice));
+            // Filter devices to initialize by type.
+            if (DInputDevice.Type == DeviceType.Joystick)
+                dInputControllers.Add(SetupController(DInputDevice));
+            else if (DInputDevice.Type == DeviceType.Gamepad)
+                dInputControllers.Add(SetupController(DInputDevice));
+            else if (DInputDevice.Type == DeviceType.Keyboard)
+                dInputControllers.Add(SetupController(DInputDevice));
+            else if (DInputDevice.Type == DeviceType.Mouse)
+                dInputControllers.Add(SetupController(DInputDevice));
         }
 
         /// <summary>
@@ -173,7 +173,8 @@ namespace Reloaded.Input.DirectInput
             DInputController dInputController = new DInputController(directInputAdapter, DInputDevice.InstanceGuid);
 
             // If the device is a mouse, set the axis mode to relative.
-            if (dInputController.Information.Type == DeviceType.Mouse) dInputController.Properties.AxisMode = DeviceAxisMode.Relative;
+            if (dInputController.Information.Type == DeviceType.Mouse)
+                dInputController.Properties.AxisMode = DeviceAxisMode.Relative;
 
             // Acquire the DInput Device
             dInputController.Acquire();
@@ -181,8 +182,10 @@ namespace Reloaded.Input.DirectInput
             // For each Device Object/Controller/Input type in the Direct Input Devices. 
             // If it contains an axis, set the range of the axis to AXIS_MIN_VALUE, AXIS_MAX_VALUE
             foreach (DeviceObjectInstance deviceObject in dInputController.GetObjects())
+
             // Check if the object flags contain axis bits.
-                if (deviceObject.ObjectId.Flags.HasFlag(DeviceObjectTypeFlags.AbsoluteAxis)) dInputController.GetObjectPropertiesById(deviceObject.ObjectId).Range = new InputRange(AXIS_MIN_VALUE, AXIS_MAX_VALUE);
+            if (deviceObject.ObjectId.Flags.HasFlag(DeviceObjectTypeFlags.AbsoluteAxis))
+                dInputController.GetObjectPropertiesById(deviceObject.ObjectId).Range = new InputRange(AXIS_MIN_VALUE, AXIS_MAX_VALUE);
 
             // Return the DirectInput Device.
             return dInputController;
