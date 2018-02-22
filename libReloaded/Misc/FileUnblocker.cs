@@ -27,7 +27,7 @@ namespace Reloaded.Misc
     /// with the removal of Zone Identifiers for files such that Zone Information 
     /// is not stored.
     /// </summary>
-    internal static class FileUnblocker
+    public static class FileUnblocker
     {
         /// <summary>
         /// Deletes an existing file.

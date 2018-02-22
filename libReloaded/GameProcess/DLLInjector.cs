@@ -29,7 +29,7 @@ namespace Reloaded.GameProcess
     /// If the target process is running the administrator, the injector should also be
     /// ran as administrator.
     /// </summary>
-    internal class DLLInjector
+    public class DLLInjector
     {
         /// <summary>
         /// Initializes the DLL Injector of Reloaded Mod Loader.

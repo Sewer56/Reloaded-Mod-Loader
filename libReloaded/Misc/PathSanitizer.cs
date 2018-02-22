@@ -28,7 +28,7 @@ namespace Reloaded.Misc
     /// Used for sanitization of controller names and devices which contain symbols
     /// which would form invalid paths.
     /// </summary>
-    internal static class PathSanitizer
+    public static class PathSanitizer
     {
         // Set Invalid Path Characters
         private static readonly char[] invalid = Path.GetInvalidPathChars().Union(Path.GetInvalidFileNameChars()).ToArray();

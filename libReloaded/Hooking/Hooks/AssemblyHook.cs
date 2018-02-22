@@ -29,7 +29,7 @@ namespace Reloaded.Hooking
     /// This hook class executes your own ASM Code from a supplied list of bytes.
     /// To use this hook, you require at least a hook length of 6 bytes + any stray bytes from any instructions. For more information, do refer to the Wiki on Github.
     /// </summary>
-    internal class ASM_Hook : HookBase
+    public class ASM_Hook : HookBase
     {
         /// <summary>
         /// This hook class executes your own ASM Code from a supplied list of bytes.

@@ -29,7 +29,7 @@ namespace Reloaded.Input
     /// <summary>
     /// Parses configuration files for XInput, DirectInput controllers.
     /// </summary>
-    internal class ControllerConfigParser
+    public class ControllerConfigParser
     {
         /// <summary>
         /// Holds an instance of ini-parser used for parsing INI files.
