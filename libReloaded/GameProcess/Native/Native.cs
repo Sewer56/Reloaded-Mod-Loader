@@ -241,6 +241,38 @@ namespace Reloaded.GameProcess
         public static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize, MemoryProtection flNewProtect, out MemoryProtection lpflOldProtect);
 
         /// <summary>
+        /// VirtualProtectEx
+        ///     Changes the protection on a region of committed pages in the virtual address space of a specified process.
+        /// </summary>
+        /// <param name="hProcess">
+        ///     A handle to the process whose memory protection is to be changed. 
+        ///     The handle must have the PROCESS_VM_OPERATION access right.
+        /// </param>
+        /// <param name="lpAddress">
+        ///     A pointer to the base address of the region of pages whose access protection attributes are to be changed.
+        ///     All pages in the specified region must be within the same reserved region allocated when calling the VirtualAlloc or VirtualAllocEx function using MEM_RESERVE.
+        ///     The pages cannot span adjacent reserved regions that were allocated by separate calls to VirtualAlloc or VirtualAllocEx using MEM_RESERVE.
+        /// </param>
+        /// <param name="dwSize">
+        ///     The size of the region whose access protection attributes are changed, in bytes. 
+        ///     The region of affected pages includes all pages containing one or more bytes in the range 
+        ///     from the lpAddress parameter to (lpAddress+dwSize).
+        ///     This means that a 2-byte range straddling a page boundary causes the protection attributes of both pages to be changed.
+        /// </param>
+        /// <param name="flNewProtect">
+        ///     The memory protection option. This parameter can be one of the memory protection constants.
+        ///     See <see cref="MemoryProtection"/>
+        /// </param>
+        /// <param name="lpflOldProtect">
+        ///     A pointer to a variable that receives the previous access protection of the first page in the specified region of pages. 
+        ///     If this parameter is NULL or does not point to a valid variable, the function fails.
+        /// </param>
+        /// <returns>If the function succeeds, the return value is nonzero.</returns>
+        [DllImport("kernel32.dll")]
+        public static extern bool VirtualProtectEx(IntPtr hProcess, IntPtr lpAddress,
+            IntPtr dwSize, MemoryProtection flNewProtect, out MemoryProtection lpflOldProtect);
+
+        /// <summary>
         /// CreateRemoteThread
         ///     Creates a thread that runs in the virtual address space of a target process.
         /// </summary>
@@ -309,5 +341,190 @@ namespace Reloaded.GameProcess
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
+
+        /// <summary>
+        /// Creates a new process and its primary thread. The new process runs in the security context of the calling process.
+        /// </summary>
+        /// <param name="lpApplicationName">
+        /// The name of the module to be executed. This module can be a Windows-based application.
+        /// The string can specify the full path and file name of the module to execute or it can specify a partial name.
+        /// Partial Name: Relative to the current directory.
+        /// </param>
+        /// <param name="lpCommandLine">
+        /// Specifies the command line parameters passed to the newly spawned process.
+        /// This should be set to null.
+        /// </param>
+        /// <param name="lpProcessAttributes">
+        /// Note: Just use NULL.
+        /// A pointer to a SECURITY_ATTRIBUTES structure that determines whether the returned handle to the new process object can be inherited by child processes. 
+        /// If lpProcessAttributes is NULL, the handle cannot be inherited
+        /// </param>
+        /// <param name="lpThreadAttributes">
+        /// Note: Just use NULL.
+        /// A pointer to a SECURITY_ATTRIBUTES structure that determines whether the returned handle to the new thread object can be inherited by child processes. 
+        /// If lpThreadAttributes is NULL, the handle cannot be inherited. 
+        /// </param>
+        /// <param name="bInheritHandles">
+        /// If this parameter is TRUE, each inheritable handle in the calling process is inherited by the new process.
+        /// If the parameter is FALSE, the handles are not inherited. 
+        /// Note that inherited handles have the same value and access rights as the original handles.
+        /// </param>
+        /// <param name="dwCreationFlags">
+        /// The flags that control the priority class and the creation of the process. 
+        /// For a list of values, see <see cref="ProcessCreationFlags" /> 
+        /// </param>
+        /// <param name="lpEnvironment">
+        /// A pointer to the environment block for the new process. If this parameter is NULL, the new process uses the environment of the calling process.
+        /// </param>
+        /// <param name="lpCurrentDirectory">
+        /// The full path to the current directory for the process. The string can also specify a UNC path.
+        /// If this parameter is NULL, the new process will have the same current drive and directory as the calling process. 
+        /// </param>
+        /// <param name="lpStartupInfo">
+        /// A pointer to a STARTUPINFO or STARTUPINFOEX structure.
+        /// </param>
+        /// <param name="lpProcessInformation">
+        /// A pointer to a PROCESS_INFORMATION structure that receives identification information about the new process. 
+        /// </param>
+        /// <returns></returns>
+        [DllImport("kernel32.dll")]
+        public static extern bool CreateProcess(string lpApplicationName, string lpCommandLine, IntPtr lpProcessAttributes,
+            IntPtr lpThreadAttributes, bool bInheritHandles, Native.ProcessCreationFlags dwCreationFlags,
+            IntPtr lpEnvironment, string lpCurrentDirectory, ref Native.STARTUPINFO lpStartupInfo,
+            out Native.PROCESS_INFORMATION lpProcessInformation);
+
+        /// <summary>
+        /// Opens an existing local process object.
+        /// </summary>
+        /// <param name="dwDesiredAccess">
+        /// The access to the process object. 
+        /// This access right is checked against the security descriptor for the process. This parameter can be one or more of the process access rights.
+        /// </param>
+        /// <param name="bInheritHandle">
+        /// If this value is TRUE, processes created by this process will inherit the handle. 
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="dwProcessId">
+        /// The identifier of the local process to be opened.
+        /// If the specified process is the System Process (0x00000000), the function fails and the last error code is ERROR_INVALID_PARAMETER. 
+        /// </param>
+        /// <returns>If the function succeeds, the return value is an open handle to the specified process.</returns>
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
+
+        /// <summary>
+        /// Opens an existing thread object.
+        /// </summary>
+        /// <param name="dwDesiredAccess">
+        /// The access to the thread object. 
+        /// This access right is checked against the security descriptor for the thread. 
+        /// This parameter can be one or more of the thread access rights.
+        /// </param>
+        /// <param name="bInheritHandle">
+        /// If this value is TRUE, processes created by this process will inherit the handle. 
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="dwProcessId">
+        /// The identifier of the thread to be opened.
+        /// </param>
+        /// <returns>If the function succeeds, the return value is an open handle to the specified thread.</returns>
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr OpenThread(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
+
+        /// <summary>
+        /// Parameter of the OpenProcess method.
+        /// Used to request full access of the desired process.
+        /// </summary>
+        public const int PROCESS_ALL_ACCESS = 0x1F0FFF;
+
+        /// <summary>
+        /// Parameter of the OpenThread method.
+        /// Used to request full access of the desired thread.
+        /// </summary>
+        public const int THREAD_ALL_ACCESS = 0x3FB;
+
+        /// <summary>
+        /// Specifies the window station, desktop, standard handles, and appearance of the main window for a process at creation time.
+        /// I'm not even going to comment this one... for now... it's a pain.
+        /// </summary>
+        public struct STARTUPINFO
+        {
+            public uint cb;
+            public string lpReserved;
+            public string lpDesktop;
+            public string lpTitle;
+            public uint dwX;
+            public uint dwY;
+            public uint dwXSize;
+            public uint dwYSize;
+            public uint dwXCountChars;
+            public uint dwYCountChars;
+            public uint dwFillAttribute;
+            public uint dwFlags;
+            public short wShowWindow;
+            public short cbReserved2;
+            public IntPtr lpReserved2;
+            public IntPtr hStdInput;
+            public IntPtr hStdOutput;
+            public IntPtr hStdError;
+        }
+
+        /// <summary>
+        /// Contains information about a newly created process and its primary thread. 
+        /// It is used with the CreateProcess, CreateProcessAsUser, CreateProcessWithLogonW, or CreateProcessWithTokenW function.
+        /// </summary>
+        public struct PROCESS_INFORMATION
+        {
+            /// <summary>
+            /// A handle to the newly created process. 
+            /// The handle is used to specify the process in all functions that perform operations on the process object.
+            /// </summary>
+            public IntPtr hProcess;
+
+            /// <summary>
+            /// A handle to the primary thread of the newly created process. 
+            /// The handle is used to specify the thread in all functions that perform operations on the thread object.
+            /// </summary>
+            public IntPtr hThread;
+
+            /// <summary>
+            /// A value that can be used to identify a process. 
+            /// The value is valid from the time the process is created until all handles to the process are closed and the process object is freed; at this point, the identifier may be reused.
+            /// </summary>
+            public uint dwProcessId;
+
+            /// <summary>
+            /// A value that can be used to identify a thread. 
+            /// The value is valid from the time the thread is created until all handles to the thread are closed and the thread object is freed; at this point, the identifier may be reused.
+            /// </summary>
+            public uint dwThreadId;
+        }
+
+        /// <summary>
+        /// The following process creation flags are used by the CreateProcess, 
+        /// CreateProcessAsUser, CreateProcessWithLogonW, and CreateProcessWithTokenW functions.
+        /// See: https://msdn.microsoft.com/en-us/library/windows/desktop/ms684863(v=vs.85).aspx 
+        /// </summary>
+        [Flags]
+        public enum ProcessCreationFlags : uint
+        {
+            ZERO_FLAG = 0x00000000,
+            CREATE_BREAKAWAY_FROM_JOB = 0x01000000,
+            CREATE_DEFAULT_ERROR_MODE = 0x04000000,
+            CREATE_NEW_CONSOLE = 0x00000010,
+            CREATE_NEW_PROCESS_GROUP = 0x00000200,
+            CREATE_NO_WINDOW = 0x08000000,
+            CREATE_PROTECTED_PROCESS = 0x00040000,
+            CREATE_PRESERVE_CODE_AUTHZ_LEVEL = 0x02000000,
+            CREATE_SEPARATE_WOW_VDM = 0x00001000,
+            CREATE_SHARED_WOW_VDM = 0x00001000,
+            CREATE_SUSPENDED = 0x00000004,
+            CREATE_UNICODE_ENVIRONMENT = 0x00000400,
+            DEBUG_ONLY_THIS_PROCESS = 0x00000002,
+            DEBUG_PROCESS = 0x00000001,
+            DETACHED_PROCESS = 0x00000008,
+            EXTENDED_STARTUPINFO_PRESENT = 0x00080000,
+            INHERIT_PARENT_AFFINITY = 0x00010000
+        }
     }
 }

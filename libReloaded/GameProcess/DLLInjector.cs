@@ -40,7 +40,7 @@ namespace Reloaded.GameProcess
         /// The process object that is to be used. 
         /// The handle can be obtained by Process.Handle or found via various other means.
         /// </param>
-        public DLLInjector(Process process)
+        public DLLInjector(ReloadedProcess process)
         {
             // Set the Location and Handle to the Process to be Injected.
             Process = process;
@@ -79,7 +79,7 @@ namespace Reloaded.GameProcess
         /// The handle to the process that is to be injected. The handle can be obtained by 
         /// Process.Handle for an existing process or found via various other means.
         /// </summary>
-        private Process Process { get; }
+        private ReloadedProcess Process { get; }
 
         /// <summary>
         /// Injects a DLL onto the set target process.
@@ -87,7 +87,13 @@ namespace Reloaded.GameProcess
         /// ran as administrator.
         /// </summary>
         /// <param name="libraryPath">The absolute path to your DLL to be injected.</param>
-        public void InjectDLL(string libraryPath)
+        /// <param name="parameterPointer">
+        /// Singular parameter to pass onto the library main method to be called.
+        /// This should be a pointer to a structure in memory or single integer value
+        /// already in the target process (i.e. you need to write your parameterPointer structure into memory manually).
+        /// If this parameterPointer is null, a value of 0/null is passed.
+        /// </param>
+        public void InjectDll(string libraryPath, IntPtr parameterPointer)
         {
             // Write the module name in process memory to be used by Kernel32's LoadLibraryA function.
             IntPtr libraryNameMemoryAddress = WriteModuleNameBytes(libraryPath);
@@ -98,13 +104,13 @@ namespace Reloaded.GameProcess
             // This means that the game will now be able to access it ;)
             Process.CallLibrary(LoadLibraryAddress, libraryNameMemoryAddress);
 
-            // Get the address of the "Main" function by loading the library into
+            // Get the address of the "FunctionToExecute" function by loading the library into
             // ourselves. The address we will receive should be identical to the address
             // that has been allocated within the target process.
             IntPtr mainFunctionAddress = Libraries.GetLibraryFunctionAddress(libraryPath, FunctionToExecute);
 
             // Call our main function within the target executable.
-            Process.CallLibrary(mainFunctionAddress, IntPtr.Zero);
+            Process.CallLibrary(mainFunctionAddress, parameterPointer);
         }
 
         /// <summary>

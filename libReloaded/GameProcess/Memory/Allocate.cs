@@ -37,12 +37,12 @@ namespace Reloaded.GameProcess
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="length">Length of free bytes you want to allocate.</param>
         /// <returns>Base pointer address to the newly allocated memory.</returns>
-        public static IntPtr AllocateMemory(this Process process, int length)
+        public static IntPtr AllocateMemory(this ReloadedProcess process, int length)
         {
             // Call VirtualAllocEx to allocate memory of fixed chosen size.
             return VirtualAllocEx
             (
-                process.Handle, 
+                process.processHandle, 
                 IntPtr.Zero, 
                 (IntPtr)length, 
                 AllocationType.Commit | AllocationType.Reserve, 
@@ -58,9 +58,9 @@ namespace Reloaded.GameProcess
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to free memory from.</param>
         /// <returns>A value that is not 0 if the operation is successful.</returns>
-        public static bool FreeMemory(this Process process, IntPtr address)
+        public static bool FreeMemory(this ReloadedProcess process, IntPtr address)
         {
-            return VirtualFreeEx(process.Handle, address, 0, FreeType.Decommit | FreeType.Release);
+            return VirtualFreeEx(process.processHandle, address, 0, FreeType.Decommit | FreeType.Release);
         }
     }
 }

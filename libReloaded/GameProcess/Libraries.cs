@@ -39,14 +39,14 @@ namespace Reloaded.GameProcess
         /// <param name="address">Address to the starting point of the library, module or library method to be executed.</param>
         /// <param name="parameteraddress">Address of a singular parameter for the method to be called.</param>
         /// <returns>An exit code.</returns>
-        public static int CallLibrary(this Process process, IntPtr address, IntPtr parameteraddress)
+        public static int CallLibrary(this ReloadedProcess process, IntPtr address, IntPtr parameteraddress)
         {
             // Store the thread identifier.
             IntPtr threadID;
 
             // Create and initialize a thread at our address (which may be a C/C++ function) and parameter address.
             // hThread is a handle to the new thread.
-            var hThread = Native.CreateRemoteThread(process.Handle, IntPtr.Zero, 0, address, parameteraddress, 0, out threadID);
+            var hThread = Native.CreateRemoteThread(process.processHandle, IntPtr.Zero, 0, address, parameteraddress, 0, out threadID);
 
             // Wait for the thread to finish.
             Native.WaitForSingleObject(hThread, unchecked((uint)-1));
@@ -66,14 +66,14 @@ namespace Reloaded.GameProcess
         /// <param name="address">Address to the starting point of the library, module or library method to be executed.</param>
         /// <param name="parameteraddress">Address of parameters for the method to be called.</param>
         /// <returns>An exit code</returns>
-        public static void CallLibraryAsync(this Process process, IntPtr address, IntPtr parameteraddress)
+        public static void CallLibraryAsync(this ReloadedProcess process, IntPtr address, IntPtr parameteraddress)
         {
             // Store the thread identifier.
             IntPtr threadID;
 
             // Create and initialize a thread at our address (which may be a C/C++ function) and parameter address.
             // hThread is a handle to the new thread.
-            var hThread = Native.CreateRemoteThread(process.Handle, IntPtr.Zero, 0, address, parameteraddress, 0, out threadID);
+            var hThread = Native.CreateRemoteThread(process.processHandle, IntPtr.Zero, 0, address, parameteraddress, 0, out threadID);
         }
 
         /// <summary>
