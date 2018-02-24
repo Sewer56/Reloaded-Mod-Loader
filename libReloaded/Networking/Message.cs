@@ -21,6 +21,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using Reloaded.Networking.MessageTypes;
 
 namespace Reloaded.Networking
 {
@@ -31,15 +34,64 @@ namespace Reloaded.Networking
     public static class Message
     {
         /// <summary>
+        /// A struct which defines a message to be sent over TCP or UDP.
+        /// </summary>
+        public struct MessageStruct
+        {
+            /// <summary>
+            /// Defines the length of the individual message.
+            /// The length of the message is calculated by 
+            /// </summary>
+            public Int32 MessageLength { get; private set; }
+
+            /// <summary>
+            /// The type of the message sent. Types are supposed to be your
+            /// own custom defined enumerables. The mod loader server uses Client_Functions.Message_Type.
+            /// </summary>
+            public ushort MessageType { get; set; }
+
+            /// <summary>
+            /// The raw data of the message in question.
+            /// </summary>
+            private byte[] _data;
+
+            /// <summary>
+            /// The raw data of the message in question.
+            /// </summary>
+            public byte[] Data
+            {
+                get { return _data; }
+                set
+                {
+                    _data = value;
+                    MessageLength = BitConverter.GetBytes(MessageType).Length + _data.Length;
+                }
+            }
+
+            /// <summary>
+            /// Constructor allowing immediate struct assignment.
+            /// </summary>
+            public MessageStruct(ushort messageType, byte[] data)
+            {
+                MessageType = messageType;
+                _data = data;
+                MessageLength = BitConverter.GetBytes(MessageType).Length + _data.Length;
+            }
+        }
+
+        /// <summary>
         /// Builds a message to be sent to the machine A to machine B.
         /// A message consists of a message type (two bytes), followed by the raw data of the message, 
         /// which forms the remaining part of the message (this is stored in a struct).
         /// </summary>
-        public static byte[] BuildMessage(MessageStruct message)
+        public static byte[] BuildMessage(this MessageStruct message)
         {
             // Allocate enough data to form the message.
-            List<byte> messageData = new List<byte>(sizeof(ushort) + message.Data.Length);
+            List<byte> messageData = new List<byte>((int)message.MessageLength);
 
+            // Append the message length.
+            messageData.AddRange(BitConverter.GetBytes(message.MessageLength));
+            
             // Append the message type.
             messageData.AddRange(BitConverter.GetBytes(message.MessageType));
 
@@ -52,11 +104,12 @@ namespace Reloaded.Networking
 
         /// <summary>
         /// Constructs a MessageStruct from a series of received bytes from another machine or source.
+        /// Note that the received bytes here, does not include the MessageLength and is the received rest of the information.
         /// A MessageStruct consists of a message type (two bytes), followed by the raw data of the message, 
         /// which forms the remaining part of the message.
         /// </summary>
         /// <returns></returns>
-        public static MessageStruct ReceiveMessage(byte[] data)
+        public static MessageStruct ParseMessage(byte[] data)
         {
             // Instantiate the MessageStruct
             MessageStruct messageStruct = new MessageStruct();
@@ -69,32 +122,6 @@ namespace Reloaded.Networking
 
             // Return the message struct.
             return messageStruct;
-        }
-
-        /// <summary>
-        /// A struct which defines a message to be sent over TCP or UDP.
-        /// </summary>
-        public struct MessageStruct
-        {
-            /// <summary>
-            /// The type of the message sent. Types are supposed to be your
-            /// own custom defined enumerables. The mod loader server uses Client_Functions.Message_Type.
-            /// </summary>
-            public ushort MessageType { get; set; }
-
-            /// <summary>
-            /// The raw data of the message in question.
-            /// </summary>
-            public byte[] Data { get; set; }
-
-            /// <summary>
-            /// Constructor allowing immediate struct assignment.
-            /// </summary>
-            public MessageStruct(ushort messageType, byte[] data)
-            {
-                MessageType = messageType;
-                Data = data;
-            }
         }
     }
 }

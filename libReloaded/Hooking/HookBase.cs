@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 using Reloaded.GameProcess;
 using Reloaded.Networking;
 using static Reloaded.GameProcess.Native;
-using static Reloaded.Networking.MessageTypes.ModLoaderServerMessages;
+using static Reloaded.Networking.MessageTypes.LoaderServerMessages;
 
 namespace Reloaded.Hooking
 {
@@ -186,10 +186,10 @@ namespace Reloaded.Hooking
             };
 
             // Assemble The Message to be Sent to the server.
-            Message.MessageStruct messageStruct = new Message.MessageStruct((ushort)ModLoaderServerMessageType.AssembleX86, SerializeX86Mnemonics(x86Mnemonics));
+            Message.MessageStruct messageStruct = new Message.MessageStruct((ushort)MessageType.AssembleX86, SerializeX86Mnemonics(x86Mnemonics));
 
             // Sent the message across.
-            return modLoaderServerSonic.SendDataRaw(messageStruct);
+            return modLoaderServerSonic.ClientSocket.SendData(messageStruct, true).Data;
         }
 
         /// <summary>
@@ -204,10 +204,10 @@ namespace Reloaded.Hooking
             };
 
             // Assemble The Message to be Sent to the server.
-            Message.MessageStruct messageStruct = new Message.MessageStruct((ushort)ModLoaderServerMessageType.AssembleX86, SerializeX86Mnemonics(x86Mnemonics));
+            Message.MessageStruct messageStruct = new Message.MessageStruct((ushort)MessageType.AssembleX86, SerializeX86Mnemonics(x86Mnemonics));
 
             // Sent the message across.
-            return modLoaderServerSonic.SendDataRaw(messageStruct);
+            return modLoaderServerSonic.ClientSocket.SendData(messageStruct, true).Data;
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Reloaded.Hooking
         protected void SetNewInstructionAddress(int length)
         {
             // Retrieve Memory Address where to write to our own.
-            newInstructionAddress = Process.GetCurrentProcess().AllocateMemory(length);
+            newInstructionAddress = ReloadedProcess.GetCurrentProcess().AllocateMemory(length);
         }
 
         /// <summary>

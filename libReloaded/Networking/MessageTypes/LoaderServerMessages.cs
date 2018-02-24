@@ -26,26 +26,19 @@ namespace Reloaded.Networking.MessageTypes
     /// <summary>
     /// Defines the different individual message types accepted by the Mod Loader Server.
     /// </summary>
-    public static class ModLoaderServerMessages
+    public static class LoaderServerMessages
     {
         /// <summary>
         /// Defines the individual message types that can be sent towards the mod loader server.
         /// It's recommended that you actually go to the definition of this in your IDE, everything is nicely formatted there.
         /// </summary>
-        public enum ModLoaderServerMessageType
+        public enum MessageType : ushort
         {
             /// <summary>
             /// Expects Response:   False
             /// Definition:         Confirmation of operation being performed successfully.
             /// </summary>
             Okay = 0x0,
-            
-            /// <summary>
-            /// Expects Response:   True/False
-            /// Definition:         Prints message to mod loader's command line. 
-            /// Data:               ASCII Encoded String, e.g. Encoding.ASCII.GetBytes("Ayylmao");
-            /// </summary>
-            sendMessage = 0x1,
 
             /// <summary>
             /// Expects Response:   True 
@@ -53,7 +46,35 @@ namespace Reloaded.Networking.MessageTypes
             /// Data:               Returns the bytes representing the x86 mnemonics given. 
             /// Notes:              Return data is 100% raw. Not a message struct.
             /// </summary>
-            AssembleX86 = 0x2
+            AssembleX86 = 0x1,
+
+            /// <summary>
+            /// Expects Response:   True/False
+            /// Definition:         Prints message to mod loader's command line, regular style. 
+            /// Data:               ASCII Encoded String, e.g. Encoding.ASCII.GetBytes("Ayylmao");
+            /// </summary>
+            PrintText = 0x2,
+
+            /// <summary>
+            /// Expects Response:   True/False
+            /// Definition:         Prints message to mod loader's command line, in yellow/warning style. 
+            /// Data:               ASCII Encoded String, e.g. Encoding.ASCII.GetBytes("Ayylmao");
+            /// </summary>
+            PrintWarning = 0x3,
+
+            /// <summary>
+            /// Expects Response:   True/False
+            /// Definition:         Prints message to mod loader's command line, in blue/info style. 
+            /// Data:               ASCII Encoded String, e.g. Encoding.ASCII.GetBytes("Ayylmao");
+            /// </summary>
+            PrintInfo = 0x4,
+
+            /// <summary>
+            /// Expects Response:   True/False
+            /// Definition:         Prints message to mod loader's command line, in red/error style. 
+            /// Data:               ASCII Encoded String, e.g. Encoding.ASCII.GetBytes("Ayylmao");
+            /// </summary>
+            PrintError = 0x5,
         }
 
         /// <summary>
@@ -67,14 +88,14 @@ namespace Reloaded.Networking.MessageTypes
         public static byte[] SerializeX86Mnemonics(string[] mnemonics)
         {
             // Initialize MemStream & BinaryFormatter
-            MemoryStream MnemonicStream = new MemoryStream();
-            BinaryFormatter BinaryFormatter_X = new BinaryFormatter();
+            MemoryStream mnemonicStream = new MemoryStream();
+            BinaryFormatter binaryFormatterX = new BinaryFormatter();
 
             // Serialize array at once
-            BinaryFormatter_X.Serialize(MnemonicStream, mnemonics);
+            binaryFormatterX.Serialize(mnemonicStream, mnemonics);
 
             // Return Serialized
-            return MnemonicStream.ToArray();
+            return mnemonicStream.ToArray();
         }
 
         /// <summary>
@@ -88,11 +109,11 @@ namespace Reloaded.Networking.MessageTypes
         public static string[] DeserializeX86Mnemonics(byte[] mnemonics)
         {
             // Initialize MemStream & BinaryFormatter
-            BinaryFormatter BinaryFormatter_X = new BinaryFormatter();
-            MemoryStream MnemonicStream = new MemoryStream(mnemonics);
+            BinaryFormatter binaryFormatterX = new BinaryFormatter();
+            MemoryStream mnemonicStream = new MemoryStream(mnemonics);
 
             // Return deserialized.
-            return (string[])BinaryFormatter_X.Deserialize(MnemonicStream);
+            return (string[])binaryFormatterX.Deserialize(mnemonicStream);
         }
     }
 }
