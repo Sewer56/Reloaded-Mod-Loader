@@ -43,6 +43,7 @@ namespace Reloaded.Misc
         {
             // Valid path force
             foreach (char c in invalid)
+
             // Ignore paths
                 if (c != '\\' || c != '/') text = text.Replace(c.ToString(), "");
 
