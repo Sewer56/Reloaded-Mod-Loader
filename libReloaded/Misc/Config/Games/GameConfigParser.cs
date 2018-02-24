@@ -35,7 +35,7 @@ namespace Reloaded.Misc.Config
         /// Defines the individual game hooking methods.
         /// Instant will start the application and immediately hook to it.
         /// Delayed will hook at a delay (potential compatibility reasons)
-        /// Manual will perform file replacements, and inject on user demand after manually launching the game.
+        /// Inject hook will attach to an existing game process either specified by the user or derived from executable name.
         /// </summary>
         public enum HookMethod
         {
@@ -48,9 +48,9 @@ namespace Reloaded.Misc.Config
             /// </summary>
             Delayed,
             /// <summary>
-            /// Manual will perform file replacements, and inject on user demand after manually launching the game.
+            /// Inject hook will attach to an existing game process either specified by the user or derived from executable name.
             /// </summary>
-            Manual
+            Inject
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Reloaded.Misc.Config
             /// Defines the game hooking method.
             /// Instant will start the application and immediately hook to it.
             /// Delayed will hook at a delay (potential compatibility reasons).
-            /// Manual will perform file replacements, and inject on user demand after manually launching the game.
+            /// Inject will perform file replacements, and inject on user demand after manually launching the game.
             /// </summary>
             public HookMethod HookMethod { get; set; }
 
