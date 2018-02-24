@@ -126,7 +126,7 @@ namespace Reloaded.Overlay
                 Factory direct2DFactory = new Factory(FactoryType.SingleThreaded);
 
                 // Retrieve window size of target window.
-                Point windowSize = Windows.GetWindowClientSize(targetWindowHandle);
+                Point windowSize = Reloaded.Native.Windows.GetWindowClientSize(targetWindowHandle);
 
                 // Set the render properties!
                 HwndRenderTargetProperties direct2DRenderTargetProperties = new HwndRenderTargetProperties();

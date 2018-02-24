@@ -129,7 +129,7 @@ namespace Reloaded.Overlay.External
             formMargins.bottomBorder = Height;
 
             // Extend the frame into client area.
-            Windows.DwmExtendFrameIntoClientArea(Handle, ref formMargins);
+            Reloaded.Native.WinAPI.Windows.DwmExtendFrameIntoClientArea(Handle, ref formMargins);
         }
 
         /// <summary>
