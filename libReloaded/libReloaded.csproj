@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Reloaded</RootNamespace>
     <AssemblyName>libReloaded</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -75,6 +75,9 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -89,6 +92,8 @@
     <Compile Include="GameProcess\Memory\Allocate.cs" />
     <Compile Include="GameProcess\Memory\ReadWrite.cs" />
     <Compile Include="GameProcess\Native\Native.cs" />
+    <Compile Include="GameProcess\ReloadedExtensions.cs" />
+    <Compile Include="GameProcess\ReloadedProcess.cs" />
     <Compile Include="Hooking\Hooks\AssemblyHook.cs" />
     <Compile Include="Hooking\HookBase.cs" />
     <Compile Include="Hooking\Hooks\InjectionHook.cs" />
@@ -119,7 +124,9 @@
     <Compile Include="Networking\Client.cs" />
     <Compile Include="Networking\Host.cs" />
     <Compile Include="Networking\Message.cs" />
-    <Compile Include="Networking\MessageTypes\ModLoaderServerMessages.cs" />
+    <Compile Include="Networking\MessageTypes\LoaderServerMessages.cs" />
+    <Compile Include="Networking\ReloadedSocket.cs" />
+    <Compile Include="Networking\SocketExtensions.cs" />
     <Compile Include="Overlay\Direct2DWindowRenderTargetBase.cs" />
     <Compile Include="Overlay\External\Forms\GlassForm.cs">
       <SubType>Form</SubType>
