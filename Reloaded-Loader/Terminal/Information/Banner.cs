@@ -1,5 +1,7 @@
 ﻿using System;
 using Colorful;
+using Reloaded.IO;
+using Reloaded.Misc;
 using Console = Colorful.Console;
 
 namespace Reloaded_Loader.Terminal.Information
@@ -16,6 +18,34 @@ namespace Reloaded_Loader.Terminal.Information
 
             // Print semi-random message
             PrintRandomMessage();
+        }
+
+        /// <summary>
+        /// Displays a warning about how to use the mod loader.
+        /// </summary>
+        public static void DisplayWarning()
+        {
+            // Print
+            ConsoleFunctions.PrintMessageWithTime("No game to launch has been specified.", ConsoleFunctions.PrintErrorMessage);
+            ConsoleFunctions.PrintInfoMessage
+            (
+                "\nCommand Line Reloaded Mod Loader Usage Instructions:\n" +
+                "Reloaded-Loader.exe <Arguments>\n\n" +
+
+                "Arguments List:\n" +
+                "--config <GAME_CONFIGURATION_PATH> | Specifies the game configuration to run.\n" +
+                "--attach <EXECUTABLE_NAME> | Append after --config to load mods to an arbitrary executable name.\n\n" +
+                
+                "Examples:\n" +
+                "Reloaded-Loader.exe --config D:/Reloaded/Reloaded-Config/Games/Sonic-Heroes\n" +
+                "Reloaded-Loader.exe --config D:/Reloaded/Reloaded-Config/Games/Sonic-Heroes --attach Tsonic_win_custom.exe\n\n" +
+
+                "Notes:\n" +
+                "--attach is a suffix parameter and should be used last, if no executable name is specified\n" +
+                "it tries to guess it from the executable path in the game configuration."
+            );
+            Console.ReadLine();
+            Environment.Exit(0);
         }
 
         /// <summary>
@@ -92,7 +122,10 @@ mMNMMMMMMMMMMMm.Nh
             int arrayIndex = randonNumberGenerator.Next(0, messages.Length);
 
             // Print the message.
-            ConsoleFunctions.PrintMessageCenter(messages[10], ConsoleFunctions.PrintMessage);
+            ConsoleFunctions.PrintMessageCenter(messages[arrayIndex], ConsoleFunctions.PrintMessage);
+
+            // Print Space
+            Console.WriteLine();
         }
     }
 }

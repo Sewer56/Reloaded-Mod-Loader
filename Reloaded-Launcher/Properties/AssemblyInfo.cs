@@ -14,7 +14,7 @@
 [assembly: System.Reflection.AssemblyCopyright("Sewer56lol, 2018")]
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
 [assembly: System.CLSCompliant(true)]
-[assembly: System.Reflection.AssemblyInformationalVersion("0.8.5.7d14f00")]
+[assembly: System.Reflection.AssemblyInformationalVersion("0.8.5.e43c25b")]
 [assembly: System.Reflection.AssemblyVersion("0.8.5")]
 [assembly: System.Reflection.AssemblyFileVersion("0.8.5")]
 
