@@ -37,7 +37,7 @@ namespace Reloaded.Networking
         /// The socket we will be using to communicate with the clients.
         /// Should you wish to configure its options, feel free to grab it and replace it.
         /// </summary>
-        public ReloadedSocket Socket { get; set; }
+        public ReloadedSocket ReloadedSocket { get; set; }
 
         /// <summary>
         /// Defines a list of the clients that we will be serving!
@@ -58,21 +58,20 @@ namespace Reloaded.Networking
         /// <param name="port">The port over which the server will be locally hosted.</param>
         public Host(IPAddress ipAddress, int port)
         {
-            // Initialize the Socket
-            Socket = new ReloadedSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            // Initialize the ReloadedSocket
+            Socket localSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             
-            // Set size of the buffer.
-            Socket.ReceiveBufferSize = Socket.ReceiveBuffer.Length;
-            Socket.SendBufferSize = Socket.ReceiveBuffer.Length;
+            // Set up Reloaded ReloadedSocket
+            ReloadedSocket = new ReloadedSocket(localSocket);
 
             // Instantiate the list of client sockets.
             Clients = new List<ReloadedSocket>();
 
             // Set the socket by default to disable Nagle's Algorhithm.
-            Socket.NoDelay = true;
+            localSocket.NoDelay = true;
 
             // Bind the socket to an endpoint.
-            Socket.Bind(new IPEndPoint(ipAddress, port));
+            localSocket.Bind(new IPEndPoint(ipAddress, port));
         }
 
         /// <summary>
@@ -83,10 +82,10 @@ namespace Reloaded.Networking
         {
             // Maximum 100 clients can be left as pending.
             // We are going to be sending messages async anyway, so worry needs not placed at the performance on the game end.
-            Socket.Listen(100);
+            ReloadedSocket.Socket.Listen(100);
 
             // Start accepting connections!
-            Socket.BeginAccept(AcceptCallback, null);
+            ReloadedSocket.Socket.BeginAccept(AcceptCallback, null);
         }
 
         /// <summary>
@@ -99,13 +98,13 @@ namespace Reloaded.Networking
         {
             // Close all client sockets.
             foreach (ReloadedSocket client in Clients) {
-                client.Shutdown(SocketShutdown.Both);
-                client.Close();    
+                client.Socket.Shutdown(SocketShutdown.Both);
+                client.Socket.Close();    
             }
 
             // Close own socket
-            Socket.Shutdown(SocketShutdown.Both);
-            Socket.Close();
+            ReloadedSocket.Socket.Shutdown(SocketShutdown.Both);
+            ReloadedSocket.Socket.Close();
         }
 
         /// <summary>
@@ -116,17 +115,20 @@ namespace Reloaded.Networking
         {
             // Temporarily stop accepting connections.
             // Set up a socket responsible for communication with the client.
-            ReloadedSocket clientSocket = (ReloadedSocket)Socket.EndAccept(asyncResult);
+            Socket clientSocket = (Socket)ReloadedSocket.Socket.EndAccept(asyncResult);
            
+            // Set up Reloaded Socket from Socket
+            ReloadedSocket actualClientSocket = new ReloadedSocket(clientSocket);
+
             // Add this socket to the list of sockets.
-            Clients.Add(clientSocket);
-            
+            Clients.Add(actualClientSocket);
+
             // Start receiving data from the client asynchronously!
             // The size of data to receive is the size of a message header.
-            clientSocket.BeginReceive(Socket.ReceiveBuffer, 0, sizeof(UInt32), SocketFlags.None, ReceiveSizeCallback, clientSocket);
+            actualClientSocket.Socket.BeginReceive(ReloadedSocket.ReceiveBuffer, 0, sizeof(UInt32), SocketFlags.None, ReceiveSizeCallback, actualClientSocket);
             
             // Start accepting new connections again!
-            Socket.BeginAccept(AcceptCallback, null);
+            ReloadedSocket.Socket.BeginAccept(AcceptCallback, null);
         }
 
         /// <summary>
@@ -145,30 +147,30 @@ namespace Reloaded.Networking
 
                 // Gets the length of data that has been received.
                 // Increment Received Bytes
-                int bytesReceived = clientSocket.EndReceive(asyncResult);
+                int bytesReceived = clientSocket.Socket.EndReceive(asyncResult);
                 clientSocket.AsyncReceivedBytes += bytesReceived;
 
                 // If we have not received all of the bytes yet.
                 if (clientSocket.AsyncReceivedBytes < clientSocket.AsyncBytesToReceive)
                 {
                     // The size of data to receive is the size of a message header.
-                    clientSocket.BeginReceive(Socket.ReceiveBuffer, clientSocket.AsyncReceivedBytes,
+                    clientSocket.Socket.BeginReceive(ReloadedSocket.ReceiveBuffer, clientSocket.AsyncReceivedBytes,
                         clientSocket.AsyncBytesToReceive - clientSocket.AsyncReceivedBytes, SocketFlags.None,
                         ReceiveSizeCallback, clientSocket);
                     return;
                 }
 
                 // Get the true length of the message to be received.
-                clientSocket.AsyncBytesToReceive = BitConverter.ToInt32(clientSocket.ReceiveBuffer, 0);
+                clientSocket.AsyncBytesToReceive = BitConverter.ToInt32(ReloadedSocket.ReceiveBuffer, 0);
                 clientSocket.AsyncReceivedBytes = 0;
 
                 // The size of data to receive is the size of a message header.
-                clientSocket.BeginReceive(Socket.ReceiveBuffer, clientSocket.AsyncReceivedBytes,
+                clientSocket.Socket.BeginReceive(ReloadedSocket.ReceiveBuffer, clientSocket.AsyncReceivedBytes,
                     clientSocket.AsyncBytesToReceive - clientSocket.AsyncReceivedBytes, SocketFlags.None,
                     ReceiveDataCallback, clientSocket);
             }
             // Server was closed.
-            catch (ObjectDisposedException) { }
+            catch (Exception) { }
         }
 
         /// <summary>
@@ -183,14 +185,14 @@ namespace Reloaded.Networking
                 ReloadedSocket clientSocket = (ReloadedSocket) asyncResult.AsyncState;
 
                 // Gets the length of data that has been received.
-                int bytesReceived = clientSocket.EndReceive(asyncResult);
+                int bytesReceived = clientSocket.Socket.EndReceive(asyncResult);
                 clientSocket.AsyncReceivedBytes += bytesReceived;
 
                 // If we have not received all of the bytes yet.
                 if (clientSocket.AsyncReceivedBytes < clientSocket.AsyncBytesToReceive)
                 {
                     // The size of data to receive is the size of a message header.
-                    clientSocket.BeginReceive(Socket.ReceiveBuffer, clientSocket.AsyncReceivedBytes,
+                    clientSocket.Socket.BeginReceive(ReloadedSocket.ReceiveBuffer, clientSocket.AsyncReceivedBytes,
                         clientSocket.AsyncBytesToReceive - clientSocket.AsyncReceivedBytes, SocketFlags.None,
                         ReceiveDataCallback, clientSocket);
                     return;
@@ -200,7 +202,7 @@ namespace Reloaded.Networking
                 byte[] dataBuffer = new byte[clientSocket.AsyncBytesToReceive];
 
                 // Copy the received data.
-                Array.Copy(Socket.ReceiveBuffer, dataBuffer, clientSocket.AsyncReceivedBytes);
+                Array.Copy(ReloadedSocket.ReceiveBuffer, dataBuffer, clientSocket.AsyncReceivedBytes);
 
                 // Send the buffer to the subscribing method!
                 ProcessBytesMethods(ParseMessage(dataBuffer), clientSocket);
@@ -210,11 +212,11 @@ namespace Reloaded.Networking
 
                 // Accept connections again!
                 // Header Length!
-                clientSocket.BeginReceive(Socket.ReceiveBuffer, 0, sizeof(UInt32), SocketFlags.None,
+                clientSocket.Socket.BeginReceive(ReloadedSocket.ReceiveBuffer, 0, sizeof(UInt32), SocketFlags.None,
                     ReceiveSizeCallback, clientSocket);
             }
             // Server was closed.
-            catch (ObjectDisposedException) { }
+            catch (Exception) { }
         }
     }
 }

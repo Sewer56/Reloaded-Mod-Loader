@@ -47,6 +47,7 @@ namespace Reloaded.Networking
             /// <summary>
             /// The type of the message sent. Types are supposed to be your
             /// own custom defined enumerables. The mod loader server uses Client_Functions.Message_Type.
+            /// Cast it to the ushort type :V
             /// </summary>
             public ushort MessageType { get; set; }
 
