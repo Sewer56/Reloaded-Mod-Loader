@@ -19,7 +19,7 @@ namespace Reloaded_Mod_Template
         /// </summary>
         /// <param name="portAddress">Stores the memory location of the port.</param>
         [DllExport]
-        static void Main(int portAddress)
+        static void Main(IntPtr portAddress)
         {
             // Retrieve Assemblies from the "Libraries" folder.
             AppDomain.CurrentDomain.AssemblyResolve += LocalAssemblyFinder.ResolveAssembly;
@@ -37,7 +37,7 @@ namespace Reloaded_Mod_Template
         /// before we even set the assembly resolution path with AppDomain.CurrentDomain.AssemblyResolve.
         /// </summary>
         /// <param name="portAddress">Stores the memory location of the port.</param>
-        static void Init(int portAddress)
+        static void Init(IntPtr portAddress)
         {
             // Set the game process.
             Program.GameProcess = ReloadedProcess.GetCurrentProcess();

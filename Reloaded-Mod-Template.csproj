@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\build\Debug\Reloaded-Mods\Sonic-Heroes\Template Mod\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -121,17 +121,22 @@ RMDIR "$(TargetDir)\Reloaded"
 
 DEL "$(TargetDir)*.xml"
 DEL "$(TargetDir)*.config"
+DEL  "$(TargetDir)Libraries\main.dll"
+DEL  "$(TargetDir)main.pdb"
 
 MKDIR "$(TargetDir)Libraries"
 move /Y "$(TargetDir)*.dll" "$(TargetDir)Libraries"
-move /Y "$(TargetDir)Libraries\main.dll" "$(TargetDir)"</PostBuildEvent>
+
+move /Y "$(TargetDir)x86\main.dll" "$(TargetDir)main32.dll"
+move /Y "$(TargetDir)x64\main.dll" "$(TargetDir)main64.dll"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <DllExportIdent>FDB4FA76-AA3C-4000-93A1-FC7F890F65CE</DllExportIdent>
     <DllExportMetaLibName>DllExport.dll</DllExportMetaLibName>
     <DllExportNamespace>Reloaded_Mod_Template</DllExportNamespace>
     <DllExportDDNSCecil>true</DllExportDDNSCecil>
-    <PlatformTarget>x86</PlatformTarget>
+    <DllExportSkipOnAnyCpu>false</DllExportSkipOnAnyCpu>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DllExportOrdinalsBase>1</DllExportOrdinalsBase>
     <DllExportGenExpLib>false</DllExportGenExpLib>
     <DllExportOurILAsm>false</DllExportOurILAsm>
