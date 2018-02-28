@@ -125,7 +125,7 @@ namespace Reloaded.GameProcess
         ///     standard search strategy.
         /// </param>
         /// <returns>Handle to the module.</returns>
-        [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Ansi)]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
         public static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)]string lpFileName);
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Reloaded.GameProcess
         /// <param name="hModule">The handle to the module to get function/variable.</param>
         /// <param name="procName">The name of the function or variable for which the address is to be obtained for.</param>
         /// <returns>Address of exported function or variable.</returns>
-        [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
 
         /// <summary>
@@ -392,6 +392,17 @@ namespace Reloaded.GameProcess
             IntPtr lpThreadAttributes, bool bInheritHandles, Native.ProcessCreationFlags dwCreationFlags,
             IntPtr lpEnvironment, string lpCurrentDirectory, ref Native.STARTUPINFO lpStartupInfo,
             out Native.PROCESS_INFORMATION lpProcessInformation);
+
+        /// <summary>
+        /// Determines whether the specified process is running under Windows on Windows 64.
+        /// i.e. if the Process is 32 bit.
+        /// </summary>
+        /// <param name="hProcess">The handle to the process to check whether it is 64 bit.</param>
+        /// <param name="lpSystemInfo">System info structure, which we likely want not.</param>
+        /// <returns></returns>
+        [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsWow64Process([In] IntPtr hProcess, [Out] out bool lpSystemInfo);
 
         /// <summary>
         /// Opens an existing local process object.
