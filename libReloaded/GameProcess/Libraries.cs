@@ -46,7 +46,7 @@ namespace Reloaded.GameProcess
 
             // Create and initialize a thread at our address (which may be a C/C++ function) and parameter address.
             // hThread is a handle to the new thread.
-            var hThread = Native.CreateRemoteThread(process.processHandle, IntPtr.Zero, 0, address, parameteraddress, 0, out threadID);
+            IntPtr hThread = Native.CreateRemoteThread(process.processHandle, IntPtr.Zero, 0, address, parameteraddress, 0, out threadID);
 
             // Wait for the thread to finish.
             Native.WaitForSingleObject(hThread, unchecked((uint)-1));

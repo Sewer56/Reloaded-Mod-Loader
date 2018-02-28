@@ -38,7 +38,7 @@ namespace Reloaded.Hooking
         /// <param name="hookAddress">The address at which we will start our hook process.</param>
         /// <param name="asmBytes">Delegate to the method we will want to run. (DelegateName)Method</param>
         /// <param name="hookLength">The amount of bytes the hook lasts, all stray bytes will be replaced with NOP/No Operation.</param>
-        /// <param name="modLoaderServerSocket">Current Socket that is Connected to the Mod Loader Server</param>
+        /// <param name="modLoaderServerSocket">Current ReloadedSocket that is Connected to the Mod Loader Server</param>
         /// <param name="cleanHook">Set true to not execute original bytes after your own ASM</param>
         public ASM_Hook(IntPtr hookAddress, byte[] asmBytes, int hookLength, Client modLoaderServerSocket, bool cleanHook)
         {

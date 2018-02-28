@@ -28,7 +28,7 @@ namespace Reloaded.Misc
     /// You know how when you inject a DLL into a process it will fail to find any of the libraries that 
     /// go along with it? I do too, worry not, this will help you.
     /// </summary>
-    public class AssemblyFinder
+    public static class AssemblyFinder
     {
         /// <summary>
         /// Finds and retrieves an Assembly/Module/DLL from the libraries folder in the case it is not

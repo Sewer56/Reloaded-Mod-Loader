@@ -79,9 +79,9 @@ namespace Reloaded.Misc
             return Environment.CurrentDirectory;
         }
 
-
         /// <summary>
         /// Retrieves the directory where the mod DLL (main.dll) is stored.
+        /// This function is intended to be ran from inside mods and retrieves the location of the current mod.
         /// </summary>
         public static string GetModDirectory()
         {

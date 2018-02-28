@@ -129,7 +129,7 @@ namespace Reloaded.GameProcess
             IntPtr processPointer = Process.AllocateMemory(libraryNameBytes.Length);
 
             // Write the name of the library to the memory space of the process.
-            Process.WriteMemory(processPointer, libraryNameBytes);
+            Process.WriteMemoryExternalSafe(processPointer, libraryNameBytes);
 
             // Return the address of written path.
             return processPointer;

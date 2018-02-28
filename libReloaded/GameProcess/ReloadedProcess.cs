@@ -55,6 +55,7 @@ namespace Reloaded.GameProcess
             // Start up the process
             Native.STARTUPINFO startupInfo = new Native.STARTUPINFO();
             Native.PROCESS_INFORMATION processInformation = new Native.PROCESS_INFORMATION();
+            // TODO: Create Suspended
             Native.CreateProcess(filePath, null, IntPtr.Zero, IntPtr.Zero, false,
                 Native.ProcessCreationFlags.CREATE_SUSPENDED,
                 IntPtr.Zero, Path.GetDirectoryName(filePath), ref startupInfo, out processInformation);
@@ -135,6 +136,15 @@ namespace Reloaded.GameProcess
 
             // Return Reloaded Process by ID
             return new ReloadedProcess((uint)currentProcess.Id);
+        }
+
+        /// <summary>
+        /// Retrieves Process from the current ReloadedProcess.
+        /// </summary>
+        /// <returns>Process class for the current Reloaded Process.</returns>
+        public Process GetProcessFromReloadedProcess()
+        {
+            return Process.GetProcessById((int)processId);
         }
     }
 }

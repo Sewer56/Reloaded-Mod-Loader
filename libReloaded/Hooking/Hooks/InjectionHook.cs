@@ -39,7 +39,7 @@ namespace Reloaded.Hooking
         /// <param name="destinationDelegate">Delegate to the method we will want to run. (DelegateName)Method</param>
         /// <param name="hookLength">The amount of bytes the hook lasts, all stray bytes will be replaced with NOP/No Operation.</param>
         /// <param name="cleanHook">Set true to not execute original bytes after your own code.</param>
-        /// <param name="modLoaderServerSocket">Socket that communicates to the mod laoder server, used for x86 assembling.</param>
+        /// <param name="modLoaderServerSocket">ReloadedSocket that communicates to the mod laoder server, used for x86 assembling.</param>
         public InjectionHook(IntPtr hookAddress, Delegate destinationDelegate, int hookLength, Client modLoaderServerSocket, bool cleanHook)
         {
             // Assign class members.

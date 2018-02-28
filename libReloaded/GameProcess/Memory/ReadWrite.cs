@@ -31,6 +31,17 @@ namespace Reloaded.GameProcess
     public static partial class Memory
     {
         /// <summary>
+        /// GetBaseAddress
+        ///     Retrieves the base address of the module, i.e. 0x400000 for executables
+        ///     not using Address Space Layout Randomization.
+        /// </summary>
+        /// <returns></returns>
+        public static IntPtr GetBaseAddress()
+        {
+            return GetModuleHandle(null);
+        }
+
+        /// <summary>
         /// ReadMemory
         ///     Reads a specified specific amount of bytes from memory of the current process.
         /// </summary>
@@ -52,7 +63,7 @@ namespace Reloaded.GameProcess
             Marshal.Copy(address, buffer, 0, size);
 
             // Return the read memory.
-            return (T)Convert.ChangeType(buffer, typeof(T));
+            return (T)ConvertToPrimitive<T>(buffer, type);
         }
 
         /// <summary>
@@ -85,7 +96,7 @@ namespace Reloaded.GameProcess
             VirtualProtect(address, (uint)size, OldProtection, out OldProtection);
 
             // Return the read memory.
-            return (T)Convert.ChangeType(buffer, typeof(T));
+            return (T) ConvertToPrimitive<T>(buffer,type);
         }
 
         /// <summary>
@@ -196,9 +207,9 @@ namespace Reloaded.GameProcess
 
             // Read from the game memory.
             ReadProcessMemory(process.processHandle, address, buffer, size, out bytesRead);
-            
+
             // Return the read memory.
-            return (T)Convert.ChangeType(buffer, typeof(T));
+            return (T)ConvertToPrimitive<T>(buffer, type);
         }
 
         /// <summary>
@@ -234,7 +245,7 @@ namespace Reloaded.GameProcess
             VirtualProtectEx(process.processHandle, address, (IntPtr)size, OldProtection, out OldProtection);
 
             // Return the read memory.
-            return (T)Convert.ChangeType(buffer, typeof(T));
+            return (T)ConvertToPrimitive<T>(buffer, type);
         }
 
         /// <summary>
@@ -309,14 +320,28 @@ namespace Reloaded.GameProcess
         }
 
         /// <summary>
-        /// GetBaseAddress
-        ///     Retrieves the base address of the module, i.e. 0x400000 for executables
-        ///     not using Address Space Layout Randomization.
+        /// Converts a passed in type into a primitive type.
         /// </summary>
-        /// <returns></returns>
-        public static IntPtr GetBaseAddress()
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="buffer">The buffer containing the information about the specific type.</param>
+        /// <param name="type">The type to convert to (same as type to return.</param>
+        /// <returns>In the requested format</returns>
+        public static object ConvertToPrimitive<T>(byte[] buffer, Type type)
         {
-            return GetModuleHandle(null);
+            switch (type.Name)
+            {
+                case nameof(String): return BitConverter.ToString(buffer, 0);
+                case nameof(Boolean): return BitConverter.ToBoolean(buffer, 0);
+                case nameof(Char): return BitConverter.ToChar(buffer, 0);
+                case nameof(Byte): return (T)Convert.ChangeType(buffer[0], typeof(T));
+                case nameof(Single): return BitConverter.ToSingle(buffer, 0);
+                case nameof(Double): return BitConverter.ToDouble(buffer, 0); 
+                case nameof(Int32): return BitConverter.ToInt32(buffer, 0);
+                case nameof(UInt32): return BitConverter.ToUInt32(buffer, 0);
+                case nameof(UInt16): return BitConverter.ToUInt16(buffer, 0);
+                case nameof(Int16): return BitConverter.ToInt16(buffer, 0);
+            }
+            return null;
         }
     }
 }
