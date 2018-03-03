@@ -32,7 +32,9 @@ namespace Reloaded_Loader.Core
             // Get the dll locations.
             foreach (string modDirectory in gameConfiguration.EnabledMods)
             {
-                modLibraries.Add(Path.Combine(gameModDirectory, modDirectory, "main.dll"));
+                // Add native or not native.
+                if (Program.isGame32Bit) { modLibraries.Add(Path.Combine(gameModDirectory, modDirectory, "main32.dll")); }
+                else { modLibraries.Add(Path.Combine(gameModDirectory, modDirectory, "main64.dll")); }  
             }
 
             // Initialize DLL Injector

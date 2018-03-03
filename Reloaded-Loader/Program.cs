@@ -42,6 +42,17 @@ namespace Reloaded_Loader
     internal class Program
     {
         /// <summary>
+        /// Stores a copy of the arguments passed into the application.
+        /// </summary>
+        public static string[] Arguments;
+
+        /// <summary>
+        /// Declares whether the game is 32 bit.
+        /// This allows us to run the appropriate injector.
+        /// </summary>
+        public static bool isGame32Bit;
+
+        /// <summary>
         /// Stores the individual process of the game.
         /// Allows for DLL Injection, Memory Manipulation, etc.
         /// </summary>
@@ -66,8 +77,11 @@ namespace Reloaded_Loader
         /// The main entry point for the application.
         /// </summary>
         /// <param name="args"></param>
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            // Pass Arguments
+            Arguments = args;
+
             // Initialize the console.
             ConsoleFunctions.Initialize();
 
@@ -152,6 +166,19 @@ namespace Reloaded_Loader
                 // Instant Hook, Start the Game Manually and Hook it.
                 case GameConfigParser.HookMethod.Instant:
                     gameProcess = new ReloadedProcess(Path.Combine(gameConfig.GameDirectory, gameConfig.ExecutableLocation));
+
+                    // Check if the current running architecture matched ~(32 bit), if not, restart as x64.
+                    if (!gameProcess.CheckArchitectureMatch()) {
+                        gameProcess.KillProcess();
+                        RebootX64();
+                    }
+
+                    // If the hook method is delayed, delay injection
+                    if (gameConfig.HookMethod == GameConfigParser.HookMethod.Delayed) {
+                        gameProcess.ResumeFirstThread();
+                        Thread.Sleep(DELAY_HOOK_DURATION);
+                    }
+
                     break;
 
                 // Inject Hook, Hook the Game by User/Mid-Runtime
@@ -172,14 +199,20 @@ namespace Reloaded_Loader
                         Shutdown(null, null);
                     }
 
+                    // Check if the current running architecture matched ~(32 bit), if not, restart as x64.
+                    if (!gameProcess.CheckArchitectureMatch()) {
+                        RebootX64();
+                    }
+
                     break;
 
                 // If the method is delayed, start process and wait 5 seconds
                 case GameConfigParser.HookMethod.Delayed:
-                    gameProcess = new ReloadedProcess(Path.Combine(gameConfig.GameDirectory, gameConfig.ExecutableLocation));
-                    gameProcess.ResumeFirstThread();
-                    Thread.Sleep(DELAY_HOOK_DURATION);
-                    break;
+                    goto case GameConfigParser.HookMethod.Instant;
+                
+                // Inject by default
+                default:
+                    goto case GameConfigParser.HookMethod.Instant;
             }
         }
 
@@ -190,6 +223,21 @@ namespace Reloaded_Loader
         {
             // Kill self.
             Environment.Exit(0);
+        }
+
+        /// <summary>
+        /// Reboots the Reloaded Loader in x64 mode by running
+        /// the x64 wrapper.
+        /// </summary>
+        private static void RebootX64()
+        {
+            // Build arguments
+            string localArgs = "";
+            foreach (string argument in Arguments) { localArgs += argument + " "; }
+            Process.Start(LoaderPaths.GetModLoaderDirectory() + "\\Reloaded-Wrapper-x64.exe", localArgs);
+
+            // Bye Bye Current Process
+            Shutdown(null, null);
         }
     }
 }
