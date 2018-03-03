@@ -99,5 +99,14 @@ namespace Reloaded.GameProcess
                 }
             }
         }
+
+        /// <summary>
+        /// Kills the process behind the individual Reloaded Process instance.
+        /// </summary>
+        public static void KillProcess(this ReloadedProcess reloadedProcess)
+        {
+            Process localReloadedProcess = reloadedProcess.GetProcessFromReloadedProcess();
+            localReloadedProcess.Kill();
+        }
     }
 }
