@@ -111,6 +111,7 @@ namespace Reloaded.Networking
         public void ShutdownClient()
         {
             // Close own socket
+            ClientSocket.Socket.Disconnect(false);
             ClientSocket.Socket.Shutdown(SocketShutdown.Both);
             ClientSocket.Socket.Close();
         }

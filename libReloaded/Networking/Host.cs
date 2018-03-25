@@ -98,11 +98,13 @@ namespace Reloaded.Networking
         {
             // Close all client sockets.
             foreach (ReloadedSocket client in Clients) {
+                client.Socket.Disconnect(false);
                 client.Socket.Shutdown(SocketShutdown.Both);
                 client.Socket.Close();    
             }
 
             // Close own socket
+            ReloadedSocket.Socket.Disconnect(false);
             ReloadedSocket.Socket.Shutdown(SocketShutdown.Both);
             ReloadedSocket.Socket.Close();
         }
