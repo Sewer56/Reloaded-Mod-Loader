@@ -49,14 +49,15 @@ namespace Reloaded.GameProcess
         /// Creates a process in a suspended state for us to use.
         /// In order to start the application's execution, consider running SuspendThread(threadHandle).
         /// </summary>
-        /// <param name="filePath">The file path to the executable to launch.<</param>
-        public ReloadedProcess(string filePath)
+        /// <param name="filePath">The file path to the executable to launch.</param>
+        /// <param name="arguments">The coomand line arguments to be passed.</param>
+        public ReloadedProcess(string filePath, string arguments)
         {
             // Start up the process
             Native.STARTUPINFO startupInfo = new Native.STARTUPINFO();
             Native.PROCESS_INFORMATION processInformation = new Native.PROCESS_INFORMATION();
             // TODO: Create Suspended
-            Native.CreateProcess(filePath, null, IntPtr.Zero, IntPtr.Zero, false,
+            Native.CreateProcess(filePath, arguments, IntPtr.Zero, IntPtr.Zero, false,
                 Native.ProcessCreationFlags.CREATE_SUSPENDED,
                 IntPtr.Zero, Path.GetDirectoryName(filePath), ref startupInfo, out processInformation);
 
@@ -66,6 +67,14 @@ namespace Reloaded.GameProcess
             processId = (IntPtr) processInformation.dwProcessId;
             threadId = (IntPtr)  processInformation.dwThreadId;
         }
+
+        /// <summary>
+        /// Creates a process in a suspended state for us to use.
+        /// In order to start the application's execution, consider running SuspendThread(threadHandle).
+        /// </summary>
+        /// <param name="filePath">The file path to the executable to launch.</param>
+        public ReloadedProcess(string filePath) : this(filePath, null)
+        { }
 
         /// <summary>
         /// Creates an instance of ReloadedProcess from a supplied process ID.
