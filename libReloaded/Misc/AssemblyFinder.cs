@@ -61,7 +61,7 @@ namespace Reloaded.Misc
             else
             {
                 // Find the first matched file.
-                string file = Directory.GetFiles(Assembly.GetEntryAssembly().Location, assemblyName + ".dll", SearchOption.AllDirectories)[0];
+                string file = Directory.GetFiles(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), assemblyName + ".dll", SearchOption.AllDirectories)[0];
 
                 // Load our loaded assembly
                 assembly = Assembly.LoadFrom(file);
