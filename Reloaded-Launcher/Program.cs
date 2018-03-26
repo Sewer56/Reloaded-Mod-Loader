@@ -29,7 +29,10 @@
 */
 
 using System;
+using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
+using Reloaded.Misc;
 
 namespace ReloadedLauncher
 {
@@ -46,6 +49,9 @@ namespace ReloadedLauncher
         [STAThread]
         private static void Main()
         {
+            // Deprecate App.config, find dependent libraries ourselves.
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
             // Enable Visual Styles
             Application.EnableVisualStyles();
 
@@ -54,6 +60,42 @@ namespace ReloadedLauncher
 
             // Call the Program Initializer.
             initializer = new Initializer();
+        }
+
+
+        /// <summary>
+        /// Finds and retrieves an Assembly/Module/DLL from the libraries folder in the case it is not
+        /// yet loaded or the mod fails to find the assembly.
+        /// </summary>
+        private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            // Get the path to the mod loader libraries folder.
+            string localLibraryFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\Reloaded-Libraries\\";
+
+            // Append the assembly name.
+            string assemblyName = new AssemblyName(args.Name).Name;
+            localLibraryFolder += assemblyName + ".dll";
+
+            // Store Assembly Object
+            Assembly assembly;
+
+            // Check if the library is present in a static compile.
+            if (File.Exists(localLibraryFolder))
+                assembly = Assembly.LoadFrom(localLibraryFolder);
+            
+            // Brute-force Search
+            else
+            {
+                // Find the first matched file.
+                string file = Directory.GetFiles(Assembly.GetEntryAssembly().Location, assemblyName + ".dll", SearchOption.AllDirectories)[0];
+
+                // Load our loaded assembly
+                assembly = Assembly.LoadFrom(file);
+            }
+
+
+            // Return Assembly
+            return assembly;
         }
     }
 }

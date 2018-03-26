@@ -335,9 +335,6 @@
     <None Include="Resources\Files\Reloaded-Config\Themes\Default\Fonts\TitleFont.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Libraries\" />
     <Folder Include="Resources\Files\Reloaded-Backup\Sonic-Adventure-2\" />
     <Folder Include="Resources\Files\Reloaded-Backup\Sonic-Adventure-DX\" />
