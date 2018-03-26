@@ -25,6 +25,7 @@ namespace Reloaded_Loader.Networking.LoaderServerFunctions
             Message.MessageStruct messageStruct = new Message.MessageStruct();
             messageStruct.MessageType = (ushort)LoaderServerMessages.MessageType.Okay;
             messageStruct.Data = new byte[1];
+
             clientSocket.SendData(messageStruct, false);
         }
     }
