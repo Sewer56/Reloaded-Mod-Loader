@@ -43,8 +43,9 @@ namespace Reloaded.Misc
             string localLibraryFolder = LoaderPaths.GetModDirectory() + "\\Libraries\\";
 
             // Append the assembly name.
-            modLoaderLibraryPath += new AssemblyName(args.Name).Name + ".dll";
-            localLibraryFolder += new AssemblyName(args.Name).Name + ".dll";
+            string assemblyName = new AssemblyName(args.Name).Name;
+            modLoaderLibraryPath += assemblyName + ".dll";
+            localLibraryFolder += assemblyName + ".dll";
 
             // Store Assembly Object
             Assembly assembly;
@@ -54,8 +55,18 @@ namespace Reloaded.Misc
                 assembly = Assembly.LoadFrom(localLibraryFolder);
 
             // Else load it from Reloaded-Libraries. (or not, doesn't matter, program will crash anyway if it doesn't exist)
-            else
+            else if (File.Exists(localLibraryFolder))
                 assembly = Assembly.LoadFrom(modLoaderLibraryPath);
+
+            else
+            {
+                // Find the first matched file.
+                string file = Directory.GetFiles(Assembly.GetEntryAssembly().Location, assemblyName + ".dll", SearchOption.AllDirectories)[0];
+
+                // Load our loaded assembly
+                assembly = Assembly.LoadFrom(file);
+            }
+
 
             // Return Assembly
             return assembly;
