@@ -1,0 +1,3 @@
+[submodule "submodules/ReloadedAssembler"]
+	path = submodules/ReloadedAssembler
+	url = https://github.com/sewer56lol/ReloadedAssembler

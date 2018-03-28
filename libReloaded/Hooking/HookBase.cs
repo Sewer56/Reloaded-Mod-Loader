@@ -25,6 +25,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Reloaded.GameProcess;
 using Reloaded.Networking;
+using static Reloaded.Assembler.Assembler;
 using static Reloaded.GameProcess.Native;
 using static Reloaded.Networking.MessageTypes.LoaderServerMessages;
 
@@ -185,11 +186,7 @@ namespace Reloaded.Hooking
                 "ret"
             };
 
-            // Assemble The Message to be Sent to the server.
-            Message.MessageStruct messageStruct = new Message.MessageStruct((ushort)MessageType.AssembleX86, SerializeX86Mnemonics(x86Mnemonics));
-
-            // Sent the message across.
-            return modLoaderServerSonic.ClientSocket.SendData(messageStruct, true).Data;
+            return Assemble(x86Mnemonics);
         }
 
         /// <summary>
@@ -203,11 +200,8 @@ namespace Reloaded.Hooking
                 "push 0x" + address.ToString("X")
             };
 
-            // Assemble The Message to be Sent to the server.
-            Message.MessageStruct messageStruct = new Message.MessageStruct((ushort)MessageType.AssembleX86, SerializeX86Mnemonics(x86Mnemonics));
-
             // Sent the message across.
-            return modLoaderServerSonic.ClientSocket.SendData(messageStruct, true).Data;
+            return Assemble(x86Mnemonics);
         }
 
         /// <summary>

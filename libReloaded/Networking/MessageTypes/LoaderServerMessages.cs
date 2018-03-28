@@ -76,44 +76,5 @@ namespace Reloaded.Networking.MessageTypes
             /// </summary>
             PrintError = 0x5,
         }
-
-        /// <summary>
-        /// Serializes a string array of X86 Mnemonics such that they may be transmitted to the loader server.
-        /// </summary>
-        /// <param name="mnemonics">
-        ///     Your x86 assembler instructions to be assembled. 
-        ///     Rule of thumb: Test your ASM in FASM outside of mod loader mods first for successful compilation.
-        ///     Don't forget use32!
-        /// </param>
-        public static byte[] SerializeX86Mnemonics(string[] mnemonics)
-        {
-            // Initialize MemStream & BinaryFormatter
-            MemoryStream mnemonicStream = new MemoryStream();
-            BinaryFormatter binaryFormatterX = new BinaryFormatter();
-
-            // Serialize array at once
-            binaryFormatterX.Serialize(mnemonicStream, mnemonics);
-
-            // Return Serialized
-            return mnemonicStream.ToArray();
-        }
-
-        /// <summary>
-        /// Deserializes a string array of X86 Mnemonics that was received from another machine.
-        /// </summary>
-        /// <param name="mnemonics">
-        ///     Your x86 assembler instructions to be assembled. 
-        ///     Rule of thumb: Test your ASM in FASM outside of mod loader mods first for successful compilation.
-        ///     Don't forget use32!
-        /// </param>
-        public static string[] DeserializeX86Mnemonics(byte[] mnemonics)
-        {
-            // Initialize MemStream & BinaryFormatter
-            BinaryFormatter binaryFormatterX = new BinaryFormatter();
-            MemoryStream mnemonicStream = new MemoryStream(mnemonics);
-
-            // Return deserialized.
-            return (string[])binaryFormatterX.Deserialize(mnemonicStream);
-        }
     }
 }
