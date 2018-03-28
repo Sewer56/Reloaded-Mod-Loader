@@ -129,14 +129,15 @@ RMDIR "$(TargetDir)\Reloaded"
 
 DEL "$(TargetDir)*.xml"
 DEL "$(TargetDir)*.config"
-DEL  "$(TargetDir)Libraries\main.dll"
 DEL  "$(TargetDir)main.pdb"
-
-MKDIR "$(TargetDir)Libraries"
-move /Y "$(TargetDir)*.dll" "$(TargetDir)Libraries"
+DEL  "$(TargetDir)main.dll"
+DEL /Y "$(TargetDir)*.dll" 
 
 move /Y "$(TargetDir)x86\main.dll" "$(TargetDir)main32.dll"
-move /Y "$(TargetDir)x64\main.dll" "$(TargetDir)main64.dll"</PostBuildEvent>
+move /Y "$(TargetDir)x64\main.dll" "$(TargetDir)main64.dll"
+
+RMDIR "$(TargetDir)\x86"
+RMDIR "$(TargetDir)\x64"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <DllExportIdent>FDB4FA76-AA3C-4000-93A1-FC7F890F65CE</DllExportIdent>
