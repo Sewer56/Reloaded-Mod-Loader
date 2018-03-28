@@ -7,7 +7,7 @@
     <ProjectGuid>{D13B793E-D12D-4E3B-AB02-ADFBDF61807F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ReloadedLauncher</RootNamespace>
-    <AssemblyName>ReloadedLauncher</AssemblyName>
+    <AssemblyName>Reloaded-Launcher</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
