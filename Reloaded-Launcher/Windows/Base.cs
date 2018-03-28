@@ -339,9 +339,6 @@ namespace ReloadedLauncher
         /// </summary>
         public void Shutdown()
         {
-            // Close all forms.
-            foreach (Form winForm in Global.WindowsForms) winForm.Close();
-
             // Shut the program.
             Environment.Exit(0);
         }
