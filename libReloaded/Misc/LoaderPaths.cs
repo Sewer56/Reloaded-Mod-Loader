@@ -37,19 +37,9 @@ namespace Reloaded.Misc
         private static readonly string MOD_LOADER_LINK_FILE = Path.GetTempPath() + "\\Reloaded-Link.txt";
 
         /// <summary>
-        /// Specifies the relative location of the main configuration file for the loader.
-        /// </summary>
-        private static readonly string RELATIVELOCATION_CONFIGFILE = "\\Reloaded-Config\\Config.ini";
-
-        /// <summary>
         /// Specifies the relative location of the configuration directory for the loader.
         /// </summary>
         private static readonly string RELATIVELOCATION_CONFIG = "\\Reloaded-Config";
-
-        /// <summary>
-        /// Specifies the relative location of the configuration directory for the loader.
-        /// </summary>
-        private static readonly string RELATIVELOCATION_THEMES = "\\Reloaded-Config\\Themes";
 
         /// <summary>
         /// Specifies the relative location of the individual game backup files relative to the mod loader.
@@ -67,9 +57,19 @@ namespace Reloaded.Misc
         private static readonly string RELATIVELOCATION_LIBRARIES = "\\Reloaded-Libraries";
 
         /// <summary>
+        /// Specifies the relative location of the main configuration file for the loader.
+        /// </summary>
+        private static readonly string RELATIVELOCATION_CONFIGFILE = RELATIVELOCATION_CONFIG + "\\Config.ini";
+
+        /// <summary>
+        /// Specifies the relative location of the configuration directory for the loader.
+        /// </summary>
+        private static readonly string RELATIVELOCATION_THEMES = RELATIVELOCATION_CONFIG + "\\Themes";
+
+        /// <summary>
         /// Specifies the relative location of the mod loader libraries relative to the mod loader.
         /// </summary>
-        private static readonly string RELATIVELOCATION_GAMES = "\\Reloaded-Config\\Games";
+        private static readonly string RELATIVELOCATION_GAMES = RELATIVELOCATION_CONFIG + "\\Games";
 
         /// <summary>
         /// Retrieves the directory of the current process where the DLL resides in. i.e. the game directory.
