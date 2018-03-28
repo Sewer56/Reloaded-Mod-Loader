@@ -76,7 +76,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
                 if (progressValue != value)
                 {
                     progressValue = value;
-                    Invoke((Action)delegate { Refresh(); }); 
+                    Invoke((Action)Refresh); 
                 }
             }
         }

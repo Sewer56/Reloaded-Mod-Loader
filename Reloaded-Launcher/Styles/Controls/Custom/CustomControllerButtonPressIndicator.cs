@@ -74,7 +74,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         public override string Text
         {
             get => base.Text;
-            set { base.Text = value; Invoke((Action)delegate { Refresh(); }); }
+            set { base.Text = value; Invoke((Action)Refresh); }
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
                 if (buttonEnabled != value)
                 {
                     buttonEnabled = value;
-                    Invoke((Action)delegate { Refresh(); });
+                    Invoke((Action)Refresh);
                 }
             }
         }

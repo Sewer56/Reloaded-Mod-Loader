@@ -77,7 +77,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
             set
             {
                 valueX = value;
-                Invoke((Action)delegate { Refresh(); });
+                Invoke((Action)Refresh);
             }
         }
 
@@ -91,7 +91,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
             set
             {
                 valueY = value;
-                Invoke((Action)delegate { Refresh(); });
+                Invoke((Action)Refresh);
             }
         }
 
@@ -122,7 +122,7 @@ namespace ReloadedLauncher.Styles.Controls.Custom
         {
             valueX = positionX;
             valueY = positionY;
-            Invoke((Action)delegate { Refresh(); });
+            Invoke((Action)Refresh);
         }
 
         /// <summary>
