@@ -117,6 +117,7 @@
     <Compile Include="Misc\Config\Themes\ThemeConfigParser.cs" />
     <Compile Include="Misc\Config\Themes\ThemePropertyParser.cs" />
     <Compile Include="Misc\FileUnblocker.cs" />
+    <Compile Include="Misc\ExtractFodyCosturaFile.cs" />
     <Compile Include="Misc\LoaderPaths.cs" />
     <Compile Include="Misc\PathSanitizer.cs" />
     <Compile Include="Native\WinAPI.cs" />
@@ -144,6 +145,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Costura.Fody">
+      <Version>1.6.2</Version>
+    </PackageReference>
+    <PackageReference Include="Fody">
+      <Version>2.0.0</Version>
+    </PackageReference>
     <PackageReference Include="ini-parser">
       <Version>2.5.2</Version>
     </PackageReference>
@@ -174,6 +181,9 @@
       <Project>{2e4eb0b6-fead-48ba-85bd-0a3879467a9e}</Project>
       <Name>ReloadedAssembler</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

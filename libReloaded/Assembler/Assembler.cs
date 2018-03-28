@@ -22,10 +22,13 @@ using Reloaded.Networking;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows.Forms;
+using Reloaded.Misc;
 using MessageStruct = Reloaded.Networking.Message.MessageStruct;
 
 namespace Reloaded.Assembler
@@ -122,17 +125,20 @@ namespace Reloaded.Assembler
             // Is server not running?
             if (Process.GetProcessesByName("ReloadedAssembler").Length < 1)
             {
-                // Start the assembler server.
-                if (File.Exists("ReloadedAssembler.exe")) { Process.Start("ReloadedAssembler.exe"); }
-                else
-                {
-                    // Search recursively in all subdirectories.
-                    string[] files = Directory.GetFiles(Environment.CurrentDirectory, "ReloadedAssembler.exe", SearchOption.AllDirectories);
+                // Get path to assembler.
+                string currentAssemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string reloadedPath = currentAssemblyFolder + "//" + "ReloadedAssembler.exe";
 
-                    // Start first match.
-                    if (files.Length > 0) { Process.Start(files[0]); }
+                // Start the assembler server.
+                if (!File.Exists(reloadedPath))
+                {
+                    // Extract the executable and run it.
+                    ExtractFodyCosturaFile.ExtractResource("ReloadedAssembler.exe");
                 }
-                
+
+                // Start the assembler.
+                Process.Start(reloadedPath);
+
                 // Connect to our server.
                 ConnectToServer();
             }
