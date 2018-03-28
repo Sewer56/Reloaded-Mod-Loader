@@ -167,7 +167,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\submodules\ReloadedAssembler\ReloadedAssemblerService\ReloadedAssembler.csproj">
+    <Folder Include="GameProcess\Functions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Submodules\ReloadedAssembler\ReloadedAssemblerService\ReloadedAssembler.csproj">
       <Project>{2e4eb0b6-fead-48ba-85bd-0a3879467a9e}</Project>
       <Name>ReloadedAssembler</Name>
     </ProjectReference>
