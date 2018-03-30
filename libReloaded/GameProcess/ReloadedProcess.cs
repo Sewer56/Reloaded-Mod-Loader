@@ -56,7 +56,7 @@ namespace Reloaded.GameProcess
             // Start up the process
             Native.STARTUPINFO startupInfo = new Native.STARTUPINFO();
             Native.PROCESS_INFORMATION processInformation = new Native.PROCESS_INFORMATION();
-            // TODO: Create Suspended
+
             Native.CreateProcess(filePath, arguments, IntPtr.Zero, IntPtr.Zero, false,
                 Native.ProcessCreationFlags.CREATE_SUSPENDED,
                 IntPtr.Zero, Path.GetDirectoryName(filePath), ref startupInfo, out processInformation);
