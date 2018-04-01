@@ -126,14 +126,22 @@ namespace Reloaded.Assembler
             if (Process.GetProcessesByName("ReloadedAssembler").Length < 1)
             {
                 // Get path to assembler.
-                string currentAssemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string reloadedPath = currentAssemblyFolder + "//" + "ReloadedAssembler.exe";
+                string currentExecutingFolder = Assembly.GetExecutingAssembly().Location;
+
+                // Check if library is packed, if it is (no location), get current directory.
+                if (currentExecutingFolder == "") { currentExecutingFolder = Path.GetTempPath(); }
+                else { currentExecutingFolder = Path.GetDirectoryName(currentExecutingFolder); }
+
+                // Create and define path in subdirectory
+                string assemblerDirectory = currentExecutingFolder + "//Reloaded-Assembler";
+                string reloadedPath = assemblerDirectory + "//" + "ReloadedAssembler.exe";
+                Directory.CreateDirectory(assemblerDirectory);
 
                 // Start the assembler server.
                 if (!File.Exists(reloadedPath))
                 {
                     // Extract the executable and run it.
-                    ExtractFodyCosturaFile.ExtractResource("ReloadedAssembler.exe");
+                    ExtractFodyCosturaFile.ExtractResource("ReloadedAssembler.exe", assemblerDirectory);
                 }
 
                 // Start the assembler.
