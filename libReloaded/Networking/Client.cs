@@ -147,6 +147,13 @@ namespace Reloaded.Networking
                 int bytesReceived = ClientSocket.Socket.EndReceive(asyncResult);
                 clientSocket.AsyncReceivedBytes += bytesReceived;
 
+                // Check if we are connected if 0 bytes received
+                if (bytesReceived == 0)
+                {
+                    if (clientSocket.IsSocketConnected() == false)
+                    { clientSocket.Socket.Close(); return; }
+                }
+
                 // If we have not received all of the bytes yet.
                 if (clientSocket.AsyncReceivedBytes < clientSocket.AsyncBytesToReceive)
                 {
@@ -184,6 +191,13 @@ namespace Reloaded.Networking
                 // Gets the length of data that has been received.
                 int bytesReceived = ClientSocket.Socket.EndReceive(asyncResult);
                 clientSocket.AsyncReceivedBytes += bytesReceived;
+
+                // Check if we are connected if 0 bytes received
+                if (bytesReceived == 0)
+                {
+                    if (clientSocket.IsSocketConnected() == false)
+                    { clientSocket.Socket.Close(); return; }
+                }
 
                 // If we have not received all of the bytes yet.
                 if (clientSocket.AsyncReceivedBytes < clientSocket.AsyncBytesToReceive)
