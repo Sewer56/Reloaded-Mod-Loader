@@ -87,6 +87,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assembler\Assembler.cs" />
+    <Compile Include="Assembler\MemoryBuffer.cs" />
+    <Compile Include="GameProcess\Functions-X86\CustomFunctionFactory\FunctionWrapper.cs" />
+    <Compile Include="GameProcess\Functions-X86\CustomFunctionFactory\FunctionInformation.cs" />
+    <Compile Include="GameProcess\Functions-X86\X86CallingConventions.cs" />
     <Compile Include="GameProcess\Libraries.cs" />
     <Compile Include="GameProcess\Memory\PatternScan.cs" />
     <Compile Include="GameProcess\Memory\Allocate.cs" />
@@ -94,9 +98,9 @@
     <Compile Include="GameProcess\Native\Native.cs" />
     <Compile Include="GameProcess\ReloadedExtensions.cs" />
     <Compile Include="GameProcess\ReloadedProcess.cs" />
-    <Compile Include="Hooking\Hooks\AssemblyHook.cs" />
-    <Compile Include="Hooking\HookBase.cs" />
-    <Compile Include="Hooking\Hooks\InjectionHook.cs" />
+    <Compile Include="Hooking-X86\HookBase.cs" />
+    <Compile Include="Hooking-X86\Hooks\AssemblyHook.cs" />
+    <Compile Include="Hooking-X86\Hooks\InjectionHook.cs" />
     <Compile Include="Input\Common\ControllerCommon.cs" />
     <Compile Include="Input\Config\ControllerConfigParser.cs" />
     <Compile Include="Input\Config\SampleConfig.cs" />
@@ -173,9 +177,7 @@
       <Version>4.4.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GameProcess\Functions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Submodules\ReloadedAssembler\ReloadedAssemblerService\ReloadedAssembler.csproj">
       <Project>{2e4eb0b6-fead-48ba-85bd-0a3879467a9e}</Project>
