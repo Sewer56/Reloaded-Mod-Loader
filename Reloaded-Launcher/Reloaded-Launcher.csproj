@@ -325,7 +325,6 @@
     <Folder Include="Resources\Files\Reloaded-Config\Controllers\Instances\" />
     <Folder Include="Resources\Files\Reloaded-Config\Controllers\XInput\" />
     <Folder Include="Resources\Files\Reloaded-Config\Themes\Default\Bitmaps\" />
-    <Folder Include="Resources\Files\Reloaded-Libraries\" />
     <Folder Include="Resources\Files\Reloaded-Mods\Sonic-Heroes\" />
     <Folder Include="Resources\Images\128x\" />
     <Folder Include="Resources\Images\Source\" />
