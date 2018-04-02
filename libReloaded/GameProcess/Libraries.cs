@@ -49,7 +49,7 @@ namespace Reloaded.GameProcess
             IntPtr hThread = Native.CreateRemoteThread(process.processHandle, IntPtr.Zero, 0, address, parameteraddress, 0, out threadID);
 
             // Wait for the thread to finish.
-            Native.WaitForSingleObject(hThread, unchecked((uint)-1));
+            uint devNull = Native.WaitForSingleObject(hThread, unchecked((uint)-1));
 
             // Store and retrieve the exit code for the thread.
             uint exitCode;
@@ -85,13 +85,6 @@ namespace Reloaded.GameProcess
         /// </summary>
         /// <param name="libraryPath">The path to the specific DLL/Library to obtain function from.</param>
         /// <param name="functionName">The function name of a C/C++/Native exported function in a library.</param>
-        /// <remarks>
-        ///     For injected DLLs into target processes, this will work because the library in reality is only
-        ///     allocated once to a location and not reloaded per-process. It is loaded from the same real physical
-        ///     address and always mapped onto equivalent address in the virtual address space for each process.
-        ///     i.e. Our pointer for Function1 would also be valid for another process, provided the other process
-        ///     has at first loaded the library with LoadLibraryA.
-        /// </remarks>
         public static IntPtr GetLibraryFunctionAddress(string libraryPath, string functionName)
         {
             // Obtain the handle to the library.
@@ -99,6 +92,27 @@ namespace Reloaded.GameProcess
 
             // Return the address of the function with the specified function name.
             return Native.GetProcAddress(libraryHandle, functionName);
+        }
+
+        /// <summary>
+        /// GetLibraryFunctionAddress
+        ///     Returns the offset of the address of an exported function relative to the handle/module base 
+        ///     of the library with the passed in directory (generally marked __declspec(dllexport))
+        ///     in the library supplied by the parameter (which may already be loaded).
+        ///     The method loads the DLL and gets the base using LoadLibrary and using GetProcAddress(),
+        ///     obtains the address of a specified function with the matching name and subtracts it from the base.
+        /// </summary>
+        /// <param name="libraryPath">The path to the specific DLL/Library to obtain function from.</param>
+        /// <param name="functionName">The function name of a C/C++/Native exported function in a library.</param>
+        public static IntPtr GetLibraryFunctionOffset(string libraryPath, string functionName)
+        {
+            // Obtain the handle to the library.
+            IntPtr libraryHandle = Native.LoadLibrary(libraryPath);
+
+            // The address of the function with the specified function name.
+            IntPtr functionHandle = Native.GetProcAddress(libraryHandle, functionName);
+            
+            return (IntPtr)((long)functionHandle - (long)libraryHandle);
         }
     }
 }

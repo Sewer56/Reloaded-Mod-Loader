@@ -101,15 +101,16 @@ namespace Reloaded.GameProcess
             // Execution within the target process works by creating a thread within the virtual address space of the target process.
             // Our library will now be loaded within the address space of the game/game module to use and ready for us to execute.
             // This means that the game will now be able to access it ;)
-            Process.CallLibrary(LoadLibraryAddress, libraryNameMemoryAddress);
+            IntPtr moduleBaseAddress = (IntPtr)Process.CallLibrary(LoadLibraryAddress, libraryNameMemoryAddress);
 
             // Get the address of the "FunctionToExecute" function by loading the library into
-            // ourselves. The address we will receive should be identical to the address
-            // that has been allocated within the target process.
-            IntPtr mainFunctionAddress = Libraries.GetLibraryFunctionAddress(libraryPath, FunctionToExecute);
+            // ourselves. Then take away from the module base address to retrieve the offset of the requested
+            // function. By sheer chance, the handle happens to be module base address :^)
+            IntPtr mainFunctionOffset = Libraries.GetLibraryFunctionOffset(libraryPath, FunctionToExecute);
+            IntPtr functionAddress = (IntPtr)((long) moduleBaseAddress + (long)mainFunctionOffset);
 
             // Call our main function within the target executable.
-            Process.CallLibrary(mainFunctionAddress, parameterPointer);
+            Process.CallLibrary(functionAddress, parameterPointer);
         }
 
         /// <summary>
