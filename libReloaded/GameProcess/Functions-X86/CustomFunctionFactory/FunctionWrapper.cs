@@ -43,7 +43,7 @@ namespace Reloaded.GameProcess.CustomFunctionFactory
 
             // Call Game Function Pointer (gameFunctionPointer is address at which our function address is written)
             IntPtr gameFunctionPointer = MemoryBuffer.Add(functionAddress); 
-            assemblyCode.Add("call dword [" + gameFunctionPointer + "]"); 
+            assemblyCode.Add("call dword [0x" + gameFunctionPointer.ToString("X") + "]"); 
 
             // Stack cleanup if necessary 
             // Move back the stack pointer to before our pushed parameters
@@ -100,7 +100,7 @@ namespace Reloaded.GameProcess.CustomFunctionFactory
             for (int x = 0; x < nonRegisterParameters; x++)
             {
                 // Push parameter onto stack.
-                assemblyCode.Add($"push [ebp + {currentBaseStackOffset}]");
+                assemblyCode.Add($"push dword [ebp + {currentBaseStackOffset}]");
 
                 // Go to next parameter.
                 currentBaseStackOffset -= 4;
