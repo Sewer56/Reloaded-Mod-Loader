@@ -21,6 +21,7 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using Reloaded.Networking.Sockets;
 using static Reloaded.Networking.Message;
 
 namespace Reloaded.Networking
@@ -35,7 +36,7 @@ namespace Reloaded.Networking
         /// Defines the maximum amount of connection attempts before the client gives
         /// up trying to connect to the host. Poor client...
         /// </summary>
-        public int MAX_CONNECTION_ATTEMPTS = 10;
+        public int MaxConnectionAttempts = 10;
 
         /// <summary>
         /// The socket we will be using to communicate with the server.
@@ -43,7 +44,7 @@ namespace Reloaded.Networking
         public ReloadedSocket ClientSocket { get; set; }
 
         /// <summary>
-        /// What kuind of addresses should we accept. (Loopback for local, Any for external connections)
+        /// What kind of addresses should we accept. (Loopback for local, Any for external connections)
         /// </summary>
         public IPAddress IpAddressType { get; set; }
 
@@ -92,7 +93,7 @@ namespace Reloaded.Networking
             while (!ClientSocket.Socket.Connected)
             {
                 // Try X Times.
-                if (connectionAttempts >= MAX_CONNECTION_ATTEMPTS) return false;
+                if (connectionAttempts >= MaxConnectionAttempts) return false;
 
                 // Attempt to establish a connection.
                 try
@@ -137,7 +138,7 @@ namespace Reloaded.Networking
             try
             {
                 // This socket is the same socket as in AcceptCallback
-                ReloadedSocket clientSocket = (ReloadedSocket)asyncResult.AsyncState;
+                ReloadedSocket clientSocket = (ReloadedSocket) asyncResult.AsyncState;
 
                 // Set expected data to be received to 4. (Message length)
                 clientSocket.AsyncBytesToReceive = sizeof(UInt32);
@@ -147,11 +148,11 @@ namespace Reloaded.Networking
                 int bytesReceived = ClientSocket.Socket.EndReceive(asyncResult);
                 clientSocket.AsyncReceivedBytes += bytesReceived;
 
-                // Check if we are connected if 0 bytes received
+                // Close if we are disconnected if 0 bytes received
                 if (bytesReceived == 0)
                 {
-                    if (clientSocket.IsSocketConnected() == false)
-                    { clientSocket.Socket.Close(); return; }
+                    clientSocket.CloseIfDisconnected();
+                    return;
                 }
 
                 // If we have not received all of the bytes yet.
@@ -168,13 +169,20 @@ namespace Reloaded.Networking
                 clientSocket.AsyncBytesToReceive = BitConverter.ToInt32(ClientSocket.ReceiveBuffer, 0);
                 clientSocket.AsyncReceivedBytes = 0;
 
+                // Increase buffer size if necessary.
+                if (clientSocket.AsyncBytesToReceive > clientSocket.ReceiveBuffer.Length)
+                { clientSocket.ReceiveBuffer = new byte[clientSocket.AsyncBytesToReceive]; }
+
                 // The size of data to receive is the size of a message header.
                 ClientSocket.Socket.BeginReceive(ClientSocket.ReceiveBuffer, clientSocket.AsyncReceivedBytes,
                     clientSocket.AsyncBytesToReceive - clientSocket.AsyncReceivedBytes, SocketFlags.None,
                     ReceiveDataCallback, clientSocket);
             }
             // Server was closed.
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                Bindings.PrintWarning("[libReloaded] Exception thrown while receiving packet size header, the host probably closed the connection | " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -186,17 +194,17 @@ namespace Reloaded.Networking
             try
             {
                 // This socket is the same socket as in AcceptCallback
-                ReloadedSocket clientSocket = (ReloadedSocket)asyncResult.AsyncState;
+                ReloadedSocket clientSocket = (ReloadedSocket) asyncResult.AsyncState;
 
                 // Gets the length of data that has been received.
                 int bytesReceived = ClientSocket.Socket.EndReceive(asyncResult);
                 clientSocket.AsyncReceivedBytes += bytesReceived;
 
-                // Check if we are connected if 0 bytes received
+                // Close if we are disconnected if 0 bytes received
                 if (bytesReceived == 0)
                 {
-                    if (clientSocket.IsSocketConnected() == false)
-                    { clientSocket.Socket.Close(); return; }
+                    clientSocket.CloseIfDisconnected();
+                    return;
                 }
 
                 // If we have not received all of the bytes yet.
@@ -221,13 +229,20 @@ namespace Reloaded.Networking
                 // Re-set bytes received.
                 clientSocket.AsyncReceivedBytes = 0;
 
+                // Reset buffer size (old buffer will be Garbage Collected in due time).
+                if (clientSocket.ReceiveBuffer.Length > clientSocket.DefaultBufferSize)
+                { clientSocket.ReceiveBuffer = new byte[clientSocket.DefaultBufferSize]; }
+
                 // Accept connections again!
                 // Header Length!
                 ClientSocket.Socket.BeginReceive(ClientSocket.ReceiveBuffer, 0, sizeof(UInt32), SocketFlags.None,
                     ReceiveSizeCallback, clientSocket);
             }
             // Server was closed.
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                Bindings.PrintWarning("[libReloaded] Exception thrown while receiving packet data, the host probably closed the connection | " + ex.Message);
+            }
         }
     }
 }

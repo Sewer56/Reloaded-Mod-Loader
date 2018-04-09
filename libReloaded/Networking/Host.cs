@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using Reloaded.Networking.Sockets;
 using static Reloaded.Networking.Message;
 
 namespace Reloaded.Networking
@@ -117,7 +118,7 @@ namespace Reloaded.Networking
         {
             // Temporarily stop accepting connections.
             // Set up a socket responsible for communication with the client.
-            Socket clientSocket = (Socket)ReloadedSocket.Socket.EndAccept(asyncResult);
+            Socket clientSocket = ReloadedSocket.Socket.EndAccept(asyncResult);
            
             // Set up Reloaded Socket from Socket
             ReloadedSocket actualClientSocket = new ReloadedSocket(clientSocket);
@@ -152,11 +153,11 @@ namespace Reloaded.Networking
                 int bytesReceived = clientSocket.Socket.EndReceive(asyncResult);
                 clientSocket.AsyncReceivedBytes += bytesReceived;
 
-                // Check if we are connected if 0 bytes received
+                // Close if we are disconnected if 0 bytes received
                 if (bytesReceived == 0)
                 {
-                    if (clientSocket.IsSocketConnected() == false)
-                    { clientSocket.Socket.Close(); return; }
+                    clientSocket.CloseIfDisconnected();
+                    return;
                 }
 
                 // If we have not received all of the bytes yet.
@@ -173,13 +174,20 @@ namespace Reloaded.Networking
                 clientSocket.AsyncBytesToReceive = BitConverter.ToInt32(ReloadedSocket.ReceiveBuffer, 0);
                 clientSocket.AsyncReceivedBytes = 0;
 
+                // Increase buffer size if necessary.
+                if (clientSocket.AsyncBytesToReceive > clientSocket.ReceiveBuffer.Length)
+                { clientSocket.ReceiveBuffer = new byte[clientSocket.AsyncBytesToReceive]; }
+
                 // The size of data to receive is the size of a message header.
                 clientSocket.Socket.BeginReceive(ReloadedSocket.ReceiveBuffer, clientSocket.AsyncReceivedBytes,
                     clientSocket.AsyncBytesToReceive - clientSocket.AsyncReceivedBytes, SocketFlags.None,
                     ReceiveDataCallback, clientSocket);
             }
             // Server was closed.
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                Bindings.PrintWarning("[libReloaded] Exception thrown while receiving packet size header, the client probably closed the connection | " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -197,11 +205,11 @@ namespace Reloaded.Networking
                 int bytesReceived = clientSocket.Socket.EndReceive(asyncResult);
                 clientSocket.AsyncReceivedBytes += bytesReceived;
 
-                // Check if we are connected if 0 bytes received
+                // Close if we are disconnected if 0 bytes received
                 if (bytesReceived == 0)
                 {
-                    if (clientSocket.IsSocketConnected() == false)
-                    { clientSocket.Socket.Close(); return; }
+                    clientSocket.CloseIfDisconnected();
+                    return;
                 }
 
                 // If we have not received all of the bytes yet.
@@ -226,13 +234,20 @@ namespace Reloaded.Networking
                 // Re-set bytes received.
                 clientSocket.AsyncReceivedBytes = 0;
 
+                // Reset buffer size (old buffer will be Garbage Collected in due time).
+                if (clientSocket.ReceiveBuffer.Length > clientSocket.DefaultBufferSize)
+                { clientSocket.ReceiveBuffer = new byte[clientSocket.DefaultBufferSize]; }
+
                 // Accept connections again!
                 // Header Length!
                 clientSocket.Socket.BeginReceive(ReloadedSocket.ReceiveBuffer, 0, sizeof(UInt32), SocketFlags.None,
                     ReceiveSizeCallback, clientSocket);
             }
             // Server was closed.
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                Bindings.PrintWarning("[libReloaded] Exception thrown while receiving packet data, the client probably closed the connection | " + ex.Message);
+            }
         }
     }
 }

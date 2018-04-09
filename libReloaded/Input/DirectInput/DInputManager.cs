@@ -33,36 +33,36 @@ namespace Reloaded.Input.DirectInput
         /// <summary>
         /// Represents the maximum set value that is to be returned from a controller.
         /// </summary>
-        public static int AXIS_MAX_VALUE = 10000;
+        public static int AxisMaxValue = 10000;
 
         /// <summary>
         /// Represents the minimum set value that is to be returned from a controller.
         /// </summary>
-        public static int AXIS_MIN_VALUE = -10000;
+        public static int AxisMinValue = -10000;
 
         /// <summary>
         /// Defines the factor by which the range of the values for the trigger (max - min)
         /// is scaled.
         /// </summary>
-        public static float TRIGGER_SCALE_FACTOR = 0.5F;
+        public static float TriggerScaleFactor = 0.5F;
 
         /// <summary>
         /// The name of a file that is temporarily dumped onto the game directory which signifies that
         /// a controller is currently being acquired via DirectInput. This should be consistent between mods
         /// as multiple mods trying to acquire DInput devices at once could lead to deadlocks.  
         /// </summary>
-        public static string CONTROLLER_ACQUIRE_FILENAME_FLAG = "Controller_Acquire.txt";
+        public static string ControllerAcquireFilenameFlag = "Controller_Acquire.txt";
 
         /// <summary>
         /// Stores a list of all DirectInput controller devices such as Mice, Keyboards
         /// and Joysticks used within the mod loader.
         /// </summary>
-        private List<DInputController> dInputControllers;
+        private List<DInputController> _dInputControllers;
 
         /// <summary>
         /// Declare the directinput adapter used for acquiring directinput devices.
         /// </summary>
-        private SharpDX.DirectInput.DirectInput directInputAdapter;
+        private SharpDX.DirectInput.DirectInput _directInputAdapter;
 
         /// <summary>
         /// Loads and initializes all of the mod loader's DirectInput controllers.
@@ -95,7 +95,7 @@ namespace Reloaded.Input.DirectInput
         /// </summary>
         public List<DInputController> RetrieveDevices()
         {
-            return dInputControllers;
+            return _dInputControllers;
         }
 
         /// <summary>
@@ -103,14 +103,13 @@ namespace Reloaded.Input.DirectInput
         /// potential deadlocks as multiple mods may try to simultaneously acquire the same
         /// input devices. This is a fail-safe as new mods should contact back the mod-loader server
         /// to inform the server that a mod has finished loading.
-        /// TODO: Update this as the mod loader server is updated.
         /// </summary>
         private void CreateAcquisitionLock()
         {
             // Wait for potential lock.
             // 1 second timeout.
             int timeout = 0;
-            while (File.Exists(CONTROLLER_ACQUIRE_FILENAME_FLAG))
+            while (File.Exists(ControllerAcquireFilenameFlag))
             {
                 timeout += 1;
                 if (timeout == 60) break;
@@ -118,7 +117,7 @@ namespace Reloaded.Input.DirectInput
             }
 
             // Create lock.
-            File.Create(CONTROLLER_ACQUIRE_FILENAME_FLAG).Close();
+            File.Create(ControllerAcquireFilenameFlag).Close();
         }
 
         /// <summary>
@@ -128,7 +127,7 @@ namespace Reloaded.Input.DirectInput
         private void DestroyAcquisitionLock()
         {
             // Unlock
-            File.Delete(CONTROLLER_ACQUIRE_FILENAME_FLAG);
+            File.Delete(ControllerAcquireFilenameFlag);
         }
 
         /// <summary>
@@ -138,39 +137,45 @@ namespace Reloaded.Input.DirectInput
         private void GetConnectedControllers()
         {
             // Instantiate the DirectInput adapter.
-            directInputAdapter = new SharpDX.DirectInput.DirectInput();
+            _directInputAdapter = new SharpDX.DirectInput.DirectInput();
 
             // Allocate a list of controllers.
-            dInputControllers = new List<DInputController>();
+            _dInputControllers = new List<DInputController>();
 
             // Allocate a list of device instances.
-            List<DeviceInstance> DInputDevices = new List<DeviceInstance>();
+            List<DeviceInstance> dInputDevices = new List<DeviceInstance>();
 
             // Acquire all DInput devices.
-            DInputDevices.AddRange(directInputAdapter.GetDevices(DeviceClass.All, DeviceEnumerationFlags.AttachedOnly));
+            dInputDevices.AddRange(_directInputAdapter.GetDevices(DeviceClass.All, DeviceEnumerationFlags.AttachedOnly));
 
             // Acquire and initialize each device.
-            foreach (DeviceInstance DInputDevice in DInputDevices)
+            foreach (DeviceInstance dInputDevice in dInputDevices)
+            {
+                // Filter devices to initialize by type.
+                if (dInputDevice.Type == DeviceType.Joystick)
+                    _dInputControllers.Add(SetupController(dInputDevice));
 
-            // Filter devices to initialize by type.
-            if (DInputDevice.Type == DeviceType.Joystick)
-                dInputControllers.Add(SetupController(DInputDevice));
-            else if (DInputDevice.Type == DeviceType.Gamepad)
-                dInputControllers.Add(SetupController(DInputDevice));
-            else if (DInputDevice.Type == DeviceType.Keyboard)
-                dInputControllers.Add(SetupController(DInputDevice));
-            else if (DInputDevice.Type == DeviceType.Mouse)
-                dInputControllers.Add(SetupController(DInputDevice));
+                else if (dInputDevice.Type == DeviceType.Gamepad)
+                    _dInputControllers.Add(SetupController(dInputDevice));
+
+                else if (dInputDevice.Type == DeviceType.Keyboard)
+                    _dInputControllers.Add(SetupController(dInputDevice));
+
+                else if (dInputDevice.Type == DeviceType.Mouse)
+                    _dInputControllers.Add(SetupController(dInputDevice));
+            }
         }
 
         /// <summary>
         /// Instantiates and sets up an individual controller and/or input device with the
         /// DInputController class in place. Returns an instantiated controller instance.
+        /// <param name="dInputDevice">Configures a DirectInput device with the appropriate axis ranges, 
+        /// absolute/relative axis settings and acquires the DirectInput devices for our usage within Reloaded Mod Loader.</param>
         /// </summary>
-        private DInputController SetupController(DeviceInstance DInputDevice)
+        private DInputController SetupController(DeviceInstance dInputDevice)
         {
             // Initialize Joystick/Controller
-            DInputController dInputController = new DInputController(directInputAdapter, DInputDevice.InstanceGuid);
+            DInputController dInputController = new DInputController(_directInputAdapter, dInputDevice.InstanceGuid);
 
             // If the device is a mouse, set the axis mode to relative.
             if (dInputController.Information.Type == DeviceType.Mouse)
@@ -185,7 +190,7 @@ namespace Reloaded.Input.DirectInput
 
             // Check if the object flags contain axis bits.
             if (deviceObject.ObjectId.Flags.HasFlag(DeviceObjectTypeFlags.AbsoluteAxis))
-                dInputController.GetObjectPropertiesById(deviceObject.ObjectId).Range = new InputRange(AXIS_MIN_VALUE, AXIS_MAX_VALUE);
+                dInputController.GetObjectPropertiesById(deviceObject.ObjectId).Range = new InputRange(AxisMinValue, AxisMaxValue);
 
             // Return the DirectInput Device.
             return dInputController;

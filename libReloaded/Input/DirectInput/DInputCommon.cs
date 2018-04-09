@@ -19,7 +19,7 @@
 */
 
 using SharpDX.DirectInput;
-using static Reloaded.Input.ControllerCommon;
+using static Reloaded.Input.Common.ControllerCommon;
 
 namespace Reloaded.Input.DirectInput
 {
@@ -34,25 +34,25 @@ namespace Reloaded.Input.DirectInput
         /// <param name="button">The requested button whose index is to be obtained.</param>
         /// <param name="buttonMappings">The button mapping for the specified controller.</param>
         /// <returns></returns>
-        public static int DInputGetMappedButtonIndex(Controller_Buttons_Generic button, ButtonMapping buttonMappings)
+        public static int DInputGetMappedButtonIndex(ControllerButtonsGeneric button, ButtonMapping buttonMappings)
         {
             // Stores the button that is to be checked.
-            int buttonToTest = BUTTON_NULL;
+            int buttonToTest = ButtonNull;
 
             // Switch statement checks the mapping of each button to the virtual xbox button.
             switch (button)
             {
-                case Controller_Buttons_Generic.Button_A: buttonToTest = buttonMappings.Button_A; break;
-                case Controller_Buttons_Generic.Button_B: buttonToTest = buttonMappings.Button_B; break;
-                case Controller_Buttons_Generic.Button_X: buttonToTest = buttonMappings.Button_X; break;
-                case Controller_Buttons_Generic.Button_Y: buttonToTest = buttonMappings.Button_Y; break;
-                case Controller_Buttons_Generic.Button_LB: buttonToTest = buttonMappings.Button_LB; break;
-                case Controller_Buttons_Generic.Button_RB: buttonToTest = buttonMappings.Button_RB; break;
-                case Controller_Buttons_Generic.Button_LS: buttonToTest = buttonMappings.Button_LS; break;
-                case Controller_Buttons_Generic.Button_RS: buttonToTest = buttonMappings.Button_RS; break;
-                case Controller_Buttons_Generic.Button_Back: buttonToTest = buttonMappings.Button_Back; break;
-                case Controller_Buttons_Generic.Button_Start: buttonToTest = buttonMappings.Button_Start; break;
-                case Controller_Buttons_Generic.Button_Guide: buttonToTest = buttonMappings.Button_Guide; break;
+                case ControllerButtonsGeneric.ButtonA: buttonToTest = buttonMappings.ButtonA; break;
+                case ControllerButtonsGeneric.ButtonB: buttonToTest = buttonMappings.ButtonB; break;
+                case ControllerButtonsGeneric.ButtonX: buttonToTest = buttonMappings.ButtonX; break;
+                case ControllerButtonsGeneric.ButtonY: buttonToTest = buttonMappings.ButtonY; break;
+                case ControllerButtonsGeneric.ButtonLb: buttonToTest = buttonMappings.ButtonLb; break;
+                case ControllerButtonsGeneric.ButtonRb: buttonToTest = buttonMappings.ButtonRb; break;
+                case ControllerButtonsGeneric.ButtonLs: buttonToTest = buttonMappings.ButtonLs; break;
+                case ControllerButtonsGeneric.ButtonRs: buttonToTest = buttonMappings.ButtonRs; break;
+                case ControllerButtonsGeneric.ButtonBack: buttonToTest = buttonMappings.ButtonBack; break;
+                case ControllerButtonsGeneric.ButtonStart: buttonToTest = buttonMappings.ButtonStart; break;
+                case ControllerButtonsGeneric.ButtonGuide: buttonToTest = buttonMappings.ButtonGuide; break;
             }
 
             // Return the button that is to be checked.
@@ -65,31 +65,31 @@ namespace Reloaded.Input.DirectInput
         /// <param name="button">The requested button whose index is to be obtained.</param>
         /// <param name="buttonMappings">The button mapping for the specified controller.</param>
         /// <returns></returns>
-        public static int DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic button, EmulationButtonMapping buttonMappings)
+        public static int DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric button, EmulationButtonMapping buttonMappings)
         {
             // Stores the button that is to be checked.
-            int buttonToTest = BUTTON_NULL;
+            int buttonToTest = ButtonNull;
 
             // Switch statement checks the mapping of each button to the virtual xbox button.
             switch (button)
             {
-                case Emulated_Buttons_Generic.DPAD_DOWN: buttonToTest = buttonMappings.DPAD_DOWN; break;
-                case Emulated_Buttons_Generic.DPAD_LEFT: buttonToTest = buttonMappings.DPAD_LEFT; break;
-                case Emulated_Buttons_Generic.DPAD_RIGHT: buttonToTest = buttonMappings.DPAD_RIGHT; break;
-                case Emulated_Buttons_Generic.DPAD_UP: buttonToTest = buttonMappings.DPAD_UP; break;
+                case EmulatedButtonsGeneric.DpadDown: buttonToTest = buttonMappings.DpadDown; break;
+                case EmulatedButtonsGeneric.DpadLeft: buttonToTest = buttonMappings.DpadLeft; break;
+                case EmulatedButtonsGeneric.DpadRight: buttonToTest = buttonMappings.DpadRight; break;
+                case EmulatedButtonsGeneric.DpadUp: buttonToTest = buttonMappings.DpadUp; break;
 
-                case Emulated_Buttons_Generic.Left_Stick_Down: buttonToTest = buttonMappings.Left_Stick_Down; break;
-                case Emulated_Buttons_Generic.Left_Stick_Left: buttonToTest = buttonMappings.Left_Stick_Left; break;
-                case Emulated_Buttons_Generic.Left_Stick_Right: buttonToTest = buttonMappings.Left_Stick_Right; break;
-                case Emulated_Buttons_Generic.Left_Stick_Up: buttonToTest = buttonMappings.Left_Stick_Up; break;
+                case EmulatedButtonsGeneric.LeftStickDown: buttonToTest = buttonMappings.LeftStickDown; break;
+                case EmulatedButtonsGeneric.LeftStickLeft: buttonToTest = buttonMappings.LeftStickLeft; break;
+                case EmulatedButtonsGeneric.LeftStickRight: buttonToTest = buttonMappings.LeftStickRight; break;
+                case EmulatedButtonsGeneric.LeftStickUp: buttonToTest = buttonMappings.LeftStickUp; break;
 
-                case Emulated_Buttons_Generic.Right_Stick_Down: buttonToTest = buttonMappings.Right_Stick_Down; break;
-                case Emulated_Buttons_Generic.Right_Stick_Left: buttonToTest = buttonMappings.Right_Stick_Left; break;
-                case Emulated_Buttons_Generic.Right_Stick_Right: buttonToTest = buttonMappings.Right_Stick_Right; break;
-                case Emulated_Buttons_Generic.Right_Stick_Up: buttonToTest = buttonMappings.Right_Stick_Up; break;
+                case EmulatedButtonsGeneric.RightStickDown: buttonToTest = buttonMappings.RightStickDown; break;
+                case EmulatedButtonsGeneric.RightStickLeft: buttonToTest = buttonMappings.RightStickLeft; break;
+                case EmulatedButtonsGeneric.RightStickRight: buttonToTest = buttonMappings.RightStickRight; break;
+                case EmulatedButtonsGeneric.RightStickUp: buttonToTest = buttonMappings.RightStickUp; break;
 
-                case Emulated_Buttons_Generic.Left_Trigger: buttonToTest = buttonMappings.Left_Trigger; break;
-                case Emulated_Buttons_Generic.Right_Trigger: buttonToTest = buttonMappings.Right_Trigger; break;
+                case EmulatedButtonsGeneric.LeftTrigger: buttonToTest = buttonMappings.LeftTrigger; break;
+                case EmulatedButtonsGeneric.RightTrigger: buttonToTest = buttonMappings.RightTrigger; break;
             }
 
             // Return the button that is to be checked.
@@ -119,14 +119,14 @@ namespace Reloaded.Input.DirectInput
         private static int GetAxisRawValue(AxisMappingEntry mappingEntry, JoystickState joystickState)
         {
             // If axis source is null, and the axis is a trigger, return minimum float.
-            if (mappingEntry.propertyName == "Null" && (mappingEntry.axis == ControllerAxis.Left_Trigger || mappingEntry.axis == ControllerAxis.Right_Trigger))
-                return DInputManager.AXIS_MIN_VALUE;
+            if (mappingEntry.SourceAxis == "Null" && (mappingEntry.DestinationAxis == ControllerAxis.LeftTrigger || mappingEntry.DestinationAxis == ControllerAxis.RightTrigger))
+                return DInputManager.AxisMinValue;
 
             // Else return 0 if the axis source is null.
-            if (mappingEntry.propertyName == "Null") return 0;
+            if (mappingEntry.SourceAxis == "Null") return 0;
 
             // Return the appropriately mapped axis!
-            return (int)Reflection_GetValue(joystickState, mappingEntry.propertyName); 
+            return (int)Reflection_GetValue(joystickState, mappingEntry.SourceAxis); 
         }
     }
 }

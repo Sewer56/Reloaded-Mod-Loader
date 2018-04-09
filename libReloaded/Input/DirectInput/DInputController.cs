@@ -19,8 +19,9 @@
 */
 
 using System;
+using Reloaded.Input.Modules;
 using SharpDX.DirectInput;
-using static Reloaded.Input.ControllerCommon;
+using static Reloaded.Input.Common.ControllerCommon;
 using static Reloaded.Input.DirectInput.DInputCommon;
 
 namespace Reloaded.Input.DirectInput
@@ -66,7 +67,7 @@ namespace Reloaded.Input.DirectInput
         /// <summary>
         /// Defines the individual port used for this specific controller.
         /// </summary>
-        public int ControllerID { get; set; }
+        public int ControllerId { get; set; }
 
         /// <summary>
         /// Provides a control scheme remapper allowing for buttons to be remapped on the fly.
@@ -115,13 +116,13 @@ namespace Reloaded.Input.DirectInput
         /// the requested Controller_Buttons_Generic member of the "emulated" 360 pad.
         /// True if said button is pressed, else false.
         /// </summary>
-        public bool GetButtonState(Controller_Buttons_Generic button)
+        public bool GetButtonState(ControllerButtonsGeneric button)
         {
             // Retrieve requested button index.
             int buttonIndex = DInputGetMappedButtonIndex(button, ButtonMapping);
 
             // Return the state declaring if the joystick button is pressed.
-            return buttonIndex == 255 ? false : JoystickState.Buttons[buttonIndex];
+            return buttonIndex != 255 && JoystickState.Buttons[buttonIndex];
         }
 
         /// <summary>
@@ -177,16 +178,16 @@ namespace Reloaded.Input.DirectInput
             if (JoystickState.PointOfViewControllers[0] == -1) { }
             else
             {
-                switch ((DPAD_Direction)JoystickState.PointOfViewControllers[0])
+                switch ((DpadDirection)JoystickState.PointOfViewControllers[0])
                 {
-                    case DPAD_Direction.UP: controllerInputs.controllerButtons.DPAD_UP = true; break;
-                    case DPAD_Direction.DOWN: controllerInputs.controllerButtons.DPAD_DOWN = true; break;
-                    case DPAD_Direction.LEFT: controllerInputs.controllerButtons.DPAD_LEFT = true; break;
-                    case DPAD_Direction.RIGHT: controllerInputs.controllerButtons.DPAD_RIGHT = true; break;
-                    case DPAD_Direction.UP_LEFT: controllerInputs.controllerButtons.DPAD_UP = true; controllerInputs.controllerButtons.DPAD_LEFT = true; break;
-                    case DPAD_Direction.UP_RIGHT: controllerInputs.controllerButtons.DPAD_UP = true; controllerInputs.controllerButtons.DPAD_RIGHT = true; break;
-                    case DPAD_Direction.DOWN_LEFT: controllerInputs.controllerButtons.DPAD_DOWN = true; controllerInputs.controllerButtons.DPAD_LEFT = true; break;
-                    case DPAD_Direction.DOWN_RIGHT: controllerInputs.controllerButtons.DPAD_DOWN = true; controllerInputs.controllerButtons.DPAD_RIGHT = true; break;
+                    case DpadDirection.Up: controllerInputs.ControllerButtons.DpadUp = true; break;
+                    case DpadDirection.Down: controllerInputs.ControllerButtons.DpadDown = true; break;
+                    case DpadDirection.Left: controllerInputs.ControllerButtons.DpadLeft = true; break;
+                    case DpadDirection.Right: controllerInputs.ControllerButtons.DpadRight = true; break;
+                    case DpadDirection.UpLeft: controllerInputs.ControllerButtons.DpadUp = true; controllerInputs.ControllerButtons.DpadLeft = true; break;
+                    case DpadDirection.UpRight: controllerInputs.ControllerButtons.DpadUp = true; controllerInputs.ControllerButtons.DpadRight = true; break;
+                    case DpadDirection.DownLeft: controllerInputs.ControllerButtons.DpadDown = true; controllerInputs.ControllerButtons.DpadLeft = true; break;
+                    case DpadDirection.DownRight: controllerInputs.ControllerButtons.DpadDown = true; controllerInputs.ControllerButtons.DpadRight = true; break;
                 }
             }
 
@@ -204,17 +205,17 @@ namespace Reloaded.Input.DirectInput
         private ControllerInputs GetCurrentButtons(ControllerInputs controllerInputs)
         {
             // Retrieve all of the buttons.
-            controllerInputs.controllerButtons.Button_A = GetButtonState(Controller_Buttons_Generic.Button_A);
-            controllerInputs.controllerButtons.Button_B = GetButtonState(Controller_Buttons_Generic.Button_B);
-            controllerInputs.controllerButtons.Button_X = GetButtonState(Controller_Buttons_Generic.Button_X);
-            controllerInputs.controllerButtons.Button_Y = GetButtonState(Controller_Buttons_Generic.Button_Y);
+            controllerInputs.ControllerButtons.ButtonA = GetButtonState(ControllerButtonsGeneric.ButtonA);
+            controllerInputs.ControllerButtons.ButtonB = GetButtonState(ControllerButtonsGeneric.ButtonB);
+            controllerInputs.ControllerButtons.ButtonX = GetButtonState(ControllerButtonsGeneric.ButtonX);
+            controllerInputs.ControllerButtons.ButtonY = GetButtonState(ControllerButtonsGeneric.ButtonY);
 
-            controllerInputs.controllerButtons.Button_LB = GetButtonState(Controller_Buttons_Generic.Button_LB);
-            controllerInputs.controllerButtons.Button_RB = GetButtonState(Controller_Buttons_Generic.Button_RB);
+            controllerInputs.ControllerButtons.ButtonLb = GetButtonState(ControllerButtonsGeneric.ButtonLb);
+            controllerInputs.ControllerButtons.ButtonRb = GetButtonState(ControllerButtonsGeneric.ButtonRb);
 
-            controllerInputs.controllerButtons.Button_Back = GetButtonState(Controller_Buttons_Generic.Button_Back);
-            controllerInputs.controllerButtons.Button_Guide = GetButtonState(Controller_Buttons_Generic.Button_Guide);
-            controllerInputs.controllerButtons.Button_Start = GetButtonState(Controller_Buttons_Generic.Button_Start);
+            controllerInputs.ControllerButtons.ButtonBack = GetButtonState(ControllerButtonsGeneric.ButtonBack);
+            controllerInputs.ControllerButtons.ButtonGuide = GetButtonState(ControllerButtonsGeneric.ButtonGuide);
+            controllerInputs.ControllerButtons.ButtonStart = GetButtonState(ControllerButtonsGeneric.ButtonStart);
 
             // Return the buttons.
             return controllerInputs;
@@ -227,14 +228,14 @@ namespace Reloaded.Input.DirectInput
         private ControllerInputs GetCurrentAxis(ControllerInputs controllerInputs)
         {
             // Retrieve all of the axis.
-            controllerInputs.SetLeftTriggerPressure(GetAxisState(ControllerAxis.Left_Trigger));
-            controllerInputs.SetRightTriggerPressure(GetAxisState(ControllerAxis.Right_Trigger));
+            controllerInputs.SetLeftTriggerPressure(GetAxisState(ControllerAxis.LeftTrigger));
+            controllerInputs.SetRightTriggerPressure(GetAxisState(ControllerAxis.RightTrigger));
 
-            controllerInputs.leftStick.SetX(GetAxisState(ControllerAxis.Left_Stick_X));
-            controllerInputs.leftStick.SetY(GetAxisState(ControllerAxis.Left_Stick_Y));
+            controllerInputs.LeftStick.SetX(GetAxisState(ControllerAxis.LeftStickX));
+            controllerInputs.LeftStick.SetY(GetAxisState(ControllerAxis.LeftStickY));
 
-            controllerInputs.rightStick.SetX(GetAxisState(ControllerAxis.Right_Stick_X));
-            controllerInputs.rightStick.SetY(GetAxisState(ControllerAxis.Right_Stick_Y));
+            controllerInputs.RightStick.SetX(GetAxisState(ControllerAxis.RightStickX));
+            controllerInputs.RightStick.SetY(GetAxisState(ControllerAxis.RightStickY));
 
             // Return the axis.
             return controllerInputs;
@@ -251,178 +252,178 @@ namespace Reloaded.Input.DirectInput
         {
             // Retrieve Emulated DPAD Keys
             #region DPAD Keys
-            if (EmulationMapping.DPAD_DOWN != BUTTON_NULL)
+            if (EmulationMapping.DpadDown != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.DPAD_DOWN, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.DpadDown, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If it is pressed, override the current value to include the flag.
-                if (isPressed) controllerInputs.controllerButtons.DPAD_DOWN = true;
+                if (isPressed) controllerInputs.ControllerButtons.DpadDown = true;
             }
-            if (EmulationMapping.DPAD_LEFT != BUTTON_NULL)
+            if (EmulationMapping.DpadLeft != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.DPAD_LEFT, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.DpadLeft, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If it is pressed, override the current value to include the flag.
-                if (isPressed) controllerInputs.controllerButtons.DPAD_LEFT = true;
+                if (isPressed) controllerInputs.ControllerButtons.DpadLeft = true;
             }
-            if (EmulationMapping.DPAD_RIGHT != BUTTON_NULL)
+            if (EmulationMapping.DpadRight != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.DPAD_RIGHT, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.DpadRight, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If it is pressed, override the current value to include the flag.
-                if (isPressed) controllerInputs.controllerButtons.DPAD_RIGHT = true;
+                if (isPressed) controllerInputs.ControllerButtons.DpadRight = true;
             }
-            if (EmulationMapping.DPAD_UP != BUTTON_NULL)
+            if (EmulationMapping.DpadUp != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.DPAD_UP, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.DpadUp, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If it is pressed, override the current value to include the flag.
-                if (isPressed) controllerInputs.controllerButtons.DPAD_UP = true;
+                if (isPressed) controllerInputs.ControllerButtons.DpadUp = true;
             }
             #endregion
 
             // Retrieve Emulated Left Analog Stick
             #region Left Analog Stick
-            if (EmulationMapping.Left_Stick_Down != BUTTON_NULL)
+            if (EmulationMapping.LeftStickDown != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Stick_Down, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.LeftStickDown, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed) controllerInputs.leftStick.SetY(controllerInputs.leftStick.GetY() + AXIS_MAX_VALUE_F);
+                if (isPressed) controllerInputs.LeftStick.SetY(controllerInputs.LeftStick.GetY() + AxisMaxValueF);
             }
 
-            if (EmulationMapping.Left_Stick_Left != BUTTON_NULL)
+            if (EmulationMapping.LeftStickLeft != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Stick_Left, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.LeftStickLeft, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed) controllerInputs.leftStick.SetX(controllerInputs.leftStick.GetX() - AXIS_MAX_VALUE_F);
+                if (isPressed) controllerInputs.LeftStick.SetX(controllerInputs.LeftStick.GetX() - AxisMaxValueF);
             }
 
-            if (EmulationMapping.Left_Stick_Right != BUTTON_NULL)
+            if (EmulationMapping.LeftStickRight != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Stick_Right, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.LeftStickRight, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed) controllerInputs.leftStick.SetX(controllerInputs.leftStick.GetX() + AXIS_MAX_VALUE_F);
+                if (isPressed) controllerInputs.LeftStick.SetX(controllerInputs.LeftStick.GetX() + AxisMaxValueF);
             }
 
-            if (EmulationMapping.Left_Stick_Up != BUTTON_NULL)
+            if (EmulationMapping.LeftStickUp != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Stick_Up, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.LeftStickUp, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed) controllerInputs.leftStick.SetY(controllerInputs.leftStick.GetY() - AXIS_MAX_VALUE_F);
+                if (isPressed) controllerInputs.LeftStick.SetY(controllerInputs.LeftStick.GetY() - AxisMaxValueF);
             }
             #endregion
 
             // Retrieve Emulated Right Analog Stick
             #region Right Analog Stick
-            if (EmulationMapping.Right_Stick_Down != BUTTON_NULL)
+            if (EmulationMapping.RightStickDown != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Stick_Down, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.RightStickDown, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed) controllerInputs.rightStick.SetY(controllerInputs.rightStick.GetY() + AXIS_MAX_VALUE_F);
+                if (isPressed) controllerInputs.RightStick.SetY(controllerInputs.RightStick.GetY() + AxisMaxValueF);
             }
 
-            if (EmulationMapping.Right_Stick_Left != BUTTON_NULL)
+            if (EmulationMapping.RightStickLeft != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Stick_Left, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.RightStickLeft, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed) controllerInputs.rightStick.SetX(controllerInputs.rightStick.GetX() - AXIS_MAX_VALUE_F);
+                if (isPressed) controllerInputs.RightStick.SetX(controllerInputs.RightStick.GetX() - AxisMaxValueF);
             }
 
-            if (EmulationMapping.Right_Stick_Right != BUTTON_NULL)
+            if (EmulationMapping.RightStickRight != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Stick_Right, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.RightStickRight, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed) controllerInputs.rightStick.SetX(controllerInputs.rightStick.GetX() + AXIS_MAX_VALUE_F);
+                if (isPressed) controllerInputs.RightStick.SetX(controllerInputs.RightStick.GetX() + AxisMaxValueF);
             }
 
-            if (EmulationMapping.Right_Stick_Up != BUTTON_NULL)
+            if (EmulationMapping.RightStickUp != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Stick_Up, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.RightStickUp, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed) controllerInputs.rightStick.SetY(controllerInputs.rightStick.GetY() - AXIS_MAX_VALUE_F);
+                if (isPressed) controllerInputs.RightStick.SetY(controllerInputs.RightStick.GetY() - AxisMaxValueF);
             }
             #endregion
 
             // Retrieve Emulated Triggers
             #region Triggers
-            if (EmulationMapping.Right_Trigger != BUTTON_NULL)
+            if (EmulationMapping.RightTrigger != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Right_Trigger, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.RightTrigger, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed) controllerInputs.SetRightTriggerPressure(AXIS_MAX_VALUE_F / DInputManager.TRIGGER_SCALE_FACTOR);
+                if (isPressed) controllerInputs.SetRightTriggerPressure(AxisMaxValueF / DInputManager.TriggerScaleFactor);
             }
 
-            if (EmulationMapping.Left_Trigger != BUTTON_NULL)
+            if (EmulationMapping.LeftTrigger != ButtonNull)
             {
                 // Retrieve the button index for the emulated button.
-                int buttonIndex = DInputGetEmulatedButtonIndex(Emulated_Buttons_Generic.Left_Trigger, EmulationMapping);
+                int buttonIndex = DInputGetEmulatedButtonIndex(EmulatedButtonsGeneric.LeftTrigger, EmulationMapping);
 
                 // Check if button is pressed.
                 bool isPressed = JoystickState.Buttons[buttonIndex];
 
                 // If the stick value is not 0 and is not pressed, do not override.
-                if (isPressed) controllerInputs.SetLeftTriggerPressure(AXIS_MAX_VALUE_F / DInputManager.TRIGGER_SCALE_FACTOR);
+                if (isPressed) controllerInputs.SetLeftTriggerPressure(AxisMaxValueF / DInputManager.TriggerScaleFactor);
             }
             #endregion
 

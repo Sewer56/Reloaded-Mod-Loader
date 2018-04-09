@@ -19,11 +19,7 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Reloaded.GameProcess;
+using Reloaded.Process.Memory;
 
 namespace Reloaded.Assembler
 {
@@ -39,6 +35,7 @@ namespace Reloaded.Assembler
                 If you plan to modify your written data in the future, save the address it was written at, this is a thin implementation.
                 If the data you are writing is larger than 4096 bytes, the written memory will be entirely reserved by your function.
                 You must set the target process manually if you are using this from an external program.
+                The memory written to these buffers is never moved or freed.
          */
 
         /*
@@ -60,23 +57,17 @@ namespace Reloaded.Assembler
         /// <summary>
         /// The base address to the current buffer for our stored data.
         /// </summary>
-        public static IntPtr baseBufferAddress;
-
-        /// <summary>
-        /// Target process in which the buffer is to be stored.
-        /// (The same process you are injecting assembly to).
-        /// </summary>
-        public static ReloadedProcess targetProcess;
+        private static IntPtr _baseBufferAddress;
 
         /// <summary>
         /// The current offset in the current page.
         /// </summary>
-        public static int currentOffsetAddress;
+        private static int _currentOffsetAddress;
 
         /// <summary>
         /// The size in bytes that we will be allocating in memory (multiple of 4096).
         /// </summary>
-        public const int ALLOCATION_SIZE = 4096;
+        private const int AllocationSize = 4096;
 
         /// <summary>
         /// The individual actions to be performed based off of the size
@@ -94,7 +85,6 @@ namespace Reloaded.Assembler
         /// </summary>
         static MemoryBuffer()
         {
-            targetProcess = ReloadedProcess.GetCurrentProcess();
             AllocateNewPage();
         }
 
@@ -103,7 +93,7 @@ namespace Reloaded.Assembler
         /// for the memory location to use directly functions accepting indirect jumps.
         /// </summary>
         /// <param name="addressIntPtr">The address the return address address will point to.</param>
-        /// <returns>Pointer to the passed in address/</returns>
+        /// <returns>Pointer to the passed in address to memory.</returns>
         public static IntPtr Add(IntPtr addressIntPtr)
         {
             // Know what to do
@@ -122,28 +112,25 @@ namespace Reloaded.Assembler
         /// Writes your own memory address into process' memory and gives you the address address
         /// for the memory location to use directly functions accepting indirect jumps.
         /// </summary>
-        /// <param name="addressIntPtr">The address the return address address will point to.</param>
-        /// <returns>Pointer to the passed in address/</returns>
+        /// <param name="bytesToWrite">The individual bytes to be written to memory.</param>
+        /// <returns>Pointer to the passed in bytes written to memory.</returns>
         public static IntPtr Add(byte[] bytesToWrite)
         {
             // Know what to do
             SizeCheckResult allocationAction = CheckItemSize(bytesToWrite.Length);
 
-            // UIntPtr can't be larger than a page (until we get 4096+ bit CPUs), do not check dedicated page.
-
-            // If the result is that the byte array is too large, allocate the array its own
+            // If the result is that the byte array is too large, allocate the array its own pages as necessary
+            // and write the buffer to the newly allocated pages.
             if (allocationAction == SizeCheckResult.MakeDedicatedPages)
             {
-                IntPtr newBufferAddress = targetProcess.AllocateMemory(bytesToWrite.Length);
-                targetProcess.WriteMemoryExternalSafe(newBufferAddress, bytesToWrite);
+                IntPtr newBufferAddress = Bindings.TargetProcess.AllocateMemory(bytesToWrite.Length);
+                Bindings.TargetProcess.WriteMemoryExternal(newBufferAddress, bytesToWrite);
                 return newBufferAddress;
             }
             else
             {
                 // Allocate new page first if necessary.
                 if (allocationAction == SizeCheckResult.MakeNewPage) { AllocateNewPage(); }
-
-                // Append to page.
                 return AppendToPage(bytesToWrite);
             }
         }
@@ -157,10 +144,10 @@ namespace Reloaded.Assembler
         private static SizeCheckResult CheckItemSize(int objectSize)
         {
             // Check if larger than whole buffer.
-            if (objectSize > ALLOCATION_SIZE) { return SizeCheckResult.MakeDedicatedPages; }
+            if (objectSize > AllocationSize) { return SizeCheckResult.MakeDedicatedPages; }
 
             // Check if too big.
-            if (currentOffsetAddress + objectSize > ALLOCATION_SIZE) { return SizeCheckResult.MakeNewPage; }
+            if (_currentOffsetAddress + objectSize > AllocationSize) { return SizeCheckResult.MakeNewPage; }
 
             // Else Append
             return SizeCheckResult.AppendCurrentPage;
@@ -173,20 +160,21 @@ namespace Reloaded.Assembler
         private static IntPtr AppendToPage(IntPtr address)
         {
             // Get our address to append memory at.
-            IntPtr appendAddress = baseBufferAddress + currentOffsetAddress;
+            IntPtr appendAddress = _baseBufferAddress + _currentOffsetAddress;
 
             // Append differently depending on x86/x64
-            if (IntPtr.Size == 4)
+            switch (IntPtr.Size)
             {
-                targetProcess.WriteMemoryExternalSafe(appendAddress, BitConverter.GetBytes((int)address));
-            }
-            else if (IntPtr.Size == 8)
-            {
-                targetProcess.WriteMemoryExternalSafe(appendAddress, BitConverter.GetBytes((long)address));
+                case 4:
+                    Bindings.TargetProcess.WriteMemoryExternal(appendAddress, BitConverter.GetBytes((int)address));
+                    break;
+                case 8:
+                    Bindings.TargetProcess.WriteMemoryExternal(appendAddress, BitConverter.GetBytes((long)address));
+                    break;
             }
 
             // Set current offset 
-            currentOffsetAddress += IntPtr.Size;
+            _currentOffsetAddress += IntPtr.Size;
 
             return appendAddress;
         }
@@ -198,11 +186,11 @@ namespace Reloaded.Assembler
         private static IntPtr AppendToPage(byte[] bytesToAppend)
         {
             // Do the append operation.
-            IntPtr appendAddress = baseBufferAddress + currentOffsetAddress;
-            targetProcess.WriteMemoryExternalSafe(appendAddress, bytesToAppend);
+            IntPtr appendAddress = _baseBufferAddress + _currentOffsetAddress;
+            Bindings.TargetProcess.WriteMemoryExternal(appendAddress, bytesToAppend);
 
             // Set current offset.
-            currentOffsetAddress += bytesToAppend.Length;
+            _currentOffsetAddress += bytesToAppend.Length;
 
             return appendAddress;
         }
@@ -212,8 +200,8 @@ namespace Reloaded.Assembler
         /// </summary>
         private static void AllocateNewPage()
         {
-            baseBufferAddress = targetProcess.AllocateMemory(ALLOCATION_SIZE);
-            currentOffsetAddress = 0;
+            _baseBufferAddress = Bindings.TargetProcess.AllocateMemory(AllocationSize);
+            _currentOffsetAddress = 0;
         }
     }
 }

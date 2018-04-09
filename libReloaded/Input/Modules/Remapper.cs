@@ -19,18 +19,20 @@
 */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using Reloaded.Input.Common;
+using Reloaded.Input.Config;
 using Reloaded.Input.DirectInput;
 using Reloaded.Input.XInput;
-using Reloaded.Misc;
-using Reloaded.Misc.Config;
+using Reloaded.IO.Config.Loader;
+using Reloaded.Utilities;
 using SharpDX.DirectInput;
 using SharpDX.XInput;
-using static Reloaded.Input.ControllerCommon;
 
-namespace Reloaded.Input
+namespace Reloaded.Input.Modules
 {
     /// <summary>
     /// The Remapper class provides the means of loading and saving individual configurations for
@@ -43,12 +45,14 @@ namespace Reloaded.Input
         /// Defines whether a configuration file should be loaded by the instance GUID or
         /// the product GUID for an individual controller.
         /// </summary>
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public enum DirectInputConfigType
         {
             /// <summary>
             /// Differentiate by product (identical controllers will carry identical config).
             /// </summary>
             ProductGUID,
+
             /// <summary>
             /// Differentiate by instance (each controller is unique but also tied to USB port).
             /// </summary>
@@ -67,18 +71,18 @@ namespace Reloaded.Input
         /// <summary>
         /// The amount of percent an axis requires to be moved by to register by the remapper.
         /// </summary>
-        private const float PERCENTAGE_AXIS_DELTA = 20.0F;
+        private const float PercentageAxisDelta = 20.0F;
 
         /// <summary>
         /// The amount of time in milliseconds between when the controller is successively polled when assigning
         /// an axis or a button to a DirectInput or XInput controller.
         /// </summary>
-        private const int SLEEP_TIME_POLLING = 16;
+        private const int SleepTimePolling = 16;
 
         /// <summary>
         /// Milliseconds in a second. It's not Rocket Science.
         /// </summary>
-        private const int MILLISECONDS_IN_SECOND = 1000;
+        private const int MillisecondsInSecond = 1000;
 
         /// <summary>
         /// This is the constructor for DirectInput devices. See class description for information
@@ -106,7 +110,7 @@ namespace Reloaded.Input
         {
             DeviceType = deviceType;
             Controller = xInputController;
-            XInputPort = xInputController.ControllerID;
+            XInputPort = xInputController.ControllerId;
 
             // Retrieve the configuration location.
             GetConfigLocation(null);
@@ -152,7 +156,7 @@ namespace Reloaded.Input
         /// Stores the instance of a DirectInput controller used for
         /// remapping DirectInput devices specifically.
         /// </summary>
-        private IController Controller { get; }
+        private ControllerCommon.IController Controller { get; }
 
         /// <summary>
         /// Retrieves the configuration file location for the individual controller.
@@ -195,7 +199,7 @@ namespace Reloaded.Input
         /// <summary>
         /// Retrieves the current controller mappings from the controller's ini file.
         /// </summary>
-        public IController GetMappings()
+        public ControllerCommon.IController GetMappings()
         {
             return ConfigParser.ParseConfig(ConfigurationFileLocation, Controller);
         }
@@ -209,14 +213,13 @@ namespace Reloaded.Input
         /// <param name="mappingEntry">Specififies the mapping entry containing the axis to be remapped.</param>
         /// <param name="cancellationToken">The method polls on this boolean such that if it is set to true, the method will exit.</param>
         /// <returns>True if a new axis has been assigned to the current mapping entry.</returns>
-        public bool RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry, ref bool cancellationToken)
+        public bool RemapAxis(int timeoutSeconds, out float currentTimeout, ControllerCommon.AxisMappingEntry mappingEntry, ref bool cancellationToken)
         {
             // Retrieve the object type of the controller.
             Type controllerType = Controller.GetType();
 
             // If it's a DirectInput controller.
             if (controllerType == typeof(DInputController)) return DInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry, ref cancellationToken);
-
             if (controllerType == typeof(XInputController)) return XInputRemapAxis(timeoutSeconds, out currentTimeout, mappingEntry, ref cancellationToken);
 
             currentTimeout = 0; return false;
@@ -226,7 +229,7 @@ namespace Reloaded.Input
         /// Remaps the axis of a DirectInput controller.
         /// </summary>
         /// <returns>True if a new axis has been assigned to the current mapping entry.</returns>
-        private bool DInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry, ref bool cancellationToken)
+        private bool DInputRemapAxis(int timeoutSeconds, out float currentTimeout, ControllerCommon.AxisMappingEntry mappingEntry, ref bool cancellationToken)
         {
             // Cast Controller to DInput Controller
             DInputController dInputController = (DInputController)Controller;
@@ -238,11 +241,11 @@ namespace Reloaded.Input
             JoystickState joystickState = dInputController.GetCurrentState();
 
             // Initialize Timeout
-            int pollAttempts = timeoutSeconds * MILLISECONDS_IN_SECOND / SLEEP_TIME_POLLING;
+            int pollAttempts = timeoutSeconds * MillisecondsInSecond / SleepTimePolling;
             int pollCounter = 0;
             
             // Get % Change for recognition of input.
-            int percentDelta = (int)(DInputManager.AXIS_MAX_VALUE / 100.0F * PERCENTAGE_AXIS_DELTA);
+            int percentDelta = (int)(DInputManager.AxisMaxValue / 100.0F * PercentageAxisDelta);
 
             // If the axis is relative, instead set the delta very low, as relative acceleration based inputs cannot be scaled to a range.
             if (dInputController.Properties.AxisMode == DeviceAxisMode.Relative)
@@ -263,17 +266,19 @@ namespace Reloaded.Input
 
                 // Iterate over all properties.
                 foreach (PropertyInfo propertyInfo in stateType.GetProperties())
-                // If the property type is an integer. (This covers, nearly all possible axis readings and all in common controllers.)
+                {
+                    // If the property type is an integer. (This covers, nearly all possible axis readings and all in common controllers.)
                     if (propertyInfo.PropertyType == typeof(int))
                     {
                         // Calculate the change of value from last time.
-                        int valueDelta = (int)propertyInfo.GetValue(joystickState) - (int)propertyInfo.GetValue(joystickStateNew);
+                        int valueDelta = (int) propertyInfo.GetValue(joystickState) -
+                                         (int) propertyInfo.GetValue(joystickStateNew);
 
                         // If the value has changed over X amount
-                        if (valueDelta < -1 * percentDelta )
+                        if (valueDelta < -1 * percentDelta)
                         {
                             //mappingEntry.isReversed = true;
-                            mappingEntry.propertyName = propertyInfo.Name;
+                            mappingEntry.SourceAxis = propertyInfo.Name;
                             currentTimeout = 0;
                             return true;
                         }
@@ -281,26 +286,27 @@ namespace Reloaded.Input
                         if (valueDelta > percentDelta)
                         {
                             //mappingEntry.isReversed = false;
-                            mappingEntry.propertyName = propertyInfo.Name;
+                            mappingEntry.SourceAxis = propertyInfo.Name;
                             currentTimeout = 0;
                             return true;
                         }
                     }
+                }
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
-                currentTimeout = timeoutSeconds - pollCounter * SLEEP_TIME_POLLING / (float)MILLISECONDS_IN_SECOND;
+                currentTimeout = timeoutSeconds - pollCounter * SleepTimePolling / (float)MillisecondsInSecond;
 
                 // Check exit condition
                 if (cancellationToken) return false;
 
                 // Sleep
-                Thread.Sleep(SLEEP_TIME_POLLING);
+                Thread.Sleep(SleepTimePolling);
             }
 
             // Set current timeout (suppress compiler)
             currentTimeout = 0;
-            mappingEntry.propertyName = "Null";
+            mappingEntry.SourceAxis = "Null";
             return false;
         }
 
@@ -308,7 +314,7 @@ namespace Reloaded.Input
         /// <summary>
         /// Remaps the axis of an XInput controller.
         /// </summary>
-        private bool XInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry, ref bool cancellationToken)
+        private bool XInputRemapAxis(int timeoutSeconds, out float currentTimeout, ControllerCommon.AxisMappingEntry mappingEntry, ref bool cancellationToken)
         {
             // Cast Controller to DInput Controller
             XInputController xInputController = (XInputController)Controller;
@@ -317,12 +323,13 @@ namespace Reloaded.Input
             State joystickState = xInputController.Controller.GetState();
 
             // Initialize Timeout
-            int pollAttempts = timeoutSeconds * MILLISECONDS_IN_SECOND / SLEEP_TIME_POLLING;
+            // MillisecondsInSecond / SleepTimePolling = Amount of polls/ticks per second.
+            int pollAttempts = timeoutSeconds * MillisecondsInSecond / SleepTimePolling;
             int pollCounter = 0;
 
             // Get % Change for recognition of input.
-            int percentDelta = (int)(XInputController.MAX_ANALOG_STICK_RANGE_XINPUT / 100.0F * PERCENTAGE_AXIS_DELTA);
-            int percentDeltaTrigger = (int)(XInputController.MAX_TRIGGER_RANGE_XINPUT / 100.0F * PERCENTAGE_AXIS_DELTA);
+            int percentDelta = (int)(XInputController.MaxAnalogStickRangeXinput / 100.0F * PercentageAxisDelta);
+            int percentDeltaTrigger = (int)(XInputController.MaxTriggerRangeXinput / 100.0F * PercentageAxisDelta);
 
             // Poll the controller properties.
             while (pollCounter < pollAttempts)
@@ -339,39 +346,35 @@ namespace Reloaded.Input
                 int rightTrigger = joystickState.Gamepad.RightTrigger - joystickStateNew.Gamepad.RightTrigger;
 
                 // Iterate over all axis.
-                if (leftStickX < -1 * percentDelta) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Stick_X; currentTimeout = 0; return true; }
+                if (leftStickX < -1 * percentDelta) { mappingEntry.IsReversed = true; mappingEntry.DestinationAxis = ControllerCommon.ControllerAxis.LeftStickX; currentTimeout = 0; return true; }
+                if (leftStickX > percentDelta) { mappingEntry.IsReversed = false; mappingEntry.DestinationAxis = ControllerCommon.ControllerAxis.LeftStickX; currentTimeout = 0; return true; }
 
-                if (leftStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Stick_X; currentTimeout = 0; return true; }
+                if (rightStickX < -1 * percentDelta) { mappingEntry.IsReversed = true; mappingEntry.DestinationAxis = ControllerCommon.ControllerAxis.RightStickX; currentTimeout = 0; return true; }
+                if (rightStickX > percentDelta) { mappingEntry.IsReversed = false; mappingEntry.DestinationAxis = ControllerCommon.ControllerAxis.RightStickX; currentTimeout = 0; return true; }
 
-                if (rightStickX < -1 * percentDelta) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_X; currentTimeout = 0; return true; }
+                if (leftStickY < -1 * percentDelta) { mappingEntry.IsReversed = true; mappingEntry.DestinationAxis = ControllerCommon.ControllerAxis.LeftStickY; currentTimeout = 0; return true; }
+                if (leftStickY > percentDelta) { mappingEntry.IsReversed = false; mappingEntry.DestinationAxis = ControllerCommon.ControllerAxis.LeftStickY; currentTimeout = 0; return true; }
 
-                if (rightStickX > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_X; currentTimeout = 0; return true; }
+                if (rightStickY < -1 * percentDelta) { mappingEntry.IsReversed = true; mappingEntry.DestinationAxis = ControllerCommon.ControllerAxis.RightStickY; currentTimeout = 0; return true; }
+                if (rightStickY > percentDelta) { mappingEntry.IsReversed = false; mappingEntry.DestinationAxis = ControllerCommon.ControllerAxis.RightStickY; currentTimeout = 0; return true; }
 
-                if (leftStickY < -1 * percentDelta) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Stick_Y; currentTimeout = 0; return true; }
+                if (leftTrigger < -1 * percentDeltaTrigger) { mappingEntry.IsReversed = true; mappingEntry.DestinationAxis = ControllerCommon.ControllerAxis.LeftTrigger; currentTimeout = 0; return true; }
+                if (leftTrigger > percentDeltaTrigger) { mappingEntry.IsReversed = false; mappingEntry.DestinationAxis = ControllerCommon.ControllerAxis.LeftTrigger; currentTimeout = 0; return true; }
 
-                if (leftStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Stick_Y; currentTimeout = 0; return true; }
-
-                if (rightStickY < -1 * percentDelta) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return true; }
-
-                if (rightStickY > percentDelta) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Stick_Y; currentTimeout = 0; return true; }
-
-                if (leftTrigger < -1 * percentDeltaTrigger) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Left_Trigger; currentTimeout = 0; return true; }
-
-                if (leftTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Left_Trigger; currentTimeout = 0; return true; }
-
-                if (rightTrigger < -1 * percentDeltaTrigger) { mappingEntry.isReversed = true; mappingEntry.axis = ControllerAxis.Right_Trigger; currentTimeout = 0; return true; }
-
-                if (rightTrigger > percentDeltaTrigger) { mappingEntry.isReversed = false; mappingEntry.axis = ControllerAxis.Right_Trigger; currentTimeout = 0; return true; }
+                if (rightTrigger < -1 * percentDeltaTrigger) { mappingEntry.IsReversed = true; mappingEntry.DestinationAxis = ControllerCommon.ControllerAxis.RightTrigger; currentTimeout = 0; return true; }
+                if (rightTrigger > percentDeltaTrigger) { mappingEntry.IsReversed = false; mappingEntry.DestinationAxis = ControllerCommon.ControllerAxis.RightTrigger; currentTimeout = 0; return true; }
 
                 // Increase counter, calculate new time left.
+                // SleepTimePolling / MillisecondsInSecond = Amount of time per 1 tick (pollCounter)
+                // pollCOunter = current amount of ticks done.
                 pollCounter += 1;
-                currentTimeout = (float)timeoutSeconds - pollCounter * SLEEP_TIME_POLLING / MILLISECONDS_IN_SECOND;
+                currentTimeout = (float)timeoutSeconds - (pollCounter * (SleepTimePolling / MillisecondsInSecond));
 
                 // Check exit condition
                 if (cancellationToken) return false;
 
                 // Sleep
-                Thread.Sleep(SLEEP_TIME_POLLING);
+                Thread.Sleep(SleepTimePolling);
             }
 
             // Set current timeout (suppress compiler)
@@ -395,7 +398,6 @@ namespace Reloaded.Input
 
             // If it's a DirectInput controller.
             if (controllerType == typeof(DInputController)) return DInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap, ref cancellationToken);
-
             if (controllerType == typeof(XInputController)) return XInputRemapButton(timeoutSeconds, out currentTimeout, ref buttonToMap, ref cancellationToken);
 
             currentTimeout = 0; return false;
@@ -419,9 +421,8 @@ namespace Reloaded.Input
             JoystickState joystickState = dInputController.GetCurrentState();
 
             // Initialize Timeout
-            int pollAttempts = timeoutSeconds * MILLISECONDS_IN_SECOND / SLEEP_TIME_POLLING;
+            int pollAttempts = timeoutSeconds * MillisecondsInSecond / SleepTimePolling;
             int pollCounter = 0;
-            int percentDelta = (int)(DInputManager.AXIS_MAX_VALUE / 100.0F * PERCENTAGE_AXIS_DELTA);
 
             // Poll the controller properties.
             while (pollCounter < pollAttempts)
@@ -431,13 +432,14 @@ namespace Reloaded.Input
 
                 // Iterate over all buttons.
                 for (int x = 0; x < joystickState.Buttons.Length; x++)
+                {
                     if (joystickState.Buttons[x] != joystickStateNew.Buttons[x])
                     {
                         // Retrieve the button mapping.
-                        ButtonMapping buttonMapping = Controller.ButtonMapping;
+                        ControllerCommon.ButtonMapping buttonMapping = Controller.ButtonMapping;
 
                         // Assign requested button.
-                        buttonToMap = (byte)x;
+                        buttonToMap = (byte) x;
 
                         // Reassign button mapping.
                         Controller.ButtonMapping = buttonMapping;
@@ -448,16 +450,17 @@ namespace Reloaded.Input
                         // Return
                         return true;
                     }
+                }
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
-                currentTimeout = timeoutSeconds - pollCounter * SLEEP_TIME_POLLING / (float)MILLISECONDS_IN_SECOND;
+                currentTimeout = timeoutSeconds - pollCounter * SleepTimePolling / (float)MillisecondsInSecond;
 
                 // Check exit condition
                 if (cancellationToken) return false;
 
                 // Sleep
-                Thread.Sleep(SLEEP_TIME_POLLING);
+                Thread.Sleep(SleepTimePolling);
             }
 
             // Assign the current timeout.
@@ -482,9 +485,8 @@ namespace Reloaded.Input
             bool[] buttonState = xInputController.GetButtons();
 
             // Initialize Timeout
-            int pollAttempts = timeoutSeconds * MILLISECONDS_IN_SECOND / SLEEP_TIME_POLLING;
+            int pollAttempts = timeoutSeconds * MillisecondsInSecond / SleepTimePolling;
             int pollCounter = 0;
-            int percentDelta = (int)(DInputManager.AXIS_MAX_VALUE / 100.0F * PERCENTAGE_AXIS_DELTA);
 
             // Poll the controller properties.
             while (pollCounter < pollAttempts)
@@ -494,13 +496,14 @@ namespace Reloaded.Input
 
                 // Iterate over all buttons.
                 for (int x = 0; x < buttonStateNew.Length; x++)
+                {
                     if (buttonState[x] != buttonStateNew[x])
                     {
                         // Retrieve the button mapping.
-                        ButtonMapping buttonMapping = Controller.ButtonMapping;
+                        ControllerCommon.ButtonMapping buttonMapping = Controller.ButtonMapping;
 
                         // Assign requested button.
-                        buttonToMap = (byte)x;
+                        buttonToMap = (byte) x;
 
                         // Reassign button mapping.
                         Controller.ButtonMapping = buttonMapping;
@@ -511,16 +514,17 @@ namespace Reloaded.Input
                         // Return
                         return true;
                     }
+                }
 
                 // Increase counter, calculate new time left.
                 pollCounter += 1;
-                currentTimeout = timeoutSeconds - pollCounter * SLEEP_TIME_POLLING / (float)MILLISECONDS_IN_SECOND;
+                currentTimeout = timeoutSeconds - pollCounter * SleepTimePolling / (float)MillisecondsInSecond;
 
                 // Check exit condition
                 if (cancellationToken) return false;
 
                 // Sleep
-                Thread.Sleep(SLEEP_TIME_POLLING);
+                Thread.Sleep(SleepTimePolling);
             }
 
             // Assign the current timeout.

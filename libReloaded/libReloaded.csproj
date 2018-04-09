@@ -78,29 +78,28 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assembler\Assembler.cs" />
     <Compile Include="Assembler\MemoryBuffer.cs" />
-    <Compile Include="GameProcess\Functions-X86\CustomFunctionFactory\FunctionWrapper.cs" />
-    <Compile Include="GameProcess\Functions-X86\CustomFunctionFactory\FunctionInformation.cs" />
-    <Compile Include="GameProcess\Functions-X86\X86CallingConventions.cs" />
-    <Compile Include="GameProcess\Libraries.cs" />
-    <Compile Include="GameProcess\Memory\PatternScan.cs" />
-    <Compile Include="GameProcess\Memory\Allocate.cs" />
-    <Compile Include="GameProcess\Memory\ReadWrite.cs" />
-    <Compile Include="GameProcess\Native\Native.cs" />
-    <Compile Include="GameProcess\ReloadedExtensions.cs" />
-    <Compile Include="GameProcess\ReloadedProcess.cs" />
-    <Compile Include="Hooking-X86\HookBase.cs" />
-    <Compile Include="Hooking-X86\Hooks\AssemblyHook.cs" />
-    <Compile Include="Hooking-X86\Hooks\InjectionHook.cs" />
+    <Compile Include="Bindings.cs" />
+    <Compile Include="IO\Config\ConfigManager.cs" />
+    <Compile Include="Native\WinAPI\Constants.cs" />
+    <Compile Include="Native\WinAPI\Structures.cs" />
+    <Compile Include="Native\WinAPI\WindowEventHooks.cs" />
+    <Compile Include="Native\WinAPI\WindowFunctions.cs" />
+    <Compile Include="Native\WinAPI\WindowStyles.cs" />
+    <Compile Include="Process\X86Functions\CustomFunctionFactory\ReloadedFunction.cs" />
+    <Compile Include="Process\X86Functions\CustomFunctionFactory\FunctionWrapper.cs" />
+    <Compile Include="Process\X86Functions\CallingConventions.cs" />
+    <Compile Include="Process\X86Hooking\HookCommon.cs" />
+    <Compile Include="Process\Libraries.cs" />
+    <Compile Include="Process\Memory\PatternScan.cs" />
+    <Compile Include="Process\Memory\Allocate.cs" />
+    <Compile Include="Process\Memory\ReadWrite.cs" />
+    <Compile Include="Process\Native\Native.cs" />
+    <Compile Include="Process\ReloadedExtensions.cs" />
+    <Compile Include="Process\ReloadedProcess.cs" />
     <Compile Include="Input\Common\ControllerCommon.cs" />
     <Compile Include="Input\Config\ControllerConfigParser.cs" />
     <Compile Include="Input\Config\SampleConfig.cs" />
@@ -111,41 +110,39 @@
     <Compile Include="Input\Modules\Hotplugger.cs" />
     <Compile Include="Input\Modules\Remapper.cs" />
     <Compile Include="Input\XInput\XInputController.cs" />
-    <Compile Include="IO\Native\Native.cs" />
     <Compile Include="IO\RelativePaths.cs" />
-    <Compile Include="Misc\AssemblyFinder.cs" />
-    <Compile Include="Misc\ColourLoader.cs" />
-    <Compile Include="Misc\Config\Games\GameConfigParser.cs" />
-    <Compile Include="Misc\Config\Loader\LoaderConfigParser.cs" />
-    <Compile Include="Misc\Config\Mods\ModConfigParser.cs" />
-    <Compile Include="Misc\Config\Themes\ThemeConfigParser.cs" />
-    <Compile Include="Misc\Config\Themes\ThemePropertyParser.cs" />
-    <Compile Include="Misc\FileUnblocker.cs" />
-    <Compile Include="Misc\ExtractFodyCosturaFile.cs" />
-    <Compile Include="Misc\LoaderPaths.cs" />
-    <Compile Include="Misc\PathSanitizer.cs" />
-    <Compile Include="Native\WinAPI.cs" />
-    <Compile Include="Native\Windows.cs" />
+    <Compile Include="Utilities\AssemblyFinder.cs" />
+    <Compile Include="Utilities\ColourLoader.cs" />
+    <Compile Include="IO\Config\Games\GameConfigParser.cs" />
+    <Compile Include="IO\Config\Loader\LoaderConfigParser.cs" />
+    <Compile Include="IO\Config\Mods\ModConfigParser.cs" />
+    <Compile Include="IO\Config\Themes\ThemeConfigParser.cs" />
+    <Compile Include="IO\Config\Themes\ThemePropertyParser.cs" />
+    <Compile Include="Utilities\FileUnblocker.cs" />
+    <Compile Include="Utilities\ExtractFodyCosturaFile.cs" />
+    <Compile Include="Utilities\LoaderPaths.cs" />
+    <Compile Include="Utilities\PathSanitizer.cs" />
+    <Compile Include="Native\Functions\WindowProperties.cs" />
     <Compile Include="Networking\Client.cs" />
     <Compile Include="Networking\Host.cs" />
     <Compile Include="Networking\Message.cs" />
-    <Compile Include="Networking\MessageTypes\LoaderServerMessages.cs" />
-    <Compile Include="Networking\ReloadedSocket.cs" />
-    <Compile Include="Networking\SocketExtensions.cs" />
-    <Compile Include="Overlay\Direct2DWindowRenderTargetBase.cs" />
-    <Compile Include="Overlay\External\Forms\GlassForm.cs">
+    <Compile Include="Networking\ModLoaderServer\MessageTypes.cs" />
+    <Compile Include="Networking\Sockets\ReloadedSocket.cs" />
+    <Compile Include="Networking\Sockets\SocketExtensions.cs" />
+    <Compile Include="Overlay\D2DWindowOverlay.cs" />
+    <Compile Include="Overlay\External\Forms\TransparentWinform.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Overlay\External\Forms\GlassForm.Designer.cs">
-      <DependentUpon>GlassForm.cs</DependentUpon>
+    <Compile Include="Overlay\External\Forms\TransparentWinform.Designer.cs">
+      <DependentUpon>TransparentWinform.cs</DependentUpon>
     </Compile>
-    <Compile Include="Overlay\External\OverlayGlassDirect2D.cs" />
-    <Compile Include="GameProcess\DLLInjector.cs" />
+    <Compile Include="Overlay\External\ExternalWindowOverlay.cs" />
+    <Compile Include="Process\DLLInjector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Overlay\External\Forms\GlassForm.resx">
-      <DependentUpon>GlassForm.cs</DependentUpon>
+    <EmbeddedResource Include="Overlay\External\Forms\TransparentWinform.resx">
+      <DependentUpon>TransparentWinform.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +154,9 @@
     </PackageReference>
     <PackageReference Include="ini-parser">
       <Version>2.5.2</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDisasm">
+      <Version>1.1.9</Version>
     </PackageReference>
     <PackageReference Include="SharpDX">
       <Version>4.0.0</Version>
@@ -178,12 +178,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\Submodules\ReloadedAssembler\ReloadedAssemblerService\ReloadedAssembler.csproj">
-      <Project>{2e4eb0b6-fead-48ba-85bd-0a3879467a9e}</Project>
-      <Name>ReloadedAssembler</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
   </ItemGroup>

@@ -19,10 +19,11 @@
 */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Reloaded.Input
+namespace Reloaded.Input.Modules
 {
     /// <summary>
     /// The Hotplugger class provides a class which acts as a message only window, intercepting controller
@@ -60,12 +61,12 @@ namespace Reloaded.Input
         /// <summary>
         /// Delegate used when a controller is connected or disconnected.
         /// </summary>
-        private GetConnectedControllersDelegate controllerConnectDelegate;
+        private GetConnectedControllersDelegate _controllerConnectDelegate;
 
         /// <summary>
         /// Hosts an instance of the deviceNotification class which sends a message to this window whenever a controller device is inserted or removed.
         /// </summary>
-        private DeviceNotification deviceNotificationDispatcher;
+        private DeviceNotification _deviceNotificationDispatcher;
 
         /// <summary>
         /// Constructor for the Hotplugger class. Requires an initial method to which send messages when a device is
@@ -75,19 +76,20 @@ namespace Reloaded.Input
         public Hotplugger(Delegate methodDelegate)
         {
             // Create a new CreateParameters object.
-            CreateParams cp = new CreateParams();
-
-            // Specify HWND_MESSAGE in the hwndParent parameter such that the window only receives messages, no rendering, etc.
-            cp.Parent = (IntPtr)HWND_MESSAGE;
-
+            CreateParams cp = new CreateParams
+            {
+                // Specify HWND_MESSAGE in the hwndParent parameter such that the window only receives messages, no rendering, etc.
+                Parent = (IntPtr) HWND_MESSAGE
+            };
+            
             // Create the handle for the message only window.
             CreateHandle(cp);
 
             // Adds the specific delegate such that it is ran upon connecting a controller.
-            controllerConnectDelegate += (GetConnectedControllersDelegate)methodDelegate;
+            _controllerConnectDelegate += (GetConnectedControllersDelegate)methodDelegate;
 
             // Register this window to receive controller connect and disconnect notifications.
-            deviceNotificationDispatcher = new DeviceNotification(Handle, false);
+            _deviceNotificationDispatcher = new DeviceNotification(Handle, false);
         }
 
         /// <summary>
@@ -96,7 +98,7 @@ namespace Reloaded.Input
         public void RemoveDelegate(Delegate methodDelegate)
         {
             // Get pointer to function
-            controllerConnectDelegate -= (GetConnectedControllersDelegate)methodDelegate;
+            _controllerConnectDelegate -= (GetConnectedControllersDelegate)methodDelegate;
         }
 
         /// <summary>
@@ -110,12 +112,12 @@ namespace Reloaded.Input
                 {
                     // Upon Connecting to a device.
                     case DBT_DEVICEARRIVAL:
-                        controllerConnectDelegate();
+                        _controllerConnectDelegate();
                         break;
 
                     // Upon removing a device.
                     case DBT_DEVICEREMOVECOMPLETE:
-                        controllerConnectDelegate();
+                        _controllerConnectDelegate();
                         break;
                 }
 
@@ -127,6 +129,7 @@ namespace Reloaded.Input
         /// Allows for listening of individual device changes such as the change in connected controllers.
         /// Registers device notifications to be directed towards the read-only window.
         /// </summary>
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         private class DeviceNotification
         {
             /// <summary>
@@ -149,7 +152,7 @@ namespace Reloaded.Input
             /// <summary>
             /// Specifies a handle to our newly registered device notification to be sent to the specified window.
             /// </summary>
-            private readonly IntPtr notificationHandle;
+            private readonly IntPtr _notificationHandle;
 
             /// <summary>
             /// Constructor. Creates a message-only window to receive notifications when devices are plugged or unplugged and calls a function specified by a delegate.
@@ -177,7 +180,7 @@ namespace Reloaded.Input
                 Marshal.StructureToPtr(deviceBroadcastInterface, buffer, true);
 
                 // Register the notification handle for the message only window to receive controller connect/disconnect notifications.
-                notificationHandle = RegisterDeviceNotification(windowHandle, buffer, usbOnly ? 0 : DEVICE_NOTIFY_ALL_INTERFACE_CLASSES);
+                _notificationHandle = RegisterDeviceNotification(windowHandle, buffer, usbOnly ? 0 : DEVICE_NOTIFY_ALL_INTERFACE_CLASSES);
             }
 
             /// <summary>
@@ -185,7 +188,7 @@ namespace Reloaded.Input
             /// </summary>
             public void UnregisterDeviceNotification()
             {
-                UnregisterDeviceNotification(notificationHandle);
+                UnregisterDeviceNotification(_notificationHandle);
             }
 
             /// <summary>
@@ -193,6 +196,7 @@ namespace Reloaded.Input
             /// </summary>
             /// <param name="recipient">Sets the handle to the window or service to receive the notification/</param>
             /// <param name="notificationFilter">A pointer to a block of data that specifies the type of device for which notifications should be sent. </param>
+            /// <param name="flags">See MSDN.</param>
             /// <returns></returns>
             [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
             private static extern IntPtr RegisterDeviceNotification(IntPtr recipient, IntPtr notificationFilter, int flags);

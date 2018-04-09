@@ -20,8 +20,9 @@
 
 using System;
 using Reloaded.Input.DirectInput;
+using Reloaded.Input.Modules;
 
-namespace Reloaded.Input
+namespace Reloaded.Input.Common
 {
     /// <summary>
     /// Defines a class which defines shared structs used for mapping DInput and XInput devices.
@@ -34,62 +35,62 @@ namespace Reloaded.Input
         /// Reference for the controller buttons as in the ControllerButtons struct. 
         /// The IDs assigned follow the standard schema for the XBOX controller. 
         /// </summary>
-        public enum Controller_Buttons_Generic
+        public enum ControllerButtonsGeneric
         {
             /// <summary>
             /// Playstation: Cross, Nintendo: B 
             /// </summary>
-            Button_A,
+            ButtonA,
 
             /// <summary>
             /// Playstation: Circle, Nintendo: A
             /// </summary>
-            Button_B,
+            ButtonB,
 
             /// <summary>
             /// Playstation: Square, Nintendo: Y 
             /// </summary>
-            Button_X,
+            ButtonX,
 
             /// <summary>
             /// Playstation: Triangle, Nintendo: X
             /// </summary>
-            Button_Y,
+            ButtonY,
 
             /// <summary>
             /// Playstation: L1, Nintendo: L
             /// </summary>
-            Button_LB,
+            ButtonLb,
 
             /// <summary>
             /// Playstation: R1, Nintendo: R
             /// </summary>
-            Button_RB,
+            ButtonRb,
 
             /// <summary>
             /// Playstation: Select, Nintendo: Select
             /// </summary>
-            Button_Back,
+            ButtonBack,
 
             /// <summary>
             /// Playstation: Select, Nintendo: Start
             /// </summary>
-            Button_Start,
+            ButtonStart,
 
             /// <summary>
             /// Playstation: L3, Nintendo: L Click
             /// </summary>
-            Button_LS,
+            ButtonLs,
 
             /// <summary>
             /// Playstation: R3, Nintendo: R Click 
             /// </summary>
-            Button_RS,
+            ButtonRs,
 
             /// <summary>
             /// Playstation: PS Button, Nintendo: Home
             /// </summary>
-            Button_Guide
+            ButtonGuide
         }
 
         /// <summary>
@@ -98,12 +99,12 @@ namespace Reloaded.Input
         public enum ControllerAxis
         {
             Null,
-            Left_Stick_X,
-            Left_Stick_Y,
-            Right_Stick_X,
-            Right_Stick_Y,
-            Left_Trigger,
-            Right_Trigger
+            LeftStickX,
+            LeftStickY,
+            RightStickX,
+            RightStickY,
+            LeftTrigger,
+            RightTrigger
         }
 
 
@@ -114,20 +115,20 @@ namespace Reloaded.Input
         /// practically never used.
         /// </summary>
         [Flags]
-        public enum DPAD_Direction
+        public enum DpadDirection
         {
-            UP = 0,
-            UP_RIGHT = 4500,
-            UP_LEFT = 31500,
+            Up = 0,
+            UpRight = 4500,
+            UpLeft = 31500,
 
-            RIGHT = 9000,
-            LEFT = 27000,
+            Right = 9000,
+            Left = 27000,
 
-            DOWN = 18000,
-            DOWN_RIGHT = 13500,
-            DOWN_LEFT = 22500,
+            Down = 18000,
+            DownRight = 13500,
+            DownLeft = 22500,
 
-            NULL = 65535
+            Null = 65535
         }
 
         /// <summary>
@@ -135,93 +136,93 @@ namespace Reloaded.Input
         /// support analog or POV-hat input such as keyboards and other potential peripherals.
         /// The emulated keys override the real keys if they are set.
         /// </summary>
-        public enum Emulated_Buttons_Generic
+        public enum EmulatedButtonsGeneric
         {
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD UP if pressed.
             /// </summary>
-            DPAD_UP,
+            DpadUp,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD RIGHT if pressed.
             /// </summary>
-            DPAD_RIGHT,
+            DpadRight,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD DOWN if pressed.
             /// </summary>
-            DPAD_DOWN,
+            DpadDown,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD LEFT if pressed.
             /// </summary>
-            DPAD_LEFT,
+            DpadLeft,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates right trigger if pressed.
             /// </summary>
-            Right_Trigger,
+            RightTrigger,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left trigger if pressed.
             /// </summary>
-            Left_Trigger,
+            LeftTrigger,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
             /// </summary>
-            Left_Stick_Up,
+            LeftStickUp,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick down if pressed.
             /// </summary>
-            Left_Stick_Down,
+            LeftStickDown,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick left if pressed.
             /// </summary>
-            Left_Stick_Left,
+            LeftStickLeft,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick right if pressed.
             /// </summary>
-            Left_Stick_Right,
+            LeftStickRight,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
             /// </summary>
-            Right_Stick_Up,
+            RightStickUp,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick down if pressed.
             /// </summary>
-            Right_Stick_Down,
+            RightStickDown,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick left if pressed.
             /// </summary>
-            Right_Stick_Left,
+            RightStickLeft,
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick right if pressed.
             /// </summary>
-            Right_Stick_Right
+            RightStickRight
         }
 
         /// <summary>
         /// Placeholder when no button is set anywhere, whether it'd be remapping or not.
         /// </summary>
-        public const int BUTTON_NULL = 255;
+        public const int ButtonNull = 255;
 
         /// <summary>
         /// Represents the maximum value of the axis as returned to the modder/user.
         /// </summary>
-        public static float AXIS_MAX_VALUE_F = 100;
+        public static float AxisMaxValueF = 100;
 
         /// <summary>
         /// Represents the minimum value of the axis as returned to the modder/user.
         /// </summary>
-        public static float AXIS_MIN_VALUE_F = -100;
+        public static float AxisMinValueF = -100;
 
         /// <summary>
         /// Processes the obtained raw value with DInput/XInput ranges and performs modifications on it such
@@ -233,19 +234,19 @@ namespace Reloaded.Input
         public static float InputProcessAxisRawValue(int rawValue, AxisMappingEntry mappingEntry, bool isScaled)
         {
             // Reverse Axis if Necessary
-            if (mappingEntry.isReversed) rawValue = -1 * rawValue;
+            if (mappingEntry.IsReversed) rawValue = -1 * rawValue;
 
             // Scale Axis if Necessary.
             float newRawValue = rawValue;
-            if (!isScaled) newRawValue = rawValue / (float)DInputManager.AXIS_MAX_VALUE * AXIS_MAX_VALUE_F;
+            if (!isScaled) newRawValue = rawValue / (float)DInputManager.AxisMaxValue * AxisMaxValueF;
 
             // If triggers. scale to between 0 - 100 (from -100 - 100)
-            switch (mappingEntry.axis)
+            switch (mappingEntry.DestinationAxis)
             {
-                case ControllerAxis.Left_Trigger:
-                case ControllerAxis.Right_Trigger:
-                    newRawValue += AXIS_MAX_VALUE_F;
-                    newRawValue *= DInputManager.TRIGGER_SCALE_FACTOR;
+                case ControllerAxis.LeftTrigger:
+                case ControllerAxis.RightTrigger:
+                    newRawValue += AxisMaxValueF;
+                    newRawValue *= DInputManager.TriggerScaleFactor;
                     break;
             }
 
@@ -253,7 +254,7 @@ namespace Reloaded.Input
             if (VerifyDeadzones(newRawValue, mappingEntry)) return 0F;
 
             // Scale Radius Scale Value
-            newRawValue *= mappingEntry.radiusScale;
+            newRawValue *= mappingEntry.RadiusScale;
 
             // Return axis value.
             return newRawValue;
@@ -268,17 +269,17 @@ namespace Reloaded.Input
         public static bool VerifyDeadzones(float axisValue, AxisMappingEntry mappingEntry)
         {
             // Verify Deadzones
-            switch (mappingEntry.axis)
+            switch (mappingEntry.DestinationAxis)
             {
                 // For all analog sticks.
-                case ControllerAxis.Left_Stick_X:
-                case ControllerAxis.Left_Stick_Y:
-                case ControllerAxis.Right_Stick_X:
-                case ControllerAxis.Right_Stick_Y:
+                case ControllerAxis.LeftStickX:
+                case ControllerAxis.LeftStickY:
+                case ControllerAxis.RightStickX:
+                case ControllerAxis.RightStickY:
 
                     // Get boundaries of deadzone.
-                    float deadzoneMax = AXIS_MAX_VALUE_F / 100.0F * mappingEntry.deadZone;
-                    float deadzoneMin = -(AXIS_MAX_VALUE_F / 100.0F) * mappingEntry.deadZone;
+                    float deadzoneMax = AxisMaxValueF / 100.0F * mappingEntry.DeadZone;
+                    float deadzoneMin = -(AxisMaxValueF / 100.0F) * mappingEntry.DeadZone;
 
                     // If within boundaries, axis value is 0.
                     if (axisValue < deadzoneMax && axisValue > deadzoneMin) return true;
@@ -287,11 +288,11 @@ namespace Reloaded.Input
                     break;
 
                 // For all triggers
-                case ControllerAxis.Left_Trigger:
-                case ControllerAxis.Right_Trigger:
+                case ControllerAxis.LeftTrigger:
+                case ControllerAxis.RightTrigger:
 
                     // Get max deadzone
-                    float deadzoneTriggerMax = AXIS_MAX_VALUE_F / 100.0F * mappingEntry.deadZone;
+                    float deadzoneTriggerMax = AxisMaxValueF / 100.0F * mappingEntry.DeadZone;
 
                     // If within bounds, axis value is 0.
                     if (axisValue < deadzoneTriggerMax) return true;
@@ -320,14 +321,14 @@ namespace Reloaded.Input
 
             // Find axis mapped to the requested controller axis.
             // Check every axis manually, until one of the axes contains the desired destination axis.
-            if (IsCorrectAxisMappingEntry(axisMapping.leftStickX, axis)) return axisMapping.leftStickX;
-            if (IsCorrectAxisMappingEntry(axisMapping.leftStickY, axis)) return axisMapping.leftStickY;
+            if (IsCorrectAxisMappingEntry(axisMapping.LeftStickX, axis)) return axisMapping.LeftStickX;
+            if (IsCorrectAxisMappingEntry(axisMapping.LeftStickY, axis)) return axisMapping.LeftStickY;
 
-            if (IsCorrectAxisMappingEntry(axisMapping.rightStickX, axis)) return axisMapping.rightStickX;
-            if (IsCorrectAxisMappingEntry(axisMapping.rightStickY, axis)) return axisMapping.rightStickY;
+            if (IsCorrectAxisMappingEntry(axisMapping.RightStickX, axis)) return axisMapping.RightStickX;
+            if (IsCorrectAxisMappingEntry(axisMapping.RightStickY, axis)) return axisMapping.RightStickY;
 
-            if (IsCorrectAxisMappingEntry(axisMapping.leftTrigger, axis)) return axisMapping.leftTrigger;
-            if (IsCorrectAxisMappingEntry(axisMapping.rightTrigger, axis)) return axisMapping.rightTrigger;
+            if (IsCorrectAxisMappingEntry(axisMapping.LeftTrigger, axis)) return axisMapping.LeftTrigger;
+            if (IsCorrectAxisMappingEntry(axisMapping.RightTrigger, axis)) return axisMapping.RightTrigger;
 
             // Retrieve empty struct if null, else the correct axis mapping.
             return controllerAxisMapping;
@@ -342,7 +343,7 @@ namespace Reloaded.Input
         /// <returns>True if it is the correct entry, else false.</returns>
         private static bool IsCorrectAxisMappingEntry(AxisMappingEntry axisMappingEntry, ControllerAxis axis)
         {
-            return axisMappingEntry.axis == axis ? true : false;
+            return axisMappingEntry.DestinationAxis == axis;
         }
 
         /// <summary>
@@ -351,7 +352,7 @@ namespace Reloaded.Input
         /// </summary>
         public static object Reflection_GetValue(object sourceObject, string propertyName)
         {
-            try { return sourceObject.GetType().GetProperty(propertyName).GetValue(sourceObject, null); }
+            try { return sourceObject.GetType().GetProperty(propertyName)?.GetValue(sourceObject, null); }
             catch { return 0; }
         }
 
@@ -374,7 +375,7 @@ namespace Reloaded.Input
             /// <summary>
             /// Defines the individual port used for this specific controller.
             /// </summary>
-            int ControllerID { get; set; }
+            int ControllerId { get; set; }
 
             /// <summary>
             /// Defines the custom botton mapping which simulates the individual axis and analog inputs.
@@ -393,7 +394,7 @@ namespace Reloaded.Input
             /// Note: The current controller state must first be manually updated.
             /// </summary>
             /// <returns>True if said button is pressed, else false.</returns>
-            bool GetButtonState(Controller_Buttons_Generic button);
+            bool GetButtonState(ControllerButtonsGeneric button);
 
             /// <summary>
             /// Retrieves the specific intensity in terms of how far/deep an axis is pressed in.
@@ -466,27 +467,27 @@ namespace Reloaded.Input
             /// <summary>
             /// Range -100,100 float. Defines the left analogue stick. Range: -100 to 100
             /// </summary>
-            public Analog_Stick leftStick;
+            public AnalogStick LeftStick;
 
             /// <summary>
             /// Range -100,100 float. Defines the right analogue stick. Range: -100 to 100
             /// </summary>
-            public Analog_Stick rightStick;
+            public AnalogStick RightStick;
 
             /// <summary>
             /// Range 0,100 float. Defines the pressure on the left trigger. Range: 0-100
             /// </summary>
-            private float leftTriggerPressure;
+            private float _leftTriggerPressure;
 
             /// <summary>
             /// Range 0,100 float. Defines the pressure on the right trigger. Range: 0-100
             /// </summary>
-            private float rightTriggerPressure;
+            private float _rightTriggerPressure;
 
             /// <summary>
             /// Defines which of the buttons are currently pressed at the current moment in time.
             /// </summary>
-            public ControllerButtonStruct controllerButtons;
+            public ControllerButtonStruct ControllerButtons;
 
             /// <summary>
             /// Sets the left trigger pressure such that it falls within the allowable bounds of 
@@ -494,9 +495,9 @@ namespace Reloaded.Input
             /// </summary>
             public void SetLeftTriggerPressure(float value)
             {
-                leftTriggerPressure = value;
-                if (leftTriggerPressure > AXIS_MAX_VALUE_F) leftTriggerPressure = AXIS_MAX_VALUE_F;
-                if (leftTriggerPressure < AXIS_MIN_VALUE_F) leftTriggerPressure = AXIS_MIN_VALUE_F;
+                _leftTriggerPressure = value;
+                if (_leftTriggerPressure > AxisMaxValueF) _leftTriggerPressure = AxisMaxValueF;
+                if (_leftTriggerPressure < AxisMinValueF) _leftTriggerPressure = AxisMinValueF;
             }
 
             /// <summary>
@@ -505,21 +506,21 @@ namespace Reloaded.Input
             /// </summary>
             public void SetRightTriggerPressure(float value)
             {
-                rightTriggerPressure = value;
-                if (rightTriggerPressure > AXIS_MAX_VALUE_F) rightTriggerPressure = AXIS_MAX_VALUE_F;
-                if (rightTriggerPressure < AXIS_MIN_VALUE_F) rightTriggerPressure = AXIS_MIN_VALUE_F;
+                _rightTriggerPressure = value;
+                if (_rightTriggerPressure > AxisMaxValueF) _rightTriggerPressure = AxisMaxValueF;
+                if (_rightTriggerPressure < AxisMinValueF) _rightTriggerPressure = AxisMinValueF;
             }
 
             /// <summary>
             /// Retrieves the value stored in the left trigger.
             /// </summary>
-            public float GetLeftTriggerPressure() { return leftTriggerPressure; }
+            public float GetLeftTriggerPressure() { return _leftTriggerPressure; }
 
 
             /// <summary>
             /// Retrieves the value stored in the right trigger.
             /// </summary>
-            public float GetRightTriggerPressure() { return rightTriggerPressure; }
+            public float GetRightTriggerPressure() { return _rightTriggerPressure; }
         }
 
         /// <summary>
@@ -530,62 +531,62 @@ namespace Reloaded.Input
             /// <summary>
             /// Playstation: Cross, Nintendo: B 
             /// </summary>
-            public bool Button_A;
+            public bool ButtonA;
 
             /// <summary>
             /// Playstation: Circle, Nintendo: A
             /// </summary>
-            public bool Button_B;
+            public bool ButtonB;
             
             /// <summary>
             /// Playstation: Square, Nintendo: Y 
             /// </summary>
-            public bool Button_X;
+            public bool ButtonX;
 
             /// <summary>
             /// Playstation: Triangle, Nintendo: X
             /// </summary>
-            public bool Button_Y;
+            public bool ButtonY;
 
             /// <summary>
             /// Playstation: L1, Nintendo: L
             /// </summary>
-            public bool Button_LB;
+            public bool ButtonLb;
 
             /// <summary>
             /// Playstation: R1, Nintendo: R
             /// </summary>
-            public bool Button_RB;
+            public bool ButtonRb;
 
             /// <summary>
             /// Playstation: Select, Nintendo: Select
             /// </summary>
-            public bool Button_Back;
+            public bool ButtonBack;
 
             /// <summary>
             /// Playstation: Select, Nintendo: Start
             /// </summary>
-            public bool Button_Start;
+            public bool ButtonStart;
 
             /// <summary>
             /// Playstation: L3, Nintendo: L Click
             /// </summary>
-            public bool Button_LS;
+            public bool ButtonLs;
 
             /// <summary>
             /// Playstation: R3, Nintendo: R Click 
             /// </summary>
-            public bool Button_RS;
+            public bool ButtonRs;
 
             /// <summary>
             /// Playstation: PS Button, Nintendo: Home
             /// </summary>
-            public bool Button_Guide;
+            public bool ButtonGuide;
 
-            public bool DPAD_UP;
-            public bool DPAD_LEFT;
-            public bool DPAD_RIGHT;
-            public bool DPAD_DOWN;
+            public bool DpadUp;
+            public bool DpadLeft;
+            public bool DpadRight;
+            public bool DpadDown;
         }
 
 
@@ -600,57 +601,57 @@ namespace Reloaded.Input
             /// <summary>
             /// Playstation: Cross, Nintendo: B 
             /// </summary>
-            public byte Button_A;
+            public byte ButtonA;
 
             /// <summary>
             /// Playstation: Circle, Nintendo: A
             /// </summary>
-            public byte Button_B;
+            public byte ButtonB;
 
             /// <summary>
             /// Playstation: Select, Nintendo: Select
             /// </summary>
-            public byte Button_Back;
+            public byte ButtonBack;
 
             /// <summary>
             /// Playstation: PS Button, Nintendo: Home
             /// </summary>
-            public byte Button_Guide;
+            public byte ButtonGuide;
 
             /// <summary>
             /// Playstation: L1, Nintendo: L
             /// </summary>
-            public byte Button_LB;
+            public byte ButtonLb;
 
             /// <summary>
             /// Playstation: L3, Nintendo: L Click
             /// </summary>
-            public byte Button_LS;
+            public byte ButtonLs;
 
             /// <summary>
             /// Playstation: R1, Nintendo: R
             /// </summary>
-            public byte Button_RB;
+            public byte ButtonRb;
 
             /// <summary>
             /// Playstation: R3, Nintendo: R Click 
             /// </summary>
-            public byte Button_RS;
+            public byte ButtonRs;
 
             /// <summary>
             /// Playstation: Select, Nintendo: Start
             /// </summary>
-            public byte Button_Start;
+            public byte ButtonStart;
 
             /// <summary>
             /// Playstation: Square, Nintendo: Y 
             /// </summary>
-            public byte Button_X;
+            public byte ButtonX;
 
             /// <summary>
             /// Playstation: Triangle, Nintendo: X
             /// </summary>
-            public byte Button_Y;
+            public byte ButtonY;
         }
 
         /// <summary>
@@ -663,72 +664,72 @@ namespace Reloaded.Input
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD DOWN if pressed.
             /// </summary>
-            public byte DPAD_DOWN;
+            public byte DpadDown;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD LEFT if pressed.
             /// </summary>
-            public byte DPAD_LEFT;
+            public byte DpadLeft;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD RIGHT if pressed.
             /// </summary>
-            public byte DPAD_RIGHT;
+            public byte DpadRight;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD UP if pressed.
             /// </summary>
-            public byte DPAD_UP;
+            public byte DpadUp;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick down if pressed.
             /// </summary>
-            public byte Left_Stick_Down;
+            public byte LeftStickDown;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick left if pressed.
             /// </summary>
-            public byte Left_Stick_Left;
+            public byte LeftStickLeft;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick right if pressed.
             /// </summary>
-            public byte Left_Stick_Right;
+            public byte LeftStickRight;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
             /// </summary>
-            public byte Left_Stick_Up;
+            public byte LeftStickUp;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left trigger if pressed.
             /// </summary>
-            public byte Left_Trigger;
+            public byte LeftTrigger;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick down if pressed.
             /// </summary>
-            public byte Right_Stick_Down;
+            public byte RightStickDown;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick left if pressed.
             /// </summary>
-            public byte Right_Stick_Left;
+            public byte RightStickLeft;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick right if pressed.
             /// </summary>
-            public byte Right_Stick_Right;
+            public byte RightStickRight;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
             /// </summary>
-            public byte Right_Stick_Up;
+            public byte RightStickUp;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates right trigger if pressed.
             /// </summary>
-            public byte Right_Trigger;
+            public byte RightTrigger;
         }
 
         /// <summary>
@@ -737,12 +738,12 @@ namespace Reloaded.Input
         /// </summary>
         public class AxisMapping
         {
-            public AxisMappingEntry leftStickX = new AxisMappingEntry();
-            public AxisMappingEntry leftStickY = new AxisMappingEntry();
-            public AxisMappingEntry leftTrigger = new AxisMappingEntry();
-            public AxisMappingEntry rightStickX = new AxisMappingEntry();
-            public AxisMappingEntry rightStickY = new AxisMappingEntry();
-            public AxisMappingEntry rightTrigger = new AxisMappingEntry();
+            public AxisMappingEntry LeftStickX = new AxisMappingEntry();
+            public AxisMappingEntry LeftStickY = new AxisMappingEntry();
+            public AxisMappingEntry LeftTrigger = new AxisMappingEntry();
+            public AxisMappingEntry RightStickX = new AxisMappingEntry();
+            public AxisMappingEntry RightStickY = new AxisMappingEntry();
+            public AxisMappingEntry RightTrigger = new AxisMappingEntry();
         }
 
         /// <summary>
@@ -755,47 +756,47 @@ namespace Reloaded.Input
             /// Defines the mapping for the individual axis entry.
             /// Also sometimes known in the source code as the Destination Axis.
             /// </summary>
-            public ControllerAxis axis;
+            public ControllerAxis DestinationAxis;
 
             /// <summary>
             /// Defines a deadzone between 0 and 100%. Range: 0-100
             /// </summary>
-            public float deadZone;
+            public float DeadZone;
 
             /// <summary>
             /// True if the axis is to be reversed when being read.
             /// </summary>
-            public bool isReversed;
+            public bool IsReversed;
 
             /// <summary>
             /// Stores the name of the property (DirectInput, XInput) that is mapped to the axis type.
-            /// Sometimes known in the source code as the Source Axis.
+            /// Sometimes known in the source code as PropertyName.
             /// </summary>
-            public string propertyName;
+            public string SourceAxis;
 
             /// <summary>
             /// Scales the raw input values by this value.
             /// </summary>
-            public float radiusScale;
+            public float RadiusScale;
         }
 
         /// <summary>
         /// Defines an analog stick in terms of X + Y, nothing more.
         /// </summary>
-        public struct Analog_Stick
+        public struct AnalogStick
         {
-            private float X;
-            private float Y;
+            private float _x;
+            private float _y;
 
             /// <summary>
             /// Retrieves the X Component.
             /// </summary>
-            public float GetX() { return X; }
+            public float GetX() { return _x; }
 
             /// <summary>
             /// Retrieves the Y Component.
             /// </summary>
-            public float GetY() { return Y; }
+            public float GetY() { return _y; }
 
             /// <summary>
             /// Sets the value of X. Ensures that the value is within permissible range.
@@ -803,12 +804,12 @@ namespace Reloaded.Input
             /// <param name="value"></param>
             public void SetX(float value)
             {
-                X = value;
+                _x = value;
 
                 // Do not allow X to be lesser or greater than man/mix.
-                if (X > AXIS_MAX_VALUE_F)
-                    X = AXIS_MAX_VALUE_F;
-                else if (X < AXIS_MIN_VALUE_F) X = AXIS_MIN_VALUE_F;
+                if (_x > AxisMaxValueF)
+                    _x = AxisMaxValueF;
+                else if (_x < AxisMinValueF) _x = AxisMinValueF;
             }
 
 
@@ -818,12 +819,12 @@ namespace Reloaded.Input
             /// <param name="value"></param>
             public void SetY(float value)
             {
-                Y = value;
+                _y = value;
 
                 // Do not allow X to be lesser or greater than man/mix.
-                if (Y > AXIS_MAX_VALUE_F)
-                    Y = AXIS_MAX_VALUE_F;
-                else if (Y < AXIS_MIN_VALUE_F) Y = AXIS_MIN_VALUE_F;
+                if (_y > AxisMaxValueF)
+                    _y = AxisMaxValueF;
+                else if (_y < AxisMinValueF) _y = AxisMinValueF;
             }
         }
     }

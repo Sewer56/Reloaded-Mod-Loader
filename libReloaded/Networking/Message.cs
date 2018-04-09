@@ -21,9 +21,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using Reloaded.Networking.MessageTypes;
 
 namespace Reloaded.Networking
 {
@@ -42,7 +39,7 @@ namespace Reloaded.Networking
             /// Defines the length of the individual message.
             /// The length of the message is calculated by 
             /// </summary>
-            public Int32 MessageLength { get; private set; }
+            public int MessageLength { get; private set; }
 
             /// <summary>
             /// The type of the message sent. Types are supposed to be your
@@ -61,7 +58,7 @@ namespace Reloaded.Networking
             /// </summary>
             public byte[] Data
             {
-                get { return _data; }
+                get => _data;
                 set
                 {
                     _data = value;
@@ -88,7 +85,7 @@ namespace Reloaded.Networking
         public static byte[] BuildMessage(this MessageStruct message)
         {
             // Allocate enough data to form the message.
-            List<byte> messageData = new List<byte>((int)message.MessageLength);
+            List<byte> messageData = new List<byte>(message.MessageLength);
 
             // Append the message length.
             messageData.AddRange(BitConverter.GetBytes(message.MessageLength));
@@ -113,14 +110,12 @@ namespace Reloaded.Networking
         public static MessageStruct ParseMessage(byte[] data)
         {
             // Instantiate the MessageStruct
-            MessageStruct messageStruct = new MessageStruct();
-
-            // Assign the Message Type from the received data.
-            messageStruct.MessageType = BitConverter.ToUInt16(data, 0);
-
-            // Copy the received data to the struct.
-            messageStruct.Data = data.Skip(sizeof(ushort)).ToArray();
-
+            MessageStruct messageStruct = new MessageStruct
+            {
+                MessageType = BitConverter.ToUInt16(data, 0),
+                Data = data.Skip(sizeof(ushort)).ToArray()
+            };
+            
             // Return the message struct.
             return messageStruct;
         }

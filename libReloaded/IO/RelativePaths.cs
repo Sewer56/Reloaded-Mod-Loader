@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Reloaded.IO
 {
@@ -31,6 +32,16 @@ namespace Reloaded.IO
     /// </summary>
     public static class RelativePaths
     {
+        /// <summary>
+        /// Creates a hardlink for an already existing specific file elsewhere at another path.
+        /// </summary>
+        /// <param name="lpFileName">The name of the new file. This parameter may include the path but cannot specify the name of a directory.</param>
+        /// <param name="lpExistingFileName">The name of the existing file. This parameter may include the path cannot specify the name of a directory.</param>
+        /// <param name="lpSecurityAttributes">Reserved, should be set to null (IntPtr.Zero).</param>
+        /// <returns></returns>
+        [DllImport("Kernel32.dll", CharSet = CharSet.Unicode)]
+        public static extern bool CreateHardLink(string lpFileName, string lpExistingFileName, IntPtr lpSecurityAttributes);
+
         /// <summary>
         /// Specifies the method by which files are meant to be copied for copy operations.
         /// Files can either be literally copied with their data being copied or a hardlink 
@@ -82,7 +93,8 @@ namespace Reloaded.IO
 
                 // Confirm source, and target's directory exist.
                 if (! File.Exists(sourcePath)) continue;
-                if (! Directory.Exists(Path.GetDirectoryName(targetPath))) Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
+                if (! Directory.Exists(Path.GetDirectoryName(targetPath)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
 
                 // Copy the files from A to B using the specified target method.
                 CopyWithMethod(sourcePath, targetPath, fileCopyMethod);
@@ -119,7 +131,7 @@ namespace Reloaded.IO
 
                     // Try creating hardlink.
                     // If the operation fails, copy the file with replacement.
-                    if (Native.Native.CreateHardLink(targetPath, sourcePath, IntPtr.Zero) == false) File.Copy(sourcePath, targetPath, true);
+                    if (CreateHardLink(targetPath, sourcePath, IntPtr.Zero) == false) File.Copy(sourcePath, targetPath, true);
 
                     break;
             }

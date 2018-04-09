@@ -19,12 +19,13 @@
 */
 
 using System;
+using System.Globalization;
 using System.IO;
 using IniParser;
 using IniParser.Model;
-using static Reloaded.Input.ControllerCommon;
+using Reloaded.Input.Common;
 
-namespace Reloaded.Input
+namespace Reloaded.Input.Config
 {
     /// <summary>
     /// Parses configuration files for XInput, DirectInput controllers.
@@ -34,20 +35,20 @@ namespace Reloaded.Input
         /// <summary>
         /// Holds an instance of ini-parser used for parsing INI files.
         /// </summary>
-        private readonly FileIniDataParser iniParser;
+        private readonly FileIniDataParser _iniParser;
 
         /// <summary>
         /// Stores the ini data read by the ini-parser.
         /// </summary>
-        private IniData iniData;
+        private IniData _iniData;
 
         /// <summary>
         /// Initiates the Controller Config Parser.
         /// </summary>
         public ControllerConfigParser()
         {
-            iniParser = new FileIniDataParser();
-            iniParser.Parser.Configuration.CommentString = "#";
+            _iniParser = new FileIniDataParser();
+            _iniParser.Parser.Configuration.CommentString = "#";
         }
 
         /// <summary>
@@ -55,98 +56,108 @@ namespace Reloaded.Input
         /// </summary>
         /// <param name="configLocation">States the location of the controller configuration.</param>
         /// <param name="controller">A DirectInput or XInput controller instance.</param>
-        public IController ParseConfig(string configLocation, IController controller)
+        public ControllerCommon.IController ParseConfig(string configLocation, ControllerCommon.IController controller)
         {
             // Instantiate the individual mapping structs.
-            AxisMapping axisMapping = new AxisMapping();
-            EmulationButtonMapping emulationMapping = new EmulationButtonMapping();
-            ButtonMapping buttonMapping = new ButtonMapping();
+            ControllerCommon.AxisMapping axisMapping = new ControllerCommon.AxisMapping();
+            ControllerCommon.EmulationButtonMapping emulationMapping = new ControllerCommon.EmulationButtonMapping();
+            ControllerCommon.ButtonMapping buttonMapping = new ControllerCommon.ButtonMapping();
 
             // Check if the config exists, if it doesn't, first write an empty config.
-            if (! File.Exists(configLocation)) File.WriteAllText(configLocation, SampleConfig.Sample);
+            if (!File.Exists(configLocation))
+            {
+                // Check if directory exists first.
+                // Unpack sample themes
+                if (!Directory.Exists(Path.GetDirectoryName(configLocation)))
+                { Directory.CreateDirectory(Path.GetDirectoryName(configLocation)); }
+
+                // Write Sample Config
+                File.WriteAllText(configLocation, SampleConfig.Sample);
+            }
+                
 
             // Read the controller configuration.
-            iniData = iniParser.ReadFile(configLocation);
+            _iniData = _iniParser.ReadFile(configLocation);
 
             // Read the controller port ID.
-            controller.ControllerID = Convert.ToInt32(iniData["Main Settings"]["Controller_Port"]);
+            controller.ControllerId = Convert.ToInt32(_iniData["Main Settings"]["Controller_Port"]);
 
             // Read the controller button mappings.
             #region Button Mappings
-            buttonMapping.Button_A = byte.Parse(iniData["Button Mappings"]["Button_A"]);
-            buttonMapping.Button_B = byte.Parse(iniData["Button Mappings"]["Button_B"]);
-            buttonMapping.Button_X = byte.Parse(iniData["Button Mappings"]["Button_X"]);
-            buttonMapping.Button_Y = byte.Parse(iniData["Button Mappings"]["Button_Y"]);
+            buttonMapping.ButtonA = byte.Parse(_iniData["Button Mappings"]["Button_A"]);
+            buttonMapping.ButtonB = byte.Parse(_iniData["Button Mappings"]["Button_B"]);
+            buttonMapping.ButtonX = byte.Parse(_iniData["Button Mappings"]["Button_X"]);
+            buttonMapping.ButtonY = byte.Parse(_iniData["Button Mappings"]["Button_Y"]);
 
-            buttonMapping.Button_LB = byte.Parse(iniData["Button Mappings"]["Button_LB"]);
-            buttonMapping.Button_RB = byte.Parse(iniData["Button Mappings"]["Button_RB"]);
+            buttonMapping.ButtonLb = byte.Parse(_iniData["Button Mappings"]["Button_LB"]);
+            buttonMapping.ButtonRb = byte.Parse(_iniData["Button Mappings"]["Button_RB"]);
 
-            buttonMapping.Button_LS = byte.Parse(iniData["Button Mappings"]["Button_LS"]);
-            buttonMapping.Button_RS = byte.Parse(iniData["Button Mappings"]["Button_RS"]);
+            buttonMapping.ButtonLs = byte.Parse(_iniData["Button Mappings"]["Button_LS"]);
+            buttonMapping.ButtonRs = byte.Parse(_iniData["Button Mappings"]["Button_RS"]);
 
-            buttonMapping.Button_Back = byte.Parse(iniData["Button Mappings"]["Button_Back"]);
-            buttonMapping.Button_Guide = byte.Parse(iniData["Button Mappings"]["Button_Guide"]);
-            buttonMapping.Button_Start = byte.Parse(iniData["Button Mappings"]["Button_Start"]);
+            buttonMapping.ButtonBack = byte.Parse(_iniData["Button Mappings"]["Button_Back"]);
+            buttonMapping.ButtonGuide = byte.Parse(_iniData["Button Mappings"]["Button_Guide"]);
+            buttonMapping.ButtonStart = byte.Parse(_iniData["Button Mappings"]["Button_Start"]);
             #endregion
 
             // Read the controller axis emulation mappings.
             #region Emulation Mappings
-            emulationMapping.DPAD_UP = byte.Parse(iniData["Emulation Mapping"]["DPAD_UP"]);
-            emulationMapping.DPAD_LEFT = byte.Parse(iniData["Emulation Mapping"]["DPAD_LEFT"]);
-            emulationMapping.DPAD_RIGHT = byte.Parse(iniData["Emulation Mapping"]["DPAD_RIGHT"]);
-            emulationMapping.DPAD_DOWN = byte.Parse(iniData["Emulation Mapping"]["DPAD_DOWN"]);
+            emulationMapping.DpadUp = byte.Parse(_iniData["Emulation Mapping"]["DPAD_UP"]);
+            emulationMapping.DpadLeft = byte.Parse(_iniData["Emulation Mapping"]["DPAD_LEFT"]);
+            emulationMapping.DpadRight = byte.Parse(_iniData["Emulation Mapping"]["DPAD_RIGHT"]);
+            emulationMapping.DpadDown = byte.Parse(_iniData["Emulation Mapping"]["DPAD_DOWN"]);
 
-            emulationMapping.Right_Trigger = byte.Parse(iniData["Emulation Mapping"]["Right_Trigger"]);
-            emulationMapping.Left_Trigger = byte.Parse(iniData["Emulation Mapping"]["Left_Trigger"]);
+            emulationMapping.RightTrigger = byte.Parse(_iniData["Emulation Mapping"]["Right_Trigger"]);
+            emulationMapping.LeftTrigger = byte.Parse(_iniData["Emulation Mapping"]["Left_Trigger"]);
 
-            emulationMapping.Left_Stick_Up = byte.Parse(iniData["Emulation Mapping"]["Left_Stick_Up"]);
-            emulationMapping.Left_Stick_Left = byte.Parse(iniData["Emulation Mapping"]["Left_Stick_Left"]);
-            emulationMapping.Left_Stick_Down = byte.Parse(iniData["Emulation Mapping"]["Left_Stick_Down"]);
-            emulationMapping.Left_Stick_Right = byte.Parse(iniData["Emulation Mapping"]["Left_Stick_Right"]);
+            emulationMapping.LeftStickUp = byte.Parse(_iniData["Emulation Mapping"]["Left_Stick_Up"]);
+            emulationMapping.LeftStickLeft = byte.Parse(_iniData["Emulation Mapping"]["Left_Stick_Left"]);
+            emulationMapping.LeftStickDown = byte.Parse(_iniData["Emulation Mapping"]["Left_Stick_Down"]);
+            emulationMapping.LeftStickRight = byte.Parse(_iniData["Emulation Mapping"]["Left_Stick_Right"]);
 
-            emulationMapping.Right_Stick_Up = byte.Parse(iniData["Emulation Mapping"]["Right_Stick_Up"]);
-            emulationMapping.Right_Stick_Left = byte.Parse(iniData["Emulation Mapping"]["Right_Stick_Left"]);
-            emulationMapping.Right_Stick_Down = byte.Parse(iniData["Emulation Mapping"]["Right_Stick_Down"]);
-            emulationMapping.Right_Stick_Right = byte.Parse(iniData["Emulation Mapping"]["Right_Stick_Right"]);
+            emulationMapping.RightStickUp = byte.Parse(_iniData["Emulation Mapping"]["Right_Stick_Up"]);
+            emulationMapping.RightStickLeft = byte.Parse(_iniData["Emulation Mapping"]["Right_Stick_Left"]);
+            emulationMapping.RightStickDown = byte.Parse(_iniData["Emulation Mapping"]["Right_Stick_Down"]);
+            emulationMapping.RightStickRight = byte.Parse(_iniData["Emulation Mapping"]["Right_Stick_Right"]);
             #endregion
 
             // Read the controller axis mappings.
             #region Axis Mappings
-            axisMapping.leftStickX.propertyName = iniData["Axis"]["Left_Stick_X"];
-            axisMapping.leftStickX.axis = (ControllerAxis)Enum.Parse(typeof(ControllerAxis), iniData["Axis Type"]["Left_Stick_X"]);
-            axisMapping.leftStickX.deadZone = float.Parse(iniData["Axis Deadzone"]["Left_Stick_X"]);
-            axisMapping.leftStickX.isReversed = bool.Parse(iniData["Axis Inverse"]["Left_Stick_X"]);
-            axisMapping.leftStickX.radiusScale = float.Parse(iniData["Radius Scale"]["Left_Stick_X"]);
+            axisMapping.LeftStickX.SourceAxis = _iniData["Axis"]["Left_Stick_X"];
+            axisMapping.LeftStickX.DestinationAxis = ParseAxisName(_iniData["Axis Type"]["Left_Stick_X"]);
+            axisMapping.LeftStickX.DeadZone = float.Parse(_iniData["Axis Deadzone"]["Left_Stick_X"]);
+            axisMapping.LeftStickX.IsReversed = bool.Parse(_iniData["Axis Inverse"]["Left_Stick_X"]);
+            axisMapping.LeftStickX.RadiusScale = float.Parse(_iniData["Radius Scale"]["Left_Stick_X"]);
 
-            axisMapping.rightStickX.propertyName = iniData["Axis"]["Right_Stick_X"];
-            axisMapping.rightStickX.axis = (ControllerAxis)Enum.Parse(typeof(ControllerAxis), iniData["Axis Type"]["Right_Stick_X"]);
-            axisMapping.rightStickX.deadZone = float.Parse(iniData["Axis Deadzone"]["Right_Stick_X"]);
-            axisMapping.rightStickX.isReversed = bool.Parse(iniData["Axis Inverse"]["Right_Stick_X"]);
-            axisMapping.rightStickX.radiusScale = float.Parse(iniData["Radius Scale"]["Right_Stick_X"]);
+            axisMapping.RightStickX.SourceAxis = _iniData["Axis"]["Right_Stick_X"];
+            axisMapping.RightStickX.DestinationAxis = ParseAxisName(_iniData["Axis Type"]["Right_Stick_X"]);
+            axisMapping.RightStickX.DeadZone = float.Parse(_iniData["Axis Deadzone"]["Right_Stick_X"]);
+            axisMapping.RightStickX.IsReversed = bool.Parse(_iniData["Axis Inverse"]["Right_Stick_X"]);
+            axisMapping.RightStickX.RadiusScale = float.Parse(_iniData["Radius Scale"]["Right_Stick_X"]);
 
-            axisMapping.leftStickY.propertyName = iniData["Axis"]["Left_Stick_Y"];
-            axisMapping.leftStickY.axis = (ControllerAxis)Enum.Parse(typeof(ControllerAxis), iniData["Axis Type"]["Left_Stick_Y"]);
-            axisMapping.leftStickY.deadZone = float.Parse(iniData["Axis Deadzone"]["Left_Stick_Y"]);
-            axisMapping.leftStickY.isReversed = bool.Parse(iniData["Axis Inverse"]["Left_Stick_Y"]);
-            axisMapping.leftStickY.radiusScale = float.Parse(iniData["Radius Scale"]["Left_Stick_Y"]);
+            axisMapping.LeftStickY.SourceAxis = _iniData["Axis"]["Left_Stick_Y"];
+            axisMapping.LeftStickY.DestinationAxis = ParseAxisName(_iniData["Axis Type"]["Left_Stick_Y"]);
+            axisMapping.LeftStickY.DeadZone = float.Parse(_iniData["Axis Deadzone"]["Left_Stick_Y"]);
+            axisMapping.LeftStickY.IsReversed = bool.Parse(_iniData["Axis Inverse"]["Left_Stick_Y"]);
+            axisMapping.LeftStickY.RadiusScale = float.Parse(_iniData["Radius Scale"]["Left_Stick_Y"]);
 
-            axisMapping.rightStickY.propertyName = iniData["Axis"]["Right_Stick_Y"];
-            axisMapping.rightStickY.axis = (ControllerAxis)Enum.Parse(typeof(ControllerAxis), iniData["Axis Type"]["Right_Stick_Y"]);
-            axisMapping.rightStickY.deadZone = float.Parse(iniData["Axis Deadzone"]["Right_Stick_Y"]);
-            axisMapping.rightStickY.isReversed = bool.Parse(iniData["Axis Inverse"]["Right_Stick_Y"]);
-            axisMapping.rightStickY.radiusScale = float.Parse(iniData["Radius Scale"]["Right_Stick_Y"]);
+            axisMapping.RightStickY.SourceAxis = _iniData["Axis"]["Right_Stick_Y"];
+            axisMapping.RightStickY.DestinationAxis = ParseAxisName(_iniData["Axis Type"]["Right_Stick_Y"]);
+            axisMapping.RightStickY.DeadZone = float.Parse(_iniData["Axis Deadzone"]["Right_Stick_Y"]);
+            axisMapping.RightStickY.IsReversed = bool.Parse(_iniData["Axis Inverse"]["Right_Stick_Y"]);
+            axisMapping.RightStickY.RadiusScale = float.Parse(_iniData["Radius Scale"]["Right_Stick_Y"]);
 
-            axisMapping.leftTrigger.propertyName = iniData["Axis"]["Left_Trigger"];
-            axisMapping.leftTrigger.axis = (ControllerAxis)Enum.Parse(typeof(ControllerAxis), iniData["Axis Type"]["Left_Trigger"]);
-            axisMapping.leftTrigger.deadZone = float.Parse(iniData["Axis Deadzone"]["Left_Trigger"]);
-            axisMapping.leftTrigger.isReversed = bool.Parse(iniData["Axis Inverse"]["Left_Trigger"]);
-            axisMapping.leftTrigger.radiusScale = float.Parse(iniData["Radius Scale"]["Left_Trigger"]);
+            axisMapping.LeftTrigger.SourceAxis = _iniData["Axis"]["Left_Trigger"];
+            axisMapping.LeftTrigger.DestinationAxis = ParseAxisName(_iniData["Axis Type"]["Left_Trigger"]);
+            axisMapping.LeftTrigger.DeadZone = float.Parse(_iniData["Axis Deadzone"]["Left_Trigger"]);
+            axisMapping.LeftTrigger.IsReversed = bool.Parse(_iniData["Axis Inverse"]["Left_Trigger"]);
+            axisMapping.LeftTrigger.RadiusScale = float.Parse(_iniData["Radius Scale"]["Left_Trigger"]);
 
-            axisMapping.rightTrigger.propertyName = iniData["Axis"]["Right_Trigger"];
-            axisMapping.rightTrigger.axis = (ControllerAxis)Enum.Parse(typeof(ControllerAxis), iniData["Axis Type"]["Right_Trigger"]);
-            axisMapping.rightTrigger.deadZone = float.Parse(iniData["Axis Deadzone"]["Right_Trigger"]);
-            axisMapping.rightTrigger.isReversed = bool.Parse(iniData["Axis Inverse"]["Right_Trigger"]);
-            axisMapping.rightTrigger.radiusScale = float.Parse(iniData["Radius Scale"]["Right_Trigger"]);
+            axisMapping.RightTrigger.SourceAxis = _iniData["Axis"]["Right_Trigger"];
+            axisMapping.RightTrigger.DestinationAxis = ParseAxisName(_iniData["Axis Type"]["Right_Trigger"]);
+            axisMapping.RightTrigger.DeadZone = float.Parse(_iniData["Axis Deadzone"]["Right_Trigger"]);
+            axisMapping.RightTrigger.IsReversed = bool.Parse(_iniData["Axis Inverse"]["Right_Trigger"]);
+            axisMapping.RightTrigger.RadiusScale = float.Parse(_iniData["Radius Scale"]["Right_Trigger"]);
             #endregion
 
             // Assign Mappings back to Controller
@@ -163,91 +174,130 @@ namespace Reloaded.Input
         /// </summary>
         /// <param name="configLocation">States the location of the controller configuration.</param>
         /// <param name="controller">A DirectInput or XInput controller instance.</param>
-        public void WriteConfig(string configLocation, IController controller)
+        public void WriteConfig(string configLocation, ControllerCommon.IController controller)
         {
             // Controller port ID.
-            iniData["Main Settings"]["Controller_Port"] = Convert.ToString(controller.ControllerID);
+            _iniData["Main Settings"]["Controller_Port"] = Convert.ToString(controller.ControllerId);
 
             // Controller button mappings.
             #region Button Mappings
-            iniData["Button Mappings"]["Button_A"] = Convert.ToString((int)controller.ButtonMapping.Button_A);
-            iniData["Button Mappings"]["Button_B"] = Convert.ToString((int)controller.ButtonMapping.Button_B);
-            iniData["Button Mappings"]["Button_X"] = Convert.ToString((int)controller.ButtonMapping.Button_X);
-            iniData["Button Mappings"]["Button_Y"] = Convert.ToString((int)controller.ButtonMapping.Button_Y);
+            _iniData["Button Mappings"]["Button_A"] = Convert.ToString((int)controller.ButtonMapping.ButtonA);
+            _iniData["Button Mappings"]["Button_B"] = Convert.ToString((int)controller.ButtonMapping.ButtonB);
+            _iniData["Button Mappings"]["Button_X"] = Convert.ToString((int)controller.ButtonMapping.ButtonX);
+            _iniData["Button Mappings"]["Button_Y"] = Convert.ToString((int)controller.ButtonMapping.ButtonY);
 
-            iniData["Button Mappings"]["Button_LB"] = Convert.ToString((int)controller.ButtonMapping.Button_LB);
-            iniData["Button Mappings"]["Button_RB"] = Convert.ToString((int)controller.ButtonMapping.Button_RB);
+            _iniData["Button Mappings"]["Button_LB"] = Convert.ToString((int)controller.ButtonMapping.ButtonLb);
+            _iniData["Button Mappings"]["Button_RB"] = Convert.ToString((int)controller.ButtonMapping.ButtonRb);
 
-            iniData["Button Mappings"]["Button_LS"] = Convert.ToString((int)controller.ButtonMapping.Button_LS);
-            iniData["Button Mappings"]["Button_RS"] = Convert.ToString((int)controller.ButtonMapping.Button_RS);
+            _iniData["Button Mappings"]["Button_LS"] = Convert.ToString((int)controller.ButtonMapping.ButtonLs);
+            _iniData["Button Mappings"]["Button_RS"] = Convert.ToString((int)controller.ButtonMapping.ButtonRs);
 
-            iniData["Button Mappings"]["Button_Back"] = Convert.ToString((int)controller.ButtonMapping.Button_Back);
-            iniData["Button Mappings"]["Button_Guide"] = Convert.ToString((int)controller.ButtonMapping.Button_Guide);
-            iniData["Button Mappings"]["Button_Start"] = Convert.ToString((int)controller.ButtonMapping.Button_Start);
+            _iniData["Button Mappings"]["Button_Back"] = Convert.ToString((int)controller.ButtonMapping.ButtonBack);
+            _iniData["Button Mappings"]["Button_Guide"] = Convert.ToString((int)controller.ButtonMapping.ButtonGuide);
+            _iniData["Button Mappings"]["Button_Start"] = Convert.ToString((int)controller.ButtonMapping.ButtonStart);
             #endregion
 
             // Controller axis emulation mappings.
             #region Emulation Mappings
-            iniData["Emulation Mapping"]["DPAD_UP"] = Convert.ToString((int)controller.EmulationMapping.DPAD_UP);
-            iniData["Emulation Mapping"]["DPAD_LEFT"] = Convert.ToString((int)controller.EmulationMapping.DPAD_LEFT);
-            iniData["Emulation Mapping"]["DPAD_RIGHT"] = Convert.ToString((int)controller.EmulationMapping.DPAD_RIGHT);
-            iniData["Emulation Mapping"]["DPAD_DOWN"] = Convert.ToString((int)controller.EmulationMapping.DPAD_DOWN);
+            _iniData["Emulation Mapping"]["DPAD_UP"] = Convert.ToString((int)controller.EmulationMapping.DpadUp);
+            _iniData["Emulation Mapping"]["DPAD_LEFT"] = Convert.ToString((int)controller.EmulationMapping.DpadLeft);
+            _iniData["Emulation Mapping"]["DPAD_RIGHT"] = Convert.ToString((int)controller.EmulationMapping.DpadRight);
+            _iniData["Emulation Mapping"]["DPAD_DOWN"] = Convert.ToString((int)controller.EmulationMapping.DpadDown);
 
-            iniData["Emulation Mapping"]["Right_Trigger"] = Convert.ToString((int)controller.EmulationMapping.Right_Trigger);
-            iniData["Emulation Mapping"]["Left_Trigger"] = Convert.ToString((int)controller.EmulationMapping.Left_Trigger);
+            _iniData["Emulation Mapping"]["Right_Trigger"] = Convert.ToString((int)controller.EmulationMapping.RightTrigger);
+            _iniData["Emulation Mapping"]["Left_Trigger"] = Convert.ToString((int)controller.EmulationMapping.LeftTrigger);
 
-            iniData["Emulation Mapping"]["Left_Stick_Up"] = Convert.ToString((int)controller.EmulationMapping.Left_Stick_Up);
-            iniData["Emulation Mapping"]["Left_Stick_Left"] = Convert.ToString((int)controller.EmulationMapping.Left_Stick_Left);
-            iniData["Emulation Mapping"]["Left_Stick_Down"] = Convert.ToString((int)controller.EmulationMapping.Left_Stick_Down);
-            iniData["Emulation Mapping"]["Left_Stick_Right"] = Convert.ToString((int)controller.EmulationMapping.Left_Stick_Right);
+            _iniData["Emulation Mapping"]["Left_Stick_Up"] = Convert.ToString((int)controller.EmulationMapping.LeftStickUp);
+            _iniData["Emulation Mapping"]["Left_Stick_Left"] = Convert.ToString((int)controller.EmulationMapping.LeftStickLeft);
+            _iniData["Emulation Mapping"]["Left_Stick_Down"] = Convert.ToString((int)controller.EmulationMapping.LeftStickDown);
+            _iniData["Emulation Mapping"]["Left_Stick_Right"] = Convert.ToString((int)controller.EmulationMapping.LeftStickRight);
 
-            iniData["Emulation Mapping"]["Right_Stick_Up"] = Convert.ToString((int)controller.EmulationMapping.Right_Stick_Up);
-            iniData["Emulation Mapping"]["Right_Stick_Left"] = Convert.ToString((int)controller.EmulationMapping.Right_Stick_Left);
-            iniData["Emulation Mapping"]["Right_Stick_Down"] = Convert.ToString((int)controller.EmulationMapping.Right_Stick_Down);
-            iniData["Emulation Mapping"]["Right_Stick_Right"] = Convert.ToString((int)controller.EmulationMapping.Right_Stick_Right);
+            _iniData["Emulation Mapping"]["Right_Stick_Up"] = Convert.ToString((int)controller.EmulationMapping.RightStickUp);
+            _iniData["Emulation Mapping"]["Right_Stick_Left"] = Convert.ToString((int)controller.EmulationMapping.RightStickLeft);
+            _iniData["Emulation Mapping"]["Right_Stick_Down"] = Convert.ToString((int)controller.EmulationMapping.RightStickDown);
+            _iniData["Emulation Mapping"]["Right_Stick_Right"] = Convert.ToString((int)controller.EmulationMapping.RightStickRight);
             #endregion
 
             // Controller axis mappings.
             #region Axis Mappings
-            iniData["Axis"]["Left_Stick_X"] = Convert.ToString(controller.AxisMapping.leftStickX.propertyName);
-            iniData["Axis Type"]["Left_Stick_X"] = Enum.GetName(typeof(ControllerAxis),controller.AxisMapping.leftStickX.axis);
-            iniData["Axis Deadzone"]["Left_Stick_X"] = Convert.ToString((int)controller.AxisMapping.leftStickX.deadZone);
-            iniData["Axis Inverse"]["Left_Stick_X"] = Convert.ToString(controller.AxisMapping.leftStickX.isReversed);
-            iniData["Radius Scale"]["Left_Stick_X"] = Convert.ToString(controller.AxisMapping.leftStickX.radiusScale);
+            _iniData["Axis"]["Left_Stick_X"] = Convert.ToString(controller.AxisMapping.LeftStickX.SourceAxis);
+            _iniData["Axis Type"]["Left_Stick_X"] = GetAxisName(controller.AxisMapping.LeftStickX.DestinationAxis);
+            _iniData["Axis Deadzone"]["Left_Stick_X"] = Convert.ToString((int)controller.AxisMapping.LeftStickX.DeadZone);
+            _iniData["Axis Inverse"]["Left_Stick_X"] = Convert.ToString(controller.AxisMapping.LeftStickX.IsReversed);
+            _iniData["Radius Scale"]["Left_Stick_X"] = Convert.ToString(controller.AxisMapping.LeftStickX.RadiusScale, CultureInfo.InvariantCulture);
 
-            iniData["Axis"]["Right_Stick_X"] = Convert.ToString(controller.AxisMapping.rightStickX.propertyName);
-            iniData["Axis Type"]["Right_Stick_X"] = Enum.GetName(typeof(ControllerAxis),controller.AxisMapping.rightStickX.axis);
-            iniData["Axis Deadzone"]["Right_Stick_X"] = Convert.ToString((int)controller.AxisMapping.rightStickX.deadZone);
-            iniData["Axis Inverse"]["Right_Stick_X"] = Convert.ToString(controller.AxisMapping.rightStickX.isReversed);
-            iniData["Radius Scale"]["Right_Stick_X"] = Convert.ToString(controller.AxisMapping.rightStickX.radiusScale);
+            _iniData["Axis"]["Right_Stick_X"] = Convert.ToString(controller.AxisMapping.RightStickX.SourceAxis);
+            _iniData["Axis Type"]["Right_Stick_X"] = GetAxisName(controller.AxisMapping.RightStickX.DestinationAxis);
+            _iniData["Axis Deadzone"]["Right_Stick_X"] = Convert.ToString((int)controller.AxisMapping.RightStickX.DeadZone);
+            _iniData["Axis Inverse"]["Right_Stick_X"] = Convert.ToString(controller.AxisMapping.RightStickX.IsReversed);
+            _iniData["Radius Scale"]["Right_Stick_X"] = Convert.ToString(controller.AxisMapping.RightStickX.RadiusScale, CultureInfo.InvariantCulture);
 
-            iniData["Axis"]["Left_Stick_Y"] = Convert.ToString(controller.AxisMapping.leftStickY.propertyName);
-            iniData["Axis Type"]["Left_Stick_Y"] = Enum.GetName(typeof(ControllerAxis),controller.AxisMapping.leftStickY.axis);
-            iniData["Axis Deadzone"]["Left_Stick_Y"] = Convert.ToString((int)controller.AxisMapping.leftStickY.deadZone);
-            iniData["Axis Inverse"]["Left_Stick_Y"] = Convert.ToString(controller.AxisMapping.leftStickY.isReversed);
-            iniData["Radius Scale"]["Left_Stick_Y"] = Convert.ToString(controller.AxisMapping.leftStickY.radiusScale);
+            _iniData["Axis"]["Left_Stick_Y"] = Convert.ToString(controller.AxisMapping.LeftStickY.SourceAxis);
+            _iniData["Axis Type"]["Left_Stick_Y"] = GetAxisName(controller.AxisMapping.LeftStickY.DestinationAxis);
+            _iniData["Axis Deadzone"]["Left_Stick_Y"] = Convert.ToString((int)controller.AxisMapping.LeftStickY.DeadZone);
+            _iniData["Axis Inverse"]["Left_Stick_Y"] = Convert.ToString(controller.AxisMapping.LeftStickY.IsReversed);
+            _iniData["Radius Scale"]["Left_Stick_Y"] = Convert.ToString(controller.AxisMapping.LeftStickY.RadiusScale, CultureInfo.InvariantCulture);
 
-            iniData["Axis"]["Right_Stick_Y"] = Convert.ToString(controller.AxisMapping.rightStickY.propertyName);
-            iniData["Axis Type"]["Right_Stick_Y"] = Enum.GetName(typeof(ControllerAxis),controller.AxisMapping.rightStickY.axis);
-            iniData["Axis Deadzone"]["Right_Stick_Y"] = Convert.ToString((int)controller.AxisMapping.rightStickY.deadZone);
-            iniData["Axis Inverse"]["Right_Stick_Y"] = Convert.ToString(controller.AxisMapping.rightStickY.isReversed);
-            iniData["Radius Scale"]["Right_Stick_Y"] = Convert.ToString(controller.AxisMapping.rightStickY.radiusScale);
+            _iniData["Axis"]["Right_Stick_Y"] = Convert.ToString(controller.AxisMapping.RightStickY.SourceAxis);
+            _iniData["Axis Type"]["Right_Stick_Y"] = GetAxisName(controller.AxisMapping.RightStickY.DestinationAxis);
+            _iniData["Axis Deadzone"]["Right_Stick_Y"] = Convert.ToString((int)controller.AxisMapping.RightStickY.DeadZone);
+            _iniData["Axis Inverse"]["Right_Stick_Y"] = Convert.ToString(controller.AxisMapping.RightStickY.IsReversed);
+            _iniData["Radius Scale"]["Right_Stick_Y"] = Convert.ToString(controller.AxisMapping.RightStickY.RadiusScale, CultureInfo.InvariantCulture);
 
-            iniData["Axis"]["Left_Trigger"] = Convert.ToString(controller.AxisMapping.leftTrigger.propertyName);
-            iniData["Axis Type"]["Left_Trigger"] = Enum.GetName(typeof(ControllerAxis), controller.AxisMapping.leftTrigger.axis);
-            iniData["Axis Deadzone"]["Left_Trigger"] = Convert.ToString((int)controller.AxisMapping.leftTrigger.deadZone);
-            iniData["Axis Inverse"]["Left_Trigger"] = Convert.ToString(controller.AxisMapping.leftTrigger.isReversed);
-            iniData["Radius Scale"]["Left_Trigger"] = Convert.ToString(controller.AxisMapping.leftTrigger.radiusScale);
+            _iniData["Axis"]["Left_Trigger"] = Convert.ToString(controller.AxisMapping.LeftTrigger.SourceAxis);
+            _iniData["Axis Type"]["Left_Trigger"] = GetAxisName(controller.AxisMapping.LeftTrigger.DestinationAxis);
+            _iniData["Axis Deadzone"]["Left_Trigger"] = Convert.ToString((int)controller.AxisMapping.LeftTrigger.DeadZone);
+            _iniData["Axis Inverse"]["Left_Trigger"] = Convert.ToString(controller.AxisMapping.LeftTrigger.IsReversed);
+            _iniData["Radius Scale"]["Left_Trigger"] = Convert.ToString(controller.AxisMapping.LeftTrigger.RadiusScale, CultureInfo.InvariantCulture);
 
-            iniData["Axis"]["Right_Trigger"] = Convert.ToString(controller.AxisMapping.rightTrigger.propertyName);
-            iniData["Axis Type"]["Right_Trigger"] = Enum.GetName(typeof(ControllerAxis), controller.AxisMapping.rightTrigger.axis);
-            iniData["Axis Deadzone"]["Right_Trigger"] = Convert.ToString((int)controller.AxisMapping.rightTrigger.deadZone);
-            iniData["Axis Inverse"]["Right_Trigger"] = Convert.ToString(controller.AxisMapping.rightTrigger.isReversed);
-            iniData["Radius Scale"]["Right_Trigger"] = Convert.ToString(controller.AxisMapping.rightTrigger.radiusScale);
+            _iniData["Axis"]["Right_Trigger"] = Convert.ToString(controller.AxisMapping.RightTrigger.SourceAxis);
+            _iniData["Axis Type"]["Right_Trigger"] = GetAxisName(controller.AxisMapping.RightTrigger.DestinationAxis);
+            _iniData["Axis Deadzone"]["Right_Trigger"] = Convert.ToString((int)controller.AxisMapping.RightTrigger.DeadZone);
+            _iniData["Axis Inverse"]["Right_Trigger"] = Convert.ToString(controller.AxisMapping.RightTrigger.IsReversed);
+            _iniData["Radius Scale"]["Right_Trigger"] = Convert.ToString(controller.AxisMapping.RightTrigger.RadiusScale, CultureInfo.InvariantCulture);
             #endregion
 
             // Write config.
-            iniParser.WriteFile(configLocation, iniData);
+            _iniParser.WriteFile(configLocation, _iniData);
+        }
+
+        /// <summary>
+        /// Parses an axis name as seen in the controller configuration files to axis
+        /// in libReloaded code. This ensures that remapping code does not potentiall break 
+        /// after refactoring axis names in source code.
+        /// </summary>
+        /// <param name="configAxisName">The axis name as seen in the configuration file.</param>
+        private ControllerCommon.ControllerAxis ParseAxisName(string configAxisName)
+        {
+            switch (configAxisName)
+            {
+                case "Left_Stick_X":    return ControllerCommon.ControllerAxis.LeftStickX;
+                case "Left_Stick_Y":    return ControllerCommon.ControllerAxis.LeftStickY;
+                case "Right_Stick_X":   return ControllerCommon.ControllerAxis.RightStickX;
+                case "Right_Stick_Y":   return ControllerCommon.ControllerAxis.RightStickY;
+                case "Left_Trigger":    return ControllerCommon.ControllerAxis.LeftTrigger;
+                case "Right_Trigger":   return ControllerCommon.ControllerAxis.RightTrigger;
+                default:                return ControllerCommon.ControllerAxis.Null;
+            }
+        }
+
+        /// <summary>
+        /// Parses a passed in Controller Axis enumberable and spits out an axis name to use within
+        /// the controller configuration files.
+        /// </summary>
+        /// <param name="controllerAxis">The controller axis to convert to string for config file storage..</param>
+        private string GetAxisName(ControllerCommon.ControllerAxis controllerAxis)
+        {
+            switch (controllerAxis)
+            {
+                case ControllerCommon.ControllerAxis.LeftStickX:    return "Left_Stick_X";
+                case ControllerCommon.ControllerAxis.LeftStickY:    return "Left_Stick_Y";
+                case ControllerCommon.ControllerAxis.RightStickX:   return "Right_Stick_X";
+                case ControllerCommon.ControllerAxis.RightStickY:   return "Right_Stick_Y";
+                case ControllerCommon.ControllerAxis.LeftTrigger:   return "Left_Trigger";
+                case ControllerCommon.ControllerAxis.RightTrigger:  return "Right_Trigger";
+                default:                                            return "Null";
+            }
         }
     }
 }

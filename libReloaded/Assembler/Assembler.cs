@@ -20,15 +20,14 @@
 
 using Reloaded.Networking;
 using System;
-using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows.Forms;
-using Reloaded.Misc;
+using Reloaded.Networking.Sockets;
+using Reloaded.Utilities;
 using MessageStruct = Reloaded.Networking.Message.MessageStruct;
 
 namespace Reloaded.Assembler
@@ -40,49 +39,48 @@ namespace Reloaded.Assembler
     public static class Assembler
     {
         /// <summary>
+        /// ABSOLUTELY DO NOT CHANGE THIS STRING
+        /// libReloaded EXPECTS THIS STRING AND WILL KEEP IGNORE SERVER UNTIL
+        /// THIS STRING IS RETURNED. THIS IDENTIFIES THE ASSEMBLER.
+        /// </summary>
+        private const string ReloadedCheckMessage = "Reloaded Assembler";
+
+        /// <summary>
         /// Used for communication with the external process.
         /// </summary>
-        private static Client assemblerClient;
+        private static Client _assemblerClient;
 
         /// <summary>
         /// Reloaded mod loader stuff reserve ports in the 1337X space.
         /// Port number of the assembler will be stored in %temp% in a path specified in the variable below.
-        /// 
         /// Defaults:
         /// 13370 is taken by Reloaded Mod Loader Server
         /// 13380 is the port for the networked assembler.
         /// </summary>
-        private static int SERVER_PORT = 13380;
+        private static int _serverPort = 13380;
 
         /// <summary>
         /// Stores the port # used by the Mod Loader Assembler Server, in the rare case
         /// that creating a server on the default port fails.
         /// </summary>
-        private static readonly string MOD_LOADER_ASSEMBLER_PORT = Path.GetTempPath() + "\\Reloaded-Assembler-Port.txt";
-
-        /// <summary>
-        /// ABSOLUTELY DO NOT CHANGE THIS STRING
-        /// libReloaded EXPECTS THIS STRING AND WILL KEEP IGNORE SERVER UNTIL
-        /// THIS STRING IS RETURNED. THIS IDENTIFIES THE ASSEMBLER.
-        /// </summary>
-        const string RELOADED_CHECK_MESSAGE = "Reloaded Assembler";
+        private static readonly string ModLoaderAssemblerPort = Path.GetTempPath() + "\\Reloaded-Assembler-Port.txt";
 
         /// <summary>
         /// Defines the assembler server message types.
         /// One for assembly, other for reporting version.
         /// </summary>
-        enum MessageTypes
+        public enum MessageTypes
         {
             /// <summary>
             /// Returns a string to confirm that the end is the assembler server.
             /// </summary>
-            reportAssembler = 0x0,
+            ReportAssembler = 0x0,
 
             /// <summary>
             /// Assembles a set of ASM instructions.
             /// Returns the ASM instructions as a list of bytes.
             /// </summary>
-            assemble = 0x1
+            Assemble = 0x1
         }
 
         /// <summary>
@@ -102,50 +100,53 @@ namespace Reloaded.Assembler
         public static byte[] Assemble(string[] mnemonics)
         {
             // Build Message to Assemble Mnemonics.
-            MessageStruct assemblyRequest = new MessageStruct();
-            assemblyRequest.MessageType = (ushort)MessageTypes.assemble;
-            assemblyRequest.Data = SerializeObject(mnemonics);
+            MessageStruct assemblyRequest = new MessageStruct
+            {
+                MessageType = (ushort)MessageTypes.Assemble,
+                Data = SerializeObject(mnemonics)
+            };
 
             // Request & Retrieve | MessageStruct Data
-            MessageStruct response = assemblerClient.ClientSocket.SendData(assemblyRequest, true);
+            MessageStruct response = _assemblerClient.ClientSocket.SendData(assemblyRequest, true);
             return response.Data;
         }
 
         /// <summary>
         /// Connects to the mod loader assembler server.
         /// </summary>
-        static void ConnectToServer()
+        private static void ConnectToServer()
         {
             // Get port from file.
-            if (File.Exists(MOD_LOADER_ASSEMBLER_PORT))
+            if (File.Exists(ModLoaderAssemblerPort))
             {
-                SERVER_PORT = Convert.ToInt32(File.ReadAllText(MOD_LOADER_ASSEMBLER_PORT));
+                _serverPort = Convert.ToInt32(File.ReadAllText(ModLoaderAssemblerPort));
             }
 
             // Is server not running?
-            if (Process.GetProcessesByName("ReloadedAssembler").Length < 1)
+            if (System.Diagnostics.Process.GetProcessesByName("Reloaded-Assembler").Length < 1)
             {
                 // Get path to assembler.
                 string currentExecutingFolder = Assembly.GetExecutingAssembly().Location;
 
                 // Check if library is packed, if it is (no location), get current directory.
+                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (currentExecutingFolder == "") { currentExecutingFolder = Path.GetTempPath(); }
                 else { currentExecutingFolder = Path.GetDirectoryName(currentExecutingFolder); }
 
                 // Create and define path in subdirectory
                 string assemblerDirectory = currentExecutingFolder + "//Reloaded-Assembler";
-                string reloadedPath = assemblerDirectory + "//" + "ReloadedAssembler.exe";
+                string reloadedPath = assemblerDirectory + "//" + "Reloaded-Assembler.exe";
                 Directory.CreateDirectory(assemblerDirectory);
 
                 // Start the assembler server.
                 if (!File.Exists(reloadedPath))
                 {
                     // Extract the executable and run it.
-                    ExtractFodyCosturaFile.ExtractResource("ReloadedAssembler.exe", assemblerDirectory);
+                    ExtractFodyCosturaFile.ExtractResource("Reloaded-Assembler.exe", assemblerDirectory);
                 }
 
                 // Start the assembler.
-                Process.Start(reloadedPath);
+                System.Diagnostics.Process.Start(reloadedPath);
 
                 // Connect to our server.
                 ConnectToServer();
@@ -154,10 +155,10 @@ namespace Reloaded.Assembler
             else
             {
                 // Create the client instance.
-                assemblerClient = new Client(IPAddress.Loopback, SERVER_PORT);
+                _assemblerClient = new Client(IPAddress.Loopback, _serverPort);
 
                 // Try to connect.
-                bool isConnected = assemblerClient.StartClient();
+                bool isConnected = _assemblerClient.StartClient();
 
                 // Check below if connected client is our assembler.
                 if (isConnected)
@@ -180,14 +181,14 @@ namespace Reloaded.Assembler
         /// Attempts to establish connection with the Assembler Server through 
         /// a port 1 digit higher than the current port.
         /// </summary>
-        static void TrySecondPort()
+        private static void TrySecondPort()
         {
             // Shutdown.
-            assemblerClient.ShutdownClient();
+            _assemblerClient.ShutdownClient();
 
             // Try another port.
-            assemblerClient = new Client(IPAddress.Loopback, SERVER_PORT + 1);
-            bool isConnected2 = assemblerClient.StartClient();
+            _assemblerClient = new Client(IPAddress.Loopback, _serverPort + 1);
+            bool isConnected2 = _assemblerClient.StartClient();
 
             if (isConnected2)
             {
@@ -204,21 +205,23 @@ namespace Reloaded.Assembler
         /// Checks if the connected socket on the other end is our Reloaded Assembler
         /// by sending a 0x00 message type and expecting a string.
         /// </summary>
-        static bool CheckAssembler()
+        private static bool CheckAssembler()
         {
             // Check Data
-            MessageStruct checkAssembler = new MessageStruct();
-            checkAssembler.MessageType = (ushort)MessageTypes.reportAssembler;
-            checkAssembler.Data = new byte[1] { 0x00 };
+            MessageStruct checkAssembler = new MessageStruct
+            {
+                MessageType = (ushort) MessageTypes.ReportAssembler,
+                Data = new byte[] {0x00}
+            };
 
             // Send check to server
-            MessageStruct response = assemblerClient.ClientSocket.SendData(checkAssembler, true);
+            MessageStruct response = _assemblerClient.ClientSocket.SendData(checkAssembler, true);
 
             // Check returned string.
             string checkString = Encoding.ASCII.GetString(response.Data);
 
             // Check the identification string for our assembler.
-            if (checkString == RELOADED_CHECK_MESSAGE) { return true; }
+            if (checkString == ReloadedCheckMessage) { return true; }
             else { return false; }
         }
 
@@ -230,7 +233,7 @@ namespace Reloaded.Assembler
         ///     Your x86 assembler instructions to be assembled. 
         ///     Rule of thumb: Test your ASM in FASM outside of mod loader mods first for successful compilation.
         /// </param>
-        static byte[] SerializeObject(object serializeObject)
+        private static byte[] SerializeObject(object serializeObject)
         {
             // Initialize MemStream & BinaryFormatter
             MemoryStream mnemonicStream = new MemoryStream();

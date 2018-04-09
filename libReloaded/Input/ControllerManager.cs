@@ -1,9 +1,30 @@
-﻿using System.Collections.Generic;
+﻿/*
+    [Reloaded] Mod Loader Common Library (libReloaded)
+    The main library acting as common, shared code between the Reloaded Mod 
+    Loader Launcher, Mods as well as plugins.
+    Copyright (C) 2018  Sewer. Sz (Sewer56)
+
+    [Reloaded] is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    [Reloaded] is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+*/
+
+using System.Collections.Generic;
 using System.Linq;
 using Reloaded.Input.DirectInput;
+using Reloaded.Input.Modules;
 using Reloaded.Input.XInput;
-using static Reloaded.Input.ControllerCommon;
-using static Reloaded.Input.Hotplugger;
+using static Reloaded.Input.Common.ControllerCommon;
+using static Reloaded.Input.Modules.Hotplugger;
 
 namespace Reloaded.Input
 {
@@ -92,12 +113,14 @@ namespace Reloaded.Input
         public ControllerInputs GetInput(int controllerPort)
         {
             // Retrieve all controllers at port #.
-            List<IController> controllersAtPort = Controllers.Where(x => x.ControllerID == controllerPort).ToList();
+            List<IController> controllersAtPort = Controllers.Where(x => x.ControllerId == controllerPort).ToList();
 
             // Get input for every controller at port # and add onto the input struct.
-            ControllerInputs controllerInputs = new ControllerInputs();
-            controllerInputs.controllerButtons = new ControllerButtonStruct();
-            controllerInputs.leftStick = new Analog_Stick();
+            ControllerInputs controllerInputs = new ControllerInputs
+            {
+                ControllerButtons = new ControllerButtonStruct(),
+                LeftStick = new AnalogStick()
+            };
 
             // For each controller in port #.
             foreach (IController controller in controllersAtPort)
@@ -106,35 +129,35 @@ namespace Reloaded.Input
                 ControllerInputs controllerInputsNew = controller.GetControllerState();
 
                 // Add onto Left stick and Right Stick
-                controllerInputs.leftStick.SetX(controllerInputs.leftStick.GetX() + controllerInputsNew.leftStick.GetX());
-                controllerInputs.leftStick.SetY(controllerInputs.leftStick.GetY() + controllerInputsNew.leftStick.GetY());
-                controllerInputs.rightStick.SetX(controllerInputs.rightStick.GetX() + controllerInputsNew.rightStick.GetX());
-                controllerInputs.rightStick.SetY(controllerInputs.rightStick.GetY() + controllerInputsNew.rightStick.GetY());
+                controllerInputs.LeftStick.SetX(controllerInputs.LeftStick.GetX() + controllerInputsNew.LeftStick.GetX());
+                controllerInputs.LeftStick.SetY(controllerInputs.LeftStick.GetY() + controllerInputsNew.LeftStick.GetY());
+                controllerInputs.RightStick.SetX(controllerInputs.RightStick.GetX() + controllerInputsNew.RightStick.GetX());
+                controllerInputs.RightStick.SetY(controllerInputs.RightStick.GetY() + controllerInputsNew.RightStick.GetY());
 
                 // Add triggers.
                 controllerInputs.SetLeftTriggerPressure(controllerInputs.GetLeftTriggerPressure() + controllerInputsNew.GetLeftTriggerPressure());
                 controllerInputs.SetRightTriggerPressure(controllerInputs.GetRightTriggerPressure() + controllerInputsNew.GetRightTriggerPressure());
 
                 // Add DPAD
-                if (controllerInputsNew.controllerButtons.DPAD_UP) controllerInputs.controllerButtons.DPAD_UP = true;
-                if (controllerInputsNew.controllerButtons.DPAD_LEFT) controllerInputs.controllerButtons.DPAD_LEFT = true;
-                if (controllerInputsNew.controllerButtons.DPAD_DOWN) controllerInputs.controllerButtons.DPAD_DOWN = true;
-                if (controllerInputsNew.controllerButtons.DPAD_RIGHT) controllerInputs.controllerButtons.DPAD_RIGHT = true;
+                if (controllerInputsNew.ControllerButtons.DpadUp) controllerInputs.ControllerButtons.DpadUp = true;
+                if (controllerInputsNew.ControllerButtons.DpadLeft) controllerInputs.ControllerButtons.DpadLeft = true;
+                if (controllerInputsNew.ControllerButtons.DpadDown) controllerInputs.ControllerButtons.DpadDown = true;
+                if (controllerInputsNew.ControllerButtons.DpadRight) controllerInputs.ControllerButtons.DpadRight = true;
 
                 // Add buttons.
-                if (controllerInputsNew.controllerButtons.Button_A) controllerInputs.controllerButtons.Button_A = true;
-                if (controllerInputsNew.controllerButtons.Button_B) controllerInputs.controllerButtons.Button_B = true;
-                if (controllerInputsNew.controllerButtons.Button_X) controllerInputs.controllerButtons.Button_X = true;
-                if (controllerInputsNew.controllerButtons.Button_Y) controllerInputs.controllerButtons.Button_Y = true;
+                if (controllerInputsNew.ControllerButtons.ButtonA) controllerInputs.ControllerButtons.ButtonA = true;
+                if (controllerInputsNew.ControllerButtons.ButtonB) controllerInputs.ControllerButtons.ButtonB = true;
+                if (controllerInputsNew.ControllerButtons.ButtonX) controllerInputs.ControllerButtons.ButtonX = true;
+                if (controllerInputsNew.ControllerButtons.ButtonY) controllerInputs.ControllerButtons.ButtonY = true;
 
-                if (controllerInputsNew.controllerButtons.Button_LB) controllerInputs.controllerButtons.Button_LB = true;
-                if (controllerInputsNew.controllerButtons.Button_RB) controllerInputs.controllerButtons.Button_RB = true;
-                if (controllerInputsNew.controllerButtons.Button_LS) controllerInputs.controllerButtons.Button_LS = true;
-                if (controllerInputsNew.controllerButtons.Button_RS) controllerInputs.controllerButtons.Button_RS = true;
+                if (controllerInputsNew.ControllerButtons.ButtonLb) controllerInputs.ControllerButtons.ButtonLb = true;
+                if (controllerInputsNew.ControllerButtons.ButtonRb) controllerInputs.ControllerButtons.ButtonRb = true;
+                if (controllerInputsNew.ControllerButtons.ButtonLs) controllerInputs.ControllerButtons.ButtonLs = true;
+                if (controllerInputsNew.ControllerButtons.ButtonRs) controllerInputs.ControllerButtons.ButtonRs = true;
 
-                if (controllerInputsNew.controllerButtons.Button_Back) controllerInputs.controllerButtons.Button_Back = true;
-                if (controllerInputsNew.controllerButtons.Button_Guide) controllerInputs.controllerButtons.Button_Guide = true;
-                if (controllerInputsNew.controllerButtons.Button_Start) controllerInputs.controllerButtons.Button_Start = true;
+                if (controllerInputsNew.ControllerButtons.ButtonBack) controllerInputs.ControllerButtons.ButtonBack = true;
+                if (controllerInputsNew.ControllerButtons.ButtonGuide) controllerInputs.ControllerButtons.ButtonGuide = true;
+                if (controllerInputsNew.ControllerButtons.ButtonStart) controllerInputs.ControllerButtons.ButtonStart = true;
             }
 
             // Return port state.
