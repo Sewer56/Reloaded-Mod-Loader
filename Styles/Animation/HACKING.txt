@@ -1,0 +1,2 @@
+﻿For a start on understanding the mini-Animation subsystem of the Reloaded-GUI project,
+please see the class description of the Animation Dispatcher class (AnimDispatcher) at the time of writing.
