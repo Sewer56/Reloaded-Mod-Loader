@@ -1,5 +1,26 @@
-﻿using System;
+﻿/*
+    [Reloaded] Mod Loader Application Loader
+    The main loader, which starts up an application loader and using DLL Injection methods
+    provided in the main library initializes modifications for target games and applications.
+    Copyright (C) 2018  Sewer. Sz (Sewer56)
+
+    [Reloaded] is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    [Reloaded] is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+*/
+
 using Reloaded.Input;
+using Reloaded.Input.Common;
+using Reloaded.Input.Modules;
 
 namespace Reloaded_Loader.Terminal.Information
 {
@@ -24,7 +45,7 @@ namespace Reloaded_Loader.Terminal.Information
             foreach (ControllerCommon.IController controller in controllerManager.Controllers)
             {
                 // Is controller XInput or DInput
-                string controllerName = "[" + controller.ControllerID.ToString("00") + "]";
+                string controllerName = "[" + controller.ControllerId.ToString("00") + "]";
 
                 // Get Controller Type
                 if (controller.Remapper.DeviceType == Remapper.InputDeviceType.XInput)

@@ -1,14 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿/*
+    [Reloaded] Mod Loader Application Loader
+    The main loader, which starts up an application loader and using DLL Injection methods
+    provided in the main library initializes modifications for target games and applications.
+    Copyright (C) 2018  Sewer. Sz (Sewer56)
+
+    [Reloaded] is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    [Reloaded] is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+*/
+
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using Reloaded.Networking;
+using Reloaded.Networking.Sockets;
 using Reloaded_Loader.Networking.LoaderServerFunctions;
 using Reloaded_Loader.Terminal;
-using static Reloaded.Networking.MessageTypes.LoaderServerMessages;
+using static Reloaded.Networking.ModLoaderServer.MessageTypes;
 using static Reloaded_Loader.Networking.LoaderServerFunctions.PrintToScreen;
 
 namespace Reloaded_Loader.Networking
@@ -31,7 +47,7 @@ namespace Reloaded_Loader.Networking
         /// If the server port is unavailable, Reloaded will attempt to use the
         /// port that is 1 above this one (to allow multiple game instances to run).
         /// </summary>
-        public static int SERVER_PORT = 13370;
+        public static int ServerPort = 13370;
 
         /// <summary>
         /// Sets up the Reloaded Mod Loader Server.
@@ -41,7 +57,7 @@ namespace Reloaded_Loader.Networking
             try
             {
                 // Create new server instance.
-                ReloadedServer = new Host(IPAddress.Loopback, SERVER_PORT);
+                ReloadedServer = new Host(IPAddress.Loopback, ServerPort);
 
                 // Start Server Internally
                 ReloadedServer.StartServer();
@@ -57,11 +73,11 @@ namespace Reloaded_Loader.Networking
             catch (SocketException ex)
             {
                 // Print Warning
-                ConsoleFunctions.PrintMessageWithTime("Failed to create local host at port " + SERVER_PORT + ". Attempting port " + (SERVER_PORT + 1) + ".", ConsoleFunctions.PrintWarningMessage);
+                ConsoleFunctions.PrintMessageWithTime("Failed to create local host at port " + ServerPort + ". Attempting port " + (ServerPort + 1) + ".", ConsoleFunctions.PrintWarningMessage);
                 ConsoleFunctions.PrintMessageWithTime("Original Message: " + ex.Message, ConsoleFunctions.PrintWarningMessage);
 
                 // Increment the port number.
-                SERVER_PORT += 1;
+                ServerPort += 1;
 
                 // Call self
                 SetupServer();
@@ -72,7 +88,7 @@ namespace Reloaded_Loader.Networking
         /// Handles the messages received from the individual client sockets consisting mainly of
         /// mods. Exposes various functionality features to mods.
         /// </summary>
-        /// <param name="data">The data sent over by the individual mod loader server clients.</param>
+        /// <param name="clientMessage">The message struct received from the individual mod loader server clients.</param>
         /// <param name="socket">The individual socket object to use for connection back with the mod loader clients.</param>
         private static void MessageHandler(Message.MessageStruct clientMessage, ReloadedSocket socket)
         {
@@ -83,10 +99,10 @@ namespace Reloaded_Loader.Networking
                 case (ushort)MessageType.Okay: ReplyOkay.ReplyOk(socket); break;
 
                 // Text Functions
-                case (ushort)MessageType.PrintText: PrintToScreen.Print(PrintMessageType.PrintText, clientMessage.Data, socket); break;
-                case (ushort)MessageType.PrintInfo: PrintToScreen.Print(PrintMessageType.PrintInfo, clientMessage.Data, socket); break;
-                case (ushort)MessageType.PrintWarning: PrintToScreen.Print(PrintMessageType.PrintWarning, clientMessage.Data, socket); break;
-                case (ushort)MessageType.PrintError: PrintToScreen.Print(PrintMessageType.PrintError, clientMessage.Data, socket); break;
+                case (ushort)MessageType.PrintText: Print(PrintMessageType.PrintText, clientMessage.Data, socket); break;
+                case (ushort)MessageType.PrintInfo: Print(PrintMessageType.PrintInfo, clientMessage.Data, socket); break;
+                case (ushort)MessageType.PrintWarning: Print(PrintMessageType.PrintWarning, clientMessage.Data, socket); break;
+                case (ushort)MessageType.PrintError: Print(PrintMessageType.PrintError, clientMessage.Data, socket); break;
 
             }
         }

@@ -1,0 +1,6 @@
+LICENSE
+
+SharpDisam is Copyright (c) 2015 Justin Stenning and is distributed under the 2-clause "Simplified BSD License". 
+
+Portions of the project are ported from Udis86 Copyright (c) 2002-2012, Vivek Thampi vivek.mt@gmail.com
+https://github.com/vmt/udis86 distributed under the 2-clause "Simplified BSD License".

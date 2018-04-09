@@ -1,0 +1,8 @@
+This following licenses folder contains all of the licenses relating to all of the projects,
+packages and other components that are in use by Reloaded.
+
+Some of these components may not be used by Reloaded-Launcher or Reloaded-Loader explicitly
+but by any of the other Reloaded projects which link in with the two main projects.
+
+As no guarantees can be made about mod creators'/users' inclusion of licenses, the licenses available
+here cover every single component used in any of the Reloaded projects.

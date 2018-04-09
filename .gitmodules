@@ -3,3 +3,5 @@
 	url = https://github.com/sewer56lol/libReloaded
 [submodule "Reloaded-Mod-Template"]
 	url = https://github.com/sewer56lol/Reloaded-Mod-Template
+[submodule "Reloaded-GUI"]
+	url = https://github.com/sewer56lol/Reloaded-GUI

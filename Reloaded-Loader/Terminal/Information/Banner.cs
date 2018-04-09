@@ -1,7 +1,25 @@
-﻿using System;
+﻿/*
+    [Reloaded] Mod Loader Application Loader
+    The main loader, which starts up an application loader and using DLL Injection methods
+    provided in the main library initializes modifications for target games and applications.
+    Copyright (C) 2018  Sewer. Sz (Sewer56)
+
+    [Reloaded] is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    [Reloaded] is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+*/
+
+using System;
 using Colorful;
-using Reloaded.IO;
-using Reloaded.Misc;
 using Console = Colorful.Console;
 
 namespace Reloaded_Loader.Terminal.Information
@@ -34,15 +52,11 @@ namespace Reloaded_Loader.Terminal.Information
 
                 "Arguments List:\n" +
                 "--config <GAME_CONFIGURATION_PATH> | Specifies the game configuration to run.\n" +
-                "--attach <EXECUTABLE_NAME> | Append after --config to load mods to an arbitrary executable name.\n\n" +
+                "--attach <EXECUTABLE_NAME> | Attaches to an already running game/executable.\n\n" +
                 
                 "Examples:\n" +
                 "Reloaded-Loader.exe --config D:/Reloaded/Reloaded-Config/Games/Sonic-Heroes\n" +
-                "Reloaded-Loader.exe --config D:/Reloaded/Reloaded-Config/Games/Sonic-Heroes --attach Tsonic_win_custom.exe\n\n" +
-
-                "Notes:\n" +
-                "--attach is a suffix parameter and should be used last, if no executable name is specified\n" +
-                "it tries to guess it from the executable path in the game configuration."
+                "Reloaded-Loader.exe --config D:/Reloaded/Reloaded-Config/Games/Sonic-Heroes --attach Tsonic_win_custom.exe\n\n"
             );
             Console.ReadLine();
             Environment.Exit(0);

@@ -20,11 +20,12 @@
 
 using System;
 using System.Windows.Forms;
-using Reloaded.Native;
-using ReloadedLauncher.Styles.Themes;
-using ReloadedLauncher.Utilities.Windows;
+using Reloaded.Input.Common;
+using Reloaded.Native.WinAPI;
+using Reloaded_GUI.Styles.Themes.ApplyTheme;
+using Reloaded_GUI.Utilities.Windows;
 
-namespace ReloadedLauncher.Windows.Children.Dialogs
+namespace ReloadedLauncher.Windows.Children.Dialogs.Input_Screen
 {
     /// <summary>
     /// This class provides a base form which should be copied for the generation of
@@ -55,6 +56,12 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         {
             // Standard WinForms Init
             InitializeComponent();
+
+            // Populate items in box with available axes from code.
+            foreach (ControllerCommon.ControllerAxis controllerAxes in Enum.GetValues(typeof(ControllerCommon.ControllerAxis)))
+            {
+                borderless_ValueBox.Items.Add(controllerAxes.ToString());
+            }
 
             // Find initial value by matching strings.
             for (int x = 0; x < borderless_ValueBox.Items.Count; x++)
@@ -87,7 +94,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             get
             {
                 CreateParams cp = base.CreateParams;
-                cp.ExStyle = cp.ExStyle | (int)WinAPI.WindowStyles.Constants.WS_EX_COMPOSITED;
+                cp.ExStyle = cp.ExStyle | (int)Constants.WS_EX_COMPOSITED;
                 return cp;
             }
         }
@@ -126,23 +133,9 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// </summary>
         private void Base_Load(object sender, EventArgs e)
         {
-            // Set title bar colour.
-            Global.BaseForm.panel_CategoryBar.BackColor = Theme.ThemeProperties.CategoryColours.BGColour;
-            Global.BaseForm.panel_TitleBar.BackColor = Theme.ThemeProperties.TitleColours.BGColour;
-
             // Load the global theme.
             ApplyTheme.ThemeWindowsForm(this);
         }
-
-        /// <summary>
-        /// Called when the mouse is moved within the client area of the button while the
-        /// left (or right depending on user setting) mouse is down.
-        /// As the title is a button, which covers the entire top panel it
-        /// effectively serves as the top panel in itself in receiving mouse events.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TitleBarMouseDown(object sender, MouseEventArgs e) { MoveWindow.MoveTheWindow(Handle); }
 
         /// <summary>
         /// Close this window if the user hits ok.

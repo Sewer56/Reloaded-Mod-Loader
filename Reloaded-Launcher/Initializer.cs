@@ -19,12 +19,15 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
-using Reloaded.Misc;
-using ReloadedLauncher.Styles.Themes;
-using ReloadedLauncher.Utilities;
+using Reloaded.IO.Config;
+using Reloaded.Utilities;
+using Reloaded_GUI.Styles.Themes;
+using ReloadedLauncher.Windows;
+using SevenZipExtractor;
 
 namespace ReloadedLauncher
 {
@@ -39,8 +42,8 @@ namespace ReloadedLauncher
         /// </summary>
         public Initializer()
         {
-            // Write Loader Location
-            File.WriteAllText(LoaderPaths.GetModLoaderLinkLocation(), Environment.CurrentDirectory);
+            // Unpack default files if not available.
+            UnpackDefaultFiles();
 
             // Initialize the Configs.
             InitializeGlobalProperties();
@@ -50,12 +53,35 @@ namespace ReloadedLauncher
         }
 
         /// <summary>
+        /// Checks if the default mod loader configuration files are available
+        /// and unpacks them manually if they are missing (user installed and is
+        /// using Reloaded for the first time).
+        /// </summary>
+        private void UnpackDefaultFiles()
+        {
+            // Check if config file exists (verify first boot).
+            if (! LoaderPaths.CheckModLoaderConfig())
+            {
+                // Retrieve our default files
+                string[] resourceNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+                string defaultResourceName = resourceNames.First(x => x.Contains("DefaultConfig.7z"));
+
+                // Unpack Default Files
+                using (Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(defaultResourceName))
+                using (ArchiveFile archiveFile = new ArchiveFile(resourceStream))
+                {
+                    archiveFile.Extract(LoaderPaths.GetModLoaderDirectory());
+                }
+            }
+        }
+
+        /// <summary>
         /// Loads all configurations to be used by the program, alongside with their parsers.
         /// </summary>
         private void InitializeGlobalProperties()
         {
             // Instantiate the Global Config Manager
-            Global.ConfigurationManager = new LoaderConfigManager();
+            Global.ConfigurationManager = new ConfigManager();
 
             // Grab relevant configs.
             // Note: Game list is grabbed upon entry to the main screen form.
@@ -63,13 +89,9 @@ namespace ReloadedLauncher
 
             // Initialize other Properties.
             Global.Theme = new Theme();
-            Global.WindowsForms = new List<Form>();
 
             // Set the initial menu name.
             Global.CurrentMenuName = "Main Menu";
-
-            // Set the initial theme.
-            Global.Theme.ThemeDirectory = Global.LoaderConfiguration.CurrentTheme;
         }
 
         /// <summary>

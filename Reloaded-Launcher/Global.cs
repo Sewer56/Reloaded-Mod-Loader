@@ -19,10 +19,13 @@
 */
 
 using System.Collections.Generic;
-using System.Windows.Forms;
-using Reloaded.Misc.Config;
-using ReloadedLauncher.Styles.Themes;
-using ReloadedLauncher.Utilities;
+using Reloaded.IO.Config;
+using Reloaded.IO.Config.Games;
+using Reloaded.IO.Config.Loader;
+using Reloaded.IO.Config.Mods;
+using Reloaded.IO.Config.Themes;
+using Reloaded_GUI.Styles.Themes;
+using ReloadedLauncher.Windows;
 
 namespace ReloadedLauncher
 {
@@ -43,12 +46,6 @@ namespace ReloadedLauncher
         public static string CurrentMenuName { get; set; }
 
         /// <summary>
-        /// Stores a list of all instantiated windows forms. 
-        /// Used for setting themes on each form alongside other misc purposes.
-        /// </summary>
-        public static List<Form> WindowsForms { get; set; }
-
-        /// <summary>
         /// Stores the base form, which contains all of the child forms.
         /// </summary>
         public static Base BaseForm { get; set; }
@@ -57,7 +54,7 @@ namespace ReloadedLauncher
         /// Provides functionality for retrieving and saving various 
         /// mod loader configurations.
         /// </summary>
-        public static LoaderConfigManager ConfigurationManager { get; set; }
+        public static ConfigManager ConfigurationManager { get; set; }
 
         /// <summary>
         /// Stores the current configuration for the mod loader.

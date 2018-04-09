@@ -1,4 +1,4 @@
-﻿namespace ReloadedLauncher
+﻿namespace ReloadedLauncher.Windows
 {
     partial class Base
     {
@@ -29,39 +29,39 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties1 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage1 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage2 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties2 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage3 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage4 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties3 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage5 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage6 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties4 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage7 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage8 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties5 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage9 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage10 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties6 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage11 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage12 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties7 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage13 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage14 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            this.categoryBar_About = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            this.categoryBar_Theme = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            this.categoryBar_Input = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            this.categoryBar_Mods = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            this.categoryBar_Manager = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            this.categoryBar_Games = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            this.titleBar_Title = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            this.panel_TitleBar = new System.Windows.Forms.Panel();
-            this.panel_CategoryBar = new System.Windows.Forms.Panel();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties1 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage1 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage2 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties2 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage3 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage4 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties3 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage5 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage6 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties4 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage7 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage8 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties5 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage9 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage10 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties6 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage11 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage12 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties7 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage13 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage14 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            this.categoryBar_About = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.categoryBar_Theme = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.categoryBar_Input = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.categoryBar_Mods = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.categoryBar_Manager = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.categoryBar_Games = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.titleBar_Title = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.titleBar_Panel = new System.Windows.Forms.Panel();
+            this.categoryBar_Panel = new System.Windows.Forms.Panel();
             this.toolTipHelper = new System.Windows.Forms.ToolTip(this.components);
-            this.panel_TitleBar.SuspendLayout();
-            this.panel_CategoryBar.SuspendLayout();
+            this.titleBar_Panel.SuspendLayout();
+            this.categoryBar_Panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // categoryBar_About
@@ -76,12 +76,12 @@
             animProperties1.MouseEnterDuration = 150F;
             animProperties1.MouseEnterForeColor = System.Drawing.Color.Transparent;
             animProperties1.MouseEnterFramerate = 144F;
-            animProperties1.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties1.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
             animProperties1.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             animProperties1.MouseLeaveDuration = 150F;
             animProperties1.MouseLeaveForeColor = System.Drawing.Color.Transparent;
             animProperties1.MouseLeaveFramerate = 144F;
-            animProperties1.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            animProperties1.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.categoryBar_About.AnimProperties = animProperties1;
             this.categoryBar_About.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_About.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -118,12 +118,12 @@
             animProperties2.MouseEnterDuration = 150F;
             animProperties2.MouseEnterForeColor = System.Drawing.Color.Transparent;
             animProperties2.MouseEnterFramerate = 144F;
-            animProperties2.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties2.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
             animProperties2.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             animProperties2.MouseLeaveDuration = 150F;
             animProperties2.MouseLeaveForeColor = System.Drawing.Color.Transparent;
             animProperties2.MouseLeaveFramerate = 144F;
-            animProperties2.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            animProperties2.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.categoryBar_Theme.AnimProperties = animProperties2;
             this.categoryBar_Theme.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_Theme.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -160,12 +160,12 @@
             animProperties3.MouseEnterDuration = 150F;
             animProperties3.MouseEnterForeColor = System.Drawing.Color.Transparent;
             animProperties3.MouseEnterFramerate = 144F;
-            animProperties3.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties3.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
             animProperties3.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             animProperties3.MouseLeaveDuration = 150F;
             animProperties3.MouseLeaveForeColor = System.Drawing.Color.Transparent;
             animProperties3.MouseLeaveFramerate = 144F;
-            animProperties3.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            animProperties3.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.categoryBar_Input.AnimProperties = animProperties3;
             this.categoryBar_Input.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_Input.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -202,12 +202,12 @@
             animProperties4.MouseEnterDuration = 150F;
             animProperties4.MouseEnterForeColor = System.Drawing.Color.Transparent;
             animProperties4.MouseEnterFramerate = 144F;
-            animProperties4.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties4.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
             animProperties4.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             animProperties4.MouseLeaveDuration = 150F;
             animProperties4.MouseLeaveForeColor = System.Drawing.Color.Transparent;
             animProperties4.MouseLeaveFramerate = 144F;
-            animProperties4.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            animProperties4.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.categoryBar_Mods.AnimProperties = animProperties4;
             this.categoryBar_Mods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_Mods.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -244,12 +244,12 @@
             animProperties5.MouseEnterDuration = 150F;
             animProperties5.MouseEnterForeColor = System.Drawing.Color.Transparent;
             animProperties5.MouseEnterFramerate = 144F;
-            animProperties5.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties5.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
             animProperties5.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             animProperties5.MouseLeaveDuration = 150F;
             animProperties5.MouseLeaveForeColor = System.Drawing.Color.Transparent;
             animProperties5.MouseLeaveFramerate = 144F;
-            animProperties5.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            animProperties5.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.categoryBar_Manager.AnimProperties = animProperties5;
             this.categoryBar_Manager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_Manager.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -286,12 +286,12 @@
             animProperties6.MouseEnterDuration = 150F;
             animProperties6.MouseEnterForeColor = System.Drawing.Color.Transparent;
             animProperties6.MouseEnterFramerate = 144F;
-            animProperties6.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties6.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
             animProperties6.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             animProperties6.MouseLeaveDuration = 150F;
             animProperties6.MouseLeaveForeColor = System.Drawing.Color.Transparent;
             animProperties6.MouseLeaveFramerate = 144F;
-            animProperties6.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            animProperties6.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.categoryBar_Games.AnimProperties = animProperties6;
             this.categoryBar_Games.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
             this.categoryBar_Games.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -328,12 +328,12 @@
             animProperties7.MouseEnterDuration = 200F;
             animProperties7.MouseEnterForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(163)))), ((int)(((byte)(244)))));
             animProperties7.MouseEnterFramerate = 144F;
-            animProperties7.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties7.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
             animProperties7.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
             animProperties7.MouseLeaveDuration = 200F;
             animProperties7.MouseLeaveForeColor = System.Drawing.Color.White;
             animProperties7.MouseLeaveFramerate = 144F;
-            animProperties7.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            animProperties7.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.titleBar_Title.AnimProperties = animProperties7;
             this.titleBar_Title.CaptureChildren = false;
             this.titleBar_Title.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -354,34 +354,33 @@
             this.titleBar_Title.Text = "Reloaded | Main Screen";
             this.titleBar_Title.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             this.titleBar_Title.UseVisualStyleBackColor = true;
-            this.titleBar_Title.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleBarMouseDown);
             // 
-            // panel_TitleBar
+            // titleBar_Panel
             // 
-            this.panel_TitleBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
-            this.panel_TitleBar.Controls.Add(this.titleBar_Title);
-            this.panel_TitleBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_TitleBar.Location = new System.Drawing.Point(0, 0);
-            this.panel_TitleBar.Margin = new System.Windows.Forms.Padding(0);
-            this.panel_TitleBar.Name = "panel_TitleBar";
-            this.panel_TitleBar.Size = new System.Drawing.Size(900, 44);
-            this.panel_TitleBar.TabIndex = 0;
+            this.titleBar_Panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            this.titleBar_Panel.Controls.Add(this.titleBar_Title);
+            this.titleBar_Panel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.titleBar_Panel.Location = new System.Drawing.Point(0, 0);
+            this.titleBar_Panel.Margin = new System.Windows.Forms.Padding(0);
+            this.titleBar_Panel.Name = "titleBar_Panel";
+            this.titleBar_Panel.Size = new System.Drawing.Size(900, 44);
+            this.titleBar_Panel.TabIndex = 0;
             // 
-            // panel_CategoryBar
+            // categoryBar_Panel
             // 
-            this.panel_CategoryBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
-            this.panel_CategoryBar.Controls.Add(this.categoryBar_About);
-            this.panel_CategoryBar.Controls.Add(this.categoryBar_Theme);
-            this.panel_CategoryBar.Controls.Add(this.categoryBar_Input);
-            this.panel_CategoryBar.Controls.Add(this.categoryBar_Mods);
-            this.panel_CategoryBar.Controls.Add(this.categoryBar_Manager);
-            this.panel_CategoryBar.Controls.Add(this.categoryBar_Games);
-            this.panel_CategoryBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_CategoryBar.Location = new System.Drawing.Point(0, 44);
-            this.panel_CategoryBar.Margin = new System.Windows.Forms.Padding(0);
-            this.panel_CategoryBar.Name = "panel_CategoryBar";
-            this.panel_CategoryBar.Size = new System.Drawing.Size(900, 44);
-            this.panel_CategoryBar.TabIndex = 1;
+            this.categoryBar_Panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
+            this.categoryBar_Panel.Controls.Add(this.categoryBar_About);
+            this.categoryBar_Panel.Controls.Add(this.categoryBar_Theme);
+            this.categoryBar_Panel.Controls.Add(this.categoryBar_Input);
+            this.categoryBar_Panel.Controls.Add(this.categoryBar_Mods);
+            this.categoryBar_Panel.Controls.Add(this.categoryBar_Manager);
+            this.categoryBar_Panel.Controls.Add(this.categoryBar_Games);
+            this.categoryBar_Panel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.categoryBar_Panel.Location = new System.Drawing.Point(0, 44);
+            this.categoryBar_Panel.Margin = new System.Windows.Forms.Padding(0);
+            this.categoryBar_Panel.Name = "categoryBar_Panel";
+            this.categoryBar_Panel.Size = new System.Drawing.Size(900, 44);
+            this.categoryBar_Panel.TabIndex = 1;
             // 
             // Base
             // 
@@ -389,8 +388,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(900, 600);
-            this.Controls.Add(this.panel_CategoryBar);
-            this.Controls.Add(this.panel_TitleBar);
+            this.Controls.Add(this.categoryBar_Panel);
+            this.Controls.Add(this.titleBar_Panel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Base";
@@ -398,22 +397,22 @@
             this.Text = "Doki Doki Modification Club!";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Base_FormClosed);
             this.Load += new System.EventHandler(this.Base_Load);
-            this.panel_TitleBar.ResumeLayout(false);
-            this.panel_CategoryBar.ResumeLayout(false);
+            this.titleBar_Panel.ResumeLayout(false);
+            this.categoryBar_Panel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        public Styles.Controls.Animated.AnimatedButton categoryBar_Games;
-        public Styles.Controls.Animated.AnimatedButton categoryBar_Mods;
-        public Styles.Controls.Animated.AnimatedButton categoryBar_Input;
-        public Styles.Controls.Animated.AnimatedButton categoryBar_Theme;
-        public Styles.Controls.Animated.AnimatedButton categoryBar_Manager;
-        public Styles.Controls.Animated.AnimatedButton categoryBar_About;
-        private Styles.Controls.Animated.AnimatedButton titleBar_Title;
-        public System.Windows.Forms.Panel panel_TitleBar;
-        public System.Windows.Forms.Panel panel_CategoryBar;
+        public Reloaded_GUI.Styles.Controls.Animated.AnimatedButton categoryBar_Games;
+        public Reloaded_GUI.Styles.Controls.Animated.AnimatedButton categoryBar_Mods;
+        public Reloaded_GUI.Styles.Controls.Animated.AnimatedButton categoryBar_Input;
+        public Reloaded_GUI.Styles.Controls.Animated.AnimatedButton categoryBar_Theme;
+        public Reloaded_GUI.Styles.Controls.Animated.AnimatedButton categoryBar_Manager;
+        public Reloaded_GUI.Styles.Controls.Animated.AnimatedButton categoryBar_About;
+        private Reloaded_GUI.Styles.Controls.Animated.AnimatedButton titleBar_Title;
+        public System.Windows.Forms.Panel titleBar_Panel;
+        public System.Windows.Forms.Panel categoryBar_Panel;
         private System.Windows.Forms.ToolTip toolTipHelper;
     }
 }

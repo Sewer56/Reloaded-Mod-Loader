@@ -32,17 +32,11 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using Reloaded.Misc;
 
 namespace ReloadedLauncher
 {
     internal static class Program
     {
-        /// <summary>
-        /// Defines the initializer class which starts up the Windows Forms application.
-        /// </summary>
-        private static Initializer initializer;
-
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -59,7 +53,7 @@ namespace ReloadedLauncher
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Call the Program Initializer.
-            initializer = new Initializer();
+            Initializer initializer = new Initializer();
         }
 
 

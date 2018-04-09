@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.27205.2004
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Launcher", "Reloaded-Launcher\Reloaded-Launcher.csproj", "{D13B793E-D12D-4E3B-AB02-ADFBDF61807F}"
 	ProjectSection(ProjectDependencies) = postProject
+		{231FAD02-A7C3-46D4-B304-636188FD03D9} = {231FAD02-A7C3-46D4-B304-636188FD03D9}
 		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF} = {E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6} = {D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Loader", "Reloaded-Loader\Reloaded-Loader.csproj", "{231FAD02-A7C3-46D4-B304-636188FD03D9}"
@@ -21,7 +23,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Mod-Template", "Re
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Wrapper-x64", "Reloaded-Wrapper-x64\Reloaded-Wrapper-x64.csproj", "{6465D81D-69D3-46BF-AEDE-DF59B86F5029}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReloadedAssembler", "libReloaded\Submodules\ReloadedAssembler\ReloadedAssemblerService\ReloadedAssembler.csproj", "{2E4EB0B6-FEAD-48BA-85BD-0A3879467A9E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Assembler", "libReloaded\Submodules\ReloadedAssembler\ReloadedAssemblerService\Reloaded-Assembler.csproj", "{2E4EB0B6-FEAD-48BA-85BD-0A3879467A9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-GUI", "Reloaded-GUI\Reloaded-GUI.csproj", "{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +109,18 @@ Global
 		{2E4EB0B6-FEAD-48BA-85BD-0A3879467A9E}.Release|x64.Build.0 = Release|x64
 		{2E4EB0B6-FEAD-48BA-85BD-0A3879467A9E}.Release|x86.ActiveCfg = Release|x86
 		{2E4EB0B6-FEAD-48BA-85BD-0A3879467A9E}.Release|x86.Build.0 = Release|x86
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}.Debug|x64.Build.0 = Debug|Any CPU
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}.Debug|x86.Build.0 = Debug|Any CPU
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}.Release|x64.ActiveCfg = Release|Any CPU
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}.Release|x64.Build.0 = Release|Any CPU
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}.Release|x86.ActiveCfg = Release|Any CPU
+		{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

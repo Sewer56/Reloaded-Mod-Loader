@@ -18,7 +18,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-namespace ReloadedLauncher.Windows.Children.Dialogs
+namespace ReloadedLauncher.Windows.Children.Dialogs.Input_Screen
 {
     partial class GetNumberDialog
     {
@@ -49,21 +49,21 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties1 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage1 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage2 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties2 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage3 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage4 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimProperties animProperties3 = new ReloadedLauncher.Styles.Animation.AnimProperties();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage5 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            ReloadedLauncher.Styles.Animation.AnimMessage animMessage6 = new ReloadedLauncher.Styles.Animation.AnimMessage();
-            this.borderless_OKButton = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            this.borderless_ValueBox = new ReloadedLauncher.Styles.Controls.Animated.AnimatedTextbox();
-            this.titleBar_Title = new ReloadedLauncher.Styles.Controls.Animated.AnimatedButton();
-            this.panel_TitleBar = new System.Windows.Forms.Panel();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties1 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage1 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage2 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties2 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage3 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage4 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties3 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage5 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage6 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            this.borderless_OKButton = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.borderless_ValueBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
+            this.titleBar_Title = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.titleBar_Panel = new System.Windows.Forms.Panel();
             this.toolTipHelper = new System.Windows.Forms.ToolTip(this.components);
-            this.panel_TitleBar.SuspendLayout();
+            this.titleBar_Panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // borderless_OKButton
@@ -78,12 +78,12 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             animProperties1.MouseEnterDuration = 0F;
             animProperties1.MouseEnterForeColor = System.Drawing.Color.Empty;
             animProperties1.MouseEnterFramerate = 0F;
-            animProperties1.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties1.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
             animProperties1.MouseLeaveBackColor = System.Drawing.Color.Empty;
             animProperties1.MouseLeaveDuration = 0F;
             animProperties1.MouseLeaveForeColor = System.Drawing.Color.Empty;
             animProperties1.MouseLeaveFramerate = 0F;
-            animProperties1.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            animProperties1.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.borderless_OKButton.AnimProperties = animProperties1;
             this.borderless_OKButton.CaptureChildren = false;
             this.borderless_OKButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -118,12 +118,12 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             animProperties2.MouseEnterDuration = 0F;
             animProperties2.MouseEnterForeColor = System.Drawing.Color.Empty;
             animProperties2.MouseEnterFramerate = 0F;
-            animProperties2.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties2.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
             animProperties2.MouseLeaveBackColor = System.Drawing.Color.Empty;
             animProperties2.MouseLeaveDuration = 0F;
             animProperties2.MouseLeaveForeColor = System.Drawing.Color.Empty;
             animProperties2.MouseLeaveFramerate = 0F;
-            animProperties2.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            animProperties2.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.borderless_ValueBox.AnimProperties = animProperties2;
             this.borderless_ValueBox.BackColor = System.Drawing.Color.Gray;
             this.borderless_ValueBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -161,12 +161,12 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             animProperties3.MouseEnterDuration = 200F;
             animProperties3.MouseEnterForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(163)))), ((int)(((byte)(244)))));
             animProperties3.MouseEnterFramerate = 144F;
-            animProperties3.MouseEnterOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties3.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
             animProperties3.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
             animProperties3.MouseLeaveDuration = 200F;
             animProperties3.MouseLeaveForeColor = System.Drawing.Color.White;
             animProperties3.MouseLeaveFramerate = 144F;
-            animProperties3.MouseLeaveOverride = ReloadedLauncher.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            animProperties3.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.titleBar_Title.AnimProperties = animProperties3;
             this.titleBar_Title.CaptureChildren = false;
             this.titleBar_Title.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -187,18 +187,17 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             this.titleBar_Title.Text = "Reloaded Sample Dialog";
             this.titleBar_Title.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             this.titleBar_Title.UseVisualStyleBackColor = true;
-            this.titleBar_Title.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleBarMouseDown);
             // 
-            // panel_TitleBar
+            // titleBar_Panel
             // 
-            this.panel_TitleBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
-            this.panel_TitleBar.Controls.Add(this.titleBar_Title);
-            this.panel_TitleBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_TitleBar.Location = new System.Drawing.Point(0, 0);
-            this.panel_TitleBar.Margin = new System.Windows.Forms.Padding(0);
-            this.panel_TitleBar.Name = "panel_TitleBar";
-            this.panel_TitleBar.Size = new System.Drawing.Size(374, 44);
-            this.panel_TitleBar.TabIndex = 0;
+            this.titleBar_Panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            this.titleBar_Panel.Controls.Add(this.titleBar_Title);
+            this.titleBar_Panel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.titleBar_Panel.Location = new System.Drawing.Point(0, 0);
+            this.titleBar_Panel.Margin = new System.Windows.Forms.Padding(0);
+            this.titleBar_Panel.Name = "titleBar_Panel";
+            this.titleBar_Panel.Size = new System.Drawing.Size(374, 44);
+            this.titleBar_Panel.TabIndex = 0;
             // 
             // GetNumberDialog
             // 
@@ -208,25 +207,25 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             this.ClientSize = new System.Drawing.Size(374, 105);
             this.Controls.Add(this.borderless_OKButton);
             this.Controls.Add(this.borderless_ValueBox);
-            this.Controls.Add(this.panel_TitleBar);
+            this.Controls.Add(this.titleBar_Panel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "GetNumberDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Doki Doki Modification Club!";
             this.Load += new System.EventHandler(this.Base_Load);
-            this.panel_TitleBar.ResumeLayout(false);
+            this.titleBar_Panel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private Styles.Controls.Animated.AnimatedButton titleBar_Title;
-        public System.Windows.Forms.Panel panel_TitleBar;
+        private Reloaded_GUI.Styles.Controls.Animated.AnimatedButton titleBar_Title;
+        public System.Windows.Forms.Panel titleBar_Panel;
         private System.Windows.Forms.ToolTip toolTipHelper;
-        private Styles.Controls.Animated.AnimatedTextbox borderless_ValueBox;
-        public Styles.Controls.Animated.AnimatedButton borderless_OKButton;
+        private Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox borderless_ValueBox;
+        public Reloaded_GUI.Styles.Controls.Animated.AnimatedButton borderless_OKButton;
     }
 }
 

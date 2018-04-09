@@ -21,12 +21,11 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
-using System.Text;
 using System.Threading;
-using Reloaded.GameProcess;
-using Reloaded.Misc;
-using Reloaded.Misc.Config;
+using Reloaded;
+using Reloaded.IO.Config.Games;
+using Reloaded.Process;
+using Reloaded.Utilities;
 using Reloaded_Loader.Core;
 using Reloaded_Loader.Miscallenous;
 using Reloaded_Loader.Networking;
@@ -43,36 +42,20 @@ namespace Reloaded_Loader
     internal class Program
     {
         /// <summary>
-        /// Stores a copy of the arguments passed into the application.
-        /// </summary>
-        public static string[] Arguments;
-
-        /// <summary>
-        /// Declares whether the game is 32 bit.
-        /// This allows us to run the appropriate injector.
-        /// </summary>
-        public static bool isGame32Bit;
-
-        /// <summary>
         /// Stores the individual process of the game.
         /// Allows for DLL Injection, Memory Manipulation, etc.
         /// </summary>
-        private static ReloadedProcess gameProcess;
+        private static ReloadedProcess _gameProcess;
 
         /// <summary>
         /// Stores the game configuration to be used.
         /// </summary>
-        private static GameConfigParser.GameConfig gameConfig;
+        private static GameConfigParser.GameConfig _gameConfig;
 
         /// <summary>
-        /// Specifies the name of the target of an existing running process to attach to.
+        /// Specifies the name of an already running executable to attach to.
         /// </summary>
-        private static string injectionTargetName;
-
-        /// <summary>
-        /// The amount of milliseconds to delay program execution before injecting mods.
-        /// </summary>
-        private const int DELAY_HOOK_DURATION = 5000;
+        private static string _attachTargetName;
 
         /// <summary>
         /// The main entry point for the application.
@@ -80,17 +63,13 @@ namespace Reloaded_Loader
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
-            // Find Assemblies Manually (Deprecate app.config)
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            // Find Assemblies Manually if necessary (Deprecate app.config)
+            AppDomain.CurrentDomain.AssemblyResolve += Miscallenous.AssemblyFinder.CurrentDomain_AssemblyResolve;
 
-            // Pass Arguments
-            Arguments = args;
+            /* - Initialization - */
 
             // Initialize the console.
             ConsoleFunctions.Initialize();
-
-            // Write Loader Location
-            File.WriteAllText(LoaderPaths.GetModLoaderLinkLocation(), Environment.CurrentDirectory);
 
             // Print startup information.
             Banner.PrintBanner();
@@ -98,24 +77,31 @@ namespace Reloaded_Loader
             // Get Controller Order
             Controllers.PrintControllerOrder();
 
-            // Parse Arguments
-            ParseArguments(args);
-
-            // Unlock DLLs
+            // Unlock DLLs, Removes Zone Information which may prevent DLL injection if DLL was downloaded from e.g. Internet Explorer
             DllUnlocker.UnblockDlls();
 
             // Setup Server
             LoaderServer.SetupServer();
 
+            // Setup libReloaded Debug Bindings
+            SetuplibReloadedBindings();
+
+            /* - Option Parsing, Linking - */
+
+            // Parse Arguments
+            ParseArguments(args);
+
             // Start game
-            InjectByMethod();
+            InjectByMethod(args);
+
+            /* - Load and enter main close polling loop - */
 
             // Load modifications for the current game.
-            ModLoader.LoadMods(gameConfig, gameProcess);
+            ModLoader.LoadMods(_gameConfig, _gameProcess);
 
             // Stay alive in the background
-            AppDomain.CurrentDomain.ProcessExit += new EventHandler(Shutdown);
-            Console.CancelKeyPress += (sender, eArgs) => { Shutdown(sender, eArgs); };
+            AppDomain.CurrentDomain.ProcessExit += Shutdown;
+            Console.CancelKeyPress += Shutdown;
 
             // Poll every 3 seconds, kill self if child dies.
             while (true)
@@ -123,7 +109,7 @@ namespace Reloaded_Loader
                 try
                 {
                     // Get Process
-                    Process localGameProcess = gameProcess.GetProcessFromReloadedProcess();
+                    Process localGameProcess = _gameProcess.GetProcessFromReloadedProcess();
 
                     // Check if process has exited.
                     if (localGameProcess.HasExited) { Shutdown(null, null); }
@@ -133,7 +119,7 @@ namespace Reloaded_Loader
                 }
                 // Argument of Process.GetProcessById fails inside GetProcessFromReloadedProcess
                 // The process died.
-                catch (ArgumentException e) { Shutdown(null, null); }
+                catch (ArgumentException) { Shutdown(null, null); }
             }
         }
 
@@ -146,77 +132,67 @@ namespace Reloaded_Loader
             // Go over known arguments.
             for (int x = 0; x < arguments.Length; x++)
             {
-                if (arguments[x] == "--config") { gameConfig = new GameConfigParser().ParseConfig(arguments[x + 1]); }
-                if (arguments[x] == "--attach") {
-                    if (x + 1 < arguments.Length) {
-                        injectionTargetName = arguments[x+1];
-                    }
-                    gameConfig.HookMethod = GameConfigParser.HookMethod.Inject;
-                }
+                if (arguments[x] == "--config") { _gameConfig = new GameConfigParser().ParseConfig(arguments[x + 1]); }
+                if (arguments[x] == "--attach") { _attachTargetName = arguments[x+1]; }
             }
 
             // Check game config
-            if (gameConfig == null) { Banner.DisplayWarning(); }
+            if (_gameConfig == null) { Banner.DisplayWarning(); }
         }
 
         /// <summary>
-        /// Injects itself to the game depending on the individual method chosen in the mod loader configuration.
-        /// Instant hooking injects immediately, manual hooking injects on user command, delayed hooking hooks at a delay.
+        /// Sets up bindings for libReloaded Print functions for printing any errors which happen within
+        /// libReloaded.
         /// </summary>
-        private static void InjectByMethod()
+        private static void SetuplibReloadedBindings()
         {
-            switch (gameConfig.HookMethod)
+            Bindings.TargetProcess = _gameProcess;
+            Bindings.PrintError    += delegate (string message) { ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintErrorMessage); };
+            Bindings.PrintWarning  += delegate (string message) { ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintWarningMessage); };
+            Bindings.PrintInfo     += delegate (string message) { ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintInfoMessage); };
+            Bindings.PrintText     += delegate (string message) { ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintMessage); };
+        }
+
+        /// <summary>
+        /// Injects itself to the game depending on the individual method chosen either from the commandline or in the launcher.
+        /// By default, Reloaded starts the game and injects immediately into suspended, otherwise if --attach is specified, Reloaded
+        /// tries to hook itself into an already running game/application.
+        /// </summary>
+        /// <param name="arguments">A copy of the arguments passed into the application used for optionally rebooting in x64 mode.</param>
+        private static void InjectByMethod(string[] arguments)
+        {
+            // Attach if specified by the user.
+            if (_attachTargetName != null)
             {
-                // Instant Hook, Start the Game Manually and Hook it.
-                case GameConfigParser.HookMethod.Instant:
-                    gameProcess = new ReloadedProcess(Path.Combine(gameConfig.GameDirectory, gameConfig.ExecutableLocation));
+                // Grab current already running game.
+                _gameProcess = ReloadedProcess.GetProcessByName(_attachTargetName);
 
-                    // Check if the current running architecture matched ~(32 bit), if not, restart as x64.
-                    if (!gameProcess.CheckArchitectureMatch()) {
-                        gameProcess.KillProcess();
-                        RebootX64();
-                    }
+                // Check if gameProcess successfully returned.
+                if (_gameProcess == null)
+                {
+                    ConsoleFunctions.PrintMessageWithTime("Error: An active running game instance was not found.", ConsoleFunctions.PrintErrorMessage);
+                    Console.ReadLine();
+                    Shutdown(null, null);
+                }
 
-                    // If the hook method is delayed, delay injection
-                    if (gameConfig.HookMethod == GameConfigParser.HookMethod.Delayed) {
-                        gameProcess.ResumeFirstThread();
-                        Thread.Sleep(DELAY_HOOK_DURATION);
-                    }
+                // Check if the current running architecture matched ~(32 bit), if not, restart as x64.
+                if (!_gameProcess.CheckArchitectureMatch())
+                {
+                    RebootX64(arguments);
+                }
+            }
 
-                    break;
+            // Otherwise start process suspended in Reloaded, hook it, exploit it and resume the intended way.
+            else
+            {
+                _gameProcess = new ReloadedProcess(Path.Combine(_gameConfig.GameDirectory, _gameConfig.ExecutableLocation));
 
-                // Inject Hook, Hook the Game by User/Mid-Runtime
-                case GameConfigParser.HookMethod.Inject:
-
-                    // If executable name was not manually set, get it from the game config.
-                    if (injectionTargetName == null) {
-                        injectionTargetName = Path.GetFileNameWithoutExtension(gameConfig.ExecutableLocation);
-                    }
-
-                    // Grab current already running game.
-                    gameProcess = ReloadedProcess.GetProcessByName(injectionTargetName);
-
-                    // Check if gameProcess successfully returned.
-                    if (gameProcess == null) {
-                        ConsoleFunctions.PrintMessageWithTime("Error: An active running game instance was not found.", ConsoleFunctions.PrintErrorMessage);
-                        Console.ReadLine();
-                        Shutdown(null, null);
-                    }
-
-                    // Check if the current running architecture matched ~(32 bit), if not, restart as x64.
-                    if (!gameProcess.CheckArchitectureMatch()) {
-                        RebootX64();
-                    }
-
-                    break;
-
-                // If the method is delayed, start process and wait 5 seconds
-                case GameConfigParser.HookMethod.Delayed:
-                    goto case GameConfigParser.HookMethod.Instant;
-                
-                // Inject by default
-                default:
-                    goto case GameConfigParser.HookMethod.Instant;
+                // Check if the current running architecture matched ~(32 bit), if not, restart as x64.
+                if (!_gameProcess.CheckArchitectureMatch())
+                {
+                    _gameProcess.KillProcess();
+                    RebootX64(arguments);
+                }
             }
         }
 
@@ -233,50 +209,16 @@ namespace Reloaded_Loader
         /// Reboots the Reloaded Loader in x64 mode by running
         /// the x64 wrapper.
         /// </summary>
-        private static void RebootX64()
+        /// <param name="arguments">A copy of the arguments originally passed to the starting application.</param>
+        private static void RebootX64(string[] arguments)
         {
             // Build arguments
             string localArgs = "";
-            foreach (string argument in Arguments) { localArgs += argument + " "; }
+            foreach (string argument in arguments) { localArgs += argument + " "; }
             Process.Start(LoaderPaths.GetModLoaderDirectory() + "\\Reloaded-Wrapper-x64.exe", localArgs);
 
             // Bye Bye Current Process
             Shutdown(null, null);
-        }
-
-        /// <summary>
-        /// Finds and retrieves an Assembly/Module/DLL from the libraries folder in the case it is not
-        /// yet loaded or the mod fails to find the assembly.
-        /// </summary>
-        private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            // Get the path to the mod loader libraries folder.
-            string localLibraryFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\Reloaded-Libraries\\";
-
-            // Append the assembly name.
-            string assemblyName = new AssemblyName(args.Name).Name;
-            localLibraryFolder += assemblyName + ".dll";
-
-            // Store Assembly Object
-            Assembly assembly;
-
-            // Check if the library is present in a static compile.
-            if (File.Exists(localLibraryFolder))
-                assembly = Assembly.LoadFrom(localLibraryFolder);
-
-            // Brute-force Search
-            else
-            {
-                // Find the first matched file.
-                string file = Directory.GetFiles(Assembly.GetEntryAssembly().Location, assemblyName + ".dll", SearchOption.AllDirectories)[0];
-
-                // Load our loaded assembly
-                assembly = Assembly.LoadFrom(file);
-            }
-
-
-            // Return Assembly
-            return assembly;
         }
     }
 }

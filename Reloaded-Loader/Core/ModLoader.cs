@@ -1,12 +1,31 @@
-﻿using System;
+﻿/*
+    [Reloaded] Mod Loader Application Loader
+    The main loader, which starts up an application loader and using DLL Injection methods
+    provided in the main library initializes modifications for target games and applications.
+    Copyright (C) 2018  Sewer. Sz (Sewer56)
+
+    [Reloaded] is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    [Reloaded] is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+*/
+
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Reloaded.GameProcess;
-using Reloaded.Misc;
-using Reloaded.Misc.Config;
+using Reloaded.IO.Config.Games;
+using Reloaded.Process;
+using Reloaded.Process.Memory;
+using Reloaded.Utilities;
+using Reloaded_Loader.Miscallenous;
 using Reloaded_Loader.Networking;
 
 namespace Reloaded_Loader.Core
@@ -33,12 +52,12 @@ namespace Reloaded_Loader.Core
             foreach (string modDirectory in gameConfiguration.EnabledMods)
             {
                 // Add native or not native.
-                if (Program.isGame32Bit) { modLibraries.Add(Path.Combine(gameModDirectory, modDirectory, "main32.dll")); }
+                if (ReloadedArchitecture.IsGame32Bit) { modLibraries.Add(Path.Combine(gameModDirectory, modDirectory, "main32.dll")); }
                 else { modLibraries.Add(Path.Combine(gameModDirectory, modDirectory, "main64.dll")); }  
             }
 
             // Initialize DLL Injector
-            DLLInjector reloadedDllInjector = new DLLInjector(reloadedProcess);
+            DllInjector reloadedDllInjector = new DllInjector(reloadedProcess);
 
             // If the main.dll exists, load it.
             foreach (string modLibrary in modLibraries)
@@ -50,7 +69,7 @@ namespace Reloaded_Loader.Core
                     IntPtr parameterAddress = reloadedProcess.AllocateMemory(IntPtr.Size);
 
                     // Write Server Port to Game Memory
-                    reloadedProcess.WriteMemoryExternalSafe(parameterAddress, BitConverter.GetBytes(LoaderServer.SERVER_PORT));
+                    reloadedProcess.WriteMemoryExternal(parameterAddress, BitConverter.GetBytes(LoaderServer.ServerPort));
 
                     // Inject the individual DLL.
                     reloadedDllInjector.InjectDll(modLibrary, parameterAddress);
