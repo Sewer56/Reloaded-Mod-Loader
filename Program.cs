@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Reloaded.GameProcess;
-using Reloaded.Networking;
-using static Reloaded_Mod_Template.Reloaded_Code.Client;
+﻿using System.Threading;
+using Reloaded;
+using Reloaded.Assembler;
+using Reloaded.Input;
+using Reloaded.Input.Common;
+using Reloaded.Process;
 
 namespace Reloaded_Mod_Template
 {
@@ -76,6 +73,12 @@ namespace Reloaded_Mod_Template
          *  If it bothers you, consider wrapping it in a #region.
         */
 
+        /*
+            Default Variables:
+            These variables are automatically assigned by the mod template, you do not
+            need to assign those manually.
+        */
+
         /// <summary>
         /// Holds the game process for us to manipulate.
         /// Allows you to read/write memory, perform pattern scans, etc.
@@ -84,16 +87,19 @@ namespace Reloaded_Mod_Template
         public static ReloadedProcess GameProcess;
 
         /// <summary>
+        /// Specifies the full directory location that the current mod 
+        /// is contained in.
+        /// </summary>
+        public static string ModDirectory;
+
+        /// <summary>
         /// Your own user code starts here.
         /// If this is your first time, do consider reading the notice above.
         /// It contains some very useful information.
         /// </summary>
         public static void Init()
         {
-            Print("Hello World");
-            Print("Hello World", PrintMessageType.PrintInfo);
-            Print("Hello World", PrintMessageType.PrintError);
-            Print("Hello World", PrintMessageType.PrintWarning);
+
         }
     }
 }

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Reloaded.Networking;
-using Reloaded.Networking.MessageTypes;
-using static Reloaded.Networking.MessageTypes.LoaderServerMessages;
+using Reloaded.Networking.ModLoaderServer;
+using Reloaded.Networking.Sockets;
 
-namespace Reloaded_Mod_Template.Reloaded_Code
+namespace Reloaded_Mod_Template.Reloaded
 {
     /// <summary>
-    /// 
+    /// Class used for providing services via communication with the Mod Loader server.
+    /// Currently provides methods used for printing text.
     /// </summary>
     public static class Client
     {
@@ -18,7 +15,7 @@ namespace Reloaded_Mod_Template.Reloaded_Code
         /// The client of the Mod Loader Server. 
         /// Can be used for communication with the external local server (hosted in the CMD window).
         /// </summary>
-        public static Reloaded.Networking.Client serverClient;
+        public static global::Reloaded.Networking.Client ServerClient;
 
         /// <summary>
         /// Defines the message types that could be printed to the screen.
@@ -58,6 +55,26 @@ namespace Reloaded_Mod_Template.Reloaded_Code
         }
 
         /// <summary>
+        /// Sends a informational message to the mod loader server to print
+        /// to the standard output.
+        /// </summary>
+        /// <param name="message">The message to be printed to standard output.</param>
+        public static void PrintInfo(string message) { Print(message, PrintMessageType.PrintInfo); }
+
+        /// <summary>
+        /// Sends a warning message to the mod loader server to 
+        /// print to the standard output.
+        /// </summary>
+        /// <param name="message">The message to be printed to standard output.</param>
+        public static void PrintWarning(string message) { Print(message, PrintMessageType.PrintWarning); }
+
+        /// <summary>
+        /// Sends a error message to the mod loader server to print to the standard output.
+        /// </summary>
+        /// <param name="message">The message to be printed to standard output.</param>
+        public static void PrintError(string message) { Print(message, PrintMessageType.PrintError); }
+
+        /// <summary>
         /// Sends a message to the mod loader server to print
         /// a message to standard output with a user defined style.
         /// </summary>
@@ -65,23 +82,27 @@ namespace Reloaded_Mod_Template.Reloaded_Code
         /// <param name="printMessageType">The style of text to be printed to the screen.</param>
         public static void Print(string message, PrintMessageType printMessageType)
         {
+            // Check if we are connected to host.
+            // Do nothing if we are not.
+            if (! ServerClient.ClientSocket.IsSocketConnected()) { return; }
+
             // Get string to print as bytes.
             byte[] bytesToSend = Encoding.ASCII.GetBytes(message);
 
             // Build a Server Message with text to print.
             // The style of the message is user-set.
-            Message.MessageStruct clientMessage = new Message.MessageStruct((ushort)MessageType.PrintText, bytesToSend);
+            Message.MessageStruct clientMessage = new Message.MessageStruct((ushort)MessageTypes.MessageType.PrintText, bytesToSend);
             
             // Switch message type if necessary.
             switch (printMessageType)
             {
-                case PrintMessageType.PrintInfo: clientMessage.MessageType = (ushort)MessageType.PrintInfo; break;
-                case PrintMessageType.PrintError: clientMessage.MessageType = (ushort)MessageType.PrintError; break;
-                case PrintMessageType.PrintWarning: clientMessage.MessageType = (ushort)MessageType.PrintWarning; break;
+                case PrintMessageType.PrintInfo: clientMessage.MessageType = (ushort)MessageTypes.MessageType.PrintInfo; break;
+                case PrintMessageType.PrintError: clientMessage.MessageType = (ushort)MessageTypes.MessageType.PrintError; break;
+                case PrintMessageType.PrintWarning: clientMessage.MessageType = (ushort)MessageTypes.MessageType.PrintWarning; break;
             }
              
             // Send the message.
-            serverClient.ClientSocket.SendData(clientMessage, true);
+            ServerClient.ClientSocket.SendData(clientMessage, true);
         }
     }
 }

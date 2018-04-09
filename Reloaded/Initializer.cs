@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Reloaded.GameProcess;
-using Reloaded_Mod_Template.Reloaded_Code;
+using Reloaded;
+using Reloaded.Process;
+using Reloaded.Process.Memory;
 
-namespace Reloaded_Mod_Template
+namespace Reloaded_Mod_Template.Reloaded
 {
     public class Initializer
     {
@@ -19,13 +14,14 @@ namespace Reloaded_Mod_Template
         /// </summary>
         /// <param name="portAddress">Stores the memory location of the port.</param>
         [DllExport]
-        static void Main(IntPtr portAddress)
+        public static void Main(IntPtr portAddress)
         {
             // Retrieve Assemblies from the "Libraries" folder.
             AppDomain.CurrentDomain.AssemblyResolve += LocalAssemblyFinder.ResolveAssembly;
 
-            // Initialize
-            Init(portAddress);
+            // Initialize Client
+            InitClient(portAddress);
+            InitBindings();
 
             // Call Init
             Program.Init();
@@ -37,14 +33,28 @@ namespace Reloaded_Mod_Template
         /// before we even set the assembly resolution path with AppDomain.CurrentDomain.AssemblyResolve.
         /// </summary>
         /// <param name="portAddress">Stores the memory location of the port.</param>
-        static void Init(IntPtr portAddress)
+        static void InitClient(IntPtr portAddress)
         {
-            // Set the game process.
+            // Setup Local Server Client
+            Client.ServerClient = new global::Reloaded.Networking.Client(IPAddress.Loopback, Program.GameProcess.ReadMemory<int>(portAddress));
+            Client.ServerClient.StartClient();
+        }
+
+        /// <summary>
+        /// Initializes the libReloaded bindings used for internal Reloaded Mod Loader functions
+        /// such as printing to buffers, logging and other functions.
+        /// </summary>
+        static void InitBindings()
+        {
+            // Set local game process.
             Program.GameProcess = ReloadedProcess.GetCurrentProcess();
 
-            // Setup Local Server Client
-            Client.serverClient = new Reloaded.Networking.Client(IPAddress.Loopback, Program.GameProcess.ReadMemorySafe<int>((IntPtr)portAddress));
-            Client.serverClient.StartClient();
+            // Set up Reloaded Mod Loader bindings.
+            Bindings.PrintText += Client.Print;
+            Bindings.PrintError += Client.PrintError;
+            Bindings.PrintInfo += Client.PrintInfo;
+            Bindings.PrintWarning += Client.PrintWarning;
+            Bindings.TargetProcess = Program.GameProcess;
         }
     }
 }

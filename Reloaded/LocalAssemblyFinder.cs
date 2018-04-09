@@ -21,9 +21,8 @@
 using System;
 using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
 
-namespace Reloaded_Mod_Template.Reloaded_Code
+namespace Reloaded_Mod_Template.Reloaded
 {
     /// <summary>
     /// You know how when you inject a DLL into a process it will fail to find any of the libraries that 
