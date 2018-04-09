@@ -98,6 +98,30 @@ namespace Reloaded_GUI.Styles.Themes
             // Check if requested theme exists (if so, exit)
             if (Directory.Exists(themesDirectory + "\\" + _themeDirectory)) { return; }
 
+            // Extract default theme if current theme does not exist
+            ExtractDefaultThemes();
+
+            // Check if missing theme was default (if so, exit)
+            // Just in case default theme ever changes.
+            if (Directory.Exists(themesDirectory + "\\" + _themeDirectory)) { return; }
+
+            // Else override and try load default theme if exists.
+            string[] directories = Directory.GetDirectories(themesDirectory);
+            _themeDirectory = Path.GetFileNameWithoutExtension(directories[0]);
+        }
+
+        /// <summary>
+        /// Performs a check on the presence of default themes and extracts the 
+        /// default application themes to Reloaded's Themes directory. 
+        /// If you are using Reloaded-GUI, you should try to call this on the first time that the user
+        /// opens your application (first-run). 
+        /// DO NOT ASSUME THAT THEY ALREADY USE RELOADED MOD LOADER.
+        /// </summary>
+        public static void ExtractDefaultThemes()
+        {
+            // Directory storing mod loader themes.
+            string themesDirectory = LoaderPaths.GetModLoaderThemeDirectory();
+
             // Check if any theme is available.
             // If there are no themes unavailable, unpack default and select first.
             if (!(Directory.GetDirectories(themesDirectory).Length > 0))
@@ -112,14 +136,6 @@ namespace Reloaded_GUI.Styles.Themes
                 {
                     archiveFile.Extract(themesDirectory);
                 }
-
-                // Check if missing theme was default (if so, exit)
-                // Just in case default theme ever changes.
-                if (Directory.Exists(themesDirectory + "\\" + _themeDirectory)) { return; }
-                
-                // Else override and try load default theme if exists.
-                string[] directories = Directory.GetDirectories(themesDirectory);
-                _themeDirectory = Path.GetFileNameWithoutExtension(directories[0]);
             }
         }
     }
