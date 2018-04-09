@@ -62,6 +62,9 @@ namespace ReloadedLauncher
             // Check if config file exists (verify first boot).
             if (! LoaderPaths.CheckModLoaderConfig())
             {
+                // Extract Default Themes
+                Theme.ExtractDefaultThemes();
+
                 // Retrieve our default files
                 string[] resourceNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
                 string defaultResourceName = resourceNames.First(x => x.Contains("DefaultConfig.7z"));
