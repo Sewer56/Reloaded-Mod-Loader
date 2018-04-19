@@ -294,18 +294,22 @@ namespace Reloaded_GUI.Styles.Controls.Enhanced
         /// </summary>
         private void IncrementRowIndex()
         {
-            // Get Next Index
-            int nextRow = SelectedCells[0].RowIndex + 1;
+            // Check if there is a selected row.
+            if (SelectedCells.Count >= 1)
+            {
+                // Get Next Index
+                int nextRow = SelectedCells[0].RowIndex + 1;
 
-            if (nextRow > Rows.Count - 1)
-            {
-                Rows[0].Selected = true;
-                CurrentCell = Rows[0].Cells[0];
-            }
-            else
-            {
-                Rows[nextRow].Selected = true;
-                CurrentCell = Rows[nextRow].Cells[0];
+                if (nextRow > Rows.Count - 1)
+                {
+                    Rows[0].Selected = true;
+                    CurrentCell = Rows[0].Cells[0];
+                }
+                else
+                {
+                    Rows[nextRow].Selected = true;
+                    CurrentCell = Rows[nextRow].Cells[0];
+                }
             }
         }
 
@@ -315,18 +319,22 @@ namespace Reloaded_GUI.Styles.Controls.Enhanced
         /// </summary>
         private void DecrementRowIndex()
         {
-            // Get Next Index
-            int nextRow = SelectedCells[0].RowIndex - 1;
+            // Check if there is a selected row.
+            if (SelectedCells.Count >= 1)
+            {
+                // Get Next Index
+                int nextRow = SelectedCells[0].RowIndex - 1;
 
-            if (nextRow < 0)
-            {
-                Rows[Rows.Count - 1].Selected = true;
-                CurrentCell = Rows[Rows.Count - 1].Cells[0];
-            }
-            else
-            {
-                Rows[nextRow].Selected = true;
-                CurrentCell = Rows[nextRow].Cells[0];
+                if (nextRow < 0)
+                {
+                    Rows[Rows.Count - 1].Selected = true;
+                    CurrentCell = Rows[Rows.Count - 1].Cells[0];
+                }
+                else
+                {
+                    Rows[nextRow].Selected = true;
+                    CurrentCell = Rows[nextRow].Cells[0];
+                }
             }
         }
 
