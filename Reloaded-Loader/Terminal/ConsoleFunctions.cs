@@ -111,6 +111,7 @@ namespace Reloaded_Loader.Terminal
         public static void PrintErrorMessage(string message)
         {
             Console.WriteLine(message, ColorRed);
+            Logger.Append(message);
         }
 
         /// <summary>
@@ -121,6 +122,7 @@ namespace Reloaded_Loader.Terminal
         public static void PrintInfoMessage(string message)
         {
             Console.WriteLine(message, ColorBlueLight);
+            Logger.Append(message);
         }
 
         /// <summary>
@@ -131,6 +133,7 @@ namespace Reloaded_Loader.Terminal
         public static void PrintWarningMessage(string message)
         {
             Console.WriteLine(message, ColorYellowLight);
+            Logger.Append(message);
         }
 
         /// <summary>
@@ -141,6 +144,7 @@ namespace Reloaded_Loader.Terminal
         public static void PrintMessage(string message)
         {
             Console.WriteLine(message);
+            Logger.Append(message);
         }
 
         /// <summary>

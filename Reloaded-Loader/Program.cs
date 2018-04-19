@@ -134,6 +134,7 @@ namespace Reloaded_Loader
             {
                 if (arguments[x] == "--config") { _gameConfig = new GameConfigParser().ParseConfig(arguments[x + 1]); }
                 if (arguments[x] == "--attach") { _attachTargetName = arguments[x+1]; }
+                if (arguments[x] == "--log") { Logger.Setup(arguments[x + 1]); }
             }
 
             // Check game config

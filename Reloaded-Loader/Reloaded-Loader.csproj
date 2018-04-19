@@ -99,6 +99,7 @@
     <Compile Include="Terminal\Information\Banner.cs" />
     <Compile Include="Terminal\Information\Controllers.cs" />
     <Compile Include="Core\ModLoader.cs" />
+    <Compile Include="Terminal\Logger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appicon.ico" />
