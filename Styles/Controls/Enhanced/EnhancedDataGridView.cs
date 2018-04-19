@@ -59,12 +59,24 @@ namespace Reloaded_GUI.Styles.Controls.Enhanced
         private DataGridViewRow _rowToDrag;
 
         /// <summary>
+        /// Override the font property to set the font for default cells.
+        /// </summary>
+        public override Font Font
+        {
+            get => DefaultCellStyle.Font;
+            set => DefaultCellStyle.Font = value;
+        }
+
+        /// <summary>
         /// Constructor for the custom class.
         /// </summary>
         public EnhancedDataGridView()
         {
             // Add wheel support
             MouseWheel += AnimatedDataGridView_MouseWheel;
+
+            // Redirect all painting to us.
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
 
             // Drag & Drop
             DragEnter += EnhancedDataGridView_DragEnter;
@@ -159,7 +171,8 @@ namespace Reloaded_GUI.Styles.Controls.Enhanced
             // Check for left mouse button press.
             // Check if drag/drop is enabled.
             if (e.Button.HasFlag(MouseButtons.Left) && ReorderingEnabled)
-                if (_dimensionsOfRowToDrag != Rectangle.Empty && !_dimensionsOfRowToDrag.Contains(e.X, e.Y)) DoDragDrop(_rowToDrag, DragDropEffects.Copy);
+                if (_dimensionsOfRowToDrag != Rectangle.Empty && !_dimensionsOfRowToDrag.Contains(e.X, e.Y))
+                    DoDragDrop(_rowToDrag, DragDropEffects.Copy);
         }
 
         /// <summary>

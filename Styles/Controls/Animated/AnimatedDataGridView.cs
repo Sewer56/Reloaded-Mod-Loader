@@ -69,15 +69,6 @@ namespace Reloaded_GUI.Styles.Controls.Animated
         private List<AnimMessage> AnimationMessagesFg { get; set; }
 
         /// <summary>
-        /// Override the font property to set the font for default cells.
-        /// </summary>
-        public override Font Font
-        {
-            get => DefaultCellStyle.Font;
-            set => DefaultCellStyle.Font = value;
-        }
-
-        /// <summary>
         /// Stores the animation properties for backcolor and forecolor blending.
         /// </summary>
         public AnimProperties AnimProperties { get; set; }
