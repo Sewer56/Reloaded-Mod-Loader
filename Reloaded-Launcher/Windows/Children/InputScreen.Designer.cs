@@ -19,6 +19,7 @@
 */
 
 using Reloaded_GUI.Styles.Controls.Animated;
+using Reloaded_GUI.Styles.Controls.Enhanced;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -111,18 +112,18 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ControllerPort = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             this.borderless_TitleButtonToAxisMappings = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.borderless_TitleButtonMappings = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.box_AxisList = new Reloaded_GUI.Styles.Controls.Animated.AnimatedDataGridView();
+            this.box_AxisList = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedDataGridView();
             this.Axis = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AxisProperty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AxisDestination = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AxisInverse = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AxisDeadzonePercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AxisRadiusScale = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.box_EmulatedAxisList = new Reloaded_GUI.Styles.Controls.Animated.AnimatedDataGridView();
+            this.box_EmulatedAxisList = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedDataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box_EmulatedAxisListBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.box_ButtonList = new Reloaded_GUI.Styles.Controls.Animated.AnimatedDataGridView();
+            this.box_ButtonList = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedDataGridView();
             this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Button = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box_ButtonListBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
@@ -174,7 +175,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ControllerPort.BottomBorderColour = System.Drawing.Color.Red;
             this.borderless_ControllerPort.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ControllerPort.BottomBorderWidth = 1;
-            this.borderless_ControllerPort.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_ControllerPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_ControllerPort.ForeColor = System.Drawing.Color.Red;
             this.borderless_ControllerPort.LeftBorderColour = System.Drawing.Color.Red;
             this.borderless_ControllerPort.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
@@ -184,7 +185,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ControllerPort.RightBorderColour = System.Drawing.Color.Red;
             this.borderless_ControllerPort.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ControllerPort.RightBorderWidth = 0;
-            this.borderless_ControllerPort.Size = new System.Drawing.Size(32, 24);
+            this.borderless_ControllerPort.Size = new System.Drawing.Size(32, 21);
             this.borderless_ControllerPort.TabIndex = 29;
             this.borderless_ControllerPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTipHelper.SetToolTip(this.borderless_ControllerPort, "Specifies the name of the game as seen in Reloaded Launcher");
@@ -217,7 +218,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_TitleButtonToAxisMappings.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.borderless_TitleButtonToAxisMappings.FlatAppearance.BorderSize = 0;
             this.borderless_TitleButtonToAxisMappings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_TitleButtonToAxisMappings.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_TitleButtonToAxisMappings.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_TitleButtonToAxisMappings.ForeColor = System.Drawing.Color.White;
             this.borderless_TitleButtonToAxisMappings.IgnoreMouse = false;
             this.borderless_TitleButtonToAxisMappings.IgnoreMouseClicks = true;
@@ -256,7 +257,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_TitleButtonMappings.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.borderless_TitleButtonMappings.FlatAppearance.BorderSize = 0;
             this.borderless_TitleButtonMappings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_TitleButtonMappings.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_TitleButtonMappings.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_TitleButtonMappings.ForeColor = System.Drawing.Color.White;
             this.borderless_TitleButtonMappings.IgnoreMouse = false;
             this.borderless_TitleButtonMappings.IgnoreMouseClicks = true;
@@ -295,7 +296,6 @@ namespace ReloadedLauncher.Windows.Children
             animProperties4.MouseLeaveForeColor = System.Drawing.Color.Empty;
             animProperties4.MouseLeaveFramerate = 0F;
             animProperties4.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_AxisList.AnimProperties = animProperties4;
             this.box_AxisList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.box_AxisList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.box_AxisList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -315,7 +315,7 @@ namespace ReloadedLauncher.Windows.Children
             this.AxisRadiusScale});
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Roboto Mono", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle8.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
             dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
@@ -438,7 +438,6 @@ namespace ReloadedLauncher.Windows.Children
             animProperties5.MouseLeaveForeColor = System.Drawing.Color.Empty;
             animProperties5.MouseLeaveFramerate = 0F;
             animProperties5.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_EmulatedAxisList.AnimProperties = animProperties5;
             this.box_EmulatedAxisList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.box_EmulatedAxisList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.box_EmulatedAxisList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -451,7 +450,7 @@ namespace ReloadedLauncher.Windows.Children
             this.dataGridViewTextBoxColumn2});
             dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Roboto Mono", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             dataGridViewCellStyle12.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle12.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
             dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
@@ -567,7 +566,6 @@ namespace ReloadedLauncher.Windows.Children
             animProperties7.MouseLeaveForeColor = System.Drawing.Color.Empty;
             animProperties7.MouseLeaveFramerate = 0F;
             animProperties7.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_ButtonList.AnimProperties = animProperties7;
             this.box_ButtonList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.box_ButtonList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.box_ButtonList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -580,7 +578,7 @@ namespace ReloadedLauncher.Windows.Children
             this.Button});
             dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Roboto Mono", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             dataGridViewCellStyle15.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle15.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
             dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
@@ -700,7 +698,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_CurrentController.DropDownButtonColour = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.borderless_CurrentController.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.borderless_CurrentController.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_CurrentController.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_CurrentController.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_CurrentController.ForeColor = System.Drawing.Color.White;
             this.borderless_CurrentController.FormattingEnabled = true;
             this.borderless_CurrentController.HighlightColor = System.Drawing.Color.Red;
@@ -718,7 +716,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_CurrentController.RightBorderColour = System.Drawing.Color.Empty;
             this.borderless_CurrentController.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_CurrentController.RightBorderWidth = 0;
-            this.borderless_CurrentController.Size = new System.Drawing.Size(233, 32);
+            this.borderless_CurrentController.Size = new System.Drawing.Size(233, 29);
             this.borderless_CurrentController.TabIndex = 3;
             this.borderless_CurrentController.TopBorderColour = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.borderless_CurrentController.TopBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
@@ -1172,7 +1170,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_LeftStick.ValueX = 0;
             this.borderless_LeftStick.ValueY = 0;
             // 
-            // Input_Screen
+            // InputScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1237,15 +1235,15 @@ namespace ReloadedLauncher.Windows.Children
         private Reloaded_GUI.Styles.Controls.Custom.ButtonPressIndicator borderless_ButtonUP;
         private Reloaded_GUI.Styles.Controls.Custom.ButtonPressIndicator borderless_ButtonSELECT;
         private Reloaded_GUI.Styles.Controls.Custom.ButtonPressIndicator borderless_ButtonSTART;
-        private AnimatedDataGridView box_ButtonList;
+        private EnhancedDataGridView box_ButtonList;
         private AnimatedButton box_ButtonListBox;
-        private AnimatedDataGridView box_EmulatedAxisList;
+        private EnhancedDataGridView box_EmulatedAxisList;
         private AnimatedButton box_EmulatedAxisListBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn modName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Button;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private AnimatedDataGridView box_AxisList;
+        private EnhancedDataGridView box_AxisList;
         private AnimatedButton box_AxisListBox;
         public AnimatedButton borderless_TitleButtonMappings;
         public AnimatedButton borderless_TitleButtonToAxisMappings;
