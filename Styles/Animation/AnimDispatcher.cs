@@ -184,6 +184,7 @@ namespace Reloaded_GUI.Styles.Animation
         }
         #endregion Back/Forecolor Fade Effect: Animation Properties + Source Colour Overloads
 
+
         #region Back/Forecolor Fade Effect: Animation Properties + Source Colour + Explicit AnimMessage Overloads
         /// <summary>
         /// Plays the mouse enter animation to change the foreground and background colour

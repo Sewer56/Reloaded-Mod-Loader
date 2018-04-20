@@ -59,6 +59,9 @@
     <Compile Include="Styles\Controls\Animated\AnimatedTextbox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Styles\Controls\Animated\AnimatedButtonPressIndicator.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Styles\Controls\Custom\AnalogStickIndicator.cs">
       <SubType>Component</SubType>
     </Compile>

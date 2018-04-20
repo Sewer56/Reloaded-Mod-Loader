@@ -29,6 +29,29 @@ namespace Reloaded_GUI.Styles.Animation
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class AnimProperties
     {
+        /// <summary>
+        /// Returns a copy of the current AnimProperties object, independent of the current object.
+        /// </summary>
+        /// <returns>A copy of the current AnimProperties object.</returns>
+        public AnimProperties Clone()
+        {
+            // Clone original parameter.
+            AnimProperties copyProperties = new AnimProperties();
+            copyProperties.MouseEnterBackColor = MouseEnterBackColor;
+            copyProperties.MouseEnterDuration  = MouseEnterDuration;
+            copyProperties.MouseEnterForeColor = MouseEnterForeColor;
+            copyProperties.MouseEnterOverride  = MouseEnterOverride;
+            copyProperties.MouseEnterFramerate = MouseEnterFramerate;
+
+            copyProperties.MouseLeaveBackColor = MouseLeaveBackColor;
+            copyProperties.MouseLeaveDuration  = MouseLeaveDuration;
+            copyProperties.MouseLeaveForeColor = MouseLeaveForeColor;
+            copyProperties.MouseLeaveOverride  = MouseLeaveOverride;
+            copyProperties.MouseLeaveFramerate = MouseLeaveFramerate;
+
+            return copyProperties;
+        }
+
         #region Mouse Enter Animation Properties
 
         /// <summary>

@@ -23,6 +23,7 @@ using System.IO;
 using System.Windows.Forms;
 using Reloaded.IO.Config.Themes;
 using Reloaded_GUI.Styles.Animation;
+using Reloaded_GUI.Styles.Controls.Animated;
 using Reloaded_GUI.Styles.Controls.Custom;
 using Reloaded_GUI.Styles.Controls.Enhanced;
 using Reloaded_GUI.Styles.Controls.Interfaces;
@@ -300,6 +301,14 @@ namespace Reloaded_GUI.Styles.Themes.ApplyTheme
                     textbox.ForeColor = Theme.ThemeProperties.BorderProperties.BorderColour;
             }
             #endregion IBordered Control (Bordered Controls)
+
+            // Custom Checkboxes
+            #region Animated Button Press Indicators
+            if (control is AnimatedButtonPressIndicator animatedButtonPressIndicator)
+            {
+                animatedButtonPressIndicator.ForeColor = Theme.ThemeProperties.BorderProperties.BorderColour;
+            }
+            #endregion Animated Button Press Indicators
 
             // If the control is a box, set BG colour of children.
             #region Decoration Boxes

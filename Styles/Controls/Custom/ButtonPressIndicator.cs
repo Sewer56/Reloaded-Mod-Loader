@@ -94,6 +94,24 @@ namespace Reloaded_GUI.Styles.Controls.Custom
         }
 
         /// <summary>
+        /// Gets or sets the brush which contains the background properties.
+        /// </summary>
+        protected Brush BackgroundBrush
+        {
+            get => _backgroundBrush;
+            set => _backgroundBrush = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the brush which contains the text properties.
+        /// </summary>
+        protected Brush TextBrush
+        {
+            get => _textBrush;
+            set => _textBrush = value;
+        }
+
+        /// <summary>
         /// Defines the format of the button text to be displayed.
         /// </summary>
         public StringFormat StringFormat { get; set; }
@@ -158,7 +176,7 @@ namespace Reloaded_GUI.Styles.Controls.Custom
         /// <summary>
         /// Draws the vertical progress bar control.
         /// </summary>
-        protected void DrawControl()
+        protected virtual void DrawControl()
         {
             // Paint the background.
             PaintBackground(_backBuffer.Graphics);
@@ -177,7 +195,7 @@ namespace Reloaded_GUI.Styles.Controls.Custom
         /// Paints the background of the control.
         /// </summary>
         /// <param name="graphics">The GDI+ graphics object to use for painting.</param>
-        protected void PaintBackground(Graphics graphics)
+        protected virtual void PaintBackground(Graphics graphics)
         {
             // Define and paint the background area.
             Brush brush = new SolidBrush(BackColor);
@@ -194,7 +212,7 @@ namespace Reloaded_GUI.Styles.Controls.Custom
         /// Paints our own border around the current control.
         /// </summary>
         /// <param name="graphics">The GDI+ graphics object to use for painting.</param>
-        protected void PaintBorders(Graphics graphics)
+        protected virtual void PaintBorders(Graphics graphics)
         {
             // Obtain the control borders.
             Rectangle controlBounds = new Rectangle(0, 0, Width, Height);
@@ -206,10 +224,10 @@ namespace Reloaded_GUI.Styles.Controls.Custom
         }
 
         /// <summary>
-        /// Fills the vertical progress bar with the current level of progression.
+        /// Paints the main background of the button and the text letter in the middle of the button.
         /// </summary>
         /// <param name="graphics">The GDI+ graphics object to use for painting.</param>
-        protected void PaintButton(Graphics graphics)
+        protected virtual void PaintButton(Graphics graphics)
         {
             // Set brush to draw the background.
             if (_buttonEnabled)
