@@ -188,6 +188,14 @@ namespace Reloaded_Loader
             {
                 _gameProcess = new ReloadedProcess(Path.Combine(_gameConfig.GameDirectory, _gameConfig.ExecutableLocation));
 
+                // The process handle is 0 if the process failed to initialize.
+                if ((int)_gameProcess.ProcessHandle == 0)
+                {
+                    // libReloaded will already print the error message.
+                    Console.ReadLine();
+                    Shutdown(null, null);
+                }
+
                 // Check if the current running architecture matched ~(32 bit), if not, restart as x64.
                 if (!_gameProcess.CheckArchitectureMatch())
                 {
