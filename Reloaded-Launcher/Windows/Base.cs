@@ -405,16 +405,7 @@ namespace ReloadedLauncher.Windows
         /// <param name="e"></param>
         private void Base_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Shutdown();
-        }
-
-        /// <summary>
-        /// Kills the mod loader safely.
-        /// </summary>
-        public void Shutdown()
-        {
-            // Shut the program.
-            Environment.Exit(0);
+            Functions.Shutdown();
         }
 
         /// <summary>

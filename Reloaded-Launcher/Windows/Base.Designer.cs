@@ -50,6 +50,7 @@
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties7 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage13 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage14 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Base));
             this.categoryBar_About = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.categoryBar_Theme = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.categoryBar_Input = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
@@ -90,7 +91,7 @@
             this.categoryBar_About.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_About.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_About.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.categoryBar_About.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.categoryBar_About.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.categoryBar_About.ForeColor = System.Drawing.Color.Silver;
             this.categoryBar_About.IgnoreMouse = false;
             this.categoryBar_About.IgnoreMouseClicks = false;
@@ -132,7 +133,7 @@
             this.categoryBar_Theme.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Theme.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Theme.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.categoryBar_Theme.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.categoryBar_Theme.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.categoryBar_Theme.ForeColor = System.Drawing.Color.Silver;
             this.categoryBar_Theme.IgnoreMouse = false;
             this.categoryBar_Theme.IgnoreMouseClicks = false;
@@ -174,7 +175,7 @@
             this.categoryBar_Input.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Input.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Input.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.categoryBar_Input.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.categoryBar_Input.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.categoryBar_Input.ForeColor = System.Drawing.Color.Silver;
             this.categoryBar_Input.IgnoreMouse = false;
             this.categoryBar_Input.IgnoreMouseClicks = false;
@@ -216,7 +217,7 @@
             this.categoryBar_Mods.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Mods.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Mods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.categoryBar_Mods.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.categoryBar_Mods.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.categoryBar_Mods.ForeColor = System.Drawing.Color.Silver;
             this.categoryBar_Mods.IgnoreMouse = false;
             this.categoryBar_Mods.IgnoreMouseClicks = false;
@@ -258,7 +259,7 @@
             this.categoryBar_Manager.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Manager.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Manager.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.categoryBar_Manager.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.categoryBar_Manager.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.categoryBar_Manager.ForeColor = System.Drawing.Color.Silver;
             this.categoryBar_Manager.IgnoreMouse = false;
             this.categoryBar_Manager.IgnoreMouseClicks = false;
@@ -300,7 +301,7 @@
             this.categoryBar_Games.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Games.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.categoryBar_Games.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.categoryBar_Games.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.categoryBar_Games.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.categoryBar_Games.ForeColor = System.Drawing.Color.Silver;
             this.categoryBar_Games.IgnoreMouse = false;
             this.categoryBar_Games.IgnoreMouseClicks = false;
@@ -342,7 +343,7 @@
             this.titleBar_Title.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.titleBar_Title.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.titleBar_Title.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.titleBar_Title.Font = new System.Drawing.Font("Roboto Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.titleBar_Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.titleBar_Title.ForeColor = System.Drawing.Color.White;
             this.titleBar_Title.IgnoreMouse = false;
             this.titleBar_Title.IgnoreMouseClicks = false;
@@ -392,6 +393,7 @@
             this.Controls.Add(this.titleBar_Panel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Base";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Doki Doki Modification Club!";

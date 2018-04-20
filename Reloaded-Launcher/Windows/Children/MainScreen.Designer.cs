@@ -51,6 +51,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties1 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage1 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage2 = new Reloaded_GUI.Styles.Animation.AnimMessage();
@@ -81,33 +82,43 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties9 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage17 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage18 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainScreen));
+            this.item_GameBanner = new System.Windows.Forms.PictureBox();
+            this.tooltipHelper = new System.Windows.Forms.ToolTip(this.components);
             this.item_LaunchBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_QuitBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.item_InjectionBoxInjection = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_InjectionBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.item_VersionBoxVersion = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_VersionBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_PictureBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_GameList = new Reloaded_GUI.Styles.Controls.Animated.AnimatedDataGridView();
             this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box_GameListBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.box_NoteBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.box_LocationBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.item_GameBanner = new System.Windows.Forms.PictureBox();
-            this.item_InjectionBoxInjection = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
-            this.item_VersionBoxVersion = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_NoteBoxVerPath = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_NoteBoxEXEPath = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_NoteBoxVERTitle = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_NoteBoxEXETitle = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_NoteBoxGameName = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_NoteBoxSeparator = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.box_NoteBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_LocationBoxEXEPath = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_LocationBoxDirectoryPath = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_LocationBoxDirectoryTitle = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_LocationBoxEXETitle = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).BeginInit();
+            this.box_LocationBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).BeginInit();
             this.SuspendLayout();
+            // 
+            // item_GameBanner
+            // 
+            this.item_GameBanner.Location = new System.Drawing.Point(590, 40);
+            this.item_GameBanner.Name = "item_GameBanner";
+            this.item_GameBanner.Size = new System.Drawing.Size(271, 83);
+            this.item_GameBanner.TabIndex = 15;
+            this.item_GameBanner.TabStop = false;
             // 
             // item_LaunchBox
             // 
@@ -134,7 +145,7 @@ namespace ReloadedLauncher.Windows.Children
             this.item_LaunchBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_LaunchBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_LaunchBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_LaunchBox.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_LaunchBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.item_LaunchBox.ForeColor = System.Drawing.Color.White;
             this.item_LaunchBox.IgnoreMouse = false;
             this.item_LaunchBox.IgnoreMouseClicks = false;
@@ -145,8 +156,9 @@ namespace ReloadedLauncher.Windows.Children
             this.item_LaunchBox.TabIndex = 22;
             this.item_LaunchBox.Text = "Launch";
             this.item_LaunchBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.tooltipHelper.SetToolTip(this.item_LaunchBox, "Left click to launch game.\r\nHold CTRL/Control for advanced options.");
             this.item_LaunchBox.UseVisualStyleBackColor = false;
-            this.item_LaunchBox.Click += new System.EventHandler(this.item_LaunchBox_Click);
+            this.item_LaunchBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.item_LaunchBox_MouseClick);
             // 
             // item_QuitBox
             // 
@@ -173,7 +185,7 @@ namespace ReloadedLauncher.Windows.Children
             this.item_QuitBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_QuitBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_QuitBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_QuitBox.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_QuitBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.item_QuitBox.ForeColor = System.Drawing.Color.White;
             this.item_QuitBox.IgnoreMouse = false;
             this.item_QuitBox.IgnoreMouseClicks = false;
@@ -186,6 +198,23 @@ namespace ReloadedLauncher.Windows.Children
             this.item_QuitBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.item_QuitBox.UseVisualStyleBackColor = false;
             this.item_QuitBox.Click += new System.EventHandler(this.QuitBox_Click);
+            // 
+            // item_InjectionBoxInjection
+            // 
+            this.item_InjectionBoxInjection.BackColor = System.Drawing.Color.Transparent;
+            this.item_InjectionBoxInjection.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_InjectionBoxInjection.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_InjectionBoxInjection.ForeColor = System.Drawing.Color.White;
+            this.item_InjectionBoxInjection.IgnoreMouse = false;
+            this.item_InjectionBoxInjection.Location = new System.Drawing.Point(244, 438);
+            this.item_InjectionBoxInjection.Margin = new System.Windows.Forms.Padding(0);
+            this.item_InjectionBoxInjection.Name = "item_InjectionBoxInjection";
+            this.item_InjectionBoxInjection.Size = new System.Drawing.Size(228, 24);
+            this.item_InjectionBoxInjection.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_InjectionBoxInjection.TabIndex = 20;
+            this.item_InjectionBoxInjection.Text = "Injection: Instant";
+            this.item_InjectionBoxInjection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.item_InjectionBoxInjection.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
             // box_InjectionBox
             // 
@@ -222,6 +251,23 @@ namespace ReloadedLauncher.Windows.Children
             this.box_InjectionBox.Text = null;
             this.box_InjectionBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             this.box_InjectionBox.UseVisualStyleBackColor = false;
+            // 
+            // item_VersionBoxVersion
+            // 
+            this.item_VersionBoxVersion.BackColor = System.Drawing.Color.Transparent;
+            this.item_VersionBoxVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_VersionBoxVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_VersionBoxVersion.ForeColor = System.Drawing.Color.White;
+            this.item_VersionBoxVersion.IgnoreMouse = false;
+            this.item_VersionBoxVersion.Location = new System.Drawing.Point(42, 438);
+            this.item_VersionBoxVersion.Margin = new System.Windows.Forms.Padding(0);
+            this.item_VersionBoxVersion.Name = "item_VersionBoxVersion";
+            this.item_VersionBoxVersion.Size = new System.Drawing.Size(168, 24);
+            this.item_VersionBoxVersion.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_VersionBoxVersion.TabIndex = 18;
+            this.item_VersionBoxVersion.Text = "Version: 0.85";
+            this.item_VersionBoxVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.item_VersionBoxVersion.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
             // box_VersionBox
             // 
@@ -330,7 +376,7 @@ namespace ReloadedLauncher.Windows.Children
             this.modDirectory});
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Roboto Mono", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
@@ -417,6 +463,112 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameListBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             this.box_GameListBox.UseVisualStyleBackColor = false;
             // 
+            // item_NoteBoxVerPath
+            // 
+            this.item_NoteBoxVerPath.BackColor = System.Drawing.Color.Transparent;
+            this.item_NoteBoxVerPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_NoteBoxVerPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_NoteBoxVerPath.ForeColor = System.Drawing.Color.White;
+            this.item_NoteBoxVerPath.IgnoreMouse = false;
+            this.item_NoteBoxVerPath.Location = new System.Drawing.Point(653, 257);
+            this.item_NoteBoxVerPath.Margin = new System.Windows.Forms.Padding(0);
+            this.item_NoteBoxVerPath.Name = "item_NoteBoxVerPath";
+            this.item_NoteBoxVerPath.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.item_NoteBoxVerPath.Size = new System.Drawing.Size(200, 24);
+            this.item_NoteBoxVerPath.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_NoteBoxVerPath.TabIndex = 11;
+            this.item_NoteBoxVerPath.Text = "Retail[US]";
+            this.item_NoteBoxVerPath.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.item_NoteBoxVerPath.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_NoteBoxEXEPath
+            // 
+            this.item_NoteBoxEXEPath.BackColor = System.Drawing.Color.Transparent;
+            this.item_NoteBoxEXEPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_NoteBoxEXEPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_NoteBoxEXEPath.ForeColor = System.Drawing.Color.White;
+            this.item_NoteBoxEXEPath.IgnoreMouse = false;
+            this.item_NoteBoxEXEPath.Location = new System.Drawing.Point(653, 222);
+            this.item_NoteBoxEXEPath.Margin = new System.Windows.Forms.Padding(0);
+            this.item_NoteBoxEXEPath.Name = "item_NoteBoxEXEPath";
+            this.item_NoteBoxEXEPath.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.item_NoteBoxEXEPath.Size = new System.Drawing.Size(200, 24);
+            this.item_NoteBoxEXEPath.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_NoteBoxEXEPath.TabIndex = 10;
+            this.item_NoteBoxEXEPath.Text = "NoRestrict";
+            this.item_NoteBoxEXEPath.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.item_NoteBoxEXEPath.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_NoteBoxVERTitle
+            // 
+            this.item_NoteBoxVERTitle.BackColor = System.Drawing.Color.Transparent;
+            this.item_NoteBoxVERTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_NoteBoxVERTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_NoteBoxVERTitle.ForeColor = System.Drawing.Color.White;
+            this.item_NoteBoxVERTitle.IgnoreMouse = false;
+            this.item_NoteBoxVERTitle.Location = new System.Drawing.Point(604, 257);
+            this.item_NoteBoxVERTitle.Margin = new System.Windows.Forms.Padding(0);
+            this.item_NoteBoxVERTitle.Name = "item_NoteBoxVERTitle";
+            this.item_NoteBoxVERTitle.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.item_NoteBoxVERTitle.Size = new System.Drawing.Size(57, 24);
+            this.item_NoteBoxVERTitle.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_NoteBoxVERTitle.TabIndex = 9;
+            this.item_NoteBoxVERTitle.Text = "VER:";
+            this.item_NoteBoxVERTitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_NoteBoxEXETitle
+            // 
+            this.item_NoteBoxEXETitle.BackColor = System.Drawing.Color.Transparent;
+            this.item_NoteBoxEXETitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_NoteBoxEXETitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_NoteBoxEXETitle.ForeColor = System.Drawing.Color.White;
+            this.item_NoteBoxEXETitle.IgnoreMouse = false;
+            this.item_NoteBoxEXETitle.Location = new System.Drawing.Point(604, 222);
+            this.item_NoteBoxEXETitle.Margin = new System.Windows.Forms.Padding(0);
+            this.item_NoteBoxEXETitle.Name = "item_NoteBoxEXETitle";
+            this.item_NoteBoxEXETitle.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.item_NoteBoxEXETitle.Size = new System.Drawing.Size(57, 24);
+            this.item_NoteBoxEXETitle.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_NoteBoxEXETitle.TabIndex = 8;
+            this.item_NoteBoxEXETitle.Text = "EXE:";
+            this.item_NoteBoxEXETitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_NoteBoxGameName
+            // 
+            this.item_NoteBoxGameName.BackColor = System.Drawing.Color.Transparent;
+            this.item_NoteBoxGameName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_NoteBoxGameName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_NoteBoxGameName.ForeColor = System.Drawing.Color.White;
+            this.item_NoteBoxGameName.IgnoreMouse = false;
+            this.item_NoteBoxGameName.Location = new System.Drawing.Point(592, 164);
+            this.item_NoteBoxGameName.Margin = new System.Windows.Forms.Padding(0);
+            this.item_NoteBoxGameName.Name = "item_NoteBoxGameName";
+            this.item_NoteBoxGameName.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.item_NoteBoxGameName.Size = new System.Drawing.Size(269, 24);
+            this.item_NoteBoxGameName.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_NoteBoxGameName.TabIndex = 7;
+            this.item_NoteBoxGameName.Text = "Sample Game";
+            this.item_NoteBoxGameName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.item_NoteBoxGameName.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_NoteBoxSeparator
+            // 
+            this.item_NoteBoxSeparator.BackColor = System.Drawing.Color.Transparent;
+            this.item_NoteBoxSeparator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_NoteBoxSeparator.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_NoteBoxSeparator.ForeColor = System.Drawing.Color.White;
+            this.item_NoteBoxSeparator.IgnoreMouse = false;
+            this.item_NoteBoxSeparator.Location = new System.Drawing.Point(592, 185);
+            this.item_NoteBoxSeparator.Margin = new System.Windows.Forms.Padding(0);
+            this.item_NoteBoxSeparator.Name = "item_NoteBoxSeparator";
+            this.item_NoteBoxSeparator.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.item_NoteBoxSeparator.Size = new System.Drawing.Size(269, 24);
+            this.item_NoteBoxSeparator.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_NoteBoxSeparator.TabIndex = 6;
+            this.item_NoteBoxSeparator.Text = "_____________________";
+            this.item_NoteBoxSeparator.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.item_NoteBoxSeparator.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
             // box_NoteBox
             // 
             animMessage15.Control = this.box_NoteBox;
@@ -452,6 +604,75 @@ namespace ReloadedLauncher.Windows.Children
             this.box_NoteBox.Text = null;
             this.box_NoteBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             this.box_NoteBox.UseVisualStyleBackColor = false;
+            // 
+            // item_LocationBoxEXEPath
+            // 
+            this.item_LocationBoxEXEPath.BackColor = System.Drawing.Color.Transparent;
+            this.item_LocationBoxEXEPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_LocationBoxEXEPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_LocationBoxEXEPath.ForeColor = System.Drawing.Color.White;
+            this.item_LocationBoxEXEPath.IgnoreMouse = false;
+            this.item_LocationBoxEXEPath.Location = new System.Drawing.Point(172, 365);
+            this.item_LocationBoxEXEPath.Margin = new System.Windows.Forms.Padding(0);
+            this.item_LocationBoxEXEPath.Name = "item_LocationBoxEXEPath";
+            this.item_LocationBoxEXEPath.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.item_LocationBoxEXEPath.Size = new System.Drawing.Size(680, 24);
+            this.item_LocationBoxEXEPath.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_LocationBoxEXEPath.TabIndex = 4;
+            this.item_LocationBoxEXEPath.Text = "$DIRECTORY + Duvalie.exe";
+            this.item_LocationBoxEXEPath.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.item_LocationBoxEXEPath.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_LocationBoxDirectoryPath
+            // 
+            this.item_LocationBoxDirectoryPath.BackColor = System.Drawing.Color.Transparent;
+            this.item_LocationBoxDirectoryPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_LocationBoxDirectoryPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_LocationBoxDirectoryPath.ForeColor = System.Drawing.Color.White;
+            this.item_LocationBoxDirectoryPath.IgnoreMouse = false;
+            this.item_LocationBoxDirectoryPath.Location = new System.Drawing.Point(172, 331);
+            this.item_LocationBoxDirectoryPath.Margin = new System.Windows.Forms.Padding(0);
+            this.item_LocationBoxDirectoryPath.Name = "item_LocationBoxDirectoryPath";
+            this.item_LocationBoxDirectoryPath.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.item_LocationBoxDirectoryPath.Size = new System.Drawing.Size(680, 24);
+            this.item_LocationBoxDirectoryPath.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_LocationBoxDirectoryPath.TabIndex = 3;
+            this.item_LocationBoxDirectoryPath.Text = "C:\\Program Files (x86)\\Arianrhod";
+            this.item_LocationBoxDirectoryPath.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.item_LocationBoxDirectoryPath.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_LocationBoxDirectoryTitle
+            // 
+            this.item_LocationBoxDirectoryTitle.AutoSize = true;
+            this.item_LocationBoxDirectoryTitle.BackColor = System.Drawing.Color.Transparent;
+            this.item_LocationBoxDirectoryTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_LocationBoxDirectoryTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_LocationBoxDirectoryTitle.ForeColor = System.Drawing.Color.White;
+            this.item_LocationBoxDirectoryTitle.IgnoreMouse = false;
+            this.item_LocationBoxDirectoryTitle.Location = new System.Drawing.Point(52, 331);
+            this.item_LocationBoxDirectoryTitle.Margin = new System.Windows.Forms.Padding(0);
+            this.item_LocationBoxDirectoryTitle.Name = "item_LocationBoxDirectoryTitle";
+            this.item_LocationBoxDirectoryTitle.Size = new System.Drawing.Size(131, 22);
+            this.item_LocationBoxDirectoryTitle.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_LocationBoxDirectoryTitle.TabIndex = 1;
+            this.item_LocationBoxDirectoryTitle.Text = "DIRECTORY:";
+            this.item_LocationBoxDirectoryTitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_LocationBoxEXETitle
+            // 
+            this.item_LocationBoxEXETitle.AutoSize = true;
+            this.item_LocationBoxEXETitle.BackColor = System.Drawing.Color.Transparent;
+            this.item_LocationBoxEXETitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_LocationBoxEXETitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_LocationBoxEXETitle.ForeColor = System.Drawing.Color.White;
+            this.item_LocationBoxEXETitle.IgnoreMouse = false;
+            this.item_LocationBoxEXETitle.Location = new System.Drawing.Point(52, 365);
+            this.item_LocationBoxEXETitle.Name = "item_LocationBoxEXETitle";
+            this.item_LocationBoxEXETitle.Size = new System.Drawing.Size(114, 22);
+            this.item_LocationBoxEXETitle.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_LocationBoxEXETitle.TabIndex = 2;
+            this.item_LocationBoxEXETitle.Text = "EXE PATH:";
+            this.item_LocationBoxEXETitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
             // box_LocationBox
             // 
@@ -489,223 +710,6 @@ namespace ReloadedLauncher.Windows.Children
             this.box_LocationBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             this.box_LocationBox.UseVisualStyleBackColor = false;
             // 
-            // item_GameBanner
-            // 
-            this.item_GameBanner.Location = new System.Drawing.Point(590, 40);
-            this.item_GameBanner.Name = "item_GameBanner";
-            this.item_GameBanner.Size = new System.Drawing.Size(271, 83);
-            this.item_GameBanner.TabIndex = 15;
-            this.item_GameBanner.TabStop = false;
-            // 
-            // item_InjectionBoxInjection
-            // 
-            this.item_InjectionBoxInjection.BackColor = System.Drawing.Color.Transparent;
-            this.item_InjectionBoxInjection.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_InjectionBoxInjection.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_InjectionBoxInjection.ForeColor = System.Drawing.Color.White;
-            this.item_InjectionBoxInjection.IgnoreMouse = false;
-            this.item_InjectionBoxInjection.Location = new System.Drawing.Point(244, 438);
-            this.item_InjectionBoxInjection.Margin = new System.Windows.Forms.Padding(0);
-            this.item_InjectionBoxInjection.Name = "item_InjectionBoxInjection";
-            this.item_InjectionBoxInjection.Size = new System.Drawing.Size(228, 24);
-            this.item_InjectionBoxInjection.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_InjectionBoxInjection.TabIndex = 20;
-            this.item_InjectionBoxInjection.Text = "Injection: Instant";
-            this.item_InjectionBoxInjection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_InjectionBoxInjection.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // item_VersionBoxVersion
-            // 
-            this.item_VersionBoxVersion.BackColor = System.Drawing.Color.Transparent;
-            this.item_VersionBoxVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_VersionBoxVersion.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_VersionBoxVersion.ForeColor = System.Drawing.Color.White;
-            this.item_VersionBoxVersion.IgnoreMouse = false;
-            this.item_VersionBoxVersion.Location = new System.Drawing.Point(42, 438);
-            this.item_VersionBoxVersion.Margin = new System.Windows.Forms.Padding(0);
-            this.item_VersionBoxVersion.Name = "item_VersionBoxVersion";
-            this.item_VersionBoxVersion.Size = new System.Drawing.Size(168, 24);
-            this.item_VersionBoxVersion.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_VersionBoxVersion.TabIndex = 18;
-            this.item_VersionBoxVersion.Text = "Version: 0.85";
-            this.item_VersionBoxVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_VersionBoxVersion.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // item_NoteBoxVerPath
-            // 
-            this.item_NoteBoxVerPath.BackColor = System.Drawing.Color.Transparent;
-            this.item_NoteBoxVerPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_NoteBoxVerPath.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.item_NoteBoxVerPath.ForeColor = System.Drawing.Color.White;
-            this.item_NoteBoxVerPath.IgnoreMouse = false;
-            this.item_NoteBoxVerPath.Location = new System.Drawing.Point(653, 257);
-            this.item_NoteBoxVerPath.Margin = new System.Windows.Forms.Padding(0);
-            this.item_NoteBoxVerPath.Name = "item_NoteBoxVerPath";
-            this.item_NoteBoxVerPath.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.item_NoteBoxVerPath.Size = new System.Drawing.Size(200, 24);
-            this.item_NoteBoxVerPath.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_NoteBoxVerPath.TabIndex = 11;
-            this.item_NoteBoxVerPath.Text = "Retail[US]";
-            this.item_NoteBoxVerPath.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.item_NoteBoxVerPath.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // item_NoteBoxEXEPath
-            // 
-            this.item_NoteBoxEXEPath.BackColor = System.Drawing.Color.Transparent;
-            this.item_NoteBoxEXEPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_NoteBoxEXEPath.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.item_NoteBoxEXEPath.ForeColor = System.Drawing.Color.White;
-            this.item_NoteBoxEXEPath.IgnoreMouse = false;
-            this.item_NoteBoxEXEPath.Location = new System.Drawing.Point(653, 222);
-            this.item_NoteBoxEXEPath.Margin = new System.Windows.Forms.Padding(0);
-            this.item_NoteBoxEXEPath.Name = "item_NoteBoxEXEPath";
-            this.item_NoteBoxEXEPath.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.item_NoteBoxEXEPath.Size = new System.Drawing.Size(200, 24);
-            this.item_NoteBoxEXEPath.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_NoteBoxEXEPath.TabIndex = 10;
-            this.item_NoteBoxEXEPath.Text = "NoRestrict";
-            this.item_NoteBoxEXEPath.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.item_NoteBoxEXEPath.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // item_NoteBoxVERTitle
-            // 
-            this.item_NoteBoxVERTitle.BackColor = System.Drawing.Color.Transparent;
-            this.item_NoteBoxVERTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_NoteBoxVERTitle.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.item_NoteBoxVERTitle.ForeColor = System.Drawing.Color.White;
-            this.item_NoteBoxVERTitle.IgnoreMouse = false;
-            this.item_NoteBoxVERTitle.Location = new System.Drawing.Point(604, 257);
-            this.item_NoteBoxVERTitle.Margin = new System.Windows.Forms.Padding(0);
-            this.item_NoteBoxVERTitle.Name = "item_NoteBoxVERTitle";
-            this.item_NoteBoxVERTitle.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.item_NoteBoxVERTitle.Size = new System.Drawing.Size(57, 24);
-            this.item_NoteBoxVERTitle.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_NoteBoxVERTitle.TabIndex = 9;
-            this.item_NoteBoxVERTitle.Text = "VER:";
-            this.item_NoteBoxVERTitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // item_NoteBoxEXETitle
-            // 
-            this.item_NoteBoxEXETitle.BackColor = System.Drawing.Color.Transparent;
-            this.item_NoteBoxEXETitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_NoteBoxEXETitle.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.item_NoteBoxEXETitle.ForeColor = System.Drawing.Color.White;
-            this.item_NoteBoxEXETitle.IgnoreMouse = false;
-            this.item_NoteBoxEXETitle.Location = new System.Drawing.Point(604, 222);
-            this.item_NoteBoxEXETitle.Margin = new System.Windows.Forms.Padding(0);
-            this.item_NoteBoxEXETitle.Name = "item_NoteBoxEXETitle";
-            this.item_NoteBoxEXETitle.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.item_NoteBoxEXETitle.Size = new System.Drawing.Size(57, 24);
-            this.item_NoteBoxEXETitle.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_NoteBoxEXETitle.TabIndex = 8;
-            this.item_NoteBoxEXETitle.Text = "EXE:";
-            this.item_NoteBoxEXETitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // item_NoteBoxGameName
-            // 
-            this.item_NoteBoxGameName.BackColor = System.Drawing.Color.Transparent;
-            this.item_NoteBoxGameName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_NoteBoxGameName.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.item_NoteBoxGameName.ForeColor = System.Drawing.Color.White;
-            this.item_NoteBoxGameName.IgnoreMouse = false;
-            this.item_NoteBoxGameName.Location = new System.Drawing.Point(592, 164);
-            this.item_NoteBoxGameName.Margin = new System.Windows.Forms.Padding(0);
-            this.item_NoteBoxGameName.Name = "item_NoteBoxGameName";
-            this.item_NoteBoxGameName.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.item_NoteBoxGameName.Size = new System.Drawing.Size(269, 24);
-            this.item_NoteBoxGameName.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_NoteBoxGameName.TabIndex = 7;
-            this.item_NoteBoxGameName.Text = "Sample Game";
-            this.item_NoteBoxGameName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.item_NoteBoxGameName.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // item_NoteBoxSeparator
-            // 
-            this.item_NoteBoxSeparator.BackColor = System.Drawing.Color.Transparent;
-            this.item_NoteBoxSeparator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_NoteBoxSeparator.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.item_NoteBoxSeparator.ForeColor = System.Drawing.Color.White;
-            this.item_NoteBoxSeparator.IgnoreMouse = false;
-            this.item_NoteBoxSeparator.Location = new System.Drawing.Point(592, 185);
-            this.item_NoteBoxSeparator.Margin = new System.Windows.Forms.Padding(0);
-            this.item_NoteBoxSeparator.Name = "item_NoteBoxSeparator";
-            this.item_NoteBoxSeparator.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.item_NoteBoxSeparator.Size = new System.Drawing.Size(269, 24);
-            this.item_NoteBoxSeparator.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_NoteBoxSeparator.TabIndex = 6;
-            this.item_NoteBoxSeparator.Text = "_____________________";
-            this.item_NoteBoxSeparator.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.item_NoteBoxSeparator.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // item_LocationBoxEXEPath
-            // 
-            this.item_LocationBoxEXEPath.BackColor = System.Drawing.Color.Transparent;
-            this.item_LocationBoxEXEPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_LocationBoxEXEPath.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.item_LocationBoxEXEPath.ForeColor = System.Drawing.Color.White;
-            this.item_LocationBoxEXEPath.IgnoreMouse = false;
-            this.item_LocationBoxEXEPath.Location = new System.Drawing.Point(172, 365);
-            this.item_LocationBoxEXEPath.Margin = new System.Windows.Forms.Padding(0);
-            this.item_LocationBoxEXEPath.Name = "item_LocationBoxEXEPath";
-            this.item_LocationBoxEXEPath.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.item_LocationBoxEXEPath.Size = new System.Drawing.Size(680, 24);
-            this.item_LocationBoxEXEPath.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_LocationBoxEXEPath.TabIndex = 4;
-            this.item_LocationBoxEXEPath.Text = "$DIRECTORY + Duvalie.exe";
-            this.item_LocationBoxEXEPath.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.item_LocationBoxEXEPath.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // item_LocationBoxDirectoryPath
-            // 
-            this.item_LocationBoxDirectoryPath.BackColor = System.Drawing.Color.Transparent;
-            this.item_LocationBoxDirectoryPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_LocationBoxDirectoryPath.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.item_LocationBoxDirectoryPath.ForeColor = System.Drawing.Color.White;
-            this.item_LocationBoxDirectoryPath.IgnoreMouse = false;
-            this.item_LocationBoxDirectoryPath.Location = new System.Drawing.Point(172, 331);
-            this.item_LocationBoxDirectoryPath.Margin = new System.Windows.Forms.Padding(0);
-            this.item_LocationBoxDirectoryPath.Name = "item_LocationBoxDirectoryPath";
-            this.item_LocationBoxDirectoryPath.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.item_LocationBoxDirectoryPath.Size = new System.Drawing.Size(680, 24);
-            this.item_LocationBoxDirectoryPath.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_LocationBoxDirectoryPath.TabIndex = 3;
-            this.item_LocationBoxDirectoryPath.Text = "C:\\Program Files (x86)\\Arianrhod";
-            this.item_LocationBoxDirectoryPath.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.item_LocationBoxDirectoryPath.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // item_LocationBoxDirectoryTitle
-            // 
-            this.item_LocationBoxDirectoryTitle.AutoSize = true;
-            this.item_LocationBoxDirectoryTitle.BackColor = System.Drawing.Color.Transparent;
-            this.item_LocationBoxDirectoryTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_LocationBoxDirectoryTitle.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_LocationBoxDirectoryTitle.ForeColor = System.Drawing.Color.White;
-            this.item_LocationBoxDirectoryTitle.IgnoreMouse = false;
-            this.item_LocationBoxDirectoryTitle.Location = new System.Drawing.Point(52, 331);
-            this.item_LocationBoxDirectoryTitle.Margin = new System.Windows.Forms.Padding(0);
-            this.item_LocationBoxDirectoryTitle.Name = "item_LocationBoxDirectoryTitle";
-            this.item_LocationBoxDirectoryTitle.Size = new System.Drawing.Size(120, 24);
-            this.item_LocationBoxDirectoryTitle.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_LocationBoxDirectoryTitle.TabIndex = 1;
-            this.item_LocationBoxDirectoryTitle.Text = "DIRECTORY:";
-            this.item_LocationBoxDirectoryTitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // item_LocationBoxEXETitle
-            // 
-            this.item_LocationBoxEXETitle.AutoSize = true;
-            this.item_LocationBoxEXETitle.BackColor = System.Drawing.Color.Transparent;
-            this.item_LocationBoxEXETitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_LocationBoxEXETitle.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.item_LocationBoxEXETitle.ForeColor = System.Drawing.Color.White;
-            this.item_LocationBoxEXETitle.IgnoreMouse = false;
-            this.item_LocationBoxEXETitle.Location = new System.Drawing.Point(52, 365);
-            this.item_LocationBoxEXETitle.Name = "item_LocationBoxEXETitle";
-            this.item_LocationBoxEXETitle.Size = new System.Drawing.Size(109, 24);
-            this.item_LocationBoxEXETitle.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_LocationBoxEXETitle.TabIndex = 2;
-            this.item_LocationBoxEXETitle.Text = "EXE PATH:";
-            this.item_LocationBoxEXETitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -736,11 +740,12 @@ namespace ReloadedLauncher.Windows.Children
             this.Controls.Add(this.box_LocationBox);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainScreen";
             this.Text = "Main_Screen";
             this.VisibleChanged += new System.EventHandler(this.Main_Screen_VisibleChanged);
-            ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -772,5 +777,6 @@ namespace ReloadedLauncher.Windows.Children
         private System.Windows.Forms.DataGridViewTextBoxColumn modName;
         private System.Windows.Forms.DataGridViewTextBoxColumn modDirectory;
         public System.Windows.Forms.PictureBox item_GameBanner;
+        private System.Windows.Forms.ToolTip tooltipHelper;
     }
 }

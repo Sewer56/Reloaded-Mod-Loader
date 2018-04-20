@@ -27,6 +27,7 @@ using System.Windows.Forms;
 using Reloaded.IO.Config.Games;
 using Reloaded.Process;
 using Reloaded.Utilities;
+using ReloadedLauncher.Windows.Children.Dialogs;
 using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Utilities.Controls;
 
@@ -162,7 +163,7 @@ namespace ReloadedLauncher.Windows.Children
         private void QuitBox_Click(object sender, EventArgs e)
         {
             // Shutdown program.
-            Global.BaseForm.Shutdown();
+            Functions.Shutdown();
         }
 
         /// <summary>
@@ -170,18 +171,22 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void item_LaunchBox_Click(object sender, EventArgs e)
+        private void item_LaunchBox_MouseClick(object sender, MouseEventArgs e)
         {
-            // Build filepath and arguments
-            string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Reloaded-Loader.exe";
-            string arguments = $"--config {Global.CurrentGameConfig.ConfigDirectory}";
+            if ((ModifierKeys & Keys.Control) != 0)
+            {
+                LaunchGameDialog launchGameDialog = new LaunchGameDialog();
+                launchGameDialog.ShowDialog();
+            }
+            else { LaunchGame(); }
+        }
 
-            // Start process
-            ReloadedProcess process = new ReloadedProcess(filePath, arguments);
-            process.ResumeAllThreads();
-            
-            // Self-shutdown.
-            QuitBox_Click(null, null);
+        /// <summary>
+        /// Launches the currently selected game configuration with predefined default settings.
+        /// </summary>
+        private void LaunchGame()
+        {
+            Functions.LaunchLoader("");
         }
     }
 }
