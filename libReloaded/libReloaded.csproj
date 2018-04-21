@@ -177,7 +177,12 @@
       <Version>4.4.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Submodules\ReloadedAssembler\ReloadedAssemblerService\Reloaded-Assembler.csproj">
+      <Project>{2e4eb0b6-fead-48ba-85bd-0a3879467a9e}</Project>
+      <Name>Reloaded-Assembler</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
