@@ -102,7 +102,7 @@ namespace Reloaded_Mod_Template.Reloaded
             }
              
             // Send the message.
-            ServerClient.ClientSocket.SendData(clientMessage, true);
+            ServerClient.ClientSocket.SendData(clientMessage, false);
         }
     }
 }
