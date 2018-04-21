@@ -138,12 +138,8 @@ namespace Reloaded.Assembler
                 string reloadedPath = assemblerDirectory + "//" + "Reloaded-Assembler.exe";
                 Directory.CreateDirectory(assemblerDirectory);
 
-                // Start the assembler server.
-                if (!File.Exists(reloadedPath))
-                {
-                    // Extract the executable and run it.
-                    ExtractFodyCosturaFile.ExtractResource("Reloaded-Assembler.exe", assemblerDirectory);
-                }
+                // Extract the executable and run it.
+                ExtractFodyCosturaFile.ExtractResource("Reloaded-Assembler.exe", assemblerDirectory);
 
                 // Start the assembler.
                 System.Diagnostics.Process.Start(reloadedPath);
