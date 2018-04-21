@@ -78,16 +78,16 @@ Reloaded contains multiple, very well documented sets of functions allowing you 
  - [x] Automatic logging to console window during game execution with colour coding
  - [x] Custom network code available: Step towards inter-mod networking and netplay mods
  - [x] Shared codebase: Mods can check & load other mods, DLL inject native code, read settings, use themes...
+ - [X] Hook X86 native game/process functions from C#, including custom calling conventions
  - [x] Call X86 native game/process functions from C#, including custom calling conventions *"usercall", "userpurge"*
  - [x] Reloaded Input Stack: Extremely customizable input support for mods (dual XInput + DInput), featuring hotplugging, on the fly remapping, button to axis, axis to axis, deadzone, radius customization etc.
 
 ### Todo (Short term: Working at it now!)
 To be completed until first public release:
- - [ ] Hook X86 native game/process functions from C#, including custom calling conventions
  - [ ] DirectX 9, 10, 11 hooking (overlays)
  - [ ] List of mods to always load, regardless of game (for common utilities, e.g. borderless, file read/write monitor)
- - [ ] Self updating
  - [ ] Third party one-click mod install support (GameBanana, separate application to Launcher)
+ - [ ] Self updating
  - [ ] Reloaded-wiki
  - [ ] Other quality of life features and improvements, bug fixes that come to mind
 
