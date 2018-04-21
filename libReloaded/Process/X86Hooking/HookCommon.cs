@@ -19,9 +19,12 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Reloaded.Assembler;
 using Reloaded.Process.Memory;
 using SharpDisasm;
+using static Reloaded.Assembler.Assembler;
 
 namespace Reloaded.Process.X86Hooking
 {
@@ -42,7 +45,8 @@ namespace Reloaded.Process.X86Hooking
         public static int GetHookLength(IntPtr hookAddress, int hookLength)
         {
             // Retrieve the function header, arbitrary length of 32 bytes is used for this operation.
-            byte[] functionHeader = Bindings.TargetProcess.ReadMemoryExternal(hookAddress, hookLength);
+            // While you can technically build infinite length X86 instructions, anything greater than 16 to compare seems reasonable.
+            byte[] functionHeader = Bindings.TargetProcess.ReadMemoryExternal(hookAddress, 64);
 
             // Define the disassembler.
             Disassembler disassembler = new Disassembler(functionHeader, ArchitectureMode.x86_32);
@@ -58,6 +62,44 @@ namespace Reloaded.Process.X86Hooking
             }
 
             return completeHookLength;
+        }
+
+        /// <summary>
+        /// Assembles an absolute jump to a user specified address and returns
+        /// the resultant bytes of the assembly process.
+        /// </summary>
+        /// <param name="functionAddress">The address to assemble the absolute jump to.</param>
+        /// <returns>A set of X86 assembler bytes to absolute jump to a specified address.</returns>
+        public static byte[] AssembleJump(IntPtr functionAddress)
+        {
+            // List of ASM Instructions to be Compiled
+            List<string> assemblyCode = new List<string> { "use32" };
+
+            // Jump to Game Function Pointer (gameFunctionPointer is address at which our function address is written)
+            IntPtr gameFunctionPointer = MemoryBuffer.Add(functionAddress);
+            assemblyCode.Add("jmp dword [0x" + gameFunctionPointer.ToString("X") + "]");
+
+            // Assemble the individual bytes.
+            return Assemble(assemblyCode.ToArray());
+        }
+
+        /// <summary>
+        /// Assembles an absolute call to a user specified address and returns
+        /// the resultant bytes of the assembly process.
+        /// </summary>
+        /// <param name="functionAddress">The address to assemble the absolute call to.</param>
+        /// <returns>A set of X86 assembler bytes to absolute call to a specified address.</returns>
+        public static byte[] AssembleCall(IntPtr functionAddress)
+        {
+            // List of ASM Instructions to be Compiled
+            List<string> assemblyCode = new List<string> { "use32" };
+
+            // Jump to Game Function Pointer (gameFunctionPointer is address at which our function address is written)
+            IntPtr gameFunctionPointer = MemoryBuffer.Add(functionAddress);
+            assemblyCode.Add("call dword [0x" + gameFunctionPointer.ToString("X") + "]");
+
+            // Assemble the individual bytes.
+            return Assemble(assemblyCode.ToArray());
         }
     }
 }

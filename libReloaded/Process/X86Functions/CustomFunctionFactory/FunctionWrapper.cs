@@ -37,7 +37,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         /// The return value is a delegate to be assigned to an [UnmanagedFunctionPointer(CallingConvention.Cdecl)] 
         /// Attribute marked delegate.
         /// </summary>
-        /// <param name="functionAddress">The address of the game function to create the wrapper for</param>
+        /// <param name="functionAddress">The address of the game function to create the wrapper for.</param>
         /// <typeparam name="TFunction">Delegate type marked with complete ReloadedFunction Attribute that defines the individual function properties.</typeparam>
         /// <returns>Delegate to assign back to ReloadedFunction marked game function</returns>
         public static TFunction CreateWrapperFunction<TFunction>(long functionAddress)
@@ -72,7 +72,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         private static IntPtr CreateWrapperFunctionInternal<TFunction>(IntPtr functionAddress, ReloadedFunction reloadedFunction)
         {
             // Retrieve number of parameters.
-            int numberOfParameters = GetNumberofParameters(typeof(TFunction));
+            int numberOfParameters = FunctionCommon.GetNumberofParameters(typeof(TFunction));
             int nonRegisterParameters = numberOfParameters - reloadedFunction.SourceRegisters.Length;
 
             // List of ASM Instructions to be Compiled
@@ -110,25 +110,13 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         }
 
         /// <summary>
-        /// Retrieves the number of parameters for a specific delegate Type.
-        /// </summary>
-        /// <param name="delegateType">The delegate type automatically containing the method "Invoke" with a set number of parameters.</param>
-        /// <returns>Number of parameters for the supplied delegate type.</returns>
-        public static int GetNumberofParameters(Type delegateType)
-        {
-            MethodInfo method = delegateType.GetMethod("Invoke");
-
-            return method != null ? method.GetParameters().Length : 0;
-        }
-
-        /// <summary>
         /// Generates the assembly code to assemble for the passing of the 
         /// function parameters for to our custom function.
         /// </summary>
         /// <param name="parameterCount">The total amount of parameters that the target function accepts.</param>
         /// <param name="registers">The registers in left to right order to be passed onto the method.</param>
-        /// <returns></returns>
-        public static string[] AssembleFunctionParameters(int parameterCount, ReloadedFunction.Register[] registers)
+        /// <returns>A string array of compatible x86 mnemonics to be assembled.</returns>
+        private static string[] AssembleFunctionParameters(int parameterCount, ReloadedFunction.Register[] registers)
         {
             // Store our JIT Assembly Code
             List<string> assemblyCode = new List<string>();

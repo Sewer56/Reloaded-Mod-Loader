@@ -89,9 +89,11 @@
     <Compile Include="Native\WinAPI\WindowEventHooks.cs" />
     <Compile Include="Native\WinAPI\WindowFunctions.cs" />
     <Compile Include="Native\WinAPI\WindowStyles.cs" />
+    <Compile Include="Process\X86Functions\FunctionCommon.cs" />
     <Compile Include="Process\X86Functions\CustomFunctionFactory\ReloadedFunction.cs" />
     <Compile Include="Process\X86Functions\CustomFunctionFactory\FunctionWrapper.cs" />
     <Compile Include="Process\X86Functions\CallingConventions.cs" />
+    <Compile Include="Process\X86Hooking\FunctionHook.cs" />
     <Compile Include="Process\X86Hooking\HookCommon.cs" />
     <Compile Include="Process\Libraries.cs" />
     <Compile Include="Process\Memory\PatternScan.cs" />

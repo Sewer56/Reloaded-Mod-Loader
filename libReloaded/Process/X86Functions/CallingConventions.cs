@@ -33,6 +33,13 @@ namespace Reloaded.Process.X86Functions
         /// Parameters are passed right to left onto the function pushing onto the stack.
         /// Calling function pops its own arguments from the stack. 
         /// (The calling function must manually restore the stack to previous state)
+        /// 
+        /// 
+        /// (Redundant but for completeness)
+        /// ReloadedFunction Attribute:
+        ///     TargetRegisters:    N/A
+        ///     ReturnRegister:     EAX    
+        ///     Cleanup:            Caller
         /// </summary>
         Cdecl,
 
@@ -42,6 +49,12 @@ namespace Reloaded.Process.X86Functions
         /// 
         /// Parameters are passed right to left onto the function pushing onto the stack.
         /// Called function pops its own arguments from the stack.
+        /// 
+        /// (Redundant but for completeness)
+        /// ReloadedFunction Attribute:
+        ///     TargetRegisters:    N/A
+        ///     ReturnRegister:     EAX    
+        ///     Cleanup:            Callee
         /// </summary>
         Stdcall,
 
