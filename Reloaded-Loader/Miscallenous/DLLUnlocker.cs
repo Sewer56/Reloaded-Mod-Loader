@@ -22,7 +22,7 @@ using System.IO;
 using Reloaded.Utilities;
 using Reloaded_Loader.Terminal;
 
-namespace Reloaded_Loader.Miscallenous
+namespace Reloaded_Loader.Miscellaneous
 {
     /// <summary>
     /// Removes Zone Information from dynamic link libraries downloaded from the internet such

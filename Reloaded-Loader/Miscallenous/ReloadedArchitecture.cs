@@ -22,7 +22,7 @@ using System;
 using Reloaded.Process;
 using Reloaded.Process.Native;
 
-namespace Reloaded_Loader.Miscallenous
+namespace Reloaded_Loader.Miscellaneous
 {
     /// <summary>
     /// Verifies whether the architecture of a ReloadedProcess matches the architecture

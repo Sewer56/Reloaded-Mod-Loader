@@ -27,7 +27,7 @@ using Reloaded.IO.Config.Games;
 using Reloaded.Process;
 using Reloaded.Utilities;
 using Reloaded_Loader.Core;
-using Reloaded_Loader.Miscallenous;
+using Reloaded_Loader.Miscellaneous;
 using Reloaded_Loader.Networking;
 using Reloaded_Loader.Terminal;
 using Reloaded_Loader.Terminal.Information;
@@ -64,7 +64,7 @@ namespace Reloaded_Loader
         public static void Main(string[] args)
         {
             // Find Assemblies Manually if necessary (Deprecate app.config)
-            AppDomain.CurrentDomain.AssemblyResolve += Miscallenous.AssemblyFinder.CurrentDomain_AssemblyResolve;
+            AppDomain.CurrentDomain.AssemblyResolve += Miscellaneous.AssemblyFinder.CurrentDomain_AssemblyResolve;
 
             /* - Initialization - */
 

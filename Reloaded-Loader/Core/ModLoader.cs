@@ -25,7 +25,7 @@ using Reloaded.IO.Config.Games;
 using Reloaded.Process;
 using Reloaded.Process.Memory;
 using Reloaded.Utilities;
-using Reloaded_Loader.Miscallenous;
+using Reloaded_Loader.Miscellaneous;
 using Reloaded_Loader.Networking;
 
 namespace Reloaded_Loader.Core
