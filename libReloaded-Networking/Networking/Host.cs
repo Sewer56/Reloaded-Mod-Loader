@@ -187,7 +187,7 @@ namespace Reloaded.Networking
             // Server was closed.
             catch (Exception ex)
             {
-                Bindings.PrintWarning("[libReloaded] Exception thrown while receiving packet size header, the client probably closed the connection | " + ex.Message);
+                Bindings.PrintWarning?.Invoke( "[libReloaded] Exception thrown while receiving packet size header, the client probably closed the connection | " + ex.Message);
             }
         }
 
@@ -247,7 +247,7 @@ namespace Reloaded.Networking
             // Server was closed.
             catch (Exception ex)
             {
-                Bindings.PrintWarning("[libReloaded] Exception thrown while receiving packet data, the client probably closed the connection | " + ex.Message);
+                Bindings.PrintWarning?.Invoke( "[libReloaded] Exception thrown while receiving packet data, the client probably closed the connection | " + ex.Message);
             }
         }
     }
