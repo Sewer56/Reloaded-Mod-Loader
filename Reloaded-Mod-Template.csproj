@@ -93,6 +93,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking\libReloaded-Networking.csproj">
+      <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
+      <Name>libReloaded-Networking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\libReloaded\libReloaded\libReloaded.csproj">
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
       <Name>libReloaded</Name>
@@ -106,20 +110,32 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>move /Y "$(TargetDir)\Reloaded\*" "$(TargetDir)"
+
 RMDIR "$(TargetDir)\Reloaded"
+
 MKDIR "$(TargetDir)\Libraries"
+
+
 
 move /Y "$(TargetDir)*.dll" "$(TargetDir)\Libraries"
 
+
 DEL "$(TargetDir)*.xml"
 DEL "$(TargetDir)*.config"
+
 DEL  "$(TargetDir)main.pdb"
+
 DEL  "$(TargetDir)main.dll"
 
+
+
 move /Y "$(TargetDir)x86\main.dll" "$(TargetDir)main32.dll"
+
 move /Y "$(TargetDir)x64\main.dll" "$(TargetDir)main64.dll"
 
+
 RMDIR "$(TargetDir)\x86"
+
 RMDIR "$(TargetDir)\x64"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
