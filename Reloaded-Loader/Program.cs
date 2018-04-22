@@ -147,7 +147,6 @@ namespace Reloaded_Loader
         /// </summary>
         private static void SetuplibReloadedBindings()
         {
-            Bindings.TargetProcess = _gameProcess;
             Bindings.PrintError    += delegate (string message) { ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintErrorMessage); };
             Bindings.PrintWarning  += delegate (string message) { ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintWarningMessage); };
             Bindings.PrintInfo     += delegate (string message) { ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintInfoMessage); };
@@ -203,6 +202,9 @@ namespace Reloaded_Loader
                     RebootX64(arguments);
                 }
             }
+
+            // Set binding for target process for memory IO
+            Bindings.TargetProcess = _gameProcess;
         }
 
         /// <summary>
