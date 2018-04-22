@@ -218,7 +218,7 @@ namespace Reloaded.Process.X86Hooking
             }
 
             // Return cdecl if false.
-            Bindings.PrintWarning
+            Bindings.PrintWarning?.Invoke
             (
                 $"Instance of {typeof(TFunction).Name} in a developer declared hook is missing its ReloadedFunction attribute.\n" +
                  "The specified calling convention will be assumed as CDECL by default.\n" +

@@ -81,14 +81,6 @@ namespace Reloaded.Assembler
         }
 
         /// <summary>
-        /// Allocate new memory page for buffer use on first use of class.
-        /// </summary>
-        static MemoryBuffer()
-        {
-            AllocateNewPage();
-        }
-
-        /// <summary>
         /// Writes your own memory address into process' memory and gives you the address address
         /// for the memory location to use directly functions accepting indirect jumps.
         /// </summary>
@@ -146,8 +138,11 @@ namespace Reloaded.Assembler
             // Check if larger than whole buffer.
             if (objectSize > AllocationSize) { return SizeCheckResult.MakeDedicatedPages; }
 
-            // Check if too big.
-            if (_currentOffsetAddress + objectSize > AllocationSize) { return SizeCheckResult.MakeNewPage; }
+            // Check if base buffer uninitialized or if object size too big.
+            if (_baseBufferAddress == IntPtr.Zero || _currentOffsetAddress + objectSize > AllocationSize)
+            {
+                return SizeCheckResult.MakeNewPage;
+            }
 
             // Else Append
             return SizeCheckResult.AppendCurrentPage;

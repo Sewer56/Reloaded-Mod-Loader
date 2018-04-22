@@ -18,7 +18,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using libReloaded_Networking;
+using System;
 using Reloaded.Process;
 
 namespace Reloaded
@@ -30,11 +30,18 @@ namespace Reloaded
     /// </summary>
     public static class Bindings
     {
+        private static ReloadedProcess sTargetProcess;
+
         /// <summary>
         /// The process used for memory reading/writing operations, allocating memory
         /// as well as other process specific functions by the library.
+        /// If not specified, this will be the current process.
         /// </summary>
-        public static ReloadedProcess TargetProcess { get; set; }
+        public static ReloadedProcess TargetProcess
+        {
+            get => sTargetProcess;
+            set => sTargetProcess = value ?? throw new ArgumentNullException(nameof(value), "TargetProcess may not be null.");
+        }
 
         /// <summary>
         /// Function used to print normal text to a file/screen/buffer.
@@ -77,6 +84,9 @@ namespace Reloaded
         /// </summary>
         static Bindings()
         {
+            // Assume the target process is the current one by default
+            TargetProcess = ReloadedProcess.GetCurrentProcess();
+
             // Redirect Network Delegates to our own.
             libReloaded_Networking.Bindings.PrintWarning += message => PrintWarning(message);
             libReloaded_Networking.Bindings.PrintError   += message => PrintError(message);

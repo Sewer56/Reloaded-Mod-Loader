@@ -153,7 +153,7 @@ namespace Reloaded.Overlay
             }
             catch (Exception ex)
             {
-                Bindings.PrintError("[libReloaded] Failed to initialize DirectX rendering to window | " + ex.Message);
+                Bindings.PrintError?.Invoke("[libReloaded] Failed to initialize DirectX rendering to window | " + ex.Message);
             }
         }
 
@@ -180,7 +180,7 @@ namespace Reloaded.Overlay
                     try { Direct2DOnframeDelegate?.Invoke(); }
                     catch (Exception ex)
                     {
-                        Bindings.PrintWarning("[libReloaded] Exception thrown in user code ran on Window " +
+                        Bindings.PrintWarning?.Invoke("[libReloaded] Exception thrown in user code ran on Window " +
                                                       "overlay frame render, let the mod/application developer know he screwed up | " + ex.Message);
                     }
 

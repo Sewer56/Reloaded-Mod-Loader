@@ -82,7 +82,7 @@ namespace Reloaded.Process
             ThreadId = (IntPtr)  processInformation.dwThreadId;
 
             // Print Error is Failed
-            if (!success) { Bindings.PrintError($"Failed to start ReloadedProcess {filePath}. Is your path correct?"); }
+            if (!success) { Bindings.PrintError?.Invoke($"Failed to start ReloadedProcess {filePath}. Is your path correct?"); }
         }
 
         /// <summary>
