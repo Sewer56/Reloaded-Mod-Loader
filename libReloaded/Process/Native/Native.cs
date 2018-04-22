@@ -337,6 +337,7 @@ namespace Reloaded.Process.Native
         /// </param>
         /// <returns>
         ///     If the function succeeds, the return value is a handle to the specified module.
+        ///     If the function fails, the return value is 0. 
         /// </returns>
         /// <remarks>
         ///     Specify the parameter as null to obtain the base address of the module.

@@ -51,14 +51,15 @@ namespace Reloaded.Process.Memory
         /// <summary>
         /// ReadMemory
         ///     Reads a specified specific amount of bytes from memory of the current process.
+        ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
         /// <returns>The bytes which have been read from the memory at the specified offset and length.</returns>
-        public static T ReadMemoryFast<T>(this ReloadedProcess process, IntPtr address)
+        public static TType ReadMemoryFast<TType>(this ReloadedProcess process, IntPtr address)
         {
             // Retrieve the type of the passed in Generic.
-            Type type = typeof(T);
+            Type type = typeof(TType);
 
             // Retrieve the size of T.
             int size = Marshal.SizeOf(type);
@@ -70,7 +71,7 @@ namespace Reloaded.Process.Memory
             Marshal.Copy(address, buffer, 0, size);
 
             // Return the read memory.
-            return (T)ConvertToPrimitive<T>(buffer, type);
+            return (TType)ConvertToPrimitive<TType>(buffer, type);
         }
 
 
@@ -97,15 +98,16 @@ namespace Reloaded.Process.Memory
 
         /// <summary>
         /// ReadMemory
-        ///     Reads a specified specific amount of bytes from memory of the current process and converts into your chosen primitive type.
+        ///     Reads a specified specific amount of bytes from memory of the current process and converts into your chosen primitive type or struct.
+        ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
         /// <returns>The bytes which have been read from the memory at the specified offset and length.</returns>
-        public static T ReadMemory<T>(this ReloadedProcess process, IntPtr address)
+        public static TType ReadMemory<TType>(this ReloadedProcess process, IntPtr address)
         {
             // Retrieve the type of the passed in Generic.
-            Type type = typeof(T);
+            Type type = typeof(TType);
 
             // Retrieve the size of T.
             int size = Marshal.SizeOf(type);
@@ -123,7 +125,7 @@ namespace Reloaded.Process.Memory
             VirtualProtect(address, (uint)size, oldProtection, out oldProtection);
 
             // Return the read memory.
-            return (T) ConvertToPrimitive<T>(buffer,type);
+            return (TType) ConvertToPrimitive<TType>(buffer,type);
         }
 
         /// <summary>
@@ -176,14 +178,15 @@ namespace Reloaded.Process.Memory
         /// <summary>
         /// ReadMemoryExternal
         ///     Reads a specified specific amount of bytes from process memory using ReadProcessMemory.
+        ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
         /// <returns>The bytes which have been read from the memory at the specified offset and length.</returns>
-        public static T ReadMemoryExternalFast<T>(this ReloadedProcess process, IntPtr address)
+        public static TType ReadMemoryExternalFast<TType>(this ReloadedProcess process, IntPtr address)
         {
             // Retrieve the type of the passed in Generic.
-            Type type = typeof(T);
+            Type type = typeof(TType);
 
             // Retrieve the size of T.
             int size = Marshal.SizeOf(type);
@@ -195,20 +198,21 @@ namespace Reloaded.Process.Memory
             ReadProcessMemory(process.ProcessHandle, address, buffer, size, out IntPtr bytesRead);
 
             // Return the read memory.
-            return (T)ConvertToPrimitive<T>(buffer, type);
+            return (TType)ConvertToPrimitive<TType>(buffer, type);
         }
 
         /// <summary>
         /// ReadMemoryExternal
         ///     Reads a specified specific amount of bytes from process memory using ReadProcessMemory.
+        ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
         /// <returns>The bytes which have been read from the memory at the specified offset and length.</returns>
-        public static T ReadMemoryExternal<T>(this ReloadedProcess process, IntPtr address)
+        public static TType ReadMemoryExternal<TType>(this ReloadedProcess process, IntPtr address)
         {
             // Retrieve the type of the passed in Generic.
-            Type type = typeof(T);
+            Type type = typeof(TType);
 
             // Retrieve the size of T.
             int size = Marshal.SizeOf(type);
@@ -226,7 +230,7 @@ namespace Reloaded.Process.Memory
             VirtualProtectEx(process.ProcessHandle, address, (IntPtr)size, oldProtection, out oldProtection);
 
             // Return the read memory.
-            return (T)ConvertToPrimitive<T>(buffer, type);
+            return (TType)ConvertToPrimitive<TType>(buffer, type);
         }
 
         /// <summary>
@@ -272,6 +276,34 @@ namespace Reloaded.Process.Memory
         /// <summary>
         /// WriteMemory
         ///     Writes a specified specific amount of bytes to the process memory.
+        ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The structure or class marked [StructLayout(LayoutKind.Sequential)] to write to the target address.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        public static void WriteMemoryFast<TType>(this ReloadedProcess process, IntPtr address, TType data)
+        {
+            WriteStructureToAddress(data, address);
+        }
+
+        /// <summary>
+        /// WriteMemory
+        ///     Writes a specified specific amount of bytes to the process memory.
+        ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The structure or class marked [StructLayout(LayoutKind.Sequential)] to write to the target address.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        public static void WriteMemory<TType>(this ReloadedProcess process, IntPtr address, TType data)
+        {
+            WriteMemory(process, address, ConvertStructureToByteArray(data));
+        }
+
+        /// <summary>
+        /// WriteMemory
+        ///     Writes a specified specific amount of bytes to the process memory.
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
@@ -292,6 +324,22 @@ namespace Reloaded.Process.Memory
         /// <summary>
         /// WriteMemoryExternal
         ///     Writes a specified specific amount of bytes to the process using the native WriteProcessMemory call. 
+        ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The structure or class marked [StructLayout(LayoutKind.Sequential)] to write to the target address.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        public static bool WriteMemoryExternalFast<TType>(this ReloadedProcess process, IntPtr address, TType data)
+        {
+            // Return value
+            return WriteMemoryExternalFast(process, address, ConvertStructureToByteArray(data));
+        }
+
+
+        /// <summary>
+        /// WriteMemoryExternal
+        ///     Writes a specified specific amount of bytes to the process using the native WriteProcessMemory call. 
         /// </summary>
         /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
         /// <param name="address">The address of the first byte you want to write memory to.</param>
@@ -305,6 +353,22 @@ namespace Reloaded.Process.Memory
             // Return value
             return success;
         }
+
+        /// <summary>
+        /// WriteMemoryExternal
+        ///     Writes a specified specific amount of bytes to the process using the native WriteProcessMemory call. 
+        ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The structure or class marked [StructLayout(LayoutKind.Sequential)] to write to the target address.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        public static bool WriteMemoryExternal<TType>(this ReloadedProcess process, IntPtr address, TType data)
+        {
+            // Return value
+            return WriteMemoryExternal(process, address, ConvertStructureToByteArray(data));
+        }
+
 
         /// <summary>
         /// WriteMemoryExternal
@@ -332,26 +396,91 @@ namespace Reloaded.Process.Memory
         /// <summary>
         /// Converts a passed in type into a primitive type.
         /// </summary>
-        /// <typeparam name="T">The type to return.</typeparam>
+        /// <typeparam name="TType">The type to return.</typeparam>
         /// <param name="buffer">The buffer containing the information about the specific type.</param>
         /// <param name="type">The type to convert to (same as type to return.</param>
         /// <returns>In the requested format</returns>
-        public static object ConvertToPrimitive<T>(byte[] buffer, Type type)
+        public static object ConvertToPrimitive<TType>(byte[] buffer, Type type)
         {
+            // Switch on known common primitives.
             switch (type.Name)
             {
                 case nameof(String): return BitConverter.ToString(buffer, 0);
                 case nameof(Boolean): return BitConverter.ToBoolean(buffer, 0);
                 case nameof(Char): return BitConverter.ToChar(buffer, 0);
-                case nameof(Byte): return (T)Convert.ChangeType(buffer[0], typeof(T));
+                case nameof(Byte): return (TType)Convert.ChangeType(buffer[0], typeof(TType));
                 case nameof(Single): return BitConverter.ToSingle(buffer, 0);
                 case nameof(Double): return BitConverter.ToDouble(buffer, 0); 
                 case nameof(Int32): return BitConverter.ToInt32(buffer, 0);
+                case nameof(Int64): return BitConverter.ToInt64(buffer, 0);
                 case nameof(UInt32): return BitConverter.ToUInt32(buffer, 0);
+                case nameof(UInt64): return BitConverter.ToUInt32(buffer, 0);
                 case nameof(UInt16): return BitConverter.ToUInt16(buffer, 0);
                 case nameof(Int16): return BitConverter.ToInt16(buffer, 0);
+                case nameof(IntPtr):
+                    if (IntPtr.Size == 4) { return BitConverter.ToInt32(buffer, 0); }
+                    else if (IntPtr.Size == 8) { return BitConverter.ToInt64(buffer, 0); }
+                    break;
+                case nameof(UIntPtr):
+                    if (IntPtr.Size == 4) { return BitConverter.ToUInt32(buffer, 0); }
+                    else if (IntPtr.Size == 8) { return BitConverter.ToUInt64(buffer, 0); }
+                    break;
             }
-            return null;
+
+            // Convert to user specified structure if none of the types above apply.
+            return ArrayToStructure<TType>(buffer);
+        }
+
+        /// <summary>
+        /// Converts a supplied array of bytes into the user passed specified generic struct or class type.
+        /// </summary>
+        /// <typeparam name="TStructure">A user specified class or structure to convert an array of bytes to.</typeparam>
+        /// <param name="bytes">The array of bytes to convert into a specified structure.</param>
+        /// <returns>The array of bytes converted to the user's own specified class or structure.</returns>
+        public static unsafe TStructure ArrayToStructure<TStructure>(byte[] bytes)
+        {
+            fixed (byte* ptr = &bytes[0])
+            {
+                try { return (TStructure)Marshal.PtrToStructure((IntPtr)ptr, typeof(TStructure)); }
+                catch { return default(TStructure); }
+            }
+        }
+
+        /// <summary>
+        /// Converts a supplied user structure (or class marked [StructLayout(LayoutKind.Sequential)]) into an array of bytes for writing.
+        /// </summary>
+        /// <param name="structure">The structure to be converted to an array of bytes.</param>
+        /// <returns>The user converted structure as an array of bytes.</returns>
+        public static byte[] ConvertStructureToByteArray<TStructure>(TStructure structure)
+        {
+            // Retrieve size of structure and allocate buffer.
+            int structSize = Marshal.SizeOf(structure);
+            byte[] buffer = new byte[structSize];
+
+            // Allocate memory and marshal structure into it.
+            IntPtr structPointer = Marshal.AllocHGlobal(structSize);
+            Marshal.StructureToPtr(structure, structPointer, true);
+
+            // Copy the structure into our buffer.
+            Marshal.Copy(structPointer, buffer, 0, structSize);
+
+            // Free allocated memory and return structure.
+            Marshal.FreeHGlobal(structPointer);
+            return buffer;
+        }
+
+
+        /// <summary>
+        /// Writes a supplied user structure (or class marked [StructLayout(LayoutKind.Sequential)])
+        /// to a target location in the memory space of the same process.
+        /// </summary>
+        /// <param name="structure">The structure to be converted to an array of bytes.</param>
+        /// <param name="targetAddress">The target address to write the structure contents to.</param>
+        /// <returns>The user converted structure as an array of bytes.</returns>
+        public static void WriteStructureToAddress<TStructure>(TStructure structure, IntPtr targetAddress)
+        {
+            // Allocate memory and marshal structure into it.
+            Marshal.StructureToPtr(structure, targetAddress, true);
         }
     }
 }
