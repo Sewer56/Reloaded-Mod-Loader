@@ -106,6 +106,10 @@
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking\libReloaded-Networking.csproj">
+      <Project>{55B2B18E-807B-4B43-9941-144D53F75C92}</Project>
+      <Name>libReloaded-Networking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\libReloaded\libReloaded\libReloaded.csproj">
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
       <Name>libReloaded</Name>
