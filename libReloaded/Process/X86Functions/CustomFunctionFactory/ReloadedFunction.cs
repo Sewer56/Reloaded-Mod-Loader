@@ -130,7 +130,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
                     break;
 
                 default:
-                    Bindings.PrintWarning($"There is no preset for the specified calling convention {callingConvention.GetType().Name}");
+                    Bindings.PrintWarning?.Invoke($"There is no preset for the specified calling convention {callingConvention.GetType().Name}");
                     break;
             }
         }
