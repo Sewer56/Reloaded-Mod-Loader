@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using libReloaded_Networking;
 using Reloaded.Networking.Sockets;
 using static Reloaded.Networking.Message;
 
@@ -186,7 +187,7 @@ namespace Reloaded.Networking
             // Server was closed.
             catch (Exception ex)
             {
-                //Bindings.PrintWarning("[libReloaded] Exception thrown while receiving packet size header, the client probably closed the connection | " + ex.Message);
+                Bindings.PrintWarning("[libReloaded] Exception thrown while receiving packet size header, the client probably closed the connection | " + ex.Message);
             }
         }
 
@@ -246,7 +247,7 @@ namespace Reloaded.Networking
             // Server was closed.
             catch (Exception ex)
             {
-                //Bindings.PrintWarning("[libReloaded] Exception thrown while receiving packet data, the client probably closed the connection | " + ex.Message);
+                Bindings.PrintWarning("[libReloaded] Exception thrown while receiving packet data, the client probably closed the connection | " + ex.Message);
             }
         }
     }

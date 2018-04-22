@@ -46,6 +46,7 @@
     <Compile Include="Networking\ModLoaderServer\MessageTypes.cs" />
     <Compile Include="Networking\Sockets\ReloadedSocket.cs" />
     <Compile Include="Networking\Sockets\SocketExtensions.cs" />
+    <Compile Include="Bindings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
