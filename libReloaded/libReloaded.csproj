@@ -125,12 +125,6 @@
     <Compile Include="Utilities\LoaderPaths.cs" />
     <Compile Include="Utilities\PathSanitizer.cs" />
     <Compile Include="Native\Functions\WindowProperties.cs" />
-    <Compile Include="Networking\Client.cs" />
-    <Compile Include="Networking\Host.cs" />
-    <Compile Include="Networking\Message.cs" />
-    <Compile Include="Networking\ModLoaderServer\MessageTypes.cs" />
-    <Compile Include="Networking\Sockets\ReloadedSocket.cs" />
-    <Compile Include="Networking\Sockets\SocketExtensions.cs" />
     <Compile Include="Overlay\D2DWindowOverlay.cs" />
     <Compile Include="Overlay\External\Forms\TransparentWinform.cs">
       <SubType>Form</SubType>
@@ -180,6 +174,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libReloaded-Networking\libReloaded-Networking\libReloaded-Networking.csproj">
+      <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
+      <Name>libReloaded-Networking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Submodules\ReloadedAssembler\ReloadedAssemblerService\Reloaded-Assembler.csproj">
       <Project>{2e4eb0b6-fead-48ba-85bd-0a3879467a9e}</Project>
       <Name>Reloaded-Assembler</Name>
