@@ -82,10 +82,6 @@ namespace Reloaded_Mod_Template.Reloaded
         /// <param name="printMessageType">The style of text to be printed to the screen.</param>
         public static void Print(string message, PrintMessageType printMessageType)
         {
-            // Check if we are connected to host.
-            // Do nothing if we are not.
-            if (! ServerClient.ClientSocket.IsSocketConnected()) { return; }
-
             // Get string to print as bytes.
             byte[] bytesToSend = Encoding.ASCII.GetBytes(message);
 
