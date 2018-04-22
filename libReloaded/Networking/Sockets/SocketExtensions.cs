@@ -44,6 +44,9 @@ namespace Reloaded.Networking.Sockets
         {
             try
             {
+                // Return empty message if socket not connected.
+                if (!reloadedSocket.Socket.Connected) { return null; }
+
                 // Convert the message struct into bytes to send.
                 byte[] data = message.BuildMessage();
 
@@ -61,19 +64,19 @@ namespace Reloaded.Networking.Sockets
                     // If the reloadedSocket is not connected, return empty message struct.
                     if (bytesSuccessfullySent == 0)
                     {
-                        if (!IsSocketConnected(reloadedSocket)) { return new Message.MessageStruct(); }
+                        if (!IsSocketConnected(reloadedSocket)) { return null; }
                     }
                 }
 
                 // If we want a response from the client, receive it, copy to a buffer array and send it back to the method delegate linked to the method we want to process the outcome with.
                 if (awaitResponse) return ReceiveData(reloadedSocket);
-                return new Message.MessageStruct();
+                return null;
             }
             catch
             // Probably lost connection.
             {
                 reloadedSocket.CloseIfDisconnected();
-                return new Message.MessageStruct();
+                return null;
             }
         }
 
@@ -104,6 +107,9 @@ namespace Reloaded.Networking.Sockets
         {
             try
             {
+                // Return empty message if socket not connected.
+                if (!reloadedSocket.Socket.Connected) { return null; }
+
                 // ReceiveData the information from the host onto the buffer.
                 // ClientSocket.Receive() returns the data length, stored here.
                 int bytesToReceive = sizeof(uint);
@@ -120,7 +126,7 @@ namespace Reloaded.Networking.Sockets
                     // If the reloadedSocket is not connected, return empty message struct.
                     if (newBytesReceived == 0)
                     {
-                        if (!IsSocketConnected(reloadedSocket)) { return new Message.MessageStruct(); }
+                        if (!IsSocketConnected(reloadedSocket)) { return null; }
                     }
                 }
 
@@ -146,7 +152,7 @@ namespace Reloaded.Networking.Sockets
                     // If the reloadedSocket is not connected, return empty message struct.
                     if (newBytesReceived == 0)
                     {
-                        if (!IsSocketConnected(reloadedSocket)) { return new Message.MessageStruct(); }
+                        if (!IsSocketConnected(reloadedSocket)) { return null; }
                     }
                 }
 
@@ -170,7 +176,7 @@ namespace Reloaded.Networking.Sockets
             // Probably lost connection.
             {
                 reloadedSocket.CloseIfDisconnected();
-                return new Message.MessageStruct();
+                return null;
             }
 
         }
@@ -198,6 +204,9 @@ namespace Reloaded.Networking.Sockets
         {
             try
             {
+                // Return empty message if socket not connected.
+                if (!reloadedSocket.Socket.Connected) { return; }
+
                 // Convert the message struct into bytes to send.
                 reloadedSocket.DataToSend = message.BuildMessage();
 

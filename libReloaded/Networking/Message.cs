@@ -33,7 +33,7 @@ namespace Reloaded.Networking
         /// <summary>
         /// A struct which defines a message to be sent over TCP or UDP.
         /// </summary>
-        public struct MessageStruct
+        public class MessageStruct
         {
             /// <summary>
             /// Defines the length of the individual message.
@@ -65,6 +65,11 @@ namespace Reloaded.Networking
                     MessageLength = BitConverter.GetBytes(MessageType).Length + _data.Length;
                 }
             }
+
+            /// <summary>
+            /// Empty constructor.
+            /// </summary>
+            public MessageStruct(){ }
 
             /// <summary>
             /// Constructor allowing immediate struct assignment.
