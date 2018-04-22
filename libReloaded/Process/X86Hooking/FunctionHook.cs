@@ -27,6 +27,7 @@ using Reloaded.Assembler;
 using Reloaded.Process.Memory;
 using Reloaded.Process.X86Functions;
 using Reloaded.Process.X86Functions.CustomFunctionFactory;
+using CallingConventions = Reloaded.Process.X86Functions.CallingConventions;
 
 namespace Reloaded.Process.X86Hooking
 {
@@ -224,7 +225,7 @@ namespace Reloaded.Process.X86Hooking
                  "To developers: Please don't do this! Refer to the wiki or CallingConventions.cs common convention settings."
             );
 
-            return FunctionCommon.CdeclFunction;
+            return new ReloadedFunction(CallingConventions.Cdecl);
         }
 
         /// <summary>

@@ -73,5 +73,66 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
             Caller,
             Callee
         }
+
+        /// <summary>
+        /// Initializes a ReloadedFunction with its default parameters supplied in the constructor.
+        /// </summary>
+        /// <param name="sourceRegisters">Specifies the registers in left to right parameter order to pass to the custom function to be called.</param>
+        /// <param name="returnRegister">Specifies the register to return the value from the funtion in (mov eax, source). This is typically eax.</param>
+        /// <param name="stackCleanup">Defines the stack cleanup rule for the function. See <see cref="StackCleanup"/> for more details.</param>
+        public ReloadedFunction(Register[] sourceRegisters, Register returnRegister, StackCleanup stackCleanup)
+        {
+            SourceRegisters = sourceRegisters;
+            ReturnRegister = returnRegister;
+            Cleanup = stackCleanup;
+        }
+
+        /// <summary>
+        /// Initializes the ReloadedFunction using a preset calling convention.
+        /// </summary>
+        /// <param name="callingConvention">
+        ///     The calling convention preset to use for instantiating the ReloadedFunction.
+        ///     Please remember to mark your function delegate as [UnmanagedFunctionPointer(CallingConvention.Cdecl)],
+        ///     mark only the ReloadedFunction Attribute with the true calling convention.
+        /// </param>
+        public ReloadedFunction(CallingConventions callingConvention)
+        {
+            switch (callingConvention)
+            {
+                case CallingConventions.Cdecl:
+                    SourceRegisters = new Register[0];
+                    ReturnRegister = Register.eax;
+                    Cleanup = StackCleanup.Caller;
+                    break;
+
+                case CallingConventions.Stdcall:
+                    SourceRegisters = new Register[0];
+                    ReturnRegister = Register.eax;
+                    Cleanup = StackCleanup.Callee;
+                    break;
+
+                case CallingConventions.Fastcall:
+                    SourceRegisters = new []{ Register.ecx, Register.edx };
+                    ReturnRegister = Register.eax;
+                    Cleanup = StackCleanup.Caller;
+                    break;
+
+                case CallingConventions.MicrosoftThiscall:
+                    SourceRegisters = new[] { Register.ecx };
+                    ReturnRegister = Register.eax;
+                    Cleanup = StackCleanup.Callee;
+                    break;
+
+                case CallingConventions.GCCThiscall:
+                    SourceRegisters = new Register[0];
+                    ReturnRegister = Register.eax;
+                    Cleanup = StackCleanup.Caller;
+                    break;
+
+                default:
+                    Bindings.PrintWarning($"There is no preset for the specified calling convention {callingConvention.GetType().Name}");
+                    break;
+            }
+        }
     }
 }

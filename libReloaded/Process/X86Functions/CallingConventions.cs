@@ -18,6 +18,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using Reloaded.Process.X86Functions.CustomFunctionFactory;
+
 namespace Reloaded.Process.X86Functions
 {
     /// <summary>
@@ -73,7 +75,7 @@ namespace Reloaded.Process.X86Functions
 
         /// <summary>
         /// Attribute [UnmanagedFunctionPointer(CallingConvention.Cdecl)] on Delegate
-        /// Usage (GCC Thiscall):       Native C# GetDelegateForFunctionPointer(), 1st parameter for `this` object pointer.
+        /// Usage (GCC Thiscall):       See <see cref="Cdecl"/>
         /// Usage (Microsoft Thiscall): FunctionWrapper class.
         /// ReloadedFunction Attribute:
         ///     TargetRegisters:    ECX
@@ -83,15 +85,28 @@ namespace Reloaded.Process.X86Functions
         /// Variant of Stdcall where the pointer of the `this` object is passed into ECX and
         /// rest of the parameters passed as usual. The Callee cleans the stack.
         /// You should define your delegates with the (this) object pointer (IntPtr) as first parameter from the left.
-        /// 
-        /// GCC thiscall: 
-        ///     `this` object passed as first parameter, caller stack cleanup, use cdecl with `this` 
-        ///     object pointer (IntPtr) as first parameter instead.
         /// </summary>
-        Thiscall,
+        MicrosoftThiscall,
+
+        /// <summary>
+        /// Attribute [UnmanagedFunctionPointer(CallingConvention.Cdecl)] on Delegate
+        /// Usage: Native C# GetDelegateForFunctionPointer() for calling, 
+        ///        append complete ReloadedFunction attribute for function hooking.
+        /// 
+        /// A variant of CDECL whereby the first parameter is the pointer to the `this` object.
+        /// Everything is otherwise the same.
+        /// 
+        /// ReloadedFunction Attribute:
+        ///     TargetRegisters:    N/A
+        ///     ReturnRegister:     EAX    
+        ///     Cleanup:            Caller
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        GCCThiscall,
 
         /// <summary>
         /// A name given to custom calling conventions by Hex-Rays (IDA) that are cleaned up by the caller.
+        /// You should declare the <see cref="ReloadedFunction"/> manually yourself.
         /// 
         /// Attribute [UnmanagedFunctionPointer(CallingConvention.Cdecl)] on Delegate
         /// Usage: FunctionWrapper class.
@@ -104,6 +119,7 @@ namespace Reloaded.Process.X86Functions
 
         /// <summary>
         /// A name given to custom calling conventions by Hex-Rays (IDA) that are cleaned up by the callee.
+        /// You should declare the <see cref="ReloadedFunction"/> manually yourself.
         /// 
         /// Attribute [UnmanagedFunctionPointer(CallingConvention.Cdecl)] on Delegate
         /// Usage: FunctionWrapper class.

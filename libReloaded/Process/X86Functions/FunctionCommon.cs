@@ -21,7 +21,6 @@
 
 using System;
 using System.Reflection;
-using Reloaded.Process.X86Functions.CustomFunctionFactory;
 
 namespace Reloaded.Process.X86Functions
 {
@@ -37,16 +36,5 @@ namespace Reloaded.Process.X86Functions
             MethodInfo method = delegateType.GetMethod("Invoke");
             return method != null ? method.GetParameters().Length : 0;
         }
-
-        /// <summary>
-        /// The default ReloadedFunction to use if the user fails to specify the ReloadedFunction
-        /// attribute for a function that is to be hooked.
-        /// </summary>
-        public static ReloadedFunction CdeclFunction = new ReloadedFunction()
-        {
-            SourceRegisters = new ReloadedFunction.Register[0],
-            ReturnRegister = ReloadedFunction.Register.eax,
-            Cleanup = ReloadedFunction.StackCleanup.Caller
-        };
     }
 }
