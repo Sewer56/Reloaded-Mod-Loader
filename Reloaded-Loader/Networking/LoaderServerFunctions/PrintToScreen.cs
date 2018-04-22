@@ -90,10 +90,6 @@ namespace Reloaded_Loader.Networking.LoaderServerFunctions
                     ConsoleFunctions.PrintMessageWithTime(messageToPrint, ConsoleFunctions.PrintErrorMessage);
                     break;
             }
-
-            // Send pingback
-            Message.MessageStruct pingOk = new Message.MessageStruct((ushort)MessageTypes.MessageType.Okay, new byte[1]);
-            socket.SendData(pingOk, false);
         }
     }
 }
