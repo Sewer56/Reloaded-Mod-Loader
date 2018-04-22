@@ -18,6 +18,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using libReloaded_Networking;
 using Reloaded.Process;
 
 namespace Reloaded
@@ -70,5 +71,17 @@ namespace Reloaded
         /// </summary>
         /// <param name="message">The message to be printed to the file/screen/stream/buffer.</param>
         public delegate void PrintMessageDelegate(string message);
+
+        /// <summary>
+        /// Static constructor which sets up message print delegate redirection for libReloaded-Networking.
+        /// </summary>
+        static Bindings()
+        {
+            // Redirect Network Delegates to our own.
+            libReloaded_Networking.Bindings.PrintWarning += message => PrintWarning(message);
+            libReloaded_Networking.Bindings.PrintError   += message => PrintError(message);
+            libReloaded_Networking.Bindings.PrintInfo    += message => PrintInfo(message);
+            libReloaded_Networking.Bindings.PrintText    += message => PrintText(message);
+        }
     }
 }
