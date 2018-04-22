@@ -28,14 +28,13 @@ namespace Reloaded.Process.X86Functions
     {
         /// <summary>
         /// Attribute [UnmanagedFunctionPointer(CallingConvention.Cdecl)] on Delegate
-        /// Usage: Native C# GetDelegateForFunctionPointer();
+        /// Usage: Native C# GetDelegateForFunctionPointer() for calling, 
+        ///        append complete ReloadedFunction attribute for function hooking.
         /// 
         /// Parameters are passed right to left onto the function pushing onto the stack.
         /// Calling function pops its own arguments from the stack. 
         /// (The calling function must manually restore the stack to previous state)
         /// 
-        /// 
-        /// (Redundant but for completeness)
         /// ReloadedFunction Attribute:
         ///     TargetRegisters:    N/A
         ///     ReturnRegister:     EAX    
@@ -45,12 +44,12 @@ namespace Reloaded.Process.X86Functions
 
         /// <summary>
         /// Attribute [UnmanagedFunctionPointer(CallingConvention.Stdcall)] on Delegate
-        /// Usage: Native C# GetDelegateForFunctionPointer();
+        /// Usage: Native C# GetDelegateForFunctionPointer() for calling, 
+        ///        append complete ReloadedFunction attribute for function hooking.
         /// 
         /// Parameters are passed right to left onto the function pushing onto the stack.
         /// Called function pops its own arguments from the stack.
         /// 
-        /// (Redundant but for completeness)
         /// ReloadedFunction Attribute:
         ///     TargetRegisters:    N/A
         ///     ReturnRegister:     EAX    

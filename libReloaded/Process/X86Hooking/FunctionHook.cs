@@ -48,6 +48,13 @@ namespace Reloaded.Process.X86Hooking
         public TFunction OriginalFunction;
 
         /// <summary>
+        /// Stores a copy of the original delegate passed into the Function Hook generator
+        /// such that the delegate which provided our function pointer to our C# code is not swept up
+        /// by the Garbage Collector.
+        /// </summary>
+        private TFunction _originalDelegate;
+
+        /// <summary>
         /// Creates a function hook for a function at a user specified address.
         /// This class provides Windows API (and general process) hooking functionality for standard cdecl, stdcall, as well as custom
         /// ReloadedFunction Attribute declared functions. For more details, see the description of the <see cref="FunctionHook{TDelegate}"/> class.
@@ -156,6 +163,9 @@ namespace Reloaded.Process.X86Hooking
 
             // Create wrapper for calling the original function.
             functionHook.OriginalFunction = FunctionWrapper.CreateWrapperFunction<TFunction>((long)gameFunctionWrapperAddress);
+
+            // Store a copy of the original function.
+            functionHook._originalDelegate = functionDelegate;
 
             /*
                 [Apply Hook] Write hook bytes. 
