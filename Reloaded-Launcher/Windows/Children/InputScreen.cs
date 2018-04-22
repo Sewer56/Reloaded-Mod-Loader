@@ -183,10 +183,15 @@ namespace ReloadedLauncher.Windows.Children
                 // Set the titlebar.  
                 Global.CurrentMenuName = "Reloaded Input Stack";
                 Global.BaseForm.UpdateTitle("");
+                
+                // Setup controller preview.
+                SetupControllerPreview();
             }
             else
             {
+                // Save current controller and kill preview.
                 SaveCurrentController();
+                _controllerPollThread.Abort();
             }
         }
 
@@ -201,9 +206,6 @@ namespace ReloadedLauncher.Windows.Children
 
             // Setup delegate for when controller is added/removed.
             _controllerManager.ControllerHotplugEventDelegate += PopulateControllers;
-
-            // Setup Controller Preview   
-            SetupControllerPreview();
         }
 
         /// <summary>
