@@ -265,7 +265,7 @@ namespace Reloaded.Process.X86Hooking
 
             // Caller/Callee Cleanup
             if (reloadedFunction.Cleanup == ReloadedFunction.StackCleanup.Callee)
-                assemblyCode.Add($"ret {numberOfParameters * 4}");
+                assemblyCode.Add($"ret {nonRegisterParameters * 4}");
             else
                 assemblyCode.Add("ret");
 
