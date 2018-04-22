@@ -8,4 +8,5 @@
 	path = Reloaded-GUI
 	url = https://github.com/sewer56lol/Reloaded-GUI
 [submodule "libReloaded-Networking"]
+    path = libReloaded-Networking
 	url = https://github.com/sewer56lol/libReloaded-Networking.git
