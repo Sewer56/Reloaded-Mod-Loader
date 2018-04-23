@@ -71,7 +71,7 @@ namespace Reloaded.Process.Memory
             Marshal.Copy(address, buffer, 0, size);
 
             // Return the read memory.
-            return (TType)ConvertToPrimitive<TType>(buffer, type);
+            return ConvertToPrimitive<TType>(buffer, type);
         }
 
 
@@ -125,7 +125,7 @@ namespace Reloaded.Process.Memory
             VirtualProtect(address, (uint)size, oldProtection, out oldProtection);
 
             // Return the read memory.
-            return (TType) ConvertToPrimitive<TType>(buffer,type);
+            return ConvertToPrimitive<TType>(buffer,type);
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Reloaded.Process.Memory
             ReadProcessMemory(process.ProcessHandle, address, buffer, size, out IntPtr bytesRead);
 
             // Return the read memory.
-            return (TType)ConvertToPrimitive<TType>(buffer, type);
+            return ConvertToPrimitive<TType>(buffer, type);
         }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace Reloaded.Process.Memory
             VirtualProtectEx(process.ProcessHandle, address, (IntPtr)size, oldProtection, out oldProtection);
 
             // Return the read memory.
-            return (TType)ConvertToPrimitive<TType>(buffer, type);
+            return ConvertToPrimitive<TType>(buffer, type);
         }
 
         /// <summary>
@@ -400,33 +400,8 @@ namespace Reloaded.Process.Memory
         /// <param name="buffer">The buffer containing the information about the specific type.</param>
         /// <param name="type">The type to convert to (same as type to return.</param>
         /// <returns>In the requested format</returns>
-        public static object ConvertToPrimitive<TType>(byte[] buffer, Type type)
+        public static TType ConvertToPrimitive<TType>(byte[] buffer, Type type)
         {
-            // Switch on known common primitives.
-            switch (type.Name)
-            {
-                case nameof(String): return BitConverter.ToString(buffer, 0);
-                case nameof(Boolean): return BitConverter.ToBoolean(buffer, 0);
-                case nameof(Char): return BitConverter.ToChar(buffer, 0);
-                case nameof(Byte): return (TType)Convert.ChangeType(buffer[0], typeof(TType));
-                case nameof(Single): return BitConverter.ToSingle(buffer, 0);
-                case nameof(Double): return BitConverter.ToDouble(buffer, 0); 
-                case nameof(Int32): return BitConverter.ToInt32(buffer, 0);
-                case nameof(Int64): return BitConverter.ToInt64(buffer, 0);
-                case nameof(UInt32): return BitConverter.ToUInt32(buffer, 0);
-                case nameof(UInt64): return BitConverter.ToUInt32(buffer, 0);
-                case nameof(UInt16): return BitConverter.ToUInt16(buffer, 0);
-                case nameof(Int16): return BitConverter.ToInt16(buffer, 0);
-                case nameof(IntPtr):
-                    if (IntPtr.Size == 4) { return BitConverter.ToInt32(buffer, 0); }
-                    else if (IntPtr.Size == 8) { return BitConverter.ToInt64(buffer, 0); }
-                    break;
-                case nameof(UIntPtr):
-                    if (IntPtr.Size == 4) { return BitConverter.ToUInt32(buffer, 0); }
-                    else if (IntPtr.Size == 8) { return BitConverter.ToUInt64(buffer, 0); }
-                    break;
-            }
-
             // Convert to user specified structure if none of the types above apply.
             return ArrayToStructure<TType>(buffer);
         }
