@@ -65,6 +65,64 @@ namespace Reloaded.Process.X86Hooking
         ///     A delegate instance of the supplied generic delegate type which calls/invokes
         ///     the C# method that will be used to handle the hook.
         /// </param>
+        /// <param name="hookLength">
+        ///     Optional explicit length of the hook to perform used in the impossibly rare
+        ///     cases whereby auto-length checking overflows the default into a jmp/call.
+        /// </param>
+        /// <returns>
+        ///     An instance of <see cref="FunctionHook{TFunction}"/>, which may be used
+        ///     to call the original function.
+        /// </returns>
+        /// <remarks>
+        ///     Due to safety and depth concerns regarding the use of multiple hooks on a singular address,
+        ///     the class does not provide an implementation allowing you to unhook. Please instead implement
+        ///     a flag and just call + return value from the original method without changing any of the input
+        ///     parameters if you wish to achieve the same effect.
+        /// </remarks>
+        public FunctionHook(long gameFunctionAddress, TFunction functionDelegate, int hookLength)
+        {
+            FunctionHook <TFunction> localFunctionHook = CreateFunctionHook(gameFunctionAddress, functionDelegate, hookLength);
+            this.OriginalFunction = localFunctionHook.OriginalFunction;
+            this._originalDelegate = localFunctionHook._originalDelegate;
+        }
+
+        /// <summary>
+        /// Creates a function hook for a function at a user specified address.
+        /// This class provides Windows API (and general process) hooking functionality for standard cdecl, stdcall, as well as custom
+        /// ReloadedFunction Attribute declared functions. For more details, see the description of the <see cref="FunctionHook{TDelegate}"/> class.
+        /// </summary>
+        /// <param name="gameFunctionAddress">The address of the game function to create the wrapper for.</param>
+        /// <param name="functionDelegate">
+        ///     A delegate instance of the supplied generic delegate type which calls/invokes
+        ///     the C# method that will be used to handle the hook.
+        /// </param>
+        /// <returns>
+        ///     An instance of <see cref="FunctionHook{TFunction}"/>, which may be used
+        ///     to call the original function.
+        /// </returns>
+        /// <remarks>
+        ///     Due to safety and depth concerns regarding the use of multiple hooks on a singular address,
+        ///     the class does not provide an implementation allowing you to unhook. Please instead implement
+        ///     a flag and just call + return value from the original method without changing any of the input
+        ///     parameters if you wish to achieve the same effect.
+        /// </remarks>
+        public FunctionHook(long gameFunctionAddress, TFunction functionDelegate)
+        {
+            FunctionHook<TFunction> localFunctionHook = CreateFunctionHook(gameFunctionAddress, functionDelegate);
+            this.OriginalFunction = localFunctionHook.OriginalFunction;
+            this._originalDelegate = localFunctionHook._originalDelegate;
+        }
+
+        /// <summary>
+        /// Creates a function hook for a function at a user specified address.
+        /// This class provides Windows API (and general process) hooking functionality for standard cdecl, stdcall, as well as custom
+        /// ReloadedFunction Attribute declared functions. For more details, see the description of the <see cref="FunctionHook{TDelegate}"/> class.
+        /// </summary>
+        /// <param name="gameFunctionAddress">The address of the game function to create the wrapper for.</param>
+        /// <param name="functionDelegate">
+        ///     A delegate instance of the supplied generic delegate type which calls/invokes
+        ///     the C# method that will be used to handle the hook.
+        /// </param>
         /// <returns>
         ///     An instance of <see cref="FunctionHook{TDelegate}"/>, which may be used
         ///     to call the original function.
@@ -153,7 +211,7 @@ namespace Reloaded.Process.X86Hooking
             stolenBytes.AddRange(HookCommon.AssembleJump(jumpBackAddress));
 
             /*
-                [Call Original Functio part II] Instantiate and return functionHook with the original game function address.
+                [Call Original Function part II] Instantiate and return functionHook with the original game function address.
             */
 
             // Assign original function.
