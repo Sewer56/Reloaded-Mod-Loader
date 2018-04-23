@@ -21,6 +21,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using Reloaded;
 using Reloaded.IO.Config.Games;
@@ -226,7 +227,7 @@ namespace Reloaded_Loader
             // Build arguments
             string localArgs = "";
             foreach (string argument in arguments) { localArgs += argument + " "; }
-            Process.Start(LoaderPaths.GetModLoaderDirectory() + "\\Reloaded-Wrapper-x64.exe", localArgs);
+            Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Reloaded-Wrapper-x64.exe", localArgs);
 
             // Bye Bye Current Process
             Shutdown(null, null);
