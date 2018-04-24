@@ -88,6 +88,19 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         }
 
         /// <summary>
+        /// Initializes a ReloadedFunction with its default parameters supplied in the constructor.
+        /// </summary>
+        /// <param name="sourceRegister">Specifies the registers for the parameter.</param>
+        /// <param name="returnRegister">Specifies the register to return the value from the funtion in (mov eax, source). This is typically eax.</param>
+        /// <param name="stackCleanup">Defines the stack cleanup rule for the function. See <see cref="StackCleanup"/> for more details.</param>
+        public ReloadedFunction(Register sourceRegister, Register returnRegister, StackCleanup stackCleanup)
+        {
+            SourceRegisters = new[] { sourceRegister };
+            ReturnRegister = returnRegister;
+            Cleanup = stackCleanup;
+        }
+
+        /// <summary>
         /// Initializes the ReloadedFunction using a preset calling convention.
         /// </summary>
         /// <param name="callingConvention">
