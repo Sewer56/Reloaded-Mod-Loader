@@ -28,7 +28,7 @@ namespace Reloaded.Native.WinAPI
         /// <summary>
         /// Defines a rectangle in the format used within the Windows API.
         /// </summary>
-        public struct WinApiRectangle
+        public struct WinapiRectangle
         {
             /// <summary>
             /// The X coordinate of the left border of the rectangle.
@@ -49,6 +49,22 @@ namespace Reloaded.Native.WinAPI
             /// The Y coordinate of the bottom border of the rectangle.
             /// </summary>
             public int BottomBorder;
+        }
+
+        /// <summary>
+        /// The POINT structure defines the x- and y- coordinates of a point.
+        /// </summary>
+        public struct WinapiPoint
+        {
+            /// <summary>
+            /// The x-coordinate of the point.
+            /// </summary>
+            public int x;
+
+            /// <summary>
+            /// The y-coordinate of the point.
+            /// </summary>
+            public int y;
         }
     }
 }

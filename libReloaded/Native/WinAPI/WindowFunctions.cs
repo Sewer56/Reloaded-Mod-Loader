@@ -41,6 +41,14 @@ namespace Reloaded.Native.WinAPI
         public static extern IntPtr GetForegroundWindow();
 
         /// <summary>
+        /// Activates a window. The window must be attached to the calling thread's message queue.
+        /// </summary>
+        /// <param name="hWnd">A handle to the top-level window to be activated.</param>
+        /// <returns>If the function succeeds, the return value is the handle to the window that was previously active.</returns>
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetActiveWindow(IntPtr hWnd);
+
+        /// <summary>
         /// Retrieves the identifier of the thread that created the specified window and, 
         /// optionally, the identifier of the process that created the window. 
         /// </summary>
@@ -68,7 +76,7 @@ namespace Reloaded.Native.WinAPI
         /// <param name="hwnd">The handle to the individual window.</param>
         /// <param name="lpRect">Rectangle structure containing the screen coordinates of all of the edges.</param>
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool GetWindowRect(IntPtr hwnd, out Structures.WinApiRectangle lpRect);
+        public static extern bool GetWindowRect(IntPtr hwnd, out Structures.WinapiRectangle lpRect);
 
         /// <summary>
         /// Obtains the screen coordinates of each of the edges of THE CLIENT AREA (WHAT YOU SEE INSIDE THE BORDERS) of a window holding a specified handle.
@@ -78,7 +86,7 @@ namespace Reloaded.Native.WinAPI
         /// <param name="lpRect">Rectangle structure containing the screen coordinates of all of the CLIENT AREA edges.</param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        public static extern bool GetClientRect(IntPtr hWnd, out Structures.WinApiRectangle lpRect);
+        public static extern bool GetClientRect(IntPtr hWnd, out Structures.WinapiRectangle lpRect);
 
         /// <summary>
         /// The MoveWindow function changes the position and dimensions of the specified window. 
@@ -127,6 +135,15 @@ namespace Reloaded.Native.WinAPI
         /// <param name="hWnd">The handle of the window of whose aero glass frame is to be extended.</param>
         /// <param name="pMargins"></param>
         [DllImport("dwmapi.dll")]
-        public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref Structures.WinApiRectangle pMargins);
+        public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref Structures.WinapiRectangle pMargins);
+
+        /// <summary>
+        /// The ClientToScreen function converts the client-area coordinates of a specified point to screen coordinates.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window whose client area is used for the conversion.</param>
+        /// <param name="lpPoint">A pointer to a POINT structure that contains the client coordinates to be converted. The new screen coordinates are copied into this structure if the function succeeds.</param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        public static extern bool ClientToScreen(IntPtr hWnd, ref Structures.WinapiPoint lpPoint);
     }
 }

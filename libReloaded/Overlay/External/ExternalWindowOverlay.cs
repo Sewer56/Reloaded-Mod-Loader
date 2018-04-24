@@ -20,6 +20,7 @@
 
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Reloaded.Native.WinAPI;
 using Reloaded.Overlay.External.Forms;
@@ -30,7 +31,7 @@ namespace Reloaded.Overlay.External
     /// This class is responsible for allowing you to instantiate a Windows Forms overlay which will be drawn ontop of a game
     /// or chosen window, providing the target window isn't in exclusive fullscreen mode.
     /// </summary>
-    public class ExternalWindowOverlay : D2DWindowOverlay
+    public class ExternalWindowOverlay
     {
         /// <summary>
         /// Fake glass form which we will be overlaying the game with.
@@ -38,86 +39,326 @@ namespace Reloaded.Overlay.External
         public TransparentWinform OverlayForm { get; set; }
 
         /// <summary>
-        /// A handle to the game window which is found via searching for a window with a title defined in gameWindowName.
-        /// </summary>
-        public IntPtr GameWindowHandle { get; set; }
-
-        /// <summary>
-        /// Defines the name of the game window, this name is used and matched against existing windows to detect window over which to overlay.
-        /// </summary>
-        public string GameWindowName { get; set; }
-
-        /// <summary>
         /// A thread which hosts the glass overlay windows form, ensuring that it keeps running.
         /// </summary>
-        public Thread WindowsFormThread { get; set; }
+        public Thread WindowsFormThread { get; private set; }
+
+        /// <summary>
+        /// A thread which hosts the render loop, automatically calling your Direct2D Render Delegate
+        /// and rendering items to the screen.
+        /// </summary>
+        public Thread RenderLoopThread { get; private set; }
+
+        /// <summary>
+        /// An instance of the Direct2D Window Renderer used to draw ontop
+        /// of our invisible Windows Form.
+        /// </summary>
+        public D2DWindowRenderer DirectD2DWindowRenderer { get; set; }
+
+        /// <summary>
+        /// Defines the amount of time before
+        /// </summary>
+        private TimeSpan RenderRate { get; set; }
+
+        /// <summary>
+        /// Empty private constructor, use factory method.
+        /// See <see cref="CreateExternalWindowOverlay"/>
+        /// </summary>
+        private ExternalWindowOverlay() { }
 
         /// <summary>
         /// Class constructor. Instantiates both the overlay and DirectX Stuff.
         /// </summary>
-        public ExternalWindowOverlay(string gameWindowName)
+        /// <param name="gameWindowName">
+        ///     The name of the window to be overlayed.
+        ///     The window may be the game window or another window elsewhere.
+        /// </param>
+        /// <param name="renderDelegate">
+        ///     The user delegate which you may use for rendering to the external overlay 
+        ///     window with Direct2D. 
+        /// </param>
+        /// <returns>
+        ///     1. True if the window has been found and overlay has been instantiated, else false.
+        ///     2. An instance of self (ExternalWindowOverlay) with the overlay enabled and running.
+        /// </returns>
+        public static async Task<(bool success, ExternalWindowOverlay overlay)> CreateExternalWindowOverlay(string gameWindowName, D2DWindowRenderer.DelegateRenderDirect2D renderDelegate)
         {
-            // Set Window Name
-            GameWindowName = gameWindowName;
-
-            // Wait for and find the game window.
-            FindGameWindow();
-
-            // Instantiate glass form
-            OverlayForm = new TransparentWinform(GameWindowHandle);
-
-            // Initialize base (directX Drawing Stuff)
-            ConstructorAlias(OverlayForm.Handle);
+            return await CreateExternalWindowOverlay(gameWindowName, renderDelegate, 0);
         }
 
         /// <summary>
         /// Class constructor. Instantiates both the overlay and DirectX Stuff.
         /// </summary>
-        /// <param name="gameWindowHandle">The handle of the game window to be overlayed.</param>
-        public ExternalWindowOverlay(IntPtr gameWindowHandle)
+        /// <param name="gameWindowName">
+        ///     The name of the window to be overlayed.
+        ///     The window may be the game window or another window elsewhere.
+        /// </param>
+        /// <param name="renderDelegate">
+        ///     The user delegate which you may use for rendering to the external overlay 
+        ///     window with Direct2D. 
+        /// </param>
+        /// <param name="hookDelay">
+        ///     Specifies the amount of time to wait until the hook is instantiation begins.
+        ///     Some games are known to crash if DirectX is hooked too early.
+        /// </param>
+        /// <returns>
+        ///     1. True if the window has been found and overlay has been instantiated, else false.
+        ///     2. An instance of self (ExternalWindowOverlay) with the overlay enabled and running.
+        /// </returns>
+        public static async Task<(bool success, ExternalWindowOverlay overlay)> CreateExternalWindowOverlay(string gameWindowName, D2DWindowRenderer.DelegateRenderDirect2D renderDelegate, int hookDelay)
         {
-            // Set Window Name
-            GameWindowHandle = gameWindowHandle;
+            // Apply hook delay
+            await Task.Delay(hookDelay);
 
-            // Instantiate glass form
-            OverlayForm = new TransparentWinform(GameWindowHandle);
+            // Create self.
+            ExternalWindowOverlay externalWindowOverlay = new ExternalWindowOverlay();
 
-            // Initialize base (directX Drawing Stuff)
-            ConstructorAlias(OverlayForm.Handle);
+            // Wait for and find the game window.
+            IntPtr windowHandle = await FindWindowHandleByName(gameWindowName);
+            
+            // If the handle has been acquired.
+            if (windowHandle != (IntPtr)0)
+            {
+                // Wait for the Window to show itself to screen before configuring.
+                while (WindowFunctions.IsWindowVisible(windowHandle) == false)
+                    await Task.Delay(32);
+
+                // Enable the overlay.
+                externalWindowOverlay.EnableOverlay(renderDelegate, windowHandle);
+
+                // Returns true.
+                return (true, externalWindowOverlay);
+            }
+
+            // Return false, window was not found.
+            return (false, externalWindowOverlay);
+        }
+
+        /// <summary>
+        /// Class constructor. Instantiates both the overlay and DirectX Stuff.
+        /// Note: This method is blocking and Reloaded mods are required to return in order 
+        /// to boot up the games, please do not assign this statically - instead assign it in a background thread!
+        /// </summary>
+        /// <param name="gameWindowHandle">
+        ///     The handle of the game window to be overlayed.
+        ///     The handle may be obtained via ReloadedProcess.GetProcessFromReloadedProcess().MainWindowHandle.
+        /// </param>
+        /// <param name="renderDelegate">
+        ///     The user delegate which you may use for rendering to the external overlay 
+        ///     window with Direct2D. 
+        /// </param>
+        /// <returns>An instance of self (ExternalWindowOverlay) with the overlay enabled and running.</returns>
+        public static async Task<ExternalWindowOverlay> CreateExternalWindowOverlay(IntPtr gameWindowHandle, D2DWindowRenderer.DelegateRenderDirect2D renderDelegate)
+        {
+            return await CreateExternalWindowOverlay(gameWindowHandle, renderDelegate, 0);
+        }
+
+        /// <summary>
+        /// Class constructor. Instantiates both the overlay and DirectX Stuff.
+        /// Note: This method is blocking and Reloaded mods are required to return in order 
+        /// to boot up the games, please do not assign this statically - instead assign it in a background thread!
+        /// </summary>
+        /// <param name="gameWindowHandle">
+        ///     The handle of the game window to be overlayed.
+        ///     The handle may be obtained via ReloadedProcess.GetProcessFromReloadedProcess().MainWindowHandle.
+        /// </param>
+        /// <param name="renderDelegate">
+        ///     The user delegate which you may use for rendering to the external overlay 
+        ///     window with Direct2D. 
+        /// </param>
+        /// <param name="hookDelay">
+        ///     Specifies the amount of time to wait until the hook is instantiation begins.
+        ///     Some games are known to crash if DirectX is hooked too early.
+        /// </param>
+        /// <returns>An instance of self (ExternalWindowOverlay) with the overlay enabled and running.</returns>
+        public static async Task<ExternalWindowOverlay> CreateExternalWindowOverlay(IntPtr gameWindowHandle, D2DWindowRenderer.DelegateRenderDirect2D renderDelegate, int hookDelay)
+        {
+            // Apply hook delay
+            await Task.Delay(hookDelay);
+
+            // Wait for the Window to show itself to screen before configuring.
+            while (WindowFunctions.IsWindowVisible(gameWindowHandle) == false)
+                await Task.Delay(32);
+
+            // Create self.
+            ExternalWindowOverlay externalWindowOverlay = new ExternalWindowOverlay();
+
+            // Enable the overlay.
+            externalWindowOverlay.EnableOverlay(renderDelegate, gameWindowHandle);
+
+            // Return self
+            return externalWindowOverlay;
+        }
+
+        /// <summary>
+        /// Class constructor. Instantiates both the overlay and DirectX Stuff.
+        /// Note: This method is blocking and Reloaded mods are required to return in order 
+        /// to boot up the games, please do not assign this statically - instead assign it in a background thread!
+        /// </summary>
+        /// <param name="renderDelegate">
+        ///     The user delegate which you may use for rendering to the external overlay 
+        ///     window with Direct2D. 
+        /// </param>
+        /// <returns>An instance of self (ExternalWindowOverlay) with the overlay enabled and running.</returns>
+        public static async Task<ExternalWindowOverlay> CreateExternalWindowOverlay(D2DWindowRenderer.DelegateRenderDirect2D renderDelegate)
+        {
+            return await CreateExternalWindowOverlay(renderDelegate, 0);
+        }
+
+        /// <summary>
+        /// Class constructor. Instantiates both the overlay and DirectX Stuff.
+        /// Note: This method is blocking and Reloaded mods are required to return in order 
+        /// to boot up the games, please do not assign this statically - instead assign it in a background thread!
+        /// </summary>
+        /// <param name="renderDelegate">
+        ///     The user delegate which you may use for rendering to the external overlay 
+        ///     window with Direct2D. 
+        /// </param>
+        /// <param name="hookDelay">
+        ///     Specifies the amount of time to wait until the hook is instantiation begins.
+        ///     Some games are known to crash if DirectX is hooked too early.
+        /// </param>
+        /// <returns>An instance of self (ExternalWindowOverlay) with the overlay enabled and running.</returns>
+        public static async Task<ExternalWindowOverlay> CreateExternalWindowOverlay(D2DWindowRenderer.DelegateRenderDirect2D renderDelegate, int hookDelay)
+        {
+            // Apply hook delay
+            await Task.Delay(hookDelay);
+
+            // Game process
+            System.Diagnostics.Process gameProcess = Bindings.TargetProcess.GetProcessFromReloadedProcess();
+
+            // Try to get game window handle.
+            while (gameProcess.MainWindowHandle == IntPtr.Zero)
+                await Task.Delay(32);
+
+            // Wait for the Window to show itself to screen before configuring.
+            while (WindowFunctions.IsWindowVisible(gameProcess.MainWindowHandle) == false)
+                await Task.Delay(32);
+
+            // Create self.
+            ExternalWindowOverlay externalWindowOverlay = new ExternalWindowOverlay();
+
+            // Enable the overlay.
+            externalWindowOverlay.EnableOverlay(renderDelegate, gameProcess.MainWindowHandle);
+
+            // Return self
+            return externalWindowOverlay;
+        }
+
+        /// <summary>
+        /// Allows you to set the framerate of the rendering operation.
+        /// </summary>
+        /// <param name="frameRate">The framerate of the rendering operation</param>
+        public void SetFramerate(float frameRate)
+        {
+            // Framerate / milliseconds to get amount of milliseconds to sleep
+            // Example: 60 / 1000 = 16.6666
+            float sleepMilliseconds = frameRate / 1000; // 1000 = 1 seconds
+
+            // Nanoseconds
+            float nanoSeconds = sleepMilliseconds * 1000000;
+            
+            // Convert to ticks: (Nanoseconds / 100)
+            RenderRate = new TimeSpan((long)(nanoSeconds / 100F));
         }
 
         /// <summary>
         /// Calls Application.Run to host the overlay glass window such that it may be displayed.
         /// Want multiple windows (for some reason?). Create a thread and call this method.
         /// </summary>
-        public void EnableOverlay()
+        /// <param name="renderDelegate">
+        ///     The user delegate which you may use for rendering to the external overlay 
+        ///     window with Direct2D. 
+        /// </param>
+        /// <param name="targetWindowHandle">
+        ///     The handle of the window to display the overlay on.
+        /// </param>
+        private void EnableOverlay(D2DWindowRenderer.DelegateRenderDirect2D renderDelegate, IntPtr targetWindowHandle)
         {
+            // Set framerate
+            SetFramerate(60);
+
             // Enable the Overlay Window.
-            Application.Run(OverlayForm);
+            WindowsFormThread = new Thread (() =>
+            {
+                // Instantiate glass form
+                OverlayForm = new TransparentWinform(targetWindowHandle);
+
+                // Create D2D Window Renderer
+                DirectD2DWindowRenderer = new D2DWindowRenderer(OverlayForm.Handle, renderDelegate);
+
+                // Setup hook for when window resizes.
+                OverlayForm.GameWindowResizeDelegate += () => DirectD2DWindowRenderer.InitializeDirectX(OverlayForm.Handle);
+
+                // Run the form in this thread
+                Application.Run(OverlayForm);
+            } );
+            
+            // Enable the rendering loop.
+            RenderLoopThread = new Thread
+            (
+                () =>
+                {
+                    while (true)
+                    {
+                        DirectD2DWindowRenderer?.DirectXRender();
+                        Thread.Sleep(RenderRate);
+                    }
+                }
+            );
+            WindowsFormThread.Start();
+            RenderLoopThread.Start();
         }
 
         /// <summary>
         /// Waits for an instance of the game window to spawn (searches window by name).
         /// Proceeds to wait until said window is visible to the end user.
         /// </summary>
-        private void FindGameWindow()
+        /// <param name="gameWindowName">The name of the game window to find the handle for.</param>
+        private static async Task<IntPtr> FindWindowHandleByName(string gameWindowName)
         {
+            // Provide our own interactive timeout.
+            int attempts = 0;
+            int threadSleepTime = 16;
+            int timeoutMilliseconds = 1000;
+
+            // Handle of the game window
+            IntPtr windowHandle = (IntPtr)0;
+
             // Wait for Game Window to spawn.
             while (true)
             {
+                // Increase attempts.
+                attempts++;
+
                 // Get the handle for the Sonic_Heroes Window
-                GameWindowHandle = WindowFunctions.FindWindow(null, GameWindowName);
+                windowHandle = WindowFunctions.FindWindow(null, gameWindowName);
 
                 // If handle successfully acquired.
-                if (GameWindowHandle != null) break;
+                if (windowHandle != (IntPtr)0) return windowHandle;
+
+                // Check timeout
+                if (attempts > timeoutMilliseconds / threadSleepTime) return (IntPtr) 0;
 
                 // Sleep to reduce CPU load.
-                Thread.Sleep(16);
+                await Task.Delay(threadSleepTime);
             }
+        }
 
-            // Wait for the Window to show itself to screen before configuring.
-            while (WindowFunctions.IsWindowVisible(GameWindowHandle) == false)
-                Thread.Sleep(16);
+        /// <summary>
+        /// Attaches a Windows Forms window to the overlay.
+        /// </summary>
+        /// <param name="yourForm">Your windows form.</param>
+        public void AttachWinForm(Form yourForm)
+        {
+            // Define handle to your own Windows form.
+            IntPtr yourFormHandle = yourForm.Handle;
+
+            // Set parent form.
+            WindowFunctions.SetParent(yourFormHandle, OverlayForm.Handle);
+
+            // Bring the user's form to front.
+            yourForm.BringToFront();
         }
     }
 }

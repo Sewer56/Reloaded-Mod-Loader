@@ -19,6 +19,7 @@
 */
 
 using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Reloaded.Native.WinAPI;
@@ -34,9 +35,19 @@ namespace Reloaded.Overlay.External.Forms
         public IntPtr GameWindowHandle { get; set; }
 
         /// <summary>
+        /// Delegate which will be triggered upon resizing of the game window.
+        /// </summary>
+        public Action GameWindowResizeDelegate { get; set; }
+
+        /// <summary>
         /// Delegate which will be triggered upon the movement of the game window or shape/size changes.
         /// </summary>
-        public WindowEventHooks.WinEventDelegate GameWindowMoveDelegate { get; set; }
+        private WindowEventHooks.WinEventDelegate WindowEventDelegate { get; set; }
+
+        /// <summary>
+        /// Defines the last size of the window, used to determine if a window has been resized.
+        /// </summary>
+        private Point lastWindowSize { get; set; }
 
         /// <summary>
         /// Constructor for the overlay form, is executed upon creation of the overlay.
@@ -62,16 +73,16 @@ namespace Reloaded.Overlay.External.Forms
             SetWindowStyles();
 
             // Adjust window size and properties to overlap the game window.
-            AdjustOverlayToGameWindow(); 
+            AdjustOverlayToGameWindow();
 
             // Setup hook for when the game window is moved, resized, changes shape...
-            GameWindowMoveDelegate = WinEventProc;
+            WindowEventDelegate += WinEventProc;
             WindowEventHooks.SetWinEventHook
             (
                 WindowEventHooks.EVENT_OBJECT_LOCATIONCHANGE,       // Minimum event code to capture
                 WindowEventHooks.EVENT_OBJECT_LOCATIONCHANGE,       // Maximum event code to capture
                 IntPtr.Zero,                                        // DLL Handle (none required) 
-                GameWindowMoveDelegate,                             // Pointer to the hook function. (Delegate in our case)
+                WindowEventDelegate,                                // Pointer to the hook function. (Delegate in our case)
                 0,                                                  // Process ID (0 = all)
                 0,                                                  // Thread ID (0 = all)
                 WindowEventHooks.WINEVENT_OUTOFCONTEXT              // Flags: Allow cross-process event hooking
@@ -121,7 +132,7 @@ namespace Reloaded.Overlay.External.Forms
         private void ExtendFrameToClientArea()
         {
             // Instantiate a new instance of the margins class.
-            Structures.WinApiRectangle formMargins = new Structures.WinApiRectangle
+            Structures.WinapiRectangle formMargins = new Structures.WinapiRectangle
             {
                 LeftBorder = 0,
                 TopBorder = 0,
@@ -139,21 +150,27 @@ namespace Reloaded.Overlay.External.Forms
         /// </summary>
         public void AdjustOverlayToGameWindow()
         {
-            // Get game client area.
-            Structures.WinApiRectangle gameClientRectangle = GetClientAreaRectangle(GameWindowHandle);
+            // Get game client edges.
+            Structures.WinapiRectangle gameClientSize = GetClientRectangle(GameWindowHandle);
 
             // Set overlay edges to the edges of the client area.
-            Left = gameClientRectangle.LeftBorder;
-            Top = gameClientRectangle.TopBorder;
+            Left = gameClientSize.LeftBorder;
+            Top = gameClientSize.TopBorder;
 
             // Set width and height.
-            Width = gameClientRectangle.RightBorder - gameClientRectangle.LeftBorder;
-            Height = gameClientRectangle.BottomBorder - gameClientRectangle.TopBorder;
+            Width = gameClientSize.RightBorder - gameClientSize.LeftBorder;
+            Height = gameClientSize.BottomBorder - gameClientSize.TopBorder;
+
+            // Call resize delegate.
+            if (lastWindowSize != GetClientAreaSize2(GameWindowHandle))
+            { GameWindowResizeDelegate?.Invoke(); }
+
+            lastWindowSize = GetClientAreaSize2(GameWindowHandle);
         }
 
         /// <summary>
         /// Defines the delegate method which is fired when the game window is moved or resized within this class.
-        /// Simply resizes the overlay window back to match Sonic Heroes' window.
+        /// Simply resizes the overlay window back to match the target game's window.
         /// </summary>
         private void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
         {
@@ -161,8 +178,10 @@ namespace Reloaded.Overlay.External.Forms
             // Technically speaking shouldn't be necessary, though just in case.
             if (idObject != 0 || idChild != 0) return;
 
-            // Set the size and location of the external overlay to match the 
-            AdjustOverlayToGameWindow();
+            // Set the size and location of the external overlay to match the game/target window.
+            // Only if an object has changed location, shape, or size.
+            if (eventType == 0x800B)
+                AdjustOverlayToGameWindow();
         }
 
         /// <summary>
@@ -170,5 +189,19 @@ namespace Reloaded.Overlay.External.Forms
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaintBackground(PaintEventArgs e) { }
+
+        /// <summary>
+        /// If the window is set to visible, put the game window in first.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TransparentWinform_VisibleChanged(object sender, EventArgs e)
+        {
+            if (Visible)
+            {
+                // Set active window
+                Native.WinAPI.WindowFunctions.SetActiveWindow(GameWindowHandle);
+            }
+        }
     }
 }

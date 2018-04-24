@@ -136,7 +136,7 @@
     <Compile Include="Utilities\LoaderPaths.cs" />
     <Compile Include="Utilities\PathSanitizer.cs" />
     <Compile Include="Native\Functions\WindowProperties.cs" />
-    <Compile Include="Overlay\D2DWindowOverlay.cs" />
+    <Compile Include="Overlay\D2DWindowRenderer.cs" />
     <Compile Include="Overlay\External\Forms\TransparentWinform.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -20,6 +20,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Reloaded.DirectX;
 using Reloaded.DirectX.Definitions;
 using Reloaded.Process.X86Functions;
@@ -118,6 +119,8 @@ namespace Reloaded.Overlay
         /// details. For more details, see <see cref="DX11Overlay"/>
         /// 
         /// Note: The delegates you will need to call the original function are members of this class, see <see cref="PresentHook"/> and <see cref="ResizeTargetHook"/>
+        /// Note: This method is blocking and Reloaded mods are required to return in order 
+        /// to boot up the games, please do not assign this statically - instead assign it in a background thread!
         /// </summary>
         /// <param name="DXGIPresentDelegate">
         ///     A delegate type to use for DirectX rendering. The delegate type should
@@ -129,13 +132,44 @@ namespace Reloaded.Overlay
         ///     commits a resolution change or windowed/fullscreen change.
         /// </param>
         /// <remarks>The delegates you will need to call the original function are members of this class, see <see cref="PresentHook"/> and <see cref="ResizeTargetHook"/></remarks>
-        public static DX11Overlay CreateDirectXOverlay(DXGISwapChain_PresentDelegate DXGIPresentDelegate, DXGISwapChain_ResizeTargetDelegate DXGIResizeTargetDelegate)
+        public static async Task<DX11Overlay> CreateDirectXOverlay(DXGISwapChain_PresentDelegate DXGIPresentDelegate, DXGISwapChain_ResizeTargetDelegate DXGIResizeTargetDelegate)
         {
+            return await CreateDirectXOverlay(DXGIPresentDelegate, DXGIResizeTargetDelegate, 0);
+        }
+
+        /// <summary>
+        /// Instantiates the DirectX overlay, by first finding the applicable
+        /// version of DirectX for the application and then finding the individual
+        /// details. For more details, see <see cref="DX11Overlay"/>
+        /// 
+        /// Note: The delegates you will need to call the original function are members of this class, see <see cref="PresentHook"/> and <see cref="ResizeTargetHook"/>
+        /// Note: This method is blocking and Reloaded mods are required to return in order 
+        /// to boot up the games, please do not assign this statically - instead assign it in a background thread!
+        /// </summary>
+        /// <param name="DXGIPresentDelegate">
+        ///     A delegate type to use for DirectX rendering. The delegate type should
+        ///     contain an appropriate DirectX <see cref="DXGISwapChain_PresentDelegate"/>
+        ///     object for drawing overlays. 
+        /// </param>
+        /// <param name="DXGIResizeTargetDelegate">
+        ///     A delegate or function of type of <see cref="DXGISwapChain_ResizeTargetDelegate"/> to call when DXGI Buffer 
+        ///     commits a resolution change or windowed/fullscreen change.
+        /// </param>
+        /// <param name="hookDelay">
+        ///     Specifies the amount of time to wait until the hook is instantiation begins.
+        ///     Some games are known to crash if DirectX is hooked too early.
+        /// </param>
+        /// <remarks>The delegates you will need to call the original function are members of this class, see <see cref="PresentHook"/> and <see cref="ResizeTargetHook"/></remarks>
+        public static async Task<DX11Overlay> CreateDirectXOverlay(DXGISwapChain_PresentDelegate DXGIPresentDelegate, DXGISwapChain_ResizeTargetDelegate DXGIResizeTargetDelegate, int hookDelay)
+        {
+            // Wait the hook delay.
+            await Task.Delay(hookDelay);
+
             // Create a new self-object.
             DX11Overlay dx11Overlay = new DX11Overlay();
 
             // Wait for DirectX
-            Direct3DVersion direct3DVersion = DXHookCommon.DetermineDirectXVersion();
+            Direct3DVersion direct3DVersion = await DXHookCommon.DetermineDirectXVersion();
 
             // Return nothing if not D3D9
             if (direct3DVersion != Direct3DVersion.Direct3D11 && direct3DVersion != Direct3DVersion.Direct3D11_1 &&

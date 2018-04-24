@@ -50,16 +50,17 @@ namespace Reloaded.Overlay.External.Forms
         {
             this.SuspendLayout();
             // 
-            // SonicHeroes_Form_FakeTransparentOverlay
+            // TransparentWinform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LimeGreen;
             this.ClientSize = new System.Drawing.Size(1, 1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Glass_Form";
+            this.Name = "TransparentWinform";
             this.Text = "OverlayForm";
             this.TransparencyKey = System.Drawing.Color.LimeGreen;
+            this.VisibleChanged += new System.EventHandler(this.TransparentWinform_VisibleChanged);
             this.ResumeLayout(false);
 
         }

@@ -19,7 +19,6 @@
 */
 
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Reloaded.DirectX;
@@ -81,6 +80,8 @@ namespace Reloaded.Overlay
         /// Instantiates the DirectX overlay, by first finding the applicable
         /// version of DirectX for the application and then finding the individual
         /// details. For more details, see <see cref="DX9Overlay"/>
+        /// Note: This method is blocking and Reloaded mods are required to return in order 
+        /// to boot up the games, please do not assign this statically - instead assign it in a background thread!
         /// </summary>
         /// <param name="renderDelegate">
         ///     A delegate type to use for DirectX rendering. The delegate type should
@@ -91,13 +92,42 @@ namespace Reloaded.Overlay
         ///     A delegate or function of type of <see cref="Direct3D9Device_ResetDelegate"/> to call when D3D9 fires its Reset function, 
         ///     called on resolution change or windowed/fullscreen change - we can reset some things as well.
         /// </param>
-        public static DX9Overlay CreateDirectXOverlay(Direct3D9Device_EndSceneDelegate renderDelegate, Direct3D9Device_ResetDelegate resetDelegate)
+        public static async Task<DX9Overlay> CreateDirectXOverlay(Direct3D9Device_EndSceneDelegate renderDelegate, Direct3D9Device_ResetDelegate resetDelegate)
         {
+            return await CreateDirectXOverlay(renderDelegate, resetDelegate, 0);
+        }
+
+
+        /// <summary>
+        /// Instantiates the DirectX overlay, by first finding the applicable
+        /// version of DirectX for the application and then finding the individual
+        /// details. For more details, see <see cref="DX9Overlay"/>
+        /// Note: This method is blocking and Reloaded mods are required to return in order 
+        /// to boot up the games, please do not assign this statically - instead assign it in a background thread!
+        /// </summary>
+        /// <param name="renderDelegate">
+        ///     A delegate type to use for DirectX rendering. The delegate type should
+        ///     contain an appropriate DirectX <see cref="Direct3D9Device_EndSceneDelegate"/>
+        ///     object for drawing overlays. 
+        /// </param>
+        /// <param name="resetDelegate">
+        ///     A delegate or function of type of <see cref="Direct3D9Device_ResetDelegate"/> to call when D3D9 fires its Reset function, 
+        ///     called on resolution change or windowed/fullscreen change - we can reset some things as well.
+        /// </param>
+        /// <param name="hookDelay">
+        ///     Specifies the amount of time to wait until the hook is instantiation begins.
+        ///     Some games are known to crash if DirectX is hooked too early.
+        /// </param>
+        public static async Task<DX9Overlay> CreateDirectXOverlay(Direct3D9Device_EndSceneDelegate renderDelegate, Direct3D9Device_ResetDelegate resetDelegate, int hookDelay)
+        {
+            // Wait the hook delay.
+            await Task.Delay(hookDelay);
+
             // Create a new self-object.
             DX9Overlay dx9Overlay = new DX9Overlay();
 
             // Wait for DirectX
-            Direct3DVersion direct3DVersion = DXHookCommon.DetermineDirectXVersion();
+            Direct3DVersion direct3DVersion = await DXHookCommon.DetermineDirectXVersion();
 
             // Return nothing if not D3D9
             if (direct3DVersion != Direct3DVersion.Direct3D9)
@@ -110,7 +140,7 @@ namespace Reloaded.Overlay
             }
 
             // Instantiate DX9 hook
-            dx9Overlay.DirectX9Hook = new DX9Hook();;
+            dx9Overlay.DirectX9Hook = new DX9Hook();
 
             // Obtain Virtual Function Table Entries
             VirtualFunctionTable.TableEntry endSceneTableEntry = dx9Overlay.DirectX9Hook.DirectXFunctions[(int)Direct3DDevice9.EndScene];

@@ -20,8 +20,7 @@
 
 using System;
 using System.Drawing;
-using System.Windows.Forms;
-using Reloaded.Native.WinAPI;
+using System.Threading;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.DXGI;
@@ -37,7 +36,7 @@ namespace Reloaded.Overlay
     /// Instantiated by providing an appropriate window handle to a window or an overlay window on which content is to be drawn to.
     /// Use this class only if you know what you are doing. If you are looking for the external overlay, look at OverlayGlassDirect2D
     /// </summary>
-    public class D2DWindowOverlay
+    public class D2DWindowRenderer
     {
         /// <summary>
         /// Defines a delegate signature used for running custom code after rendering of the visual elements using direct2D.
@@ -53,7 +52,7 @@ namespace Reloaded.Overlay
         /// <summary>
         /// Declares a render target that is used to render to a window surface.
         /// </summary>
-        public WindowRenderTarget Direct2DWindowTarget { get; set; }
+        public WindowRenderTarget Direct2DWindowTarget { get; private set; }
 
         /// <summary>
         /// Delegate instance which declares/stores references to methods rendering visual elements.
@@ -68,14 +67,9 @@ namespace Reloaded.Overlay
         public DelegateOnFrameDelegate Direct2DOnframeDelegate { get; set; }
 
         /// <summary>
-        /// Specifies the handle upon which we will be drawing with Direct2D onto.
-        /// </summary>
-        public IntPtr TargetWindowHandle { get; set; }
-
-        /// <summary>
         /// True once setup of Direct2D is complete.
         /// </summary>
-        public bool Direct2DSetupComplete { get; set; }
+        public bool Direct2DSetupComplete { get; private set; }
 
         /// <summary>
         /// Provides a lock mechanism to disallow multiple threads to render or use DirectX rendering functions at once.
@@ -86,19 +80,19 @@ namespace Reloaded.Overlay
         /// <summary>
         /// Provide empty constructor which does not instantiate the object, merely for inheritance purposes.
         /// </summary>
-        public D2DWindowOverlay() { }
+        public D2DWindowRenderer() { }
 
         /// <summary>
         /// Class constructor. 
         /// </summary>
         /// <param name="targetWindowHandle">Handle to the window which you want to draw ontop of.</param>
-        public D2DWindowOverlay(IntPtr targetWindowHandle)
+        public D2DWindowRenderer(IntPtr targetWindowHandle)
         {
             // Set whether the setup of D2D is complete.
             Direct2DSetupComplete = false;
 
-            // Redirects the constructor contents to execute in a different location.
-            ConstructorAlias(targetWindowHandle);
+            // Initialize Direct2D on a separate thread.
+            InitializeDirectX(targetWindowHandle);
         }
 
         /// <summary>
@@ -106,27 +100,13 @@ namespace Reloaded.Overlay
         /// </summary>
         /// <param name="targetWindowHandle">Handle to the window which you want to draw ontop of.</param>
         /// <param name="d2dRenderMethod">The delegate method used to render onto the screen with Direct2D.</param>
-        public D2DWindowOverlay(IntPtr targetWindowHandle, DelegateRenderDirect2D d2dRenderMethod)
+        public D2DWindowRenderer(IntPtr targetWindowHandle, DelegateRenderDirect2D d2dRenderMethod)
         {
             // Set the method.
             Direct2DRenderMethod = d2dRenderMethod;
 
             // Set whether the setup of D2D is complete.
             Direct2DSetupComplete = false;
-
-            // Redirects the constructor contents to execute in a different location.
-            ConstructorAlias(targetWindowHandle);
-        }
-
-        /// <summary>
-        /// Contents of the constructor for the class, allowing the constructor to be executed with parameters determined after the creation
-        /// of any parent class in an inheritance structure.
-        /// </summary>
-        /// <param name="targetWindowHandle">Handle to the window which you want to draw ontop of.</param>
-        public void ConstructorAlias(IntPtr targetWindowHandle)
-        {
-            // Set handle to which we are drawing on.
-            TargetWindowHandle = targetWindowHandle;
 
             // Initialize Direct2D on a separate thread.
             InitializeDirectX(targetWindowHandle);
@@ -136,37 +116,47 @@ namespace Reloaded.Overlay
         /// Initializes a Direct2D device used to draw to the screen. 
         /// For drawing, you MUST add your methods to the Direct2D Rendering Delegate (direct2DRenderMethod).
         /// </summary>
-        private void InitializeDirectX(IntPtr targetWindowHandle)
+        public void InitializeDirectX(IntPtr targetWindowHandle)
         {
             try
             {
-                // Create the D2D Factory which aids with the creation of a WindowRenderTarget object.
-                Factory direct2DFactory = new Factory(FactoryType.SingleThreaded);
+                // Mark D2D Setup as incomplete, disallow Rendering.
+                Direct2DSetupComplete = false;
 
-                // Retrieve window size of target window.
-                Point windowSize = WindowProperties.GetWindowClientSize(targetWindowHandle);
-
-                // Set the render properties!
-                HwndRenderTargetProperties direct2DRenderTargetProperties = new HwndRenderTargetProperties
+                // Wait for any draw operation to finish.
+                lock (RenderLock)
                 {
-                    Hwnd = targetWindowHandle,
-                    PixelSize = new Size2(windowSize.X, windowSize.Y),
-                    PresentOptions = PresentOptions.None
-                };
+                    // Dispose Render Target if Necessary
+                    Direct2DWindowTarget?.Dispose();
 
-                // Assign the Window Render Target
-                Direct2DWindowTarget = new WindowRenderTarget
-                (
-                    direct2DFactory,
-                    new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)),
-                    direct2DRenderTargetProperties
-                );
+                    // Create the D2D Factory which aids with the creation of a WindowRenderTarget object.
+                    Factory direct2DFactory = new Factory(FactoryType.SingleThreaded);
 
-                // Clear the screen of the Window Render Target.
-                DirectXClearScreen();
+                    // Retrieve window size of target window.
+                    Point windowSize = WindowProperties.GetClientAreaSize2(targetWindowHandle);
 
-                // Mark D2D Setup as Complete, allow Rendering.
-                Direct2DSetupComplete = true;
+                    // Set the render properties!
+                    HwndRenderTargetProperties direct2DRenderTargetProperties = new HwndRenderTargetProperties
+                    {
+                        Hwnd = targetWindowHandle,
+                        PixelSize = new Size2(windowSize.X, windowSize.Y),
+                        PresentOptions = PresentOptions.None
+                    };
+
+                    // Assign the Window Render Target
+                    Direct2DWindowTarget = new WindowRenderTarget
+                    (
+                        direct2DFactory,
+                        new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)),
+                        direct2DRenderTargetProperties
+                    );
+
+                    // Clear the screen of the Window Render Target.
+                    DirectXClearScreen();
+
+                    // Mark D2D Setup as Complete, allow Rendering.
+                    Direct2DSetupComplete = true;
+                }
             }
             catch (Exception ex)
             {
@@ -175,7 +165,8 @@ namespace Reloaded.Overlay
         }
 
         /// <summary>
-        /// Rendering is handled here, you must first pass a method to Direct2D_Render_Method which will be used for handling the rendering.
+        /// Renders your user contents to the screen.
+        /// Before running this, make sure that <see cref="Direct2DRenderMethod"/> is assigned.
         /// </summary>
         public void DirectXRender()
         {
@@ -191,7 +182,7 @@ namespace Reloaded.Overlay
                     ClearScreen(0, 0, 0, 0); 
 
                     // Call our own rendering methods assigned to the delegate.
-                    Direct2DRenderMethod(Direct2DWindowTarget); 
+                    Direct2DRenderMethod?.Invoke(Direct2DWindowTarget);
 
                     // Run any of our own assigned code to be run after rendering occurs... safely
                     try { Direct2DOnframeDelegate?.Invoke(); }
@@ -237,24 +228,6 @@ namespace Reloaded.Overlay
         private void ClearScreen(float r, float g, float b, float a)
         {
             Direct2DWindowTarget.Clear(new RawColor4(r, g, b, a));
-        }
-
-        /// <summary>
-        /// Attaches your current form to the specified target window.
-        /// Makes your form a child form of the overlay form.
-        /// Use only for debugging purposes.
-        /// </summary>
-        /// <param name="yourForm">Your windows form.</param>
-        public void AttachWinForm(Form yourForm)
-        {
-            // Define handle to your own Windows form.
-            IntPtr yourFormHandle = yourForm.Handle;
-
-            // Set parent form.
-            WindowFunctions.SetParent(yourFormHandle, TargetWindowHandle);
-
-            // Bring the user's form to front.
-            yourForm.BringToFront();
         }
     }
 }

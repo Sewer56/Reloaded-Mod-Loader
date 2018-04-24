@@ -19,6 +19,7 @@
 */
 
 using System.Threading;
+using System.Threading.Tasks;
 using static Reloaded.Process.Native.Native;
 
 namespace Reloaded.DirectX
@@ -34,7 +35,7 @@ namespace Reloaded.DirectX
         /// evaluating the currently loaded in DirectX modules.
         /// </summary>
         /// <returns></returns>
-        public static Direct3DVersion DetermineDirectXVersion()
+        public static async Task<Direct3DVersion> DetermineDirectXVersion()
         {
             // Store the amount of attempts taken at hooking DirectX for a process.
             int attempts = 0;
@@ -60,12 +61,8 @@ namespace Reloaded.DirectX
                 }
 
                 // Check every X milliseconds.
-                Thread.Sleep(delayTimeMilliseconds);
+                await Task.Delay(delayTimeMilliseconds);
             }
-
-            // Allow the game to load DirectX itself before grabbing the module handle.
-            // Fixes crashes in some D3D9 games.
-            Thread.Sleep(2000);
 
             // Loop until DirectX module found.
             while (true)
@@ -92,7 +89,7 @@ namespace Reloaded.DirectX
                 }
 
                 // Check every X milliseconds.
-                Thread.Sleep(delayTimeMilliseconds);
+                await Task.Delay(delayTimeMilliseconds);
             }
         }
     }

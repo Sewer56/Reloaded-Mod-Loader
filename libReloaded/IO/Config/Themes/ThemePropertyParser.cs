@@ -24,7 +24,6 @@ using System.IO;
 using System.Windows.Forms;
 using IniParser;
 using IniParser.Model;
-using Reloaded.Networking;
 using Reloaded.Utilities;
 
 namespace Reloaded.IO.Config.Themes

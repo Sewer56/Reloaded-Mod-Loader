@@ -34,13 +34,40 @@ namespace Reloaded.Native.Functions
         /// </summary>
         /// <param name="windowHandle">Handle to the window of which the window rectangle should be obtained.</param>
         /// <returns></returns>
-        public static Structures.WinApiRectangle GetWindowRectangle(IntPtr windowHandle)
+        public static Structures.WinapiRectangle GetWindowRectangle(IntPtr windowHandle)
         {
             // Obtains the coordinates of the edges of the window.
-            WindowFunctions.GetWindowRect(windowHandle, out Structures.WinApiRectangle gameWindowRectangle);
+            WindowFunctions.GetWindowRect(windowHandle, out Structures.WinapiRectangle gameWindowRectangle);
 
             // Return
             return gameWindowRectangle;
+        }
+
+        /// <summary>
+        /// Returns the coordinates of the edges of the client area of a specific window 
+        /// relative to the desktop the window is presented on.
+        /// </summary>
+        /// <param name="windowHandle">Handle to the window of which the client area rectangle should be obtained.</param>
+        /// <returns></returns>
+        public static Structures.WinapiRectangle GetClientRectangle(IntPtr windowHandle)
+        {
+            // Obtains the coordinates of the edges of the window.
+            WindowFunctions.GetClientRect(windowHandle, out Structures.WinapiRectangle clientAreaRectangle);
+
+            // Get the coordinates of the top left point on the screen in client's area.
+            Structures.WinapiPoint topLeftClientCoordinate = new Structures.WinapiPoint();
+            WindowFunctions.ClientToScreen(windowHandle, ref topLeftClientCoordinate);
+
+            // Calculate each edge.
+            Structures.WinapiRectangle clientArea = new Structures.WinapiRectangle();
+            clientArea.LeftBorder = topLeftClientCoordinate.x;
+            clientArea.TopBorder = topLeftClientCoordinate.y;
+
+            clientArea.RightBorder = topLeftClientCoordinate.x + clientAreaRectangle.RightBorder;
+            clientArea.BottomBorder = topLeftClientCoordinate.y + clientAreaRectangle.BottomBorder;
+
+            // Return
+            return clientArea;
         }
 
         /// <summary>
@@ -49,10 +76,10 @@ namespace Reloaded.Native.Functions
         /// </summary>
         /// <param name="windowHandle">Handle to the window of which the client area rectangle should be obtained.</param>
         /// <returns></returns>
-        public static Structures.WinApiRectangle GetClientAreaRectangle(IntPtr windowHandle)
+        public static Structures.WinapiRectangle GetClientAreaSize(IntPtr windowHandle)
         {
-            // Obtains the coordinates of the edges of the window.
-            WindowFunctions.GetClientRect(windowHandle, out Structures.WinApiRectangle clientAreaRectangle);
+            // Obtains the size of the client area.
+            WindowFunctions.GetClientRect(windowHandle, out Structures.WinapiRectangle clientAreaRectangle);
 
             // Return
             return clientAreaRectangle;
@@ -62,7 +89,7 @@ namespace Reloaded.Native.Functions
         /// Returns the border width in terms of X and Y for a window.
         /// </summary>
         /// <returns>The border width and height as X and Y coordinates.</returns>
-        public static Point GetBorderWidth(Structures.WinApiRectangle gameWindowRectangle, Structures.WinApiRectangle gameClientRectangle)
+        public static Point GetBorderWidth(Structures.WinapiRectangle gameWindowRectangle, Structures.WinapiRectangle gameClientRectangle)
         {
             // Stores the size of the border vertically and horizontally.
             Point totalBorderSize = new Point();
@@ -85,10 +112,10 @@ namespace Reloaded.Native.Functions
         /// </summary>
         /// <param name="windowHandle">Handle to the window of which the client area rectangle should be obtained.</param>
         /// <returns>Width as X and Height as Y of the window client area requested.</returns>
-        public static Point GetWindowClientSize(IntPtr windowHandle)
+        public static Point GetClientAreaSize2(IntPtr windowHandle)
         {
             // Get Window Client-Area
-            Structures.WinApiRectangle windowClientArea = GetClientAreaRectangle(windowHandle);
+            Structures.WinapiRectangle windowClientArea = GetClientAreaSize(windowHandle);
 
             // Return window internal size.
             return new Point(windowClientArea.RightBorder, windowClientArea.BottomBorder);
@@ -104,7 +131,7 @@ namespace Reloaded.Native.Functions
         public static Point GetWindowSize(IntPtr windowHandle)
         {
             // Get Window Client-Area
-            Structures.WinApiRectangle windowSizeRectangle = GetWindowRectangle(windowHandle);
+            Structures.WinapiRectangle windowSizeRectangle = GetWindowRectangle(windowHandle);
 
             // Define height and width
             int windowWidth = windowSizeRectangle.RightBorder - windowSizeRectangle.LeftBorder;
