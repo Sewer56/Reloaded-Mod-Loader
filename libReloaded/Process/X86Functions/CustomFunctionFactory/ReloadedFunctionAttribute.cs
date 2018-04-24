@@ -29,7 +29,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
     /// See <see cref="CallingConventions" /> for information on settings
     /// for common calling conventions.
     /// </summary>
-    public class ReloadedFunction : Attribute
+    public class ReloadedFunctionAttribute : Attribute
     {
         /// <summary>
         /// Specifies the registers in left to right parameter order to pass to the custom function to be called.
@@ -80,7 +80,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         /// <param name="sourceRegisters">Specifies the registers in left to right parameter order to pass to the custom function to be called.</param>
         /// <param name="returnRegister">Specifies the register to return the value from the funtion in (mov eax, source). This is typically eax.</param>
         /// <param name="stackCleanup">Defines the stack cleanup rule for the function. See <see cref="StackCleanup"/> for more details.</param>
-        public ReloadedFunction(Register[] sourceRegisters, Register returnRegister, StackCleanup stackCleanup)
+        public ReloadedFunctionAttribute(Register[] sourceRegisters, Register returnRegister, StackCleanup stackCleanup)
         {
             SourceRegisters = sourceRegisters;
             ReturnRegister = returnRegister;
@@ -93,7 +93,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         /// <param name="sourceRegister">Specifies the registers for the parameter.</param>
         /// <param name="returnRegister">Specifies the register to return the value from the funtion in (mov eax, source). This is typically eax.</param>
         /// <param name="stackCleanup">Defines the stack cleanup rule for the function. See <see cref="StackCleanup"/> for more details.</param>
-        public ReloadedFunction(Register sourceRegister, Register returnRegister, StackCleanup stackCleanup)
+        public ReloadedFunctionAttribute(Register sourceRegister, Register returnRegister, StackCleanup stackCleanup)
         {
             SourceRegisters = new[] { sourceRegister };
             ReturnRegister = returnRegister;
@@ -108,7 +108,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         ///     Please remember to mark your function delegate as [UnmanagedFunctionPointer(CallingConvention.Cdecl)],
         ///     mark only the ReloadedFunction Attribute with the true calling convention.
         /// </param>
-        public ReloadedFunction(CallingConventions callingConvention)
+        public ReloadedFunctionAttribute(CallingConventions callingConvention)
         {
             switch (callingConvention)
             {

@@ -45,7 +45,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
             // Find our ReloadedFunction attribute and create the wrapper.
             foreach (Attribute attribute in typeof(TFunction).GetCustomAttributes())
             {
-                if (attribute is ReloadedFunction reloadedFunction)
+                if (attribute is ReloadedFunctionAttribute reloadedFunction)
                 {
                     // Return delegate type for our function.
                     return Marshal.GetDelegateForFunctionPointer<TFunction>(CreateWrapperFunctionInternal<TFunction>((IntPtr)functionAddress, reloadedFunction));
@@ -69,7 +69,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         /// <param name="functionAddress">The address of the function to create a wrapper for.</param>
         /// <param name="reloadedFunction">Structure containing the details of the actual function in question.</param>
         /// <returns>Pointer to the new CDECL function address to call from C# code to invoke our game function.</returns>
-        private static IntPtr CreateWrapperFunctionInternal<TFunction>(IntPtr functionAddress, ReloadedFunction reloadedFunction)
+        private static IntPtr CreateWrapperFunctionInternal<TFunction>(IntPtr functionAddress, ReloadedFunctionAttribute reloadedFunction)
         {
             // Retrieve number of parameters.
             int numberOfParameters = FunctionCommon.GetNumberofParameters(typeof(TFunction));
@@ -91,7 +91,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
 
             // Stack cleanup if necessary 
             // Move back the stack pointer to before our pushed parameters
-            if (reloadedFunction.Cleanup == ReloadedFunction.StackCleanup.Caller)
+            if (reloadedFunction.Cleanup == ReloadedFunctionAttribute.StackCleanup.Caller)
             {
                 int stackCleanupBytes = 4 * nonRegisterParameters;
                 assemblyCode.Add($"add esp, {stackCleanupBytes}");
@@ -116,7 +116,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         /// <param name="parameterCount">The total amount of parameters that the target function accepts.</param>
         /// <param name="registers">The registers in left to right order to be passed onto the method.</param>
         /// <returns>A string array of compatible x86 mnemonics to be assembled.</returns>
-        private static string[] AssembleFunctionParameters(int parameterCount, ReloadedFunction.Register[] registers)
+        private static string[] AssembleFunctionParameters(int parameterCount, ReloadedFunctionAttribute.Register[] registers)
         {
             // Store our JIT Assembly Code
             List<string> assemblyCode = new List<string>();
@@ -141,8 +141,8 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
 
             // Now move the remaining parameters into the target registers.
             // We reverse the left to right register order to right to left however.
-            ReloadedFunction.Register[] newRegisters = registers.Reverse().ToArray();
-            foreach (ReloadedFunction.Register registerParameter in newRegisters)
+            ReloadedFunctionAttribute.Register[] newRegisters = registers.Reverse().ToArray();
+            foreach (ReloadedFunctionAttribute.Register registerParameter in newRegisters)
             {
                 // MOV into target register.
                 assemblyCode.Add($"mov {registerParameter.ToString()}, [ebp + {currentBaseStackOffset}]");

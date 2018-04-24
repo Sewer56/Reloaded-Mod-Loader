@@ -99,7 +99,7 @@
     <Compile Include="DirectX\Direct3DVersion.cs" />
     <Compile Include="DirectX\DX9Hook.cs" />
     <Compile Include="Process\X86Functions\FunctionCommon.cs" />
-    <Compile Include="Process\X86Functions\CustomFunctionFactory\ReloadedFunction.cs" />
+    <Compile Include="Process\X86Functions\CustomFunctionFactory\ReloadedFunctionAttribute.cs" />
     <Compile Include="Process\X86Functions\CustomFunctionFactory\FunctionWrapper.cs" />
     <Compile Include="Process\X86Functions\CallingConventions.cs" />
     <Compile Include="Process\X86Functions\Utilities\VirtualFunctionTableExtensions.cs" />
