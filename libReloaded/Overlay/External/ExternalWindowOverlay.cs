@@ -288,7 +288,7 @@ namespace Reloaded.Overlay.External
                 DirectD2DWindowRenderer = new D2DWindowRenderer(OverlayForm.Handle, renderDelegate);
 
                 // Setup hook for when window resizes.
-                OverlayForm.GameWindowResizeDelegate += () => DirectD2DWindowRenderer.InitializeDirectX(OverlayForm.Handle);
+                OverlayForm.GameWindowResizeDelegate += () => DirectD2DWindowRenderer.ResizeWindow(OverlayForm.Handle);
 
                 // Run the form in this thread
                 Application.Run(OverlayForm);

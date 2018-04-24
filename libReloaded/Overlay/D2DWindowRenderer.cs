@@ -113,6 +113,23 @@ namespace Reloaded.Overlay
         }
 
         /// <summary>
+        /// Resizes the Direct2D window to match the client area size of a specified window handle.
+        /// </summary>
+        /// <param name="targetWindowHandle">The handle of the window of whose client area size should be matched.</param>
+        public void ResizeWindow(IntPtr targetWindowHandle)
+        {
+            // Wait for any draw operation to finish.
+            lock (RenderLock)
+            {
+                // Retrieve window size of target window.
+                Point windowSize = WindowProperties.GetClientAreaSize2(targetWindowHandle);
+
+                // Resize the D2D WindowRenderTarget
+                Direct2DWindowTarget.Resize(new Size2(windowSize.X, windowSize.Y));
+            }
+        }
+
+        /// <summary>
         /// Initializes a Direct2D device used to draw to the screen. 
         /// For drawing, you MUST add your methods to the Direct2D Rendering Delegate (direct2DRenderMethod).
         /// </summary>
@@ -120,12 +137,12 @@ namespace Reloaded.Overlay
         {
             try
             {
-                // Mark D2D Setup as incomplete, disallow Rendering.
-                Direct2DSetupComplete = false;
-
                 // Wait for any draw operation to finish.
                 lock (RenderLock)
                 {
+                    // Mark D2D Setup as incomplete, disallow Rendering.
+                    Direct2DSetupComplete = false;
+
                     // Dispose Render Target if Necessary
                     Direct2DWindowTarget?.Dispose();
 
