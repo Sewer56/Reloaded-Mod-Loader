@@ -19,6 +19,7 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -56,9 +57,14 @@ namespace Reloaded.Overlay.External
         public D2DWindowRenderer DirectD2DWindowRenderer { get; set; }
 
         /// <summary>
-        /// Defines the amount of time before
+        /// Defines the amount of time of sleep for the CPU, rounded down to the nearest millisecond.
         /// </summary>
-        private TimeSpan RenderRate { get; set; }
+        private float FrameRate { get; set; }
+
+        /// <summary>
+        /// Defines the stopwatch used for the accurate measurement of frames.
+        /// </summary>
+        private Stopwatch StopWatch { get; set; }
 
         /// <summary>
         /// Empty private constructor, use factory method.
@@ -246,23 +252,6 @@ namespace Reloaded.Overlay.External
         }
 
         /// <summary>
-        /// Allows you to set the framerate of the rendering operation.
-        /// </summary>
-        /// <param name="frameRate">The framerate of the rendering operation</param>
-        public void SetFramerate(float frameRate)
-        {
-            // Framerate / milliseconds to get amount of milliseconds to sleep
-            // Example: 60 / 1000 = 16.6666
-            float sleepMilliseconds = frameRate / 1000; // 1000 = 1 seconds
-
-            // Nanoseconds
-            float nanoSeconds = sleepMilliseconds * 1000000;
-            
-            // Convert to ticks: (Nanoseconds / 100)
-            RenderRate = new TimeSpan((long)(nanoSeconds / 100F));
-        }
-
-        /// <summary>
         /// Calls Application.Run to host the overlay glass window such that it may be displayed.
         /// Want multiple windows (for some reason?). Create a thread and call this method.
         /// </summary>
@@ -276,7 +265,11 @@ namespace Reloaded.Overlay.External
         private void EnableOverlay(D2DWindowRenderer.DelegateRenderDirect2D renderDelegate, IntPtr targetWindowHandle)
         {
             // Set framerate
-            SetFramerate(60);
+            FrameRate = 60;
+
+            // Initiate the timer
+            StopWatch = new Stopwatch();
+            StopWatch.Start();
 
             // Enable the Overlay Window.
             WindowsFormThread = new Thread (() =>
@@ -302,12 +295,37 @@ namespace Reloaded.Overlay.External
                     while (true)
                     {
                         DirectD2DWindowRenderer?.DirectXRender();
-                        Thread.Sleep(RenderRate);
+                        SleepFrameRate();
                     }
                 }
             );
             WindowsFormThread.Start();
             RenderLoopThread.Start();
+        }
+
+        /// <summary>
+        /// Sleeps and then spins a set amount of time to match the target framerate.
+        /// </summary>
+        public void SleepFrameRate()
+        {
+            // Calculate time for 1 frame.
+            float sleepMilliseconds = 1000F / FrameRate;
+
+            // Calculate time to Thread.Sleep (round down to nearest millisecond)
+            int threadSleepMilliseconds = (int)sleepMilliseconds;
+
+            // Go down another millisecond if not 0.
+            if (threadSleepMilliseconds >= 1) { threadSleepMilliseconds -= 1; }
+
+            // Sleep the thread.
+            Thread.Sleep(threadSleepMilliseconds);
+
+            // Stall with while loop
+            while (StopWatch.Elapsed.TotalMilliseconds < sleepMilliseconds)
+            { }
+
+            // Reset stopwatch.
+            StopWatch.Restart();
         }
 
         /// <summary>
