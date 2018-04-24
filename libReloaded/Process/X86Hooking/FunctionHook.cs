@@ -180,7 +180,7 @@ namespace Reloaded.Process.X86Hooking
             // Assemble the wrapper function.
             // Assemble a jump to our wrapper function.
             IntPtr wrapperFunctionAddress = CreateWrapperFunction<TFunction>(cSharpFunctionAddress, reloadedFunction);
-            List<byte> jumpBytes = HookCommon.AssembleJump(wrapperFunctionAddress).ToList();
+            List<byte> jumpBytes = HookCommon.AssembleAbsoluteJump(wrapperFunctionAddress).ToList();
 
             /*
                 [Hook Part II] Calculate Hook Length (Unless Explicit)
@@ -204,11 +204,14 @@ namespace Reloaded.Process.X86Hooking
             */
 
             // Backup game's hook bytes.
+            // Check if stolen bytes contains a jmp as first (other hooks) 
             // Calculate jump back address for original function.
             // Append absolute JMP instruction to return to original function for calling the original function in hook.
             List<byte> stolenBytes = Bindings.TargetProcess.ReadMemoryExternal((IntPtr)gameFunctionAddress, hookLength).ToList();
+            stolenBytes = HookCommon.ProcessStolenBytes(stolenBytes, (IntPtr)gameFunctionAddress);
+
             IntPtr jumpBackAddress = (IntPtr)(gameFunctionAddress + hookLength);
-            stolenBytes.AddRange(HookCommon.AssembleJump(jumpBackAddress));
+            stolenBytes.AddRange(HookCommon.AssembleAbsoluteJump(jumpBackAddress));
 
             /*
                 [Call Original Function part II] Instantiate and return functionHook with the original game function address.
@@ -233,33 +236,6 @@ namespace Reloaded.Process.X86Hooking
 
             return functionHook;
         }
-
-        /*
-            -------- Function Hooking Plan --------
-
-            Game call for our function:    
-                BACKUP STACK FRAME                                      ; cdecl setup for own function
-
-                RE-PUSH PARAMETERS TO STACK (RIGHT TO LEFT)             ; our function is cdecl, parameters on stack
-                PUSH REGISTERS TO STACK (RIGHT TO LEFT)                 ; our function is cdecl, parameters on stack
-
-                CALL OWN FUNCTION (CDECL)                               ; our own function can call original back
-                MOV RETURN REGISTER (EAX => TARGET)                     ; Arbitrary Function Translation
-
-                RESTORE STACK POINTER (add esp, 4 * parameters)         ; cdecl end for own function
-                RESTORE STACK FRAME                                     ; cdecl end for own function
-
-                IF CALLER CLEANUP (RET)                                 ; reloadedfunction is caller cleanup
-                IF CALLEE CLEANUP (RET 0xPARAMETERS)                    ; reloadedfunction is callee cleanup
-
-            Hook length finding:
-                ITERATE OVER ASM INSTUCTIONS UNTIL HOOK LENGTH MET
-
-            Assemble original: 
-                Assemble indirect jump to end of original function's stolen bytes.
-                Append indirect jump bytes to original bytes.
-                Write all bytes to memory and create original function Delegate via FunctionWrapper
-         */
 
         /// <summary>
         /// Retrieves a ReloadedFunction from a supplied delegate type.
