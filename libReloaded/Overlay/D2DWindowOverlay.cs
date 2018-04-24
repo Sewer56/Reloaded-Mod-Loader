@@ -47,7 +47,7 @@ namespace Reloaded.Overlay
         /// <summary>
         /// Defines a delegate signature used for rendering visual elements using direct2D.
         /// </summary>
-        /// <param name="direct2DWindowTarget"></param>
+        /// <param name="direct2DWindowTarget">Window Render Target used for drawing with Direct2D by the end user.</param>
         public delegate void DelegateRenderDirect2D(WindowRenderTarget direct2DWindowTarget);
 
         /// <summary>
@@ -94,6 +94,23 @@ namespace Reloaded.Overlay
         /// <param name="targetWindowHandle">Handle to the window which you want to draw ontop of.</param>
         public D2DWindowOverlay(IntPtr targetWindowHandle)
         {
+            // Set whether the setup of D2D is complete.
+            Direct2DSetupComplete = false;
+
+            // Redirects the constructor contents to execute in a different location.
+            ConstructorAlias(targetWindowHandle);
+        }
+
+        /// <summary>
+        /// Class constructor with assignable Render method. 
+        /// </summary>
+        /// <param name="targetWindowHandle">Handle to the window which you want to draw ontop of.</param>
+        /// <param name="d2dRenderMethod">The delegate method used to render onto the screen with Direct2D.</param>
+        public D2DWindowOverlay(IntPtr targetWindowHandle, DelegateRenderDirect2D d2dRenderMethod)
+        {
+            // Set the method.
+            Direct2DRenderMethod = d2dRenderMethod;
+
             // Set whether the setup of D2D is complete.
             Direct2DSetupComplete = false;
 

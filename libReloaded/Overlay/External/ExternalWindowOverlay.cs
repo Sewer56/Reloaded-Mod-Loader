@@ -71,6 +71,22 @@ namespace Reloaded.Overlay.External
         }
 
         /// <summary>
+        /// Class constructor. Instantiates both the overlay and DirectX Stuff.
+        /// </summary>
+        /// <param name="gameWindowHandle">The handle of the game window to be overlayed.</param>
+        public ExternalWindowOverlay(IntPtr gameWindowHandle)
+        {
+            // Set Window Name
+            GameWindowHandle = gameWindowHandle;
+
+            // Instantiate glass form
+            OverlayForm = new TransparentWinform(GameWindowHandle);
+
+            // Initialize base (directX Drawing Stuff)
+            ConstructorAlias(OverlayForm.Handle);
+        }
+
+        /// <summary>
         /// Calls Application.Run to host the overlay glass window such that it may be displayed.
         /// Want multiple windows (for some reason?). Create a thread and call this method.
         /// </summary>

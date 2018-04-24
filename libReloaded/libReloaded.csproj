@@ -83,16 +83,27 @@
     <Compile Include="Assembler\Assembler.cs" />
     <Compile Include="Assembler\MemoryBuffer.cs" />
     <Compile Include="Bindings.cs" />
+    <Compile Include="DirectX\Definitions\ID3D11Device.cs" />
+    <Compile Include="DirectX\Definitions\IDXGISwapChain.cs" />
+    <Compile Include="DirectX\DX11Hook.cs" />
+    <Compile Include="DirectX\DXHookCommon.cs" />
     <Compile Include="IO\Config\ConfigManager.cs" />
     <Compile Include="Native\WinAPI\Constants.cs" />
     <Compile Include="Native\WinAPI\Structures.cs" />
     <Compile Include="Native\WinAPI\WindowEventHooks.cs" />
     <Compile Include="Native\WinAPI\WindowFunctions.cs" />
     <Compile Include="Native\WinAPI\WindowStyles.cs" />
+    <Compile Include="Overlay\DX11Overlay.cs" />
+    <Compile Include="Overlay\DX9Overlay.cs" />
+    <Compile Include="DirectX\Definitions\IDirect3DDevice9.cs" />
+    <Compile Include="DirectX\Direct3DVersion.cs" />
+    <Compile Include="DirectX\DX9Hook.cs" />
     <Compile Include="Process\X86Functions\FunctionCommon.cs" />
     <Compile Include="Process\X86Functions\CustomFunctionFactory\ReloadedFunction.cs" />
     <Compile Include="Process\X86Functions\CustomFunctionFactory\FunctionWrapper.cs" />
     <Compile Include="Process\X86Functions\CallingConventions.cs" />
+    <Compile Include="Process\X86Functions\Utilities\VirtualFunctionTableExtensions.cs" />
+    <Compile Include="Process\X86Functions\Utilities\VirtualFunctionTable.cs" />
     <Compile Include="Process\X86Hooking\FunctionHook.cs" />
     <Compile Include="Process\X86Hooking\HookCommon.cs" />
     <Compile Include="Process\Libraries.cs" />
@@ -155,19 +166,28 @@
       <Version>1.1.9</Version>
     </PackageReference>
     <PackageReference Include="SharpDX">
-      <Version>4.0.0</Version>
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Desktop">
+      <Version>4.0.1</Version>
     </PackageReference>
     <PackageReference Include="SharpDX.Direct2D1">
-      <Version>4.0.0</Version>
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Direct3D11">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Direct3D9">
+      <Version>4.0.1</Version>
     </PackageReference>
     <PackageReference Include="SharpDX.DirectInput">
-      <Version>4.0.0</Version>
+      <Version>4.0.1</Version>
     </PackageReference>
     <PackageReference Include="SharpDX.DXGI">
-      <Version>4.0.0</Version>
+      <Version>4.0.1</Version>
     </PackageReference>
     <PackageReference Include="SharpDX.XInput">
-      <Version>4.0.0</Version>
+      <Version>4.0.1</Version>
     </PackageReference>
     <PackageReference Include="System.ValueTuple">
       <Version>4.4.0</Version>
@@ -185,6 +205,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Overlay\Internal\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
