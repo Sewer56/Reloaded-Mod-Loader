@@ -18,7 +18,17 @@ namespace Reloaded_Mod_Template.Reloaded
         {
             // Retrieve Assemblies from the "Libraries" folder.
             AppDomain.CurrentDomain.AssemblyResolve += LocalAssemblyFinder.ResolveAssembly;
+            Initialize(portAddress);
+        }
 
+        /// <summary>
+        /// This file contains the main entry code executed as part of the DLL template for Reloaded Mod Loader
+        /// mods. It is very important that the entry method contains only AppDomain.CurrentDomain.AssemblyResolve
+        /// due to otherwise possible problems with static initialization of Program.
+        /// </summary>
+        /// <param name="portAddress">Stores the memory location of the port.</param>
+        public static void Initialize(IntPtr portAddress)
+        {
             // Initialize Client
             InitClient(portAddress);
             InitBindings();

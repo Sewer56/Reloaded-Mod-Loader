@@ -1,8 +1,4 @@
-﻿using System.Threading;
-using Reloaded;
-using Reloaded.Assembler;
-using Reloaded.Input;
-using Reloaded.Input.Common;
+﻿using Reloaded;
 using Reloaded.Process;
 
 namespace Reloaded_Mod_Template
@@ -97,9 +93,9 @@ namespace Reloaded_Mod_Template
         /// If this is your first time, do consider reading the notice above.
         /// It contains some very useful information.
         /// </summary>
-        public static void Init()
+        public static unsafe async void Init()
         {
-
+            Bindings.PrintInfo("Hello World!");
         }
     }
 }

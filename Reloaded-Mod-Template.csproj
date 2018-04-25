@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\build\Debug\Reloaded-Mods\Sonic-Heroes\Template Mod\</OutputPath>
+    <OutputPath>..\..\..\..\AppData\Roaming\Reloaded-Mod-Loader\Reloaded-Mods\!Global\TestMod\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
