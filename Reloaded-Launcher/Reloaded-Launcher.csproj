@@ -309,7 +309,7 @@ RMDIR "$(TargetDir)Reloaded-Libraries\"</PostBuildEvent>
   <PropertyGroup>
     <Major>0</Major>
     <Minor>9</Minor>
-    <Build>0</Build>
+    <Build>6</Build>
     <Revision>0</Revision>
   </PropertyGroup>
   <Target Name="Version">
