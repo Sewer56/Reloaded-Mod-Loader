@@ -32,6 +32,11 @@ namespace Reloaded.Process
     public class ReloadedProcess
     {
         /// <summary>
+        /// Stores an instance of System.Diagnostics.Process inside ReloadedProcess.
+        /// </summary>
+        public System.Diagnostics.Process Process;
+
+        /// <summary>
         /// A handle to the program's first thread itself. 
         /// The handle is used to specify the process in all functions that perform operations on the Windows' Internal thread object.
         /// </summary>
@@ -64,13 +69,35 @@ namespace Reloaded.Process
         /// Note: The process starts suspended by default, you should call ResumeFirstThread() via 
         /// <see cref="ReloadedExtensions"/> or ResumeAllThreads().
         /// </summary>
-        /// <param name="filePath">The file path to the executable to launch.</param>
-        /// <param name="arguments">The coomand line arguments to be passed.</param>
-        public ReloadedProcess(string filePath, string arguments)
+        /// <param name="filePath">
+        ///     The file path to the executable to launch.
+        ///     The file path should NOT be wrapped in quotes.
+        /// </param>
+        /// <param name="arguments">
+        ///     The command line arguments to be passed.
+        ///     Each individual command line argument should be wrapped in quotes in case of spaces.
+        /// </param>
+        public ReloadedProcess(string filePath, string[] arguments)
         {
+            // Build up the arguments string.
+            string lpCommandLine = filePath;
+
+            // Build arguments if necessary.
+            if (arguments != null)
+            {
+                lpCommandLine += " ";
+
+                // Append all arguments.
+                foreach (string argument in arguments)
+                { lpCommandLine += argument + " "; }
+
+                // Trim last whitespace
+                lpCommandLine = lpCommandLine.Substring(0, lpCommandLine.Length - 1);
+            }
+
             // Start up the process
             Native.Native.STARTUPINFO startupInfo = new Native.Native.STARTUPINFO();
-            bool success =  Native.Native.CreateProcess(filePath, $"{filePath} {arguments}", IntPtr.Zero, 
+            bool success =  Native.Native.CreateProcess(null, lpCommandLine, IntPtr.Zero, 
                             IntPtr.Zero, false, Native.Native.ProcessCreationFlags.CREATE_SUSPENDED,
                             IntPtr.Zero, Path.GetDirectoryName(filePath), ref startupInfo, 
                             out Native.Native.PROCESS_INFORMATION processInformation);
@@ -89,7 +116,10 @@ namespace Reloaded.Process
         /// Creates a process in a suspended state for us to use.
         /// In order to start the application's execution, consider running SuspendThread(threadHandle).
         /// </summary>
-        /// <param name="filePath">The file path to the executable to launch.</param>
+        /// <param name="filePath">
+        ///     The file path to the executable to launch.
+        ///     The file path should NOT be wrapped in quotes.
+        /// </param>
         public ReloadedProcess(string filePath) : this(filePath, null)
         { }
 
@@ -170,7 +200,11 @@ namespace Reloaded.Process
         /// <returns>Process class for the current Reloaded Process.</returns>
         public System.Diagnostics.Process GetProcessFromReloadedProcess()
         {
-            return System.Diagnostics.Process.GetProcessById((int)ProcessId);
+            if (Process != null)
+                return Process;
+
+            Process = System.Diagnostics.Process.GetProcessById((int)ProcessId);
+            return Process;
         }
     }
 }
