@@ -203,11 +203,11 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libReloaded-Networking\libReloaded-Networking\libReloaded-Networking.csproj">
+    <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj">
       <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
       <Name>libReloaded-Networking</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Submodules\ReloadedAssembler\ReloadedAssemblerService\Reloaded-Assembler.csproj">
+    <ProjectReference Include="..\ReloadedAssemblerService\Reloaded-Assembler.csproj">
       <Project>{2e4eb0b6-fead-48ba-85bd-0a3879467a9e}</Project>
       <Name>Reloaded-Assembler</Name>
     </ProjectReference>

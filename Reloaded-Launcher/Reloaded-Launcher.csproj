@@ -253,7 +253,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\libReloaded\libReloaded\libReloaded.csproj">
+    <ProjectReference Include="..\libReloaded\libReloaded.csproj">
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
       <Name>libReloaded</Name>
     </ProjectReference>
