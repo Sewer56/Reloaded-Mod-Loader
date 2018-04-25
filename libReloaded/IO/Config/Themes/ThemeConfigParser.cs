@@ -44,7 +44,7 @@ namespace Reloaded.IO.Config.Themes
         public ThemeConfigParser()
         {
             _iniParser = new FileIniDataParser();
-            _iniParser.Parser.Configuration.CommentString = "#";
+            _iniParser.Parser.Configuration.CommentString = Strings.Parsers.CommentCharacter;
         }
 
         /// <summary>
@@ -54,12 +54,12 @@ namespace Reloaded.IO.Config.Themes
         public ThemeConfig ParseConfig(string themeLocations)
         {
             // Read the mod loader configuration.
-            _iniData = _iniParser.ReadFile(themeLocations + "\\Config.ini");
+            _iniData = _iniParser.ReadFile(themeLocations + $"/{Strings.Parsers.ConfigFile}");
 
             // Instantiate a new configuration struct.
             ThemeConfig themeConfig = new ThemeConfig
             {
-                ThemeLocation = themeLocations + "\\Config.ini",
+                ThemeLocation = themeLocations + $"/{Strings.Parsers.ConfigFile}",
                 ThemeName = _iniData["Theme Configuration"]["Theme_Name"],
                 ThemeDescription = _iniData["Theme Configuration"]["Theme_Description"],
                 ThemeVersion = _iniData["Theme Configuration"]["Theme_Version"],

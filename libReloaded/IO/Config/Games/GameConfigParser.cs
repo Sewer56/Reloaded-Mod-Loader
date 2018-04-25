@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using IniParser;
 using IniParser.Model;
+using Reloaded.Utilities;
 
 namespace Reloaded.IO.Config.Games
 {
@@ -47,7 +48,7 @@ namespace Reloaded.IO.Config.Games
         {
             _iniParser = new FileIniDataParser();
             _iniData = new IniData();
-            _iniParser.Parser.Configuration.CommentString = "#";
+            _iniParser.Parser.Configuration.CommentString = Strings.Parsers.CommentCharacter;
         }
 
         /// <summary>
@@ -57,11 +58,15 @@ namespace Reloaded.IO.Config.Games
         /// <returns></returns>
         public GameConfig ParseConfig(string gameConfigDirectory)
         {
+            // Check if global game config, if so, override.
+            if (gameConfigDirectory == LoaderPaths.GetGlobalConfigDirectory())
+            { return GameConfig.GetGlobalConfig(); }
+
             // Instantiate a new configuration struct.
             GameConfig gameConfig = new GameConfig();
 
             // Read the mod loader configuration.
-            _iniData = _iniParser.ReadFile(gameConfigDirectory + "/Config.ini");
+            _iniData = _iniParser.ReadFile(gameConfigDirectory + $"/{Strings.Parsers.ConfigFile}");
 
             // Parse the mod loader configuration.
             gameConfig.GameName = _iniData["Game Configuration"]["Game_Name"];
@@ -112,20 +117,23 @@ namespace Reloaded.IO.Config.Games
             WriteEnabledMods(gameConfig);
 
             // Write the file out to disk
-            _iniParser.WriteFile(gameConfig.ConfigDirectory + "/Config.ini", _iniData);
+            _iniParser.WriteFile(gameConfig.ConfigDirectory + $"/{Strings.Parsers.ConfigFile}", _iniData);
         }
 
         /// <summary>
         /// Reads the list of mods from the Config.ini file.
         /// </summary>
         /// <param name="gameConfigDirectory">Stores the directory of the game config.</param>
-        private List<string> GetEnabledMods(string gameConfigDirectory)
+        private static List<string> GetEnabledMods(string gameConfigDirectory)
         {
             // Stores the currently enabled/disabled mods.
             List<string> loadedMods = new List<string>();
 
             // Retrieve the config file bare contents.
-            string[] configFile = File.ReadAllLines(gameConfigDirectory + "/Enabled_Mods.ini");
+            string[] configFile = new string[0];
+
+            try { configFile = File.ReadAllLines(gameConfigDirectory + $"/{Strings.Parsers.EnabledModsFile}"); }
+            catch { File.Create(gameConfigDirectory + $"/{Strings.Parsers.EnabledModsFile}"); } 
 
             // Iterate over bare config file.
             foreach (string modFolder in configFile)
@@ -142,13 +150,13 @@ namespace Reloaded.IO.Config.Games
         /// Writes the list of currently enabled mods onto a text file.
         /// </summary>
         /// <param name="gameConfig">The game configuration structure used by Reloaded.</param>
-        private void WriteEnabledMods(GameConfig gameConfig)
+        private static void WriteEnabledMods(GameConfig gameConfig)
         {
             // Insert header of the file.
             gameConfig.EnabledMods.Insert(0, "# This file lists the directory names of all currently enabled mods.");
 
             // Write file list and header.
-            File.WriteAllLines(gameConfig.ConfigDirectory + "/Enabled_Mods.ini", gameConfig.EnabledMods);
+            File.WriteAllLines(gameConfig.ConfigDirectory + $"/{Strings.Parsers.EnabledModsFile}", gameConfig.EnabledMods);
         }
 
         /// <summary>
@@ -194,6 +202,28 @@ namespace Reloaded.IO.Config.Games
             /// [DO NOT MODIFY] Stores the physical directory location of the game configuration for re-save purposes.
             /// </summary>
             public string ConfigDirectory { get; set; }
+
+            /// <summary>
+            /// Retrieves the global configuration, a master above all configuration which is used to load mods for all games.
+            /// </summary>
+            /// <returns>The global configuration</returns>
+            public static GameConfig GetGlobalConfig()
+            {
+                // Creates the global mod directory if it does not exist.
+                // This is just to ensure safe usage of the global config.
+                LoaderPaths.GetGlobalModDirectory();
+
+                return new GameConfig()
+                {
+                    ExecutableLocation = "All Executables",
+                    ModDirectory = Strings.Common.GlobalModFolder,
+                    ConfigDirectory = LoaderPaths.GetGlobalConfigDirectory(),
+                    GameDirectory = "N/A",
+                    GameName = Strings.Common.GlobalModName,
+                    GameVersion = "Reloaded",
+                    EnabledMods = GetEnabledMods(LoaderPaths.GetGlobalConfigDirectory())
+                };  
+            }
         }
     }
 }

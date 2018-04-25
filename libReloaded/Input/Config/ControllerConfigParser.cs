@@ -48,7 +48,7 @@ namespace Reloaded.Input.Config
         public ControllerConfigParser()
         {
             _iniParser = new FileIniDataParser();
-            _iniParser.Parser.Configuration.CommentString = "#";
+            _iniParser.Parser.Configuration.CommentString = Strings.Parsers.CommentCharacter;
         }
 
         /// <summary>

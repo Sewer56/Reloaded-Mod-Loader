@@ -56,12 +56,13 @@ namespace Reloaded.IO.Config
         public ThemeConfigParser ThemeConfigParser { get; set; } = new ThemeConfigParser();
 
         /// <summary>
-        /// Retrieves all of the game individual game configurations.
+        /// Retrieves all of the game individual game configurations, including the global
+        /// game configuration containing global mods.
         /// </summary>
         public List<GameConfigParser.GameConfig> GetAllGameConfigs()
         {
             // Retrieves the name of all directories in the 'Games' folder.
-            string[] directories = Directory.GetDirectories(LoaderPaths.GetModLoaderGameDirectory());
+            string[] directories = Directory.GetDirectories(LoaderPaths.GetModLoaderGamesDirectory());
 
             // Retrieve the game configurations
             List<GameConfigParser.GameConfig> gameConfigurations = new List<GameConfigParser.GameConfig>(directories.Length);

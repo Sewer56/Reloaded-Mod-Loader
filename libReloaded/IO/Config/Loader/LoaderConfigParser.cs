@@ -49,7 +49,7 @@ namespace Reloaded.IO.Config.Loader
         {
             _iniParser = new FileIniDataParser();
             _iniData = new IniData();
-            _iniParser.Parser.Configuration.CommentString = "#";
+            _iniParser.Parser.Configuration.CommentString = Strings.Parsers.CommentCharacter;
         }
 
         /// <summary>

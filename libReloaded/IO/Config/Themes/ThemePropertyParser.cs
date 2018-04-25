@@ -245,7 +245,7 @@ namespace Reloaded.IO.Config.Themes
         public ThemePropertyParser()
         {
             _iniParser = new FileIniDataParser();
-            _iniParser.Parser.Configuration.CommentString = "#";
+            _iniParser.Parser.Configuration.CommentString = Strings.Parsers.CommentCharacter;
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace Reloaded.IO.Config.Themes
                 ThemeConfig themeProperties = new ThemeConfig();
 
                 // Read the mod loader configuration.
-                themeProperties.ThemePropertyLocation = LoaderPaths.GetModLoaderThemeDirectory() + "/" + themeDirectory + "/Theme.ini";
+                themeProperties.ThemePropertyLocation = LoaderPaths.GetModLoaderThemeDirectory() + "/" + themeDirectory + $"/{Strings.Parsers.ThemeFile}";
                 _iniData = _iniParser.ReadFile(themeProperties.ThemePropertyLocation);
 
                 // Parse the title properties .

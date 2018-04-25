@@ -20,7 +20,6 @@
 
 using System;
 using System.Drawing;
-using System.Threading;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.DXGI;

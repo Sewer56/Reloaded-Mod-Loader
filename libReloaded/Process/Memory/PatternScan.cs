@@ -49,13 +49,16 @@ namespace Reloaded.Process.Memory
             try
             {
                 // Ensure mask and pattern length match.
-                if (stringMask.Length != bytePattern.Length) return IntPtr.Zero;
+                if (stringMask.Length != bytePattern.Length)
+                    return IntPtr.Zero;
 
                 // Loop the region and look for the pattern.
                 for (int x = 0; x < memoryRegion.Length; x++)
-
-                // Check for the mask, incrementing start offset each time.
-                if (MaskCheck(memoryRegion, bytePattern, stringMask, x)) return new IntPtr(x);
+                {
+                    // Check for the mask, incrementing start offset each time.
+                    if (MaskCheck(memoryRegion, bytePattern, stringMask, x))
+                        return new IntPtr(x);
+                }
 
                 // Pattern was not found.
                 return IntPtr.Zero;
@@ -82,14 +85,11 @@ namespace Reloaded.Process.Memory
             for (int x = 0; x < bytePattern.Length; x++)
             {
                 // If the mask char is a wildcard, ignore.
-                if (stringMask[x] == '?') continue;
+                if (stringMask[x] == '?')
+                    continue;
 
                 // If the mask char is not a wildcard, check if a match is not made in the pattern.
-                if
-                (
-                    stringMask[x] == 'x' &&                    
-                    bytePattern[x] != memoryRegion[startOffset + x]
-                )
+                if (stringMask[x] == 'x' && bytePattern[x] != memoryRegion[startOffset + x])
                     return false;
             }
 

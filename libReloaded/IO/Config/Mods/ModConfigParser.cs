@@ -44,7 +44,7 @@ namespace Reloaded.IO.Config.Mods
         public ModConfigParser()
         {
             _iniParser = new FileIniDataParser();
-            _iniParser.Parser.Configuration.CommentString = "#";
+            _iniParser.Parser.Configuration.CommentString = Strings.Parsers.CommentCharacter;
         }
 
         /// <summary>
@@ -54,12 +54,12 @@ namespace Reloaded.IO.Config.Mods
         public ModConfig ParseConfig(string modDirectory)
         {
             // Read the mod loader configuration.
-            _iniData = _iniParser.ReadFile(modDirectory + "\\Config.ini");
+            _iniData = _iniParser.ReadFile(modDirectory + $"/{Strings.Parsers.ConfigFile}");
 
             // Instantiate a new configuration struct.
             ModConfig modConfig = new ModConfig
             {
-                ModLocation = modDirectory + "\\Config.ini",
+                ModLocation = modDirectory + $"/{Strings.Parsers.ConfigFile}",
                 ModName = _iniData["Mod Configuration"]["Mod_Name"],
                 ModDescription = _iniData["Mod Configuration"]["Mod_Description"],
                 ModVersion = _iniData["Mod Configuration"]["Mod_Version"],

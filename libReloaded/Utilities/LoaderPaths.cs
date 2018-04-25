@@ -53,11 +53,6 @@ namespace Reloaded.Utilities
         private static readonly string LibrariesLocation = GetModLoaderDirectory() + "\\Reloaded-Libraries";
 
         /// <summary>
-        /// Specifies the location of the configuration file for Reloaded.
-        /// </summary>
-        private static readonly string ConfigFileLocation = GetModLoaderConfigDirectory() + "\\Config.ini";
-
-        /// <summary>
         /// Specifies the location of the themes folder for Reloaded.
         /// </summary>
         private static readonly string ThemesLocation = GetModLoaderConfigDirectory() + "\\Themes";
@@ -66,6 +61,23 @@ namespace Reloaded.Utilities
         /// Specifies the location of the games folder for Reloaded.
         /// </summary>
         private static readonly string GamesLocation = GetModLoaderConfigDirectory() + "\\Games";
+
+        /// <summary>
+        /// Specifies the location of the configuration file for Reloaded.
+        /// </summary>
+        private static readonly string ConfigFileLocation = GetModLoaderConfigDirectory() + $"/{Strings.Parsers.ConfigFile}";
+
+        /// <summary>
+        /// Specifies the location of the global mods folder for Reloaded, mods which
+        /// are always executed regardless of the game played in question.
+        /// </summary>
+        private static readonly string GlobalModsLocation = GetModLoaderModDirectory() + $"\\{Strings.Common.GlobalModFolder}";
+
+        /// <summary>
+        /// Specifies the location of the global config folder for Reloaded, a dummy config
+        /// allowing for support of mods which are always loaded regardless of the game.
+        /// </summary>
+        private static readonly string GlobalConfigLocation = GetModLoaderGamesDirectory() + $"\\{Strings.Common.GlobalModFolder}";
 
         /// <summary>
         /// Retrieves the directory of the current process where the DLL resides in. i.e. the game directory.
@@ -143,7 +155,7 @@ namespace Reloaded.Utilities
         /// <summary>
         /// Retrieves the mod loader's game configuration directory.
         /// </summary>
-        public static string GetModLoaderGameDirectory()
+        public static string GetModLoaderGamesDirectory()
         {
             if (!Directory.Exists(GamesLocation)) { Directory.CreateDirectory(GamesLocation); }
             return GamesLocation;
@@ -165,6 +177,26 @@ namespace Reloaded.Utilities
         {
             if (!Directory.Exists(ModsLocation)) { Directory.CreateDirectory(ModsLocation); }
             return ModsLocation;
+        }
+
+        /// <summary>
+        /// Retrieves the mod loader's global mod directory, containing mods that will always
+        /// be loaded, first regardless of the game.
+        /// </summary>
+        public static string GetGlobalModDirectory()
+        {
+            if (!Directory.Exists(GlobalModsLocation)) { Directory.CreateDirectory(GlobalModsLocation); }
+            return GlobalModsLocation;
+        }
+
+        /// <summary>
+        /// Retrieves the mod loader's global mod config directory, containing a dummy configuration to
+        /// provide support for mods that will always be loaded regardless of the game.
+        /// </summary>
+        public static string GetGlobalConfigDirectory()
+        {
+            if (!Directory.Exists(GlobalConfigLocation)) { Directory.CreateDirectory(GlobalConfigLocation); }
+            return GlobalConfigLocation;
         }
 
         /// <summary>
