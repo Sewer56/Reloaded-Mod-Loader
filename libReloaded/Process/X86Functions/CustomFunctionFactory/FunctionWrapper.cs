@@ -47,8 +47,19 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
             {
                 if (attribute is ReloadedFunctionAttribute reloadedFunction)
                 {
+                    IntPtr pFunction;
+
+                    if (reloadedFunction.CallingConvention == CallingConventions.Cdecl)
+                    {
+                        pFunction = (IntPtr)functionAddress;
+                    }
+                    else
+                    {
+                        pFunction = CreateWrapperFunctionInternal<TFunction>((IntPtr)functionAddress, reloadedFunction);
+                    }
+
                     // Return delegate type for our function.
-                    return Marshal.GetDelegateForFunctionPointer<TFunction>(CreateWrapperFunctionInternal<TFunction>((IntPtr)functionAddress, reloadedFunction));
+                    return Marshal.GetDelegateForFunctionPointer<TFunction>(pFunction);
                 }
             }
 
@@ -83,7 +94,8 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
             assemblyCode.Add("mov ebp, esp");   // Setup new call frame
 
             // Setup Function Parameters
-            assemblyCode.AddRange(AssembleFunctionParameters(numberOfParameters, reloadedFunction.SourceRegisters));
+            if (numberOfParameters > 0)
+                assemblyCode.AddRange(AssembleFunctionParameters(numberOfParameters, reloadedFunction.SourceRegisters));
 
             // Call Game Function Pointer (gameFunctionPointer is address at which our function address is written)
             IntPtr gameFunctionPointer = MemoryBuffer.Add(functionAddress); 
@@ -91,14 +103,17 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
 
             // Stack cleanup if necessary 
             // Move back the stack pointer to before our pushed parameters
-            if (reloadedFunction.Cleanup == ReloadedFunctionAttribute.StackCleanup.Caller)
+            if (nonRegisterParameters > 0 && reloadedFunction.Cleanup == ReloadedFunctionAttribute.StackCleanup.Caller)
             {
                 int stackCleanupBytes = 4 * nonRegisterParameters;
                 assemblyCode.Add($"add esp, {stackCleanupBytes}");
             }
 
-            // MOV Game's custom calling convention return register into our return register, EAX.
-            assemblyCode.Add("mov eax, " + reloadedFunction.ReturnRegister);
+            if (reloadedFunction.ReturnRegister != ReloadedFunctionAttribute.Register.eax)
+            {
+                // MOV Game's custom calling convention return register into our return register, EAX.
+                assemblyCode.Add("mov eax, " + reloadedFunction.ReturnRegister);
+            }
 
             // Restore Stack Frame and Return
             assemblyCode.Add("pop ebp");
@@ -145,7 +160,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
             foreach (ReloadedFunctionAttribute.Register registerParameter in newRegisters)
             {
                 // MOV into target register.
-                assemblyCode.Add($"mov {registerParameter.ToString()}, [ebp + {currentBaseStackOffset}]");
+                assemblyCode.Add($"mov {registerParameter}, [ebp + {currentBaseStackOffset}]");
 
                 // Go to next parameter.
                 currentBaseStackOffset -= 4;

@@ -50,6 +50,11 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         public StackCleanup Cleanup { get; set; }
 
         /// <summary>
+        /// Gets the calling convention for this function.
+        /// </summary>
+        public CallingConventions CallingConvention { get; } = CallingConventions.Unspecified;
+
+        /// <summary>
         /// Specifies the target X86 ISA register for a specific parameter.
         /// </summary>
         [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -70,6 +75,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         /// </summary>
         public enum StackCleanup
         {
+            None,
             Caller,
             Callee
         }
@@ -142,10 +148,16 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
                     Cleanup = StackCleanup.Caller;
                     break;
 
+                case CallingConventions.Unspecified:
+                    Bindings.PrintError?.Invoke("Unspecified calling convention is for internal use only!");
+                    break;
+
                 default:
-                    Bindings.PrintWarning?.Invoke($"There is no preset for the specified calling convention {callingConvention.GetType().Name}");
+                    Bindings.PrintError?.Invoke($"There is no preset for the specified calling convention {callingConvention.GetType().Name}");
                     break;
             }
+
+            CallingConvention = callingConvention;
         }
     }
 }
