@@ -43,6 +43,11 @@ namespace Reloaded.IO.Config.Loader
         private IniData _iniData;
 
         /// <summary>
+        /// Stores loader config ini data section.
+        /// </summary>
+        private KeyDataCollection _loaderConfig;
+
+        /// <summary>
         /// Instantiates the Loader Config Parser.
         /// </summary>
         public LoaderConfigParser()
@@ -63,10 +68,12 @@ namespace Reloaded.IO.Config.Loader
 
             // Read the mod loader configuration.
             _iniData = _iniParser.ReadFile(LoaderPaths.GetModLoaderConfig());
+            _loaderConfig = _iniData["Mod Loader Configuration"];
 
             // Parse the mod loader configuration.
-            config.CurrentTheme = _iniData["Mod Loader Configuration"]["Current_Theme"];
-            config.DirectInputConfigType = (Remapper.DirectInputConfigType)Enum.Parse(typeof(Remapper.DirectInputConfigType), _iniData["Mod Loader Configuration"]["Controller_Config_Type"]);
+            config.CurrentTheme = _loaderConfig["Current_Theme"];
+            config.DirectInputConfigType = (Remapper.DirectInputConfigType)Enum.Parse(typeof(Remapper.DirectInputConfigType), _loaderConfig["Controller_Config_Type"]);
+            config.ExitAfterLaunch = TryOrDefault( () => ( bool.TryParse(_loaderConfig[nameof(Config.ExitAfterLaunch)], out var res ), res ), true );
 
             // Return the config file.
             return config;
@@ -79,22 +86,27 @@ namespace Reloaded.IO.Config.Loader
         public void CreateConfig(string configLocation)
         {
             // Create category
-            _iniData.Sections.Add(new SectionData("Mod Loader Configuration"));
+            var loaderConfigSection = new SectionData("Mod Loader Configuration");
+            _iniData.Sections.Add(loaderConfigSection);
+            _loaderConfig = loaderConfigSection.Keys;
 
             // Create fields
-            _iniData.Sections["Mod Loader Configuration"].AddKey("Current_Theme");
-            _iniData.Sections["Mod Loader Configuration"].AddKey("Controller_Config_Type");
+            _loaderConfig.AddKey("Current_Theme");
+            _loaderConfig.AddKey("Controller_Config_Type");
+            _loaderConfig.AddKey(nameof(Config.ExitAfterLaunch));
 
             // Get default theme (first alphabetical theme)
             string[] directories = Directory.GetDirectories((LoaderPaths.GetModLoaderThemeDirectory()));
 
             // Set default theme if exists.
-            if (directories.Length > 0) { _iniData["Mod Loader Configuration"]["Current_Theme"] = Path.GetFileNameWithoutExtension(directories[0]); }
-            else { _iniData["Mod Loader Configuration"]["Current_Theme"] = "!Reloaded"; }
+            if (directories.Length > 0) { _loaderConfig["Current_Theme"] = Path.GetFileNameWithoutExtension(directories[0]); }
+            else { _loaderConfig["Current_Theme"] = "!Reloaded"; }
 
             // Set defaults
-            _iniData["Mod Loader Configuration"]["Controller_Config_Type"] =
+            _loaderConfig["Controller_Config_Type"] =
                 Remapper.DirectInputConfigType.ProductGUID.ToString();
+
+            _loaderConfig[nameof(Config.ExitAfterLaunch)] = true.ToString();
 
             // Write file
             _iniParser.WriteFile(configLocation, _iniData);
@@ -107,11 +119,18 @@ namespace Reloaded.IO.Config.Loader
         public void WriteConfig(Config config)
         {
             // Change the values of the current fields.
-            _iniData["Mod Loader Configuration"]["Current_Theme"] = config.CurrentTheme;
-            _iniData["Mod Loader Configuration"]["Controller_Config_Type"] = Enum.GetName(typeof(Remapper.DirectInputConfigType), config.DirectInputConfigType);
+            _loaderConfig["Current_Theme"] = config.CurrentTheme;
+            _loaderConfig["Controller_Config_Type"] = Enum.GetName(typeof(Remapper.DirectInputConfigType), config.DirectInputConfigType);
+            _loaderConfig[nameof(Config.ExitAfterLaunch)] = config.ExitAfterLaunch.ToString();
 
             // Write the file out to disk
             _iniParser.WriteFile(LoaderPaths.GetModLoaderConfig(), _iniData);
+        }
+
+        private static T TryOrDefault<T>( Func<(bool, T)> expression, T defaultValue )
+        {
+            var result = expression();
+            return !result.Item1 ? defaultValue : result.Item2;
         }
 
         /// <summary>
@@ -132,6 +151,11 @@ namespace Reloaded.IO.Config.Loader
             /// The subdirectory is relative to Reloaded-Config/Themes/
             /// </summary>
             public string CurrentTheme { get; set; }
+
+            /// <summary>
+            /// Specifies whether or not to automatically exit the launcher after launching a game.
+            /// </summary>
+            public bool ExitAfterLaunch { get; set; }
         }
     }
 }

@@ -66,8 +66,11 @@ namespace ReloadedLauncher
             ReloadedProcess process = new ReloadedProcess(filePath, argumentsList.ToArray());
             process.ResumeAllThreads();
 
-            // Self-shutdown.
-            Shutdown();
+            if (Global.LoaderConfiguration.ExitAfterLaunch)
+            {
+                // Self-shutdown.
+                Shutdown();
+            }
         }
     }
 }

@@ -17,5 +17,3 @@
 [assembly: System.Reflection.AssemblyInformationalVersion("0.9.6.c02dcda")]
 [assembly: System.Reflection.AssemblyVersion("0.9.6")]
 [assembly: System.Reflection.AssemblyFileVersion("0.9.6")]
-
-

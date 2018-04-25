@@ -74,6 +74,69 @@ namespace Reloaded.IO
         }
 
         /// <summary>
+        /// Builds a case insensitive relative path to absolute path dictionary lookup. You can use this for simple file relocation.
+        /// </summary>
+        /// <param name="directoryPath">The directory containing files that should be included in the lookup.</param>
+        /// <param name="pathRoot"> The root that the paths should be relative to. If not specified, the directory path will be used as path root. </param>
+        /// <param name="includePathRoot">Specifies whether to include the path root in the relative paths or not.</param>
+        /// <returns></returns>
+        public static Dictionary<string, string> BuildRelativeFileLookup( string directoryPath, bool includePathRoot = false, string pathRoot = null )
+        {
+            var lookup = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+            if ( pathRoot == null )
+                pathRoot = directoryPath;
+
+            foreach ( var path in Directory.EnumerateFiles( directoryPath, "*", SearchOption.AllDirectories ) )
+            {
+                if ( TryGetRelativePath( path, pathRoot, includePathRoot, out var relativePath ) )
+                    lookup[relativePath] = path;
+            }
+
+            return lookup;
+        }
+
+        /// <summary>
+        /// Try to get the relative path using the given path root. 
+        /// Returns false if the path is not rooted to the specified root.
+        /// Returns true if the path is relative to the specified.
+        /// </summary>
+        /// <param name="path">The path that may or may not be relative to the specified path root.</param>
+        /// <param name="pathRoot">The root that the path should be relative to.</param>
+        /// <param name="includePathRoot">Specifies whether to include the path root in the relative path or not.</param>
+        /// <param name="relativePath">The relative path if the operation succeeded. Null otherwise.</param>
+        /// <returns>
+        /// </returns>
+        public static bool TryGetRelativePath( string path, string pathRoot, bool includePathRoot, out string relativePath )
+        {
+            var normalizedPath = path.ToLowerInvariant(); 
+            var normalizedPathRoot = pathRoot.ToLowerInvariant();
+            var index = normalizedPath.IndexOf( normalizedPathRoot );
+            if ( index != -1 )
+            {
+                relativePath = includePathRoot ? normalizedPath.Substring( index ) : normalizedPath.Substring( index + normalizedPathRoot.Length + 1 );
+                return true;
+            }
+
+            relativePath = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Get the relative path using the given path root. 
+        /// Returns null if the specified path is not rooted to the given path root.
+        /// </summary>
+        /// <param name="path">The path that may or may not be relative to the specified path root.</param>
+        /// <param name="pathRoot">The root that the path should be relative to.</param>
+        /// <param name="includePathRoot">Specifies whether to include the path root in the relative path or not.</param>
+        /// <returns>
+        /// </returns>
+        public static string GetRelativePath( string path, string pathRoot, bool includePathRoot = false )
+        {
+            TryGetRelativePath( path, pathRoot, includePathRoot, out var relativePath );
+            return relativePath;
+        }
+
+        /// <summary>
         /// Copies a list of files by relative path from a list of relative paths to a specified set target directory.
         /// </summary>
         /// <param name="relativePaths">Specifies the relative file paths which are to be copied.</param>

@@ -20,6 +20,7 @@
 
 using System;
 using System.IO;
+using SystemProcess = System.Diagnostics.Process;
 
 namespace Reloaded.Process
 {
@@ -34,29 +35,29 @@ namespace Reloaded.Process
         /// <summary>
         /// Stores an instance of System.Diagnostics.Process inside ReloadedProcess.
         /// </summary>
-        public System.Diagnostics.Process Process;
+        public SystemProcess Process { get; private set; }
 
         /// <summary>
         /// A handle to the program's first thread itself. 
         /// The handle is used to specify the process in all functions that perform operations on the Windows' Internal thread object.
         /// </summary>
-        public IntPtr ThreadHandle;
+        public IntPtr ThreadHandle { get; private set; }
 
         /// <summary>
         /// An individual ID value that can be used to identify the program's first thread. 
         /// </summary>
-        public IntPtr ThreadId;
+        public IntPtr ThreadId { get; private  set; }
 
         /// <summary>
         /// An individual ID value that can be used to identify a process (as seen in Task Manager). 
         /// </summary>
-        public IntPtr ProcessId;
+        public IntPtr ProcessId { get; private set; }
 
         /// <summary>
         /// A handle to the process itself. 
         /// The handle is used to specify the process in all functions that perform operations on the Windows' Internal process object.
         /// </summary>
-        public IntPtr ProcessHandle;
+        public IntPtr ProcessHandle { get; private set; }
 
         /// <summary>
         /// Empty constructor.
@@ -124,6 +125,27 @@ namespace Reloaded.Process
         { }
 
         /// <summary>
+        /// Creates an instance of ReloadedProcess from a supplied process
+        /// </summary>
+        /// <param name="processId">The process ID (PID) to create the Reloaded Process from.</param>
+        public ReloadedProcess( SystemProcess process ) : this()
+        {
+            Process = process;
+
+            // Set Process ID
+            ProcessId = ( IntPtr )process.Id;
+
+            // Get Process Handle
+            ProcessHandle = Native.Native.OpenProcess( Native.Native.PROCESS_ALL_ACCESS, false, ( int )ProcessId );
+
+            // Set thread id and handle to be that of first thread.
+            ThreadId = ( IntPtr )process.Threads[0].Id;
+
+            // Set thread handle to be that of the first thread.
+            ThreadHandle = Native.Native.OpenThread( Native.Native.THREAD_ALL_ACCESS, false, ( int )ThreadId );
+        }
+
+        /// <summary>
         /// Creates an instance of ReloadedProcess from a supplied process ID.
         /// </summary>
         /// <param name="processId">The process ID (PID) to create the Reloaded Process from.</param>
@@ -136,7 +158,7 @@ namespace Reloaded.Process
             ProcessHandle = Native.Native.OpenProcess(Native.Native.PROCESS_ALL_ACCESS, false, (int)ProcessId);
 
             // Get C# Process by ID
-            System.Diagnostics.Process process = System.Diagnostics.Process.GetProcessById((int)processId);
+            var process = SystemProcess.GetProcessById((int)processId);
 
             // Set thread id and handle to be that of first thread.
             ThreadId = (IntPtr)process.Threads[0].Id;
@@ -158,7 +180,7 @@ namespace Reloaded.Process
                 ReloadedProcess reloadedProcess = new ReloadedProcess();
 
                 // Get Process by Name
-                System.Diagnostics.Process process = System.Diagnostics.Process.GetProcessesByName(processName)[0];
+                var process = SystemProcess.GetProcessesByName(processName)[0];
 
                 // Set Process ID
                 reloadedProcess.ProcessId = (IntPtr)process.Id;
@@ -188,22 +210,22 @@ namespace Reloaded.Process
         public static ReloadedProcess GetCurrentProcess()
         {
             // Get Current Process
-            System.Diagnostics.Process currentProcess = System.Diagnostics.Process.GetCurrentProcess();
+            var currentProcess = SystemProcess.GetCurrentProcess();
 
-            // Return Reloaded Process by ID
-            return new ReloadedProcess((uint)currentProcess.Id);
+            // Return Reloaded Process
+            return new ReloadedProcess(currentProcess);
         }
 
         /// <summary>
         /// Retrieves Process from the current ReloadedProcess.
         /// </summary>
         /// <returns>Process class for the current Reloaded Process.</returns>
-        public System.Diagnostics.Process GetProcessFromReloadedProcess()
+        public SystemProcess GetProcessFromReloadedProcess()
         {
             if (Process != null)
                 return Process;
 
-            Process = System.Diagnostics.Process.GetProcessById((int)ProcessId);
+            Process = SystemProcess.GetProcessById((int)ProcessId);
             return Process;
         }
     }
