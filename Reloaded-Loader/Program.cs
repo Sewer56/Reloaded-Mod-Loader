@@ -19,8 +19,10 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Reloaded;
@@ -57,6 +59,12 @@ namespace Reloaded_Loader
         /// Specifies the name of an already running executable to attach to.
         /// </summary>
         private static string _attachTargetName;
+
+        /// <summary>
+        /// Obtains the start time of the game process.
+        /// Used to determine if a process has shut itself down and then since restarted.
+        /// </summary>
+        private static DateTime _processStartTime;
 
         /// <summary>
         /// The main entry point for the application.
@@ -97,6 +105,10 @@ namespace Reloaded_Loader
 
             /* - Load and enter main close polling loop - */
 
+            // Add to exited event 
+            _gameProcess.GetProcessFromReloadedProcess().EnableRaisingEvents = true;
+            _gameProcess.GetProcessFromReloadedProcess().Exited += (sender, eventArgs) => ProcessSelfReattach(args);
+
             // Load modifications for the current game.
             ModLoader.LoadMods(_gameConfig, _gameProcess);
 
@@ -104,24 +116,79 @@ namespace Reloaded_Loader
             AppDomain.CurrentDomain.ProcessExit += Shutdown;
             Console.CancelKeyPress += Shutdown;
 
-            // Poll every 3 seconds, kill self if child dies.
+            // Sleep infinitely as much as it is necessary.
             while (true)
+            { Console.ReadLine(); }
+        }
+
+        /// <summary>
+        /// Checks whether to reattach Reloaded Mod Loader if the game process
+        /// unexpectedly kills itself and then restarts (a standard for some games' launch procedures).
+        /// </summary>
+        /// <param name="arguments">The commandline arguments originally passed to this process.</param>
+        /// <returns>Returns true if another game instance is running, else false.</returns>
+        private static void ProcessSelfReattach(string[] arguments)
+        {
+            // Decides whether
+            bool buildArgumentsList = false;
+
+            // Auto re-attach if there's another process instance that's up with matching name.
+            // First set the attach name if not set and add to the arguments.
+            if (_attachTargetName == null)
             {
-                try
-                {
-                    // Get Process
-                    Process localGameProcess = _gameProcess.GetProcessFromReloadedProcess();
-
-                    // Check if process has exited.
-                    if (localGameProcess.HasExited) { Shutdown(null, null); }
-
-                    // Sleep
-                    Thread.Sleep(2000);
-                }
-                // Argument of Process.GetProcessById fails inside GetProcessFromReloadedProcess
-                // The process died.
-                catch (ArgumentException) { Shutdown(null, null); }
+                // Set attach name.
+                _attachTargetName = Path.GetFileNameWithoutExtension(_gameConfig.ExecutableLocation);
+                buildArgumentsList = true;
             }
+
+            // Use stopwatch for soft timing.
+            Stopwatch timeoutStopWatch = new Stopwatch();
+            timeoutStopWatch.Start();
+
+            // Spin trying to get game process until timeout.
+            while (timeoutStopWatch.ElapsedMilliseconds < 1000)
+            {
+                // Grab current already running game.
+                ReloadedProcess localGameProcess = ReloadedProcess.GetProcessByName(_attachTargetName);
+
+                // Did we find the process? If not, try again.
+                if (localGameProcess == null) continue;
+
+                // Suspend the resurrected game.
+                localGameProcess.SuspendAllThreads();
+
+                // Check if process is newer than our original game process, if it is, restart self.
+                if (localGameProcess.GetProcessFromReloadedProcess().StartTime > _processStartTime)
+                {
+                    // If the loader is lacking the "attach" flag.
+                    // The reason this is done here is because we want to freeze the
+                    // target process as soon as possible, such that we can hook onto it as early as possible.
+                    if (buildArgumentsList)
+                    {
+                        // List of arguments.
+                        List<string> argumentsList = arguments.ToList();
+
+                        // Append attach argument.
+                        argumentsList.Add("--attach");
+
+                        // Append attach name.
+                        argumentsList.Add(_attachTargetName);
+
+                        // Replace array.
+                        arguments = argumentsList.ToArray();
+                    }
+
+                    _gameProcess = localGameProcess;
+                    RestartSelf(arguments);
+                    break;
+                }
+
+                // Resume the resurrected game.
+                localGameProcess.ResumeAllThreads();
+            }
+
+            // Kill the process itself.
+            Shutdown(null, null);
         }
 
         /// <summary>
@@ -162,6 +229,10 @@ namespace Reloaded_Loader
         /// <param name="arguments">A copy of the arguments passed into the application used for optionally rebooting in x64 mode.</param>
         private static void InjectByMethod(string[] arguments)
         {
+            // Fast return if soft reboot (game process killed and restarted itself)
+            if (_gameProcess != null)
+                return;
+
             // Attach if specified by the user.
             if (_attachTargetName != null)
             {
@@ -186,7 +257,7 @@ namespace Reloaded_Loader
             // Otherwise start process suspended in Reloaded, hook it, exploit it and resume the intended way.
             else
             {
-                _gameProcess = new ReloadedProcess(Path.Combine(_gameConfig.GameDirectory, _gameConfig.ExecutableLocation));
+                _gameProcess = new ReloadedProcess($"{Path.Combine(_gameConfig.GameDirectory, _gameConfig.ExecutableLocation)}");
 
                 // The process handle is 0 if the process failed to initialize.
                 if ((int)_gameProcess.ProcessHandle == 0)
@@ -206,6 +277,10 @@ namespace Reloaded_Loader
 
             // Set binding for target process for memory IO
             Bindings.TargetProcess = _gameProcess;
+
+            // Obtain the process start time.
+            if (_gameProcess != null)
+                _processStartTime = _gameProcess.GetProcessFromReloadedProcess().StartTime;
         }
 
         /// <summary>
@@ -224,13 +299,26 @@ namespace Reloaded_Loader
         /// <param name="arguments">A copy of the arguments originally passed to the starting application.</param>
         private static void RebootX64(string[] arguments)
         {
-            // Build arguments
-            string localArgs = "";
-            foreach (string argument in arguments) { localArgs += argument + " "; }
-            Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Reloaded-Wrapper-x64.exe", localArgs);
+            // Add quotes to each argument in quotes.
+            for (int x = 0; x < arguments.Length; x++)
+            { arguments[x] = $"\"{arguments[x]}\""; }
+
+            ReloadedProcess reloadedProcess = new ReloadedProcess($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Reloaded-Wrapper-x64.exe", arguments);
+            reloadedProcess.ResumeAllThreads();
 
             // Bye Bye Current Process
             Shutdown(null, null);
+        }
+
+        /// <summary>
+        /// Reboots the Reloaded Loader to re-inject in the case a game has killed
+        /// its own process and then resurrected simultaneously.
+        /// </summary>
+        /// <param name="arguments">A copy of the arguments originally passed to the starting application.</param>
+        private static void RestartSelf(string[] arguments)
+        {
+            // Re-call main.
+            Main(arguments);
         }
     }
 }

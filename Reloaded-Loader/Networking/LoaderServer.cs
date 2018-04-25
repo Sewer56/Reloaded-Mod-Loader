@@ -54,6 +54,13 @@ namespace Reloaded_Loader.Networking
         /// </summary>
         public static void SetupServer()
         {
+            // Triggered on soft reboot, self killing and restarting games.
+            if (ReloadedServer != null)
+            {
+                ConsoleFunctions.PrintMessageWithTime("Local Server Already Running!", ConsoleFunctions.PrintInfoMessage);
+                return;
+            }
+
             try
             {
                 // Create new server instance.

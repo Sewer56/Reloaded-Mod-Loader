@@ -19,6 +19,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -160,14 +161,17 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         private void item_LaunchBox_Click(object sender, EventArgs e)
         {
             // The addtional arguments to be passed onto Reloaded-Loader.
-            string localArguments = "";
+            List<string> localArguments = new List<string>();
 
             // Append the log file option as necessary.
             if (borderless_EnableLogs.ButtonEnabled)
-                localArguments += $"--log {borderless_LogLocation.Text} ";
+            {
+                localArguments.Add("\"--log\"");
+                localArguments.Add($"\"{borderless_LogLocation.Text}\"");
+            }
 
             // Start process
-            Functions.LaunchLoader(localArguments);
+            Functions.LaunchLoader(localArguments.ToArray());
         }
 
         /// <summary>
@@ -179,17 +183,21 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         private void item_AttachBox_Click(object sender, EventArgs e)
         {
             // The addtional arguments to be passed onto Reloaded-Loader.
-            string localArguments = "";
+            List<string> localArguments = new List<string>();
 
             // Provide the attach executable name.
-            localArguments += $"--attach {borderless_AttachExecutableName.Text} ";
+            localArguments.Add($"\"--attach\"");
+            localArguments.Add($"\"{borderless_AttachExecutableName.Text}\"");
 
             // Append the log file option as necessary.
             if (borderless_EnableLogs.ButtonEnabled)
-                localArguments += $"--log {borderless_LogLocation.Text} ";
+            {
+                localArguments.Add($"\"--log\"");
+                localArguments.Add($"\"{borderless_LogLocation.Text}\"");
+            }
 
             // Start process
-            Functions.LaunchLoader(localArguments);
+            Functions.LaunchLoader(localArguments.ToArray());
         }
     }
 }

@@ -77,7 +77,7 @@ namespace Reloaded_Loader.Core
             }
 
             // Resume game after injection.
-            reloadedProcess.ResumeFirstThread();
+            reloadedProcess.ResumeAllThreads();
         }
     }
 }

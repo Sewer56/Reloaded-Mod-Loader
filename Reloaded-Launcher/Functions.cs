@@ -49,14 +49,23 @@ namespace ReloadedLauncher
         /// The parameter of this method allows for the specification OPTIONAL ADDITIONAL arguments such as --log or --attach.
         /// </summary>
         /// <param name="localArguments">Additional command line arguments/options to pass to Reloaded-Loader.</param>
-        public static void LaunchLoader(string localArguments)
+        public static void LaunchLoader(string[] localArguments)
         {
             // Build filepath and arguments
-            string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Reloaded-Loader.exe";
-            string arguments = $"--config {Global.CurrentGameConfig.ConfigDirectory} {localArguments}";
+            string filePath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Reloaded-Loader.exe";
+
+            // Build arguments.
+            List<string> argumentsList = new List<string>()
+            {
+                "\"--config\"",
+                $"\"{Global.CurrentGameConfig.ConfigDirectory}\""
+            };
+
+            // We are done here.
+            argumentsList.AddRange(localArguments);
 
             // Start process
-            ReloadedProcess process = new ReloadedProcess(filePath, arguments);
+            ReloadedProcess process = new ReloadedProcess(filePath, argumentsList.ToArray());
             process.ResumeAllThreads();
 
             // Self-shutdown.

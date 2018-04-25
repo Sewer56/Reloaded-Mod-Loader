@@ -186,7 +186,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void LaunchGame()
         {
-            Functions.LaunchLoader("");
+            Functions.LaunchLoader(new string[0]);
         }
     }
 }
