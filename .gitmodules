@@ -1,6 +1,3 @@
-[submodule "libReloaded"]
-	path = libReloaded
-	url = https://github.com/sewer56lol/libReloaded
 [submodule "Reloaded-Mod-Template"]
 	path = Reloaded-Mod-Template
 	url = https://github.com/sewer56lol/Reloaded-Mod-Template
