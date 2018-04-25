@@ -20,6 +20,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -171,13 +172,16 @@ namespace Reloaded.Input.Modules
                 };
 
                 // Retrieve the size for this filter struct.
-                deviceBroadcastInterface.size = Marshal.SizeOf(deviceBroadcastInterface);
+                deviceBroadcastInterface.size = Unsafe.SizeOf<DEV_BROADCAST_DEVICEINTERFACE>();
 
                 // Allocate a buffer in unmanaged memory with the size of the filter.
                 IntPtr buffer = Marshal.AllocHGlobal(deviceBroadcastInterface.size);
 
                 // Marshal the DEV_BROADCAST_DEVICEINTERFACE structure into unmanaged memory.
-                Marshal.StructureToPtr(deviceBroadcastInterface, buffer, true);
+                unsafe
+                {
+                    Unsafe.Write((void*)buffer, deviceBroadcastInterface);
+                }
 
                 // Register the notification handle for the message only window to receive controller connect/disconnect notifications.
                 _notificationHandle = RegisterDeviceNotification(windowHandle, buffer, usbOnly ? 0 : DEVICE_NOTIFY_ALL_INTERFACE_CLASSES);

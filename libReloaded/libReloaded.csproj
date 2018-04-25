@@ -31,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -88,6 +89,11 @@
     <Compile Include="DirectX\DX11Hook.cs" />
     <Compile Include="DirectX\DXHookCommon.cs" />
     <Compile Include="IO\Config\ConfigManager.cs" />
+    <Compile Include="Native\Helpers\ArrayPtr.cs" />
+    <Compile Include="Native\Helpers\FixedArrayPtr.cs" />
+    <Compile Include="Native\Helpers\FunctionPtr.cs" />
+    <Compile Include="Native\Helpers\FunctionPtrBase.cs" />
+    <Compile Include="Native\Helpers\Ref.cs" />
     <Compile Include="Native\WinAPI\Constants.cs" />
     <Compile Include="Native\WinAPI\Structures.cs" />
     <Compile Include="Native\WinAPI\WindowEventHooks.cs" />
@@ -99,7 +105,7 @@
     <Compile Include="DirectX\Direct3DVersion.cs" />
     <Compile Include="DirectX\DX9Hook.cs" />
     <Compile Include="Process\X86Functions\FunctionCommon.cs" />
-    <Compile Include="Process\X86Functions\CustomFunctionFactory\ReloadedFunction.cs" />
+    <Compile Include="Process\X86Functions\CustomFunctionFactory\ReloadedFunctionAttribute.cs" />
     <Compile Include="Process\X86Functions\CustomFunctionFactory\FunctionWrapper.cs" />
     <Compile Include="Process\X86Functions\CallingConventions.cs" />
     <Compile Include="Process\X86Functions\Utilities\VirtualFunctionTableExtensions.cs" />
@@ -188,6 +194,9 @@
     </PackageReference>
     <PackageReference Include="SharpDX.XInput">
       <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
+      <Version>4.4.0</Version>
     </PackageReference>
     <PackageReference Include="System.ValueTuple">
       <Version>4.4.0</Version>

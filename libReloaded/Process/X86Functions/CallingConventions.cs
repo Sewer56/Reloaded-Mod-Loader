@@ -106,7 +106,7 @@ namespace Reloaded.Process.X86Functions
 
         /// <summary>
         /// A name given to custom calling conventions by Hex-Rays (IDA) that are cleaned up by the caller.
-        /// You should declare the <see cref="ReloadedFunction"/> manually yourself.
+        /// You should declare the <see cref="ReloadedFunctionAttribute"/> manually yourself.
         /// 
         /// Attribute [UnmanagedFunctionPointer(CallingConvention.Cdecl)] on Delegate
         /// Usage: FunctionWrapper class.
@@ -119,7 +119,7 @@ namespace Reloaded.Process.X86Functions
 
         /// <summary>
         /// A name given to custom calling conventions by Hex-Rays (IDA) that are cleaned up by the callee.
-        /// You should declare the <see cref="ReloadedFunction"/> manually yourself.
+        /// You should declare the <see cref="ReloadedFunctionAttribute"/> manually yourself.
         /// 
         /// Attribute [UnmanagedFunctionPointer(CallingConvention.Cdecl)] on Delegate
         /// Usage: FunctionWrapper class.
@@ -128,6 +128,11 @@ namespace Reloaded.Process.X86Functions
         ///     ReturnRegister:     Depends on Function
         ///     Cleanup:            Callee
         /// </summary>
-        Userpurge
+        Userpurge,
+
+        /// <summary>
+        /// For internal use.
+        /// </summary>
+        Unspecified,
     }
 }

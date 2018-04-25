@@ -29,7 +29,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
     /// See <see cref="CallingConventions" /> for information on settings
     /// for common calling conventions.
     /// </summary>
-    public class ReloadedFunction : Attribute
+    public class ReloadedFunctionAttribute : Attribute
     {
         /// <summary>
         /// Specifies the registers in left to right parameter order to pass to the custom function to be called.
@@ -48,6 +48,11 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         /// Caller: Stack pointer restored in our own wrapper function.
         /// </summary>
         public StackCleanup Cleanup { get; set; }
+
+        /// <summary>
+        /// Gets the calling convention for this function.
+        /// </summary>
+        public CallingConventions CallingConvention { get; } = CallingConventions.Unspecified;
 
         /// <summary>
         /// Specifies the target X86 ISA register for a specific parameter.
@@ -70,6 +75,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         /// </summary>
         public enum StackCleanup
         {
+            None,
             Caller,
             Callee
         }
@@ -80,9 +86,22 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         /// <param name="sourceRegisters">Specifies the registers in left to right parameter order to pass to the custom function to be called.</param>
         /// <param name="returnRegister">Specifies the register to return the value from the funtion in (mov eax, source). This is typically eax.</param>
         /// <param name="stackCleanup">Defines the stack cleanup rule for the function. See <see cref="StackCleanup"/> for more details.</param>
-        public ReloadedFunction(Register[] sourceRegisters, Register returnRegister, StackCleanup stackCleanup)
+        public ReloadedFunctionAttribute(Register[] sourceRegisters, Register returnRegister, StackCleanup stackCleanup)
         {
             SourceRegisters = sourceRegisters;
+            ReturnRegister = returnRegister;
+            Cleanup = stackCleanup;
+        }
+
+        /// <summary>
+        /// Initializes a ReloadedFunction with its default parameters supplied in the constructor.
+        /// </summary>
+        /// <param name="sourceRegister">Specifies the registers for the parameter.</param>
+        /// <param name="returnRegister">Specifies the register to return the value from the funtion in (mov eax, source). This is typically eax.</param>
+        /// <param name="stackCleanup">Defines the stack cleanup rule for the function. See <see cref="StackCleanup"/> for more details.</param>
+        public ReloadedFunctionAttribute(Register sourceRegister, Register returnRegister, StackCleanup stackCleanup)
+        {
+            SourceRegisters = new[] { sourceRegister };
             ReturnRegister = returnRegister;
             Cleanup = stackCleanup;
         }
@@ -95,7 +114,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         ///     Please remember to mark your function delegate as [UnmanagedFunctionPointer(CallingConvention.Cdecl)],
         ///     mark only the ReloadedFunction Attribute with the true calling convention.
         /// </param>
-        public ReloadedFunction(CallingConventions callingConvention)
+        public ReloadedFunctionAttribute(CallingConventions callingConvention)
         {
             switch (callingConvention)
             {
@@ -129,10 +148,16 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
                     Cleanup = StackCleanup.Caller;
                     break;
 
+                case CallingConventions.Unspecified:
+                    Bindings.PrintError?.Invoke("Unspecified calling convention is for internal use only!");
+                    break;
+
                 default:
-                    Bindings.PrintWarning?.Invoke($"There is no preset for the specified calling convention {callingConvention.GetType().Name}");
+                    Bindings.PrintError?.Invoke($"There is no preset for the specified calling convention {callingConvention.GetType().Name}");
                     break;
             }
+
+            CallingConvention = callingConvention;
         }
     }
 }

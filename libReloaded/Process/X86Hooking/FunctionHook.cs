@@ -171,7 +171,7 @@ namespace Reloaded.Process.X86Hooking
             // Retrieve the function address from the supplied user delegate.
             // Our ReloadedFunction attribute.
             IntPtr cSharpFunctionAddress = Marshal.GetFunctionPointerForDelegate(functionDelegate);
-            ReloadedFunction reloadedFunction = GetReloadedFunctionAttribute<TFunction>();
+            ReloadedFunctionAttribute reloadedFunction = GetReloadedFunctionAttribute<TFunction>();
 
             /*
                 [Hook Part I] Create Custom => CDECL Wrapper and Assemble 
@@ -242,12 +242,12 @@ namespace Reloaded.Process.X86Hooking
         /// </summary>
         /// <typeparam name="TFunction">Delegate type marked with complete ReloadedFunction Attribute that defines the individual function properties.</typeparam>
         /// <returns>ReloadedFunction class instance that the delegate has been tagged with.</returns>
-        public static ReloadedFunction GetReloadedFunctionAttribute<TFunction>()
+        public static ReloadedFunctionAttribute GetReloadedFunctionAttribute<TFunction>()
         {
             // Retrieve the ReloadedFunction attribute
             foreach (Attribute attribute in typeof(TFunction).GetCustomAttributes())
             {
-                if (attribute is ReloadedFunction reloadedFunction)
+                if (attribute is ReloadedFunctionAttribute reloadedFunction)
                     return reloadedFunction;
             }
 
@@ -259,7 +259,7 @@ namespace Reloaded.Process.X86Hooking
                  "To developers: Please don't do this! Refer to the wiki or CallingConventions.cs common convention settings."
             );
 
-            return new ReloadedFunction(CallingConventions.Cdecl);
+            return new ReloadedFunctionAttribute(CallingConventions.Cdecl);
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Reloaded.Process.X86Hooking
         /// <param name="reloadedFunction">Structure containing the details of the actual function in question.</param>
         /// <param name="functionAddress">The address of the function to create a wrapper for.</param>
         /// <returns></returns>
-        private static IntPtr CreateWrapperFunction<TFunction>(IntPtr functionAddress, ReloadedFunction reloadedFunction)
+        private static IntPtr CreateWrapperFunction<TFunction>(IntPtr functionAddress, ReloadedFunctionAttribute reloadedFunction)
         {
             // Retrieve number of parameters.
             int numberOfParameters = FunctionCommon.GetNumberofParameters(typeof(TFunction));
@@ -298,7 +298,7 @@ namespace Reloaded.Process.X86Hooking
             assemblyCode.Add("pop ebp");
 
             // Caller/Callee Cleanup
-            if (reloadedFunction.Cleanup == ReloadedFunction.StackCleanup.Callee)
+            if (reloadedFunction.Cleanup == ReloadedFunctionAttribute.StackCleanup.Callee)
                 assemblyCode.Add($"ret {nonRegisterParameters * 4}");
             else
                 assemblyCode.Add("ret");
@@ -315,7 +315,7 @@ namespace Reloaded.Process.X86Hooking
         /// <param name="parameterCount">The total amount of parameters that the target function accepts.</param>
         /// <param name="registers">The registers in left to right order used in the calling convention we are hooking.</param>
         /// <returns>A string array of compatible x86 mnemonics to be assembled.</returns>
-        private static string[] AssembleFunctionParameters(int parameterCount, ReloadedFunction.Register[] registers)
+        private static string[] AssembleFunctionParameters(int parameterCount, ReloadedFunctionAttribute.Register[] registers)
         {
             // Store our JIT Assembly Code
             List<string> assemblyCode = new List<string>();
@@ -340,8 +340,8 @@ namespace Reloaded.Process.X86Hooking
 
             // Now push the remaining parameters from the custom calling convention's registers onto the stack.
             // We process the registers in right to left order, .
-            ReloadedFunction.Register[] newRegisters = registers.Reverse().ToArray();
-            foreach (ReloadedFunction.Register registerParameter in newRegisters)
+            ReloadedFunctionAttribute.Register[] newRegisters = registers.Reverse().ToArray();
+            foreach (ReloadedFunctionAttribute.Register registerParameter in newRegisters)
             {
                 // Push the register variable onto the stack for our C# CDECL function./
                 assemblyCode.Add($"push {registerParameter.ToString()}");
