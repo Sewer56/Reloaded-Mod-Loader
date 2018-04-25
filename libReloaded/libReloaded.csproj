@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Reloaded</RootNamespace>
+    <AssemblyName>libReloaded</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\x86\Debug\libReloaded.xml</DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\x86\Release\libReloaded.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assembler\Assembler.cs" />
+    <Compile Include="Assembler\MemoryBuffer.cs" />
+    <Compile Include="Bindings.cs" />
+    <Compile Include="DirectX\Definitions\ID3D11Device.cs" />
+    <Compile Include="DirectX\Definitions\IDXGISwapChain.cs" />
+    <Compile Include="DirectX\DX11Hook.cs" />
+    <Compile Include="DirectX\DXHookCommon.cs" />
+    <Compile Include="IO\Config\ConfigManager.cs" />
+    <Compile Include="Native\Helpers\ArrayPtr.cs" />
+    <Compile Include="Native\Helpers\FixedArrayPtr.cs" />
+    <Compile Include="Native\Helpers\FunctionPtr.cs" />
+    <Compile Include="Native\Helpers\FunctionPtrBase.cs" />
+    <Compile Include="Native\Helpers\Ref.cs" />
+    <Compile Include="Native\WinAPI\Constants.cs" />
+    <Compile Include="Native\WinAPI\Structures.cs" />
+    <Compile Include="Native\WinAPI\WindowEventHooks.cs" />
+    <Compile Include="Native\WinAPI\WindowFunctions.cs" />
+    <Compile Include="Native\WinAPI\WindowStyles.cs" />
+    <Compile Include="Overlay\DX11Overlay.cs" />
+    <Compile Include="Overlay\DX9Overlay.cs" />
+    <Compile Include="DirectX\Definitions\IDirect3DDevice9.cs" />
+    <Compile Include="DirectX\Direct3DVersion.cs" />
+    <Compile Include="DirectX\DX9Hook.cs" />
+    <Compile Include="Process\X86Functions\CustomFunctionFactory\ReloadedFunctionAttribute.cs" />
+    <Compile Include="Process\X86Functions\FunctionCommon.cs" />
+    <Compile Include="Process\X86Functions\CustomFunctionFactory\FunctionWrapper.cs" />
+    <Compile Include="Process\X86Functions\CallingConventions.cs" />
+    <Compile Include="Process\X86Functions\Utilities\VirtualFunctionTableExtensions.cs" />
+    <Compile Include="Process\X86Functions\Utilities\VirtualFunctionTable.cs" />
+    <Compile Include="Process\X86Hooking\FunctionHook.cs" />
+    <Compile Include="Process\X86Hooking\HookCommon.cs" />
+    <Compile Include="Process\Libraries.cs" />
+    <Compile Include="Process\Memory\PatternScan.cs" />
+    <Compile Include="Process\Memory\Allocate.cs" />
+    <Compile Include="Process\Memory\ReadWrite.cs" />
+    <Compile Include="Process\Native\Native.cs" />
+    <Compile Include="Process\ReloadedExtensions.cs" />
+    <Compile Include="Process\ReloadedProcess.cs" />
+    <Compile Include="Input\Common\ControllerCommon.cs" />
+    <Compile Include="Input\Config\ControllerConfigParser.cs" />
+    <Compile Include="Input\Config\SampleConfig.cs" />
+    <Compile Include="Input\ControllerManager.cs" />
+    <Compile Include="Input\DirectInput\DInputCommon.cs" />
+    <Compile Include="Input\DirectInput\DInputController.cs" />
+    <Compile Include="Input\DirectInput\DInputManager.cs" />
+    <Compile Include="Input\Modules\Hotplugger.cs" />
+    <Compile Include="Input\Modules\Remapper.cs" />
+    <Compile Include="Input\XInput\XInputController.cs" />
+    <Compile Include="IO\RelativePaths.cs" />
+    <Compile Include="Strings.cs" />
+    <Compile Include="Utilities\AssemblyFinder.cs" />
+    <Compile Include="Utilities\ColourLoader.cs" />
+    <Compile Include="IO\Config\Games\GameConfigParser.cs" />
+    <Compile Include="IO\Config\Loader\LoaderConfigParser.cs" />
+    <Compile Include="IO\Config\Mods\ModConfigParser.cs" />
+    <Compile Include="IO\Config\Themes\ThemeConfigParser.cs" />
+    <Compile Include="IO\Config\Themes\ThemePropertyParser.cs" />
+    <Compile Include="Utilities\FileUnblocker.cs" />
+    <Compile Include="Utilities\ExtractFodyCosturaFile.cs" />
+    <Compile Include="Utilities\LoaderPaths.cs" />
+    <Compile Include="Utilities\PathSanitizer.cs" />
+    <Compile Include="Native\Functions\WindowProperties.cs" />
+    <Compile Include="Overlay\D2DWindowRenderer.cs" />
+    <Compile Include="Overlay\External\Forms\TransparentWinform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Overlay\External\Forms\TransparentWinform.Designer.cs">
+      <DependentUpon>TransparentWinform.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Overlay\External\ExternalWindowOverlay.cs" />
+    <Compile Include="Process\DLLInjector.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Overlay\External\Forms\TransparentWinform.resx">
+      <DependentUpon>TransparentWinform.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Costura.Fody">
+      <Version>2.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Fody">
+      <Version>3.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="ini-parser">
+      <Version>2.5.2</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDisasm">
+      <Version>1.1.9</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Desktop">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Direct2D1">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Direct3D11">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Direct3D9">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.DirectInput">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.DXGI">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.XInput">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
+      <Version>4.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.4.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libReloaded-Networking\libReloaded-Networking\libReloaded-Networking.csproj">
+      <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
+      <Name>libReloaded-Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Submodules\ReloadedAssembler\ReloadedAssemblerService\Reloaded-Assembler.csproj">
+      <Project>{2e4eb0b6-fead-48ba-85bd-0a3879467a9e}</Project>
+      <Name>Reloaded-Assembler</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Overlay\Internal\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
