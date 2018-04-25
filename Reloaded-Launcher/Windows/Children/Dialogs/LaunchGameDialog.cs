@@ -21,14 +21,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Reloaded;
 using Reloaded.Native.WinAPI;
-using Reloaded.Process;
-using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Styles.Themes.ApplyTheme;
 using Reloaded_GUI.Utilities.Windows;
+using Bindings = Reloaded_GUI.Styles.Themes.Bindings;
 
 namespace ReloadedLauncher.Windows.Children.Dialogs
 {
@@ -86,7 +85,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             ApplyTheme.ThemeWindowsForm(this);
 
             // Set default logging location.
-            borderless_LogLocation.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Reloaded-Log.txt";
+            borderless_LogLocation.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + $"\\{Strings.Launcher.DefaultLogFileName}";
             borderless_AttachExecutableName.Text = Path.GetFileNameWithoutExtension(Global.CurrentGameConfig.ExecutableLocation);
 
             // Set images.
@@ -166,7 +165,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             // Append the log file option as necessary.
             if (borderless_EnableLogs.ButtonEnabled)
             {
-                localArguments.Add("\"--log\"");
+                localArguments.Add($"\"{Strings.Common.LoaderSettingLog}\"");
                 localArguments.Add($"\"{borderless_LogLocation.Text}\"");
             }
 
@@ -186,13 +185,13 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             List<string> localArguments = new List<string>();
 
             // Provide the attach executable name.
-            localArguments.Add($"\"--attach\"");
+            localArguments.Add($"\"{Strings.Common.LoaderSettingAttach}\"");
             localArguments.Add($"\"{borderless_AttachExecutableName.Text}\"");
 
             // Append the log file option as necessary.
             if (borderless_EnableLogs.ButtonEnabled)
             {
-                localArguments.Add($"\"--log\"");
+                localArguments.Add($"\"{Strings.Common.LoaderSettingLog}\"");
                 localArguments.Add($"\"{borderless_LogLocation.Text}\"");
             }
 

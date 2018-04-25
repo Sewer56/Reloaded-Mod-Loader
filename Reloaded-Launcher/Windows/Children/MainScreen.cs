@@ -24,12 +24,12 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using Reloaded;
 using Reloaded.IO.Config.Games;
-using Reloaded.Process;
 using Reloaded.Utilities;
 using ReloadedLauncher.Windows.Children.Dialogs;
-using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Utilities.Controls;
+using Bindings = Reloaded_GUI.Styles.Themes.Bindings;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -64,7 +64,7 @@ namespace ReloadedLauncher.Windows.Children
             if (Visible)
             {
                 // Update title
-                Global.CurrentMenuName = "Main Menu";
+                Global.CurrentMenuName = Strings.Launcher.Menus.MainMenuName;
                 Global.BaseForm.UpdateTitle("");
 
                 // Set version
@@ -151,7 +151,7 @@ namespace ReloadedLauncher.Windows.Children
                 item_LocationBoxEXEPath.Text = "$DIRECTORY + " + Global.CurrentGameConfig.ExecutableLocation;
 
                 // Load the game image.
-                try { item_GameBanner.BackgroundImage = Image.FromFile(Global.CurrentGameConfig.ConfigDirectory + "\\Banner.png"); }
+                try { item_GameBanner.BackgroundImage = Image.FromFile(Global.CurrentGameConfig.ConfigDirectory + $"\\{Strings.Launcher.BannerName}"); }
                 catch { item_GameBanner.BackgroundImage = null; }
             }
             catch { }
@@ -173,6 +173,13 @@ namespace ReloadedLauncher.Windows.Children
         /// <param name="e"></param>
         private void item_LaunchBox_MouseClick(object sender, MouseEventArgs e)
         {
+            // Check if global config
+            if (Global.CurrentGameConfig.ConfigDirectory == GameConfigParser.GameConfig.GetGlobalConfig().ConfigDirectory)
+            {
+                MessageBox.Show("One does not launch the Global Mod Configuration, you can try though...");
+                return;
+            }
+
             if ((ModifierKeys & Keys.Control) != 0)
             {
                 LaunchGameDialog launchGameDialog = new LaunchGameDialog();

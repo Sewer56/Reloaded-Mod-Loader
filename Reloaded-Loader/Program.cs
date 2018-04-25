@@ -24,11 +24,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using Reloaded;
 using Reloaded.IO.Config.Games;
 using Reloaded.Process;
-using Reloaded.Utilities;
 using Reloaded_Loader.Core;
 using Reloaded_Loader.Miscellaneous;
 using Reloaded_Loader.Networking;
@@ -169,7 +167,7 @@ namespace Reloaded_Loader
                         List<string> argumentsList = arguments.ToList();
 
                         // Append attach argument.
-                        argumentsList.Add("--attach");
+                        argumentsList.Add($"{Strings.Common.LoaderSettingAttach}");
 
                         // Append attach name.
                         argumentsList.Add(_attachTargetName);
@@ -200,9 +198,9 @@ namespace Reloaded_Loader
             // Go over known arguments.
             for (int x = 0; x < arguments.Length; x++)
             {
-                if (arguments[x] == "--config") { _gameConfig = new GameConfigParser().ParseConfig(arguments[x + 1]); }
-                if (arguments[x] == "--attach") { _attachTargetName = arguments[x+1]; }
-                if (arguments[x] == "--log") { Logger.Setup(arguments[x + 1]); }
+                if (arguments[x] == $"{Strings.Common.LoaderSettingConfig}") { _gameConfig = new GameConfigParser().ParseConfig(arguments[x + 1]); }
+                if (arguments[x] == $"{Strings.Common.LoaderSettingAttach}") { _attachTargetName = arguments[x+1]; }
+                if (arguments[x] == $"{Strings.Common.LoaderSettingLog}") { Logger.Setup(arguments[x + 1]); }
             }
 
             // Check game config

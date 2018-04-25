@@ -23,9 +23,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Reloaded;
 using Reloaded.IO.Config.Themes;
 using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Utilities.Controls;
+using Bindings = Reloaded_GUI.Styles.Themes.Bindings;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -61,7 +63,7 @@ namespace ReloadedLauncher.Windows.Children
             if (Visible)
             {
                 // Set the titlebar.  
-                Global.CurrentMenuName = "Theme Menu";
+                Global.CurrentMenuName = Strings.Launcher.Menus.InputMenuName;
                 Global.BaseForm.UpdateTitle("");
 
                 // Set the button text for mod buttons to N/A.

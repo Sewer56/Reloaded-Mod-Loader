@@ -25,10 +25,12 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Reloaded;
 using Reloaded.IO.Config.Games;
 using Reloaded.Utilities;
 using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Utilities.Controls;
+using Bindings = Reloaded_GUI.Styles.Themes.Bindings;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -64,7 +66,7 @@ namespace ReloadedLauncher.Windows.Children
             if (Visible)
             {
                 // Set the titlebar.  
-                Global.CurrentMenuName = "Game Manager + Mod Loader Plugins";
+                Global.CurrentMenuName = Strings.Launcher.Menus.ManageMenuName;
                 Global.BaseForm.UpdateTitle("");
 
                 // Load the mod list for the game. 
@@ -119,6 +121,13 @@ namespace ReloadedLauncher.Windows.Children
                     gameConfig.ExecutableLocation == comboBoxDetails.ExecutableRelativeLocation &&
                     gameConfig.GameVersion == comboBoxDetails.GameVersion)
                 {
+                    // Check if global config.
+                    if (gameConfig.ConfigDirectory == LoaderPaths.GetGlobalConfigDirectory())
+                    {
+                        MessageBox.Show($"I'm sorry {Environment.UserName}, I'm afraid I can't let you do that.");
+                        return;
+                    }
+
                     // Set the new game details.
                     gameConfig.GameName = borderless_GameName.Text;
                     gameConfig.GameVersion = borderless_GameVersion.Text;
@@ -156,6 +165,13 @@ namespace ReloadedLauncher.Windows.Children
                     Global.GameConfigurations[x].ExecutableLocation == comboBoxDetails.ExecutableRelativeLocation &&
                     Global.GameConfigurations[x].GameVersion == comboBoxDetails.GameVersion)
                 {
+                    // Check if global config.
+                    if (Global.GameConfigurations[x].ConfigDirectory == LoaderPaths.GetGlobalConfigDirectory())
+                    {
+                        MessageBox.Show($"It's no use {Environment.UserName}, give up.");
+                        return;
+                    }
+
                     // Maintain currently open banners.
                     try { Global.BaseForm.ChildrenForms.MainMenu.item_GameBanner.BackgroundImage.Dispose(); } catch { }
                     try { box_GameBanner.BackgroundImage.Dispose(); } catch { }
@@ -188,17 +204,17 @@ namespace ReloadedLauncher.Windows.Children
                 Title = "Select the folder for the new game configuration.",
                 Multiselect = false,
                 IsFolderPicker = true,
-                InitialDirectory = LoaderPaths.GetModLoaderGameDirectory()
+                InitialDirectory = LoaderPaths.GetModLoaderGamesDirectory()
             };
 
             // Open dialog.
             if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                if (folderDialog.FileName.Contains(LoaderPaths.GetModLoaderGameDirectory()) && 
-                    folderDialog.FileName.Length > LoaderPaths.GetModLoaderGameDirectory().Length)
+                if (folderDialog.FileName.Contains(LoaderPaths.GetModLoaderGamesDirectory()) && 
+                    folderDialog.FileName.Length > LoaderPaths.GetModLoaderGamesDirectory().Length)
                     CreateNewGameConfig(folderDialog.FileName);
                 else
-                    MessageBox.Show($"Your chosen directory should be a subdirectory of {LoaderPaths.GetModLoaderGameDirectory()} ");
+                    MessageBox.Show($"Your chosen directory should be a subdirectory of {LoaderPaths.GetModLoaderGamesDirectory()} ");
             }
 
             // Dispose dialog.
@@ -272,7 +288,7 @@ namespace ReloadedLauncher.Windows.Children
             borderless_GameDirectory.Text = gameConfig.GameDirectory;
 
             // Load the game image.
-            try { box_GameBanner.BackgroundImage = Image.FromFile(gameConfig.ConfigDirectory + "\\Banner.png"); }
+            try { box_GameBanner.BackgroundImage = Image.FromFile(gameConfig.ConfigDirectory + $"\\{Strings.Launcher.BannerName}"); }
             catch { box_GameBanner.BackgroundImage = null; }
         }
 
@@ -406,10 +422,10 @@ namespace ReloadedLauncher.Windows.Children
                 );
 
                 // Copy the banner to new location.
-                File.Copy(imageDialog.FileName, gameConfig.ConfigDirectory + "\\Banner.png", true);
+                File.Copy(imageDialog.FileName, gameConfig.ConfigDirectory + $"\\{Strings.Launcher.BannerName}", true);
 
                 // Set new image.
-                box_GameBanner.BackgroundImage = Image.FromFile(gameConfig.ConfigDirectory + "\\Banner.png");
+                box_GameBanner.BackgroundImage = Image.FromFile(gameConfig.ConfigDirectory + $"\\{Strings.Launcher.BannerName}");
             }
 
             // Dispose dialog.

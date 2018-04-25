@@ -21,10 +21,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Reloaded;
 using Reloaded.Process;
 
 namespace ReloadedLauncher
@@ -57,7 +55,7 @@ namespace ReloadedLauncher
             // Build arguments.
             List<string> argumentsList = new List<string>()
             {
-                "\"--config\"",
+                $"\"{Strings.Common.LoaderSettingConfig}\"",
                 $"\"{Global.CurrentGameConfig.ConfigDirectory}\""
             };
 

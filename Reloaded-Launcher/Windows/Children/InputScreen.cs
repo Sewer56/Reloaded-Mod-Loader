@@ -22,12 +22,13 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Reloaded;
 using Reloaded.Input;
 using Reloaded.Input.Common;
 using Reloaded.Input.Modules;
-using Reloaded_GUI.Styles.Themes;
 using ReloadedLauncher.Windows.Children.Dialogs.Input_Screen;
 using Reloaded_GUI.Utilities.Controls;
+using Bindings = Reloaded_GUI.Styles.Themes.Bindings;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -181,7 +182,7 @@ namespace ReloadedLauncher.Windows.Children
             if (Visible)
             {
                 // Set the titlebar.  
-                Global.CurrentMenuName = "Reloaded Input Stack";
+                Global.CurrentMenuName = Strings.Launcher.Menus.InputMenuName;
                 Global.BaseForm.UpdateTitle("");
                 
                 // Setup controller preview.

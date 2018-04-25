@@ -440,5 +440,10 @@ namespace ReloadedLauncher.Windows
         private void CategoryBar_About_Click(object sender, EventArgs e) { SwapMenu(ChildrenForms.AboutMenu); }
 
         #endregion
+
+        private void categoryBar_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

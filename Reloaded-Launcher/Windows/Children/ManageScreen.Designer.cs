@@ -140,7 +140,7 @@ namespace ReloadedLauncher.Windows.Children
             this.item_SaveGame.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_SaveGame.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_SaveGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_SaveGame.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_SaveGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.item_SaveGame.ForeColor = System.Drawing.Color.White;
             this.item_SaveGame.IgnoreMouse = false;
             this.item_SaveGame.IgnoreMouseClicks = false;
@@ -179,7 +179,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameDirectory.BottomBorderColour = System.Drawing.Color.Transparent;
             this.borderless_GameDirectory.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_GameDirectory.BottomBorderWidth = 55;
-            this.borderless_GameDirectory.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_GameDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_GameDirectory.ForeColor = System.Drawing.Color.Transparent;
             this.borderless_GameDirectory.LeftBorderColour = System.Drawing.Color.Transparent;
             this.borderless_GameDirectory.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
@@ -189,7 +189,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameDirectory.RightBorderColour = System.Drawing.Color.Transparent;
             this.borderless_GameDirectory.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameDirectory.RightBorderWidth = 0;
-            this.borderless_GameDirectory.Size = new System.Drawing.Size(572, 24);
+            this.borderless_GameDirectory.Size = new System.Drawing.Size(572, 21);
             this.borderless_GameDirectory.TabIndex = 5;
             this.borderless_GameDirectory.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTipHelper.SetToolTip(this.borderless_GameDirectory, "You should only modify this if executable directory does not contain rest of game" +
@@ -222,7 +222,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameExecutableDirectory.BottomBorderColour = System.Drawing.Color.Empty;
             this.borderless_GameExecutableDirectory.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_GameExecutableDirectory.BottomBorderWidth = 55;
-            this.borderless_GameExecutableDirectory.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_GameExecutableDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_GameExecutableDirectory.LeftBorderColour = System.Drawing.Color.Empty;
             this.borderless_GameExecutableDirectory.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameExecutableDirectory.LeftBorderWidth = 0;
@@ -231,7 +231,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameExecutableDirectory.RightBorderColour = System.Drawing.Color.Empty;
             this.borderless_GameExecutableDirectory.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameExecutableDirectory.RightBorderWidth = 0;
-            this.borderless_GameExecutableDirectory.Size = new System.Drawing.Size(270, 24);
+            this.borderless_GameExecutableDirectory.Size = new System.Drawing.Size(270, 21);
             this.borderless_GameExecutableDirectory.TabIndex = 4;
             this.borderless_GameExecutableDirectory.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTipHelper.SetToolTip(this.borderless_GameExecutableDirectory, "Specifies the path of the game executable to run, relative of the game directory." +
@@ -264,7 +264,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameVersion.BottomBorderColour = System.Drawing.Color.Empty;
             this.borderless_GameVersion.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_GameVersion.BottomBorderWidth = 55;
-            this.borderless_GameVersion.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_GameVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_GameVersion.LeftBorderColour = System.Drawing.Color.Empty;
             this.borderless_GameVersion.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameVersion.LeftBorderWidth = 0;
@@ -273,7 +273,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameVersion.RightBorderColour = System.Drawing.Color.Empty;
             this.borderless_GameVersion.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameVersion.RightBorderWidth = 0;
-            this.borderless_GameVersion.Size = new System.Drawing.Size(270, 24);
+            this.borderless_GameVersion.Size = new System.Drawing.Size(270, 21);
             this.borderless_GameVersion.TabIndex = 2;
             this.borderless_GameVersion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTipHelper.SetToolTip(this.borderless_GameVersion, "Specifies the game version. This value is arbitrary and is only present for your " +
@@ -307,7 +307,7 @@ namespace ReloadedLauncher.Windows.Children
             this.item_DeleteBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_DeleteBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_DeleteBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_DeleteBox.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_DeleteBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.item_DeleteBox.ForeColor = System.Drawing.Color.White;
             this.item_DeleteBox.IgnoreMouse = false;
             this.item_DeleteBox.IgnoreMouseClicks = false;
@@ -347,7 +347,7 @@ namespace ReloadedLauncher.Windows.Children
             this.item_NewGame.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_NewGame.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_NewGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_NewGame.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_NewGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.item_NewGame.ForeColor = System.Drawing.Color.White;
             this.item_NewGame.IgnoreMouse = false;
             this.item_NewGame.IgnoreMouseClicks = false;
@@ -421,7 +421,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameName.BottomBorderColour = System.Drawing.Color.Red;
             this.borderless_GameName.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_GameName.BottomBorderWidth = 55;
-            this.borderless_GameName.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_GameName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_GameName.ForeColor = System.Drawing.Color.Red;
             this.borderless_GameName.LeftBorderColour = System.Drawing.Color.Red;
             this.borderless_GameName.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
@@ -431,7 +431,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameName.RightBorderColour = System.Drawing.Color.Red;
             this.borderless_GameName.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameName.RightBorderWidth = 0;
-            this.borderless_GameName.Size = new System.Drawing.Size(270, 24);
+            this.borderless_GameName.Size = new System.Drawing.Size(270, 21);
             this.borderless_GameName.TabIndex = 1;
             this.borderless_GameName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTipHelper.SetToolTip(this.borderless_GameName, "Specifies the name of the game as seen in Reloaded Launcher");
@@ -463,7 +463,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameModDirectory.BottomBorderColour = System.Drawing.Color.Empty;
             this.borderless_GameModDirectory.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_GameModDirectory.BottomBorderWidth = 55;
-            this.borderless_GameModDirectory.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_GameModDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_GameModDirectory.LeftBorderColour = System.Drawing.Color.Empty;
             this.borderless_GameModDirectory.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameModDirectory.LeftBorderWidth = 0;
@@ -472,7 +472,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameModDirectory.RightBorderColour = System.Drawing.Color.Empty;
             this.borderless_GameModDirectory.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameModDirectory.RightBorderWidth = 0;
-            this.borderless_GameModDirectory.Size = new System.Drawing.Size(270, 24);
+            this.borderless_GameModDirectory.Size = new System.Drawing.Size(270, 21);
             this.borderless_GameModDirectory.TabIndex = 3;
             this.borderless_GameModDirectory.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTipHelper.SetToolTip(this.borderless_GameModDirectory, "Specifies the folder location, subdirectory of Reloaded-Mods directory to be used" +
@@ -510,7 +510,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_CurrentGame.DropDownButtonColour = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.borderless_CurrentGame.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.borderless_CurrentGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_CurrentGame.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_CurrentGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_CurrentGame.ForeColor = System.Drawing.Color.White;
             this.borderless_CurrentGame.FormattingEnabled = true;
             this.borderless_CurrentGame.HighlightColor = System.Drawing.Color.Red;
@@ -528,7 +528,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_CurrentGame.RightBorderColour = System.Drawing.Color.Empty;
             this.borderless_CurrentGame.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_CurrentGame.RightBorderWidth = 0;
-            this.borderless_CurrentGame.Size = new System.Drawing.Size(516, 32);
+            this.borderless_CurrentGame.Size = new System.Drawing.Size(516, 29);
             this.borderless_CurrentGame.TabIndex = 0;
             this.toolTipHelper.SetToolTip(this.borderless_CurrentGame, "Did you know you can use the scroll wheel to change games?");
             this.borderless_CurrentGame.TopBorderColour = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -616,13 +616,13 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameDirectory.AutoSize = true;
             this.box_GameDirectory.BackColor = System.Drawing.Color.Transparent;
             this.box_GameDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_GameDirectory.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_GameDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.box_GameDirectory.ForeColor = System.Drawing.Color.White;
             this.box_GameDirectory.IgnoreMouse = false;
             this.box_GameDirectory.Location = new System.Drawing.Point(40, 259);
             this.box_GameDirectory.Margin = new System.Windows.Forms.Padding(0);
             this.box_GameDirectory.Name = "box_GameDirectory";
-            this.box_GameDirectory.Size = new System.Drawing.Size(175, 24);
+            this.box_GameDirectory.Size = new System.Drawing.Size(193, 22);
             this.box_GameDirectory.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.box_GameDirectory.TabIndex = 30;
             this.box_GameDirectory.Text = "GAME DIRECTORY:";
@@ -635,13 +635,13 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameExecutableDirectory.AutoSize = true;
             this.box_GameExecutableDirectory.BackColor = System.Drawing.Color.Transparent;
             this.box_GameExecutableDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_GameExecutableDirectory.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_GameExecutableDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.box_GameExecutableDirectory.ForeColor = System.Drawing.Color.White;
             this.box_GameExecutableDirectory.IgnoreMouse = false;
             this.box_GameExecutableDirectory.Location = new System.Drawing.Point(40, 217);
             this.box_GameExecutableDirectory.Margin = new System.Windows.Forms.Padding(0);
             this.box_GameExecutableDirectory.Name = "box_GameExecutableDirectory";
-            this.box_GameExecutableDirectory.Size = new System.Drawing.Size(208, 24);
+            this.box_GameExecutableDirectory.Size = new System.Drawing.Size(215, 22);
             this.box_GameExecutableDirectory.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.box_GameExecutableDirectory.TabIndex = 28;
             this.box_GameExecutableDirectory.Text = "EXE RELATIVE PATH:";
@@ -654,13 +654,13 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameVersion.AutoSize = true;
             this.box_GameVersion.BackColor = System.Drawing.Color.Transparent;
             this.box_GameVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_GameVersion.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_GameVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.box_GameVersion.ForeColor = System.Drawing.Color.White;
             this.box_GameVersion.IgnoreMouse = false;
             this.box_GameVersion.Location = new System.Drawing.Point(40, 133);
             this.box_GameVersion.Margin = new System.Windows.Forms.Padding(0);
             this.box_GameVersion.Name = "box_GameVersion";
-            this.box_GameVersion.Size = new System.Drawing.Size(153, 24);
+            this.box_GameVersion.Size = new System.Drawing.Size(165, 22);
             this.box_GameVersion.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.box_GameVersion.TabIndex = 25;
             this.box_GameVersion.Text = "GAME VERSION:";
@@ -673,13 +673,13 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameModDirectory.AutoSize = true;
             this.box_GameModDirectory.BackColor = System.Drawing.Color.Transparent;
             this.box_GameModDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_GameModDirectory.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_GameModDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.box_GameModDirectory.ForeColor = System.Drawing.Color.White;
             this.box_GameModDirectory.IgnoreMouse = false;
             this.box_GameModDirectory.Location = new System.Drawing.Point(40, 175);
             this.box_GameModDirectory.Margin = new System.Windows.Forms.Padding(0);
             this.box_GameModDirectory.Name = "box_GameModDirectory";
-            this.box_GameModDirectory.Size = new System.Drawing.Size(164, 24);
+            this.box_GameModDirectory.Size = new System.Drawing.Size(181, 22);
             this.box_GameModDirectory.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.box_GameModDirectory.TabIndex = 24;
             this.box_GameModDirectory.Text = "MOD DIRECTORY:";
@@ -692,13 +692,13 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameName.AutoSize = true;
             this.box_GameName.BackColor = System.Drawing.Color.Transparent;
             this.box_GameName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_GameName.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_GameName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.box_GameName.ForeColor = System.Drawing.Color.White;
             this.box_GameName.IgnoreMouse = false;
             this.box_GameName.Location = new System.Drawing.Point(40, 91);
             this.box_GameName.Margin = new System.Windows.Forms.Padding(0);
             this.box_GameName.Name = "box_GameName";
-            this.box_GameName.Size = new System.Drawing.Size(120, 24);
+            this.box_GameName.Size = new System.Drawing.Size(133, 22);
             this.box_GameName.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.box_GameName.TabIndex = 19;
             this.box_GameName.Text = "GAME NAME:";
@@ -719,7 +719,7 @@ namespace ReloadedLauncher.Windows.Children
             // 
             this.item_Reserved.BackColor = System.Drawing.Color.Transparent;
             this.item_Reserved.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_Reserved.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_Reserved.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.item_Reserved.ForeColor = System.Drawing.Color.White;
             this.item_Reserved.IgnoreMouse = false;
             this.item_Reserved.Location = new System.Drawing.Point(40, 327);
@@ -728,8 +728,7 @@ namespace ReloadedLauncher.Windows.Children
             this.item_Reserved.Size = new System.Drawing.Size(821, 138);
             this.item_Reserved.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.item_Reserved.TabIndex = 36;
-            this.item_Reserved.Text = "This section is reserved for mod loader plugins.\r\nComing sometime in the future b" +
-    "etween now and never.";
+            this.item_Reserved.Text = "This section is reserved.";
             this.item_Reserved.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.item_Reserved.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
@@ -737,7 +736,7 @@ namespace ReloadedLauncher.Windows.Children
             // 
             this.box_Separator.BackColor = System.Drawing.Color.Transparent;
             this.box_Separator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_Separator.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_Separator.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.box_Separator.ForeColor = System.Drawing.Color.White;
             this.box_Separator.IgnoreMouse = false;
             this.box_Separator.Location = new System.Drawing.Point(45, 287);

@@ -68,8 +68,8 @@ namespace ReloadedLauncher
         public static GameConfigParser.GameConfig CurrentGameConfig { get; set; }
 
         /// <summary>
-        /// Stores the currently loaded/highlighted modification configuration.
-        /// Changed when the user changes the modification in the mods menu.
+        /// Stores the currently loaded/highlighted modification/plugin configuration.
+        /// Changed when the user changes the modification/plugin in the mod/plugin menu.
         /// </summary>
         public static ModConfigParser.ModConfig CurrentModConfig { get; set; }
 

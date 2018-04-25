@@ -22,8 +22,9 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using Reloaded_GUI.Styles.Themes;
+using Reloaded;
 using Reloaded_GUI.Utilities.Controls;
+using Bindings = Reloaded_GUI.Styles.Themes.Bindings;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -60,7 +61,7 @@ namespace ReloadedLauncher.Windows.Children
             if (Visible)
             {
                 // Set the titlebar.  
-                Global.CurrentMenuName = "About [Reloaded]";
+                Global.CurrentMenuName = Strings.Launcher.Menus.AboutMenuName;
                 Global.BaseForm.UpdateTitle("");
 
                 // Set version

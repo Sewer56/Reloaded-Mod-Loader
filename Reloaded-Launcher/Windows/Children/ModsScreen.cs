@@ -25,10 +25,12 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Reloaded;
 using Reloaded.IO.Config.Mods;
 using ReloadedLauncher.Misc;
 using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Utilities.Controls;
+using Bindings = Reloaded_GUI.Styles.Themes.Bindings;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -64,7 +66,7 @@ namespace ReloadedLauncher.Windows.Children
             if (Visible)
             {
                 // Set the titlebar.  
-                Global.CurrentMenuName = "Mods Menu";
+                Global.CurrentMenuName = Strings.Launcher.Menus.ModsMenuName;
                 Global.BaseForm.UpdateTitle(Global.CurrentGameConfig?.GameName);
 
                 // Set the button text for mod buttons to N/A.
@@ -301,7 +303,7 @@ namespace ReloadedLauncher.Windows.Children
                 string modDirectory = Path.GetDirectoryName(modConfiguration.ModLocation);
 
                 // Attempt to load image.
-                try { box_ModPreview.BackgroundImage = Image.FromFile(modDirectory + "\\Banner.png"); }
+                try { box_ModPreview.BackgroundImage = Image.FromFile(modDirectory + $"\\{Strings.Launcher.BannerName}"); }
                 catch { box_ModPreview.BackgroundImage = null; }
             }
             catch { }

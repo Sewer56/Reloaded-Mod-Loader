@@ -42,7 +42,7 @@ namespace ReloadedLauncher
         /// </summary>
         [STAThread]
         private static void Main()
-        {
+       {
             // Deprecate App.config, find dependent libraries ourselves.
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
