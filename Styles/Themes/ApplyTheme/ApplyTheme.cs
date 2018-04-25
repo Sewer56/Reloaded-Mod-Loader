@@ -19,7 +19,6 @@
 */
 
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using Reloaded.IO.Config.Themes;
 using Reloaded_GUI.Styles.Animation;
