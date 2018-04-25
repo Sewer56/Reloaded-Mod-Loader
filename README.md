@@ -83,11 +83,12 @@ Reloaded contains multiple, very well documented sets of functions allowing you 
  - [x] Multi level hooking for Reloaded hooks, module + in-page patching of other loaders' hooks to interoperate in multi-level hooking.
  - [x] DirectX 9, 11 hooking (overlays)
  - [x] Reloaded Input Stack: Extremely customizable input support for mods (dual XInput + DInput), featuring hotplugging, on the fly remapping, button to axis, axis to axis, deadzone, radius customization etc.
+ - [x] List of mods to always load, regardless of game (for common utilities, e.g. borderless, file read/write monitor)
 
 ### Todo (Short term: Working at it now!)
 To be completed until first public release:
  
- - [ ] List of mods to always load, regardless of game (for common utilities, e.g. borderless, file read/write monitor)
+
  - [ ] Third party one-click mod install support (GameBanana, separate application to Launcher)
  - [ ] Self updating
  - [ ] Reloaded-wiki
