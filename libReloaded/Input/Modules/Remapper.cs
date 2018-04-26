@@ -169,8 +169,12 @@ namespace Reloaded.Input.Modules
             {
                 // If InstanceGUID or ProductGUID.
                 if (ConfigType == DirectInputConfigType.InstanceGUID)
-                    ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/Instances/" + dInputController.Information.InstanceGuid + ".json";
-                else if (ConfigType == DirectInputConfigType.ProductGUID) ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/" + dInputController.Information.ProductName + ".json";
+                    ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/Instances/" +
+                                                dInputController.Information.InstanceGuid + ".json";
+
+                else if (ConfigType == DirectInputConfigType.ProductGUID)
+                    ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/" +
+                                                PathSanitizer.ForceValidFilePath(dInputController.Information.ProductName) + ".json";
             }
             else if (DeviceType == InputDeviceType.XInput)
             {
