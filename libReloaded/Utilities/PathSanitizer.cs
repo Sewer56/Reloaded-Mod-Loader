@@ -43,10 +43,13 @@ namespace Reloaded.Utilities
         {
             // Valid path force
             foreach (char c in Invalid)
+            {
+                // Ignore paths
+                if (c != '\\' || c != '/')
+                    text = text.Replace(c.ToString(), "");
+            }
 
-            // Ignore paths
-            if (c != '\\' || c != '/')
-                text = text.Replace(c.ToString(), "");
+
 
             return text;
         }
