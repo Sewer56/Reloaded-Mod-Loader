@@ -37,7 +37,7 @@ namespace Reloaded.Networking
         /// Defines the maximum amount of connection attempts before the client gives
         /// up trying to connect to the host. Poor client...
         /// </summary>
-        public int MaxConnectionAttempts = 10;
+        public int MaxConnectionAttempts { get; set; } = 10;
 
         /// <summary>
         /// The socket we will be using to communicate with the server.

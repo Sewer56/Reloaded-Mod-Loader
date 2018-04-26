@@ -45,14 +45,14 @@ namespace Reloaded_GUI.Utilities.Windows
         /// <param name="lParam">Additional message-specific information.</param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
         /// Suspends all draw operations for the specific control.
         /// </summary>
         public static void SuspendDrawing(Control parent)
         {
-            SendMessage(parent.Handle, WM_SETREDRAW, 0, 0);
+            SendMessage(parent.Handle, WM_SETREDRAW, IntPtr.Zero, IntPtr.Zero );
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Reloaded_GUI.Utilities.Windows
         /// </summary>
         public static void ResumeDrawing(Control parent)
         {
-            SendMessage(parent.Handle, WM_SETREDRAW, 1, 0);
+            SendMessage(parent.Handle, WM_SETREDRAW, (IntPtr)1, IntPtr.Zero );
             parent.Refresh();
         }
 
@@ -69,7 +69,7 @@ namespace Reloaded_GUI.Utilities.Windows
         /// </summary>
         public static void SuspendDrawing(Form parent)
         {
-            SendMessage(parent.Handle, WM_SETREDRAW, 0, 0);
+            SendMessage(parent.Handle, WM_SETREDRAW, IntPtr.Zero, IntPtr.Zero );
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Reloaded_GUI.Utilities.Windows
         /// </summary>
         public static void ResumeDrawing(Form parent)
         {
-            SendMessage(parent.Handle, WM_SETREDRAW, 1, 0);
+            SendMessage(parent.Handle, WM_SETREDRAW, (IntPtr)1, IntPtr.Zero );
             parent.Refresh();
         }
     }

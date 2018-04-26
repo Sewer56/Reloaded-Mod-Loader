@@ -18,6 +18,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System;
 using System.Drawing;
 using System.Drawing.Text;
 
@@ -28,7 +29,7 @@ namespace Reloaded_GUI.Utilities.Fonts
     /// font file format without having the user manually have to install the fonts (normally requiring administrative)
     /// priviledges.
     /// </summary>
-    public class FontLoader
+    public class FontLoader : IDisposable
     {
         /// <summary>
         /// Stores the fonts to be loaded from files for this class (prevent font Garbage Collection).
@@ -50,6 +51,20 @@ namespace Reloaded_GUI.Utilities.Fonts
 
             // Instantiate the font and return the font.
             return new Font(_privateFontCollection.Families[0], fontSize);
+        }
+
+        protected virtual void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                _privateFontCollection?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose( true );
+            GC.SuppressFinalize( this );
         }
     }
 }

@@ -32,12 +32,12 @@ namespace Reloaded.Process.Native
     public class Native
     {
         /// <summary>
-        /// AllocationType
+        /// AllocationTypes
         ///     Specifies the type of memory allocation to be used alongside functions such as VirtualCommitEx
         ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366890(v=vs.85).aspx
         /// </summary>
         [Flags]
-        public enum AllocationType
+        public enum AllocationTypes
         {
             /// <summary>
             /// Allocates memory charges (from the overall size of memory and the paging files on disk) 
@@ -75,12 +75,12 @@ namespace Reloaded.Process.Native
         }
 
         /// <summary>
-        /// FreeType
+        /// FreeTypes
         ///     The type of free operation. This parameter can be either Decommit or Release.
         ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366894(v=vs.85).aspx
         /// </summary>
         [Flags]
-        public enum FreeType
+        public enum FreeTypes
         {
             /// <summary>
             /// Decommits the specified region of committed pages. After the operation, the pages are in the reserved state. 
@@ -93,13 +93,13 @@ namespace Reloaded.Process.Native
         }
 
         /// <summary>
-        /// MemoryProtection
+        /// MemoryProtections
         ///     Specifies the memory protection constants for the region of pages 
         ///     to be allocated, referenced or used for a similar purpose.
         ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366786(v=vs.85).aspx
         /// </summary>
         [Flags]
-        public enum MemoryProtection
+        public enum MemoryProtections
         {
             Execute = 0x10,
             ExecuteRead = 0x20,
@@ -157,11 +157,11 @@ namespace Reloaded.Process.Native
         ///     to allocate the region itself (i.e. allocates new virtual memory).
         /// </param>
         /// <param name="dwSize">The size of the region of memory to allocate, in bytes.</param>
-        /// <param name="flAllocationType">The type of memory allocation. See MSDN.</param>
+        /// <param name="flAllocationTypes">The type of memory allocation. See MSDN.</param>
         /// <param name="flProtect">The memory protection for the region of pages to be allocated.</param>
         /// <returns>If succeeds, the base address of the allocated region of pages, else NULL.</returns>
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        public static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, IntPtr dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
+        public static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, IntPtr dwSize, AllocationTypes flAllocationTypes, MemoryProtections flProtect);
 
         /// <summary>
         /// VirtualFreeEx
@@ -174,10 +174,10 @@ namespace Reloaded.Process.Native
         /// </param>
         /// <param name="lpAddress">Starting address of the region of memory to be freed. </param>
         /// <param name="dwSize">The size of the region of memory to free, in bytes. </param>
-        /// <param name="dwFreeType">The type of free operation.</param>
+        /// <param name="dwFreeTypes">The type of free operation.</param>
         /// <returns>If the function succeeds, the return value is a nonzero value, else zero.</returns>
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        public static extern bool VirtualFreeEx(IntPtr hProcess, IntPtr lpAddress, int dwSize, FreeType dwFreeType);
+        public static extern bool VirtualFreeEx(IntPtr hProcess, IntPtr lpAddress, IntPtr dwSize, FreeTypes dwFreeTypes);
 
         /// <summary>
         /// WriteProcessMemory
@@ -207,7 +207,7 @@ namespace Reloaded.Process.Native
         /// <param name="nSize">The number of bytes to be written to the specified process.</param>
         /// <returns>If the function succeeds, the return value is nonzero.</returns>
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, int nSize, out IntPtr lpNumberOfBytesWritten);
+        public static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, IntPtr nSize, out IntPtr lpNumberOfBytesWritten);
 
         /// <summary>
         /// ReadProcessMemory
@@ -227,7 +227,7 @@ namespace Reloaded.Process.Native
         /// </param>
         /// <returns>If the function succeeds, the return value is nonzero.</returns>
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesRead);
+        public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, IntPtr dwSize, out IntPtr lpNumberOfBytesRead);
 
         /// <summary>
         /// VirtualProtect
@@ -240,7 +240,7 @@ namespace Reloaded.Process.Native
         /// <param name="lpflOldProtect">The old protection flags.</param>
         /// <returns>If the function succeeds, the return value is nonzero.</returns>
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize, MemoryProtection flNewProtect, out MemoryProtection lpflOldProtect);
+        public static extern bool VirtualProtect(IntPtr lpAddress, IntPtr dwSize, MemoryProtections flNewProtect, out MemoryProtections lpflOldProtect);
 
         /// <summary>
         /// VirtualProtectEx
@@ -263,7 +263,7 @@ namespace Reloaded.Process.Native
         /// </param>
         /// <param name="flNewProtect">
         ///     The memory protection option. This parameter can be one of the memory protection constants.
-        ///     See <see cref="MemoryProtection"/>
+        ///     See <see cref="MemoryProtections"/>
         /// </param>
         /// <param name="lpflOldProtect">
         ///     A pointer to a variable that receives the previous access protection of the first page in the specified region of pages. 
@@ -272,7 +272,7 @@ namespace Reloaded.Process.Native
         /// <returns>If the function succeeds, the return value is nonzero.</returns>
         [DllImport("kernel32.dll")]
         public static extern bool VirtualProtectEx(IntPtr hProcess, IntPtr lpAddress,
-            IntPtr dwSize, MemoryProtection flNewProtect, out MemoryProtection lpflOldProtect);
+            IntPtr dwSize, MemoryProtections flNewProtect, out MemoryProtections lpflOldProtect);
 
         /// <summary>
         /// CreateRemoteThread
@@ -296,7 +296,7 @@ namespace Reloaded.Process.Native
         /// <param name="lpThreadId">A pointer to a variable that receives the thread identifier. </param>
         /// <returns>A handle to the newly created thread.</returns>
         [DllImport("kernel32.dll")]
-        public static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, 
+        public static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, IntPtr dwStackSize, 
             IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);
 
         /// <summary>

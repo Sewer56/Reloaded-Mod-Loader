@@ -18,6 +18,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -28,30 +29,30 @@ namespace Reloaded.Input.DirectInput
     /// <summary>
     /// Loads and initializes all of the mod loader's DirectInput controllers.
     /// </summary>
-    public class DInputManager
+    public class DInputManager : IDisposable
     {
         /// <summary>
         /// Represents the maximum set value that is to be returned from a controller.
         /// </summary>
-        public static int AxisMaxValue = 10000;
+        public static int AxisMaxValue { get; set; } = 10000;
 
         /// <summary>
         /// Represents the minimum set value that is to be returned from a controller.
         /// </summary>
-        public static int AxisMinValue = -10000;
+        public static int AxisMinValue { get; set; } = -10000;
 
         /// <summary>
         /// Defines the factor by which the range of the values for the trigger (max - min)
         /// is scaled.
         /// </summary>
-        public static float TriggerScaleFactor = 0.5F;
+        public static float TriggerScaleFactor { get; set; } = 0.5F;
 
         /// <summary>
         /// The name of a file that is temporarily dumped onto the game directory which signifies that
         /// a controller is currently being acquired via DirectInput. This should be consistent between mods
         /// as multiple mods trying to acquire DInput devices at once could lead to deadlocks.  
         /// </summary>
-        public static string ControllerAcquireFilenameFlag = "Controller_Acquire.txt";
+        public static string ControllerAcquireFilenameFlag { get; set; } = "Controller_Acquire.txt";
 
         /// <summary>
         /// Stores a list of all DirectInput controller devices such as Mice, Keyboards
@@ -194,6 +195,20 @@ namespace Reloaded.Input.DirectInput
 
             // Return the DirectInput Device.
             return dInputController;
+        }
+
+        protected virtual void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                _directInputAdapter?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose( true );
+            GC.SuppressFinalize( this );
         }
     }
 }

@@ -55,7 +55,7 @@ namespace Reloaded_GUI.Utilities.Windows
         /// <param name="lParam">Additional message-specific information.</param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam );
 
         /// <summary>
         /// Releases the mouse capture from a window in the current thread and restores normal mouse input processing. 
@@ -73,7 +73,7 @@ namespace Reloaded_GUI.Utilities.Windows
         public static void MoveTheWindow(IntPtr handle)
         {
             ReleaseCapture();
-            SendMessage(handle, WM_SYSCOMMAND, MOUSE_MOVE, 0);
+            SendMessage(handle, WM_SYSCOMMAND, (IntPtr)MOUSE_MOVE, IntPtr.Zero);
         }
     }
 }

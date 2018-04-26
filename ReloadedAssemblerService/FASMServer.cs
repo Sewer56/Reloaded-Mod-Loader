@@ -115,7 +115,7 @@ namespace ReloadedAssembler
                 _server = new Host(IPAddress.Loopback, _serverPort);
                 _server.StartServer();
             }
-            catch (SocketException ex)
+            catch (SocketException)
             {
                 // Try on next port.
                 _serverPort += 1;
@@ -144,14 +144,16 @@ namespace ReloadedAssembler
         private static void Report(ReloadedSocket clientSocket)
         {
             // Send back empty message struct
-            Message.MessageStruct messageStruct = new Message.MessageStruct();
-            messageStruct.MessageType = (ushort)MessageTypes.ReportAssembler;
+            Message.MessageStruct messageStruct = new Message.MessageStruct
+            {
+                MessageType = ( ushort ) MessageTypes.ReportAssembler,
+                Data = Encoding.ASCII.GetBytes( ReloadedCheckMessage )
+            };
 
             // ABSOLUTELY DO NOT CHANGE THIS STRING
             // libReloaded EXPECTS THIS STRING AND WILL IGNORE SERVER UNTIL
             // THIS STRING IS RETURNED. THIS IDENTIFIES THE ASSEMBLER.
-            messageStruct.Data = Encoding.ASCII.GetBytes(ReloadedCheckMessage);
-            
+
             clientSocket.SendData(messageStruct, false);
         }
 
@@ -162,10 +164,9 @@ namespace ReloadedAssembler
         private static void Assemble(string[] mnemonics, ReloadedSocket clientSocket)
         {
             // Send back empty message struct
-            Message.MessageStruct messageStruct = new Message.MessageStruct();
+            Message.MessageStruct messageStruct = new Message.MessageStruct { MessageType = ( ushort ) MessageTypes.Assemble };
 
             // Client will likely ignore this anyway.
-            messageStruct.MessageType = (ushort)MessageTypes.Assemble;
 
             // Try Assembly
             try

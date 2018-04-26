@@ -42,7 +42,7 @@ namespace Reloaded.Process
         {
             // Create and initialize a thread at our address (which may be a C/C++ function) and parameter address.
             // hThread is a handle to the new thread.
-            IntPtr hThread = Native.Native.CreateRemoteThread(process.ProcessHandle, IntPtr.Zero, 0, address, parameteraddress, 0, out IntPtr threadId);
+            IntPtr hThread = Native.Native.CreateRemoteThread(process.ProcessHandle, IntPtr.Zero, IntPtr.Zero, address, parameteraddress, 0, out IntPtr threadId);
 
             // Wait for the thread to finish.
             Native.Native.WaitForSingleObject(hThread, unchecked((uint)-1));
@@ -65,7 +65,7 @@ namespace Reloaded.Process
         {
             // Create and initialize a thread at our address (which may be a C/C++ function) and parameter address.
             // hThread is a handle to the new thread.
-            Native.Native.CreateRemoteThread(process.ProcessHandle, IntPtr.Zero, 0, address, parameteraddress, 0, out IntPtr threadId);
+            Native.Native.CreateRemoteThread(process.ProcessHandle, IntPtr.Zero, IntPtr.Zero, address, parameteraddress, 0, out IntPtr threadId);
         }
 
         /// <summary>

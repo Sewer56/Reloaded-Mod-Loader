@@ -99,7 +99,7 @@ namespace Reloaded.Native.Helpers
         /// <returns></returns>
         public object Clone() => new ArrayPtr<T>( ( ulong )Pointer );
 
-        public IEnumerator<T> GetEnumerator() => new Enumerator<T>( this );
+        public IEnumerator<T> GetEnumerator() => new Enumerator( this );
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -198,7 +198,9 @@ namespace Reloaded.Native.Helpers
             return ( void* )( ( long )Pointer + ( index * ElementSize ) );
         }
 
-        private class Enumerator<T> : IEnumerator<T> where T : struct
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
+        private class Enumerator : IEnumerator<T>
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
         {
             private readonly ArrayPtr<T> mParent;
             private void* mCursor;
