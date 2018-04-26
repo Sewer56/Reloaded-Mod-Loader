@@ -201,13 +201,27 @@ namespace Reloaded_Loader
             // Go over known arguments.
             for (int x = 0; x < arguments.Length; x++)
             {
-                if (arguments[x] == $"{Strings.Common.LoaderSettingConfig}") { _gameConfig = GameConfigParser.ParseConfig(arguments[x + 1]); }
+                if (arguments[x] == $"{Strings.Common.LoaderSettingConfig}") { _gameConfig = CheckConfigJson(arguments[x + 1]); }
                 if (arguments[x] == $"{Strings.Common.LoaderSettingAttach}") { _attachTargetName = arguments[x+1]; }
                 if (arguments[x] == $"{Strings.Common.LoaderSettingLog}") { Logger.Setup(arguments[x + 1]); }
             }
 
             // Check game config
             if (_gameConfig == null) { Banner.DisplayWarning(); }
+        }
+
+        /// <summary>
+        /// Checks whether the supplied argument for the config path ends with Config.json and strips
+        /// the argument if it does to obtain the game configuration from the parser.
+        /// </summary>
+        private static GameConfigParser.GameConfig CheckConfigJson(string argument)
+        {
+            // Accept the supplied config path if it ends on Config.json.
+            if (argument.EndsWith(Strings.Parsers.ConfigFile))
+            { return GameConfigParser.ParseConfig(Path.GetDirectoryName(argument)); }
+
+            // Otherwise get the game config from the vanilla argument.
+            return GameConfigParser.ParseConfig(argument);
         }
 
         /// <summary>
@@ -343,9 +357,7 @@ namespace Reloaded_Loader
                 }
             }
             catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+            { }
 
         }
     }

@@ -38,7 +38,7 @@ namespace Reloaded.IO.Config.Games
         public static GameConfig ParseConfig(string gameConfigDirectory)
         {
             // Sets the configuration file location for the game.
-            string configFile = gameConfigDirectory + $"\\{Strings.Parsers.ConfigFileNew}";
+            string configFile = gameConfigDirectory + $"\\{Strings.Parsers.ConfigFile}";
             
             // Try parsing the config file, else backup to default one.
             GameConfig config;
@@ -142,7 +142,7 @@ namespace Reloaded.IO.Config.Games
                 {
                     ExecutableLocation = "All Executables",
                     ModDirectory = Strings.Common.GlobalModFolder,
-                    ConfigLocation = LoaderPaths.GetGlobalGameConfigDirectory() + $"\\{Strings.Parsers.ConfigFileNew}",
+                    ConfigLocation = LoaderPaths.GetGlobalGameConfigDirectory() + $"\\{Strings.Parsers.ConfigFile}",
                     GameDirectory = "Between Time and Space",
                     GameName = Strings.Common.GlobalModName,
                     GameVersion = "Reloaded"
@@ -158,7 +158,7 @@ namespace Reloaded.IO.Config.Games
             {
                 gameConfig.ExecutableLocation = "All Executables";
                 gameConfig.ModDirectory = Strings.Common.GlobalModFolder;
-                gameConfig.ConfigLocation = LoaderPaths.GetGlobalGameConfigDirectory() + $"\\{Strings.Parsers.ConfigFileNew}";
+                gameConfig.ConfigLocation = LoaderPaths.GetGlobalGameConfigDirectory() + $"\\{Strings.Parsers.ConfigFile}";
                 gameConfig.GameName = Strings.Common.GlobalModName;
                 gameConfig.GameVersion = "Reloaded";
                 gameConfig.GameDirectory = "Between Time and Space";

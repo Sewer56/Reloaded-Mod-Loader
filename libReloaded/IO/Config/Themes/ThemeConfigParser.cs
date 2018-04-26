@@ -35,7 +35,7 @@ namespace Reloaded.IO.Config.Themes
         public static ThemeConfig ParseConfig(string themeLocations)
         {
             // Read the mod loader theme configuration.
-            string themeConfigurationLocation = themeLocations + $"/{Strings.Parsers.ConfigFileNew}";
+            string themeConfigurationLocation = themeLocations + $"/{Strings.Parsers.ConfigFile}";
 
             // Try parsing the config file, else return default one.
             ThemeConfig themeConfiguration;

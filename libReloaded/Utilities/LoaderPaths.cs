@@ -64,7 +64,7 @@ namespace Reloaded.Utilities
         /// <summary>
         /// Specifies the location of the configuration file for Reloaded.
         /// </summary>
-        private static readonly string ConfigFileLocation = GetModLoaderConfigDirectory() + $"/{Strings.Parsers.ConfigFileNew}";
+        private static readonly string ConfigFileLocation = GetModLoaderConfigDirectory() + $"/{Strings.Parsers.ConfigFile}";
 
         /// <summary>
         /// Specifies the location of the global mods folder for Reloaded, mods which
