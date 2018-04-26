@@ -197,18 +197,17 @@ namespace Reloaded.Input.DirectInput
             return dInputController;
         }
 
-        protected virtual void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                _directInputAdapter?.Dispose();
-            }
-        }
+        /// <summary>
+        /// Implement interface for disposing.
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        { if (disposing) _directInputAdapter?.Dispose(); }
 
+        /// <summary>
+        /// Implement IDisposable
+        /// </summary>
         public void Dispose()
-        {
-            Dispose( true );
-            GC.SuppressFinalize( this );
-        }
+        { Dispose(true); GC.SuppressFinalize(this); }
     }
 }

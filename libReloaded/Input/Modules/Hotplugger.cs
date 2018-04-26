@@ -246,31 +246,31 @@ namespace Reloaded.Input.Modules
                 internal short name;
             }
 
-            protected virtual void Dispose( bool disposing )
-            {
-                if ( !disposing )
-                    UnregisterDeviceNotification();
-            }
+            /// <summary>
+            /// Implement interface for disposing.
+            /// </summary>
+            /// <param name="disposing"></param>
+            protected virtual void Dispose(bool disposing)
+            { if (disposing) UnregisterDeviceNotification(); }
 
+            /// <summary>
+            /// Implement IDisposable
+            /// </summary>
             public void Dispose()
-            {
-                Dispose( true );
-                GC.SuppressFinalize( this );
-            }
+            { Dispose(true); GC.SuppressFinalize(this); }
         }
 
-        protected virtual void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                _deviceNotificationDispatcher?.Dispose();
-            }
-        }
+        /// <summary>
+        /// Implement interface for disposing.
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        { if (disposing) _deviceNotificationDispatcher?.Dispose(); }
 
+        /// <summary>
+        /// Implement IDisposable
+        /// </summary>
         public void Dispose()
-        {
-            Dispose( true );
-            GC.SuppressFinalize( this );
-        }
+        { Dispose(true); GC.SuppressFinalize(this); }
     }
 }

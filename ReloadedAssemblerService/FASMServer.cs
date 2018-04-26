@@ -143,16 +143,16 @@ namespace ReloadedAssembler
         /// <param name="clientSocket">The socket to which the "ok" message should be sent.</param>
         private static void Report(ReloadedSocket clientSocket)
         {
-            // Send back empty message struct
+            // Send back empty message struct.
             Message.MessageStruct messageStruct = new Message.MessageStruct
             {
-                MessageType = ( ushort ) MessageTypes.ReportAssembler,
-                Data = Encoding.ASCII.GetBytes( ReloadedCheckMessage )
-            };
+                MessageType = (ushort)MessageTypes.ReportAssembler,
 
-            // ABSOLUTELY DO NOT CHANGE THIS STRING
-            // libReloaded EXPECTS THIS STRING AND WILL IGNORE SERVER UNTIL
-            // THIS STRING IS RETURNED. THIS IDENTIFIES THE ASSEMBLER.
+                // ABSOLUTELY DO NOT CHANGE THIS STRING
+                // libReloaded EXPECTS THIS STRING AND WILL IGNORE SERVER UNTIL
+                // THIS STRING IS RETURNED. THIS IDENTIFIES THE ASSEMBLER.
+                Data = Encoding.ASCII.GetBytes(ReloadedCheckMessage)
+            };
 
             clientSocket.SendData(messageStruct, false);
         }
@@ -161,25 +161,25 @@ namespace ReloadedAssembler
         /// Assembles the received request and sends back information to the client.
         /// </summary>
         /// <param name="mnemonics">The assembly code to be assembled.</param>
+        /// <param name="clientSocket">The socket used for communication with the client. which sent the request.</param>
         private static void Assemble(string[] mnemonics, ReloadedSocket clientSocket)
         {
             // Send back empty message struct
-            Message.MessageStruct messageStruct = new Message.MessageStruct { MessageType = ( ushort ) MessageTypes.Assemble };
-
-            // Client will likely ignore this anyway.
+            Message.MessageStruct messageStruct = new Message.MessageStruct
+            {
+                // Client will likely ignore this anyway (but shouldn't).
+                MessageType = ( ushort ) MessageTypes.Assemble
+            };
 
             // Try Assembly
+            // Assemble the bytes
             try
-            {
-                // Assemble the bytes
-                messageStruct.Data = FasmNet.Assemble(mnemonics);
-            }
+            { messageStruct.Data = FasmNet.Assemble(mnemonics); }
+
             // Failed to Assemble
+            // Return nop on failure.
             catch
-            {
-                // Return nop on failure.
-                messageStruct.Data = new byte[1] { 0x90 };
-            }
+            { messageStruct.Data = new byte[1] { 0x90 }; }
 
             // Return back.
             clientSocket.SendData(messageStruct, false);

@@ -53,18 +53,17 @@ namespace Reloaded_GUI.Utilities.Fonts
             return new Font(_privateFontCollection.Families[0], fontSize);
         }
 
-        protected virtual void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                _privateFontCollection?.Dispose();
-            }
-        }
+        /// <summary>
+        /// Implement interface for disposing.
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        { if (disposing) _privateFontCollection?.Dispose(); }
 
+        /// <summary>
+        /// Implement IDisposable
+        /// </summary>
         public void Dispose()
-        {
-            Dispose( true );
-            GC.SuppressFinalize( this );
-        }
+        { Dispose(true); GC.SuppressFinalize(this); }
     }
 }

@@ -81,10 +81,8 @@ namespace ReloadedLauncher
                 Directory.Delete(sourceDirectory, true);
                 Directory.Delete(sourceDirectoryDefaultMods, true);
             }
-            catch ( Exception )
-            {
-                /* ¯\_(ツ)_/¯ */
-            }
+            catch (Exception)
+            { /* ¯\_(ツ)_/¯ */ }
         }
 
         /// <summary>
