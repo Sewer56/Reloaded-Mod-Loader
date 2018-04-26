@@ -130,7 +130,7 @@ namespace ReloadedLauncher
                 }
 
                 // Update from Github
-                using (var updateManager = UpdateManager.GitHubUpdateManager("https://github.com/sewer56lol/Reloaded-Mod-Loader"))
+                using (var updateManager = UpdateManager.GitHubUpdateManager("https://github.com/sewer56lol/Reloaded-Mod-Loader", prerelease: true))
                 {
                     // Update manager for Github
                     UpdateManager githubUpdateManager = updateManager.Result;
