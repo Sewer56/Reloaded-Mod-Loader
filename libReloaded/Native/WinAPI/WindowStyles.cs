@@ -33,7 +33,7 @@ namespace Reloaded.Native.WinAPI
         /// 
 
         [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
-        private static extern IntPtr SetWindowLong32(HandleRef hWnd, int nIndex, IntPtr dwNewLong);
+        private static extern uint SetWindowLong32(HandleRef hWnd, int nIndex, uint dwNewLong );
 
         [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
         private static extern IntPtr SetWindowLongPtr64(HandleRef hWnd, int nIndex, IntPtr dwNewLong);
@@ -57,7 +57,7 @@ namespace Reloaded.Native.WinAPI
             if (IntPtr.Size == 8) return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
 
             // Else go x86
-            return SetWindowLong32(hWnd, nIndex, dwNewLong);
+            return (IntPtr)SetWindowLong32(hWnd, nIndex, ( uint )dwNewLong);
         }
 
         /// 
@@ -65,7 +65,7 @@ namespace Reloaded.Native.WinAPI
         /// 
 
         [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
-        private static extern IntPtr GetWindowLongPtr32(IntPtr hWnd, int nIndex);
+        private static extern int GetWindowLongPtr32(IntPtr hWnd, int nIndex);
 
         [DllImport("user32.dll", EntryPoint = "GetWindowLongPtr")]
         private static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, int nIndex);
@@ -84,7 +84,7 @@ namespace Reloaded.Native.WinAPI
             if (IntPtr.Size == 8) return GetWindowLongPtr64(hWnd, nIndex);
 
             // Else go x86
-            return GetWindowLongPtr32(hWnd, nIndex);
+            return (IntPtr)GetWindowLongPtr32(hWnd, nIndex);
         }
 
         /// <summary>
@@ -97,6 +97,6 @@ namespace Reloaded.Native.WinAPI
         /// <param name="dwFlags"></param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        public static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
+        public static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, uint bAlpha, uint dwFlags);
     }
 }
