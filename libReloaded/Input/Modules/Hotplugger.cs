@@ -31,7 +31,7 @@ namespace Reloaded.Input.Modules
     /// connections and disconnections. A specific delegate is ran upon device connection and disconnection.
     /// Within the loader, all controllers and input devices are re-evaluated upon device removal or insertion. Their configurations reloaded (if necessary).
     /// </summary>
-    public class Hotplugger : NativeWindow
+    public class Hotplugger : NativeWindow, IDisposable
     {
         /// <summary>
         /// Provides a delegate signature for controller configuration re-parsing.
@@ -67,7 +67,7 @@ namespace Reloaded.Input.Modules
         /// <summary>
         /// Hosts an instance of the deviceNotification class which sends a message to this window whenever a controller device is inserted or removed.
         /// </summary>
-        private DeviceNotification _deviceNotificationDispatcher;
+        private readonly DeviceNotification _deviceNotificationDispatcher;
 
         /// <summary>
         /// Constructor for the Hotplugger class. Requires an initial method to which send messages when a device is
@@ -105,11 +105,11 @@ namespace Reloaded.Input.Modules
         /// <summary>
         /// Handler of Window Messages, calls the delegate if the message sent to the window is a change in device.
         /// </summary>
-        protected override void WndProc(ref Message message)
+        protected override void WndProc(ref Message m)
         {
             // If the message is a device change event.
-            if (message.Msg == WM_DEVICECHANGE)
-                switch ((int)message.WParam)
+            if (m.Msg == WM_DEVICECHANGE)
+                switch ((int)m.WParam)
                 {
                     // Upon Connecting to a device.
                     case DBT_DEVICEARRIVAL:
@@ -123,7 +123,7 @@ namespace Reloaded.Input.Modules
                 }
 
             // Call the original window message procedure for the window. 
-            base.WndProc(ref message);
+            base.WndProc(ref m);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Reloaded.Input.Modules
         /// Registers device notifications to be directed towards the read-only window.
         /// </summary>
         [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private class DeviceNotification
+        private class DeviceNotification : IDisposable
         {
             /// <summary>
             /// The device type, which determines the event-specific information that follows the first three members.
@@ -245,6 +245,32 @@ namespace Reloaded.Input.Modules
                 /// </summary>
                 internal short name;
             }
+
+            protected virtual void Dispose( bool disposing )
+            {
+                if ( !disposing )
+                    UnregisterDeviceNotification();
+            }
+
+            public void Dispose()
+            {
+                Dispose( true );
+                GC.SuppressFinalize( this );
+            }
+        }
+
+        protected virtual void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                _deviceNotificationDispatcher?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose( true );
+            GC.SuppressFinalize( this );
         }
     }
 }

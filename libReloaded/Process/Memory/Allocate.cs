@@ -44,8 +44,8 @@ namespace Reloaded.Process.Memory
                 process.ProcessHandle, 
                 IntPtr.Zero, 
                 (IntPtr)length, 
-                AllocationType.Commit | AllocationType.Reserve, 
-                MemoryProtection.ExecuteReadWrite
+                AllocationTypes.Commit | AllocationTypes.Reserve, 
+                MemoryProtections.ExecuteReadWrite
             );
         }
 
@@ -59,7 +59,7 @@ namespace Reloaded.Process.Memory
         /// <returns>A value that is not 0 if the operation is successful.</returns>
         public static bool FreeMemory(this ReloadedProcess process, IntPtr address)
         {
-            return VirtualFreeEx(process.ProcessHandle, address, 0, FreeType.Decommit | FreeType.Release);
+            return VirtualFreeEx(process.ProcessHandle, address, IntPtr.Zero, FreeTypes.Decommit | FreeTypes.Release);
         }
     }
 }

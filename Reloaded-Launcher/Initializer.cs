@@ -21,6 +21,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Reloaded.IO;
 using Reloaded.IO.Config;
@@ -71,12 +72,19 @@ namespace ReloadedLauncher
             string sourceDirectoryDefaultMods = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Default-Mods";
             string targetDirectoryDefaultMods = LoaderPaths.GetGlobalModDirectory();
 
-            try { RelativePaths.CopyByRelativePath(sourceDirectory, targetDirectory, RelativePaths.FileCopyMethod.Copy, false); } catch { }
-            try { RelativePaths.CopyByRelativePath(sourceDirectoryDefaultMods, targetDirectoryDefaultMods, RelativePaths.FileCopyMethod.Copy, true); } catch { }
+            try
+            {
+                RelativePaths.CopyByRelativePath(sourceDirectory, targetDirectory, RelativePaths.FileCopyMethod.Copy, false); 
+                RelativePaths.CopyByRelativePath(sourceDirectoryDefaultMods, targetDirectoryDefaultMods, RelativePaths.FileCopyMethod.Copy, true);
             
-            // Nuke remaining files.
-            try { Directory.Delete(sourceDirectory, true); } catch { }
-            try { Directory.Delete(sourceDirectoryDefaultMods, true); } catch { }
+                // Nuke remaining files.
+                Directory.Delete(sourceDirectory, true);
+                Directory.Delete(sourceDirectoryDefaultMods, true);
+            }
+            catch ( Exception )
+            {
+                /* ¯\_(ツ)_/¯ */
+            }
         }
 
         /// <summary>
@@ -114,7 +122,7 @@ namespace ReloadedLauncher
         /// Does stuff related to Squirrel.Windows, such as beginning a self-update in the background.
         /// Starts the self-update process, updating the application to the newest version in the background.
         /// </summary>
-        private async void DoSquirrelStuff()
+        private static async void DoSquirrelStuff()
         {
             try
             {
@@ -143,8 +151,8 @@ namespace ReloadedLauncher
                     { await githubUpdateManager.UpdateApp(); }
                 }
             }
-            catch (Exception e)
-            { }
+            catch (Exception)
+            { /* ¯\_(ツ)_/¯ */ }
         }
     }
 }

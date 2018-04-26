@@ -16,7 +16,13 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyProduct("Reloaded Mod Loader")]
 [assembly: System.Reflection.AssemblyCopyright("Sewer56lol, 2018")]
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
+<<<<<<< refs/remotes/origin/master
 [assembly: System.CLSCompliant(true)]
 [assembly: AssemblyVersion("0.9.88")]
 [assembly: AssemblyFileVersion("0.9.88")]
+=======
+[assembly: System.CLSCompliant(false)]
+[assembly: AssemblyVersion("0.9.81")]
+[assembly: AssemblyFileVersion("0.9.81")]
+>>>>>>> Fix a bunch of warnings
 [assembly: AssemblyMetadata("SquirrelAwareVersion", "1")]

@@ -130,13 +130,13 @@ namespace Reloaded.Process.Memory
             byte[] buffer = new byte[size];
             
             // Mark memory we are reading to as ExecuteReadWrite
-            VirtualProtect(address, (uint)size, MemoryProtection.ExecuteReadWrite, out MemoryProtection oldProtection);
+            VirtualProtect(address, (IntPtr)size, MemoryProtections.ExecuteReadWrite, out MemoryProtections oldProtection);
 
             // Read from the game memory.
             Marshal.Copy(address, buffer, 0, size);
 
             // Restore the old memory protection.
-            VirtualProtect(address, (uint)size, oldProtection, out oldProtection);
+            VirtualProtect(address, (IntPtr)size, oldProtection, out oldProtection);
 
             // Return the read memory.
             return ConvertToPrimitive<TType>(buffer,type);
@@ -155,13 +155,13 @@ namespace Reloaded.Process.Memory
             var size = (uint)Unsafe.SizeOf<TType>();
 
             // Mark memory we are reading to as ExecuteReadWrite
-            VirtualProtect(address, size, MemoryProtection.ExecuteReadWrite, out MemoryProtection oldProtection);
+            VirtualProtect(address, (IntPtr)size, MemoryProtections.ExecuteReadWrite, out MemoryProtections oldProtection);
 
             // Read value
             var value = ReadMemoryFastUnsafe<TType>( process, address );
 
             // Restore the old memory protection.
-            VirtualProtect(address, size, oldProtection, out oldProtection);
+            VirtualProtect(address, (IntPtr)size, oldProtection, out oldProtection);
 
             return value;
         }
@@ -181,14 +181,14 @@ namespace Reloaded.Process.Memory
             byte[] buffer = new byte[length];
 
             // Mark memory we are reading to as ExecuteReadWrite
-            VirtualProtect(address, (uint)length, MemoryProtection.ExecuteReadWrite, out MemoryProtection oldProtection);
+            VirtualProtect(address, (IntPtr)length, MemoryProtections.ExecuteReadWrite, out MemoryProtections oldProtection);
 
             // Read from the game memory.
             fixed (byte* pBuffer = &buffer[0])
                 Unsafe.CopyBlock(pBuffer, address.ToPointer(), (uint)length);
 
             // Restore the old memory protection.
-            VirtualProtect(address, (uint)length, oldProtection, out oldProtection);
+            VirtualProtect(address, (IntPtr)length, oldProtection, out oldProtection);
 
             // Return the buffer.
             return buffer;
@@ -206,13 +206,13 @@ namespace Reloaded.Process.Memory
         public static byte[] ReadMemoryUnsafe(this ReloadedProcess process, IntPtr address, int length)
         {
             // Mark memory we are reading to as ExecuteReadWrite
-            VirtualProtect(address, (uint)length, MemoryProtection.ExecuteReadWrite, out MemoryProtection oldProtection);
+            VirtualProtect(address, (IntPtr)length, MemoryProtections.ExecuteReadWrite, out MemoryProtections oldProtection);
 
             // Read from the game memory.
             var buffer = ReadMemoryFast(process, address, length);
 
             // Restore the old memory protection.
-            VirtualProtect(address, (uint)length, oldProtection, out oldProtection);
+            VirtualProtect(address, (IntPtr)length, oldProtection, out oldProtection);
 
             // Return the buffer.
             return buffer;
@@ -232,7 +232,7 @@ namespace Reloaded.Process.Memory
             byte[] buffer = new byte[length];
 
             // Read from the game memory.
-            ReadProcessMemory(process.ProcessHandle, address, buffer, length, out _);
+            ReadProcessMemory(process.ProcessHandle, address, buffer, (IntPtr)length, out _);
 
             // Return the buffer.
             return buffer;
@@ -258,7 +258,7 @@ namespace Reloaded.Process.Memory
             byte[] buffer = new byte[size];
             
             // Read from the game memory.
-            ReadProcessMemory(process.ProcessHandle, address, buffer, size, out _);
+            ReadProcessMemory(process.ProcessHandle, address, buffer, (IntPtr)size, out _);
 
             // Return the read memory.
             return ConvertToPrimitive<TType>(buffer, type);
@@ -281,7 +281,7 @@ namespace Reloaded.Process.Memory
             byte[] buffer = new byte[size];
             
             // Read from the game memory.
-            ReadProcessMemory(process.ProcessHandle, address, buffer, size, out _);
+            ReadProcessMemory(process.ProcessHandle, address, buffer, (IntPtr)size, out _);
 
             fixed (byte* pBuffer = &buffer[0])
                 return Unsafe.Read<TType>(pBuffer);
@@ -307,10 +307,10 @@ namespace Reloaded.Process.Memory
             byte[] buffer = new byte[size];
             
             // Mark memory we are writing to as ExecuteReadWrite
-            VirtualProtectEx(process.ProcessHandle, address, (IntPtr)size, MemoryProtection.ExecuteReadWrite, out MemoryProtection oldProtection);
+            VirtualProtectEx(process.ProcessHandle, address, (IntPtr)size, MemoryProtections.ExecuteReadWrite, out MemoryProtections oldProtection);
 
             // Read from the game memory.
-            ReadProcessMemory(process.ProcessHandle, address, buffer, size, out IntPtr bytesRead);
+            ReadProcessMemory(process.ProcessHandle, address, buffer, (IntPtr)size, out _);
 
             // Restore the old memory protection.
             VirtualProtectEx(process.ProcessHandle, address, (IntPtr)size, oldProtection, out oldProtection);
@@ -333,7 +333,7 @@ namespace Reloaded.Process.Memory
             var size = (IntPtr)Unsafe.SizeOf<TType>();
 
             // Mark memory we are writing to as ExecuteReadWrite
-            VirtualProtectEx(process.ProcessHandle, address, size, MemoryProtection.ExecuteReadWrite, out MemoryProtection oldProtection);
+            VirtualProtectEx(process.ProcessHandle, address, size, MemoryProtections.ExecuteReadWrite, out MemoryProtections oldProtection);
 
             var value = ReadMemoryExternalFastUnsafe<TType>(process, address);
 
@@ -358,10 +358,10 @@ namespace Reloaded.Process.Memory
             byte[] buffer = new byte[length];
             
             // Mark memory we are writing to as ExecuteReadWrite
-            VirtualProtectEx(process.ProcessHandle, address, (IntPtr)length, MemoryProtection.ExecuteReadWrite, out MemoryProtection oldProtection);
+            VirtualProtectEx(process.ProcessHandle, address, (IntPtr)length, MemoryProtections.ExecuteReadWrite, out MemoryProtections oldProtection);
             
             // Read from the game memory.
-            ReadProcessMemory(process.ProcessHandle, address, buffer, length, out _);
+            ReadProcessMemory(process.ProcessHandle, address, buffer, (IntPtr)length, out _);
 
             // Restore the old memory protection.
             VirtualProtectEx(process.ProcessHandle, address, (IntPtr)length, oldProtection, out oldProtection);
@@ -438,14 +438,14 @@ namespace Reloaded.Process.Memory
         public static unsafe void WriteMemory(this ReloadedProcess process, IntPtr address, byte[] data)
         {
             // Mark memory we are writing to as ExecuteReadWrite
-            VirtualProtect(address, (uint)data.Length, MemoryProtection.ExecuteReadWrite, out MemoryProtection oldProtection);
+            VirtualProtect(address, (IntPtr)data.Length, MemoryProtections.ExecuteReadWrite, out MemoryProtections oldProtection);
 
             // Write the process memory
             fixed (byte* pData = &data[0])            
                 Unsafe.CopyBlock(address.ToPointer(), pData, (uint)data.Length);
 
             // Restore the old memory protection.
-            VirtualProtect(address, (uint)data.Length, oldProtection, out oldProtection);
+            VirtualProtect(address, (IntPtr)data.Length, oldProtection, out oldProtection);
         }
 
         /// <summary>
@@ -474,7 +474,7 @@ namespace Reloaded.Process.Memory
         public static bool WriteMemoryExternalFast(this ReloadedProcess process, IntPtr address, byte[] data)
         {
             // Write the process memory.
-            bool success = WriteProcessMemory(process.ProcessHandle, address, data, data.Length, out _);
+            bool success = WriteProcessMemory(process.ProcessHandle, address, data, (IntPtr)data.Length, out _);
 
             // Return value
             return success;
@@ -507,10 +507,10 @@ namespace Reloaded.Process.Memory
         public static bool WriteMemoryExternal(this ReloadedProcess process, IntPtr address, byte[] data)
         {
             // Mark memory we are writing to as ExecuteReadWrite
-            VirtualProtectEx(process.ProcessHandle, address, (IntPtr)data.Length, MemoryProtection.ExecuteReadWrite, out MemoryProtection oldProtection);
+            VirtualProtectEx(process.ProcessHandle, address, (IntPtr)data.Length, MemoryProtections.ExecuteReadWrite, out MemoryProtections oldProtection);
 
             // Write the process memory.
-            bool success = WriteProcessMemory(process.ProcessHandle, address, data, data.Length, out IntPtr bytesWrite);
+            bool success = WriteProcessMemory(process.ProcessHandle, address, data, (IntPtr)data.Length, out _);
 
             // Restore the old memory protection.
             VirtualProtectEx(process.ProcessHandle, address, (IntPtr)data.Length, oldProtection, out oldProtection);

@@ -73,7 +73,7 @@ namespace Reloaded_Loader
         public static void Main(string[] args)
         {
             // Find Assemblies Manually if necessary (Deprecate app.config)
-            AppDomain.CurrentDomain.AssemblyResolve += Miscellaneous.AssemblyFinder.CurrentDomain_AssemblyResolve;
+            AppDomain.CurrentDomain.AssemblyResolve += AssemblyFinder.CurrentDomain_AssemblyResolve;
 
             /* - Initialization - */
             DoSquirrelStuff();

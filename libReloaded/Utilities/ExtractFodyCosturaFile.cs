@@ -27,7 +27,7 @@ namespace Reloaded.Utilities
     /// <summary>
     /// Extracts an embedded file to disk which has been originally embedded and compressed by Fody.Costura.
     /// </summary>
-    class ExtractFodyCosturaFile
+    internal static class ExtractFodyCosturaFile
     {
         /// <summary>
         /// Extracts an embedded resource which has originally been compressed by Fody.Costura.
@@ -60,8 +60,11 @@ namespace Reloaded.Utilities
                 // Costura embeds names with lowercase.
                 string lowerCase = resourceName.ToLower();
 
+                var embeddedAssemblerStream = Assembly.GetExecutingAssembly().GetManifestResourceStream( "costura." + lowerCase + ".compressed" );
+                if ( embeddedAssemblerStream == null )
+                    return false;
+
                 using (Stream outputFileStream = new FileStream(folderLocation + "//" + resourceName, FileMode.Create, FileAccess.Write))
-                using (Stream embeddedAssemblerStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("costura." + lowerCase + ".compressed"))
                 using (Stream decompressStream = new DeflateStream(embeddedAssemblerStream, CompressionMode.Decompress))
                 {
                     decompressStream.CopyTo(outputFileStream);
