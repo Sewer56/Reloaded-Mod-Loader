@@ -237,7 +237,7 @@ namespace ReloadedLauncher.Windows.Children
             ControllerCommon.IController currentController = _controllerManager.Controllers[_lastControllerIndex];
 
             // Set Current Controller Port
-            currentController.ControllerId = Convert.ToInt32(borderless_ControllerPort.Text);
+            currentController.InputMappings.ControllerId = Convert.ToInt32(borderless_ControllerPort.Text);
         }
 
         /*
@@ -284,17 +284,17 @@ namespace ReloadedLauncher.Windows.Children
             ControllerCommon.IController controller = GetCurrentController();
 
             // Populate Button List.
-            box_ButtonList.Rows.Add("BTN A:", controller.ButtonMapping.ButtonA);
-            box_ButtonList.Rows.Add("BTN B:", controller.ButtonMapping.ButtonB);
-            box_ButtonList.Rows.Add("BTN X:", controller.ButtonMapping.ButtonX);
-            box_ButtonList.Rows.Add("BTN Y:", controller.ButtonMapping.ButtonY);
-            box_ButtonList.Rows.Add("BTN LB:", controller.ButtonMapping.ButtonLb);
-            box_ButtonList.Rows.Add("BTN RB:", controller.ButtonMapping.ButtonRb);
-            box_ButtonList.Rows.Add("BTN LS:", controller.ButtonMapping.ButtonLs);
-            box_ButtonList.Rows.Add("BTN RS:", controller.ButtonMapping.ButtonRs);
-            box_ButtonList.Rows.Add("BTN BACK:", controller.ButtonMapping.ButtonBack);
-            box_ButtonList.Rows.Add("BTN GUIDE:", controller.ButtonMapping.ButtonGuide);
-            box_ButtonList.Rows.Add("BTN START:", controller.ButtonMapping.ButtonStart);
+            box_ButtonList.Rows.Add("BTN A:", controller.InputMappings.ButtonMapping.ButtonA);
+            box_ButtonList.Rows.Add("BTN B:", controller.InputMappings.ButtonMapping.ButtonB);
+            box_ButtonList.Rows.Add("BTN X:", controller.InputMappings.ButtonMapping.ButtonX);
+            box_ButtonList.Rows.Add("BTN Y:", controller.InputMappings.ButtonMapping.ButtonY);
+            box_ButtonList.Rows.Add("BTN LB:", controller.InputMappings.ButtonMapping.ButtonLb);
+            box_ButtonList.Rows.Add("BTN RB:", controller.InputMappings.ButtonMapping.ButtonRb);
+            box_ButtonList.Rows.Add("BTN LS:", controller.InputMappings.ButtonMapping.ButtonLs);
+            box_ButtonList.Rows.Add("BTN RS:", controller.InputMappings.ButtonMapping.ButtonRs);
+            box_ButtonList.Rows.Add("BTN BACK:", controller.InputMappings.ButtonMapping.ButtonBack);
+            box_ButtonList.Rows.Add("BTN GUIDE:", controller.InputMappings.ButtonMapping.ButtonGuide);
+            box_ButtonList.Rows.Add("BTN START:", controller.InputMappings.ButtonMapping.ButtonStart);
         }
 
         /// <summary>
@@ -310,23 +310,23 @@ namespace ReloadedLauncher.Windows.Children
             ControllerCommon.IController controller = GetCurrentController();
 
             // Populate Button List.
-            box_EmulatedAxisList.Rows.Add("LEFT STICK UP:", controller.EmulationMapping.LeftStickUp);
-            box_EmulatedAxisList.Rows.Add("LEFT STICK DOWN:", controller.EmulationMapping.LeftStickDown);
-            box_EmulatedAxisList.Rows.Add("LEFT STICK LEFT:", controller.EmulationMapping.LeftStickLeft);
-            box_EmulatedAxisList.Rows.Add("LEFT STICK RIGHT:", controller.EmulationMapping.LeftStickRight);
+            box_EmulatedAxisList.Rows.Add("LEFT STICK UP:", controller.InputMappings.EmulationMapping.LeftStickUp);
+            box_EmulatedAxisList.Rows.Add("LEFT STICK DOWN:", controller.InputMappings.EmulationMapping.LeftStickDown);
+            box_EmulatedAxisList.Rows.Add("LEFT STICK LEFT:", controller.InputMappings.EmulationMapping.LeftStickLeft);
+            box_EmulatedAxisList.Rows.Add("LEFT STICK RIGHT:", controller.InputMappings.EmulationMapping.LeftStickRight);
 
-            box_EmulatedAxisList.Rows.Add("RIGHT STICK UP:", controller.EmulationMapping.RightStickUp);
-            box_EmulatedAxisList.Rows.Add("RIGHT STICK DOWN:", controller.EmulationMapping.RightStickDown);
-            box_EmulatedAxisList.Rows.Add("RIGHT STICK LEFT:", controller.EmulationMapping.RightStickLeft);
-            box_EmulatedAxisList.Rows.Add("RIGHT STICK RIGHT:", controller.EmulationMapping.RightStickRight);
+            box_EmulatedAxisList.Rows.Add("RIGHT STICK UP:", controller.InputMappings.EmulationMapping.RightStickUp);
+            box_EmulatedAxisList.Rows.Add("RIGHT STICK DOWN:", controller.InputMappings.EmulationMapping.RightStickDown);
+            box_EmulatedAxisList.Rows.Add("RIGHT STICK LEFT:", controller.InputMappings.EmulationMapping.RightStickLeft);
+            box_EmulatedAxisList.Rows.Add("RIGHT STICK RIGHT:", controller.InputMappings.EmulationMapping.RightStickRight);
 
-            box_EmulatedAxisList.Rows.Add("DPAD UP:", controller.EmulationMapping.DpadUp);
-            box_EmulatedAxisList.Rows.Add("DPAD DOWN:", controller.EmulationMapping.DpadDown);
-            box_EmulatedAxisList.Rows.Add("DPAD LEFT:", controller.EmulationMapping.DpadLeft);
-            box_EmulatedAxisList.Rows.Add("DPAD RIGHT:", controller.EmulationMapping.DpadRight);
+            box_EmulatedAxisList.Rows.Add("DPAD UP:", controller.InputMappings.EmulationMapping.DpadUp);
+            box_EmulatedAxisList.Rows.Add("DPAD DOWN:", controller.InputMappings.EmulationMapping.DpadDown);
+            box_EmulatedAxisList.Rows.Add("DPAD LEFT:", controller.InputMappings.EmulationMapping.DpadLeft);
+            box_EmulatedAxisList.Rows.Add("DPAD RIGHT:", controller.InputMappings.EmulationMapping.DpadRight);
 
-            box_EmulatedAxisList.Rows.Add("LEFT TRIGGER:", controller.EmulationMapping.LeftTrigger);
-            box_EmulatedAxisList.Rows.Add("RIGHT TRIGGER:", controller.EmulationMapping.RightTrigger);
+            box_EmulatedAxisList.Rows.Add("LEFT TRIGGER:", controller.InputMappings.EmulationMapping.LeftTrigger);
+            box_EmulatedAxisList.Rows.Add("RIGHT TRIGGER:", controller.InputMappings.EmulationMapping.RightTrigger);
         }
 
         /// <summary>
@@ -345,7 +345,7 @@ namespace ReloadedLauncher.Windows.Children
             bool isXInput = IsControllerXInput(controller);
 
             // Axis mapping entries.
-            ControllerCommon.AxisMapping axisMappings = controller.AxisMapping;
+            ControllerCommon.AxisMapping axisMappings = controller.InputMappings.AxisMapping;
 
             // Invividual mappings.
             ControllerCommon.AxisMappingEntry leftStickX = axisMappings.LeftStickX;
@@ -401,7 +401,7 @@ namespace ReloadedLauncher.Windows.Children
             PopulateAxis();
 
             // Set Current Controller Port
-            borderless_ControllerPort.Text = Convert.ToString(GetCurrentController().ControllerId);
+            borderless_ControllerPort.Text = Convert.ToString(GetCurrentController().InputMappings.ControllerId);
 
             // Set "last" controller index.
             _lastControllerIndex = borderless_CurrentController.SelectedIndex;
@@ -422,7 +422,7 @@ namespace ReloadedLauncher.Windows.Children
                 ControllerCommon.IController currentController = _controllerManager.Controllers[_lastControllerIndex];
 
                 // Set Only Controller Port, All Other Properties Were Already Saved when Set.
-                currentController.ControllerId = Convert.ToInt32(borderless_ControllerPort.Text);
+                currentController.InputMappings.ControllerId = Convert.ToInt32(borderless_ControllerPort.Text);
 
                 // Save Controller Configuration to File
                 currentController.Remapper.SetMappings();
@@ -469,12 +469,12 @@ namespace ReloadedLauncher.Windows.Children
             // Obtain axis mapping to modify.
             switch (axisRow)
             {
-                case AxisRows.LeftStickX:   return controller.AxisMapping.LeftStickX;
-                case AxisRows.LeftStickY:   return controller.AxisMapping.LeftStickY;
-                case AxisRows.RightStickX:  return controller.AxisMapping.RightStickX;
-                case AxisRows.RightStickY:  return controller.AxisMapping.RightStickY;
-                case AxisRows.LeftTrigger:  return controller.AxisMapping.LeftTrigger;
-                case AxisRows.RightTrigger: return controller.AxisMapping.RightTrigger;
+                case AxisRows.LeftStickX:   return controller.InputMappings.AxisMapping.LeftStickX;
+                case AxisRows.LeftStickY:   return controller.InputMappings.AxisMapping.LeftStickY;
+                case AxisRows.RightStickX:  return controller.InputMappings.AxisMapping.RightStickX;
+                case AxisRows.RightStickY:  return controller.InputMappings.AxisMapping.RightStickY;
+                case AxisRows.LeftTrigger:  return controller.InputMappings.AxisMapping.LeftTrigger;
+                case AxisRows.RightTrigger: return controller.InputMappings.AxisMapping.RightTrigger;
                 default: return null;
             }
         }
@@ -570,17 +570,17 @@ namespace ReloadedLauncher.Windows.Children
         {
             switch (row)
             {
-                case ButtonRows.ButtonA: return controller.ButtonMapping.ButtonA;
-                case ButtonRows.ButtonB: return controller.ButtonMapping.ButtonB;
-                case ButtonRows.ButtonX: return controller.ButtonMapping.ButtonX;
-                case ButtonRows.ButtonY: return controller.ButtonMapping.ButtonY;
-                case ButtonRows.ButtonLb: return controller.ButtonMapping.ButtonLb;
-                case ButtonRows.ButtonRb: return controller.ButtonMapping.ButtonRb;
-                case ButtonRows.ButtonLs: return controller.ButtonMapping.ButtonLs;
-                case ButtonRows.ButtonRs: return controller.ButtonMapping.ButtonRs;
-                case ButtonRows.ButtonBack: return controller.ButtonMapping.ButtonBack;
-                case ButtonRows.ButtonGuide: return controller.ButtonMapping.ButtonGuide;
-                case ButtonRows.ButtonStart: return controller.ButtonMapping.ButtonStart;
+                case ButtonRows.ButtonA: return controller.InputMappings.ButtonMapping.ButtonA;
+                case ButtonRows.ButtonB: return controller.InputMappings.ButtonMapping.ButtonB;
+                case ButtonRows.ButtonX: return controller.InputMappings.ButtonMapping.ButtonX;
+                case ButtonRows.ButtonY: return controller.InputMappings.ButtonMapping.ButtonY;
+                case ButtonRows.ButtonLb: return controller.InputMappings.ButtonMapping.ButtonLb;
+                case ButtonRows.ButtonRb: return controller.InputMappings.ButtonMapping.ButtonRb;
+                case ButtonRows.ButtonLs: return controller.InputMappings.ButtonMapping.ButtonLs;
+                case ButtonRows.ButtonRs: return controller.InputMappings.ButtonMapping.ButtonRs;
+                case ButtonRows.ButtonBack: return controller.InputMappings.ButtonMapping.ButtonBack;
+                case ButtonRows.ButtonGuide: return controller.InputMappings.ButtonMapping.ButtonGuide;
+                case ButtonRows.ButtonStart: return controller.InputMappings.ButtonMapping.ButtonStart;
                 default: return 255;
             }
         }
@@ -597,23 +597,23 @@ namespace ReloadedLauncher.Windows.Children
         {
             switch (row)
             {
-                case EmulationRows.LeftStickUp: return controller.EmulationMapping.LeftStickUp;
-                case EmulationRows.LeftStickDown: return controller.EmulationMapping.LeftStickDown;
-                case EmulationRows.LeftStickLeft: return controller.EmulationMapping.LeftStickLeft;
-                case EmulationRows.LeftStickRight: return controller.EmulationMapping.LeftStickRight;
+                case EmulationRows.LeftStickUp: return controller.InputMappings.EmulationMapping.LeftStickUp;
+                case EmulationRows.LeftStickDown: return controller.InputMappings.EmulationMapping.LeftStickDown;
+                case EmulationRows.LeftStickLeft: return controller.InputMappings.EmulationMapping.LeftStickLeft;
+                case EmulationRows.LeftStickRight: return controller.InputMappings.EmulationMapping.LeftStickRight;
 
-                case EmulationRows.RightStickUp: return controller.EmulationMapping.RightStickUp;
-                case EmulationRows.RightStickDown: return controller.EmulationMapping.RightStickDown;
-                case EmulationRows.RightStickLeft: return controller.EmulationMapping.RightStickLeft;
-                case EmulationRows.RightStickRight: return controller.EmulationMapping.RightStickRight;
+                case EmulationRows.RightStickUp: return controller.InputMappings.EmulationMapping.RightStickUp;
+                case EmulationRows.RightStickDown: return controller.InputMappings.EmulationMapping.RightStickDown;
+                case EmulationRows.RightStickLeft: return controller.InputMappings.EmulationMapping.RightStickLeft;
+                case EmulationRows.RightStickRight: return controller.InputMappings.EmulationMapping.RightStickRight;
 
-                case EmulationRows.DPadUp: return controller.EmulationMapping.DpadUp;
-                case EmulationRows.DPadDown: return controller.EmulationMapping.DpadDown;
-                case EmulationRows.DPadLeft: return controller.EmulationMapping.DpadLeft;
-                case EmulationRows.DPadRight: return controller.EmulationMapping.DpadRight;
+                case EmulationRows.DPadUp: return controller.InputMappings.EmulationMapping.DpadUp;
+                case EmulationRows.DPadDown: return controller.InputMappings.EmulationMapping.DpadDown;
+                case EmulationRows.DPadLeft: return controller.InputMappings.EmulationMapping.DpadLeft;
+                case EmulationRows.DPadRight: return controller.InputMappings.EmulationMapping.DpadRight;
 
-                case EmulationRows.LeftTrigger: return controller.EmulationMapping.LeftTrigger;
-                case EmulationRows.RightTrigger: return controller.EmulationMapping.RightTrigger;
+                case EmulationRows.LeftTrigger: return controller.InputMappings.EmulationMapping.LeftTrigger;
+                case EmulationRows.RightTrigger: return controller.InputMappings.EmulationMapping.RightTrigger;
                 default: return 255;
             }
         }
@@ -630,17 +630,17 @@ namespace ReloadedLauncher.Windows.Children
             // Remap specified button
             switch (row)
             {
-                case ButtonRows.ButtonA: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.ButtonMapping.ButtonA, ref _taskCancellationToken)); break;
-                case ButtonRows.ButtonB: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.ButtonMapping.ButtonB, ref _taskCancellationToken)); break;
-                case ButtonRows.ButtonX: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.ButtonMapping.ButtonX, ref _taskCancellationToken)); break;
-                case ButtonRows.ButtonY: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.ButtonMapping.ButtonY, ref _taskCancellationToken)); break;
-                case ButtonRows.ButtonLb: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.ButtonMapping.ButtonLb, ref _taskCancellationToken)); break;
-                case ButtonRows.ButtonRb: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.ButtonMapping.ButtonRb, ref _taskCancellationToken)); break;
-                case ButtonRows.ButtonLs: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.ButtonMapping.ButtonLs, ref _taskCancellationToken)); break;
-                case ButtonRows.ButtonRs: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.ButtonMapping.ButtonRs, ref _taskCancellationToken)); break;
-                case ButtonRows.ButtonBack: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.ButtonMapping.ButtonBack, ref _taskCancellationToken)); break;
-                case ButtonRows.ButtonGuide: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.ButtonMapping.ButtonGuide, ref _taskCancellationToken)); break;
-                case ButtonRows.ButtonStart: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.ButtonMapping.ButtonStart, ref _taskCancellationToken)); break;
+                case ButtonRows.ButtonA: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.ButtonMapping.ButtonA, ref _taskCancellationToken)); break;
+                case ButtonRows.ButtonB: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.ButtonMapping.ButtonB, ref _taskCancellationToken)); break;
+                case ButtonRows.ButtonX: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.ButtonMapping.ButtonX, ref _taskCancellationToken)); break;
+                case ButtonRows.ButtonY: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.ButtonMapping.ButtonY, ref _taskCancellationToken)); break;
+                case ButtonRows.ButtonLb: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.ButtonMapping.ButtonLb, ref _taskCancellationToken)); break;
+                case ButtonRows.ButtonRb: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.ButtonMapping.ButtonRb, ref _taskCancellationToken)); break;
+                case ButtonRows.ButtonLs: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.ButtonMapping.ButtonLs, ref _taskCancellationToken)); break;
+                case ButtonRows.ButtonRs: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.ButtonMapping.ButtonRs, ref _taskCancellationToken)); break;
+                case ButtonRows.ButtonBack: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.ButtonMapping.ButtonBack, ref _taskCancellationToken)); break;
+                case ButtonRows.ButtonGuide: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.ButtonMapping.ButtonGuide, ref _taskCancellationToken)); break;
+                case ButtonRows.ButtonStart: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.ButtonMapping.ButtonStart, ref _taskCancellationToken)); break;
             }
         }
 
@@ -656,23 +656,23 @@ namespace ReloadedLauncher.Windows.Children
             // Remap specified button
             switch (row)
             {
-                case EmulationRows.LeftStickUp: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.LeftStickUp, ref _taskCancellationToken)); break;
-                case EmulationRows.LeftStickDown: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.LeftStickDown, ref _taskCancellationToken)); break;
-                case EmulationRows.LeftStickLeft: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.LeftStickLeft, ref _taskCancellationToken)); break;
-                case EmulationRows.LeftStickRight: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.LeftStickRight, ref _taskCancellationToken)); break;
+                case EmulationRows.LeftStickUp: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.LeftStickUp, ref _taskCancellationToken)); break;
+                case EmulationRows.LeftStickDown: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.LeftStickDown, ref _taskCancellationToken)); break;
+                case EmulationRows.LeftStickLeft: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.LeftStickLeft, ref _taskCancellationToken)); break;
+                case EmulationRows.LeftStickRight: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.LeftStickRight, ref _taskCancellationToken)); break;
 
-                case EmulationRows.RightStickUp: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.RightStickUp, ref _taskCancellationToken)); break;
-                case EmulationRows.RightStickDown: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.RightStickDown, ref _taskCancellationToken)); break;
-                case EmulationRows.RightStickLeft: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.RightStickLeft, ref _taskCancellationToken)); break;
-                case EmulationRows.RightStickRight: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.RightStickRight, ref _taskCancellationToken)); break;
+                case EmulationRows.RightStickUp: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.RightStickUp, ref _taskCancellationToken)); break;
+                case EmulationRows.RightStickDown: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.RightStickDown, ref _taskCancellationToken)); break;
+                case EmulationRows.RightStickLeft: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.RightStickLeft, ref _taskCancellationToken)); break;
+                case EmulationRows.RightStickRight: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.RightStickRight, ref _taskCancellationToken)); break;
 
-                case EmulationRows.DPadUp: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.DpadUp, ref _taskCancellationToken)); break;
-                case EmulationRows.DPadDown: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.DpadDown, ref _taskCancellationToken)); break;
-                case EmulationRows.DPadLeft: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.DpadLeft, ref _taskCancellationToken)); break;
-                case EmulationRows.DPadRight: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.DpadRight, ref _taskCancellationToken)); break;
+                case EmulationRows.DPadUp: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.DpadUp, ref _taskCancellationToken)); break;
+                case EmulationRows.DPadDown: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.DpadDown, ref _taskCancellationToken)); break;
+                case EmulationRows.DPadLeft: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.DpadLeft, ref _taskCancellationToken)); break;
+                case EmulationRows.DPadRight: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.DpadRight, ref _taskCancellationToken)); break;
 
-                case EmulationRows.LeftTrigger: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.LeftTrigger, ref _taskCancellationToken)); break;
-                case EmulationRows.RightTrigger: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.EmulationMapping.RightTrigger, ref _taskCancellationToken)); break;
+                case EmulationRows.LeftTrigger: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.LeftTrigger, ref _taskCancellationToken)); break;
+                case EmulationRows.RightTrigger: _controllerAssignTask = new Task<bool>(() => controller.RemapButtons(RemapTimeout, out _currentTimeout, ref controller.InputMappings.EmulationMapping.RightTrigger, ref _taskCancellationToken)); break;
             }
         }
 
@@ -706,17 +706,17 @@ namespace ReloadedLauncher.Windows.Children
         {
             switch (buttonRow)
             {
-                case ButtonRows.ButtonA: GetCurrentController().ButtonMapping.ButtonA = ControllerCommon.ButtonNull; break;
-                case ButtonRows.ButtonB: GetCurrentController().ButtonMapping.ButtonB = ControllerCommon.ButtonNull; break;
-                case ButtonRows.ButtonX: GetCurrentController().ButtonMapping.ButtonX = ControllerCommon.ButtonNull; break;
-                case ButtonRows.ButtonY: GetCurrentController().ButtonMapping.ButtonY = ControllerCommon.ButtonNull; break;
-                case ButtonRows.ButtonLb: GetCurrentController().ButtonMapping.ButtonLb = ControllerCommon.ButtonNull; break;
-                case ButtonRows.ButtonRb: GetCurrentController().ButtonMapping.ButtonRb = ControllerCommon.ButtonNull; break;
-                case ButtonRows.ButtonLs: GetCurrentController().ButtonMapping.ButtonLs = ControllerCommon.ButtonNull; break;
-                case ButtonRows.ButtonRs: GetCurrentController().ButtonMapping.ButtonRs = ControllerCommon.ButtonNull; break;
-                case ButtonRows.ButtonBack: GetCurrentController().ButtonMapping.ButtonBack = ControllerCommon.ButtonNull; break;
-                case ButtonRows.ButtonGuide: GetCurrentController().ButtonMapping.ButtonGuide = ControllerCommon.ButtonNull; break;
-                case ButtonRows.ButtonStart: GetCurrentController().ButtonMapping.ButtonStart = ControllerCommon.ButtonNull; break;
+                case ButtonRows.ButtonA: GetCurrentController().InputMappings.ButtonMapping.ButtonA = ControllerCommon.ButtonNull; break;
+                case ButtonRows.ButtonB: GetCurrentController().InputMappings.ButtonMapping.ButtonB = ControllerCommon.ButtonNull; break;
+                case ButtonRows.ButtonX: GetCurrentController().InputMappings.ButtonMapping.ButtonX = ControllerCommon.ButtonNull; break;
+                case ButtonRows.ButtonY: GetCurrentController().InputMappings.ButtonMapping.ButtonY = ControllerCommon.ButtonNull; break;
+                case ButtonRows.ButtonLb: GetCurrentController().InputMappings.ButtonMapping.ButtonLb = ControllerCommon.ButtonNull; break;
+                case ButtonRows.ButtonRb: GetCurrentController().InputMappings.ButtonMapping.ButtonRb = ControllerCommon.ButtonNull; break;
+                case ButtonRows.ButtonLs: GetCurrentController().InputMappings.ButtonMapping.ButtonLs = ControllerCommon.ButtonNull; break;
+                case ButtonRows.ButtonRs: GetCurrentController().InputMappings.ButtonMapping.ButtonRs = ControllerCommon.ButtonNull; break;
+                case ButtonRows.ButtonBack: GetCurrentController().InputMappings.ButtonMapping.ButtonBack = ControllerCommon.ButtonNull; break;
+                case ButtonRows.ButtonGuide: GetCurrentController().InputMappings.ButtonMapping.ButtonGuide = ControllerCommon.ButtonNull; break;
+                case ButtonRows.ButtonStart: GetCurrentController().InputMappings.ButtonMapping.ButtonStart = ControllerCommon.ButtonNull; break;
             }
         }
 
@@ -728,23 +728,23 @@ namespace ReloadedLauncher.Windows.Children
         {
             switch (emulationRow)
             {
-                case EmulationRows.DPadUp: GetCurrentController().EmulationMapping.DpadUp = ControllerCommon.ButtonNull; break;
-                case EmulationRows.DPadDown: GetCurrentController().EmulationMapping.DpadDown = ControllerCommon.ButtonNull; break;
-                case EmulationRows.DPadLeft: GetCurrentController().EmulationMapping.DpadLeft = ControllerCommon.ButtonNull; break;
-                case EmulationRows.DPadRight: GetCurrentController().EmulationMapping.DpadRight = ControllerCommon.ButtonNull; break;
+                case EmulationRows.DPadUp: GetCurrentController().InputMappings.EmulationMapping.DpadUp = ControllerCommon.ButtonNull; break;
+                case EmulationRows.DPadDown: GetCurrentController().InputMappings.EmulationMapping.DpadDown = ControllerCommon.ButtonNull; break;
+                case EmulationRows.DPadLeft: GetCurrentController().InputMappings.EmulationMapping.DpadLeft = ControllerCommon.ButtonNull; break;
+                case EmulationRows.DPadRight: GetCurrentController().InputMappings.EmulationMapping.DpadRight = ControllerCommon.ButtonNull; break;
 
-                case EmulationRows.LeftStickUp: GetCurrentController().EmulationMapping.LeftStickUp = ControllerCommon.ButtonNull; break;
-                case EmulationRows.LeftStickDown: GetCurrentController().EmulationMapping.LeftStickDown = ControllerCommon.ButtonNull; break;
-                case EmulationRows.LeftStickLeft: GetCurrentController().EmulationMapping.LeftStickLeft = ControllerCommon.ButtonNull; break;
-                case EmulationRows.LeftStickRight: GetCurrentController().EmulationMapping.LeftStickRight = ControllerCommon.ButtonNull; break;
+                case EmulationRows.LeftStickUp: GetCurrentController().InputMappings.EmulationMapping.LeftStickUp = ControllerCommon.ButtonNull; break;
+                case EmulationRows.LeftStickDown: GetCurrentController().InputMappings.EmulationMapping.LeftStickDown = ControllerCommon.ButtonNull; break;
+                case EmulationRows.LeftStickLeft: GetCurrentController().InputMappings.EmulationMapping.LeftStickLeft = ControllerCommon.ButtonNull; break;
+                case EmulationRows.LeftStickRight: GetCurrentController().InputMappings.EmulationMapping.LeftStickRight = ControllerCommon.ButtonNull; break;
 
-                case EmulationRows.RightStickUp: GetCurrentController().EmulationMapping.RightStickUp = ControllerCommon.ButtonNull; break;
-                case EmulationRows.RightStickDown: GetCurrentController().EmulationMapping.RightStickDown = ControllerCommon.ButtonNull; break;
-                case EmulationRows.RightStickLeft: GetCurrentController().EmulationMapping.RightStickLeft = ControllerCommon.ButtonNull; break;
-                case EmulationRows.RightStickRight: GetCurrentController().EmulationMapping.RightStickRight = ControllerCommon.ButtonNull; break;
+                case EmulationRows.RightStickUp: GetCurrentController().InputMappings.EmulationMapping.RightStickUp = ControllerCommon.ButtonNull; break;
+                case EmulationRows.RightStickDown: GetCurrentController().InputMappings.EmulationMapping.RightStickDown = ControllerCommon.ButtonNull; break;
+                case EmulationRows.RightStickLeft: GetCurrentController().InputMappings.EmulationMapping.RightStickLeft = ControllerCommon.ButtonNull; break;
+                case EmulationRows.RightStickRight: GetCurrentController().InputMappings.EmulationMapping.RightStickRight = ControllerCommon.ButtonNull; break;
 
-                case EmulationRows.LeftTrigger: GetCurrentController().EmulationMapping.LeftTrigger = ControllerCommon.ButtonNull; break;
-                case EmulationRows.RightTrigger: GetCurrentController().EmulationMapping.RightTrigger = ControllerCommon.ButtonNull; break;
+                case EmulationRows.LeftTrigger: GetCurrentController().InputMappings.EmulationMapping.LeftTrigger = ControllerCommon.ButtonNull; break;
+                case EmulationRows.RightTrigger: GetCurrentController().InputMappings.EmulationMapping.RightTrigger = ControllerCommon.ButtonNull; break;
             }
         }
 

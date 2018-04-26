@@ -1,0 +1,134 @@
+{
+  "BorderProperties": {
+    "BorderColour": "216, 216, 216",
+    "BorderWidth": 1
+  },
+  "MainColours": {
+    "BgColour": "252, 252, 255",
+    "ButtonBgColour": "215, 237, 252",
+    "TextColour": "20, 20, 20"
+  },
+  "TitleColours": {
+    "BgColour": "0, 0, 56",
+    "ButtonBgColour": "0, 0, 56",
+    "TextColour": "White"
+  },
+  "CategoryColours": {
+    "BgColour": "0, 0, 85",
+    "ButtonBgColour": "0, 0, 85",
+    "TextColour": "White"
+  },
+  "BorderlessColours": {
+    "BgColour": "0, 0, 85",
+    "ButtonBgColour": "252, 252, 255",
+    "TextColour": "127, 127, 127"
+  },
+  "BoxColours": {
+    "BgColour": "252, 252, 255",
+    "ButtonBgColour": "252, 252, 255",
+    "TextColour": "127, 127, 127"
+  },
+  "CategoryEnterAnimation": {
+    "BlendBgColour": true,
+    "BlendFgColour": false,
+    "AnimationDuration": 100,
+    "AnimationFramerate": 144,
+    "BgTargetColour": "0, 0, 56",
+    "FgTargetColour": "0, 0, 0, 0"
+  },
+  "CategoryLeaveAnimation": {
+    "BlendBgColour": true,
+    "BlendFgColour": false,
+    "AnimationDuration": 150,
+    "AnimationFramerate": 144,
+    "BgTargetColour": "0, 0, 85",
+    "FgTargetColour": "Black"
+  },
+  "TitleEnterAnimation": {
+    "BlendBgColour": false,
+    "BlendFgColour": true,
+    "AnimationDuration": 150,
+    "AnimationFramerate": 144,
+    "BgTargetColour": "Black",
+    "FgTargetColour": "255, 255, 0"
+  },
+  "TitleLeaveAnimation": {
+    "BlendBgColour": false,
+    "BlendFgColour": true,
+    "AnimationDuration": 250,
+    "AnimationFramerate": 144,
+    "BgTargetColour": "Black",
+    "FgTargetColour": "White"
+  },
+  "MainEnterAnimation": {
+    "BlendBgColour": true,
+    "BlendFgColour": false,
+    "AnimationDuration": 150,
+    "AnimationFramerate": 144,
+    "BgTargetColour": "153, 214, 255",
+    "FgTargetColour": "Black"
+  },
+  "MainLeaveAnimation": {
+    "BlendBgColour": true,
+    "BlendFgColour": false,
+    "AnimationDuration": 150,
+    "AnimationFramerate": 144,
+    "BgTargetColour": "215, 237, 252",
+    "FgTargetColour": "Black"
+  },
+  "BoxEnterAnimation": {
+    "BlendBgColour": true,
+    "BlendFgColour": false,
+    "AnimationDuration": 100,
+    "AnimationFramerate": 60,
+    "BgTargetColour": "183, 226, 255",
+    "FgTargetColour": "0, 0, 0, 0"
+  },
+  "BoxLeaveAnimation": {
+    "BlendBgColour": true,
+    "BlendFgColour": false,
+    "AnimationDuration": 100,
+    "AnimationFramerate": 60,
+    "BgTargetColour": "252, 252, 255",
+    "FgTargetColour": "0, 0, 0, 0"
+  },
+  "BorderlessEnterAnimation": {
+    "BlendBgColour": true,
+    "BlendFgColour": true,
+    "AnimationDuration": 100,
+    "AnimationFramerate": 60,
+    "BgTargetColour": "219, 219, 219",
+    "FgTargetColour": "20, 20, 20"
+  },
+  "BorderlessLeaveAnimation": {
+    "BlendBgColour": true,
+    "BlendFgColour": true,
+    "AnimationDuration": 100,
+    "AnimationFramerate": 60,
+    "BgTargetColour": "252, 252, 255",
+    "FgTargetColour": "127, 127, 127"
+  },
+  "TitleProperties": {
+    "LoaderTitle": "Retro Mod Loader",
+    "LoaderTitleDelimiter": " ~ ",
+    "LoaderTitlePrefix": false
+  },
+  "TitleFontStyle": {
+    "Underlined": false,
+    "Striked": false,
+    "Bold": false,
+    "Italic": false
+  },
+  "CategoryFontStyle": {
+    "Underlined": false,
+    "Striked": false,
+    "Bold": false,
+    "Italic": false
+  },
+  "TextFontStyle": {
+    "Underlined": false,
+    "Striked": false,
+    "Bold": false,
+    "Italic": false
+  }
+}

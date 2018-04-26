@@ -18,13 +18,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using Newtonsoft.Json;
 using Reloaded.Utilities;
 
 namespace Reloaded
 {
     /// <summary>
-    /// The strings class contains various common string names, present for consistency and to ensure
-    /// that no wrong changes occur when refactoring.
+    /// The strings class contains various common string names and global settings related to strings,
+    /// present for consistency and to ensure that no wrong changes occur when refactoring.
     /// For file paths and where things are stored, see <see cref="LoaderPaths"/>.
     /// </summary>
     public static class Strings
@@ -136,6 +137,14 @@ namespace Reloaded
         public static class Parsers
         {
             /// <summary>
+            /// Defines the default JSON serialization settings for the project.
+            /// </summary>
+            public static JsonSerializerSettings SerializerSettings = new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented
+            };
+
+            /// <summary>
             /// Contains the character used in ini file comments and comments in other similar files.
             /// </summary>
             public static string CommentCharacter { get; } = "#";
@@ -153,7 +162,12 @@ namespace Reloaded
             /// <summary>
             /// Contains the name of the file used for reading and writing of theme properties and styles.
             /// </summary>
-            public static string ThemeFile { get; } = "Theme.ini";
+            public static string ThemeFile { get; } = "Theme.json";
+
+            /// <summary>
+            /// Contains the name of the file used for reading and writing of general mod loader configs.
+            /// </summary>
+            public static string ConfigFileNew { get; } = "Config.json";
         }
     }
 }

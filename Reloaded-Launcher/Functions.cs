@@ -56,7 +56,7 @@ namespace ReloadedLauncher
             List<string> argumentsList = new List<string>()
             {
                 $"\"{Strings.Common.LoaderSettingConfig}\"",
-                $"\"{Global.CurrentGameConfig.ConfigDirectory}\""
+                $"\"{Global.CurrentGameConfig.ConfigLocation}\""
             };
 
             // We are done here.

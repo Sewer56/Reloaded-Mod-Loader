@@ -21,7 +21,6 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Reloaded.IO.Config.Loader;
 
 namespace Reloaded.Utilities
 {
@@ -65,7 +64,7 @@ namespace Reloaded.Utilities
         /// <summary>
         /// Specifies the location of the configuration file for Reloaded.
         /// </summary>
-        private static readonly string ConfigFileLocation = GetModLoaderConfigDirectory() + $"/{Strings.Parsers.ConfigFile}";
+        private static readonly string ConfigFileLocation = GetModLoaderConfigDirectory() + $"/{Strings.Parsers.ConfigFileNew}";
 
         /// <summary>
         /// Specifies the location of the global mods folder for Reloaded, mods which
@@ -113,13 +112,6 @@ namespace Reloaded.Utilities
         /// </summary>
         public static string GetModLoaderConfig()
         {
-            // Create loader config if it does not exist.
-            if (!File.Exists(ConfigFileLocation))
-            {
-                LoaderConfigParser localParser = new LoaderConfigParser();
-                localParser.CreateConfig(ConfigFileLocation);
-            }
-
             return ConfigFileLocation;
         }
 
@@ -193,7 +185,7 @@ namespace Reloaded.Utilities
         /// Retrieves the mod loader's global mod config directory, containing a dummy configuration to
         /// provide support for mods that will always be loaded regardless of the game.
         /// </summary>
-        public static string GetGlobalConfigDirectory()
+        public static string GetGlobalGameConfigDirectory()
         {
             if (!Directory.Exists(GlobalConfigLocation)) { Directory.CreateDirectory(GlobalConfigLocation); }
             return GlobalConfigLocation;

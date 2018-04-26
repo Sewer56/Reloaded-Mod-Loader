@@ -122,7 +122,7 @@ namespace ReloadedLauncher.Windows.Children
                     gameConfig.GameVersion == comboBoxDetails.GameVersion)
                 {
                     // Check if global config.
-                    if (gameConfig.ConfigDirectory == LoaderPaths.GetGlobalConfigDirectory())
+                    if (gameConfig.ConfigLocation == LoaderPaths.GetGlobalGameConfigDirectory())
                     {
                         MessageBox.Show($"I'm sorry {Environment.UserName}, I'm afraid I can't let you do that.");
                         return;
@@ -166,7 +166,7 @@ namespace ReloadedLauncher.Windows.Children
                     Global.GameConfigurations[x].GameVersion == comboBoxDetails.GameVersion)
                 {
                     // Check if global config.
-                    if (Global.GameConfigurations[x].ConfigDirectory == LoaderPaths.GetGlobalConfigDirectory())
+                    if (Global.GameConfigurations[x].ConfigLocation == LoaderPaths.GetGlobalGameConfigDirectory())
                     {
                         MessageBox.Show($"It's no use {Environment.UserName}, give up.");
                         return;
@@ -185,7 +185,7 @@ namespace ReloadedLauncher.Windows.Children
                     GC.WaitForPendingFinalizers();
 
                     // Remove game config & physical location.
-                    try { Directory.Delete(Global.GameConfigurations[x].ConfigDirectory, true); } catch { }
+                    try { Directory.Delete(Global.GameConfigurations[x].ConfigLocation, true); } catch { }
                     Global.GameConfigurations.RemoveAt(x);
 
                     break;
@@ -241,7 +241,7 @@ namespace ReloadedLauncher.Windows.Children
                     GameVersion = "",
                     EnabledMods = new List<string>(),
                     ModDirectory = "",
-                    ConfigDirectory = configDirectory,
+                    ConfigLocation = configDirectory,
                     ExecutableLocation = ""
                 }
             );
@@ -250,7 +250,7 @@ namespace ReloadedLauncher.Windows.Children
             GameConfigParser.GameConfig gameConfig = Global.GameConfigurations.Last();
 
             // Write latest gameconfig
-            Global.ConfigurationManager.GameConfigParser.CreateNewConfig(gameConfig);
+            GameConfigParser.WriteConfig(gameConfig);
 
             // Add a new configuration.
             borderless_CurrentGame.Items.Add
@@ -288,7 +288,7 @@ namespace ReloadedLauncher.Windows.Children
             borderless_GameDirectory.Text = gameConfig.GameDirectory;
 
             // Load the game image.
-            try { box_GameBanner.BackgroundImage = Image.FromFile(gameConfig.ConfigDirectory + $"\\{Strings.Launcher.BannerName}"); }
+            try { box_GameBanner.BackgroundImage = Image.FromFile(GameConfigParser.GameConfig.GetBannerPath(gameConfig)); }
             catch { box_GameBanner.BackgroundImage = null; }
         }
 
@@ -422,10 +422,10 @@ namespace ReloadedLauncher.Windows.Children
                 );
 
                 // Copy the banner to new location.
-                File.Copy(imageDialog.FileName, gameConfig.ConfigDirectory + $"\\{Strings.Launcher.BannerName}", true);
+                File.Copy(imageDialog.FileName, GameConfigParser.GameConfig.GetBannerPath(gameConfig), true);
 
                 // Set new image.
-                box_GameBanner.BackgroundImage = Image.FromFile(gameConfig.ConfigDirectory + $"\\{Strings.Launcher.BannerName}");
+                box_GameBanner.BackgroundImage = Image.FromFile(GameConfigParser.GameConfig.GetBannerPath(gameConfig));
             }
 
             // Dispose dialog.

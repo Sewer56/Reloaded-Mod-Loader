@@ -79,8 +79,7 @@ namespace Reloaded_GUI.Styles.Themes.ApplyTheme
         public static void LoadProperties(string themeDirectory)
         {
             // If the baseform is instantiated
-            ThemePropertyParser themeColourParser = new ThemePropertyParser();
-            Theme.ThemeProperties = themeColourParser.ParseConfig(themeDirectory);
+            Theme.ThemeProperties = ThemePropertyParser.ParseConfig(themeDirectory);
         }
 
         /// <summary>

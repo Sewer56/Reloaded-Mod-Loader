@@ -45,7 +45,7 @@ namespace Reloaded_Loader.Terminal.Information
             foreach (ControllerCommon.IController controller in controllerManager.Controllers)
             {
                 // Is controller XInput or DInput
-                string controllerName = "[" + controller.ControllerId.ToString("00") + "]";
+                string controllerName = "[" + controller.InputMappings.ControllerId.ToString("00") + "]";
 
                 // Get Controller Type
                 if (controller.Remapper.DeviceType == Remapper.InputDeviceType.XInput)

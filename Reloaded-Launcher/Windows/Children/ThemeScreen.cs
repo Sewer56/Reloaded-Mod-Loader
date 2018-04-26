@@ -24,6 +24,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Reloaded;
+using Reloaded.IO.Config.Loader;
 using Reloaded.IO.Config.Themes;
 using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Utilities.Controls;
@@ -164,7 +165,7 @@ namespace ReloadedLauncher.Windows.Children
         private void SaveCurrentTheme()
         {
             // Save the mod loader configuration.
-            Global.ConfigurationManager.LoaderConfigParser.WriteConfig(Global.LoaderConfiguration);
+            LoaderConfigParser.WriteConfig(Global.LoaderConfiguration);
         }
 
         /// <summary>

@@ -113,7 +113,6 @@
     <Compile Include="Utilities\Windows\RemoveMDIChildBorder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Default Themes\DefaultThemes.7z" />
     <None Include="Styles\Animation\HACKING.txt" />
   </ItemGroup>
   <ItemGroup>

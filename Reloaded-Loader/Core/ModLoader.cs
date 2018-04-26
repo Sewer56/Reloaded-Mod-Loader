@@ -44,7 +44,7 @@ namespace Reloaded_Loader.Core
         public static void LoadMods(GameConfigParser.GameConfig gameConfiguration, ReloadedProcess reloadedProcess)
         {
             // Get directory containing the global mod list.
-            GameConfigParser.GameConfig globalModConfig = GameConfigParser.GameConfig.GetGlobalConfig();
+            GameConfigParser.GameConfig globalModConfig = GameConfigParser.GameConfig.GetGlobalConfigProperties();
 
             // Get directory containing the game's mod list
             string gameModDirectory = Path.Combine(LoaderPaths.GetModLoaderModDirectory(), gameConfiguration.ModDirectory);

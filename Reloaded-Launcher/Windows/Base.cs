@@ -126,9 +126,7 @@ namespace ReloadedLauncher.Windows
             string delimiter = "";
 
             // Set the delimiter.
-            delimiter += themeProperties.TitleProperties.DelimiterHasSpaces ? " " : "";
             delimiter += themeProperties.TitleProperties.LoaderTitleDelimiter;
-            delimiter += themeProperties.TitleProperties.DelimiterHasSpaces ? " " : "";
 
             // Set the non-title contents.
             if (themeProperties.TitleProperties.LoaderTitlePrefix)

@@ -19,6 +19,7 @@
 */
 
 using System;
+using Newtonsoft.Json;
 using Reloaded.Input.DirectInput;
 using Reloaded.Input.Modules;
 
@@ -357,30 +358,55 @@ namespace Reloaded.Input.Common
         }
 
         /// <summary>
+        /// Defines a general class which contains the individual input mappings for the remapper.
+        /// Separated into a separate class to allow for easier serialization and deserialization.
+        /// </summary>
+        public class InputMappings
+        {
+            public InputMappings()
+            {
+                ButtonMapping = new ButtonMapping();
+                AxisMapping = new AxisMapping();
+                ControllerId = 0;
+                EmulationMapping = new EmulationButtonMapping();
+            }
+
+            /// <summary>
+            /// Stores the individual button mappings structure for this controller.
+            /// </summary>
+            [JsonProperty(Required = Required.Default)]
+            public ButtonMapping ButtonMapping;
+
+            /// <summary>
+            /// Stores the individual axis mappings structure for this controller.
+            /// </summary>
+            [JsonProperty(Required = Required.Default)]
+            public AxisMapping AxisMapping;
+
+            /// <summary>
+            /// Defines the individual port used for this specific controller.
+            /// </summary>
+            [JsonProperty(Required = Required.Default)]
+            public int ControllerId;
+
+            /// <summary>
+            /// Defines the custom botton mapping which simulates the individual axis and analog inputs.
+            /// </summary>
+            [JsonProperty(Required = Required.Default)]
+            public EmulationButtonMapping EmulationMapping;
+        }
+
+        /// <summary>
         /// Defines an interface for DirectInput + XInput Controller implementations which defines the function names
         /// and signatures to be shared between both the DirectInput and XInput controller implementations.
         /// </summary>
         public interface IController
         {
             /// <summary>
-            /// Stores the individual button mappings structure for this controller.
+            /// Defines a general class which contains the individual input mappings for the remapper.
+            /// Separated into a separate class to allow for easier serialization and deserialization.
             /// </summary>
-            ButtonMapping ButtonMapping { get; set; }
-
-            /// <summary>
-            /// Stores the individual axis mappings structure for this controller.
-            /// </summary>
-            AxisMapping AxisMapping { get; set; }
-
-            /// <summary>
-            /// Defines the individual port used for this specific controller.
-            /// </summary>
-            int ControllerId { get; set; }
-
-            /// <summary>
-            /// Defines the custom botton mapping which simulates the individual axis and analog inputs.
-            /// </summary>
-            EmulationButtonMapping EmulationMapping { get; set; }
+            InputMappings InputMappings { get; set; }
 
             /// <summary>
             /// Provides an implementation to be used for remapping of controller inputs.
@@ -599,58 +625,87 @@ namespace Reloaded.Input.Common
         public class ButtonMapping
         {
             /// <summary>
+            /// Initializes the button mapping structure with default values.
+            /// </summary>
+            public ButtonMapping()
+            {
+                ButtonA = 255;
+                ButtonB = 255;
+                ButtonBack = 255;
+                ButtonGuide = 255;
+                ButtonLb = 255;
+                ButtonLs = 255;
+                ButtonRb = 255;
+                ButtonRs = 255;
+                ButtonStart = 255;
+                ButtonX = 255;
+                ButtonY = 255;
+            }
+
+            /// <summary>
             /// Playstation: Cross, Nintendo: B 
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte ButtonA;
 
             /// <summary>
             /// Playstation: Circle, Nintendo: A
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte ButtonB;
 
             /// <summary>
             /// Playstation: Select, Nintendo: Select
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte ButtonBack;
 
             /// <summary>
             /// Playstation: PS Button, Nintendo: Home
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte ButtonGuide;
 
             /// <summary>
             /// Playstation: L1, Nintendo: L
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte ButtonLb;
 
             /// <summary>
             /// Playstation: L3, Nintendo: L Click
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte ButtonLs;
 
             /// <summary>
             /// Playstation: R1, Nintendo: R
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte ButtonRb;
 
             /// <summary>
             /// Playstation: R3, Nintendo: R Click 
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte ButtonRs;
 
             /// <summary>
             /// Playstation: Select, Nintendo: Start
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte ButtonStart;
 
             /// <summary>
             /// Playstation: Square, Nintendo: Y 
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte ButtonX;
 
             /// <summary>
             /// Playstation: Triangle, Nintendo: X
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte ButtonY;
         }
 
@@ -662,73 +717,108 @@ namespace Reloaded.Input.Common
         public class EmulationButtonMapping
         {
             /// <summary>
+            /// Default constructor initializing the default values.
+            /// </summary>
+            public EmulationButtonMapping()
+            {
+                DpadDown = 255;
+                DpadLeft = 255;
+                DpadRight = 255;
+                DpadUp = 255;
+                LeftStickDown = 255;
+                LeftStickLeft = 255;
+                LeftStickRight = 255;
+                LeftStickUp = 255;
+                LeftTrigger = 255;
+                RightStickDown = 255;
+                RightStickLeft = 255;
+                RightStickRight = 255;
+                RightStickUp = 255;
+                RightTrigger = 255;
+            }
+
+            /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD DOWN if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte DpadDown;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD LEFT if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte DpadLeft;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD RIGHT if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte DpadRight;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates DPAD UP if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte DpadUp;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick down if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte LeftStickDown;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick left if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte LeftStickLeft;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick right if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte LeftStickRight;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte LeftStickUp;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left trigger if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte LeftTrigger;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick down if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte RightStickDown;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick left if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte RightStickLeft;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick right if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte RightStickRight;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates left analog stick up if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte RightStickUp;
 
             /// <summary>
             /// For keyboards and other misc input devices. Simulates right trigger if pressed.
             /// </summary>
+            [JsonProperty(Required = Required.Default)]
             public byte RightTrigger;
         }
 
@@ -738,11 +828,22 @@ namespace Reloaded.Input.Common
         /// </summary>
         public class AxisMapping
         {
+            [JsonProperty(Required = Required.Default)]
             public AxisMappingEntry LeftStickX = new AxisMappingEntry();
+
+            [JsonProperty(Required = Required.Default)]
             public AxisMappingEntry LeftStickY = new AxisMappingEntry();
+
+            [JsonProperty(Required = Required.Default)]
             public AxisMappingEntry LeftTrigger = new AxisMappingEntry();
+
+            [JsonProperty(Required = Required.Default)]
             public AxisMappingEntry RightStickX = new AxisMappingEntry();
+
+            [JsonProperty(Required = Required.Default)]
             public AxisMappingEntry RightStickY = new AxisMappingEntry();
+
+            [JsonProperty(Required = Required.Default)]
             public AxisMappingEntry RightTrigger = new AxisMappingEntry();
         }
 
@@ -756,28 +857,33 @@ namespace Reloaded.Input.Common
             /// Defines the mapping for the individual axis entry.
             /// Also sometimes known in the source code as the Destination Axis.
             /// </summary>
-            public ControllerAxis DestinationAxis;
+            [JsonProperty(Required = Required.Default)]
+            public ControllerAxis DestinationAxis { get; set; } = ControllerAxis.Null;
 
             /// <summary>
             /// Defines a deadzone between 0 and 100%. Range: 0-100
             /// </summary>
-            public float DeadZone;
+            [JsonProperty(Required = Required.Default)]
+            public float DeadZone { get; set; } = 0.05F;
 
             /// <summary>
             /// True if the axis is to be reversed when being read.
             /// </summary>
-            public bool IsReversed;
+            [JsonProperty(Required = Required.Default)]
+            public bool IsReversed { get; set; } = false;
 
             /// <summary>
             /// Stores the name of the property (DirectInput, XInput) that is mapped to the axis type.
             /// Sometimes known in the source code as PropertyName.
             /// </summary>
-            public string SourceAxis;
+            [JsonProperty(Required = Required.Default)]
+            public string SourceAxis { get; set; } = "Null";
 
             /// <summary>
             /// Scales the raw input values by this value.
             /// </summary>
-            public float RadiusScale;
+            [JsonProperty(Required = Required.Default)]
+            public float RadiusScale { get; set; } = 1.00F;
         }
 
         /// <summary>

@@ -26,6 +26,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Reloaded;
+using Reloaded.IO.Config.Games;
 using Reloaded.IO.Config.Mods;
 using ReloadedLauncher.Misc;
 using Reloaded_GUI.Styles.Themes;
@@ -230,7 +231,7 @@ namespace ReloadedLauncher.Windows.Children
             Global.CurrentGameConfig.EnabledMods = enabledMods;
 
             // Save the game configuration.
-            Global.ConfigurationManager.GameConfigParser.WriteConfig(Global.CurrentGameConfig);
+            GameConfigParser.WriteConfig(Global.CurrentGameConfig);
         }
 
         /// <summary>

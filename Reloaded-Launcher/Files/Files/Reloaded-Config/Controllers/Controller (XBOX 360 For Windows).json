@@ -1,0 +1,76 @@
+{
+  "ButtonMapping": {
+    "ButtonA": 0,
+    "ButtonB": 1,
+    "ButtonBack": 6,
+    "ButtonGuide": 255,
+    "ButtonLb": 4,
+    "ButtonLs": 8,
+    "ButtonRb": 5,
+    "ButtonRs": 9,
+    "ButtonStart": 7,
+    "ButtonX": 2,
+    "ButtonY": 3
+  },
+  "AxisMapping": {
+    "LeftStickX": {
+      "DestinationAxis": 1,
+      "DeadZone": 0.05,
+      "IsReversed": false,
+      "SourceAxis": "Null",
+      "RadiusScale": 1.0
+    },
+    "LeftStickY": {
+      "DestinationAxis": 2,
+      "DeadZone": 0.05,
+      "IsReversed": false,
+      "SourceAxis": "Null",
+      "RadiusScale": 1.0
+    },
+    "LeftTrigger": {
+      "DestinationAxis": 5,
+      "DeadZone": 0.05,
+      "IsReversed": false,
+      "SourceAxis": "Null",
+      "RadiusScale": 1.0
+    },
+    "RightStickX": {
+      "DestinationAxis": 3,
+      "DeadZone": 0.05,
+      "IsReversed": false,
+      "SourceAxis": "Null",
+      "RadiusScale": 1.0
+    },
+    "RightStickY": {
+      "DestinationAxis": 4,
+      "DeadZone": 0.05,
+      "IsReversed": false,
+      "SourceAxis": "Null",
+      "RadiusScale": 1.0
+    },
+    "RightTrigger": {
+      "DestinationAxis": 6,
+      "DeadZone": 0.05,
+      "IsReversed": false,
+      "SourceAxis": "Null",
+      "RadiusScale": 1.0
+    }
+  },
+  "ControllerId": 4,
+  "EmulationMapping": {
+    "DpadDown": 255,
+    "DpadLeft": 255,
+    "DpadRight": 255,
+    "DpadUp": 255,
+    "LeftStickDown": 255,
+    "LeftStickLeft": 255,
+    "LeftStickRight": 255,
+    "LeftStickUp": 255,
+    "LeftTrigger": 255,
+    "RightStickDown": 255,
+    "RightStickLeft": 255,
+    "RightStickRight": 255,
+    "RightStickUp": 255,
+    "RightTrigger": 255
+  }
+}

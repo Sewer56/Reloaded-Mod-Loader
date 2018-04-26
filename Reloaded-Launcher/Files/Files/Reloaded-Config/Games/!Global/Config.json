@@ -1,0 +1,10 @@
+{
+  "GameDirectory": "Undefined",
+  "ExecutableLocation": "All Executables",
+  "GameName": "!-- Global Mods --!",
+  "GameVersion": "Reloaded",
+  "ModDirectory": "!Global",
+  "EnabledMods": [
+    "Reloaded-Mod-Template"
+  ]
+}

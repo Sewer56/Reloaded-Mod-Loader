@@ -19,12 +19,12 @@
 */
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Reloaded.IO;
 using Reloaded.IO.Config;
+using Reloaded.IO.Config.Loader;
 using Reloaded.Utilities;
 using Reloaded_GUI.Styles.Themes;
 using ReloadedLauncher.Windows;
@@ -47,7 +47,7 @@ namespace ReloadedLauncher
             DoSquirrelStuff();
 
             // Unpack default files if not available.
-            UnpackDefaultFiles();
+            CopyDefaultFiles();
 
             // Initialize the Configs.
             InitializeGlobalProperties();
@@ -57,15 +57,10 @@ namespace ReloadedLauncher
         }
 
         /// <summary>
-        /// Checks if the default mod loader configuration files are available
-        /// and unpacks them manually if they are missing (user installed and is
-        /// using Reloaded for the first time).
+        /// Copies the default Mod Loader configuration and theme files upon first launch.
         /// </summary>
-        private void UnpackDefaultFiles()
+        private void CopyDefaultFiles()
         {
-            // Extract Default Themes
-            Theme.ExtractDefaultThemes();
-
             // Copy without replacement.
             // Source directory = App Directory
             string sourceDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Files";
@@ -94,7 +89,7 @@ namespace ReloadedLauncher
 
             // Grab relevant configs.
             // Note: Game list is grabbed upon entry to the main screen form.
-            Global.LoaderConfiguration = Global.ConfigurationManager.LoaderConfigParser.ParseConfig();
+            Global.LoaderConfiguration = LoaderConfigParser.ParseConfig();
 
             // Initialize other Properties.
             Global.Theme = new Theme();

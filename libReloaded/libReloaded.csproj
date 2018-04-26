@@ -121,7 +121,6 @@
     <Compile Include="Process\ReloadedProcess.cs" />
     <Compile Include="Input\Common\ControllerCommon.cs" />
     <Compile Include="Input\Config\ControllerConfigParser.cs" />
-    <Compile Include="Input\Config\SampleConfig.cs" />
     <Compile Include="Input\ControllerManager.cs" />
     <Compile Include="Input\DirectInput\DInputCommon.cs" />
     <Compile Include="Input\DirectInput\DInputController.cs" />
@@ -166,8 +165,8 @@
     <PackageReference Include="Fody">
       <Version>3.0.3</Version>
     </PackageReference>
-    <PackageReference Include="ini-parser">
-      <Version>2.5.2</Version>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="SharpDisasm">
       <Version>1.1.9</Version>

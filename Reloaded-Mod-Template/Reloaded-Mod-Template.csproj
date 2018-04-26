@@ -90,9 +90,9 @@
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Content Include="Config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ValueTuple">

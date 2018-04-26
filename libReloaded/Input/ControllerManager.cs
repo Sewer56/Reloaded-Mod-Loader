@@ -113,7 +113,7 @@ namespace Reloaded.Input
         public ControllerInputs GetInput(int controllerPort)
         {
             // Retrieve all controllers at port #.
-            List<IController> controllersAtPort = Controllers.Where(x => x.ControllerId == controllerPort).ToList();
+            List<IController> controllersAtPort = Controllers.Where(x => x.InputMappings.ControllerId == controllerPort).ToList();
 
             // Get input for every controller at port # and add onto the input struct.
             ControllerInputs controllerInputs = new ControllerInputs

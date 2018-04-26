@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Reloaded.IO.Config.Games;
-using Reloaded.IO.Config.Loader;
 using Reloaded.IO.Config.Mods;
 using Reloaded.IO.Config.Themes;
 using Reloaded.Utilities;
@@ -35,26 +34,6 @@ namespace Reloaded.IO.Config
     /// </summary>
     public class ConfigManager
     {
-        /// <summary>
-        /// Stores the Mod Loader Configuration Parser.
-        /// </summary>
-        public LoaderConfigParser LoaderConfigParser { get; set; } = new LoaderConfigParser();
-
-        /// <summary>
-        /// Stores the Mod Loader Game Configuration Parser.
-        /// </summary>
-        public GameConfigParser GameConfigParser { get; set; } = new GameConfigParser();
-
-        /// <summary>
-        /// Stores the Mod Loader Mod Configuration Parser.
-        /// </summary>
-        public ModConfigParser ModConfigParser { get; set; } = new ModConfigParser();
-
-        /// <summary>
-        /// Stores the theme configuration parser.
-        /// </summary>
-        public ThemeConfigParser ThemeConfigParser { get; set; } = new ThemeConfigParser();
-
         /// <summary>
         /// Retrieves all of the game individual game configurations, including the global
         /// game configuration containing global mods.

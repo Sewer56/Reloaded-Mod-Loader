@@ -18,117 +18,100 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using IniParser;
-using IniParser.Model;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Reloaded.IO.Config.Themes
 {
     /// <summary>
     /// Provides a quick and easy parser for the .ini files used to define theme configurations.
     /// </summary>
-    public class ThemeConfigParser
+    public static class ThemeConfigParser
     {
         /// <summary>
-        /// Holds an instance of ini-parser used for parsing INI files.
-        /// </summary>
-        private readonly FileIniDataParser _iniParser;
-
-        /// <summary>
-        /// Stores the ini data read by the ini-parser.
-        /// </summary>
-        private IniData _iniData;
-
-        /// <summary>
-        /// Initiates the Theme Config Parser.
-        /// </summary>
-        public ThemeConfigParser()
-        {
-            _iniParser = new FileIniDataParser();
-            _iniParser.Parser.Configuration.CommentString = Strings.Parsers.CommentCharacter;
-        }
-
-        /// <summary>
-        /// Retrieves the Mod Loader configuration file struct.
+        /// Retrieves the Mod Loader theme configuration file struct.
         /// </summary>
         /// <param name="themeLocations">The absolute path to the theme file.</param>
-        public ThemeConfig ParseConfig(string themeLocations)
+        public static ThemeConfig ParseConfig(string themeLocations)
         {
-            // Read the mod loader configuration.
-            _iniData = _iniParser.ReadFile(themeLocations + $"/{Strings.Parsers.ConfigFile}");
+            // Read the mod loader theme configuration.
+            string themeConfigurationLocation = themeLocations + $"/{Strings.Parsers.ConfigFileNew}";
 
-            // Instantiate a new configuration struct.
-            ThemeConfig themeConfig = new ThemeConfig
+            // Try parsing the config file, else return default one.
+            ThemeConfig themeConfiguration;
+
+            try
             {
-                ThemeLocation = themeLocations + $"/{Strings.Parsers.ConfigFile}",
-                ThemeName = _iniData["Theme Configuration"]["Theme_Name"],
-                ThemeDescription = _iniData["Theme Configuration"]["Theme_Description"],
-                ThemeVersion = _iniData["Theme Configuration"]["Theme_Version"],
-                ThemeAuthor = _iniData["Theme Configuration"]["Theme_Author"],
-                ThemeSite = _iniData["Theme Configuration"]["Theme_Site"],
-                ThemeGithub = _iniData["Theme Configuration"]["Theme_Github"]
-            };
+                themeConfiguration =
+                    File.Exists(themeConfigurationLocation)
+                        ? JsonConvert.DeserializeObject<ThemeConfig>(File.ReadAllText(themeConfigurationLocation))
+                        : new ThemeConfig();
+            }
+            catch { themeConfiguration = new ThemeConfig(); }
 
-            // Return the config file.
-            return themeConfig;
+            themeConfiguration.ThemeLocation = themeConfigurationLocation;
+            return themeConfiguration;
         }
 
         /// <summary>
-        /// Writes out the config file to an .ini file.
+        /// Writes out the theme config file to an .ini.
         /// </summary>
         /// <param name="themeConfig">The theme configuration struct.</param>
-        public void WriteConfig(ThemeConfig themeConfig)
+        public static void WriteConfig(ThemeConfig themeConfig)
         {
-            // Change the values of the current fields.
-            _iniData["Theme Configuration"]["Theme_Name"] = themeConfig.ThemeName;
-            _iniData["Theme Configuration"]["Theme_Description"] = themeConfig.ThemeDescription;
-            _iniData["Theme Configuration"]["Theme_Version"] = themeConfig.ThemeVersion;
-            _iniData["Theme Configuration"]["Theme_Author"] = themeConfig.ThemeAuthor;
-            _iniData["Theme Configuration"]["Theme_Site"] = themeConfig.ThemeSite;
-            _iniData["Theme Configuration"]["Theme_Github"] = themeConfig.ThemeGithub;
+            // Convert structure to JSON
+            string json = JsonConvert.SerializeObject(themeConfig, Strings.Parsers.SerializerSettings);
 
-            // Write the file out to disk.
-            _iniParser.WriteFile(themeConfig.ThemeLocation, _iniData);
+            // Write to disk
+            File.WriteAllText(themeConfig.ThemeLocation, json);
         }
 
         /// <summary>
         /// Defines a general struct for the loader theme configuration file.
         /// </summary>
-        public struct ThemeConfig
+        public class ThemeConfig
         {
             /// <summary>
             /// The name of the theme as it appears in the mod loader configuration tool.
             /// </summary>
-            public string ThemeName;
+            [JsonProperty(Required = Required.Default)]
+            public string ThemeName { get; set; } = "Undefined Theme Name";
 
             /// <summary>
             /// The description of the mod.
             /// </summary>
-            public string ThemeDescription;
+            [JsonProperty(Required = Required.Default)]
+            public string ThemeDescription { get; set; } = "Undefined Theme Description";
 
             /// <summary>
             /// The version of the theme. (Recommended Format: 1.XX)
             /// </summary>
-            public string ThemeVersion;
+            [JsonProperty(Required = Required.Default)]
+            public string ThemeVersion { get; set; } = "Undefined";
 
             /// <summary>
             /// The author of the specific theme.
             /// </summary>
-            public string ThemeAuthor;
+            [JsonProperty(Required = Required.Default)]
+            public string ThemeAuthor { get; set; } = "Undefined";
 
             /// <summary>
             /// The site shown in the hyperlink on the loader for your theme.
             /// </summary>
-            public string ThemeSite;
+            [JsonProperty(Required = Required.Default)]
+            public string ThemeSite { get; set; } = "N/A";
 
             /// <summary>
             /// Use if you want to provide self-updates from source code..
             /// </summary>
-            public string ThemeGithub;
+            [JsonProperty(Required = Required.Default)]
+            public string ThemeGithub { get; set; } = "N/A";
 
             /// <summary>
             /// [DO NOT MODIFY] Stores the physical directory location of the theme configuration for re-save purposes.
             /// </summary>
-            public string ThemeLocation;
+            [JsonIgnore]
+            public string ThemeLocation { get; set; }
         }
     }
 }

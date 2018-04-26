@@ -128,12 +128,6 @@ namespace Reloaded.Input.Modules
         public InputDeviceType DeviceType { get; }
 
         /// <summary>
-        /// Instance of the controller configurator parser allowing for controller configurations
-        /// to be saved and/or loaded.
-        /// </summary>
-        private ControllerConfigParser ConfigParser { get; set; }
-
-        /// <summary>
         /// Specifies the individual XInput Port number. 
         /// Used for identifying the correct file to load for the XInput Device.
         /// </summary>
@@ -165,11 +159,7 @@ namespace Reloaded.Input.Modules
         private void GetConfigLocation(DInputController dInputController)
         {
             // Get Configuration Details
-            LoaderConfigParser loaderConfigParser = new LoaderConfigParser();
-            LoaderConfigParser.Config config = loaderConfigParser.ParseConfig();
-
-            // Instantiate Controller Config Parser
-            ConfigParser = new ControllerConfigParser();
+            LoaderConfigParser.Config config = LoaderConfigParser.ParseConfig();
 
             // Set the device type
             ConfigType = config.DirectInputConfigType;
@@ -179,12 +169,12 @@ namespace Reloaded.Input.Modules
             {
                 // If InstanceGUID or ProductGUID.
                 if (ConfigType == DirectInputConfigType.InstanceGUID)
-                    ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/Instances/" + dInputController.Information.InstanceGuid + ".ini";
-                else if (ConfigType == DirectInputConfigType.ProductGUID) ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/" + dInputController.Information.ProductName + ".ini";
+                    ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/Instances/" + dInputController.Information.InstanceGuid + ".json";
+                else if (ConfigType == DirectInputConfigType.ProductGUID) ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/" + dInputController.Information.ProductName + ".json";
             }
             else if (DeviceType == InputDeviceType.XInput)
             {
-                ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/XInput/" + "Controller_" + XInputPort + ".ini";
+                ConfigurationFileLocation = LoaderPaths.GetModLoaderConfigDirectory() + "/Controllers/XInput/" + "Controller_" + XInputPort + ".json";
             }
         }
 
@@ -193,7 +183,7 @@ namespace Reloaded.Input.Modules
         /// </summary>
         public void SetMappings()
         {
-            ConfigParser.WriteConfig(ConfigurationFileLocation, Controller);
+            ControllerConfigParser.WriteConfig(ConfigurationFileLocation, Controller);
         }
 
         /// <summary>
@@ -201,7 +191,7 @@ namespace Reloaded.Input.Modules
         /// </summary>
         public ControllerCommon.IController GetMappings()
         {
-            return ConfigParser.ParseConfig(ConfigurationFileLocation, Controller);
+            return ControllerConfigParser.ParseConfig(ConfigurationFileLocation, Controller);
         }
 
         /// <summary>
@@ -436,13 +426,13 @@ namespace Reloaded.Input.Modules
                     if (joystickState.Buttons[x] != joystickStateNew.Buttons[x])
                     {
                         // Retrieve the button mapping.
-                        ControllerCommon.ButtonMapping buttonMapping = Controller.ButtonMapping;
+                        ControllerCommon.ButtonMapping buttonMapping = Controller.InputMappings.ButtonMapping;
 
                         // Assign requested button.
                         buttonToMap = (byte) x;
 
                         // Reassign button mapping.
-                        Controller.ButtonMapping = buttonMapping;
+                        Controller.InputMappings.ButtonMapping = buttonMapping;
 
                         // Set timeout to 0
                         currentTimeout = 0;
@@ -500,13 +490,13 @@ namespace Reloaded.Input.Modules
                     if (buttonState[x] != buttonStateNew[x])
                     {
                         // Retrieve the button mapping.
-                        ControllerCommon.ButtonMapping buttonMapping = Controller.ButtonMapping;
+                        ControllerCommon.ButtonMapping buttonMapping = Controller.InputMappings.ButtonMapping;
 
                         // Assign requested button.
                         buttonToMap = (byte) x;
 
                         // Reassign button mapping.
-                        Controller.ButtonMapping = buttonMapping;
+                        Controller.InputMappings.ButtonMapping = buttonMapping;
 
                         // Set timeout to 0
                         currentTimeout = 0;

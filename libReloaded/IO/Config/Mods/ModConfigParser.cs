@@ -18,79 +18,52 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using IniParser;
-using IniParser.Model;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Reloaded.IO.Config.Mods
 {
     /// <summary>
     /// Simple parser for the loader mod configuration file.
     /// </summary>
-    public class ModConfigParser
+    public static class ModConfigParser
     {
-        /// <summary>
-        /// Holds an instance of ini-parser used for parsing INI files.
-        /// </summary>
-        private readonly FileIniDataParser _iniParser;
-
-        /// <summary>
-        /// Stores the ini data read by the ini-parser.
-        /// </summary>
-        private IniData _iniData;
-
-        /// <summary>
-        /// Initiates the mod config parser.
-        /// </summary>
-        public ModConfigParser()
-        {
-            _iniParser = new FileIniDataParser();
-            _iniParser.Parser.Configuration.CommentString = Strings.Parsers.CommentCharacter;
-        }
-
         /// <summary>
         /// Retrieves the Mod Loader configuration file struct.
         /// </summary>
         /// <param name="modDirectory">The absolute directory of the individual mod in question.</param>
-        public ModConfig ParseConfig(string modDirectory)
+        public static ModConfig ParseConfig(string modDirectory)
         {
             // Read the mod loader configuration.
-            _iniData = _iniParser.ReadFile(modDirectory + $"/{Strings.Parsers.ConfigFile}");
+            string modConfigurationLocation = modDirectory + $"/{Strings.Parsers.ConfigFileNew}";
 
-            // Instantiate a new configuration struct.
-            ModConfig modConfig = new ModConfig
+            // Try parsing the config file, else return default one.
+            ModConfig modConfiguration;
+
+            try
             {
-                ModLocation = modDirectory + $"/{Strings.Parsers.ConfigFile}",
-                ModName = _iniData["Mod Configuration"]["Mod_Name"],
-                ModDescription = _iniData["Mod Configuration"]["Mod_Description"],
-                ModVersion = _iniData["Mod Configuration"]["Mod_Version"],
-                ModAuthor = _iniData["Mod Configuration"]["Mod_Author"],
-                ThemeSite = _iniData["Mod Configuration"]["Mod_Site"],
-                ThemeGithub = _iniData["Mod Configuration"]["Mod_Github"],
-                ModConfigExe = _iniData["Mod Configuration"]["Mod_Config"]
-
-            };
+                modConfiguration =
+                    File.Exists(modConfigurationLocation)
+                        ? JsonConvert.DeserializeObject<ModConfig>(File.ReadAllText(modConfigurationLocation))
+                        : new ModConfig();
+            }
+            catch { modConfiguration = new ModConfig(); }
             
-            // Return the config file.
-            return modConfig;
+            modConfiguration.ModLocation = modConfigurationLocation;
+            return modConfiguration;
         }
 
         /// <summary>
-        /// Writes out the config file to an .ini file.
+        /// Writes out the config file to disk.
         /// </summary>
         /// <param name="modConfig">The mod configuration structure defining the details of the individual mod.</param>
-        public void WriteConfig(ModConfig modConfig)
+        public static void WriteConfig(ModConfig modConfig)
         {
-            // Change the values of the current fields.
-            _iniData["Mod Configuration"]["Mod_Name"] = modConfig.ModName;
-            _iniData["Mod Configuration"]["Mod_Description"] = modConfig.ModDescription;
-            _iniData["Mod Configuration"]["Mod_Version"] = modConfig.ModVersion;
-            _iniData["Mod Configuration"]["Mod_Author"] = modConfig.ModAuthor;
-            _iniData["Mod Configuration"]["Mod_Site"] = modConfig.ThemeSite;
-            _iniData["Mod Configuration"]["Mod_Github"] = modConfig.ThemeGithub;
-            _iniData["Mod Configuration"]["Mod_Config"] = modConfig.ModConfigExe;
+            // Convert structure to JSON
+            string json = JsonConvert.SerializeObject(modConfig, Strings.Parsers.SerializerSettings);
 
-            // Write the file out to disk.
-            _iniParser.WriteFile(modConfig.ModLocation, _iniData);
+            // Write to disk
+            File.WriteAllText(modConfig.ModLocation, json);
         }
 
         /// <summary>
@@ -101,41 +74,49 @@ namespace Reloaded.IO.Config.Mods
             /// <summary>
             /// The name of the mod as it appears in the mod loader configuration tool.
             /// </summary>
-            public string ModName { get; set; }
+            [JsonProperty(Required = Required.Default)]
+            public string ModName { get; set; } = "Modification Name Undefined";
 
             /// <summary>
             /// The description of the mod.
             /// </summary>
-            public string ModDescription { get; set; }
+            [JsonProperty(Required = Required.Default)]
+            public string ModDescription { get; set; } = "Modification Description Undefined";
 
             /// <summary>
             /// The version of the mod. (Recommended Format: 1.XX)
             /// </summary>
-            public string ModVersion { get; set; }
+            [JsonProperty(Required = Required.Default)]
+            public string ModVersion { get; set; } = "Undefined";
 
             /// <summary>
             /// The author of the specific mod.
             /// </summary>
-            public string ModAuthor { get; set; }
+            [JsonProperty(Required = Required.Default)]
+            public string ModAuthor { get; set; } = "Undefined";
 
             /// <summary>
             /// The site shown in the hyperlink on the loader for the mod.
             /// </summary>
-            public string ThemeSite { get; set; }
+            [JsonProperty(Required = Required.Default)]
+            public string ThemeSite { get; set; } = "N/A";
 
             /// <summary>
             /// Used for self-updates from source code.
             /// </summary>
-            public string ThemeGithub { get; set; }
+            [JsonProperty(Required = Required.Default)]
+            public string ThemeGithub { get; set; } = "N/A";
 
             /// <summary>
             /// Specifies an executable or file in the same directory to be ran for configuration purposes.
             /// </summary>
-            public string ModConfigExe { get; set; }
+            [JsonProperty(Required = Required.Default)]
+            public string ModConfigExe { get; set; } = "N/A";
 
             /// <summary>
             /// [DO NOT MODIFY] Stores the physical directory location of the mod configuration for re-save purposes.
             /// </summary>
+            [JsonIgnore]
             public string ModLocation { get; set; }
         }
     }

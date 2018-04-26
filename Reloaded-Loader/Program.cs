@@ -201,7 +201,7 @@ namespace Reloaded_Loader
             // Go over known arguments.
             for (int x = 0; x < arguments.Length; x++)
             {
-                if (arguments[x] == $"{Strings.Common.LoaderSettingConfig}") { _gameConfig = new GameConfigParser().ParseConfig(arguments[x + 1]); }
+                if (arguments[x] == $"{Strings.Common.LoaderSettingConfig}") { _gameConfig = GameConfigParser.ParseConfig(arguments[x + 1]); }
                 if (arguments[x] == $"{Strings.Common.LoaderSettingAttach}") { _attachTargetName = arguments[x+1]; }
                 if (arguments[x] == $"{Strings.Common.LoaderSettingLog}") { Logger.Setup(arguments[x + 1]); }
             }

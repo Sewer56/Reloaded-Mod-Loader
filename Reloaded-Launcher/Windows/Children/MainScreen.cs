@@ -151,7 +151,7 @@ namespace ReloadedLauncher.Windows.Children
                 item_LocationBoxEXEPath.Text = "$DIRECTORY + " + Global.CurrentGameConfig.ExecutableLocation;
 
                 // Load the game image.
-                try { item_GameBanner.BackgroundImage = Image.FromFile(Global.CurrentGameConfig.ConfigDirectory + $"\\{Strings.Launcher.BannerName}"); }
+                try { item_GameBanner.BackgroundImage = Image.FromFile(GameConfigParser.GameConfig.GetBannerPath(Global.CurrentGameConfig)); }
                 catch { item_GameBanner.BackgroundImage = null; }
             }
             catch { }
@@ -174,7 +174,7 @@ namespace ReloadedLauncher.Windows.Children
         private void item_LaunchBox_MouseClick(object sender, MouseEventArgs e)
         {
             // Check if global config
-            if (Global.CurrentGameConfig.ConfigDirectory == GameConfigParser.GameConfig.GetGlobalConfig().ConfigDirectory)
+            if (Global.CurrentGameConfig.ConfigLocation == GameConfigParser.GameConfig.GetGlobalConfigProperties().ConfigLocation)
             {
                 MessageBox.Show("One does not launch the Global Mod Configuration, you can try though...");
                 return;
