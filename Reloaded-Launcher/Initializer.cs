@@ -18,15 +18,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using Reloaded.IO;
 using Reloaded.IO.Config;
 using Reloaded.Utilities;
 using Reloaded_GUI.Styles.Themes;
 using ReloadedLauncher.Windows;
-using SevenZipExtractor;
+using Squirrel;
 
 namespace ReloadedLauncher
 {
@@ -41,6 +43,9 @@ namespace ReloadedLauncher
         /// </summary>
         public Initializer()
         {
+            // Start self-update.
+            DoSquirrelStuff();
+
             // Unpack default files if not available.
             UnpackDefaultFiles();
 
@@ -58,23 +63,25 @@ namespace ReloadedLauncher
         /// </summary>
         private void UnpackDefaultFiles()
         {
-            // Check if config file exists (verify first boot).
-            if (! LoaderPaths.CheckModLoaderConfig())
-            {
-                // Extract Default Themes
-                Theme.ExtractDefaultThemes();
+            // Extract Default Themes
+            Theme.ExtractDefaultThemes();
 
-                // Retrieve our default files
-                string[] resourceNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
-                string defaultResourceName = resourceNames.First(x => x.Contains("DefaultConfig.7z"));
+            // Copy without replacement.
+            // Source directory = App Directory
+            string sourceDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Files";
+            string targetDirectory = LoaderPaths.GetModLoaderDirectory();
 
-                // Unpack Default Files
-                using (Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(defaultResourceName))
-                using (ArchiveFile archiveFile = new ArchiveFile(resourceStream))
-                {
-                    archiveFile.Extract(LoaderPaths.GetModLoaderDirectory());
-                }
-            }
+            // Copy without replacement.
+            // Source directory = App Directory
+            string sourceDirectoryDefaultMods = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Default-Mods";
+            string targetDirectoryDefaultMods = LoaderPaths.GetGlobalModDirectory();
+
+            try { RelativePaths.CopyByRelativePath(sourceDirectory, targetDirectory, RelativePaths.FileCopyMethod.Copy, false); } catch { }
+            try { RelativePaths.CopyByRelativePath(sourceDirectoryDefaultMods, targetDirectoryDefaultMods, RelativePaths.FileCopyMethod.Copy, true); } catch { }
+            
+            // Nuke remaining files.
+            try { Directory.Delete(sourceDirectory, true); } catch { }
+            try { Directory.Delete(sourceDirectoryDefaultMods, true); } catch { }
         }
 
         /// <summary>
@@ -106,6 +113,43 @@ namespace ReloadedLauncher
 
             // Launches the first window.
             Application.Run(Global.BaseForm);
+        }
+
+        /// <summary>
+        /// Does stuff related to Squirrel.Windows, such as beginning a self-update in the background.
+        /// Starts the self-update process, updating the application to the newest version in the background.
+        /// </summary>
+        private async void DoSquirrelStuff()
+        {
+            try
+            {
+                // Use regular update manager in case there is no found commit on Github
+                using (var tempUpdateManager = new UpdateManager(""))
+                {
+                    // Handle application installs, uninstalls.
+                    SquirrelAwareApp.HandleEvents(
+                        onInitialInstall: v => tempUpdateManager.CreateShortcutForThisExe(),
+                        onAppUpdate: v => tempUpdateManager.CreateShortcutForThisExe(),
+                        onAppUninstall: v => tempUpdateManager.RemoveShortcutForThisExe()
+                    );
+                }
+
+                // Update from Github
+                using (var updateManager = UpdateManager.GitHubUpdateManager("https://github.com/sewer56lol/Reloaded-Mod-Loader"))
+                {
+                    // Update manager for Github
+                    UpdateManager githubUpdateManager = updateManager.Result;
+
+                    // Check for release info.
+                    UpdateInfo update = await githubUpdateManager.CheckForUpdate(false);
+
+                    // Update if there are any releases.
+                    if (update.ReleasesToApply.Count > 0)
+                    { await githubUpdateManager.UpdateApp(); }
+                }
+            }
+            catch (Exception e)
+            { }
         }
     }
 }

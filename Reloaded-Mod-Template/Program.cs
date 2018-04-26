@@ -1,4 +1,5 @@
 ﻿using Reloaded;
+using Reloaded.Assembler;
 using Reloaded.Process;
 
 namespace Reloaded_Mod_Template
@@ -95,6 +96,14 @@ namespace Reloaded_Mod_Template
         /// </summary>
         public static unsafe async void Init()
         {
+            Assembler.Assemble
+            (
+                new[]
+                {
+                    "use32",
+                    "mov eax, ecx"
+                });
+
             Bindings.PrintInfo("Hello World!");
         }
     }

@@ -143,7 +143,8 @@ namespace Reloaded.IO
         /// <param name="sourceDirectory">Specifies the source directory from which the files are meant to be copied from. Should not end on a back/forward slash.</param>
         /// <param name="targetDirectory">Specifies the arget directory to which the files are meant to be copied. Should not end on a back/forward slash.</param>
         /// <param name="fileCopyMethod">Specifies the way the files will be copied from A to B.</param>
-        public static void CopyByRelativePath(List<string> relativePaths, string sourceDirectory, string targetDirectory, FileCopyMethod fileCopyMethod)
+        /// <param name="overWrite">Declares whether the files should be overwritten or not.</param>
+        public static void CopyByRelativePath(List<string> relativePaths, string sourceDirectory, string targetDirectory, FileCopyMethod fileCopyMethod, bool overWrite)
         {
             // For each relative path.
             foreach(string relativePath in relativePaths)
@@ -155,12 +156,14 @@ namespace Reloaded.IO
                 string sourcePath = sourceDirectory + relativePath;
 
                 // Confirm source, and target's directory exist.
-                if (! File.Exists(sourcePath)) continue;
+                if (! File.Exists(sourcePath))
+                    continue;
+
                 if (! Directory.Exists(Path.GetDirectoryName(targetPath)))
                     Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
 
                 // Copy the files from A to B using the specified target method.
-                CopyWithMethod(sourcePath, targetPath, fileCopyMethod);
+                CopyWithMethod(sourcePath, targetPath, fileCopyMethod, overWrite);
             }
         }
 
@@ -170,13 +173,14 @@ namespace Reloaded.IO
         /// <param name="sourceDirectory">Specifies the source directory from which the files are meant to be copied from. Should not end on a back/forward slash.</param>
         /// <param name="targetDirectory">Specifies the arget directory to which the files are meant to be copied. Should not end on a back/forward slash.</param>
         /// <param name="fileCopyMethod">Specifies the way the files will be copied from A to B.</param>
-        public static void CopyByRelativePath(string sourceDirectory, string targetDirectory, FileCopyMethod fileCopyMethod)
+        /// <param name="overWrite">Declares whether the files should be overwritten or not.</param>
+        public static void CopyByRelativePath(string sourceDirectory, string targetDirectory, FileCopyMethod fileCopyMethod, bool overWrite)
         {
             // Obtain the relative paths to the target directory.
             List<string> relativePaths = GetRelativeFilePaths(sourceDirectory);
 
             // Call the other overload.
-            CopyByRelativePath(relativePaths, sourceDirectory, targetDirectory, fileCopyMethod);
+            CopyByRelativePath(relativePaths, sourceDirectory, targetDirectory, fileCopyMethod, overWrite);
         }
 
         /// <summary>
@@ -185,19 +189,32 @@ namespace Reloaded.IO
         /// <param name="fileCopyMethod">The method bu which the file is meant to be copied.</param>
         /// <param name="sourcePath">The path where the file that is to be copied lies.</param>
         /// <param name="targetPath">The path where the file at sourcePath is to be copied to.</param>
-        private static void CopyWithMethod(string sourcePath, string targetPath, FileCopyMethod fileCopyMethod)
+        /// <param name="overWrite">Declares whether the files should be overwritten or not.</param>
+        private static void CopyWithMethod(string sourcePath, string targetPath, FileCopyMethod fileCopyMethod, bool overWrite)
         {
-            switch (fileCopyMethod)
+            try
             {
-                case FileCopyMethod.Copy: File.Copy(sourcePath, targetPath, true); break;
-                case FileCopyMethod.Hardlink:
+                switch (fileCopyMethod)
+                {
+                    case FileCopyMethod.Copy:
+                        File.Copy(sourcePath, targetPath, overWrite);
+                        break;
 
-                    // Try creating hardlink.
-                    // If the operation fails, copy the file with replacement.
-                    if (CreateHardLink(targetPath, sourcePath, IntPtr.Zero) == false) File.Copy(sourcePath, targetPath, true);
+                    case FileCopyMethod.Hardlink:
 
-                    break;
+                        // Try creating hardlink.
+                        // If the operation fails, copy the file with replacement.
+                        if (CreateHardLink(targetPath, sourcePath, IntPtr.Zero) == false)
+                            File.Copy(sourcePath, targetPath, overWrite);
+
+                        break;
+                }
             }
+            catch (IOException) // File already exists.
+            { }
+            catch (Exception)
+            { Bindings.PrintError?.Invoke($"[RelativePaths]Tried to overwrite/copy a file. {targetPath}"); }
+
         }
     }
 }

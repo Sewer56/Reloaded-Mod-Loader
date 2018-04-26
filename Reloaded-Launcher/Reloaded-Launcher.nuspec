@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/Reloaded-GUI/Images/Static/ReloadedIcon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A bundle consisting of the Reloaded Mod Loader launcher, loader and some sample modifications.</description>
+  </metadata>
+</package>

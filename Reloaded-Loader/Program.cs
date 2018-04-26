@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 using Reloaded;
 using Reloaded.IO.Config.Games;
 using Reloaded.Process;
@@ -32,6 +33,7 @@ using Reloaded_Loader.Miscellaneous;
 using Reloaded_Loader.Networking;
 using Reloaded_Loader.Terminal;
 using Reloaded_Loader.Terminal.Information;
+using Squirrel;
 using Console = Colorful.Console;
 
 namespace Reloaded_Loader
@@ -74,6 +76,7 @@ namespace Reloaded_Loader
             AppDomain.CurrentDomain.AssemblyResolve += Miscellaneous.AssemblyFinder.CurrentDomain_AssemblyResolve;
 
             /* - Initialization - */
+            DoSquirrelStuff();
 
             // Initialize the console.
             ConsoleFunctions.Initialize();
@@ -317,6 +320,33 @@ namespace Reloaded_Loader
         {
             // Re-call main.
             Main(arguments);
+        }
+
+        /// <summary>
+        /// Shuts itself down upon being started by Squirrel.Windows over an update event.
+        /// </summary>
+        private static void DoSquirrelStuff()
+        {
+            try
+            {
+                // NB: Note here that HandleEvents is being called as early in startup
+                // as possible in the app. This is very important!
+                using (var updateManager = new UpdateManager("https://github.com/sewer56lol/Reloaded-Mod-Loader/releases/latest"))
+                {
+                    // Note, in most of these scenarios, the app exits after this method
+                    // completes!
+                    SquirrelAwareApp.HandleEvents(
+                        onInitialInstall: v => Environment.Exit(0),
+                        onAppUpdate: v => Environment.Exit(0),
+                        onAppUninstall: v => updateManager.RemoveShortcutForThisExe(),
+                        onFirstRun: () => Environment.Exit(0));
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
         }
     }
 }

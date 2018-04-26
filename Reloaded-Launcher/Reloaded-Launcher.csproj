@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Version;Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,12 +8,12 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>ReloadedLauncher</RootNamespace>
     <AssemblyName>Reloaded-Launcher</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,10 +26,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +40,7 @@
     <DocumentationFile>
     </DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,6 +53,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <DebugSymbols>true</DebugSymbols>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -229,7 +230,6 @@
     <EmbeddedResource Include="Windows\Children\MainScreen.resx">
       <DependentUpon>MainScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Files\DefaultConfig.7z" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -239,6 +239,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Reloaded-Launcher.nuspec">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -253,6 +256,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj">
+      <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
+      <Name>libReloaded-Networking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\libReloaded\libReloaded.csproj">
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
       <Name>libReloaded</Name>
@@ -263,20 +270,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Costura.Fody">
-      <Version>2.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Fody">
-      <Version>3.0.3</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.WindowsAPICodePack-Core">
       <Version>1.1.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.WindowsAPICodePack-Shell">
       <Version>1.1.0</Version>
-    </PackageReference>
-    <PackageReference Include="MSBuildTasks">
-      <Version>1.5.0.235</Version>
     </PackageReference>
     <PackageReference Include="SevenZipExtractor">
       <Version>1.0.12</Version>
@@ -284,38 +282,19 @@
     <PackageReference Include="SharpDX">
       <Version>4.0.1</Version>
     </PackageReference>
+    <PackageReference Include="squirrel.windows">
+      <Version>1.8.0</Version>
+    </PackageReference>
     <PackageReference Include="System.ValueTuple">
       <Version>4.4.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>MKDIR "$(TargetDir)Reloaded-Libraries\"
-
-MOVE /Y "$(TargetDir)*.dll" "$(TargetDir)Reloaded-Libraries\"
-MOVE /Y "$(TargetDir)*.xml" "$(TargetDir)Reloaded-Libraries\"
-MOVE /Y "$(TargetDir)*.xml" "$(TargetDir)Reloaded-Libraries\"
-DEL "$(TargetDir)Reloaded-Libraries\*.xml"
-DEL "$(TargetDir)Microsoft.WindowsAPICodePack.pdb"
-DEL "$(TargetDir)Microsoft.WindowsAPICodePack.Shell.pdb"
-DEL "$(TargetDir)Microsoft.WindowsAPICodePack.ShellExtensions.pdb"
-
-RMDIR "$(TargetDir)Reloaded-Libraries\"</PostBuildEvent>
+    <PostBuildEvent>XCOPY /E /I /Y /D "$(ProjectDir)Files" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
-  <PropertyGroup>
-    <Major>0</Major>
-    <Minor>9</Minor>
-    <Build>6</Build>
-    <Revision>0</Revision>
-  </PropertyGroup>
-  <Target Name="Version">
-    <GitVersion LocalPath="$(MSBuildProjectDirectory)">
-      <Output TaskParameter="CommitHash" PropertyName="Revision" />
-    </GitVersion>
-    <AssemblyInfo CodeLanguage="CS" OutputFile="Properties\AssemblyInfo.cs" AssemblyTitle="Reloaded Launcher" AssemblyDescription="Reloaded Mod Loader Launcher" AssemblyCompany="" AssemblyProduct="Reloaded Mod Loader" AssemblyCopyright="Sewer56lol, 2018" ComVisible="false" CLSCompliant="true" AssemblyInformationalVersion="$(Major).$(Minor).$(Build).$(Revision)" AssemblyVersion="$(Major).$(Minor).$(Build)" AssemblyFileVersion="$(Major).$(Minor).$(Build)" />
-  </Target>
 </Project>
