@@ -64,7 +64,7 @@ namespace ReloadedLauncher.Windows.Children
             if (Visible)
             {
                 // Set the titlebar.  
-                Global.CurrentMenuName = Strings.Launcher.Menus.InputMenuName;
+                Global.CurrentMenuName = Strings.Launcher.Menus.ThemeMenuName;
                 Global.BaseForm.UpdateTitle("");
 
                 // Set the button text for mod buttons to N/A.
