@@ -17,6 +17,6 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyright("Sewer56lol, 2018")]
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
 [assembly: System.CLSCompliant(true)]
-[assembly: AssemblyVersion("0.9.8.0")]
-[assembly: AssemblyFileVersion("0.9.8.0")]
+[assembly: AssemblyVersion("0.9.81")]
+[assembly: AssemblyFileVersion("0.9.81")]
 [assembly: AssemblyMetadata("SquirrelAwareVersion", "1")]

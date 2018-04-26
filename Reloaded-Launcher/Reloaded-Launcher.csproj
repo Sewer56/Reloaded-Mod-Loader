@@ -291,7 +291,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /E /I /Y /D "$(ProjectDir)Files" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>XCOPY /E /I /Y /D "$(ProjectDir)Files" "$(TargetDir)"
+XCOPY /E /I /Y /D "$(SolutionDir)LICENSES" "$(TargetDir)LICENSES"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

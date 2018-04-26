@@ -87,7 +87,6 @@ namespace Reloaded.IO.Config.Loader
         {
             // Create category
             var loaderConfigSection = new SectionData("Mod Loader Configuration");
-            _iniData.Sections.Add(loaderConfigSection);
             _loaderConfig = loaderConfigSection.Keys;
 
             // Create fields
@@ -107,6 +106,10 @@ namespace Reloaded.IO.Config.Loader
                 Remapper.DirectInputConfigType.ProductGUID.ToString();
 
             _loaderConfig[nameof(Config.ExitAfterLaunch)] = true.ToString();
+
+            // Add the sectiondata.
+            loaderConfigSection.Keys = _loaderConfig;
+            _iniData.Sections.Add(loaderConfigSection);
 
             // Write file
             _iniParser.WriteFile(configLocation, _iniData);
