@@ -35,7 +35,7 @@ namespace Reloaded.IO.Config.Mods
         public static ModConfig ParseConfig(string modDirectory)
         {
             // Read the mod loader configuration.
-            string modConfigurationLocation = modDirectory + $"/{Strings.Parsers.ConfigFileNew}";
+            string modConfigurationLocation = modDirectory + $"/{Strings.Parsers.ConfigFile}";
 
             // Try parsing the config file, else return default one.
             ModConfig modConfiguration;

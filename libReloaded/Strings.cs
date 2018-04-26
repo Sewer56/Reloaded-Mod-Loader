@@ -155,11 +155,6 @@ namespace Reloaded
             public static string EnabledModsFile { get; } = "Enabled_Mods.ini";
 
             /// <summary>
-            /// Contains the name of the file used for reading and writing of general mod loader configs.
-            /// </summary>
-            public static string ConfigFile { get; } = "Config.ini";
-
-            /// <summary>
             /// Contains the name of the file used for reading and writing of theme properties and styles.
             /// </summary>
             public static string ThemeFile { get; } = "Theme.json";
@@ -167,7 +162,7 @@ namespace Reloaded
             /// <summary>
             /// Contains the name of the file used for reading and writing of general mod loader configs.
             /// </summary>
-            public static string ConfigFileNew { get; } = "Config.json";
+            public static string ConfigFile { get; } = "Config.json";
         }
     }
 }

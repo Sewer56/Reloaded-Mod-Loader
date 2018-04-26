@@ -87,9 +87,7 @@ namespace Reloaded_Wrapper_x64
                 }
             }
             catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+            {  }
 
         }
     }
