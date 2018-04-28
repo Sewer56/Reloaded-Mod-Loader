@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -89,10 +90,9 @@
     <Compile Include="DirectX\DX11Hook.cs" />
     <Compile Include="DirectX\DXHookCommon.cs" />
     <Compile Include="IO\Config\ConfigManager.cs" />
-    <Compile Include="Native\Helpers\ArrayPtr.cs" />
-    <Compile Include="Native\Helpers\FixedArrayPtr.cs" />
-    <Compile Include="Native\Helpers\FunctionPtr.cs" />
-    <Compile Include="Native\Helpers\FunctionPtrBase.cs" />
+    <Compile Include="Native\Helpers\Arrays\ArrayPtr.cs" />
+    <Compile Include="Native\Helpers\Arrays\FixedArrayPtr.cs" />
+    <Compile Include="Native\Helpers\Functions\FunctionPtr.cs" />
     <Compile Include="Native\Helpers\Ref.cs" />
     <Compile Include="Native\WinAPI\Constants.cs" />
     <Compile Include="Native\WinAPI\Structures.cs" />

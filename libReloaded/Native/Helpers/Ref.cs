@@ -19,14 +19,16 @@
 */
 
 
+using System;
 using System.Runtime.CompilerServices;
 
 namespace Reloaded.Native.Helpers
 {
     /// <summary>
     /// Represents a reference to a value of type <typeparamref name="T"/>.
+    /// Wraps a native pointer around a managed type, improving the ease of use.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Value type to hold a reference to.</typeparam>
     public unsafe struct Ref<T> where T : struct
     {
         /// <summary>
@@ -39,27 +41,37 @@ namespace Reloaded.Native.Helpers
         /// </summary>
         public T Value
         {
-            get => Unsafe.Read<T>( Pointer );
-            set => Unsafe.Write( Pointer, value );
+            get => Unsafe.Read<T>(Pointer);
+            set => Unsafe.Write(Pointer, value);
         }
 
         /// <summary>
-        /// Constructs a new instance of <see cref="Ref{T}"/> given the address at which the value of type <typeparamref name="T"/> is stored.
+        /// Constructs a new instance of <see cref="Ref{T}"/> given the address (pointer)
+        /// at which the value of type <typeparamref name="T"/> is stored.
         /// </summary>
-        /// <param name="address"></param>
-        public Ref( ulong address )
+        /// <param name="address">The address of the pointer pointing to generic type {T}</param>
+        public Ref(ulong address)
         {
-            Pointer = ( void* ) address;
+            Pointer = (void*)address;
         }
 
-        public static implicit operator T( Ref<T> value ) => value.Value;
+        /// <summary>
+        /// Constructs a new instance of <see cref="Ref{T}"/> given the address (pointer)
+        /// at which the value of type <typeparamref name="T"/> is stored.
+        /// </summary>
+        /// <param name="address">The address of the pointer pointing to generic type {T}</param>
+        public Ref(IntPtr address)
+        {
+            Pointer = (void*)address;
+        }
 
-        // No assignment operator overload is possible, unfortunately.
+        public static implicit operator T(Ref<T> value) => value.Value;
+        // No assignment (=) operator overload is possible, unfortunately.
 
         /// <summary>
         /// Sets the value of what the reference points to.
         /// </summary>
         /// <param name="value"></param>
-        public void Set( T value ) => Value = value;
+        public void Set(T value) => Value = value;
     }
 }
