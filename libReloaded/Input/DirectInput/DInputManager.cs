@@ -48,13 +48,6 @@ namespace Reloaded.Input.DirectInput
         public static float TriggerScaleFactor { get; set; } = 0.5F;
 
         /// <summary>
-        /// The name of a file that is temporarily dumped onto the game directory which signifies that
-        /// a controller is currently being acquired via DirectInput. This should be consistent between mods
-        /// as multiple mods trying to acquire DInput devices at once could lead to deadlocks.  
-        /// </summary>
-        public static string ControllerAcquireFilenameFlag { get; set; } = "Controller_Acquire.txt";
-
-        /// <summary>
         /// Stores a list of all DirectInput controller devices such as Mice, Keyboards
         /// and Joysticks used within the mod loader.
         /// </summary>
@@ -81,14 +74,8 @@ namespace Reloaded.Input.DirectInput
         /// </summary>
         public void AcquireDevices()
         {
-            // Creates a lock disallowing simultaneous controller acquisitions between mods.
-            CreateAcquisitionLock();
-
             // Retrieve and Setup Connected Devices
             GetConnectedControllers();
-
-            // Removes the Acquisition Lock.
-            DestroyAcquisitionLock();
         }
 
         /// <summary>
@@ -97,38 +84,6 @@ namespace Reloaded.Input.DirectInput
         public List<DInputController> RetrieveDevices()
         {
             return _dInputControllers;
-        }
-
-        /// <summary>
-        /// Waits if an existing lock exists and once it is removed, create a new one to prevent
-        /// potential deadlocks as multiple mods may try to simultaneously acquire the same
-        /// input devices. This is a fail-safe as new mods should contact back the mod-loader server
-        /// to inform the server that a mod has finished loading.
-        /// </summary>
-        private void CreateAcquisitionLock()
-        {
-            // Wait for potential lock.
-            // 1 second timeout.
-            int timeout = 0;
-            while (File.Exists(ControllerAcquireFilenameFlag))
-            {
-                timeout += 1;
-                if (timeout == 60) break;
-                Thread.Sleep(16);
-            }
-
-            // Create lock.
-            File.Create(ControllerAcquireFilenameFlag).Close();
-        }
-
-        /// <summary>
-        /// Removes the acquisition file lock such that another mod utilizing DirectInput may 
-        /// acquire controller input. See note in CreateAcquitionLock();
-        /// </summary>
-        private void DestroyAcquisitionLock()
-        {
-            // Unlock
-            File.Delete(ControllerAcquireFilenameFlag);
         }
 
         /// <summary>
