@@ -147,7 +147,7 @@ namespace Reloaded_Loader
             timeoutStopWatch.Start();
 
             // Spin trying to get game process until timeout.
-            while (timeoutStopWatch.ElapsedMilliseconds < 1000)
+            while (timeoutStopWatch.ElapsedMilliseconds < 5000)
             {
                 // Grab current already running game.
                 ReloadedProcess localGameProcess = ReloadedProcess.GetProcessByName(_attachTargetName);
