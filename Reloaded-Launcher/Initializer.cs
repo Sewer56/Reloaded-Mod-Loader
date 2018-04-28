@@ -74,13 +74,26 @@ namespace ReloadedLauncher
             string sourceDirectoryDefaultMods = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Default-Mods";
             string targetDirectoryDefaultMods = LoaderPaths.GetGlobalModDirectory();
 
+            // Files
             try
             {
-                RelativePaths.CopyByRelativePath(sourceDirectory, targetDirectory, RelativePaths.FileCopyMethod.Copy, false); 
-                RelativePaths.CopyByRelativePath(sourceDirectoryDefaultMods, targetDirectoryDefaultMods, RelativePaths.FileCopyMethod.Copy, true);
-            
-                // Nuke remaining files.
+                RelativePaths.CopyByRelativePath(sourceDirectory, targetDirectory, RelativePaths.FileCopyMethod.Copy, false);
                 Directory.Delete(sourceDirectory, true);
+            }
+            catch (Exception)
+            { /* ¯\_(ツ)_/¯ */ }
+
+            // Mods
+            try
+            {
+                RelativePaths.CopyByRelativePath(sourceDirectoryDefaultMods, targetDirectoryDefaultMods, RelativePaths.FileCopyMethod.Copy, true);
+
+                // Don't delete debug symbols at their path if in debug mode.
+                #if DEBUG
+                return;
+                #endif
+                
+                // Delete default mods directory.
                 Directory.Delete(sourceDirectoryDefaultMods, true);
             }
             catch (Exception)
