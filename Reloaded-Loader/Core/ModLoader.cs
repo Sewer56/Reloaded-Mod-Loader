@@ -43,31 +43,8 @@ namespace Reloaded_Loader.Core
         /// <param name="reloadedProcess">The reloaded process to inject the modifications into.</param>
         public static void LoadMods(GameConfigParser.GameConfig gameConfiguration, ReloadedProcess reloadedProcess)
         {
-            // Get directory containing the global mod list.
-            GameConfigParser.GameConfig globalModConfig = GameConfigParser.ParseConfig(LoaderPaths.GetGlobalGameConfigDirectory());
-
-            // Get directory containing the game's mod list
-            string gameModDirectory = Path.Combine(LoaderPaths.GetModLoaderModDirectory(), gameConfiguration.ModDirectory);
-            string globalModDirectory = LoaderPaths.GetGlobalModDirectory();
-
-            // Get directories containing enabled mods.
-            List<string> modLibraries = new List<string>(gameConfiguration.EnabledMods.Count);
-
-            // Get the game mod dll locations.
-            foreach (string modDirectory in gameConfiguration.EnabledMods)
-            {
-                // Add native or not native.
-                if (ReloadedArchitecture.IsGame32Bit) { modLibraries.Add(Path.Combine(gameModDirectory, modDirectory, Strings.Loader.Mod32BitDllFile)); }
-                else { modLibraries.Add(Path.Combine(gameModDirectory, modDirectory, Strings.Loader.Mod64BitDllFile)); }  
-            }
-
-            // Get the global mod dll locations.
-            foreach (string modDirectory in globalModConfig.EnabledMods)
-            {
-                // Add native or not native.
-                if (ReloadedArchitecture.IsGame32Bit) { modLibraries.Add(Path.Combine(globalModDirectory, modDirectory, Strings.Loader.Mod32BitDllFile)); }
-                else { modLibraries.Add(Path.Combine(globalModDirectory, modDirectory, Strings.Loader.Mod64BitDllFile)); }
-            }
+            // Retrieve list of DLLs to be injected.
+            string[] modLibraries = GetModulesToInject(gameConfiguration);
 
             // Initialize DLL Injector
             DllInjector reloadedDllInjector = new DllInjector(reloadedProcess);
@@ -91,6 +68,63 @@ namespace Reloaded_Loader.Core
 
             // Resume game after injection.
             reloadedProcess.ResumeAllThreads();
+        }
+
+        /// <summary>
+        /// Retrieves an array of DLLs locations to be injected and loaded into the target process.
+        /// </summary>
+        /// <param name="gameConfiguration">The game configuration which contains the current directory and list of mods to load.</param>
+        /// <returns>A list of DLL locations to be injected and loaded into the target process.</returns>
+        private static string[] GetModulesToInject(GameConfigParser.GameConfig gameConfiguration)
+        {
+            // Get directory containing the global mod list.
+            GameConfigParser.GameConfig globalModConfig = GameConfigParser.ParseConfig(LoaderPaths.GetGlobalGameConfigDirectory());
+
+            // Get directory containing the game's mod list
+            string gameModDirectory = Path.Combine(LoaderPaths.GetModLoaderModDirectory(), gameConfiguration.ModDirectory);
+            string globalModDirectory = LoaderPaths.GetGlobalModDirectory();
+
+            // Get directories containing enabled mods.
+            List<string> modLibraries = new List<string>(gameConfiguration.EnabledMods.Count);
+
+            // Get the game mod dll locations.
+            foreach (string modDirectory in gameConfiguration.EnabledMods)
+            {
+                // Add native or not native.
+                if (ReloadedArchitecture.IsGame32Bit)
+                {
+                    string X86DllLocation = Path.Combine(gameModDirectory, modDirectory, Strings.Loader.Mod32BitDllFile);
+                    if (File.Exists(X86DllLocation))
+                        modLibraries.Add(X86DllLocation);
+                }
+                else
+                {
+                    string X64DllLocation = Path.Combine(gameModDirectory, modDirectory, Strings.Loader.Mod32BitDllFile);
+                    if (File.Exists(X64DllLocation))
+                        modLibraries.Add(X64DllLocation);
+                }
+            }
+
+            // Get the game mod dll locations.
+            foreach (string modDirectory in globalModConfig.EnabledMods)
+            {
+                // Add native or not native.
+                if (ReloadedArchitecture.IsGame32Bit)
+                {
+                    string X86DllLocation = Path.Combine(globalModDirectory, modDirectory, Strings.Loader.Mod32BitDllFile);
+                    if (File.Exists(X86DllLocation))
+                        modLibraries.Add(X86DllLocation);
+                }
+                else
+                {
+                    string X64DllLocation = Path.Combine(globalModDirectory, modDirectory, Strings.Loader.Mod32BitDllFile);
+                    if (File.Exists(X64DllLocation))
+                        modLibraries.Add(X64DllLocation);
+                }
+            }
+
+            // Return the list.
+            return modLibraries.ToArray();
         }
     }
 }
