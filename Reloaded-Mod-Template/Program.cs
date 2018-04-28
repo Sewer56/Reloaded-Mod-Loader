@@ -1,4 +1,5 @@
-﻿using Reloaded;
+﻿using System;
+using Reloaded;
 using Reloaded.Process;
 
 namespace Reloaded_Mod_Template
@@ -81,6 +82,11 @@ namespace Reloaded_Mod_Template
         /// See libReloaded/GameProcess (folder)
         /// </summary>
         public static ReloadedProcess GameProcess;
+
+        /// <summary>
+        /// Stores the absolute executable location of the currently executing game or process.
+        /// </summary>
+        public static string ExecutingGameLocation;
 
         /// <summary>
         /// Specifies the full directory location that the current mod 

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Net;
+using System.Reflection;
 using Reloaded;
 using Reloaded.Process;
 using Reloaded.Process.Memory;
@@ -58,6 +60,8 @@ namespace Reloaded_Mod_Template.Reloaded
         {
             // Set local game process.
             Program.GameProcess = ReloadedProcess.GetCurrentProcess();
+            Program.ModDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            Program.ExecutingGameLocation = Environment.GetCommandLineArgs()[0];
 
             // Set up Reloaded Mod Loader bindings.
             Bindings.PrintText += Client.Print;
