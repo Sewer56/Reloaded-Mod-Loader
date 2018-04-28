@@ -20,6 +20,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Reloaded.Process.X86Functions.CustomFunctionFactory
 {
@@ -34,25 +35,20 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
         /// <summary>
         /// Specifies the registers in left to right parameter order to pass to the custom function to be called.
         /// </summary>
-        public Register[] SourceRegisters { get; set; }
+        public Register[] SourceRegisters { get; }
 
         /// <summary>
         /// Specifies the register to return the value from the funtion in (mov eax, source).
         /// This is typically eax.
         /// </summary>
-        public Register ReturnRegister { get; set; }
+        public Register ReturnRegister { get; }
 
         /// <summary>
         /// Defines the stack cleanup rule for the function.
         /// Callee: Stack pointer restored inside the game function we are executing).
         /// Caller: Stack pointer restored in our own wrapper function.
         /// </summary>
-        public StackCleanup Cleanup { get; set; }
-
-        /// <summary>
-        /// Gets the calling convention for this function.
-        /// </summary>
-        public CallingConventions CallingConvention { get; } = CallingConventions.Unspecified;
+        public StackCleanup Cleanup { get; }
 
         /// <summary>
         /// Specifies the target X86 ISA register for a specific parameter.
@@ -148,16 +144,50 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
                     Cleanup = StackCleanup.Caller;
                     break;
 
-                case CallingConventions.Unspecified:
-                    Bindings.PrintError?.Invoke("Unspecified calling convention is for internal use only!");
-                    break;
-
                 default:
                     Bindings.PrintError?.Invoke($"There is no preset for the specified calling convention {callingConvention.GetType().Name}");
                     break;
             }
+        }
 
-            CallingConvention = callingConvention;
+        /// <summary>
+        /// Checks whether an instance of <see cref="ReloadedFunctionAttribute"/> has the same logical meaning
+        /// as the current instance of <see cref="ReloadedFunctionAttribute"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="ReloadedFunctionAttribute"/> to compare to the current attribute.</param>
+        /// <returns>True if both of the ReloadedFunctions are logically equivalent.</returns>
+        public override bool Equals(Object obj)
+        {
+            // Check for type.
+            ReloadedFunctionAttribute functionAttribute = obj as ReloadedFunctionAttribute;
+
+            // Return false if null
+            if (functionAttribute == null) return false;
+            
+            // Check by value.
+            return functionAttribute.Cleanup == Cleanup &&
+                   functionAttribute.ReturnRegister == ReturnRegister &&
+                   functionAttribute.SourceRegisters.SequenceEqual(SourceRegisters);
+        }
+
+        /// <summary>
+        /// Retrieves the HashCode for the current object.
+        /// </summary>
+        /// <returns>The hashcode for the current object.</returns>
+        public override int GetHashCode()
+        {
+            // Stores the initial value.
+            int initialHash = 13;
+
+            // Calculate hash.
+            foreach (Register register in SourceRegisters)
+            { initialHash = (initialHash * 7) + (int)register; }
+            
+            initialHash = (initialHash * 7) + (int)ReturnRegister;
+            initialHash = (initialHash * 7) + (int)Cleanup;
+
+            // Return
+            return initialHash;
         }
     }
 }

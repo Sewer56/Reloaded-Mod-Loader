@@ -128,11 +128,6 @@ namespace Reloaded.Process.X86Functions
         ///     ReturnRegister:     Depends on Function
         ///     Cleanup:            Callee
         /// </summary>
-        Userpurge,
-
-        /// <summary>
-        /// For internal use.
-        /// </summary>
-        Unspecified,
+        Userpurge
     }
 }

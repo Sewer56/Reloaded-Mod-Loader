@@ -47,19 +47,17 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
             {
                 if (attribute is ReloadedFunctionAttribute reloadedFunction)
                 {
-                    IntPtr pFunction;
+                    // Stores the pointer to the function.
+                    IntPtr wrapperFunctionPointer;
 
-                    if (reloadedFunction.CallingConvention == CallingConventions.Cdecl)
-                    {
-                        pFunction = (IntPtr)functionAddress;
-                    }
+                    // [Performance] CDECL functions are natively supported without our system, we do not need to wrap those functions.
+                    if (reloadedFunction.Equals(new ReloadedFunctionAttribute(CallingConventions.Cdecl)))
+                        wrapperFunctionPointer = (IntPtr)functionAddress;
                     else
-                    {
-                        pFunction = CreateWrapperFunctionInternal<TFunction>((IntPtr)functionAddress, reloadedFunction);
-                    }
+                        wrapperFunctionPointer = CreateWrapperFunctionInternal<TFunction>((IntPtr)functionAddress, reloadedFunction);
 
                     // Return delegate type for our function.
-                    return Marshal.GetDelegateForFunctionPointer<TFunction>(pFunction);
+                    return Marshal.GetDelegateForFunctionPointer<TFunction>(wrapperFunctionPointer);
                 }
             }
 
