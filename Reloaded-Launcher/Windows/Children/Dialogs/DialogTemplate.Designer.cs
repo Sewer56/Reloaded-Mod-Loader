@@ -20,7 +20,7 @@
 
 namespace ReloadedLauncher.Windows.Children.Dialogs
 {
-    partial class DialogSample
+    partial class DialogTemplate
     {
         /// <summary>
         /// Required designer variable.

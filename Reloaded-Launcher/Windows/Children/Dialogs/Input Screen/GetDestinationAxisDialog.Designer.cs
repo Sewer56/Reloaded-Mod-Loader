@@ -215,7 +215,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs.Input_Screen
             this.Controls.Add(this.titleBar_Panel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "GetDestinationAxisDialog";
+            this.Name = "GetDestinationAxisGenericDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Doki Doki Modification Club!";
             this.Load += new System.EventHandler(this.Base_Load);

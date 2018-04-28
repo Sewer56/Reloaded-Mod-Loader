@@ -182,8 +182,8 @@ namespace ReloadedLauncher.Windows.Children
 
             if ((ModifierKeys & Keys.Control) != 0)
             {
-                LaunchGameDialog launchGameDialog = new LaunchGameDialog();
-                launchGameDialog.ShowDialog();
+                LaunchGameDialog launchGameGenericDialog = new LaunchGameDialog();
+                launchGameGenericDialog.ShowDialog();
             }
             else { LaunchGame(); }
         }

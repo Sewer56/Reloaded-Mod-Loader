@@ -31,7 +31,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs.Input_Screen
     /// This class provides a base form which should be copied for the generation of
     /// dialogs for the [Reloaded] Mod Loader UI.
     /// </summary>
-    public partial class GetDestinationAxisDialog : Form, IDialog
+    public partial class GetDestinationAxisDialog : Form, IGenericDialog
     {
         /// <summary>
         /// Initializes the form.

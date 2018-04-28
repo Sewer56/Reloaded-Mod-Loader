@@ -241,7 +241,7 @@ namespace ReloadedLauncher.Windows.Children
                     GameVersion = "",
                     EnabledMods = new List<string>(),
                     ModDirectory = "",
-                    ConfigLocation = configDirectory,
+                    ConfigLocation = configDirectory + $"\\{Strings.Parsers.ConfigFile}",
                     ExecutableLocation = ""
                 }
             );

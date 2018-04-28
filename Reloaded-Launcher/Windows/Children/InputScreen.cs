@@ -872,12 +872,12 @@ namespace ReloadedLauncher.Windows.Children
             string initialValue = Convert.ToString(box_AxisList.Rows[(int)axisRow].Cells[(int)AxisColumns.AxisDestination].Value);
 
             // Open the dialog to get new number.
-            GetDestinationAxisDialog deadzoneNumberDialog = new GetDestinationAxisDialog(initialValue);
-            deadzoneNumberDialog.StartPosition = FormStartPosition.CenterParent;
-            deadzoneNumberDialog.SetTitle("Set Destination Axis!");
+            GetDestinationAxisDialog deadzoneNumberGenericDialog = new GetDestinationAxisDialog(initialValue);
+            deadzoneNumberGenericDialog.StartPosition = FormStartPosition.CenterParent;
+            deadzoneNumberGenericDialog.SetTitle("Set Destination Axis!");
 
             // Set new value
-            ControllerCommon.ControllerAxis returnedAxis = (ControllerCommon.ControllerAxis)Enum.Parse(typeof(ControllerCommon.ControllerAxis), (string)deadzoneNumberDialog.GetValue());
+            ControllerCommon.ControllerAxis returnedAxis = (ControllerCommon.ControllerAxis)Enum.Parse(typeof(ControllerCommon.ControllerAxis), (string)deadzoneNumberGenericDialog.GetValue());
             box_AxisList.Rows[(int)axisRow].Cells[(int)AxisColumns.AxisDestination].Value = returnedAxis;
 
             // Set value to axis mapping entry.
@@ -917,12 +917,12 @@ namespace ReloadedLauncher.Windows.Children
             float getInitialValue = (float)box_AxisList.Rows[(int)axisRow].Cells[(int)AxisColumns.AxisDeadzone].Value;
 
             // Open the dialog to get new number.
-            GetNumberDialog deadzoneNumberDialog = new GetNumberDialog(getInitialValue);
-            deadzoneNumberDialog.StartPosition = FormStartPosition.CenterParent;
-            deadzoneNumberDialog.SetTitle("Modify Controller Deadzone!");
+            GetNumberDialog deadzoneNumberGenericDialog = new GetNumberDialog(getInitialValue);
+            deadzoneNumberGenericDialog.StartPosition = FormStartPosition.CenterParent;
+            deadzoneNumberGenericDialog.SetTitle("Modify Controller Deadzone!");
 
             // Set new value
-            float deadZone = (float)deadzoneNumberDialog.GetValue();
+            float deadZone = (float)deadzoneNumberGenericDialog.GetValue();
             box_AxisList.Rows[(int)axisRow].Cells[(int)AxisColumns.AxisDeadzone].Value = deadZone;
 
             // Set value to axis mapping entry.
@@ -941,12 +941,12 @@ namespace ReloadedLauncher.Windows.Children
             float initialValue = (float)box_AxisList.Rows[(int)axisRow].Cells[(int)AxisColumns.AxisRadiusScale].Value;
 
             // Open the dialog to get new number.
-            GetNumberDialog deadzoneNumberDialog = new GetNumberDialog(initialValue);
-            deadzoneNumberDialog.StartPosition = FormStartPosition.CenterParent;
-            deadzoneNumberDialog.SetTitle("Modify Controller Radius!");
+            GetNumberDialog deadzoneNumberGenericDialog = new GetNumberDialog(initialValue);
+            deadzoneNumberGenericDialog.StartPosition = FormStartPosition.CenterParent;
+            deadzoneNumberGenericDialog.SetTitle("Modify Controller Radius!");
 
             // Set new value
-            float radius = (float)deadzoneNumberDialog.GetValue();
+            float radius = (float)deadzoneNumberGenericDialog.GetValue();
             box_AxisList.Rows[(int)axisRow].Cells[(int)AxisColumns.AxisRadiusScale].Value = radius;
 
             // Set value to axis mapping entry.

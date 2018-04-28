@@ -69,6 +69,9 @@
     <Compile Include="Styles\Controls\Custom\ButtonPressIndicator.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Styles\Controls\Custom\HorizontalProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Styles\Controls\Custom\VerticalProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>

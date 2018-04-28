@@ -86,6 +86,27 @@ namespace Reloaded.IO.Config.Loader
             /// </summary>
             [JsonProperty(Required = Required.Default)]
             public bool ExitAfterLaunch { get; set; } = true;
+
+            /// <summary>
+            /// Allows for the user to receive pre-release builds, marked as
+            /// pre-release on Github.
+            /// </summary>
+            [JsonProperty(Required = Required.Default)]
+            public bool AllowBetaBuilds { get; set; }
+
+            /// <summary>
+            /// Automatically updates without requesting the user, Google Chrome style.
+            /// No alerts, nothing.
+            /// </summary>
+            [JsonProperty(Required = Required.Default)]
+            public bool EnableAutomaticUpdates { get; set; } = true;
+
+            /// <summary>
+            /// Set to true to enable silent updates in Reloaded Mod Loader.
+            /// Shows no prompt to the user.
+            /// </summary>
+            [JsonProperty(Required = Required.Default)]
+            public bool SilentUpdates { get; set; }
         }
     }
 }

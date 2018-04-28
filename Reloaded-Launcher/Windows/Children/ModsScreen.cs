@@ -296,9 +296,9 @@ namespace ReloadedLauncher.Windows.Children
                 item_ModDescription.Text = modConfiguration.ModDescription;
 
                 // Set the button text for website, config, source.
-                borderless_ConfigBox.Text   = modConfiguration.ModConfigExe.Length == 0     ? "N/A" : "Configuration";
-                borderless_WebBox.Text      = modConfiguration.ThemeSite.Length == 0        ? "N/A" : "Webpage";
-                borderless_SourceBox.Text   = modConfiguration.ThemeGithub.Length == 0      ? "N/A" : "Source Code";
+                borderless_ConfigBox.Text   = modConfiguration.ModConfigExe != "N/A" ? "N/A" : "Configuration";
+                borderless_WebBox.Text      = modConfiguration.ThemeSite    != "N/A" ? "N/A" : "Webpage";
+                borderless_SourceBox.Text   = modConfiguration.ThemeGithub  != "N/A" ? "N/A" : "Source Code";
 
                 // Obtain mod directory.
                 string modDirectory = Path.GetDirectoryName(modConfiguration.ModLocation);

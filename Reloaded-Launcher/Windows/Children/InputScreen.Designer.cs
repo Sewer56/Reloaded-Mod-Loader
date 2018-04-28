@@ -52,42 +52,6 @@ namespace ReloadedLauncher.Windows.Children
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Reloaded_GUI.Styles.Animation.AnimProperties animProperties1 = new Reloaded_GUI.Styles.Animation.AnimProperties();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage1 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage2 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            Reloaded_GUI.Styles.Animation.AnimProperties animProperties2 = new Reloaded_GUI.Styles.Animation.AnimProperties();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage3 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage4 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            Reloaded_GUI.Styles.Animation.AnimProperties animProperties3 = new Reloaded_GUI.Styles.Animation.AnimProperties();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage5 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage6 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            Reloaded_GUI.Styles.Animation.AnimProperties animProperties4 = new Reloaded_GUI.Styles.Animation.AnimProperties();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage7 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage8 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            Reloaded_GUI.Styles.Animation.AnimProperties animProperties5 = new Reloaded_GUI.Styles.Animation.AnimProperties();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage9 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage10 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            Reloaded_GUI.Styles.Animation.AnimProperties animProperties6 = new Reloaded_GUI.Styles.Animation.AnimProperties();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage11 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage12 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            Reloaded_GUI.Styles.Animation.AnimProperties animProperties7 = new Reloaded_GUI.Styles.Animation.AnimProperties();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage13 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage14 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties8 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage15 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage16 = new Reloaded_GUI.Styles.Animation.AnimMessage();
@@ -97,18 +61,45 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties10 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage19 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage20 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            System.Drawing.StringFormat stringFormat1 = new System.Drawing.StringFormat();
-            System.Drawing.StringFormat stringFormat2 = new System.Drawing.StringFormat();
-            System.Drawing.StringFormat stringFormat3 = new System.Drawing.StringFormat();
-            System.Drawing.StringFormat stringFormat4 = new System.Drawing.StringFormat();
-            System.Drawing.StringFormat stringFormat5 = new System.Drawing.StringFormat();
-            System.Drawing.StringFormat stringFormat6 = new System.Drawing.StringFormat();
-            System.Drawing.StringFormat stringFormat7 = new System.Drawing.StringFormat();
-            System.Drawing.StringFormat stringFormat8 = new System.Drawing.StringFormat();
-            System.Drawing.StringFormat stringFormat9 = new System.Drawing.StringFormat();
-            System.Drawing.StringFormat stringFormat10 = new System.Drawing.StringFormat();
-            System.Drawing.StringFormat stringFormat11 = new System.Drawing.StringFormat();
-            System.Drawing.StringFormat stringFormat12 = new System.Drawing.StringFormat();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties11 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage21 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage22 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties12 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage23 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage24 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties13 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage25 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage26 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties14 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage27 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage28 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            System.Drawing.StringFormat stringFormat13 = new System.Drawing.StringFormat();
+            System.Drawing.StringFormat stringFormat14 = new System.Drawing.StringFormat();
+            System.Drawing.StringFormat stringFormat15 = new System.Drawing.StringFormat();
+            System.Drawing.StringFormat stringFormat16 = new System.Drawing.StringFormat();
+            System.Drawing.StringFormat stringFormat17 = new System.Drawing.StringFormat();
+            System.Drawing.StringFormat stringFormat18 = new System.Drawing.StringFormat();
+            System.Drawing.StringFormat stringFormat19 = new System.Drawing.StringFormat();
+            System.Drawing.StringFormat stringFormat20 = new System.Drawing.StringFormat();
+            System.Drawing.StringFormat stringFormat21 = new System.Drawing.StringFormat();
+            System.Drawing.StringFormat stringFormat22 = new System.Drawing.StringFormat();
+            System.Drawing.StringFormat stringFormat23 = new System.Drawing.StringFormat();
+            System.Drawing.StringFormat stringFormat24 = new System.Drawing.StringFormat();
             this.borderless_ControllerPort = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             this.borderless_TitleButtonToAxisMappings = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.borderless_TitleButtonMappings = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
@@ -153,23 +144,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // borderless_ControllerPort
             // 
-            animMessage1.Control = this.borderless_ControllerPort;
-            animMessage1.PlayAnimation = true;
-            animProperties1.BackColorMessage = animMessage1;
-            animMessage2.Control = this.borderless_ControllerPort;
-            animMessage2.PlayAnimation = true;
-            animProperties1.ForeColorMessage = animMessage2;
-            animProperties1.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties1.MouseEnterDuration = 0F;
-            animProperties1.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties1.MouseEnterFramerate = 0F;
-            animProperties1.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties1.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties1.MouseLeaveDuration = 0F;
-            animProperties1.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties1.MouseLeaveFramerate = 0F;
-            animProperties1.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_ControllerPort.AnimProperties = animProperties1;
+            animMessage15.Control = this.borderless_ControllerPort;
+            animMessage15.PlayAnimation = true;
+            animProperties8.BackColorMessage = animMessage15;
+            animMessage16.Control = this.borderless_ControllerPort;
+            animMessage16.PlayAnimation = true;
+            animProperties8.ForeColorMessage = animMessage16;
+            animProperties8.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterDuration = 0F;
+            animProperties8.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterFramerate = 0F;
+            animProperties8.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties8.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveDuration = 0F;
+            animProperties8.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveFramerate = 0F;
+            animProperties8.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_ControllerPort.AnimProperties = animProperties8;
             this.borderless_ControllerPort.BackColor = System.Drawing.Color.Gray;
             this.borderless_ControllerPort.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.borderless_ControllerPort.BottomBorderColour = System.Drawing.Color.Red;
@@ -197,23 +188,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // borderless_TitleButtonToAxisMappings
             // 
-            animMessage3.Control = this.borderless_TitleButtonToAxisMappings;
-            animMessage3.PlayAnimation = true;
-            animProperties2.BackColorMessage = animMessage3;
-            animMessage4.Control = this.borderless_TitleButtonToAxisMappings;
-            animMessage4.PlayAnimation = true;
-            animProperties2.ForeColorMessage = animMessage4;
-            animProperties2.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties2.MouseEnterDuration = 0F;
-            animProperties2.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties2.MouseEnterFramerate = 0F;
-            animProperties2.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties2.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties2.MouseLeaveDuration = 0F;
-            animProperties2.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties2.MouseLeaveFramerate = 0F;
-            animProperties2.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_TitleButtonToAxisMappings.AnimProperties = animProperties2;
+            animMessage17.Control = this.borderless_TitleButtonToAxisMappings;
+            animMessage17.PlayAnimation = true;
+            animProperties9.BackColorMessage = animMessage17;
+            animMessage18.Control = this.borderless_TitleButtonToAxisMappings;
+            animMessage18.PlayAnimation = true;
+            animProperties9.ForeColorMessage = animMessage18;
+            animProperties9.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterDuration = 0F;
+            animProperties9.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterFramerate = 0F;
+            animProperties9.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties9.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveDuration = 0F;
+            animProperties9.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveFramerate = 0F;
+            animProperties9.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_TitleButtonToAxisMappings.AnimProperties = animProperties9;
             this.borderless_TitleButtonToAxisMappings.CaptureChildren = false;
             this.borderless_TitleButtonToAxisMappings.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.borderless_TitleButtonToAxisMappings.FlatAppearance.BorderSize = 0;
@@ -236,23 +227,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // borderless_TitleButtonMappings
             // 
-            animMessage5.Control = this.borderless_TitleButtonMappings;
-            animMessage5.PlayAnimation = true;
-            animProperties3.BackColorMessage = animMessage5;
-            animMessage6.Control = this.borderless_TitleButtonMappings;
-            animMessage6.PlayAnimation = true;
-            animProperties3.ForeColorMessage = animMessage6;
-            animProperties3.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties3.MouseEnterDuration = 0F;
-            animProperties3.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties3.MouseEnterFramerate = 0F;
-            animProperties3.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties3.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties3.MouseLeaveDuration = 0F;
-            animProperties3.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties3.MouseLeaveFramerate = 0F;
-            animProperties3.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_TitleButtonMappings.AnimProperties = animProperties3;
+            animMessage19.Control = this.borderless_TitleButtonMappings;
+            animMessage19.PlayAnimation = true;
+            animProperties10.BackColorMessage = animMessage19;
+            animMessage20.Control = this.borderless_TitleButtonMappings;
+            animMessage20.PlayAnimation = true;
+            animProperties10.ForeColorMessage = animMessage20;
+            animProperties10.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties10.MouseEnterDuration = 0F;
+            animProperties10.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties10.MouseEnterFramerate = 0F;
+            animProperties10.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties10.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties10.MouseLeaveDuration = 0F;
+            animProperties10.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties10.MouseLeaveFramerate = 0F;
+            animProperties10.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_TitleButtonMappings.AnimProperties = animProperties10;
             this.borderless_TitleButtonMappings.CaptureChildren = false;
             this.borderless_TitleButtonMappings.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.borderless_TitleButtonMappings.FlatAppearance.BorderSize = 0;
@@ -280,31 +271,15 @@ namespace ReloadedLauncher.Windows.Children
             this.box_AxisList.AllowUserToDeleteRows = false;
             this.box_AxisList.AllowUserToResizeColumns = false;
             this.box_AxisList.AllowUserToResizeRows = false;
-            animMessage7.Control = this.box_AxisList;
-            animMessage7.PlayAnimation = true;
-            animProperties4.BackColorMessage = animMessage7;
-            animMessage8.Control = this.box_AxisList;
-            animMessage8.PlayAnimation = true;
-            animProperties4.ForeColorMessage = animMessage8;
-            animProperties4.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties4.MouseEnterDuration = 0F;
-            animProperties4.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties4.MouseEnterFramerate = 0F;
-            animProperties4.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties4.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties4.MouseLeaveDuration = 0F;
-            animProperties4.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties4.MouseLeaveFramerate = 0F;
-            animProperties4.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.box_AxisList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.box_AxisList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.box_AxisList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.box_AxisList.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
             this.box_AxisList.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.box_AxisList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.box_AxisList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
             this.box_AxisList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.box_AxisList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Axis,
@@ -313,15 +288,15 @@ namespace ReloadedLauncher.Windows.Children
             this.AxisInverse,
             this.AxisDeadzonePercent,
             this.AxisRadiusScale});
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.box_AxisList.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle23.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle23.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.box_AxisList.DefaultCellStyle = dataGridViewCellStyle23;
             this.box_AxisList.DragRowIndex = 0;
             this.box_AxisList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.box_AxisList.EnableHeadersVisualStyles = false;
@@ -332,10 +307,10 @@ namespace ReloadedLauncher.Windows.Children
             this.box_AxisList.ReadOnly = true;
             this.box_AxisList.ReorderingEnabled = false;
             this.box_AxisList.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.box_AxisList.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.box_AxisList.RowHeadersDefaultCellStyle = dataGridViewCellStyle24;
             this.box_AxisList.RowHeadersVisible = false;
             this.box_AxisList.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.box_AxisList.RowTemplate.Height = 30;
@@ -349,8 +324,8 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // Axis
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Axis.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Axis.DefaultCellStyle = dataGridViewCellStyle17;
             this.Axis.FillWeight = 192.7388F;
             this.Axis.HeaderText = "Axis";
             this.Axis.Name = "Axis";
@@ -361,8 +336,8 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // AxisProperty
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.AxisProperty.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.AxisProperty.DefaultCellStyle = dataGridViewCellStyle18;
             this.AxisProperty.HeaderText = "Axis Source";
             this.AxisProperty.Name = "AxisProperty";
             this.AxisProperty.ReadOnly = true;
@@ -372,8 +347,8 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // AxisDestination
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.AxisDestination.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.AxisDestination.DefaultCellStyle = dataGridViewCellStyle19;
             this.AxisDestination.HeaderText = "Axis Destination";
             this.AxisDestination.Name = "AxisDestination";
             this.AxisDestination.ReadOnly = true;
@@ -383,8 +358,8 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // AxisInverse
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.AxisInverse.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.AxisInverse.DefaultCellStyle = dataGridViewCellStyle20;
             this.AxisInverse.HeaderText = "Inverse";
             this.AxisInverse.Name = "AxisInverse";
             this.AxisInverse.ReadOnly = true;
@@ -393,10 +368,10 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // AxisDeadzonePercent
             // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.Format = "N2";
-            dataGridViewCellStyle6.NullValue = null;
-            this.AxisDeadzonePercent.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle21.Format = "N2";
+            dataGridViewCellStyle21.NullValue = null;
+            this.AxisDeadzonePercent.DefaultCellStyle = dataGridViewCellStyle21;
             this.AxisDeadzonePercent.HeaderText = "Deadzone %";
             this.AxisDeadzonePercent.Name = "AxisDeadzonePercent";
             this.AxisDeadzonePercent.ReadOnly = true;
@@ -405,10 +380,10 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // AxisRadiusScale
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.Format = "N2";
-            dataGridViewCellStyle7.NullValue = null;
-            this.AxisRadiusScale.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle22.Format = "N2";
+            dataGridViewCellStyle22.NullValue = null;
+            this.AxisRadiusScale.DefaultCellStyle = dataGridViewCellStyle22;
             this.AxisRadiusScale.HeaderText = "Radius Scale";
             this.AxisRadiusScale.Name = "AxisRadiusScale";
             this.AxisRadiusScale.ReadOnly = true;
@@ -422,22 +397,6 @@ namespace ReloadedLauncher.Windows.Children
             this.box_EmulatedAxisList.AllowUserToDeleteRows = false;
             this.box_EmulatedAxisList.AllowUserToResizeColumns = false;
             this.box_EmulatedAxisList.AllowUserToResizeRows = false;
-            animMessage9.Control = this.box_EmulatedAxisList;
-            animMessage9.PlayAnimation = true;
-            animProperties5.BackColorMessage = animMessage9;
-            animMessage10.Control = this.box_EmulatedAxisList;
-            animMessage10.PlayAnimation = true;
-            animProperties5.ForeColorMessage = animMessage10;
-            animProperties5.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties5.MouseEnterDuration = 0F;
-            animProperties5.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties5.MouseEnterFramerate = 0F;
-            animProperties5.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties5.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties5.MouseLeaveDuration = 0F;
-            animProperties5.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties5.MouseLeaveFramerate = 0F;
-            animProperties5.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.box_EmulatedAxisList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.box_EmulatedAxisList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.box_EmulatedAxisList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -448,15 +407,15 @@ namespace ReloadedLauncher.Windows.Children
             this.box_EmulatedAxisList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2});
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle12.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.box_EmulatedAxisList.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle27.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            dataGridViewCellStyle27.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle27.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle27.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
+            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.box_EmulatedAxisList.DefaultCellStyle = dataGridViewCellStyle27;
             this.box_EmulatedAxisList.DragRowIndex = 0;
             this.box_EmulatedAxisList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.box_EmulatedAxisList.EnableHeadersVisualStyles = false;
@@ -484,9 +443,9 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // dataGridViewTextBoxColumn1
             // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle25.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle25;
             this.dataGridViewTextBoxColumn1.FillWeight = 192.7388F;
             this.dataGridViewTextBoxColumn1.HeaderText = "Name";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
@@ -497,9 +456,9 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // dataGridViewTextBoxColumn2
             // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle11.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle26.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle26;
             this.dataGridViewTextBoxColumn2.HeaderText = "Button";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
@@ -508,23 +467,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // box_EmulatedAxisListBox
             // 
-            animMessage11.Control = this.box_EmulatedAxisListBox;
-            animMessage11.PlayAnimation = true;
-            animProperties6.BackColorMessage = animMessage11;
-            animMessage12.Control = this.box_EmulatedAxisListBox;
-            animMessage12.PlayAnimation = true;
-            animProperties6.ForeColorMessage = animMessage12;
-            animProperties6.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties6.MouseEnterDuration = 0F;
-            animProperties6.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties6.MouseEnterFramerate = 0F;
-            animProperties6.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties6.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties6.MouseLeaveDuration = 0F;
-            animProperties6.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties6.MouseLeaveFramerate = 0F;
-            animProperties6.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_EmulatedAxisListBox.AnimProperties = animProperties6;
+            animMessage21.Control = this.box_EmulatedAxisListBox;
+            animMessage21.PlayAnimation = true;
+            animProperties11.BackColorMessage = animMessage21;
+            animMessage22.Control = this.box_EmulatedAxisListBox;
+            animMessage22.PlayAnimation = true;
+            animProperties11.ForeColorMessage = animMessage22;
+            animProperties11.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties11.MouseEnterDuration = 0F;
+            animProperties11.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties11.MouseEnterFramerate = 0F;
+            animProperties11.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties11.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties11.MouseLeaveDuration = 0F;
+            animProperties11.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties11.MouseLeaveFramerate = 0F;
+            animProperties11.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_EmulatedAxisListBox.AnimProperties = animProperties11;
             this.box_EmulatedAxisListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_EmulatedAxisListBox.CaptureChildren = false;
             this.box_EmulatedAxisListBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -550,22 +509,6 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ButtonList.AllowUserToDeleteRows = false;
             this.box_ButtonList.AllowUserToResizeColumns = false;
             this.box_ButtonList.AllowUserToResizeRows = false;
-            animMessage13.Control = this.box_ButtonList;
-            animMessage13.PlayAnimation = true;
-            animProperties7.BackColorMessage = animMessage13;
-            animMessage14.Control = this.box_ButtonList;
-            animMessage14.PlayAnimation = true;
-            animProperties7.ForeColorMessage = animMessage14;
-            animProperties7.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties7.MouseEnterDuration = 0F;
-            animProperties7.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties7.MouseEnterFramerate = 0F;
-            animProperties7.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties7.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties7.MouseLeaveDuration = 0F;
-            animProperties7.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties7.MouseLeaveFramerate = 0F;
-            animProperties7.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
             this.box_ButtonList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.box_ButtonList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.box_ButtonList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -576,15 +519,15 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ButtonList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.modName,
             this.Button});
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle15.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.box_ButtonList.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle30.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            dataGridViewCellStyle30.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle30.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle30.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
+            dataGridViewCellStyle30.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            dataGridViewCellStyle30.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.box_ButtonList.DefaultCellStyle = dataGridViewCellStyle30;
             this.box_ButtonList.DragRowIndex = 0;
             this.box_ButtonList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.box_ButtonList.EnableHeadersVisualStyles = false;
@@ -610,9 +553,9 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // modName
             // 
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.modName.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle28.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.modName.DefaultCellStyle = dataGridViewCellStyle28;
             this.modName.FillWeight = 192.7388F;
             this.modName.HeaderText = "Name";
             this.modName.Name = "modName";
@@ -623,9 +566,9 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // Button
             // 
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle14.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.Button.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle29.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.Button.DefaultCellStyle = dataGridViewCellStyle29;
             this.Button.HeaderText = "Button";
             this.Button.Name = "Button";
             this.Button.ReadOnly = true;
@@ -634,23 +577,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // box_ButtonListBox
             // 
-            animMessage15.Control = this.box_ButtonListBox;
-            animMessage15.PlayAnimation = true;
-            animProperties8.BackColorMessage = animMessage15;
-            animMessage16.Control = this.box_ButtonListBox;
-            animMessage16.PlayAnimation = true;
-            animProperties8.ForeColorMessage = animMessage16;
-            animProperties8.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties8.MouseEnterDuration = 0F;
-            animProperties8.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties8.MouseEnterFramerate = 0F;
-            animProperties8.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties8.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties8.MouseLeaveDuration = 0F;
-            animProperties8.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties8.MouseLeaveFramerate = 0F;
-            animProperties8.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_ButtonListBox.AnimProperties = animProperties8;
+            animMessage23.Control = this.box_ButtonListBox;
+            animMessage23.PlayAnimation = true;
+            animProperties12.BackColorMessage = animMessage23;
+            animMessage24.Control = this.box_ButtonListBox;
+            animMessage24.PlayAnimation = true;
+            animProperties12.ForeColorMessage = animMessage24;
+            animProperties12.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties12.MouseEnterDuration = 0F;
+            animProperties12.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties12.MouseEnterFramerate = 0F;
+            animProperties12.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties12.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties12.MouseLeaveDuration = 0F;
+            animProperties12.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties12.MouseLeaveFramerate = 0F;
+            animProperties12.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_ButtonListBox.AnimProperties = animProperties12;
             this.box_ButtonListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_ButtonListBox.CaptureChildren = false;
             this.box_ButtonListBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -671,23 +614,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // borderless_CurrentController
             // 
-            animMessage17.Control = this.borderless_CurrentController;
-            animMessage17.PlayAnimation = true;
-            animProperties9.BackColorMessage = animMessage17;
-            animMessage18.Control = this.borderless_CurrentController;
-            animMessage18.PlayAnimation = true;
-            animProperties9.ForeColorMessage = animMessage18;
-            animProperties9.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties9.MouseEnterDuration = 0F;
-            animProperties9.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties9.MouseEnterFramerate = 0F;
-            animProperties9.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties9.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties9.MouseLeaveDuration = 0F;
-            animProperties9.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties9.MouseLeaveFramerate = 0F;
-            animProperties9.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_CurrentController.AnimProperties = animProperties9;
+            animMessage25.Control = this.borderless_CurrentController;
+            animMessage25.PlayAnimation = true;
+            animProperties13.BackColorMessage = animMessage25;
+            animMessage26.Control = this.borderless_CurrentController;
+            animMessage26.PlayAnimation = true;
+            animProperties13.ForeColorMessage = animMessage26;
+            animProperties13.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties13.MouseEnterDuration = 0F;
+            animProperties13.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties13.MouseEnterFramerate = 0F;
+            animProperties13.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties13.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties13.MouseLeaveDuration = 0F;
+            animProperties13.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties13.MouseLeaveFramerate = 0F;
+            animProperties13.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_CurrentController.AnimProperties = animProperties13;
             this.borderless_CurrentController.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.borderless_CurrentController.BottomBorderColour = System.Drawing.Color.White;
             this.borderless_CurrentController.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
@@ -725,23 +668,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // box_AxisListBox
             // 
-            animMessage19.Control = this.box_AxisListBox;
-            animMessage19.PlayAnimation = true;
-            animProperties10.BackColorMessage = animMessage19;
-            animMessage20.Control = this.box_AxisListBox;
-            animMessage20.PlayAnimation = true;
-            animProperties10.ForeColorMessage = animMessage20;
-            animProperties10.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties10.MouseEnterDuration = 0F;
-            animProperties10.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties10.MouseEnterFramerate = 0F;
-            animProperties10.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties10.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties10.MouseLeaveDuration = 0F;
-            animProperties10.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties10.MouseLeaveFramerate = 0F;
-            animProperties10.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_AxisListBox.AnimProperties = animProperties10;
+            animMessage27.Control = this.box_AxisListBox;
+            animMessage27.PlayAnimation = true;
+            animProperties14.BackColorMessage = animMessage27;
+            animMessage28.Control = this.box_AxisListBox;
+            animMessage28.PlayAnimation = true;
+            animProperties14.ForeColorMessage = animMessage28;
+            animProperties14.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties14.MouseEnterDuration = 0F;
+            animProperties14.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties14.MouseEnterFramerate = 0F;
+            animProperties14.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties14.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties14.MouseLeaveDuration = 0F;
+            animProperties14.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties14.MouseLeaveFramerate = 0F;
+            animProperties14.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_AxisListBox.AnimProperties = animProperties14;
             this.box_AxisListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_AxisListBox.CaptureChildren = false;
             this.box_AxisListBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -781,11 +724,11 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ButtonSTART.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ButtonSTART.RightBorderWidth = 1;
             this.borderless_ButtonSTART.Size = new System.Drawing.Size(37, 37);
-            stringFormat1.Alignment = System.Drawing.StringAlignment.Center;
-            stringFormat1.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat1.LineAlignment = System.Drawing.StringAlignment.Center;
-            stringFormat1.Trimming = System.Drawing.StringTrimming.Character;
-            this.borderless_ButtonSTART.StringFormat = stringFormat1;
+            stringFormat13.Alignment = System.Drawing.StringAlignment.Center;
+            stringFormat13.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat13.LineAlignment = System.Drawing.StringAlignment.Center;
+            stringFormat13.Trimming = System.Drawing.StringTrimming.Character;
+            this.borderless_ButtonSTART.StringFormat = stringFormat13;
             this.borderless_ButtonSTART.TabIndex = 19;
             this.borderless_ButtonSTART.Text = "STA";
             this.borderless_ButtonSTART.TopBorderColour = System.Drawing.Color.Gray;
@@ -807,11 +750,11 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ButtonSELECT.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ButtonSELECT.RightBorderWidth = 1;
             this.borderless_ButtonSELECT.Size = new System.Drawing.Size(37, 37);
-            stringFormat2.Alignment = System.Drawing.StringAlignment.Center;
-            stringFormat2.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat2.LineAlignment = System.Drawing.StringAlignment.Center;
-            stringFormat2.Trimming = System.Drawing.StringTrimming.Character;
-            this.borderless_ButtonSELECT.StringFormat = stringFormat2;
+            stringFormat14.Alignment = System.Drawing.StringAlignment.Center;
+            stringFormat14.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat14.LineAlignment = System.Drawing.StringAlignment.Center;
+            stringFormat14.Trimming = System.Drawing.StringTrimming.Character;
+            this.borderless_ButtonSELECT.StringFormat = stringFormat14;
             this.borderless_ButtonSELECT.TabIndex = 18;
             this.borderless_ButtonSELECT.Text = "SEL";
             this.borderless_ButtonSELECT.TopBorderColour = System.Drawing.Color.Gray;
@@ -833,11 +776,11 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ButtonRIGHT.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ButtonRIGHT.RightBorderWidth = 1;
             this.borderless_ButtonRIGHT.Size = new System.Drawing.Size(37, 37);
-            stringFormat3.Alignment = System.Drawing.StringAlignment.Center;
-            stringFormat3.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat3.LineAlignment = System.Drawing.StringAlignment.Center;
-            stringFormat3.Trimming = System.Drawing.StringTrimming.Character;
-            this.borderless_ButtonRIGHT.StringFormat = stringFormat3;
+            stringFormat15.Alignment = System.Drawing.StringAlignment.Center;
+            stringFormat15.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat15.LineAlignment = System.Drawing.StringAlignment.Center;
+            stringFormat15.Trimming = System.Drawing.StringTrimming.Character;
+            this.borderless_ButtonRIGHT.StringFormat = stringFormat15;
             this.borderless_ButtonRIGHT.TabIndex = 17;
             this.borderless_ButtonRIGHT.Text = "RHT";
             this.borderless_ButtonRIGHT.TopBorderColour = System.Drawing.Color.Gray;
@@ -859,11 +802,11 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ButtonLEFT.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ButtonLEFT.RightBorderWidth = 1;
             this.borderless_ButtonLEFT.Size = new System.Drawing.Size(37, 37);
-            stringFormat4.Alignment = System.Drawing.StringAlignment.Center;
-            stringFormat4.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat4.LineAlignment = System.Drawing.StringAlignment.Center;
-            stringFormat4.Trimming = System.Drawing.StringTrimming.Character;
-            this.borderless_ButtonLEFT.StringFormat = stringFormat4;
+            stringFormat16.Alignment = System.Drawing.StringAlignment.Center;
+            stringFormat16.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat16.LineAlignment = System.Drawing.StringAlignment.Center;
+            stringFormat16.Trimming = System.Drawing.StringTrimming.Character;
+            this.borderless_ButtonLEFT.StringFormat = stringFormat16;
             this.borderless_ButtonLEFT.TabIndex = 16;
             this.borderless_ButtonLEFT.Text = "LFT";
             this.borderless_ButtonLEFT.TopBorderColour = System.Drawing.Color.Gray;
@@ -885,11 +828,11 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ButtonDOWN.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ButtonDOWN.RightBorderWidth = 1;
             this.borderless_ButtonDOWN.Size = new System.Drawing.Size(37, 37);
-            stringFormat5.Alignment = System.Drawing.StringAlignment.Center;
-            stringFormat5.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat5.LineAlignment = System.Drawing.StringAlignment.Center;
-            stringFormat5.Trimming = System.Drawing.StringTrimming.Character;
-            this.borderless_ButtonDOWN.StringFormat = stringFormat5;
+            stringFormat17.Alignment = System.Drawing.StringAlignment.Center;
+            stringFormat17.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat17.LineAlignment = System.Drawing.StringAlignment.Center;
+            stringFormat17.Trimming = System.Drawing.StringTrimming.Character;
+            this.borderless_ButtonDOWN.StringFormat = stringFormat17;
             this.borderless_ButtonDOWN.TabIndex = 15;
             this.borderless_ButtonDOWN.Text = "DWN";
             this.borderless_ButtonDOWN.TopBorderColour = System.Drawing.Color.Gray;
@@ -911,11 +854,11 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ButtonUP.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ButtonUP.RightBorderWidth = 1;
             this.borderless_ButtonUP.Size = new System.Drawing.Size(37, 37);
-            stringFormat6.Alignment = System.Drawing.StringAlignment.Center;
-            stringFormat6.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat6.LineAlignment = System.Drawing.StringAlignment.Center;
-            stringFormat6.Trimming = System.Drawing.StringTrimming.Character;
-            this.borderless_ButtonUP.StringFormat = stringFormat6;
+            stringFormat18.Alignment = System.Drawing.StringAlignment.Center;
+            stringFormat18.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat18.LineAlignment = System.Drawing.StringAlignment.Center;
+            stringFormat18.Trimming = System.Drawing.StringTrimming.Character;
+            this.borderless_ButtonUP.StringFormat = stringFormat18;
             this.borderless_ButtonUP.TabIndex = 14;
             this.borderless_ButtonUP.Text = "UP";
             this.borderless_ButtonUP.TopBorderColour = System.Drawing.Color.Gray;
@@ -937,11 +880,11 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ButtonL.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ButtonL.RightBorderWidth = 1;
             this.borderless_ButtonL.Size = new System.Drawing.Size(37, 37);
-            stringFormat7.Alignment = System.Drawing.StringAlignment.Center;
-            stringFormat7.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat7.LineAlignment = System.Drawing.StringAlignment.Center;
-            stringFormat7.Trimming = System.Drawing.StringTrimming.Character;
-            this.borderless_ButtonL.StringFormat = stringFormat7;
+            stringFormat19.Alignment = System.Drawing.StringAlignment.Center;
+            stringFormat19.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat19.LineAlignment = System.Drawing.StringAlignment.Center;
+            stringFormat19.Trimming = System.Drawing.StringTrimming.Character;
+            this.borderless_ButtonL.StringFormat = stringFormat19;
             this.borderless_ButtonL.TabIndex = 13;
             this.borderless_ButtonL.Text = "L";
             this.borderless_ButtonL.TopBorderColour = System.Drawing.Color.Gray;
@@ -963,11 +906,11 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ButtonY.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ButtonY.RightBorderWidth = 1;
             this.borderless_ButtonY.Size = new System.Drawing.Size(37, 37);
-            stringFormat8.Alignment = System.Drawing.StringAlignment.Center;
-            stringFormat8.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat8.LineAlignment = System.Drawing.StringAlignment.Center;
-            stringFormat8.Trimming = System.Drawing.StringTrimming.Character;
-            this.borderless_ButtonY.StringFormat = stringFormat8;
+            stringFormat20.Alignment = System.Drawing.StringAlignment.Center;
+            stringFormat20.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat20.LineAlignment = System.Drawing.StringAlignment.Center;
+            stringFormat20.Trimming = System.Drawing.StringTrimming.Character;
+            this.borderless_ButtonY.StringFormat = stringFormat20;
             this.borderless_ButtonY.TabIndex = 12;
             this.borderless_ButtonY.Text = "Y";
             this.borderless_ButtonY.TopBorderColour = System.Drawing.Color.Gray;
@@ -989,11 +932,11 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ButtonX.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ButtonX.RightBorderWidth = 1;
             this.borderless_ButtonX.Size = new System.Drawing.Size(37, 37);
-            stringFormat9.Alignment = System.Drawing.StringAlignment.Center;
-            stringFormat9.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat9.LineAlignment = System.Drawing.StringAlignment.Center;
-            stringFormat9.Trimming = System.Drawing.StringTrimming.Character;
-            this.borderless_ButtonX.StringFormat = stringFormat9;
+            stringFormat21.Alignment = System.Drawing.StringAlignment.Center;
+            stringFormat21.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat21.LineAlignment = System.Drawing.StringAlignment.Center;
+            stringFormat21.Trimming = System.Drawing.StringTrimming.Character;
+            this.borderless_ButtonX.StringFormat = stringFormat21;
             this.borderless_ButtonX.TabIndex = 11;
             this.borderless_ButtonX.Text = "X";
             this.borderless_ButtonX.TopBorderColour = System.Drawing.Color.Gray;
@@ -1015,11 +958,11 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ButtonR.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ButtonR.RightBorderWidth = 1;
             this.borderless_ButtonR.Size = new System.Drawing.Size(37, 37);
-            stringFormat10.Alignment = System.Drawing.StringAlignment.Center;
-            stringFormat10.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat10.LineAlignment = System.Drawing.StringAlignment.Center;
-            stringFormat10.Trimming = System.Drawing.StringTrimming.Character;
-            this.borderless_ButtonR.StringFormat = stringFormat10;
+            stringFormat22.Alignment = System.Drawing.StringAlignment.Center;
+            stringFormat22.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat22.LineAlignment = System.Drawing.StringAlignment.Center;
+            stringFormat22.Trimming = System.Drawing.StringTrimming.Character;
+            this.borderless_ButtonR.StringFormat = stringFormat22;
             this.borderless_ButtonR.TabIndex = 10;
             this.borderless_ButtonR.Text = "R";
             this.borderless_ButtonR.TopBorderColour = System.Drawing.Color.Gray;
@@ -1041,11 +984,11 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ButtonB.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ButtonB.RightBorderWidth = 1;
             this.borderless_ButtonB.Size = new System.Drawing.Size(37, 37);
-            stringFormat11.Alignment = System.Drawing.StringAlignment.Center;
-            stringFormat11.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat11.LineAlignment = System.Drawing.StringAlignment.Center;
-            stringFormat11.Trimming = System.Drawing.StringTrimming.Character;
-            this.borderless_ButtonB.StringFormat = stringFormat11;
+            stringFormat23.Alignment = System.Drawing.StringAlignment.Center;
+            stringFormat23.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat23.LineAlignment = System.Drawing.StringAlignment.Center;
+            stringFormat23.Trimming = System.Drawing.StringTrimming.Character;
+            this.borderless_ButtonB.StringFormat = stringFormat23;
             this.borderless_ButtonB.TabIndex = 9;
             this.borderless_ButtonB.Text = "B";
             this.borderless_ButtonB.TopBorderColour = System.Drawing.Color.Gray;
@@ -1067,11 +1010,11 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ButtonA.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_ButtonA.RightBorderWidth = 1;
             this.borderless_ButtonA.Size = new System.Drawing.Size(37, 37);
-            stringFormat12.Alignment = System.Drawing.StringAlignment.Center;
-            stringFormat12.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat12.LineAlignment = System.Drawing.StringAlignment.Center;
-            stringFormat12.Trimming = System.Drawing.StringTrimming.Character;
-            this.borderless_ButtonA.StringFormat = stringFormat12;
+            stringFormat24.Alignment = System.Drawing.StringAlignment.Center;
+            stringFormat24.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat24.LineAlignment = System.Drawing.StringAlignment.Center;
+            stringFormat24.Trimming = System.Drawing.StringTrimming.Character;
+            this.borderless_ButtonA.StringFormat = stringFormat24;
             this.borderless_ButtonA.TabIndex = 8;
             this.borderless_ButtonA.Text = "A";
             this.borderless_ButtonA.TopBorderColour = System.Drawing.Color.Gray;

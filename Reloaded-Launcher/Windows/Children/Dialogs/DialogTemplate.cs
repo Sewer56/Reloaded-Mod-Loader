@@ -30,12 +30,12 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
     /// This class provides a base form which should be copied for the generation of
     /// dialogs for the [Reloaded] Mod Loader UI.
     /// </summary>
-    public partial class DialogSample : Form, IDialog
+    public partial class DialogTemplate : Form, IGenericDialog
     {
         /// <summary>
         /// Initializes the form.
         /// </summary>
-        public DialogSample()
+        public DialogTemplate()
         {
             // Standard WinForms Init
             InitializeComponent();

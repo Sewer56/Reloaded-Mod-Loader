@@ -466,7 +466,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "LaunchGameDialog";
+            this.Name = "LaunchGameGenericDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Doki Doki Modification Club!";
             this.Load += new System.EventHandler(this.Base_Load);

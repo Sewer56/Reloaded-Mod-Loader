@@ -22,7 +22,9 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using Reloaded;
+using Reloaded.IO.Config.Loader;
 using Reloaded_GUI.Utilities.Controls;
 using Bindings = Reloaded_GUI.Styles.Themes.Bindings;
 
@@ -49,6 +51,20 @@ namespace ReloadedLauncher.Windows.Children
 
             // Add Box Controls
             SetupDecorationBoxes.FindDecorationControls(this);
+
+            // Set version
+            borderless_Author.Text = $"Written by Sewer56 ~ (C) 2018 | Compiled on {File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location)}";
+
+            // Automatically toggle checkboxes when form shown.
+            // This only needs to be done once and doing it in VisibleChanged can induce location change "flicker".
+            Shown += (sender, args) =>
+            {
+                
+                borderless_AutoUpdatesBox.ButtonEnabled = Global.LoaderConfiguration.EnableAutomaticUpdates;
+                borderless_SilentUpdatesBox.ButtonEnabled = Global.LoaderConfiguration.SilentUpdates;
+                borderless_AllowPreReleasesBox.ButtonEnabled = Global.LoaderConfiguration.AllowBetaBuilds;
+                borderless_CloseOnLaunchBox.ButtonEnabled = Global.LoaderConfiguration.ExitAfterLaunch;
+            };
         }
 
         /// <summary> 
@@ -63,9 +79,15 @@ namespace ReloadedLauncher.Windows.Children
                 // Set the titlebar.  
                 Global.CurrentMenuName = Strings.Launcher.Menus.AboutMenuName;
                 Global.BaseForm.UpdateTitle("");
-
-                // Set version
-                item_Version.Text = "Version: " + Application.ProductVersion + " | Compiled on " + File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location); 
+            }
+            else
+            {
+                // Update config.
+                Global.LoaderConfiguration.EnableAutomaticUpdates = borderless_AutoUpdatesBox.ButtonEnabled;
+                Global.LoaderConfiguration.SilentUpdates = borderless_SilentUpdatesBox.ButtonEnabled;
+                Global.LoaderConfiguration.AllowBetaBuilds = borderless_AllowPreReleasesBox.ButtonEnabled;
+                Global.LoaderConfiguration.ExitAfterLaunch = borderless_CloseOnLaunchBox.ButtonEnabled;
+                LoaderConfigParser.WriteConfig(Global.LoaderConfiguration);
             }
         }
     }

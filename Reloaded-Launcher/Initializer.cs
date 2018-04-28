@@ -19,6 +19,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ using Reloaded.IO.Config.Loader;
 using Reloaded.Utilities;
 using Reloaded_GUI.Styles.Themes;
 using ReloadedLauncher.Windows;
+using ReloadedLauncher.Windows.Children.Dialogs;
 using Squirrel;
 
 namespace ReloadedLauncher
@@ -44,14 +46,14 @@ namespace ReloadedLauncher
         /// </summary>
         public Initializer()
         {
-            // Start self-update.
-            DoSquirrelStuff();
+            // Initialize the Configs.
+            InitializeGlobalProperties();
 
             // Unpack default files if not available.
             CopyDefaultFiles();
 
-            // Initialize the Configs.
-            InitializeGlobalProperties();
+            // Start self-update.
+            DoSquirrelStuff();
             
             // Initialize all WinForms.
             InitializeForms();
@@ -93,12 +95,12 @@ namespace ReloadedLauncher
             // Instantiate the Global Config Manager
             Global.ConfigurationManager = new ConfigManager();
 
+            // Initialize other Properties.
+            Global.Theme = new Theme();
+
             // Grab relevant configs.
             // Note: Game list is grabbed upon entry to the main screen form.
             Global.LoaderConfiguration = LoaderConfigParser.ParseConfig();
-
-            // Initialize other Properties.
-            Global.Theme = new Theme();
 
             // Set the initial menu name.
             Global.CurrentMenuName = "Main Menu";
@@ -136,14 +138,35 @@ namespace ReloadedLauncher
                 }
 
                 // Update from Github
-                using (var updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/sewer56lol/Reloaded-Mod-Loader", prerelease: true))
+                using (var updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/sewer56lol/Reloaded-Mod-Loader", 
+                                           prerelease: Global.LoaderConfiguration.AllowBetaBuilds))
                 {
                     // Check for release info.
-                    UpdateInfo update = await updateManager.CheckForUpdate(false);
+                    UpdateInfo githubUpdateInfo = await updateManager.CheckForUpdate(false);
 
                     // Update if there are any releases.
-                    if (update.ReleasesToApply.Count > 0)
-                    { await updateManager.UpdateApp(); }
+                    if (githubUpdateInfo.ReleasesToApply.Count > 0)
+                    {
+                        // Insert handler here.
+                        // Show dialog for updates if not silent.
+                        // Take handler from here.
+                        if (!Global.LoaderConfiguration.SilentUpdates)
+                        {
+                            // Open up the update dialog.
+                            DownloadUpdatesDialog downloadUpdatesDialog = new DownloadUpdatesDialog(updateManager, ref githubUpdateInfo);
+                            downloadUpdatesDialog.ShowDialog();
+
+                            // Note: Restarting will THROW in the debugger, it appears that this behaviour is intended.
+                            if (downloadUpdatesDialog.RestartApplication)
+                                UpdateManager.RestartApp();
+                            else
+                                return;
+                        }
+
+                        // Else silent update
+                        await updateManager.UpdateApp();
+                    }
+                        
                 }
             }
             catch (Exception)

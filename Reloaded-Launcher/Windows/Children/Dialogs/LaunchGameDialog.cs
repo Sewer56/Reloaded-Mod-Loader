@@ -34,7 +34,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
     /// <summary>
     /// This class provides the dialog containing extended game launch options such as logging support.
     /// </summary>
-    public partial class LaunchGameDialog : Form, IDialog
+    public partial class LaunchGameDialog : Form, IGenericDialog
     {
         /// <summary>
         /// Initializes the form.

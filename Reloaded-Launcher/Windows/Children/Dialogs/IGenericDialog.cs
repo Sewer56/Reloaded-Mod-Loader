@@ -26,7 +26,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
     /// information to be passed onto the main form. Implements methods to show itself, 
     /// return relevant values back to the main form and self destruct.
     /// </summary>
-    internal interface IDialog
+    internal interface IGenericDialog
     {
         /// <summary>
         /// Spawns the dialog window and allows the user to enter the specified
