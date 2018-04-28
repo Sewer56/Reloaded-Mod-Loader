@@ -51,12 +51,6 @@ namespace ReloadedLauncher
         public static Base BaseForm { get; set; }
 
         /// <summary>
-        /// Provides functionality for retrieving and saving various 
-        /// mod loader configurations.
-        /// </summary>
-        public static ConfigManager ConfigurationManager { get; set; }
-
-        /// <summary>
         /// Stores the current configuration for the mod loader.
         /// </summary>
         public static LoaderConfigParser.Config LoaderConfiguration { get; set; }

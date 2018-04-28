@@ -25,6 +25,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Reloaded;
+using Reloaded.IO.Config;
 using Reloaded.IO.Config.Games;
 using Reloaded.Utilities;
 using ReloadedLauncher.Windows.Children.Dialogs;
@@ -88,7 +89,7 @@ namespace ReloadedLauncher.Windows.Children
             box_GameList.Rows.Clear();
 
             // Retrieve current game list the into Global.
-            Global.GameConfigurations = Global.ConfigurationManager.GetAllGameConfigs();
+            Global.GameConfigurations = ConfigManager.GetAllGameConfigs();
 
             // For each config, append it.
             foreach (GameConfigParser.GameConfig gameConfig in Global.GameConfigurations)

@@ -30,15 +30,15 @@ using Reloaded.Utilities;
 namespace Reloaded.IO.Config
 {
     /// <summary>
-    /// Stores all of the currently loaded configurator parsers for the mod loader configuration manager.
+    /// Helper class that makes working with and obtaining collections of configurations easier for the user.
     /// </summary>
-    public class ConfigManager
+    public static class ConfigManager
     {
         /// <summary>
         /// Retrieves all of the game individual game configurations, including the global
         /// game configuration containing global mods.
         /// </summary>
-        public List<GameConfigParser.GameConfig> GetAllGameConfigs()
+        public static List<GameConfigParser.GameConfig> GetAllGameConfigs()
         {
             // Retrieves the name of all directories in the 'Games' folder.
             string[] directories = Directory.GetDirectories(LoaderPaths.GetModLoaderGamesDirectory());
@@ -61,7 +61,7 @@ namespace Reloaded.IO.Config
         /// Writes all of the game individual game configurations.
         /// </summary>
         /// <param name="gameConfigurations">List of game configurations to be written back.</param>
-        public void WriteAllGameConfigs(List<GameConfigParser.GameConfig> gameConfigurations)
+        public static void WriteAllGameConfigs(List<GameConfigParser.GameConfig> gameConfigurations)
         {
             // Read each game configuration
             foreach (GameConfigParser.GameConfig gameConfiguration in gameConfigurations) GameConfigParser.WriteConfig(gameConfiguration);
@@ -70,7 +70,7 @@ namespace Reloaded.IO.Config
         /// <summary>
         /// Retrieves all of the game individual mod configurations for the currently selected game.
         /// </summary>
-        public List<ModConfigParser.ModConfig> GetAllMods(GameConfigParser.GameConfig gameConfiguration)
+        public static List<ModConfigParser.ModConfig> GetAllMods(GameConfigParser.GameConfig gameConfiguration)
         {
             // Retrieves the name of all directories in the 'Mods' folder for the game.
             string[] modDirectories = Directory.GetDirectories(LoaderPaths.GetModLoaderModDirectory() + "\\" + gameConfiguration.ModDirectory);
@@ -91,7 +91,7 @@ namespace Reloaded.IO.Config
         /// Writes all of the game individual mod configurations for the currently selected game.
         /// </summary>
         /// <param name="gameConfigurations">List of game configurations to be written back.</param>
-        public void WriteAllMods(List<GameConfigParser.GameConfig> gameConfigurations)
+        public static void WriteAllMods(List<GameConfigParser.GameConfig> gameConfigurations)
         {
             // Read each game configuration
             foreach (GameConfigParser.GameConfig gameConfiguration in gameConfigurations) GameConfigParser.WriteConfig(gameConfiguration);
@@ -100,7 +100,7 @@ namespace Reloaded.IO.Config
         /// <summary>
         /// Retrieves all of the individual theme configurations.
         /// </summary>
-        public List<ThemeConfigParser.ThemeConfig> GetAllThemeConfigs()
+        public static List<ThemeConfigParser.ThemeConfig> GetAllThemeConfigs()
         {
             // Retrieves the name of all directories in the 'Themes' folder.
             string[] directories = Directory.GetDirectories(LoaderPaths.GetModLoaderThemeDirectory());
@@ -121,7 +121,7 @@ namespace Reloaded.IO.Config
         /// Writes all of the game individual game configurations.
         /// </summary>
         /// <param name="gameConfigurations">List of game configurations to be written back.</param>
-        public void WriteAllThemeConfigs(List<ThemeConfigParser.ThemeConfig> gameConfigurations)
+        public static void WriteAllThemeConfigs(List<ThemeConfigParser.ThemeConfig> gameConfigurations)
         {
             // Read each game configuration
             foreach (ThemeConfigParser.ThemeConfig themeConfiguration in gameConfigurations)

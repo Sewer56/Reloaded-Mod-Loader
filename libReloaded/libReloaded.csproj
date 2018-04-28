@@ -90,10 +90,11 @@
     <Compile Include="DirectX\DX11Hook.cs" />
     <Compile Include="DirectX\DXHookCommon.cs" />
     <Compile Include="IO\Config\ConfigManager.cs" />
+    <Compile Include="IO\Config\Utilities\ModUtilities.cs" />
     <Compile Include="Native\Helpers\Arrays\ArrayPtr.cs" />
     <Compile Include="Native\Helpers\Arrays\FixedArrayPtr.cs" />
     <Compile Include="Native\Helpers\Functions\FunctionPtr.cs" />
-    <Compile Include="Native\Helpers\Ref.cs" />
+    <Compile Include="Native\Helpers\Pointer.cs" />
     <Compile Include="Native\WinAPI\Constants.cs" />
     <Compile Include="Native\WinAPI\Structures.cs" />
     <Compile Include="Native\WinAPI\WindowEventHooks.cs" />

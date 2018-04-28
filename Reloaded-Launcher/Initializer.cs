@@ -105,9 +105,6 @@ namespace ReloadedLauncher
         /// </summary>
         private void InitializeGlobalProperties()
         {
-            // Instantiate the Global Config Manager
-            Global.ConfigurationManager = new ConfigManager();
-
             // Initialize other Properties.
             Global.Theme = new Theme();
 

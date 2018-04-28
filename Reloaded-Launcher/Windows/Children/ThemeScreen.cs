@@ -24,6 +24,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Reloaded;
+using Reloaded.IO.Config;
 using Reloaded.IO.Config.Loader;
 using Reloaded.IO.Config.Themes;
 using Reloaded_GUI.Styles.Themes;
@@ -94,7 +95,7 @@ namespace ReloadedLauncher.Windows.Children
             try
             {
                 // Retrieve current theme list into Global.
-                Global.ThemeConfigurations = Global.ConfigurationManager.GetAllThemeConfigs();
+                Global.ThemeConfigurations = ConfigManager.GetAllThemeConfigs();
 
                 // Sort themes by name.
                 Global.ThemeConfigurations.Sort((x, y) => String.Compare(x.ThemeName, y.ThemeName, StringComparison.Ordinal));

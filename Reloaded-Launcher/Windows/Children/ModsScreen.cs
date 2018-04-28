@@ -26,6 +26,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Reloaded;
+using Reloaded.IO.Config;
 using Reloaded.IO.Config.Games;
 using Reloaded.IO.Config.Mods;
 using ReloadedLauncher.Misc;
@@ -95,7 +96,7 @@ namespace ReloadedLauncher.Windows.Children
             try
             {
                 // Retrieve current mod list the into Global.
-                Global.ModConfigurations = Global.ConfigurationManager.GetAllMods(Global.CurrentGameConfig);
+                Global.ModConfigurations = ConfigManager.GetAllMods(Global.CurrentGameConfig);
 
                 // Hold enabled rows which we will later reverse order of and append to disabled rows.
                 // Also store disabled rows.

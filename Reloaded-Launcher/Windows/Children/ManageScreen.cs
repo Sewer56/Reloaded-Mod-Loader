@@ -26,6 +26,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Reloaded;
+using Reloaded.IO.Config;
 using Reloaded.IO.Config.Games;
 using Reloaded.Utilities;
 using Reloaded_GUI.Styles.Themes;
@@ -75,7 +76,7 @@ namespace ReloadedLauncher.Windows.Children
             else
             {
                 // Save all configs.
-                Global.ConfigurationManager.WriteAllGameConfigs(Global.GameConfigurations);
+                ConfigManager.WriteAllGameConfigs(Global.GameConfigurations);
             }
         }
 
@@ -88,7 +89,7 @@ namespace ReloadedLauncher.Windows.Children
             borderless_CurrentGame.Items.Clear();
 
             // Retrieve current game list the into Global.
-            Global.GameConfigurations = Global.ConfigurationManager.GetAllGameConfigs();
+            Global.GameConfigurations = ConfigManager.GetAllGameConfigs();
 
             // For each config, append the name of the game.
             foreach (GameConfigParser.GameConfig gameConfig in Global.GameConfigurations)

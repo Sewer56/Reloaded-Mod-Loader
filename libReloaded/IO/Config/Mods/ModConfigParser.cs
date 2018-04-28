@@ -57,7 +57,7 @@ namespace Reloaded.IO.Config.Mods
         /// Writes out the config file to disk.
         /// </summary>
         /// <param name="modConfig">The mod configuration structure defining the details of the individual mod.</param>
-        public static void WriteConfig(ModConfig modConfig)
+        internal static void WriteConfig(ModConfig modConfig)
         {
             // Convert structure to JSON
             string json = JsonConvert.SerializeObject(modConfig, Strings.Parsers.SerializerSettings);
@@ -114,7 +114,7 @@ namespace Reloaded.IO.Config.Mods
             public string ModConfigExe { get; set; } = "N/A";
 
             /// <summary>
-            /// [DO NOT MODIFY] Stores the physical directory location of the mod configuration for re-save purposes.
+            /// [DO NOT MODIFY] Stores the physical file location of the mod configuration's Config.json for re-save purposes.
             /// </summary>
             [JsonIgnore]
             public string ModLocation { get; set; }
