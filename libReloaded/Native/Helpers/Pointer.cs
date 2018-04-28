@@ -29,43 +29,43 @@ namespace Reloaded.Native.Helpers
     /// Wraps a native pointer around a managed type, improving the ease of use.
     /// </summary>
     /// <typeparam name="T">Value type to hold a reference to.</typeparam>
-    public unsafe struct Ref<T> where T : struct
+    public unsafe struct Pointer<T> where T : struct
     {
         /// <summary>
         /// Gets the pointer to the value.
         /// </summary>
-        public void* Pointer { get; }
+        public void* Address { get; set; }
 
         /// <summary>
         /// Sets the value of what the reference points to.
         /// </summary>
         public T Value
         {
-            get => Unsafe.Read<T>(Pointer);
-            set => Unsafe.Write(Pointer, value);
+            get => Unsafe.Read<T>(Address);
+            set => Unsafe.Write(Address, value);
         }
 
         /// <summary>
-        /// Constructs a new instance of <see cref="Ref{T}"/> given the address (pointer)
+        /// Constructs a new instance of <see cref="Pointer{T}"/> given the address (pointer)
         /// at which the value of type <typeparamref name="T"/> is stored.
         /// </summary>
         /// <param name="address">The address of the pointer pointing to generic type {T}</param>
-        public Ref(ulong address)
+        public Pointer(ulong address)
         {
-            Pointer = (void*)address;
+            Address = (void*)address;
         }
 
         /// <summary>
-        /// Constructs a new instance of <see cref="Ref{T}"/> given the address (pointer)
+        /// Constructs a new instance of <see cref="Pointer{T}"/> given the address (pointer)
         /// at which the value of type <typeparamref name="T"/> is stored.
         /// </summary>
         /// <param name="address">The address of the pointer pointing to generic type {T}</param>
-        public Ref(IntPtr address)
+        public Pointer(IntPtr address)
         {
-            Pointer = (void*)address;
+            Address = (void*)address;
         }
 
-        public static implicit operator T(Ref<T> value) => value.Value;
+        public static implicit operator T(Pointer<T> value) => value.Value;
         // No assignment (=) operator overload is possible, unfortunately.
 
         /// <summary>
