@@ -60,7 +60,7 @@ namespace Reloaded.Overlay
         /// Defines the delegate type which fires the user's own method 
         /// used for rendering using a Direct3D11 device.
         /// </summary>
-        private DXGISwapChain_PresentDelegate direct2DRenderMethod;
+        //private DXGISwapChain_PresentDelegate direct2DRenderMethod;
 
         /*
          * Commented out is are remainments of (failed) attempts to bring over Direct2D

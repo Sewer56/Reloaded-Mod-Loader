@@ -46,7 +46,7 @@ namespace Reloaded.Process.X86Hooking
         /// <summary>
         /// Exposes the original function to the user, allowing for it to be effectively called.
         /// </summary>
-        public TFunction OriginalFunction;
+        public TFunction OriginalFunction { get; set; }
 
         /// <summary>
         /// Stores a copy of the original delegate passed into the Function Hook generator

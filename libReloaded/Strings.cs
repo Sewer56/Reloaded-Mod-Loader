@@ -38,12 +38,12 @@ namespace Reloaded
             /// <summary>
             /// Contains the name of the 32bit mod DLL file for a Reloaded Mod Loader mod.
             /// </summary>
-            public static string Mod32BitDllFile = "main32.dll";
+            public const string Mod32BitDllFile = "main32.dll";
 
             /// <summary>
             /// Contains the name of the 32bit mod DLL file for a Reloaded Mod Loader mod.
             /// </summary>
-            public static string Mod64BitDllFile = "main64.dll";
+            public const string Mod64BitDllFile = "main64.dll";
         }
 
         /// <summary>
@@ -59,43 +59,43 @@ namespace Reloaded
                 /// <summary>
                 /// Contains the name of the Main Menu used in Reloaded Launcher.
                 /// </summary>
-                public static string MainMenuName = "Main Menu";
+                public const string MainMenuName = "Main Menu";
 
                 /// <summary>
                 /// Contains the name of the Mods Menu used in Reloaded Launcher.
                 /// </summary>
-                public static string ModsMenuName = "Mods Menu";
+                public const string ModsMenuName = "Mods Menu";
 
                 /// <summary>
                 /// Contains the name of the Input Menu used in Reloaded Launcher.
                 /// </summary>
-                public static string InputMenuName = "Reloaded Input Stack";
+                public const string InputMenuName = "Reloaded Input Stack";
 
                 /// <summary>
                 /// Contains the name of the Theme Menu used in Reloaded Launcher.
                 /// </summary>
-                public static string ThemeMenuName = "Theme Menu";
+                public const string ThemeMenuName = "Theme Menu";
 
                 /// <summary>
                 /// Contains the name of the Manage Menu used in Reloaded Launcher.
                 /// </summary>
-                public static string ManageMenuName = "Game Management Menu";
+                public const string ManageMenuName = "Game Management Menu";
 
                 /// <summary>
                 /// Contains the name of the About Menu used in Reloaded Launcher.
                 /// </summary>
-                public static string AboutMenuName = "About [Reloaded]";
+                public const string AboutMenuName = "About [Reloaded]";
             }
 
             /// <summary>
             /// Contains the name of the preview banners used for mods of Reloaded Mod Loader.
             /// </summary>
-            public static string BannerName = "Banner.png";
+            public const string BannerName = "Banner.png";
 
             /// <summary>
             /// Contains the name of the default log file used in Reloaded.
             /// </summary>
-            public static string DefaultLogFileName = "Reloaded-Log.txt";
+            public const string DefaultLogFileName = "Reloaded-Log.txt";
         }
 
         /// <summary>
