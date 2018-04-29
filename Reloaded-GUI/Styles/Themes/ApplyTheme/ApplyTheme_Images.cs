@@ -18,7 +18,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Reloaded_GUI.Styles.Themes.ApplyTheme
 {
@@ -35,15 +37,19 @@ namespace Reloaded_GUI.Styles.Themes.ApplyTheme
         public static void LoadImages(string imagesFolder)
         {
             // Load the images from HDD.
-            Bindings.Images.AboutIconImage = Image.FromFile(imagesFolder + "\\About-Icon.png");
-            Bindings.Images.ManagerImage = Image.FromFile(imagesFolder + "\\Entry-Icon.png");
-            Bindings.Images.PaintImage = Image.FromFile(imagesFolder + "\\Paint-Icon.png");
-            Bindings.Images.InputImage = Image.FromFile(imagesFolder + "\\Controller-Icon.png");
-            Bindings.Images.TweaksImage = Image.FromFile(imagesFolder + "\\Tweaks-Icon.png");
-            Bindings.Images.GamesImage = Image.FromFile(imagesFolder + "\\Main-Icon.png");
-            Bindings.Images.TweaksImage2 = Image.FromFile(imagesFolder + "\\Tweaks2-Icon.png");
-            Bindings.Images.GithubImage = Image.FromFile(imagesFolder + "\\Github-Icon.png");
-            Bindings.Images.WorldImage = Image.FromFile(imagesFolder + "\\World-Icon.png");
+            try
+            {
+                Bindings.Images.AboutIconImage = Image.FromFile(imagesFolder + "\\About-Icon.png");
+                Bindings.Images.ManagerImage = Image.FromFile(imagesFolder + "\\Entry-Icon.png");
+                Bindings.Images.PaintImage = Image.FromFile(imagesFolder + "\\Paint-Icon.png");
+                Bindings.Images.InputImage = Image.FromFile(imagesFolder + "\\Controller-Icon.png");
+                Bindings.Images.TweaksImage = Image.FromFile(imagesFolder + "\\Tweaks-Icon.png");
+                Bindings.Images.GamesImage = Image.FromFile(imagesFolder + "\\Main-Icon.png");
+                Bindings.Images.TweaksImage2 = Image.FromFile(imagesFolder + "\\Tweaks2-Icon.png");
+                Bindings.Images.GithubImage = Image.FromFile(imagesFolder + "\\Github-Icon.png");
+                Bindings.Images.WorldImage = Image.FromFile(imagesFolder + "\\World-Icon.png");
+            }
+            catch { MessageBox.Show("Could not load theme images, either the current theme is not installed or no theme is installed."); }
             
             // Call the relevant delegates to set the images loaded from HDD
             Bindings.ApplyImagesDelegate?.Invoke(Bindings.Images);

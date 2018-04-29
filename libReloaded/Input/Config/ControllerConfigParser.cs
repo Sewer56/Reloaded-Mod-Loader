@@ -63,6 +63,10 @@ namespace Reloaded.Input.Config
         /// <param name="controller">A DirectInput or XInput controller instance.</param>
         public static void WriteConfig(string configLocation, ControllerCommon.IController controller)
         {
+            // Create path for config if not exists.
+            if (!Directory.Exists(Path.GetDirectoryName(configLocation)))
+            { Directory.CreateDirectory(Path.GetDirectoryName(configLocation)); }
+
             // Convert structure to JSON
             string json = JsonConvert.SerializeObject(controller.InputMappings, Strings.Parsers.SerializerSettings);
 
