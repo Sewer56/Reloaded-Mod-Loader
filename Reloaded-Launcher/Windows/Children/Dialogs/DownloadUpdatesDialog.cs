@@ -20,10 +20,8 @@
 
 using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.Windows.Forms;
 using Reloaded.Native.WinAPI;
-using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Styles.Themes.ApplyTheme;
 using Reloaded_GUI.Utilities.Windows;
 using Squirrel;

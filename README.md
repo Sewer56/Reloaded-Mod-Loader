@@ -125,8 +125,9 @@ Make sure to install Git for Windows or a compatible Git solution for windows, a
 ![Git for Windows setup](https://i.imgur.com/RdcabVT.png)
 
 ### Cannot see local variables when debugging Reloaded Mods:
+This can happen when you are trying to debug `async` methods, try to debug those non-asynchronously or use the printing to console functionality provided to you in the template.
 
-Try enabling `Native Code Debugging` under Project => Properties => Debug for your current project as well as `Use Managed Compatibility Mode` under Tools => Options => Debugging.
+Alternatively try enabling `Native Code Debugging` under Project => Properties => Debug for your current project as well as `Use Managed Compatibility Mode` under Tools => Options => Debugging.
 
 This applies regardless of whether the debugger has been manually attached at runtime by the user or via `Debugger.Launch()`.
 

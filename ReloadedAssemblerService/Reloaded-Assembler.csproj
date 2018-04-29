@@ -98,6 +98,9 @@
     <PackageReference Include="Fody">
       <Version>3.0.3</Version>
     </PackageReference>
+    <PackageReference Include="LiteNetLib">
+      <Version>0.7.7.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj">

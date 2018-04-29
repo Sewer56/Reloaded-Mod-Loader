@@ -37,8 +37,9 @@ using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using Binarysharp.Assemblers.Fasm;
-using Reloaded.Networking;
-using Reloaded.Networking.Sockets;
+using libReloaded_Networking;
+using LiteNetLib;
+using LiteNetLib.Utils;
 
 namespace ReloadedAssembler
 {
@@ -48,16 +49,23 @@ namespace ReloadedAssembler
     public class FasmServer
     {
         /// <summary>
-        /// Server instance used for accepting incoming assembly requests.
+        /// Stores the actual Mod Loader Server host that is used to communicate alongside
+        /// other peers in the network.
         /// </summary>
-        Host _server;
+        public static NetManager ReloadedServer;
+
+        /// <summary>
+        /// Listens to network events triggered as other clients interact with ther 
+        /// Reloaded Mod Loader Server.
+        /// </summary>
+        public static EventBasedNetListener ReloadedServerListener;
 
         /// <summary>
         /// Reloaded Mod Loader instances reserve ports in the 1337X space.
         /// 13370 is taken by Reloaded Mod Loader Server
         /// 13380 is the port for this program
         /// </summary>
-        int _serverPort = 13380;
+        public int ServerPort { get; set; } = 13380;
 
         /// <summary>
         /// ABSOLUTELY DO NOT CHANGE THIS STRING
@@ -79,11 +87,6 @@ namespace ReloadedAssembler
         enum MessageTypes
         {
             /// <summary>
-            /// Returns a string to confirm that the end is the assembler server.
-            /// </summary>
-            ReportAssembler = 0x0,
-
-            /// <summary>
             /// Assembles a set of ASM instructions.
             /// Returns the ASM instructions as a list of bytes.
             /// </summary>
@@ -98,10 +101,7 @@ namespace ReloadedAssembler
             StartServer();
 
             // Write to temp directory.
-            File.WriteAllText(ModLoaderAssemblerPort, Convert.ToString(_serverPort));
-
-            // Register ReceiveMessage to handle data sent by client.
-            _server.ProcessBytesMethods += ReceiveMessage;
+            File.WriteAllText(ModLoaderAssemblerPort, Convert.ToString(ServerPort));
         }
 
         /// <summary>
@@ -111,14 +111,23 @@ namespace ReloadedAssembler
         {
             try
             {
-                // Start local server at 127.0.0.1 (accessible only locally)
-                _server = new Host(IPAddress.Loopback, _serverPort);
-                _server.StartServer();
+                // Create new server instance.
+                ReloadedServerListener = new EventBasedNetListener();
+                ReloadedServer = new NetManager(ReloadedServerListener, ReloadedCheckMessage);
+
+                // Start Server Internally
+                ReloadedServer.Start(ServerPort);
+
+                // Process received events immediately.
+                ReloadedServer.UnsyncedEvents = true;
+
+                // Send received data to the message handler
+                ReloadedServerListener.NetworkReceiveEvent += ReceiveMessage;
             }
             catch (SocketException)
             {
                 // Try on next port.
-                _serverPort += 1;
+                ServerPort += 1;
                 StartServer();
             }
         }
@@ -126,49 +135,31 @@ namespace ReloadedAssembler
         /// <summary>
         /// Handles the individual assembly requests sent by the client.
         /// </summary>
-        /// <param name="messageStruct">Message received from the client containing the assembly details</param>
-        /// <param name="socket">The websocket socket used to send back the assembled bytes to the client.</param>
-        private void ReceiveMessage(Message.MessageStruct messageStruct, ReloadedSocket socket)
+        /// <param name="netPeer">Contains the peer client that sent the message to the server. A wrapper around a WebSocket Client.</param>
+        /// <param name="reader">Contains the information sent by the client to the server.</param>
+        private void ReceiveMessage(NetPeer netPeer, NetDataReader reader)
         {
+            // Parse received message.
+            Message messageStruct = Message.GetMessage(reader.GetBytesWithLength());
+
             switch ((MessageTypes)messageStruct.MessageType)
             {
-                case MessageTypes.Assemble:             Assemble(DeserializeX86Mnemonics(messageStruct.Data), socket);  break;
-                case MessageTypes.ReportAssembler:      Report(socket);                                                 break;
+                case MessageTypes.Assemble:             Assemble(DeserializeX86Mnemonics(messageStruct.Data), netPeer);  break;
             }
-        }
-
-        /// <summary>
-        /// Replies the name of the assembler back to the client.
-        /// </summary>
-        /// <param name="clientSocket">The socket to which the "ok" message should be sent.</param>
-        private static void Report(ReloadedSocket clientSocket)
-        {
-            // Send back empty message struct.
-            Message.MessageStruct messageStruct = new Message.MessageStruct
-            {
-                MessageType = (ushort)MessageTypes.ReportAssembler,
-
-                // ABSOLUTELY DO NOT CHANGE THIS STRING
-                // libReloaded EXPECTS THIS STRING AND WILL IGNORE SERVER UNTIL
-                // THIS STRING IS RETURNED. THIS IDENTIFIES THE ASSEMBLER.
-                Data = Encoding.ASCII.GetBytes(ReloadedCheckMessage)
-            };
-
-            clientSocket.SendData(messageStruct, false);
         }
 
         /// <summary>
         /// Assembles the received request and sends back information to the client.
         /// </summary>
         /// <param name="mnemonics">The assembly code to be assembled.</param>
-        /// <param name="clientSocket">The socket used for communication with the client. which sent the request.</param>
-        private static void Assemble(string[] mnemonics, ReloadedSocket clientSocket)
+        /// <param name="netPeer">Contains the peer client that sent the message to the server. A wrapper around a WebSocket Client.</param>
+        private static void Assemble(string[] mnemonics, NetPeer netPeer)
         {
             // Send back empty message struct
-            Message.MessageStruct messageStruct = new Message.MessageStruct
+            Message messageStruct = new Message()
             {
                 // Client will likely ignore this anyway (but shouldn't).
-                MessageType = ( ushort ) MessageTypes.Assemble
+                MessageType = (ushort) MessageTypes.Assemble
             };
 
             // Try Assembly
@@ -182,7 +173,7 @@ namespace ReloadedAssembler
             { messageStruct.Data = new byte[1] { 0x90 }; }
 
             // Return back.
-            clientSocket.SendData(messageStruct, false);
+            netPeer.Send(messageStruct.GetBytes(), SendOptions.ReliableOrdered);
         }
 
         /// <summary>

@@ -41,14 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Networking\Client.cs" />
-    <Compile Include="Networking\Host.cs" />
-    <Compile Include="Networking\Message.cs" />
-    <Compile Include="Networking\ModLoaderServer\MessageTypes.cs" />
-    <Compile Include="Networking\Sockets\ReloadedSocket.cs" />
-    <Compile Include="Networking\Sockets\SocketExtensions.cs" />
     <Compile Include="Bindings.cs" />
+    <Compile Include="MessageTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="MessageExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

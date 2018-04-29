@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -281,6 +282,9 @@ namespace ReloadedLauncher.Windows.Children
                 x.GameVersion == comboBoxDetails.GameVersion
             );
 
+            // Set global configuration.
+            Global.CurrentGameConfig = gameConfig;
+
             // Populate fields.
             borderless_GameName.Text = gameConfig.GameName;
             borderless_GameModDirectory.Text = gameConfig.ModDirectory;
@@ -474,6 +478,38 @@ namespace ReloadedLauncher.Windows.Children
             public string GameName;
             public string GameVersion;
             public string ExecutableRelativeLocation;
+        }
+
+        /// <summary>
+        /// Opent the current game configuration's game directory.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void item_OpenGameDir_Click(object sender, EventArgs e)
+        {
+            try { Process.Start(Global.CurrentGameConfig.GameDirectory); }
+            catch { MessageBox.Show("It would appear that the given game directory does not exist, did you move it? Did you move me? I feel oddly suspicious..."); }
+            
+        }
+
+        /// <summary>
+        /// Opens the current game's modification directory.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void item_OpenModDir_Click(object sender, EventArgs e)
+        {
+            Process.Start(LoaderPaths.GetModLoaderModDirectory() + $"\\{Global.CurrentGameConfig.ModDirectory}");
+        }
+
+        /// <summary>
+        /// Opens the directory containing the current game config.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void item_OpenConfigDirectory_Click(object sender, EventArgs e)
+        {
+            Process.Start(Path.GetDirectoryName(Global.CurrentGameConfig.ConfigLocation));
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using Reloaded;
+using Reloaded.Assembler;
 using Reloaded.Process;
 
 namespace Reloaded_Mod_Template
@@ -99,7 +101,7 @@ namespace Reloaded_Mod_Template
         /// If this is your first time, do consider reading the notice above.
         /// It contains some very useful information.
         /// </summary>
-        public static unsafe async void Init()
+        public static void Init()
         {
             Bindings.PrintInfo("Hello World!");
         }

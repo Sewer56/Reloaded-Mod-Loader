@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using LiteNetLib;
 using Reloaded;
 using Reloaded.Process;
 using Reloaded.Process.Memory;
 
-namespace Reloaded_Mod_Template.Reloaded
+namespace Reloaded_Mod_Template.ReloadedCode
 {
     public class Initializer
     {
@@ -48,8 +50,10 @@ namespace Reloaded_Mod_Template.Reloaded
         static void InitClient(IntPtr portAddress)
         {
             // Setup Local Server Client
-            Client.ServerClient = new global::Reloaded.Networking.Client(IPAddress.Loopback, Program.GameProcess.ReadMemory<int>(portAddress));
-            Client.ServerClient.StartClient();
+            EventBasedNetListener reloadedClientListener = new EventBasedNetListener();
+            Client.ReloadedClient = new NetManager(reloadedClientListener, Strings.Loader.ServerConnectKey);
+            Client.ReloadedClient.Start();
+            Client.ReloadedClient.Connect(IPAddress.Loopback.ToString(), Program.GameProcess.ReadMemory<int>(portAddress));
         }
 
         /// <summary>

@@ -1,9 +1,8 @@
 ﻿using System.Text;
-using Reloaded.Networking;
-using Reloaded.Networking.ModLoaderServer;
-using Reloaded.Networking.Sockets;
+using libReloaded_Networking;
+using LiteNetLib;
 
-namespace Reloaded_Mod_Template.Reloaded
+namespace Reloaded_Mod_Template.ReloadedCode
 {
     /// <summary>
     /// Class used for providing services via communication with the Mod Loader server.
@@ -15,7 +14,7 @@ namespace Reloaded_Mod_Template.Reloaded
         /// The client of the Mod Loader Server. 
         /// Can be used for communication with the external local server (hosted in the CMD window).
         /// </summary>
-        public static global::Reloaded.Networking.Client ServerClient;
+        public static NetManager ReloadedClient;
 
         /// <summary>
         /// Defines the message types that could be printed to the screen.
@@ -87,7 +86,7 @@ namespace Reloaded_Mod_Template.Reloaded
 
             // Build a Server Message with text to print.
             // The style of the message is user-set.
-            Message.MessageStruct clientMessage = new Message.MessageStruct((ushort)MessageTypes.MessageType.PrintText, bytesToSend);
+            Message clientMessage = new Message((ushort)MessageTypes.MessageType.PrintText, bytesToSend);
             
             // Switch message type if necessary.
             switch (printMessageType)
@@ -98,7 +97,7 @@ namespace Reloaded_Mod_Template.Reloaded
             }
              
             // Send the message.
-            ServerClient.ClientSocket.SendData(clientMessage, false);
+            ReloadedClient.GetFirstPeer()?.Send(clientMessage.GetBytes(), SendOptions.ReliableOrdered);
         }
     }
 }

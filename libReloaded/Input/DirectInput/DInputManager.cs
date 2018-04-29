@@ -20,8 +20,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 using SharpDX.DirectInput;
 
 namespace Reloaded.Input.DirectInput

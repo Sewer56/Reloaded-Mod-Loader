@@ -19,7 +19,6 @@
 */
 
 using System.Collections.Generic;
-using Reloaded.IO.Config;
 using Reloaded.IO.Config.Games;
 using Reloaded.IO.Config.Loader;
 using Reloaded.IO.Config.Mods;

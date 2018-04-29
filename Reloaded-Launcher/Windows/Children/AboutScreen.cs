@@ -22,7 +22,6 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using Reloaded;
 using Reloaded.IO.Config.Loader;
 using Reloaded_GUI.Utilities.Controls;

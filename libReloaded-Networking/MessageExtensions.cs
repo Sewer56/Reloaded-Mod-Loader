@@ -22,79 +22,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Reloaded.Networking
+namespace libReloaded_Networking
 {
     /// <summary>
-    /// Helper class that helps with the identification of different messages sent over TCP between client and the host.
-    /// Provides a struct for holding a message and methods 
+    /// Extension methods for the <see cref="Message"/> class.
+    /// Provides the code used for building and parsing messages.
     /// </summary>
-    public static class Message
+    public static class MessageExtensions
     {
-        /// <summary>
-        /// A struct which defines a message to be sent over TCP or UDP.
-        /// </summary>
-        public class MessageStruct
-        {
-            /// <summary>
-            /// Defines the length of the individual message.
-            /// The length of the message is calculated by 
-            /// </summary>
-            public int MessageLength { get; private set; }
-
-            /// <summary>
-            /// The type of the message sent. Types are supposed to be your
-            /// own custom defined enumerables. The mod loader server uses Client_Functions.Message_Type.
-            /// Cast it to the ushort type :V
-            /// </summary>
-            public ushort MessageType { get; set; }
-
-            /// <summary>
-            /// The raw data of the message in question.
-            /// </summary>
-            private byte[] _data;
-
-            /// <summary>
-            /// The raw data of the message in question.
-            /// </summary>
-            public byte[] Data
-            {
-                get => _data;
-                set
-                {
-                    _data = value;
-                    MessageLength = BitConverter.GetBytes(MessageType).Length + _data.Length;
-                }
-            }
-
-            /// <summary>
-            /// Empty constructor.
-            /// </summary>
-            public MessageStruct(){ }
-
-            /// <summary>
-            /// Constructor allowing immediate struct assignment.
-            /// </summary>
-            public MessageStruct(ushort messageType, byte[] data)
-            {
-                MessageType = messageType;
-                _data = data;
-                MessageLength = BitConverter.GetBytes(MessageType).Length + _data.Length;
-            }
-        }
-
         /// <summary>
         /// Builds a message to be sent to the machine A to machine B.
         /// A message consists of a message type (two bytes), followed by the raw data of the message, 
         /// which forms the remaining part of the message (this is stored in a struct).
         /// </summary>
-        public static byte[] BuildMessage(this MessageStruct message)
+        public static byte[] GetBytes(this Message message)
         {
             // Allocate enough data to form the message.
             List<byte> messageData = new List<byte>(message.MessageLength);
 
             // Append the message length.
             messageData.AddRange(BitConverter.GetBytes(message.MessageLength));
-            
+
             // Append the message type.
             messageData.AddRange(BitConverter.GetBytes(message.MessageType));
 
@@ -112,17 +60,17 @@ namespace Reloaded.Networking
         /// which forms the remaining part of the message.
         /// </summary>
         /// <returns></returns>
-        public static MessageStruct ParseMessage(byte[] data)
+        public static Message GetMessage(this Message message, byte[] data)
         {
             // Instantiate the MessageStruct
-            MessageStruct messageStruct = new MessageStruct
+            message = new Message
             {
                 MessageType = BitConverter.ToUInt16(data, 0),
                 Data = data.Skip(sizeof(ushort)).ToArray()
             };
-            
+
             // Return the message struct.
-            return messageStruct;
+            return message;
         }
     }
 }

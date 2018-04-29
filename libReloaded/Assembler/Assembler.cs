@@ -18,17 +18,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Networking;
 using System;
 using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Windows.Forms;
-using Reloaded.Networking.Sockets;
+using System.Threading;
+using libReloaded_Networking;
+using LiteNetLib;
+using LiteNetLib.Utils;
 using Reloaded.Utilities;
-using MessageStruct = Reloaded.Networking.Message.MessageStruct;
 
 namespace Reloaded.Assembler
 {
@@ -46,9 +46,16 @@ namespace Reloaded.Assembler
         private const string ReloadedCheckMessage = "Reloaded Assembler";
 
         /// <summary>
-        /// Used for communication with the external process.
+        /// The client of the Mod Loader Server. 
+        /// Can be used for communication with the external local server (hosted in the CMD window).
         /// </summary>
-        private static Client _assemblerClient;
+        public static NetManager ReloadedClient;
+
+        /// <summary>
+        /// Listens to network events triggered as other clients interact with the
+        /// Reloaded Mod Loader Server.
+        /// </summary>
+        private static EventBasedNetListener ReloadedClientListener;
 
         /// <summary>
         /// Reloaded mod loader stuff reserve ports in the 1337X space.
@@ -94,21 +101,45 @@ namespace Reloaded.Assembler
         /// <summary>
         /// Assembles a supplied set of FASM assembler compatible mnemonics
         /// (X86, X64) and returns the result back to the user.
+        /// 
+        /// NOTE: THIS METHOD IS NOT THREAD SAFE, DO NOT CALL ASYNCHRONOUSLY.
+        /// TODO: ADD QUEUE TO ALLOW FOR ASYNCHRONY.
         /// </summary>
         /// <param name="mnemonics">The successfully assembled X86, X64 or other compatible mnemonics.</param>
         /// <returns>0x90 (nop) if the assembly operation fails, else the successfully assembled bytes.</returns>
         public static byte[] Assemble(string[] mnemonics)
         {
             // Build Message to Assemble Mnemonics.
-            MessageStruct assemblyRequest = new MessageStruct
+            Message assemblyRequest = new Message
             {
                 MessageType = (ushort)MessageTypes.Assemble,
                 Data = SerializeObject(mnemonics)
             };
 
-            // Request & Retrieve | MessageStruct Data
-            MessageStruct response = _assemblerClient.ClientSocket.SendData(assemblyRequest, true);
-            return response.Data;
+            // Request & Retrieve MessageStruct Data
+            byte[] messageBytes = null;
+
+            // Local function to assign the message Bytes.
+            void GetMessageBytes(NetPeer peer, NetDataReader reader)
+            {
+                messageBytes = Message.GetMessage(reader.GetBytesWithLength()).Data;
+            }
+
+            // Add event for receiving on network.
+            ReloadedClientListener.NetworkReceiveEvent += GetMessageBytes;
+            ReloadedClient.GetFirstPeer().Send(assemblyRequest.GetBytes(), SendOptions.ReliableOrdered);
+
+            // Wait for response and return data.
+            while (messageBytes == null)
+            {
+                ReloadedClient.PollEvents();
+                Thread.Sleep(4);
+            }
+
+            // Unsubscribe delegate.
+            ReloadedClientListener.NetworkReceiveEvent -= GetMessageBytes;
+
+            return messageBytes;
         }
 
         /// <summary>
@@ -150,24 +181,18 @@ namespace Reloaded.Assembler
             // Else try to find/connect to the server if already running.
             else
             {
-                // Create the client instance.
-                _assemblerClient = new Client(IPAddress.Loopback, _serverPort);
-
-                // Try to connect.
-                bool isConnected = _assemblerClient.StartClient();
+                // Setup Local Server Client
+                ReloadedClientListener = new EventBasedNetListener();
+                ReloadedClient = new NetManager(ReloadedClientListener, ReloadedCheckMessage);
+                ReloadedClient.Start();
+                ReloadedClient.ReconnectDelay = 50;
+                ReloadedClient.MaxConnectAttempts = 4;
+                ReloadedClient.Connect(IPAddress.Loopback.ToString(), _serverPort);
 
                 // Check below if connected client is our assembler.
-                if (isConnected)
+                if (ReloadedClient.PeersCount < 1)
                 {
-                    // If it is our assembler, return.
-                    if (CheckAssembler()) { return; }
-
                     // Shutdown and try another port.
-                    TrySecondPort();
-
-                }
-                else
-                {
                     TrySecondPort();
                 }
             }
@@ -179,46 +204,17 @@ namespace Reloaded.Assembler
         /// </summary>
         private static void TrySecondPort()
         {
-            // Shutdown.
-            _assemblerClient.ShutdownClient();
+            // Increment the server port.
+            _serverPort++;
 
-            // Try another port.
-            _assemblerClient = new Client(IPAddress.Loopback, _serverPort + 1);
-            bool isConnected2 = _assemblerClient.StartClient();
-
-            if (isConnected2)
-            {
-                // Check if it is our assembler.
-                if (CheckAssembler()) { return; }
-            }
+            // Call the startup method.
+            // Tries 19 ports in succession.
+            if (_serverPort < 13399)
+            { ConnectToServer(); }
 
             // Did not connect
-            MessageBox.Show("Unable to connect/find the Mod Loader FASM Assembler Server\n" +
+            Bindings.PrintError("Unable to connect/find the Mod Loader FASM Assembler Server\n" +
                             "If you see this message, contact the developer :P");
-        }
-
-        /// <summary>
-        /// Checks if the connected socket on the other end is our Reloaded Assembler
-        /// by sending a 0x00 message type and expecting a string.
-        /// </summary>
-        private static bool CheckAssembler()
-        {
-            // Check Data
-            MessageStruct checkAssembler = new MessageStruct
-            {
-                MessageType = (ushort) MessageTypes.ReportAssembler,
-                Data = new byte[] {0x00}
-            };
-
-            // Send check to server
-            MessageStruct response = _assemblerClient.ClientSocket.SendData(checkAssembler, true);
-
-            // Check returned string.
-            string checkString = Encoding.ASCII.GetString(response.Data);
-
-            // Check the identification string for our assembler.
-            if (checkString == ReloadedCheckMessage) { return true; }
-            else { return false; }
         }
 
         /// <summary>

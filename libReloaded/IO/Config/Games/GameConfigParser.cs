@@ -59,6 +59,10 @@ namespace Reloaded.IO.Config.Games
             if (gameConfigDirectory == LoaderPaths.GetGlobalGameConfigDirectory())
                 config = GameConfig.SetGlobalConfigProperties(config);
 
+            // Create mod directory if nonexistant.
+            if (!Directory.Exists(LoaderPaths.GetModLoaderModDirectory() + $"\\{config.ModDirectory}"))
+            { Directory.CreateDirectory(LoaderPaths.GetModLoaderModDirectory() + $"\\{config.ModDirectory}"); }
+
             // Return the config file.
             return config;
         }

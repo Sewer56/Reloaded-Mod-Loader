@@ -18,14 +18,16 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using System.Net;
-using System.Net.Sockets;
-using Reloaded.Networking;
-using Reloaded.Networking.Sockets;
-using Reloaded_Loader.Networking.LoaderServerFunctions;
+using System;
+using System.Diagnostics;
+using libReloaded_Networking;
+using LiteNetLib;
+using LiteNetLib.Utils;
+using Reloaded;
 using Reloaded_Loader.Terminal;
-using static Reloaded.Networking.ModLoaderServer.MessageTypes;
 using static Reloaded_Loader.Networking.LoaderServerFunctions.PrintToScreen;
+using static libReloaded_Networking.MessageTypes;
+using Bindings = Reloaded.Bindings;
 
 namespace Reloaded_Loader.Networking
 {
@@ -37,10 +39,16 @@ namespace Reloaded_Loader.Networking
     public static class LoaderServer
     {
         /// <summary>
-        /// Wraps the WebSocket host for the Reloaded Mod Loader that is used to communicate
-        /// to various different mod loader mods.
+        /// Stores the actual Mod Loader Server host that is used to communicate alongside
+        /// other peers in the network.
         /// </summary>
-        public static Host ReloadedServer;
+        public static NetManager ReloadedServer;
+
+        /// <summary>
+        /// Listens to network events triggered as other clients interact with the
+        /// Reloaded Mod Loader Server.
+        /// </summary>
+        public static EventBasedNetListener ReloadedServerListener;
 
         /// <summary>
         /// Defines the server port to be used for hosting the Reloaded Server.
@@ -64,20 +72,28 @@ namespace Reloaded_Loader.Networking
             try
             {
                 // Create new server instance.
-                ReloadedServer = new Host(IPAddress.Loopback, ServerPort);
+                ReloadedServerListener = new EventBasedNetListener();
+                ReloadedServer = new NetManager(ReloadedServerListener, Strings.Loader.ServerConnectKey);
 
                 // Start Server Internally
-                ReloadedServer.StartServer();
+                ReloadedServer.Start(ServerPort);
 
-                // Redirect sent data towards certain method.
-                ReloadedServer.ProcessBytesMethods += MessageHandler;
+                // Ping when message is received.
+                ReloadedServerListener.PeerConnectedEvent += peer =>
+                { Bindings.PrintInfo($"Received connection from: {peer.EndPoint.Host}:{peer.EndPoint.Port}"); };
+
+                // Send received data to the message handler
+                ReloadedServerListener.NetworkReceiveEvent += MessageHandler;
+
+                // Process received events immediately.
+                ReloadedServer.UnsyncedEvents = true;
 
                 // Print words of success
-                ConsoleFunctions.PrintMessageWithTime("Local Server Successfully Started!", ConsoleFunctions.PrintInfoMessage);
+                Bindings.PrintInfo($"Local Server Started at: {ReloadedServer.LocalPort}");
             }
             // If the port is occupied, an exception will be thrown.
             // Try hosting the server on another port.
-            catch (SocketException ex)
+            catch (Exception ex)
             {
                 // Print Warning
                 ConsoleFunctions.PrintMessageWithTime("Failed to create local host at port " + ServerPort + ". Attempting port " + (ServerPort + 1) + ".", ConsoleFunctions.PrintWarningMessage);
@@ -92,25 +108,24 @@ namespace Reloaded_Loader.Networking
         }
 
         /// <summary>
-        /// Handles the messages received from the individual client sockets consisting mainly of
+        /// Handles the messages received from the individual client peers consisting mainly of
         /// mods. Exposes various functionality features to mods.
         /// </summary>
-        /// <param name="clientMessage">The message struct received from the individual mod loader server clients.</param>
-        /// <param name="socket">The individual socket object to use for connection back with the mod loader clients.</param>
-        private static void MessageHandler(Message.MessageStruct clientMessage, ReloadedSocket socket)
+        /// <param name="netPeer">Contains the peer client that sent the message to the server. A wrapper around a WebSocket Client.</param>
+        /// <param name="reader">Contains the information sent by the client to the server.</param>
+        private static void MessageHandler(NetPeer netPeer, NetDataReader reader)
         {
+            // Parse the message structure.
+            Message messageStruct = Message.GetMessage(reader.GetBytesWithLength());
+
             // Pass the relevant message.
-            switch (clientMessage.MessageType)
+            switch (messageStruct.MessageType)
             {
-                // Regular Functions
-                case (ushort)MessageType.Okay: ReplyOkay.ReplyOk(socket); break;
-
                 // Text Functions
-                case (ushort)MessageType.PrintText: Print(PrintMessageType.PrintText, clientMessage.Data, socket); break;
-                case (ushort)MessageType.PrintInfo: Print(PrintMessageType.PrintInfo, clientMessage.Data, socket); break;
-                case (ushort)MessageType.PrintWarning: Print(PrintMessageType.PrintWarning, clientMessage.Data, socket); break;
-                case (ushort)MessageType.PrintError: Print(PrintMessageType.PrintError, clientMessage.Data, socket); break;
-
+                case (ushort)MessageType.PrintText: Print(PrintMessageType.PrintText, messageStruct.Data); break;
+                case (ushort)MessageType.PrintInfo: Print(PrintMessageType.PrintInfo, messageStruct.Data); break;
+                case (ushort)MessageType.PrintWarning: Print(PrintMessageType.PrintWarning, messageStruct.Data); break;
+                case (ushort)MessageType.PrintError: Print(PrintMessageType.PrintError, messageStruct.Data); break;
             }
         }
     }

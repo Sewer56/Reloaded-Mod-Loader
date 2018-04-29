@@ -18,12 +18,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Reloaded.IO.Config.Games;
 using Reloaded.IO.Config.Mods;
 using Reloaded.Utilities;

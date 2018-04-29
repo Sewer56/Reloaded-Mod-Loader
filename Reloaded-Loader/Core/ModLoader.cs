@@ -99,7 +99,7 @@ namespace Reloaded_Loader.Core
                 }
                 else
                 {
-                    string X64DllLocation = Path.Combine(gameModDirectory, modDirectory, Strings.Loader.Mod32BitDllFile);
+                    string X64DllLocation = Path.Combine(gameModDirectory, modDirectory, Strings.Loader.Mod64BitDllFile);
                     if (File.Exists(X64DllLocation))
                         modLibraries.Add(X64DllLocation);
                 }
@@ -117,7 +117,7 @@ namespace Reloaded_Loader.Core
                 }
                 else
                 {
-                    string X64DllLocation = Path.Combine(globalModDirectory, modDirectory, Strings.Loader.Mod32BitDllFile);
+                    string X64DllLocation = Path.Combine(globalModDirectory, modDirectory, Strings.Loader.Mod64BitDllFile);
                     if (File.Exists(X64DllLocation))
                         modLibraries.Add(X64DllLocation);
                 }

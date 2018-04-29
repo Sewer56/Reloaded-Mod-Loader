@@ -44,6 +44,12 @@ namespace Reloaded
             /// Contains the name of the 32bit mod DLL file for a Reloaded Mod Loader mod.
             /// </summary>
             public const string Mod64BitDllFile = "main64.dll";
+
+            /// <summary>
+            /// Defines the password used by individual clients to connect to the Reloaded Mod Loader
+            /// Server. If no matching password is found, the connection will be rejected.
+            /// </summary>
+            public const string ServerConnectKey = "CutenessIsJustice";
         }
 
         /// <summary>

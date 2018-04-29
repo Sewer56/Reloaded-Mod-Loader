@@ -21,8 +21,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using Reloaded.Process.X86Functions.CustomFunctionFactory;
 
 namespace Reloaded.Native.Helpers.Functions

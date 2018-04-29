@@ -93,7 +93,6 @@
     <Compile Include="Miscallenous\ReloadedArchitecture.cs" />
     <Compile Include="Networking\LoaderServer.cs" />
     <Compile Include="Networking\LoaderServerFunctions\PrintToScreen.cs" />
-    <Compile Include="Networking\LoaderServerFunctions\ReplyOkay.cs" />
     <Compile Include="Terminal\ConsoleFunctions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,6 +108,9 @@
   <ItemGroup>
     <PackageReference Include="Colorful.Console">
       <Version>1.2.6</Version>
+    </PackageReference>
+    <PackageReference Include="LiteNetLib">
+      <Version>0.7.7.1</Version>
     </PackageReference>
     <PackageReference Include="SharpDX">
       <Version>4.0.1</Version>

@@ -21,7 +21,6 @@
 using System;
 using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
 using Squirrel;
 
 namespace Reloaded_Wrapper_x64
@@ -39,9 +38,6 @@ namespace Reloaded_Wrapper_x64
     {
         static void Main(string[] args)
         {
-            // Squirrel.Windows stuff.
-            DoSquirrelStuff();
-
             // Load the assembly into this process.
             string directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string assemblyName = Path.Combine(directory, "Reloaded-Loader.exe");
@@ -63,32 +59,6 @@ namespace Reloaded_Wrapper_x64
 
             // Invoke the Mod Loader Loader
             methodInfo.Invoke(mainMethodType, new object[] { args });
-        }
-
-        /// <summary>
-        /// Shuts itself down upon being started by Squirrel.Windows over an update event.
-        /// </summary>
-        private static void DoSquirrelStuff()
-        {
-            try
-            {
-                // NB: Note here that HandleEvents is being called as early in startup
-                // as possible in the app. This is very important!
-                using (var updateManager = new UpdateManager("https://github.com/sewer56lol/Reloaded-Mod-Loader/releases/latest"))
-                {
-
-                    // Note, in most of these scenarios, the app exits after this method
-                    // completes!
-                    SquirrelAwareApp.HandleEvents(
-                        onInitialInstall: v => Environment.Exit(0),
-                        onAppUpdate: v => Environment.Exit(0),
-                        onAppUninstall: v => updateManager.RemoveShortcutForThisExe(),
-                        onFirstRun: () => Environment.Exit(0));
-                }
-            }
-            catch (Exception e)
-            {  }
-
         }
     }
 }

@@ -18,7 +18,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-namespace Reloaded.Networking.ModLoaderServer
+namespace libReloaded_Networking
 {
     /// <summary>
     /// Defines the different individual message types accepted by the Mod Loader Server.

@@ -19,9 +19,6 @@
 */
 
 using System.Text;
-using Reloaded.Networking;
-using Reloaded.Networking.ModLoaderServer;
-using Reloaded.Networking.Sockets;
 using Reloaded_Loader.Terminal;
 
 namespace Reloaded_Loader.Networking.LoaderServerFunctions
@@ -62,8 +59,7 @@ namespace Reloaded_Loader.Networking.LoaderServerFunctions
         /// </summary>
         /// <param name="printMessageType">The message colour/type to print.</param>
         /// <param name="asciiMessage">The character array of ASCII bytes to parse back to string. (MessageStruct.Data)</param>
-        /// <param name="socket">Sends a message back to signify that the message has successfully printed.</param>
-        public static void Print(PrintMessageType printMessageType, byte[] asciiMessage, ReloadedSocket socket)
+        public static void Print(PrintMessageType printMessageType, byte[] asciiMessage)
         {
             // Retrieve the message to print.
             string messageToPrint = Encoding.ASCII.GetString(asciiMessage);
@@ -90,9 +86,6 @@ namespace Reloaded_Loader.Networking.LoaderServerFunctions
                     ConsoleFunctions.PrintMessageWithTime(messageToPrint, ConsoleFunctions.PrintErrorMessage);
                     break;
             }
-
-            // Reply with an okay.
-            socket.SendData(new Message.MessageStruct((ushort)MessageTypes.MessageType.Okay, new byte[1] {0x90}), false);
         }
     }
 }

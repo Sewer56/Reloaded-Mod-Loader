@@ -24,7 +24,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
 using Reloaded;
 using Reloaded.IO.Config.Games;
 using Reloaded.Process;
@@ -81,6 +80,9 @@ namespace Reloaded_Loader
             // Initialize the console.
             ConsoleFunctions.Initialize();
 
+            // Setup libReloaded Debug Bindings
+            SetuplibReloadedBindings();
+
             // Print startup information.
             Banner.PrintBanner();
 
@@ -92,9 +94,6 @@ namespace Reloaded_Loader
 
             // Setup Server
             LoaderServer.SetupServer();
-
-            // Setup libReloaded Debug Bindings
-            SetuplibReloadedBindings();
 
             /* - Option Parsing, Linking - */
 
@@ -343,18 +342,12 @@ namespace Reloaded_Loader
         {
             try
             {
-                // NB: Note here that HandleEvents is being called as early in startup
-                // as possible in the app. This is very important!
-                using (var updateManager = new UpdateManager("https://github.com/sewer56lol/Reloaded-Mod-Loader/releases/latest"))
-                {
-                    // Note, in most of these scenarios, the app exits after this method
-                    // completes!
-                    SquirrelAwareApp.HandleEvents(
-                        onInitialInstall: v => Environment.Exit(0),
-                        onAppUpdate: v => Environment.Exit(0),
-                        onAppUninstall: v => updateManager.RemoveShortcutForThisExe(),
-                        onFirstRun: () => Environment.Exit(0));
-                }
+                // Note, in most of these scenarios, the app exits after this method
+                // completes!
+                SquirrelAwareApp.HandleEvents(
+                    onInitialInstall: v => Environment.Exit(0),
+                    onAppUpdate: v => Environment.Exit(0),
+                    onFirstRun: () => Environment.Exit(0));
             }
             catch (Exception e)
             { }
