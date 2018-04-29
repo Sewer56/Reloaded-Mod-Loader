@@ -2,5 +2,8 @@
 <Weavers>
   <Costura>
     <Costura IncludeDebugSymbols='true' />
+    <IncludeAssemblies>
+      Reloaded-Assembler
+    </IncludeAssemblies>
   </Costura>
 </Weavers>
