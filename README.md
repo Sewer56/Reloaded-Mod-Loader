@@ -124,6 +124,12 @@ Make sure to install Git for Windows or a compatible Git solution for windows, a
 
 ![Git for Windows setup](https://i.imgur.com/RdcabVT.png)
 
+### Cannot see local variables when debugging Reloaded Mods:
+
+Try enabling `Native Code Debugging` under Project => Properties => Debug for your current project as well as `Use Managed Compatibility Mode` under Tools => Options => Debugging.
+
+This applies regardless of whether the debugger has been manually attached at runtime by the user or via `Debugger.Launch()`.
+
 # Project Structure
 Reloaded composes of the various following sub-projects, which are all components of Project Reloaded:
 
