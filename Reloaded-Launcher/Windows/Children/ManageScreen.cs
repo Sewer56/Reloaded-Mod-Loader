@@ -187,7 +187,7 @@ namespace ReloadedLauncher.Windows.Children
                     GC.WaitForPendingFinalizers();
 
                     // Remove game config & physical location.
-                    try { Directory.Delete(Global.GameConfigurations[x].ConfigLocation, true); } catch { }
+                    try { Directory.Delete(Path.GetDirectoryName(Global.GameConfigurations[x].ConfigLocation), true); } catch { }
                     Global.GameConfigurations.RemoveAt(x);
 
                     break;
