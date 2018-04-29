@@ -22,7 +22,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace Reloaded_Mod_Template.Reloaded
+namespace Reloaded_Mod_Template.ReloadedCode
 {
     /// <summary>
     /// You know how when you inject a DLL into a process it will fail to find any of the libraries that 

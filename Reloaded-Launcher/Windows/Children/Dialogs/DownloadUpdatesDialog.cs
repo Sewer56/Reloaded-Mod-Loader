@@ -64,6 +64,11 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         public bool RestartApplication { get; set; }
 
         /// <summary>
+        /// True if the application is currently updating, else false.
+        /// </summary>
+        private bool IsCurrentlyUpdating { get; set; }
+
+        /// <summary>
         /// Contains an instance of pre-initialized and awaited GithubUpdateManager from
         /// Squirrel.Windows.
         /// </summary>
@@ -139,6 +144,10 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// <param name="e"></param>
         private async void item_Update_Click(object sender, EventArgs e)
         {
+            // Do nothing if we are currently updating.
+            if (IsCurrentlyUpdating)
+                return;
+
             // Check if update complete by chacking the value of the progressbar.
             if (borderless_UpdateProgressBar.Value == borderless_UpdateProgressBar.MAX_VALUE)
             {
@@ -150,8 +159,14 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             if (sender is Button testButton)
                 testButton.Text = "Updating";
 
+            // We're currently updating.
+            IsCurrentlyUpdating = true;
+
             // Update the application.
             await _githubUpdateManager.UpdateApp(UpdateProgress);
+
+            // Finished updating.
+            IsCurrentlyUpdating = false;
 
             // Set update progress to max.
             borderless_UpdateProgressBar.Value = borderless_UpdateProgressBar.MAX_VALUE;

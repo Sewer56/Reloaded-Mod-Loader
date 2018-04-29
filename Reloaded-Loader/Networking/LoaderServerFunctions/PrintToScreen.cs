@@ -19,6 +19,8 @@
 */
 
 using System.Text;
+using Reloaded.Networking;
+using Reloaded.Networking.ModLoaderServer;
 using Reloaded.Networking.Sockets;
 using Reloaded_Loader.Terminal;
 
@@ -88,6 +90,9 @@ namespace Reloaded_Loader.Networking.LoaderServerFunctions
                     ConsoleFunctions.PrintMessageWithTime(messageToPrint, ConsoleFunctions.PrintErrorMessage);
                     break;
             }
+
+            // Reply with an okay.
+            socket.SendData(new Message.MessageStruct((ushort)MessageTypes.MessageType.Okay, new byte[1] {0x90}), false);
         }
     }
 }

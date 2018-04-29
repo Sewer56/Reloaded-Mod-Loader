@@ -3,7 +3,7 @@ using Reloaded.Networking;
 using Reloaded.Networking.ModLoaderServer;
 using Reloaded.Networking.Sockets;
 
-namespace Reloaded_Mod_Template.Reloaded
+namespace Reloaded_Mod_Template.ReloadedCode
 {
     /// <summary>
     /// Class used for providing services via communication with the Mod Loader server.
@@ -98,7 +98,7 @@ namespace Reloaded_Mod_Template.Reloaded
             }
              
             // Send the message.
-            ServerClient.ClientSocket.SendData(clientMessage, false);
+            ServerClient.ClientSocket.SendData(clientMessage, true);
         }
     }
 }

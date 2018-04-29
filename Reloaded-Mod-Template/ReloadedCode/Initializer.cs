@@ -6,7 +6,7 @@ using Reloaded;
 using Reloaded.Process;
 using Reloaded.Process.Memory;
 
-namespace Reloaded_Mod_Template.Reloaded
+namespace Reloaded_Mod_Template.ReloadedCode
 {
     public class Initializer
     {
