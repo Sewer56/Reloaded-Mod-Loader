@@ -52,7 +52,7 @@ namespace Reloaded_Mod_Template.ReloadedCode
             // Setup Local Server Client
             EventBasedNetListener reloadedClientListener = new EventBasedNetListener();
             Client.ReloadedClient = new NetManager(reloadedClientListener, Strings.Loader.ServerConnectKey);
-            Client.ReloadedClient.Start();
+            Client.ReloadedClient.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, 0);
             Client.ReloadedClient.Connect(IPAddress.Loopback.ToString(), Program.GameProcess.ReadMemory<int>(portAddress));
         }
 

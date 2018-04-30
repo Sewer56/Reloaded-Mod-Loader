@@ -109,8 +109,8 @@
     <PackageReference Include="Colorful.Console">
       <Version>1.2.6</Version>
     </PackageReference>
-    <PackageReference Include="LiteNetLib">
-      <Version>0.7.7.1</Version>
+    <PackageReference Include="LiteNetLib-custom">
+      <Version>0.0.1</Version>
     </PackageReference>
     <PackageReference Include="SharpDX">
       <Version>4.0.1</Version>

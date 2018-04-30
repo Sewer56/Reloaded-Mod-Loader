@@ -20,6 +20,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Net;
 using libReloaded_Networking;
 using LiteNetLib;
 using LiteNetLib.Utils;
@@ -76,7 +77,7 @@ namespace Reloaded_Loader.Networking
                 ReloadedServer = new NetManager(ReloadedServerListener, Strings.Loader.ServerConnectKey);
 
                 // Start Server Internally
-                ReloadedServer.Start(ServerPort);
+                ReloadedServer.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, ServerPort);
 
                 // Ping when message is received.
                 ReloadedServerListener.PeerConnectedEvent += peer =>

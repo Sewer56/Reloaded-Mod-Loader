@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>ReloadedModLoader</id>
-    <version>0.9.88</version>
+    <version>0.9.999</version>
     <title>Reloaded Mod Loader</title>
     <authors>Sewer56lol</authors>
     <owners>Sewer56lol</owners>

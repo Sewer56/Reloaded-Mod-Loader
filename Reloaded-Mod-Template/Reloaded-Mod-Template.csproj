@@ -95,8 +95,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="LiteNetLib">
-      <Version>0.7.7.1</Version>
+    <PackageReference Include="LiteNetLib-custom">
+      <Version>0.0.1</Version>
     </PackageReference>
     <PackageReference Include="System.ValueTuple">
       <Version>4.4.0</Version>

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("libSonicHeroes")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("libReloaded")]
+[assembly: AssemblyDescription("The main library for the development of Reloaded Mod Loader Modifications.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("libSonicHeroes")]
+[assembly: AssemblyCompany("Sewer56")]
+[assembly: AssemblyProduct("libReloaded")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -116,7 +116,7 @@ namespace ReloadedAssembler
                 ReloadedServer = new NetManager(ReloadedServerListener, ReloadedCheckMessage);
 
                 // Start Server Internally
-                ReloadedServer.Start(ServerPort);
+                ReloadedServer.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, ServerPort);
 
                 // Process received events immediately.
                 ReloadedServer.UnsyncedEvents = true;

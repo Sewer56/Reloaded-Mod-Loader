@@ -12,7 +12,6 @@
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,9 +75,24 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiteNetLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteNetLib-custom.0.0.1\lib\net35\LiteNetLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.NameResolution">
+      <HintPath>..\packages\System.Net.NameResolution.4.3.0\lib\net46\System.Net.NameResolution.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.NetworkInformation">
+      <HintPath>..\packages\System.Net.NetworkInformation.4.3.0\lib\net46\System.Net.NetworkInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Thread">
+      <HintPath>..\packages\System.Threading.Thread.4.3.0\lib\net46\System.Threading.Thread.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
@@ -160,50 +174,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Costura.Fody">
-      <Version>2.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Fody">
-      <Version>3.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>11.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDisasm">
-      <Version>1.1.9</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX">
-      <Version>4.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.Desktop">
-      <Version>4.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.Direct2D1">
-      <Version>4.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.Direct3D11">
-      <Version>4.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.Direct3D9">
-      <Version>4.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.DirectInput">
-      <Version>4.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.DXGI">
-      <Version>4.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.XInput">
-      <Version>4.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
-      <Version>4.4.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.ValueTuple">
-      <Version>4.4.0</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj">
       <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
       <Name>libReloaded-Networking</Name>
@@ -214,7 +184,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="buildnuget.bat" />
     <None Include="FodyWeavers.xml" />
+    <None Include="libReloaded.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Overlay\Internal\" />

@@ -196,13 +196,13 @@ namespace ReloadedLauncher
         private static void SetupURLHandler()
         {
             // Get the user classes subkey.
-            var classesSubKey = Registry.CurrentUser.OpenSubKey("Software", true).OpenSubKey("Classes", true);
+            var classesSubKey = Registry.CurrentUser.OpenSubKey("Software", true)?.OpenSubKey("Classes", true);
 
             // Add a Reloaded Key.
-            RegistryKey reloadedProtocolKey = classesSubKey.CreateSubKey($"{Strings.Launcher.ReloadedProtocolName}");
-            reloadedProtocolKey.SetValue("", $"URL:{Strings.Launcher.ReloadedProtocolName}");
-            reloadedProtocolKey.SetValue("URL Protocol", "");
-            reloadedProtocolKey.CreateSubKey(@"shell\open\command").SetValue("", $"{Assembly.GetExecutingAssembly().Location} --download %1");
+            RegistryKey reloadedProtocolKey = classesSubKey?.CreateSubKey($"{Strings.Launcher.ReloadedProtocolName}");
+            reloadedProtocolKey?.SetValue("", $"URL:{Strings.Launcher.ReloadedProtocolName}");
+            reloadedProtocolKey?.SetValue("URL Protocol", "");
+            reloadedProtocolKey?.CreateSubKey(@"shell\open\command")?.SetValue("", $"{Assembly.GetExecutingAssembly().Location} --download %1");
         }
 
         /// <summary>
@@ -211,8 +211,6 @@ namespace ReloadedLauncher
         /// <param name="arguments">The individual commandline arguments.</param>
         private static void HandleDownloads(string[] arguments)
         {
-            Debugger.Launch();
-
             // If args are available.
             if (arguments.Length > 0)
             {

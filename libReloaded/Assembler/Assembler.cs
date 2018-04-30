@@ -184,7 +184,7 @@ namespace Reloaded.Assembler
                 // Setup Local Server Client
                 ReloadedClientListener = new EventBasedNetListener();
                 ReloadedClient = new NetManager(ReloadedClientListener, ReloadedCheckMessage);
-                ReloadedClient.Start();
+                ReloadedClient.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, 0);
                 ReloadedClient.ReconnectDelay = 50;
                 ReloadedClient.MaxConnectAttempts = 4;
                 ReloadedClient.Connect(IPAddress.Loopback.ToString(), _serverPort);
