@@ -165,7 +165,7 @@ namespace Reloaded.Assembler
                 else { currentExecutingFolder = Path.GetDirectoryName(currentExecutingFolder); }
 
                 // Create and define path in subdirectory
-                string assemblerDirectory = currentExecutingFolder + "//Reloaded-Assembler";
+                string assemblerDirectory = Path.GetTempPath();
                 string reloadedPath = assemblerDirectory + "//" + "Reloaded-Assembler.exe";
                 Directory.CreateDirectory(assemblerDirectory);
 

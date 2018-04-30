@@ -29,6 +29,7 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -41,8 +42,8 @@ namespace ReloadedLauncher
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        private static void Main()
-       {
+        private static void Main(string[] arguments)
+        {
             // Deprecate App.config, find dependent libraries ourselves.
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
@@ -53,7 +54,7 @@ namespace ReloadedLauncher
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Call the Program Initializer.
-            Initializer initializer = new Initializer();
+            Initializer initializer = new Initializer(arguments);
         }
 
 

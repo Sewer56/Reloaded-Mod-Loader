@@ -18,6 +18,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System.Windows.Forms;
 using Newtonsoft.Json;
 using Reloaded.Utilities;
 
@@ -97,6 +98,21 @@ namespace Reloaded
             /// Contains the name of the preview banners used for mods of Reloaded Mod Loader.
             /// </summary>
             public const string BannerName = "Banner.png";
+
+            /// <summary>
+            /// Contains/Stores the name of the protocol used for Reloaded Mod Loader mod downloads.
+            /// </summary>
+            public const string ReloadedProtocolName = "Reloaded";
+
+            /// <summary>
+            /// Lowercase variant of <see cref="ReloadedProtocolName"/>
+            /// </summary>
+            public const string ReloadedProtocolNameSmall = "reloaded";
+
+            /// <summary>
+            /// Contains the name of the argument used for downloading of Reloaded Compatible Archives.
+            /// </summary>
+            public const string DownloadArgumentName = "--download";
 
             /// <summary>
             /// Contains the name of the default log file used in Reloaded.

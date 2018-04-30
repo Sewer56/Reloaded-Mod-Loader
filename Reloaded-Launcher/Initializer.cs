@@ -19,9 +19,12 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using Microsoft.Win32;
+using Reloaded;
 using Reloaded.IO;
 using Reloaded.IO.Config.Loader;
 using Reloaded.Utilities;
@@ -41,7 +44,7 @@ namespace ReloadedLauncher
         /// <summary>
         /// Initializes the Windows Forms Application.
         /// </summary>
-        public Initializer()
+        public Initializer(string[] arguments)
         {
             // Initialize the Configs.
             InitializeGlobalProperties();
@@ -51,7 +54,10 @@ namespace ReloadedLauncher
 
             // Start self-update.
             DoSquirrelStuff();
-            
+
+            // Checks if the is a Reloaded Protocol download.
+            HandleDownloads(arguments);
+
             // Initialize all WinForms.
             InitializeForms();
         }
@@ -133,6 +139,9 @@ namespace ReloadedLauncher
         {
             try
             {
+                // Sets up the URL handler to point to reloaded, ran regardless of squirrel.
+                SetupURLHandler();
+
                 // Use regular update manager in case there is no found commit on Github
                 using (var tempUpdateManager = new UpdateManager(""))
                 {
@@ -178,6 +187,47 @@ namespace ReloadedLauncher
             }
             catch (Exception)
             { /* ¯\_(ツ)_/¯ */ }
+        }
+
+        /// <summary>
+        /// Registers Reloaded Mod Loader as an URL handler for the reloaded:// protocol, allowing
+        /// those links to be redirected to Reloaded for purposes such as GameBanana's 1 click mod installs.
+        /// </summary>
+        private static void SetupURLHandler()
+        {
+            // Get the user classes subkey.
+            var classesSubKey = Registry.CurrentUser.OpenSubKey("Software", true).OpenSubKey("Classes", true);
+
+            // Add a Reloaded Key.
+            RegistryKey reloadedProtocolKey = classesSubKey.CreateSubKey($"{Strings.Launcher.ReloadedProtocolName}");
+            reloadedProtocolKey.SetValue("", $"URL:{Strings.Launcher.ReloadedProtocolName}");
+            reloadedProtocolKey.SetValue("URL Protocol", "");
+            reloadedProtocolKey.CreateSubKey(@"shell\open\command").SetValue("", $"{Assembly.GetExecutingAssembly().Location} --download %1");
+        }
+
+        /// <summary>
+        /// Parses the commandline arguments and checks whether the second argument is a download link.
+        /// </summary>
+        /// <param name="arguments">The individual commandline arguments.</param>
+        private static void HandleDownloads(string[] arguments)
+        {
+            Debugger.Launch();
+
+            // If args are available.
+            if (arguments.Length > 0)
+            {
+                // Checks if we are downloading.
+                if (arguments[0] == Strings.Launcher.DownloadArgumentName)
+                {
+                    // Gets the download path for the mod.
+                    string httpPath = arguments[1];
+
+                    // Summon dialog to download the individual game mod.
+                    DownloadModDialog downloadModDialog = new DownloadModDialog(httpPath);
+                    downloadModDialog.ShowDialog();
+                    Environment.Exit(0);
+                }
+            }
         }
     }
 }
