@@ -51,7 +51,7 @@ namespace Reloaded_GUI.Utilities.Windows
                         windowLong &= ~Constants.WS_EX_CLIENTEDGE;
 
                     // Set the new extended window flags.
-                    WindowStyles.SetWindowLongPtr(new HandleRef(control, control.Handle), Constants.GWL_EXSTYLE, (IntPtr)windowLong);
+                    WindowStyles.SetWindowLongPtr(control.Handle, Constants.GWL_EXSTYLE, (IntPtr)windowLong);
                 }
             }
         }

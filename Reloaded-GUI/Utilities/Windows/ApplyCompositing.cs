@@ -45,7 +45,7 @@ namespace Reloaded_GUI.Utilities.Windows
             extendedWindowStyle |= Constants.WS_EX_COMPOSITED;
 
             // Set window style.
-            WindowStyles.SetWindowLongPtr(new HandleRef(windowsForm, windowsForm.Handle), Constants.GWL_EXSTYLE, (IntPtr)extendedWindowStyle);
+            WindowStyles.SetWindowLongPtr(windowsForm.Handle, Constants.GWL_EXSTYLE, (IntPtr)extendedWindowStyle);
         }
     }
 }

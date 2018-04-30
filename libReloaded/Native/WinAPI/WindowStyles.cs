@@ -33,10 +33,10 @@ namespace Reloaded.Native.WinAPI
         /// 
 
         [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
-        private static extern uint SetWindowLong32(HandleRef hWnd, int nIndex, uint dwNewLong );
+        private static extern int SetWindowLong32(IntPtr hWnd, int nIndex, int dwNewLong);
 
         [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
-        private static extern IntPtr SetWindowLongPtr64(HandleRef hWnd, int nIndex, IntPtr dwNewLong);
+        private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
         /// <summary>
         /// Sets window properties to the user specified window properties.
@@ -44,20 +44,18 @@ namespace Reloaded.Native.WinAPI
         /// Likely to be used in order to change extended window properties.
         /// </summary>
         /// <param name="hWnd">
-        /// Handle Reference to the window we are modifying.
-        /// The handle reference is defined as object,handle.
-        /// e.g. For Windows form: new HandleRef(this,this.Handle)
+        ///     Handle Reference to the window we are modifying.
         /// </param>
         /// <param name="nIndex">See MSDN: https://msdn.microsoft.com/en-us/library/windows/desktop/ms633591(v=vs.85).aspx</param>
         /// <param name="dwNewLong">The value to be set.</param>
         /// <returns>The old value prior to being overwritten.</returns>
-        public static IntPtr SetWindowLongPtr(HandleRef hWnd, int nIndex, IntPtr dwNewLong)
+        public static IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
         {
             // Check if x64
             if (IntPtr.Size == 8) return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
 
             // Else go x86
-            return (IntPtr)SetWindowLong32(hWnd, nIndex, ( uint )dwNewLong);
+            return new IntPtr(SetWindowLong32(hWnd, nIndex, dwNewLong.ToInt32()));
         }
 
         /// 
@@ -65,7 +63,7 @@ namespace Reloaded.Native.WinAPI
         /// 
 
         [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
-        private static extern int GetWindowLongPtr32(IntPtr hWnd, int nIndex);
+        private static extern IntPtr GetWindowLongPtr32(IntPtr hWnd, int nIndex);
 
         [DllImport("user32.dll", EntryPoint = "GetWindowLongPtr")]
         private static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, int nIndex);
@@ -84,7 +82,7 @@ namespace Reloaded.Native.WinAPI
             if (IntPtr.Size == 8) return GetWindowLongPtr64(hWnd, nIndex);
 
             // Else go x86
-            return (IntPtr)GetWindowLongPtr32(hWnd, nIndex);
+            return GetWindowLongPtr32(hWnd, nIndex);
         }
 
         /// <summary>

@@ -58,7 +58,7 @@ namespace Reloaded_GUI.Styles.Controls.Enhanced
                     if ((windowStyle & Constants.WS_VSCROLL) == Constants.WS_VSCROLL) windowStyle = windowStyle & ~Constants.WS_VSCROLL;
 
                     // Write the initial window style.
-                    WindowStyles.SetWindowLongPtr(new HandleRef(this, Handle), Constants.GWL_STYLE, (IntPtr)windowStyle);
+                    WindowStyles.SetWindowLongPtr(Handle, Constants.GWL_STYLE, (IntPtr)windowStyle);
 
                     // Send the message to the base function, for potential painting purposes.
                     base.WndProc(ref message);

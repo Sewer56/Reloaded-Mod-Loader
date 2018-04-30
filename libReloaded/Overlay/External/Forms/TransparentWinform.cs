@@ -108,7 +108,7 @@ namespace Reloaded.Overlay.External.Forms
             // Set the new window style
             WindowStyles.SetWindowLongPtr
             (
-                new HandleRef(this, Handle),    // Handle reference for the window.  
+                Handle,                // Handle reference for the window.  
                 Constants.GWL_EXSTYLE, // nIndex which writes to the currently set window style.
 
                 // Set window as layered window, transparent (removes hit testing when layered) and keep it topmost.

@@ -109,7 +109,7 @@ namespace Reloaded.Native.WinAPI
         /// If the function fails, the return value is zero. To get extended error information, call GetLastError.
         /// </returns>
         [DllImport("user32.dll", SetLastError = true)]
-        internal static extern bool MoveWindow(IntPtr hWnd, int x, int y, int nWidth, int nHeight, bool bRepaint);
+        public static extern bool MoveWindow(IntPtr hWnd, int x, int y, int nWidth, int nHeight, bool bRepaint);
 
         /// <summary>
         /// Tries to find a window by matching the name of the window with all of the current top-level windows (does not search child windows).
