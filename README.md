@@ -84,11 +84,12 @@ Reloaded contains multiple, very well documented sets of functions allowing you 
  - [x] DirectX 9, 11 hooking (overlays)
  - [x] Reloaded Input Stack: Extremely customizable input support for mods (dual XInput + DInput), featuring hotplugging, on the fly remapping, button to axis, axis to axis, deadzone, radius customization etc.
  - [x] List of mods to always load, regardless of game (for common utilities, e.g. borderless, file read/write monitor)
+ - [x] Third party one-click mod install support (custom URI handler)
  - [x] Self updating
 
 ### Todo (Short term: Working at it now!)
 To be completed until first public release:
- - [ ] Third party one-click mod install support (GameBanana, separate application to Launcher)
+
  - [ ] Reloaded-wiki
  - [ ] Other quality of life features and improvements, bug fixes that come to mind
 
@@ -164,3 +165,6 @@ For mod loader mods, it is packed with all of its dependencies during the build 
 
 ## libReloaded
 The main bulk of the project. The library whose code is shared between all of the individual Reloaded projects and is directly used in mod development. Constitutes around 80% of the overall code base.
+
+## libReloaded-Networking
+Used to be my own from the ground up TCP based networking implementation, although has since been replaced with an external, dedicated library to the task. The last commit to have the networking code is https://github.com/sewer56lol/Reloaded-Mod-Loader/commit/181c782e23ced0b793138a00a2f710b32834a856 on 29/04/2018.
