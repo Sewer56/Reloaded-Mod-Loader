@@ -108,7 +108,8 @@ namespace Reloaded_Mod_Template
         private static void BuildFileRedirectionDictionary(List<ModConfigParser.ModConfig> modConfigurations, GameConfigParser.GameConfig currentGameConfig)
         {
             // Instance dictionary.
-            remapperDictionary = new Dictionary<string, string>();
+            // OrdinalIgnoreCase = Ignore capitals/smalls in paths, we later want no case sensitivity when mapping A to B.
+            remapperDictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
             // Enumerate over all mods, iterating over their directories.
             foreach (var modConfiguration in modConfigurations)
