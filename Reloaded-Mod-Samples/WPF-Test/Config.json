@@ -1,0 +1,9 @@
+{
+  "ModName": "[X86/X64] Sample WPF Overlay",
+  "ModDescription": "Provides an example of how GUI utilities, debugging tools/overlays could be developed with libReloaded.",
+  "ModVersion": "1.0.0",
+  "ModAuthor": "Sewer56lol",
+  "ThemeSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+  "ThemeGithub": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+  "ModConfigExe": "N/A"
+}
