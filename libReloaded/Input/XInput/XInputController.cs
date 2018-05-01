@@ -265,6 +265,8 @@ namespace Reloaded.Input.XInput
 
             controllerInputs.ControllerButtons.ButtonLb = GetButtonState(ControllerButtonsGeneric.ButtonLb);
             controllerInputs.ControllerButtons.ButtonRb = GetButtonState(ControllerButtonsGeneric.ButtonRb);
+            controllerInputs.ControllerButtons.ButtonLs = GetButtonState(ControllerButtonsGeneric.ButtonLs);
+            controllerInputs.ControllerButtons.ButtonRs = GetButtonState(ControllerButtonsGeneric.ButtonRs);
 
             controllerInputs.ControllerButtons.ButtonBack = GetButtonState(ControllerButtonsGeneric.ButtonBack);
             controllerInputs.ControllerButtons.ButtonGuide = GetButtonState(ControllerButtonsGeneric.ButtonGuide);
