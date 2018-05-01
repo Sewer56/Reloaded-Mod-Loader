@@ -53,7 +53,7 @@ namespace Reloaded_Mod_Template
                 Reloaded Mod Loader Sample: DX9 Internal Overlay Example
                 Architectures supported: X86
 
-                Demonstrates the very basics required to draw with Reloaded's DirectX 9 hooking mechanism,
+                Demonstrates an example of drawing with Reloaded's DirectX 9 hooking mechanism,
                 the API that's used by a large majority of the games out there at the time of writing.
 
                 Note: Debugging this might prove troublesome for this entry function, with async methods,
