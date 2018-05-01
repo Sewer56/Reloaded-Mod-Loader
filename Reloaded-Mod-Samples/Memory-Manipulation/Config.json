@@ -1,0 +1,9 @@
+{
+  "ModName": "[X86/X64] Memory Manipulation Example",
+  "ModDescription": "A Simple Guide on Memory Manipulation with Reloaded.",
+  "ModVersion": "1.0.0",
+  "ModAuthor": "Sewer56lol",
+  "ThemeSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+  "ThemeGithub": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+  "ModConfigExe": "N/A"
+}
