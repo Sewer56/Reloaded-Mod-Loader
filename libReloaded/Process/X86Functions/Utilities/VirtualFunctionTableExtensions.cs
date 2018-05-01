@@ -50,7 +50,7 @@ namespace Reloaded.Process.X86Functions.Utilities
         /// <returns>Delegate to assign back to ReloadedFunction marked game function.</returns>
         public static FunctionHook<TFunction> CreateFunctionHook<TFunction>(this VirtualFunctionTable.TableEntry tableEntry, TFunction delegateType)
         {
-            return new FunctionHook<TFunction>((long)tableEntry.FunctionPointer, delegateType);
+            return FunctionHook<TFunction>.Create((long)tableEntry.FunctionPointer, delegateType);
         }
     }
 }

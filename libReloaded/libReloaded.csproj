@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <!-- Allows for adding of WPF forms: -->
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -74,10 +76,21 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|AnyCPU'">
+    <OutputPath>bin\Github-Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|x86'">
+    <OutputPath>bin\x86\Github-Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|x64'">
+    <OutputPath>bin\x64\Github-Release\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="LiteNetLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LiteNetLib-custom.0.0.1\lib\net35\LiteNetLib.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -94,6 +107,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assembler\Assembler.cs" />
@@ -105,7 +119,9 @@
     <Compile Include="DirectX\DXHookCommon.cs" />
     <Compile Include="IO\Config\ConfigManager.cs" />
     <Compile Include="IO\Config\Utilities\ModUtilities.cs" />
+    <Compile Include="Native\Helpers\Arrays\ArrayPtrExternal.cs" />
     <Compile Include="Native\Helpers\Arrays\ArrayPtr.cs" />
+    <Compile Include="Native\Helpers\Arrays\FixedArrayPtrExternal.cs" />
     <Compile Include="Native\Helpers\Arrays\FixedArrayPtr.cs" />
     <Compile Include="Native\Helpers\Functions\FunctionPtr.cs" />
     <Compile Include="Native\Helpers\Pointer.cs" />

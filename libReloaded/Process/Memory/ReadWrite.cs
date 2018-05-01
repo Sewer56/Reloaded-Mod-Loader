@@ -103,7 +103,7 @@ namespace Reloaded.Process.Memory
             // Read memory
             byte[] buffer = new byte[length];
 
-            fixed ( byte* pBuffer = &buffer[0] )
+            fixed (byte* pBuffer = &buffer[0])
                 Unsafe.CopyBlock(pBuffer, address.ToPointer(), (uint)length);
 
             // Return the buffer.
@@ -590,7 +590,7 @@ namespace Reloaded.Process.Memory
         public static unsafe byte[] ConvertStructureToByteArrayUnsafe<TStructure>(TStructure structure)
         {
             byte[] buffer = new byte[Unsafe.SizeOf<TStructure>()];
-            fixed ( byte* pBuffer = &buffer[ 0 ] )
+            fixed ( byte* pBuffer = &buffer[0] )
                 Unsafe.Write( pBuffer, structure );
 
             return buffer;

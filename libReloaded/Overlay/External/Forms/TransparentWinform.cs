@@ -201,6 +201,8 @@ namespace Reloaded.Overlay.External.Forms
             {
                 // Set active window
                 Native.WinAPI.WindowFunctions.SetActiveWindow(GameWindowHandle);
+                this.Refresh();
+                this.Invalidate();
             }
         }
     }

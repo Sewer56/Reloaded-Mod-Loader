@@ -147,8 +147,8 @@ namespace Reloaded.Overlay
             VirtualFunctionTable.TableEntry resetTableEntry = dx9Overlay.DirectX9Hook.DirectXFunctions[(int)Direct3DDevice9.Reset];
 
             // Hook relevant DirectX functions.
-            dx9Overlay.EndSceneHook = new FunctionHook<Direct3D9Device_EndSceneDelegate>((long)endSceneTableEntry.FunctionPointer, renderDelegate);
-            dx9Overlay.ResetHook = new FunctionHook<Direct3D9Device_ResetDelegate>((long)resetTableEntry.FunctionPointer, resetDelegate);
+            dx9Overlay.EndSceneHook = FunctionHook<Direct3D9Device_EndSceneDelegate>.Create((long)endSceneTableEntry.FunctionPointer, renderDelegate);
+            dx9Overlay.ResetHook = FunctionHook<Direct3D9Device_ResetDelegate>.Create((long)resetTableEntry.FunctionPointer, resetDelegate);
 
             // Return our DX9Overlay
             return dx9Overlay;

@@ -130,6 +130,16 @@ namespace Reloaded.Native.WinAPI
         public static extern bool IsWindowVisible(IntPtr hWnd);
 
         /// <summary>
+        /// Brings the thread that created the specified window into the foreground and activates the window.
+        /// Keyboard input is directed to the window, and various visual cues are changed for the user.
+        /// The system assigns a slightly higher priority to the thread that created the foreground window than it does to other threads.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window that should be activated and brought to the foreground.</param>
+        /// <returns>True if success</returns>
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        /// <summary>
         /// Extends the window frame into the client area.
         /// </summary>
         /// <param name="hWnd">The handle of the window of whose aero glass frame is to be extended.</param>

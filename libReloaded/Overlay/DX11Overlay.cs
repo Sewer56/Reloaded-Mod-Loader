@@ -190,8 +190,8 @@ namespace Reloaded.Overlay
             VirtualFunctionTable.TableEntry resizeTableEntry = dx11Overlay.DirectX11Hook.DXGISwapChainFunctions[(int)IDXGISwapChain.ResizeTarget];
 
             // Hook relevant DirectX functions.
-            dx11Overlay.PresentHook = new FunctionHook<DXGISwapChain_PresentDelegate>((long)presentTableEntry.FunctionPointer, DXGIPresentDelegate);
-            dx11Overlay.ResizeTargetHook = new FunctionHook<DXGISwapChain_ResizeTargetDelegate>((long)resizeTableEntry.FunctionPointer, DXGIResizeTargetDelegate);
+            dx11Overlay.PresentHook = FunctionHook<DXGISwapChain_PresentDelegate>.Create((long)presentTableEntry.FunctionPointer, DXGIPresentDelegate);
+            dx11Overlay.ResizeTargetHook = FunctionHook<DXGISwapChain_ResizeTargetDelegate>.Create((long)resizeTableEntry.FunctionPointer, DXGIResizeTargetDelegate);
             //dx11Overlay.direct2DRenderMethod = renderDelegate;
 
             // Return our DX9Overlay

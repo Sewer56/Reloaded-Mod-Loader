@@ -104,6 +104,15 @@
   <PropertyGroup>
     <ApplicationIcon>appicon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|AnyCPU'">
+    <OutputPath>bin\Github-Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|x86'">
+    <OutputPath>bin\x86\Github-Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|x64'">
+    <OutputPath>bin\x64\Github-Release\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ColorMine">
       <HintPath>C:\Users\sewer56lol\.nuget\packages\colormine\1.2.0\lib\net45\ColorMine.dll</HintPath>

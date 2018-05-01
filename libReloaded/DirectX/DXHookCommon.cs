@@ -82,7 +82,7 @@ namespace Reloaded.DirectX
                 if (attempts * delayTimeMilliseconds > timeoutMillisecondsHooking)
                 {
                     Bindings.PrintError(
-                        "libReloaded Hooking: DirectX module not found, the application is either not" +
+                        "libReloaded Hooking: DirectX module not found, the application is either not " +
                         "a DirectX application or uses an unsupported version of DirectX.");
                     return Direct3DVersion.Null;
                 }

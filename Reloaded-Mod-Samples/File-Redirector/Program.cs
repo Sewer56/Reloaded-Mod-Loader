@@ -95,9 +95,9 @@ namespace Reloaded_Mod_Template
             BuildFileRedirectionDictionary(enabledMods, currentGameConfig);
 
             // Hook the obtained function pointers.
-            createFileAHook = new FunctionHook<CreateFileA>((long)createFileAPointer, CreateFileAImpl);
-            createFileWHook = new FunctionHook<CreateFileW>((long)createFileWPointer, CreateFileWImpl);
-            createFileHook = new FunctionHook<CreateFile>((long)createFilePointer, CreateFileImpl);
+            createFileAHook = FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl);
+            createFileWHook = FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl);
+            createFileHook = FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl);
         }
 
         /// <summary>

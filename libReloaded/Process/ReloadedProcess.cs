@@ -125,24 +125,24 @@ namespace Reloaded.Process
         { }
 
         /// <summary>
-        /// Creates an instance of ReloadedProcess from a supplied process
+        /// Creates an instance of ReloadedProcess from a supplied system process.
         /// </summary>
-        /// <param name="processId">The process ID (PID) to create the Reloaded Process from.</param>
-        public ReloadedProcess( SystemProcess process ) : this()
+        /// <param name="process">Instance of System.Diagnostics.Process to create ReloadedProcess from.</param>
+        public ReloadedProcess(SystemProcess process) : this()
         {
             Process = process;
 
             // Set Process ID
-            ProcessId = ( IntPtr )process.Id;
+            ProcessId = (IntPtr)process.Id;
 
             // Get Process Handle
-            ProcessHandle = Native.Native.OpenProcess( Native.Native.PROCESS_ALL_ACCESS, false, ( int )ProcessId );
+            ProcessHandle = Native.Native.OpenProcess(Native.Native.PROCESS_ALL_ACCESS, false, (int)ProcessId);
 
             // Set thread id and handle to be that of first thread.
-            ThreadId = ( IntPtr )process.Threads[0].Id;
+            ThreadId = (IntPtr)process.Threads[0].Id;
 
             // Set thread handle to be that of the first thread.
-            ThreadHandle = Native.Native.OpenThread( Native.Native.THREAD_ALL_ACCESS, false, ( int )ThreadId );
+            ThreadHandle = Native.Native.OpenThread(Native.Native.THREAD_ALL_ACCESS, false, (int)ThreadId);
         }
 
         /// <summary>

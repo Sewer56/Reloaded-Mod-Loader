@@ -366,17 +366,13 @@ namespace Reloaded.Overlay.External
         /// <summary>
         /// Attaches a Windows Forms window to the overlay.
         /// </summary>
-        /// <param name="yourForm">Your windows form.</param>
-        public void AttachWinForm(Form yourForm)
+        public static void AttachWinForm(IntPtr yourFormHandle, IntPtr targetFormHandle)
         {
-            // Define handle to your own Windows form.
-            IntPtr yourFormHandle = yourForm.Handle;
-
             // Set parent form.
-            WindowFunctions.SetParent(yourFormHandle, OverlayForm.Handle);
+            WindowFunctions.SetParent(yourFormHandle, targetFormHandle);
 
             // Bring the user's form to front.
-            yourForm.BringToFront();
+            WindowFunctions.SetForegroundWindow(yourFormHandle);
         }
     }
 }
