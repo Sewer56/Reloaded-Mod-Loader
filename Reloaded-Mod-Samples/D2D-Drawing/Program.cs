@@ -134,6 +134,7 @@ namespace Reloaded_Mod_Template
         /// <param name="direct2DWindowTarget">Use this object to draw!</param>
         private static void RenderDelegate(RenderTarget direct2DWindowTarget)
         {
+
             // Initialize brushes, etc. if not initialized.
             if (!_initialized)
                 InitializeProperties(direct2DWindowTarget);
@@ -176,6 +177,7 @@ namespace Reloaded_Mod_Template
             };
 
             /* Text Properties */
+            _textFormat?.Dispose();
             _textFormat = new TextFormat(new SharpDX.DirectWrite.Factory(), "Times New Roman", 20);
             _textFormat.TextAlignment = TextAlignment.Center;
 
@@ -202,26 +204,36 @@ namespace Reloaded_Mod_Template
             }
 
             // Conditionally dispose.
+            Debugger.Launch();
+            _squareGradientBrush?.Factory?.Dispose();
+            _squareGradientBrush?.GradientStopCollection?.Dispose();
             _squareGradientBrush?.Dispose();
+            _squareRadialGradientBrush?.Factory?.Dispose();
+            _squareRadialGradientBrush?.GradientStopCollection?.Dispose();
             _squareRadialGradientBrush?.Dispose();
 
-            /* How about a brush with a gradient? */
-            LinearGradientBrushProperties linearGradientBrushProperties = new LinearGradientBrushProperties()
+            // Fix memory leak with GradientStopCollection
+            // Thanks, anonymous StackOverflow user! https://stackoverflow.com/questions/47876001/mysterious-direct2d-memory-leak-with-gradients
+            using (var gradientStopCollection = new GradientStopCollection(direct2DWindowTarget, _gradientStops))
             {
-                StartPoint = new RawVector2(_gradientRectangle.Top - 50, _gradientRectangle.Left - 50),      // Note: Physical location of the start point, in this case top left corner.
-                EndPoint = new RawVector2(_gradientRectangle.Bottom + 50, _gradientRectangle.Right + 50)     // Note: Physical location of the start point, in this case bottom right corner.
-            };
-            _squareGradientBrush = new LinearGradientBrush(direct2DWindowTarget, linearGradientBrushProperties, new GradientStopCollection(direct2DWindowTarget, _gradientStops));
+                /* How about a brush with a gradient? */
+                LinearGradientBrushProperties linearGradientBrushProperties = new LinearGradientBrushProperties()
+                {
+                    StartPoint = new RawVector2(_gradientRectangle.Top - 50, _gradientRectangle.Left - 50),      // Note: Physical location of the start point, in this case top left corner.
+                    EndPoint = new RawVector2(_gradientRectangle.Bottom + 50, _gradientRectangle.Right + 50)     // Note: Physical location of the start point, in this case bottom right corner.
+                };
+                _squareGradientBrush = new LinearGradientBrush(direct2DWindowTarget, linearGradientBrushProperties, gradientStopCollection);
 
-            /* A radial brush? */
-            RadialGradientBrushProperties radialGradientBrushProperties = new RadialGradientBrushProperties()
-            {
-                Center = new RawVector2(_radialRectangle.Left + 50, _radialRectangle.Top + 50),    // Note: Physical location of the start point, in this case the actual center.
-                GradientOriginOffset = new RawVector2(0, 0),
-                RadiusX = 100,
-                RadiusY = 100
-            };
-            _squareRadialGradientBrush = new RadialGradientBrush(direct2DWindowTarget, radialGradientBrushProperties, new GradientStopCollection(direct2DWindowTarget, _gradientStops));
+                /* A radial brush? */
+                RadialGradientBrushProperties radialGradientBrushProperties = new RadialGradientBrushProperties()
+                {
+                    Center = new RawVector2(_radialRectangle.Left + 50, _radialRectangle.Top + 50),    // Note: Physical location of the start point, in this case the actual center.
+                    GradientOriginOffset = new RawVector2(0, 0), 
+                    RadiusX = 100,
+                    RadiusY = 100
+                };
+                _squareRadialGradientBrush = new RadialGradientBrush(direct2DWindowTarget, radialGradientBrushProperties, gradientStopCollection);
+            }
         }
     }
 }
