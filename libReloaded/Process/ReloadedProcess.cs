@@ -35,7 +35,7 @@ namespace Reloaded.Process
         /// <summary>
         /// Stores an instance of System.Diagnostics.Process inside ReloadedProcess.
         /// </summary>
-        public SystemProcess Process { get; private set; }
+        public SystemProcess Process { get; set; }
 
         /// <summary>
         /// A handle to the program's first thread itself. 

@@ -23,16 +23,18 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Interop;
 using Reloaded.Native.WinAPI;
-using Reloaded.Overlay.External.Forms;
+using Reloaded.Overlay.External.WinForms;
+using Reloaded.Overlay.Modules;
 
-namespace Reloaded.Overlay.External
+namespace Reloaded.Overlay.External.D2D
 {
     /// <summary>
     /// This class is responsible for allowing you to instantiate a Windows Forms overlay which will be drawn ontop of a game
     /// or chosen window, providing the target window isn't in exclusive fullscreen mode.
     /// </summary>
-    public class ExternalWindowOverlay
+    public class D2DOverlay
     {
         /// <summary>
         /// Fake glass form which we will be overlaying the game with.
@@ -42,7 +44,7 @@ namespace Reloaded.Overlay.External
         /// <summary>
         /// A thread which hosts the glass overlay windows form, ensuring that it keeps running.
         /// </summary>
-        public Thread WindowsFormThread { get; private set; }
+        public Thread WPFThread { get; private set; }
 
         /// <summary>
         /// A thread which hosts the render loop, automatically calling your Direct2D Render Delegate
@@ -55,6 +57,11 @@ namespace Reloaded.Overlay.External
         /// of our invisible Windows Form.
         /// </summary>
         public D2DWindowRenderer DirectD2DWindowRenderer { get; set; }
+
+        /// <summary>
+        /// This is kept only to ensure no garbage collection.
+        /// </summary>
+        private System.Windows.Application _windowsApplication;
 
         /// <summary>
         /// Defines the amount of time of sleep for the CPU, rounded down to the nearest millisecond.
@@ -70,7 +77,7 @@ namespace Reloaded.Overlay.External
         /// Empty private constructor, use factory method.
         /// See <see cref="CreateExternalWindowOverlay"/>
         /// </summary>
-        private ExternalWindowOverlay() { }
+        private D2DOverlay() { }
 
         /// <summary>
         /// Class constructor. Instantiates both the overlay and DirectX Stuff.
@@ -87,7 +94,7 @@ namespace Reloaded.Overlay.External
         ///     1. True if the window has been found and overlay has been instantiated, else false.
         ///     2. An instance of self (ExternalWindowOverlay) with the overlay enabled and running.
         /// </returns>
-        public static async Task<(bool success, ExternalWindowOverlay overlay)> CreateExternalWindowOverlay(string gameWindowName, D2DWindowRenderer.DelegateRenderDirect2D renderDelegate)
+        public static async Task<(bool success, D2DOverlay overlay)> CreateExternalWindowOverlay(string gameWindowName, D2DWindowRenderer.DelegateRenderDirect2D renderDelegate)
         {
             return await CreateExternalWindowOverlay(gameWindowName, renderDelegate, 0);
         }
@@ -111,13 +118,13 @@ namespace Reloaded.Overlay.External
         ///     1. True if the window has been found and overlay has been instantiated, else false.
         ///     2. An instance of self (ExternalWindowOverlay) with the overlay enabled and running.
         /// </returns>
-        public static async Task<(bool success, ExternalWindowOverlay overlay)> CreateExternalWindowOverlay(string gameWindowName, D2DWindowRenderer.DelegateRenderDirect2D renderDelegate, int hookDelay)
+        public static async Task<(bool success, D2DOverlay overlay)> CreateExternalWindowOverlay(string gameWindowName, D2DWindowRenderer.DelegateRenderDirect2D renderDelegate, int hookDelay)
         {
             // Apply hook delay
             await Task.Delay(hookDelay);
 
             // Create self.
-            ExternalWindowOverlay externalWindowOverlay = new ExternalWindowOverlay();
+            D2DOverlay externalWindowOverlay = new D2DOverlay();
 
             // Wait for and find the game window.
             IntPtr windowHandle = await FindWindowHandleByName(gameWindowName);
@@ -154,7 +161,7 @@ namespace Reloaded.Overlay.External
         ///     window with Direct2D. 
         /// </param>
         /// <returns>An instance of self (ExternalWindowOverlay) with the overlay enabled and running.</returns>
-        public static async Task<ExternalWindowOverlay> CreateExternalWindowOverlay(IntPtr gameWindowHandle, D2DWindowRenderer.DelegateRenderDirect2D renderDelegate)
+        public static async Task<D2DOverlay> CreateExternalWindowOverlay(IntPtr gameWindowHandle, D2DWindowRenderer.DelegateRenderDirect2D renderDelegate)
         {
             return await CreateExternalWindowOverlay(gameWindowHandle, renderDelegate, 0);
         }
@@ -177,7 +184,7 @@ namespace Reloaded.Overlay.External
         ///     Some games are known to crash if DirectX is hooked too early.
         /// </param>
         /// <returns>An instance of self (ExternalWindowOverlay) with the overlay enabled and running.</returns>
-        public static async Task<ExternalWindowOverlay> CreateExternalWindowOverlay(IntPtr gameWindowHandle, D2DWindowRenderer.DelegateRenderDirect2D renderDelegate, int hookDelay)
+        public static async Task<D2DOverlay> CreateExternalWindowOverlay(IntPtr gameWindowHandle, D2DWindowRenderer.DelegateRenderDirect2D renderDelegate, int hookDelay)
         {
             // Apply hook delay
             await Task.Delay(hookDelay);
@@ -187,7 +194,7 @@ namespace Reloaded.Overlay.External
                 await Task.Delay(32);
 
             // Create self.
-            ExternalWindowOverlay externalWindowOverlay = new ExternalWindowOverlay();
+            D2DOverlay externalWindowOverlay = new D2DOverlay();
 
             // Enable the overlay.
             externalWindowOverlay.EnableOverlay(renderDelegate, gameWindowHandle);
@@ -206,7 +213,7 @@ namespace Reloaded.Overlay.External
         ///     window with Direct2D. 
         /// </param>
         /// <returns>An instance of self (ExternalWindowOverlay) with the overlay enabled and running.</returns>
-        public static async Task<ExternalWindowOverlay> CreateExternalWindowOverlay(D2DWindowRenderer.DelegateRenderDirect2D renderDelegate)
+        public static async Task<D2DOverlay> CreateExternalWindowOverlay(D2DWindowRenderer.DelegateRenderDirect2D renderDelegate)
         {
             return await CreateExternalWindowOverlay(renderDelegate, 0);
         }
@@ -225,7 +232,7 @@ namespace Reloaded.Overlay.External
         ///     Some games are known to crash if DirectX is hooked too early.
         /// </param>
         /// <returns>An instance of self (ExternalWindowOverlay) with the overlay enabled and running.</returns>
-        public static async Task<ExternalWindowOverlay> CreateExternalWindowOverlay(D2DWindowRenderer.DelegateRenderDirect2D renderDelegate, int hookDelay)
+        public static async Task<D2DOverlay> CreateExternalWindowOverlay(D2DWindowRenderer.DelegateRenderDirect2D renderDelegate, int hookDelay)
         {
             // Apply hook delay
             await Task.Delay(hookDelay);
@@ -242,7 +249,7 @@ namespace Reloaded.Overlay.External
                 await Task.Delay(32);
 
             // Create self.
-            ExternalWindowOverlay externalWindowOverlay = new ExternalWindowOverlay();
+            D2DOverlay externalWindowOverlay = new D2DOverlay();
 
             // Enable the overlay.
             externalWindowOverlay.EnableOverlay(renderDelegate, gameProcess.MainWindowHandle);
@@ -272,7 +279,7 @@ namespace Reloaded.Overlay.External
             StopWatch.Start();
 
             // Enable the Overlay Window.
-            WindowsFormThread = new Thread (() =>
+            WPFThread = new Thread (() =>
             {
                 // Instantiate glass form
                 OverlayForm = new TransparentWinform(targetWindowHandle);
@@ -283,7 +290,7 @@ namespace Reloaded.Overlay.External
                 // Setup hook for when window resizes.
                 OverlayForm.GameWindowResizeDelegate += () => DirectD2DWindowRenderer.ResizeWindow(OverlayForm.Handle);
 
-                // Run the form in this thread
+                // Run the form in this thread.
                 Application.Run(OverlayForm);
             } );
             
@@ -299,7 +306,8 @@ namespace Reloaded.Overlay.External
                     }
                 }
             );
-            WindowsFormThread.Start();
+            WPFThread.SetApartmentState(ApartmentState.STA);
+            WPFThread.Start();
             RenderLoopThread.Start();
         }
 

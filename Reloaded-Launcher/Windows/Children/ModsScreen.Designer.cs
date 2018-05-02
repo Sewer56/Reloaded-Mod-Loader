@@ -71,28 +71,28 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage11 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage12 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties7 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage13 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage14 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            Reloaded_GUI.Styles.Animation.AnimProperties animProperties7 = new Reloaded_GUI.Styles.Animation.AnimProperties();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage13 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            Reloaded_GUI.Styles.Animation.AnimMessage animMessage14 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             this.borderless_SourceBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.borderless_WebBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_ModPreviewBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.borderless_ConfigBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_DescriptionBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_ModList = new Reloaded_GUI.Styles.Controls.Animated.AnimatedDataGridView();
+            this.box_ModListBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.box_ModPreview = new System.Windows.Forms.PictureBox();
+            this.item_ModDescription = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.modEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Author = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.separator = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.box_ModListBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.box_ModPreview = new System.Windows.Forms.PictureBox();
-            this.item_ModDescription = new EnhancedLabel();
             ((System.ComponentModel.ISupportInitialize)(this.box_ModList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_ModPreview)).BeginInit();
             this.SuspendLayout();
@@ -120,7 +120,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_SourceBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.borderless_SourceBox.FlatAppearance.BorderSize = 0;
             this.borderless_SourceBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_SourceBox.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_SourceBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_SourceBox.ForeColor = System.Drawing.Color.White;
             this.borderless_SourceBox.IgnoreMouse = false;
             this.borderless_SourceBox.IgnoreMouseClicks = false;
@@ -160,7 +160,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_WebBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.borderless_WebBox.FlatAppearance.BorderSize = 0;
             this.borderless_WebBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_WebBox.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_WebBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_WebBox.ForeColor = System.Drawing.Color.White;
             this.borderless_WebBox.IgnoreMouse = false;
             this.borderless_WebBox.IgnoreMouseClicks = false;
@@ -237,7 +237,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_ConfigBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.borderless_ConfigBox.FlatAppearance.BorderSize = 0;
             this.borderless_ConfigBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_ConfigBox.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_ConfigBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.borderless_ConfigBox.ForeColor = System.Drawing.Color.White;
             this.borderless_ConfigBox.IgnoreMouse = false;
             this.borderless_ConfigBox.IgnoreMouseClicks = false;
@@ -329,7 +329,7 @@ namespace ReloadedLauncher.Windows.Children
             this.modDirectory});
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Roboto Mono", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
@@ -357,62 +357,6 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ModList.TabIndex = 14;
             this.box_ModList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Box_ModList_CellClick);
             this.box_ModList.SelectionChanged += new System.EventHandler(this.ModList_SelectionChanged);
-            // 
-            // modEnabled
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.modEnabled.DefaultCellStyle = dataGridViewCellStyle1;
-            this.modEnabled.FillWeight = 20.30457F;
-            this.modEnabled.HeaderText = "Enabled";
-            this.modEnabled.Name = "modEnabled";
-            this.modEnabled.ReadOnly = true;
-            this.modEnabled.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.modEnabled.Width = 50;
-            // 
-            // modName
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.modName.DefaultCellStyle = dataGridViewCellStyle2;
-            this.modName.FillWeight = 192.7388F;
-            this.modName.HeaderText = "Name";
-            this.modName.Name = "modName";
-            this.modName.ReadOnly = true;
-            this.modName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.modName.Width = 250;
-            // 
-            // Author
-            // 
-            this.Author.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.Author.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Author.FillWeight = 126.5651F;
-            this.Author.HeaderText = "Author";
-            this.Author.Name = "Author";
-            this.Author.ReadOnly = true;
-            this.Author.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // separator
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.separator.DefaultCellStyle = dataGridViewCellStyle4;
-            this.separator.HeaderText = "Separator";
-            this.separator.Name = "separator";
-            this.separator.ReadOnly = true;
-            this.separator.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.separator.Width = 20;
-            // 
-            // modDirectory
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.modDirectory.DefaultCellStyle = dataGridViewCellStyle5;
-            this.modDirectory.FillWeight = 60.39148F;
-            this.modDirectory.HeaderText = "Version";
-            this.modDirectory.Name = "modDirectory";
-            this.modDirectory.ReadOnly = true;
-            this.modDirectory.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.modDirectory.Width = 60;
             // 
             // box_ModListBox
             // 
@@ -464,7 +408,7 @@ namespace ReloadedLauncher.Windows.Children
             // 
             this.item_ModDescription.BackColor = System.Drawing.Color.Transparent;
             this.item_ModDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_ModDescription.Font = new System.Drawing.Font("Roboto Mono", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_ModDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.item_ModDescription.ForeColor = System.Drawing.Color.White;
             this.item_ModDescription.IgnoreMouse = false;
             this.item_ModDescription.Location = new System.Drawing.Point(59, 418);
@@ -477,7 +421,62 @@ namespace ReloadedLauncher.Windows.Children
             this.item_ModDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.item_ModDescription.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
-            // Mods_Screen
+            // modEnabled
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.modEnabled.DefaultCellStyle = dataGridViewCellStyle1;
+            this.modEnabled.FillWeight = 20.30457F;
+            this.modEnabled.HeaderText = "Enabled";
+            this.modEnabled.Name = "modEnabled";
+            this.modEnabled.ReadOnly = true;
+            this.modEnabled.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.modEnabled.Width = 50;
+            // 
+            // modName
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.modName.DefaultCellStyle = dataGridViewCellStyle2;
+            this.modName.FillWeight = 192.7388F;
+            this.modName.HeaderText = "Name";
+            this.modName.Name = "modName";
+            this.modName.ReadOnly = true;
+            this.modName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.modName.Width = 300;
+            // 
+            // Author
+            // 
+            this.Author.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.Author.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Author.FillWeight = 126.5651F;
+            this.Author.HeaderText = "Author";
+            this.Author.Name = "Author";
+            this.Author.ReadOnly = true;
+            this.Author.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // separator
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.separator.DefaultCellStyle = dataGridViewCellStyle4;
+            this.separator.HeaderText = "Separator";
+            this.separator.Name = "separator";
+            this.separator.ReadOnly = true;
+            this.separator.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.separator.Width = 20;
+            // 
+            // modDirectory
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.modDirectory.DefaultCellStyle = dataGridViewCellStyle5;
+            this.modDirectory.FillWeight = 60.39148F;
+            this.modDirectory.HeaderText = "Version";
+            this.modDirectory.Name = "modDirectory";
+            this.modDirectory.ReadOnly = true;
+            this.modDirectory.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.modDirectory.Width = 60;
+            // 
+            // ModsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -506,11 +505,6 @@ namespace ReloadedLauncher.Windows.Children
         #endregion
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedButton box_ModListBox;
         private AnimatedDataGridView box_ModList;
-        private System.Windows.Forms.DataGridViewTextBoxColumn modEnabled;
-        private System.Windows.Forms.DataGridViewTextBoxColumn modName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Author;
-        private System.Windows.Forms.DataGridViewTextBoxColumn separator;
-        private System.Windows.Forms.DataGridViewTextBoxColumn modDirectory;
         private EnhancedLabel item_ModDescription;
         private AnimatedButton box_DescriptionBox;
         private AnimatedButton box_ModPreviewBox;
@@ -518,5 +512,10 @@ namespace ReloadedLauncher.Windows.Children
         public AnimatedButton borderless_ConfigBox;
         public AnimatedButton borderless_WebBox;
         public AnimatedButton borderless_SourceBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn modEnabled;
+        private System.Windows.Forms.DataGridViewTextBoxColumn modName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Author;
+        private System.Windows.Forms.DataGridViewTextBoxColumn separator;
+        private System.Windows.Forms.DataGridViewTextBoxColumn modDirectory;
     }
 }

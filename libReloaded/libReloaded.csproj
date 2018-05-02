@@ -102,12 +102,11 @@
       <HintPath>..\packages\System.Net.NetworkInformation.4.3.0\lib\net46\System.Net.NetworkInformation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Threading.Thread">
-      <HintPath>..\packages\System.Threading.Thread.4.3.0\lib\net46\System.Threading.Thread.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assembler\Assembler.cs" />
@@ -130,8 +129,16 @@
     <Compile Include="Native\WinAPI\WindowEventHooks.cs" />
     <Compile Include="Native\WinAPI\WindowFunctions.cs" />
     <Compile Include="Native\WinAPI\WindowStyles.cs" />
-    <Compile Include="Overlay\DX11Overlay.cs" />
-    <Compile Include="Overlay\DX9Overlay.cs" />
+    <Compile Include="Overlay\External\WPF\Controls\D2DRenderControl.cs" />
+    <Compile Include="Overlay\External\D2D\WPFOverlayWindow.xaml.cs">
+      <DependentUpon>WPFOverlayWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Overlay\External\WPF\Structures\GameWindowProperties.cs" />
+    <Compile Include="Overlay\External\WPF\Structures\WindowFollowMode.cs" />
+    <Compile Include="Overlay\External\WPF\Utilities\MoveWindow.cs" />
+    <Compile Include="Overlay\External\WPF\WPFOverlayHelper.cs" />
+    <Compile Include="Overlay\Internal\DX11Overlay.cs" />
+    <Compile Include="Overlay\Internal\DX9Overlay.cs" />
     <Compile Include="DirectX\Definitions\IDirect3DDevice9.cs" />
     <Compile Include="DirectX\Direct3DVersion.cs" />
     <Compile Include="DirectX\DX9Hook.cs" />
@@ -173,19 +180,19 @@
     <Compile Include="Utilities\LoaderPaths.cs" />
     <Compile Include="Utilities\PathSanitizer.cs" />
     <Compile Include="Native\Functions\WindowProperties.cs" />
-    <Compile Include="Overlay\D2DWindowRenderer.cs" />
-    <Compile Include="Overlay\External\Forms\TransparentWinform.cs">
+    <Compile Include="Overlay\Modules\D2DWindowRenderer.cs" />
+    <Compile Include="Overlay\External\WinForms\TransparentWinform.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Overlay\External\Forms\TransparentWinform.Designer.cs">
+    <Compile Include="Overlay\External\WinForms\TransparentWinform.Designer.cs">
       <DependentUpon>TransparentWinform.cs</DependentUpon>
     </Compile>
-    <Compile Include="Overlay\External\ExternalWindowOverlay.cs" />
+    <Compile Include="Overlay\External\D2D\Legacy\WinForms\D2DOverlay.cs" />
     <Compile Include="Process\DLLInjector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Overlay\External\Forms\TransparentWinform.resx">
+    <EmbeddedResource Include="Overlay\External\WinForms\TransparentWinform.resx">
       <DependentUpon>TransparentWinform.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -193,6 +200,10 @@
     <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj">
       <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
       <Name>libReloaded-Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LocalDependencies\D2dControl-master\D2dControl\D2DControl-Modified.csproj">
+      <Project>{77b47659-264d-4803-b61e-3fa109f3ae31}</Project>
+      <Name>D2DControl-Modified</Name>
     </ProjectReference>
     <ProjectReference Include="..\ReloadedAssemblerService\Reloaded-Assembler.csproj">
       <Project>{2e4eb0b6-fead-48ba-85bd-0a3879467a9e}</Project>
@@ -208,7 +219,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Overlay\Internal\" />
+    <Page Include="Overlay\External\D2D\WPFOverlayWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

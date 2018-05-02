@@ -29,7 +29,7 @@ using Reloaded.Process.X86Functions.Utilities;
 using Reloaded.Process.X86Hooking;
 using SharpDX.DXGI;
 
-namespace Reloaded.Overlay
+namespace Reloaded.Overlay.Internal
 {
     /// <summary>
     /// The <see cref="DX11Overlay"/> class provides support for drawing of internal overlays using Direct2D

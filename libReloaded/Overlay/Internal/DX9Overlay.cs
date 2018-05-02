@@ -29,7 +29,7 @@ using Reloaded.Process.X86Functions.Utilities;
 using Reloaded.Process.X86Hooking;
 using SharpDX.Direct3D9;
 
-namespace Reloaded.Overlay
+namespace Reloaded.Overlay.Internal
 {
     /// <summary>
     /// The <see cref="DX9Overlay"/> class provides support for each drawing of internal overlays

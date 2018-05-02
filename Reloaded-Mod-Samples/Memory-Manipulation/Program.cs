@@ -53,7 +53,7 @@ namespace Reloaded_Mod_Template
             // Debugger.Launch();
 
             /// //////////////////////////////////
-            /// Example #2: Reading/Writing Memory
+            /// Example #1: Reading/Writing Memory
             /// //////////////////////////////////
 
             // First let's allocate some memory to write our data to.
