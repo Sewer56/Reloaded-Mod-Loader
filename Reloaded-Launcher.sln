@@ -42,7 +42,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF-Demo", "Reloaded-Mod-Sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memory-Manipulation", "Reloaded-Mod-Samples\Memory-Manipulation\Memory-Manipulation.csproj", "{FD7300E8-B781-4099-9CAB-BAA3D0ED2735}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D2D-Drawing-Demo", "Reloaded-Mod-Samples\DX9-Drawing\D2D-Drawing-Demo.csproj", "{1D01D798-3917-4785-8A40-93A91B5B28FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DX9-Drawing-Demo", "Reloaded-Mod-Samples\DX9-Drawing\DX9-Drawing-Demo.csproj", "{1D01D798-3917-4785-8A40-93A91B5B28FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF-D2D-Hybrid-Demo", "Reloaded-Mod-Samples\D2D-Drawing\WPF-D2D-Hybrid-Demo.csproj", "{B0F400D6-0993-487B-991D-A3410FBC2729}"
 	ProjectSection(ProjectDependencies) = postProject
