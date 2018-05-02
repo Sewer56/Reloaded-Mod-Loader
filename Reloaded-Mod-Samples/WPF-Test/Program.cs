@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Drawing;
 using System.Threading;
-using System.Windows.Forms;
-using System.Windows.Interop;
-using Reloaded.Native.Functions;
-using Reloaded.Native.WinAPI;
-using Reloaded.Overlay.External;
-using Reloaded.Overlay.External.Forms;
+using Reloaded.Overlay.External.WinForms;
 using Reloaded.Process;
-using static Reloaded.Native.WinAPI.WindowStyles;
-using static Reloaded.Native.WinAPI.Constants;
 
 namespace Reloaded_Mod_Template
 {

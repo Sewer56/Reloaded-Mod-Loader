@@ -20,12 +20,11 @@
 
 using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Reloaded.Native.Functions;
 using Reloaded.Native.WinAPI;
-using static Reloaded.Native.Functions.WindowProperties;
 
-namespace Reloaded.Overlay.External.Forms
+namespace Reloaded.Overlay.External.WinForms
 {
     public partial class TransparentWinform : Form
     {
@@ -59,6 +58,9 @@ namespace Reloaded.Overlay.External.Forms
 
             // Set handle to game window.
             GameWindowHandle = gameWindowHandle;
+
+            // Set owner window
+            WindowStyles.SetWindowLongPtr(Handle, -8, gameWindowHandle);
 
             // Set up the glass window to overlay over target window.
             SetupWindow();
@@ -119,7 +121,7 @@ namespace Reloaded.Overlay.External.Forms
             WindowStyles.SetLayeredWindowAttributes(Handle, 0, 255, Constants.LWA_ALPHA);
 
             // Set window as topmost.
-            TopMost = true;
+            TopMost = false;
         }
 
         /// <summary>
@@ -151,7 +153,7 @@ namespace Reloaded.Overlay.External.Forms
         public void AdjustOverlayToGameWindow()
         {
             // Get game client edges.
-            Structures.WinapiRectangle gameClientSize = GetClientRectangle(GameWindowHandle);
+            Structures.WinapiRectangle gameClientSize = WindowProperties.GetClientRectangle(GameWindowHandle);
 
             // Set overlay edges to the edges of the client area.
             Left = gameClientSize.LeftBorder;
@@ -162,10 +164,10 @@ namespace Reloaded.Overlay.External.Forms
             Height = gameClientSize.BottomBorder - gameClientSize.TopBorder;
 
             // Call resize delegate.
-            if (lastWindowSize != GetClientAreaSize2(GameWindowHandle))
+            if (lastWindowSize != WindowProperties.GetClientAreaSize2(GameWindowHandle))
             { GameWindowResizeDelegate?.Invoke(); }
 
-            lastWindowSize = GetClientAreaSize2(GameWindowHandle);
+            lastWindowSize = WindowProperties.GetClientAreaSize2(GameWindowHandle);
         }
 
         /// <summary>

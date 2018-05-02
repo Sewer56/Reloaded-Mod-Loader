@@ -28,7 +28,7 @@ using AlphaMode = SharpDX.Direct2D1.AlphaMode;
 using Factory = SharpDX.Direct2D1.Factory;
 using WindowProperties = Reloaded.Native.Functions.WindowProperties;
 
-namespace Reloaded.Overlay
+namespace Reloaded.Overlay.Modules
 {
     /// <summary>
     /// Base class storing all Direct2D Code used for rendering to a window.

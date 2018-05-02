@@ -8,6 +8,7 @@ using ColorMine.ColorSpaces;
 using libReloaded_Networking;
 using Reloaded.DirectX.Definitions;
 using Reloaded.Overlay;
+using Reloaded.Overlay.Internal;
 using Reloaded.Process;
 using Reloaded.Process.X86Functions;
 using Reloaded.Process.X86Functions.CustomFunctionFactory;
@@ -208,6 +209,7 @@ namespace Reloaded_Mod_Template
                 _vertexDeclaration = new VertexDeclaration(device, vertexElems);
 
                 // Wrap SetPixelShader for us to call later (otherwise our shape may not show)
+                // This uses Reloaded's Virtual Function Table Utility Class
                 VirtualFunctionTable.TableEntry vTableEntry = _directX9Overlay.DirectX9Hook.DirectXFunctions[(int)Direct3DDevice9.SetPixelShader];
                 _setPixelShaderFunction = vTableEntry.CreateX86WrapperFunction<SetPixelShaderDelegate>();
 
