@@ -149,7 +149,7 @@ namespace Reloaded.Process.X86Hooking
             */
 
             // Backup game's hook bytes.
-            // Check if stolen bytes contains a jmp as first (other hooks) 
+            // Check if stolen bytes contains a jmp (other hooks) 
             // Calculate jump back address for original function.
             // Append absolute JMP instruction to return to original function for calling the original function in hook.
             List<byte> stolenBytes = Bindings.TargetProcess.ReadMemoryExternal((IntPtr)gameFunctionAddress, hookLength).ToList();

@@ -43,11 +43,11 @@ namespace Reloaded_Mod_Template
          *
          *  Brief Walkthrough:
          *
-         *  > Reloaded/Initializer.cs
+         *  > ReloadedCode/Initializer.cs
          *      Stores Reloaded Mod Loader DLL Template/Initialization Code.
          *      You are not required/should not (need) to modify any of the code.
          *
-         *  > Reloaded/Client.cs
+         *  > ReloadedCode/Client.cs
          *      Contains various pieces of code to interact with the mod loader server.
          *
          *      For convenience it's recommended you import Client static(ally) into your
@@ -55,9 +55,6 @@ namespace Reloaded_Mod_Template
          *
          *      This will avoid you typing the full class name and let you simply type
          *      e.g. Print("SomeTextToConsole").
-         *
-         *  Reloaded Wiki:
-         *      <TBA>
          *
          *  -------------------------------------------------------------------------------
          *
