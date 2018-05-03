@@ -99,9 +99,7 @@ namespace Reloaded.Process
             System.Diagnostics.Process gameProcess = reloadedProcess.GetProcessFromReloadedProcess();
 
             // Get current thread (do not affect self)
-
             int currentThreadId = (int)Native.Native.GetCurrentThreadId();
-            Bindings.PrintInfo($"{currentThreadId}");
 
             // For each thread.
             foreach (ProcessThread processThread in gameProcess.Threads)
@@ -109,11 +107,14 @@ namespace Reloaded.Process
                 // Ignore self
                 if (processThread.Id != currentThreadId)
                 {
-                    // Get thread handle
-                    IntPtr suspendThreadHandle = Native.Native.OpenThread(Native.Native.THREAD_ALL_ACCESS, false, processThread.Id);
+                    if (processThread.ThreadState == System.Diagnostics.ThreadState.Running)
+                    {
+                        // Get thread handle
+                        IntPtr suspendThreadHandle = Native.Native.OpenThread(Native.Native.THREAD_ALL_ACCESS, false, processThread.Id);
 
-                    // Suspend Thread
-                    SuspendThread(suspendThreadHandle);
+                        // Suspend Thread
+                        SuspendThread(suspendThreadHandle);
+                    }
                 }
             }
         }
