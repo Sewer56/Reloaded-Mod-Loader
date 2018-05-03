@@ -49,18 +49,18 @@ I would recommend having a source copy of libReloaded to allow you to become mor
 Reloaded is intended to be easy to pick up and learn, while at the same time being very powerful :).
 
 ## Starting Reloaded C# Projects
- - Clone the Reloaded sources to a new folder.
+ - Clone the Reloaded Mod Template sources to a new folder.
  ```bash
-git clone https://github.com/sewer56lol/Reloaded-Mod-Loader
+git clone https://github.com/sewer56lol/Reloaded-Mod-Template
 ```
-- Right click in solution explorer and work with the Reloaded Mod Template.
+- Open .csproj in Visual Studio and restore NuGet packages.
 
-This may sound a bit counter-intuitive at first, but will save you a bit of hassle at the current time. In the future there will be a NuGet package alternative (if not already), currently though I wait while things stabilise.
+Now you're done (* ^ ω ^), go play around!
 
-All modifications are essentially standalone programs, making them backwards and forwards compatible. There is no obligation for you to git rebase your sources for mod development if the loader or launcher are updated, it is entirely up to your choice.
+Note: If this is your first time, I would first recommend looking at mod samples beforehand to get a jist of working with Reloaded, they can be found in Reloaded's main Mod Loader repository.
 
 PS. Remember to change the output path.
-Default Mod Path: `%AppData%/Roaming/Reloaded-Mod-Loader/Reloaded-Mods`
+Loader Mod Directory: `%AppData%/Roaming/Reloaded-Mod-Loader/Reloaded-Mods`
 
 ## Troubleshooting
 
