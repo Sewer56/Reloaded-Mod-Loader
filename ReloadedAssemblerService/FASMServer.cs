@@ -31,6 +31,7 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -115,14 +116,14 @@ namespace ReloadedAssembler
                 ReloadedServerListener = new EventBasedNetListener();
                 ReloadedServer = new NetManager(ReloadedServerListener, ReloadedCheckMessage);
 
-                // Start Server Internally
-                ReloadedServer.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, ServerPort);
-
                 // Process received events immediately.
                 ReloadedServer.UnsyncedEvents = true;
 
                 // Send received data to the message handler
                 ReloadedServerListener.NetworkReceiveEvent += ReceiveMessage;
+
+                // Start Server Internally
+                ReloadedServer.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, ServerPort);
             }
             catch (SocketException)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 using Reloaded;
 using Reloaded.Assembler;
 using Reloaded.Process;
@@ -100,7 +101,9 @@ namespace Reloaded_Mod_Template
         /// </summary>
         public static unsafe void Init()
         {
+            Debugger.Launch();
             Bindings.PrintInfo("Hello World!");
+            Assembler.Assemble(new[] {"use32", "mov eax, ebx", "mov eax, 0x123456"});
         }
     }
 }
