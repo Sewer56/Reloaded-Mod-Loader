@@ -114,9 +114,6 @@
     <PackageReference Include="SharpDX.Mathematics">
       <Version>4.0.1</Version>
     </PackageReference>
-    <PackageReference Include="System.ValueTuple">
-      <Version>4.4.0</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libReloaded-Networking\libReloaded-Networking.csproj">
@@ -126,10 +123,6 @@
     <ProjectReference Include="..\..\libReloaded\libReloaded.csproj">
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
       <Name>libReloaded</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\LocalDependencies\D2dControl-master\D2dControl\D2DControl-Modified.csproj">
-      <Project>{f3ed9cef-8e61-4b40-8e47-de9a97b10301}</Project>
-      <Name>D2DControl-Modified</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
