@@ -99,7 +99,9 @@ namespace Reloaded.Process
             System.Diagnostics.Process gameProcess = reloadedProcess.GetProcessFromReloadedProcess();
 
             // Get current thread (do not affect self)
-            int currentThreadId = Thread.CurrentThread.ManagedThreadId;
+            #pragma warning disable 618
+            int currentThreadId = AppDomain.GetCurrentThreadId();
+            #pragma warning restore 618
 
             // For each thread.
             foreach (ProcessThread processThread in gameProcess.Threads)
