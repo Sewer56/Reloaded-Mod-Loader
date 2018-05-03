@@ -1,17 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2E4EB0B6-FEAD-48BA-85BD-0A3879467A9E}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <TargetFramework>net471</TargetFramework>
     <RootNamespace>ReloadedAssembler</RootNamespace>
-    <AssemblyName>Reloaded-Assembler</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp></NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
+    <OutputType>WinExe</OutputType>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -71,15 +70,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|AnyCPU'">
-    <OutputPath>bin\Github-Release\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|x86'">
-    <OutputPath>bin\x86\Github-Release\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|x64'">
-    <OutputPath>bin\x64\Github-Release\</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Costura.Fody" Version="2.0.0" />
     <PackageReference Include="Fasm.NET" Version="1.70.3.2" />
@@ -89,26 +79,24 @@
     <PackageReference Include="System.Net.NetworkInformation" Version="4.3.0" />
     <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
   </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|AnyCPU'">
+    <OutputPath>bin\Github-Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|x86'">
+    <OutputPath>bin\x86\Github-Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|x64'">
+    <OutputPath>bin\x64\Github-Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="FASMServer.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="FodyWeavers.xml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj">
-      <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
-      <Name>libReloaded-Networking</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

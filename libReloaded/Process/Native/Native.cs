@@ -230,6 +230,13 @@ namespace Reloaded.Process.Native
         public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, IntPtr dwSize, out IntPtr lpNumberOfBytesRead);
 
         /// <summary>
+        /// Retrieves the ID of the currently running thread.
+        /// </summary>
+        /// <returns>The ID of the currently runing thread.</returns>
+        [DllImport("kernel32.dll")]
+        public static extern uint GetCurrentThreadId();
+
+        /// <summary>
         /// VirtualProtect
         ///     Changes the protection on a region of committed pages in the 
         ///     virtual address space of the calling process.
