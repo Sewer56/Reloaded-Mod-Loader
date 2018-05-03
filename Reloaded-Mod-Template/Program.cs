@@ -98,7 +98,7 @@ namespace Reloaded_Mod_Template
         /// If this is your first time, do consider reading the notice above.
         /// It contains some very useful information.
         /// </summary>
-        public static void Init()
+        public static unsafe void Init()
         {
             Bindings.PrintInfo("Hello World!");
         }
