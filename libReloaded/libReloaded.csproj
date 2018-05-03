@@ -91,6 +91,7 @@
     <RepositoryUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageReleaseNotes>Main Development Library for Reloaded Mod Loader v1.03</PackageReleaseNotes>
+    <Authors>Sewer56</Authors>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj" />
