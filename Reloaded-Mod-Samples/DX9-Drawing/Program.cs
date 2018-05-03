@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Windows.Forms;
 using ColorMine.ColorSpaces;
-using libReloaded_Networking;
 using Reloaded.DirectX.Definitions;
-using Reloaded.Overlay;
 using Reloaded.Overlay.Internal;
 using Reloaded.Process;
 using Reloaded.Process.X86Functions;
 using Reloaded.Process.X86Functions.CustomFunctionFactory;
 using Reloaded.Process.X86Functions.Utilities;
-using Reloaded_GUI.Styles.Animation;
-using Reloaded_GUI.Utilities.Colour;
 using SharpDX;
 using SharpDX.Direct3D9;
 using SharpDX.Mathematics.Interop;
@@ -61,6 +54,14 @@ namespace Reloaded_Mod_Template
                 local variable values are not exactly known to show in all configurations.
 
                 The following sample has been tested with Sonic Adventure 2 and Sonic Heroes (under Crosire's D3D8To9).
+            */
+            
+            /*
+                AnimInterpolator: A tool for generating intermediate LCH colours between two targets.
+                ColorspaceConverter: Converts between System.Drawing.Color and LCH in batch.
+
+                Both of these have been shamelessly and lazily stolen from Reloaded's
+                Reloaded-GUI project for the Launcher WinForms GUI, please do not heed them any mind.
             */
 
             // Calculate triangle render colours (for animation).

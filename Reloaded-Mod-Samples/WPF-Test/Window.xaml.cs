@@ -8,7 +8,6 @@ using Reloaded.Input;
 using Reloaded.Input.Common;
 using Reloaded.Overlay.External.WPF;
 using Reloaded.Overlay.External.WPF.Structures;
-using static Reloaded_GUI.Utilities.Windows.MoveWindow;
 
 namespace Reloaded_Mod_Template
 {
@@ -118,8 +117,8 @@ namespace Reloaded_Mod_Template
         {
             if (_overlayHelper.WindowFollowMode != WindowFollowMode.Overlay)
             {
-                // Reusing Reloaded-GUI (Launcher Theming/Utility Library)
-                MoveTheWindow(new WindowInteropHelper(this).Handle);
+                // Reusing Reloaded-GUI's (Launcher Theming/Utility Library)
+                MoveWindow.MoveTheWindow(new WindowInteropHelper(this).Handle);
             }
         }
 
