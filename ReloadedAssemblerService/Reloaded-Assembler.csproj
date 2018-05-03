@@ -88,7 +88,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|x64'">
     <OutputPath>bin\x64\Github-Release\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup />
+  <PropertyGroup>
+    <Authors>Sewer56</Authors>
+    <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/Reloaded-GUI/Images/Static/ReloadedIcon.png</PackageIconUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj" />
   </ItemGroup>

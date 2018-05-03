@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ReloadedAssemblerService")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Part of libReloaded and Reloaded Mod Loader: Wraps FASM.NET around a background WebSocket service to which other clients may connect to.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ReloadedAssemblerService")]

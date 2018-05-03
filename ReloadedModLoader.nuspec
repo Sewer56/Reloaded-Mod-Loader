@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>ReloadedModLoader</id>
+    <version>1.0.2</version>
+    <title>Reloaded Mod Loader</title>
+    <authors>Sewer56lol</authors>
+    <owners>Sewer56lol</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/Reloaded-GUI/Images/Static/ReloadedIcon.png</iconUrl>
+    <description>A bundle consisting of the Reloaded Mod Loader launcher, loader and some sample modifications.</description>
+    <copyright>Sewer56 2018</copyright>
+  </metadata>
+</package>
+
+<!-- For Squirrel.Windows -->

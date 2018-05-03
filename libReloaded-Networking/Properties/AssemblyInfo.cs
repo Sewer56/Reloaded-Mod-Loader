@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("libReloaded-Networking")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Networking component of libReloaded, split off to prevent circular dependency with Reloaded-Assembler that needs to be compiled directly into libReloaded.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("libReloaded-Networking")]
