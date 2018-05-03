@@ -204,7 +204,6 @@ namespace Reloaded_Mod_Template
             }
 
             // Conditionally dispose.
-            Debugger.Launch();
             _squareGradientBrush?.Factory?.Dispose();
             _squareGradientBrush?.GradientStopCollection?.Dispose();
             _squareGradientBrush?.Dispose();
