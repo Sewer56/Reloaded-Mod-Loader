@@ -211,7 +211,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="buildnuget.bat" />
     <None Include="FodyWeavers.xml" />
     <None Include="libReloaded.nuspec">
       <SubType>Designer</SubType>

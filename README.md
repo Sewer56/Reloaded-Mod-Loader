@@ -108,15 +108,7 @@ Any contributions to speed the process up would kindly be accepted.
 
 ## Compiling Guidance
 
- - Clone this repository and the submodules.
- ```bash
-git clone https://github.com/sewer56lol/Reloaded-Mod-Loader
-cd Reloaded-Mod-Loader
-git submodule update --init --recursive
-```
-- Open 'Reloaded-Launcher.sln' in Visual Studio.
-- Right-click solution in Solution Explorer and restore NuGet packages.
-- Now you're done (* ^ ω ^), go play around!
+
 
 ## Troubleshooting
 
