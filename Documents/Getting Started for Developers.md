@@ -97,7 +97,7 @@ There's your base address back to add to a variable or function offset, enjoy yo
 ### Can I use Reloaded Mod Loader alongside [X] Mod Loader
 If you want just the simple answer, see the user guide.
 
-If you want the technical explanation, see [Hooks Interop.md]()
+If you want the technical explanation, see [Hooks Interop.md](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Hooks%20Interop.md)
 
 tl;dr 99.9% of the cases everything will work perfectly with you having to do 0% work.
 
