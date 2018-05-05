@@ -50,14 +50,8 @@ namespace ReloadedAssembler
             if (Process.GetProcessesByName("ReloadedAssembler").Length > 1)
             { Environment.Exit(0); }
 
-            #if DEBUG
             FasmServer fasmServer = new FasmServer();
             Thread.Sleep(Timeout.Infinite);
-            #endif
-
-            // Run as a windows service
-            var servicesToRun = new ServiceBase[] { new FasmServer() };
-            ServiceBase.Run(servicesToRun);
         }
     }
 }
