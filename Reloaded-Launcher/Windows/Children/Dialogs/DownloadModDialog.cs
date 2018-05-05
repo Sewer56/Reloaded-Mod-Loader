@@ -21,17 +21,21 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using Reloaded.Native.WinAPI;
 using Reloaded_GUI.Styles.Themes.ApplyTheme;
 using Reloaded_GUI.Utilities.Windows;
 using System.Net;
+using System.Net.Mime;
+using System.Text.RegularExpressions;
 using Reloaded;
 using Reloaded.IO.Config;
 using Reloaded.IO.Config.Games;
 using Reloaded.Utilities;
 using Reloaded_GUI.Styles.Themes;
+using SevenZipExtractor;
 using SharpCompress.Readers;
 
 namespace ReloadedLauncher.Windows.Children.Dialogs
@@ -92,6 +96,12 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
 
             // Set the URL to download.
             ModificationURL = modDownloadURL;
+
+            // Strip the Reloaded Link Specifier (if necessary)
+            if (ModificationURL.StartsWith(Strings.Launcher.ReloadedProtocolName, true, CultureInfo.InvariantCulture))
+            {
+                ModificationURL = Regex.Replace(ModificationURL, "reloaded:", "", RegexOptions.IgnoreCase);
+            }
         }
 
         /// <summary>
@@ -160,13 +170,28 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
 
                 // Get the current game configuration.
                 GameConfigParser.GameConfig gameConfig = gameConfigs[borderless_SelectGame.SelectedIndex];
+
+                // Try to get the file name of the file
                 string fileName = "temp.archive";
+                try
+                {
+                    using (WebClient client = new WebClient())
+                    {
+                        // Obtain the name of the file.
+                        client.OpenRead(ModificationURL);
+                        fileName = new ContentDisposition(client.ResponseHeaders["content-disposition"]).FileName;
+                    }
+                }
+                catch { }
+
+                // Set the other paths.
                 string gameModDirectory = $"{LoaderPaths.GetModLoaderModDirectory()}\\{gameConfig.ModDirectory}";
                 string fileLocationOutput = $"{gameModDirectory}\\{fileName}";
 
                 // Setup the modification download.
                 using (WebClient client = new WebClient())
                 {
+                    // Obtain the name of the file.
                     Uri fileDownloadUri = new Uri(ModificationURL);
                     client.DownloadProgressChanged += ClientOnUploadProgressChanged;
 
@@ -181,19 +206,10 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
                 testButton.Text = "Unpacking";
 
                 // Unpacking
-                using (Stream stream = File.OpenRead(fileLocationOutput))
-                using (var reader = ReaderFactory.Open(stream))
+                using (ArchiveFile archiveFile = new ArchiveFile(fileLocationOutput))
                 {
-                    // Update progress when unpacking.
-                    reader.EntryExtractionProgress += (item, readerProgress) => testButton.Text = $"{readerProgress.ReaderProgress}%";
-
-                    // Unpack
-                    reader.WriteAllToDirectory($"{gameModDirectory}\\", new ExtractionOptions()
-                    {
-                        ExtractFullPath = true,
-                        Overwrite = true
-                    });
-                }
+                    archiveFile.Extract($"{gameModDirectory}\\");
+                }        
 
                 // Delete original.
                 File.Delete(fileLocationOutput);
