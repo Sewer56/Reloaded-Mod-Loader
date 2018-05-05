@@ -73,8 +73,13 @@ namespace Reloaded.Overlay.External.D2D
         private IntPtr _targetWindowHandle;
 
         /// <summary>
+        /// [WPF-D2D Mixed Overlay]
         /// Creates an instance of the WPF overlay used for providing a Direct2D Render Surface for the user.
         /// Protip: Copy this class to your own project if you want to mix WPF and Direct2D.
+        /// 
+        /// Note: This is for complete freaks who want the most choice in drawing, this class IS NOT GOOD for performance,
+        /// if you want performance consider an internal DX9 overlay instead or use a pure WPF overlay (see Reloaded Samples).
+        /// If you want Direct2D only at a good performance level, consider the option in the Overlay.External.Legacy namespace.
         /// </summary>
         public WPFOverlayWindow(IntPtr targetWindowHandle, D2DRenderControl.DelegateRenderDirect2D renderDelegate)
         {

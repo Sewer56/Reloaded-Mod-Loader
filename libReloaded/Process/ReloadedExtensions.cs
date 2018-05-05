@@ -43,6 +43,12 @@ namespace Reloaded.Process
         public static extern uint SuspendThread(IntPtr hThread);
 
         /// <summary>
+        /// Suspends a windows on windows64 thread supplied by the handle.
+        /// </summary>
+        [DllImport("kernel32.dll")]
+        public static extern uint Wow64SuspendThread(IntPtr hThread);
+
+        /// <summary>
         /// Resumes the first/main/primary thread assigned to the Reloaded Process object.
         /// Note: It's not recommended to run this from a hook, first thread might be your program's current thread.
         /// </summary>
@@ -70,7 +76,7 @@ namespace Reloaded.Process
             System.Diagnostics.Process gameProcess = reloadedProcess.GetProcessFromReloadedProcess();
 
             // Get current thread (do not affect self)
-            int currentThreadId = Thread.CurrentThread.ManagedThreadId;
+            int currentThreadId = (int)Native.Native.GetCurrentThreadId();
 
             // For each thread.
             foreach (ProcessThread processThread in gameProcess.Threads)
@@ -79,7 +85,7 @@ namespace Reloaded.Process
                 if (processThread.Id != currentThreadId)
                 {
                     // Get thread handle
-                    IntPtr resumeThreadHandle = Native.Native.OpenThread(Native.Native.THREAD_ALL_ACCESS, false, processThread.Id);
+                    IntPtr resumeThreadHandle = Native.Native.OpenThread(Native.Native.THREAD_SUSPEND_RESUME, false, processThread.Id);
 
                     // Suspend Thread
                     ResumeThread(resumeThreadHandle);
@@ -107,14 +113,11 @@ namespace Reloaded.Process
                 // Ignore self
                 if (processThread.Id != currentThreadId)
                 {
-                    if (processThread.ThreadState == System.Diagnostics.ThreadState.Running)
-                    {
-                        // Get thread handle
-                        IntPtr suspendThreadHandle = Native.Native.OpenThread(Native.Native.THREAD_ALL_ACCESS, false, processThread.Id);
+                    // Get thread handle
+                    IntPtr suspendThreadHandle = Native.Native.OpenThread(Native.Native.THREAD_SUSPEND_RESUME, true, processThread.Id);
 
-                        // Suspend Thread
-                        SuspendThread(suspendThreadHandle);
-                    }
+                    // Suspend Thread
+                    SuspendThread(suspendThreadHandle);
                 }
             }
         }

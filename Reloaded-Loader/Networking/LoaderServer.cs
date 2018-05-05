@@ -76,18 +76,23 @@ namespace Reloaded_Loader.Networking
                 ReloadedServerListener = new EventBasedNetListener();
                 ReloadedServer = new NetManager(ReloadedServerListener, Strings.Loader.ServerConnectKey);
 
-                // Start Server Internally
-                ReloadedServer.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, ServerPort);
-
                 // Ping when message is received.
                 ReloadedServerListener.PeerConnectedEvent += peer =>
-                { Bindings.PrintInfo($"Received connection from: {peer.EndPoint.Host}:{peer.EndPoint.Port}"); };
+                    { Bindings.PrintInfo($"Received connection from: {peer.EndPoint.Host}:{peer.EndPoint.Port}"); };
 
                 // Send received data to the message handler
                 ReloadedServerListener.NetworkReceiveEvent += MessageHandler;
 
                 // Process received events immediately.
                 ReloadedServer.UnsyncedEvents = true;
+
+                // Disconnect options.
+                ReloadedServer.MaxConnectAttempts = 5;
+                ReloadedServer.ReconnectDelay = 100;
+                ReloadedServer.DisconnectTimeout = Int64.MaxValue;
+
+                // Start Server Internally
+                ReloadedServer.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, ServerPort);
 
                 // Print words of success
                 Bindings.PrintInfo($"Local Server Started at: {ReloadedServer.LocalPort}");

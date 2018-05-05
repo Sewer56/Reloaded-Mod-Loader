@@ -67,15 +67,31 @@ namespace Reloaded_Mod_Template
                 while (GameProcess.Process.MainWindowHandle == IntPtr.Zero)
                 { Thread.Sleep(2000); }
 
-                // Instance the overlay.
-                _externalOverlayWindow = new WPFOverlayWindow(GameProcess.Process.MainWindowHandle, RenderDelegate);
+                /* Adjusted and tested for interop between different windows. */
 
-                // Subscribe to this one for when the game resizes the window.
-                _externalOverlayWindow.GameWindowResizeDelegate += GameWindowResizeDelegate;
+                // Another overlay already active.
+                if (Application.Current != null)
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        _externalOverlayWindow = new WPFOverlayWindow(GameProcess.Process.MainWindowHandle, RenderDelegate);
+                        _externalOverlayWindow.GameWindowResizeDelegate += GameWindowResizeDelegate;
+                        _externalOverlayWindow.Show();
+                    });
+                }
+                // This is the first overlay.
+                else
+                {
+                    // Create new Application Context.
+                    Application WPFApp = new System.Windows.Application();
 
-                // Run the WPF window.
-                Application wpfWindow = new Application();
-                wpfWindow.Run(_externalOverlayWindow);
+                    // Create our window
+                    _externalOverlayWindow = new WPFOverlayWindow(GameProcess.Process.MainWindowHandle, RenderDelegate);
+                    _externalOverlayWindow.GameWindowResizeDelegate += GameWindowResizeDelegate;
+
+                    // Instance the overlay.
+                    WPFApp.Run(_externalOverlayWindow);
+                }
             });
             D2DWindowThread.SetApartmentState(ApartmentState.STA);
             D2DWindowThread.Start();

@@ -73,8 +73,11 @@ namespace Reloaded.Process.X86Hooking
         /// <param name="stolenBytes">Bytes which are going to be overwritten by our own jump bytes with jmp calls to replace.</param>
         /// <param name="baseAddress">The original address of the start of the individual bytes.</param>
         /// <returns></returns>
-        public static List<byte> ProcessStolenBytes(List<byte> stolenBytes, IntPtr baseAddress)
+        public static (List<byte>, List<(IntPtr addressToPatch, byte[] newBytes)>) ProcessStolenBytes(List<byte> stolenBytes, IntPtr baseAddress)
         {
+            // List of addressses to patch.
+            List <(IntPtr addressToPatch, byte[] newBytes)> addressesToPatch = new List<(IntPtr addressToPatch, byte[] newBytes)>();
+
             // Address of end of Reloaded's hook
             long reloadedHookEndAddress = stolenBytes.Count + (long)baseAddress;
             
@@ -106,7 +109,7 @@ namespace Reloaded.Process.X86Hooking
                     IntPtr strayByteWrapper = AssembleMiniWrapper(otherStrayBytes, reloadedHookEndAddress);
 
                     // Patch any relative calls at the final jump.
-                    PatchOtherFunctions(finalJumpDestination, (long)x86Instruction.PC, (long)strayByteWrapper);
+                    addressesToPatch.AddRange(GetPatchAddresses(finalJumpDestination, (long)x86Instruction.PC, (long)strayByteWrapper));
 
                     // Assemble absolute JMP
                     newBytes.AddRange(AssembleAbsoluteJump((IntPtr)finalJumpDestination));
@@ -115,7 +118,7 @@ namespace Reloaded.Process.X86Hooking
                 else { newBytes.AddRange(x86Instruction.Bytes); }
             }
 
-            return newBytes;
+            return (newBytes, addressesToPatch);
         }
 
         /// <summary>
@@ -127,7 +130,7 @@ namespace Reloaded.Process.X86Hooking
         /// <param name="searchStart">The initial address of another module's jump instruction.</param>
         /// <param name="originalAddress">Relative jumps which point to this original address will be patched.</param>
         /// <param name="newAddress">The new address to replace the relative jumps pointing to originalAddress to.</param>
-        public static void PatchOtherFunctions(long searchStart, long originalAddress, long newAddress)
+        public static List<(IntPtr addressToPatch, byte[] newBytes)> GetPatchAddresses(long searchStart, long originalAddress, long newAddress)
         {
             // Declare search range
             long searchRange = 0;
@@ -194,12 +197,8 @@ namespace Reloaded.Process.X86Hooking
                 }
             }
 
-            // Patch all the things.
-            foreach (var addressToPatch in addressesToPatch)
-            {
-                Bindings.TargetProcess.WriteMemoryExternal(addressToPatch.addressToPatch, addressToPatch.newBytes);
-            }
-            
+            // Return all the addresses to patch!.
+            return addressesToPatch;
         }
 
         /// <summary>

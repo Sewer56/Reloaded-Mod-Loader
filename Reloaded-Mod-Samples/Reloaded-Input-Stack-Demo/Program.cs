@@ -84,7 +84,7 @@ namespace Reloaded_Mod_Template
                         $"Left Stick Y: {inputs.LeftStick.GetY()}\n" +
                         $"Left Trigger: {inputs.GetLeftTriggerPressure()}\n" +
                         $"Right Trigger: {inputs.GetRightTriggerPressure()}\n" +
-                        $"Game Window Has Focusr: {Reloaded.Native.Functions.WindowProperties.IsWindowActivated(GameProcess.Process.MainWindowHandle)}\n" +
+                        $"Game Window Has Focus: {Reloaded.Native.Functions.WindowProperties.IsWindowActivated(GameProcess.Process.MainWindowHandle)}\n" +
                         "///////////////////////CONTROLLER INPUT END\n"
                     );
 

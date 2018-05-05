@@ -121,11 +121,13 @@
   <ItemGroup>
     <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="FodyWeavers.xml">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.ServiceProcess" />
   </ItemGroup>
 </Project>

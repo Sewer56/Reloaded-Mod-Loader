@@ -36,6 +36,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.ServiceProcess;
 using System.Text;
 using Binarysharp.Assemblers.Fasm;
 using libReloaded_Networking;
@@ -47,19 +48,19 @@ namespace ReloadedAssembler
     /// <summary>
     /// Provides an implementation of a networked flat assembler server.
     /// </summary>
-    public class FasmServer
+    public class FasmServer : ServiceBase
     {
         /// <summary>
         /// Stores the actual Mod Loader Server host that is used to communicate alongside
         /// other peers in the network.
         /// </summary>
-        public static NetManager ReloadedServer;
+        public NetManager ReloadedServer;
 
         /// <summary>
         /// Listens to network events triggered as other clients interact with ther 
         /// Reloaded Mod Loader Server.
         /// </summary>
-        public static EventBasedNetListener ReloadedServerListener;
+        public EventBasedNetListener ReloadedServerListener;
 
         /// <summary>
         /// Reloaded Mod Loader instances reserve ports in the 1337X space.
@@ -115,9 +116,10 @@ namespace ReloadedAssembler
                 // Create new server instance.
                 ReloadedServerListener = new EventBasedNetListener();
                 ReloadedServer = new NetManager(ReloadedServerListener, ReloadedCheckMessage);
-
-                // Process received events immediately.
+                ReloadedServer.DisconnectTimeout = 10000;
+                ReloadedServer.ReconnectDelay = 100;
                 ReloadedServer.UnsyncedEvents = true;
+                ReloadedServer.MaxConnectAttempts = 10;
 
                 // Send received data to the message handler
                 ReloadedServerListener.NetworkReceiveEvent += ReceiveMessage;

@@ -1,7 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Security.Policy;
 using System.Threading;
+using System.Windows;
+using System.Windows.Threading;
+using Reloaded.Assembler;
 using Reloaded.Overlay.External.WinForms;
 using Reloaded.Process;
+using Reloaded_Mod_Template.ReloadedCode;
+using WPF_Demo_Overlay;
 
 namespace Reloaded_Mod_Template
 {
@@ -62,6 +71,9 @@ namespace Reloaded_Mod_Template
             (
                 () =>
                 {
+                    // Wait a fixed amount of time.
+                    Thread.Sleep(4000);
+
                     // Loop infinitely until a window handle is found.
                     while (GameProcess.Process.MainWindowHandle == IntPtr.Zero)
                     {
@@ -69,14 +81,51 @@ namespace Reloaded_Mod_Template
                         Thread.Sleep(1000);
                     }
 
-                    // Initiate WPF
-                    WPFApp = new System.Windows.Application();
-                    WPFWindow = new OverlayWindow();
-                    WPFApp.Run(WPFWindow);
+                    // Run the WPF window.
+
+                    // Note that our OverlayWindow comes from WPF-Demo-Overlay project (it's added in as a reference).
+                    // To use WPF windows, you want to create another project which is a WPF UserControl library, remove the
+                    // usercontrol and create a window, use that library as a reference in your Reloaded WPF overlays.
+                    
+                    // While this isn't strictly necessary to use another library/project, it will save you a lot of hassle when it
+                    // comes to interoperating with different overlays, this will also make your life easier in other ways, believe me.
+
+                    // Another overlay already active.
+                    if (Application.Current != null)
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            WPFWindow = new OverlayWindow();
+                            WPFWindow.Show();
+                        });
+                    }
+                    // This is the first overlay.
+                    else
+                    {
+                        // Create new Application Context.
+                        Application WPFApp = new System.Windows.Application();
+
+                        // Create our window
+                        WPFWindow = new OverlayWindow();
+
+                        // Instance the overlay.
+                        WPFApp.Run(WPFWindow);
+                    }
                 }
             );
             setBorderlessThread.SetApartmentState(ApartmentState.STA);
             setBorderlessThread.Start();
+        }
+
+
+        // The runtime class derives from MarshalByRefObject, so that a proxy can be returned
+        // across an AppDomain boundary.
+        public static class Runtime
+        {
+            public static void Run(IntPtr portLocation)
+            {
+                Initializer.Initialize(portLocation);
+            }
         }
     }
 }

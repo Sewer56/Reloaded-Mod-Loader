@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using ColorMine.ColorSpaces;
 using Reloaded.DirectX.Definitions;
@@ -128,6 +129,14 @@ namespace Reloaded_Mod_Template
         /// <returns>The original function's result.</returns>
         private static int ResetDelegate(IntPtr device, ref PresentParameters presentParameters)
         {
+            // Wait till our hook is fully initialized in async.
+            // If you are performing hooks in the middle of a running game, you should adopt this pattern
+            // for functions that run at many times a second, and especially classes which instance many
+            // function hooks inside of them as part of initalization and do not return immediately after patching.
+            // Note: DirectX hooks work by looking for an already existing DX device, thus are performed mid-game and
+            // not at startup.
+            while (_directX9Overlay == null) { }
+
             // Here we add code to adjust our overlay as necessary to e.g. resolution changes.
             // In this very specific case however, no code is provided in the example.
 
@@ -211,8 +220,11 @@ namespace Reloaded_Mod_Template
 
                 // Wrap SetPixelShader for us to call later (otherwise our shape may not show)
                 // This uses Reloaded's Virtual Function Table Utility Class
-                VirtualFunctionTable.TableEntry vTableEntry = _directX9Overlay.DirectX9Hook.DirectXFunctions[(int)Direct3DDevice9.SetPixelShader];
-                _setPixelShaderFunction = vTableEntry.CreateX86WrapperFunction<SetPixelShaderDelegate>();
+                if (_directX9Overlay != null)
+                {
+                    VirtualFunctionTable.TableEntry vTableEntry = _directX9Overlay.DirectX9Hook.DirectXFunctions[(int)Direct3DDevice9.SetPixelShader];
+                    _setPixelShaderFunction = vTableEntry.CreateX86WrapperFunction<SetPixelShaderDelegate>();
+                }
 
                 // Never run this again.
                 _initialized = true;
@@ -226,6 +238,14 @@ namespace Reloaded_Mod_Template
         /// <returns>The original function's result.</returns>
         private static unsafe int RenderDelegate(IntPtr device)
         {
+            // Wait till our hook is fully initialized in async.
+            // If you are performing hooks in the middle of a running game, you should adopt this pattern
+            // for functions that run at many times a second, and especially classes which instance many
+            // function hooks inside of them as part of initalization and do not return immediately after patching.
+            // Note: DirectX hooks work by looking for an already existing DX device, thus are performed mid-game and
+            // not at startup.
+            while (_directX9Overlay == null) { }
+
             // Obtain SharpDX device instance.
             Device localDevice = new Device(device);
 
@@ -252,7 +272,7 @@ namespace Reloaded_Mod_Template
             VertexDeclaration oldVertexDeclaration = localDevice.VertexDeclaration;
             localDevice.GetStreamSource(0, out var currentVertexBuffer, out var currentBufferOffset, out var currentStrideRef);
             localDevice.SetTexture(0, null);                                        // mDevice->SetTexture(0, NULL); Necessary or might not show ingame.
-            _setPixelShaderFunction(localDevice.NativePointer, IntPtr.Zero);        // mDevice->SetPixelShader(0);
+            _setPixelShaderFunction?.Invoke(localDevice.NativePointer, IntPtr.Zero);// mDevice->SetPixelShader(0);
 
             // Change triangle properties and animate the local vertex buffer.
             CalculateVertexColours();      // Does our colour animation.

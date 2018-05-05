@@ -465,6 +465,12 @@ namespace Reloaded.Process.Native
         public const int THREAD_ALL_ACCESS = 0x3FB;
 
         /// <summary>
+        /// Parameter of the OpenThread method.
+        /// Used to request suspend/resume access of the desired thread.
+        /// </summary>
+        public const int THREAD_SUSPEND_RESUME = 0x0002;
+
+        /// <summary>
         /// Specifies the window station, desktop, standard handles, and appearance of the main window for a process at creation time.
         /// I'm not even going to comment this one... for now... it's a pain.
         /// </summary>

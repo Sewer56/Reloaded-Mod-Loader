@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Reloaded.Assembler;
 using Reloaded.Process.Memory;
 using Reloaded.Process.X86Functions;
@@ -106,9 +108,6 @@ namespace Reloaded.Process.X86Hooking
         /// </remarks>
         public static FunctionHook<TFunction> Create(long gameFunctionAddress, TFunction functionDelegate, int hookLength)
         {
-            // Suspend Process
-            Bindings.TargetProcess.SuspendAllThreads();
-
             /*
                 Retrieve C# function details.
             */
@@ -149,12 +148,14 @@ namespace Reloaded.Process.X86Hooking
             */
 
             // Backup game's hook bytes.
-            // Check if stolen bytes contains a jmp (other hooks) 
+            List<byte> stolenBytes = Bindings.TargetProcess.ReadMemoryExternal((IntPtr)gameFunctionAddress, hookLength).ToList();
+
+            // Check other functions that may need to be patched.
+            (List<byte>, List<(IntPtr, byte[])>) stolenBytesAndAddressesToPatch = HookCommon.ProcessStolenBytes(stolenBytes, (IntPtr)gameFunctionAddress);
+            stolenBytes = stolenBytesAndAddressesToPatch.Item1;
+
             // Calculate jump back address for original function.
             // Append absolute JMP instruction to return to original function for calling the original function in hook.
-            List<byte> stolenBytes = Bindings.TargetProcess.ReadMemoryExternal((IntPtr)gameFunctionAddress, hookLength).ToList();
-            stolenBytes = HookCommon.ProcessStolenBytes(stolenBytes, (IntPtr)gameFunctionAddress);
-
             IntPtr jumpBackAddress = (IntPtr)(gameFunctionAddress + hookLength);
             stolenBytes.AddRange(HookCommon.AssembleAbsoluteJump(jumpBackAddress));
 
@@ -176,13 +177,27 @@ namespace Reloaded.Process.X86Hooking
 
             /*
                 [Apply Hook] Write hook bytes. 
+                It is very important that this class instance is returned back to the caller
             */
-            Bindings.TargetProcess.WriteMemoryExternal((IntPtr)gameFunctionAddress, jumpBytes.ToArray());
-
-            // Resume Process
-            Bindings.TargetProcess.ResumeAllThreads();
+            ApplyHook(((IntPtr)gameFunctionAddress, jumpBytes.ToArray()), stolenBytesAndAddressesToPatch.Item2);
 
             return functionHook;
+        }
+
+        /// <summary>
+        /// Writes the hook bytes at an delay, such that the instance of the <see cref="FunctionHook{TFunction}"/>
+        /// may be first returned back to the calling function before the actual hook is called.   
+        /// </summary>
+        /// <param name="hookToWrite">Contains the address of where to write our jump for the hook and the bytes for said jump.</param>
+        /// <param name="addressesToPatch">Contains a list of addresses belonging to other programs, hooks to be patched and the bytes to patch them with.</param>
+        private static void ApplyHook((IntPtr, byte[]) hookToWrite, List<(IntPtr, byte[])> addressesToPatch)
+        {
+            // Patch all addresses
+            Bindings.TargetProcess.WriteMemory(hookToWrite.Item1, hookToWrite.Item2);
+
+            // Apply all patches.
+            foreach (var addressToPatch in addressesToPatch)
+            { Bindings.TargetProcess.WriteMemory(addressToPatch.Item1, addressToPatch.Item2); }
         }
 
         /// <summary>

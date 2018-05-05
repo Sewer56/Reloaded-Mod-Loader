@@ -101,12 +101,18 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Reloaded-Mod-Template\ReloadedCode\Client.cs">
+      <Link>ReloadedCode\Client.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Reloaded-Mod-Template\ReloadedCode\Initializer.cs">
+      <Link>ReloadedCode\Initializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Reloaded-Mod-Template\ReloadedCode\LocalAssemblyFinder.cs">
+      <Link>ReloadedCode\LocalAssemblyFinder.cs</Link>
+    </Compile>
     <Compile Include="Reloaded-GUI\AnimInterpolator.cs" />
     <Compile Include="Reloaded-GUI\ColorspaceConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReloadedCode\LocalAssemblyFinder.cs" />
-    <Compile Include="ReloadedCode\Client.cs" />
-    <Compile Include="ReloadedCode\Initializer.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>

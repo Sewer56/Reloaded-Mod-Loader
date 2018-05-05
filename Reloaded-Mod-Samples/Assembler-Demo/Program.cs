@@ -94,9 +94,10 @@ namespace Reloaded_Mod_Template
 
             // Credits
             Bindings.PrintText("Protip: When using Reloaded it is highly recommended to first test your assembler for compilation" +
-                               "with standalone FASM assembler.");
-            Bindings.PrintText("Credits to Zenlulz for FASM.NET, Tomasz Grysztar for FASM and FASMlib. Networked background service" +
-                               "version is a port by myself.");
+                              " with standalone FASM assembler.");
+
+            /*"Credits to Zenlulz for FASM.NET, Tomasz Grysztar for FASM and FASMlib.
+               Networked background service version is an implementation of my own"*/
         }
 
         /// <summary>

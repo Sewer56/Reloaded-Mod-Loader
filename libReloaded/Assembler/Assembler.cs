@@ -19,6 +19,7 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -131,10 +132,7 @@ namespace Reloaded.Assembler
 
             // Wait for response and return data.
             while (messageBytes == null)
-            {
-                ReloadedClient.PollEvents();
-                Thread.Sleep(4);
-            }
+            { ReloadedClient.PollEvents(); }
 
             // Unsubscribe delegate.
             ReloadedClientListener.NetworkReceiveEvent -= GetMessageBytes;
@@ -186,7 +184,8 @@ namespace Reloaded.Assembler
                 ReloadedClient = new NetManager(ReloadedClientListener, ReloadedCheckMessage);
                 ReloadedClient.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, 0);
                 ReloadedClient.ReconnectDelay = 50;
-                ReloadedClient.MaxConnectAttempts = 4;
+                ReloadedClient.MaxConnectAttempts = 5;
+                ReloadedClient.DisconnectTimeout = Int64.MaxValue;
                 ReloadedClient.Connect(IPAddress.Loopback.ToString(), _serverPort);
 
                 // Check below if connected client is our assembler.
@@ -194,6 +193,16 @@ namespace Reloaded.Assembler
                 {
                     // Shutdown and try another port.
                     TrySecondPort();
+                }
+                else
+                {
+                    // Wait for full connection with peer.
+                    NetPeer[] peers = ReloadedClient.GetPeers();
+                    foreach (var peer in peers)
+                    {
+                        while (peer.ConnectionState == ConnectionState.InProgress)
+                        { Thread.Sleep(1); }
+                    }
                 }
             }
         }

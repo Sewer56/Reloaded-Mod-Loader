@@ -1,6 +1,6 @@
 {
   "ModName": "[X86] DX9 Internal Overlay Example",
-  "ModDescription": "An example of drawing with an internal overlay using DirectX9 and Reloaded.",
+  "ModDescription": "An example of drawing with an internal overlay using DirectX9 and Reloaded.\nFast, has low resource usage, more difficult to use.",
   "ModVersion": "1.0.0",
   "ModAuthor": "Sewer56lol",
   "ThemeSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",

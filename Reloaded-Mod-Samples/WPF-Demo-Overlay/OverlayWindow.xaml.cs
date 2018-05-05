@@ -8,8 +8,9 @@ using Reloaded.Input;
 using Reloaded.Input.Common;
 using Reloaded.Overlay.External.WPF;
 using Reloaded.Overlay.External.WPF.Structures;
+using Reloaded.Overlay.External.WPF.Utilities;
 
-namespace Reloaded_Mod_Template
+namespace WPF_Demo_Overlay
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
@@ -88,7 +89,7 @@ namespace Reloaded_Mod_Template
                     // Sleep
                     Thread.Sleep(16);
                 }
-                
+
             });
             controllerThread.Start();
         }
@@ -101,7 +102,7 @@ namespace Reloaded_Mod_Template
         {
             if (controllerInputs.ControllerButtons.ButtonLs)
             {
-                if (! _ignoringWindow) { _overlayHelper.IgnoreWindow(); }
+                if (!_ignoringWindow) { _overlayHelper.IgnoreWindow(); }
                 else { _overlayHelper.UnIgnoreWindow(); }
                 _ignoringWindow = !_ignoringWindow;
             }
@@ -170,10 +171,10 @@ namespace Reloaded_Mod_Template
             int subsequentYButtonOffsets = -25;
 
             // The offset of the left side of the buttons to the canvas is -202, we want to maintain that offset.
-            int newXPosition = (int)window.Width + constantXOffset;
+            int newXPosition = (int)Window.Width + constantXOffset;
 
             // The first offset from the bottom of the canvas to the button.
-            int firstButtonYPosition = (int)window.Height + firstYButtonOffsetFromBottom;
+            int firstButtonYPosition = (int)Window.Height + firstYButtonOffsetFromBottom;
 
             // Set X Positions.
             Canvas.SetLeft(moveWithWindowButton, newXPosition);
