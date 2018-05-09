@@ -115,7 +115,7 @@ namespace ReloadedAssembler
             {
                 // Create new server instance.
                 ReloadedServerListener = new EventBasedNetListener();
-                ReloadedServer = new NetManager(ReloadedServerListener, ReloadedCheckMessage);
+                ReloadedServer = new NetManager(ReloadedServerListener, 65535, ReloadedCheckMessage);
                 ReloadedServer.DisconnectTimeout = 10000;
                 ReloadedServer.ReconnectDelay = 100;
                 ReloadedServer.UnsyncedEvents = true;

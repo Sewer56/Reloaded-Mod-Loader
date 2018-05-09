@@ -70,9 +70,9 @@ namespace Reloaded_Mod_Template
             IntPtr createFilePointer = Reloaded.Process.Native.Native.GetProcAddress(kernel32Handle, "CreateFile");
 
             // Hook the obtained function pointers.
-            if (createFilePointer  != IntPtr.Zero)  { createFileWHook = FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl); }
-            if (createFileAPointer != IntPtr.Zero)  { createFileAHook = FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl); }
-            if (createFilePointer  != IntPtr.Zero)  { createFileHook  = FunctionHook<CreateFile >.Create((long)createFilePointer , CreateFileImpl);  }
+            if (createFilePointer  != IntPtr.Zero)  { createFileWHook = FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
+            if (createFileAPointer != IntPtr.Zero)  { createFileAHook = FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
+            if (createFilePointer  != IntPtr.Zero)  { createFileHook  = FunctionHook<CreateFile >.Create((long)createFilePointer , CreateFileImpl).Activate();  }
         }
 
         /// <summary>

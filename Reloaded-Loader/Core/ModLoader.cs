@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Reloaded;
 using Reloaded.IO.Config.Games;
@@ -47,7 +48,7 @@ namespace Reloaded_Loader.Core
             string[] modLibraries = GetModulesToInject(gameConfiguration);
 
             // Initialize DLL Injector
-            DllInjector reloadedDllInjector = new DllInjector(reloadedProcess);
+            DllInjector reloadedClassicDllInjector = new DllInjector(reloadedProcess);
 
             // If the main.dll exists, load it.
             foreach (string modLibrary in modLibraries)
@@ -62,12 +63,9 @@ namespace Reloaded_Loader.Core
                     reloadedProcess.WriteMemoryExternal(parameterAddress, BitConverter.GetBytes(LoaderServer.ServerPort));
 
                     // Inject the individual DLL.
-                    reloadedDllInjector.InjectDll(modLibrary, parameterAddress);
+                    reloadedClassicDllInjector.InjectDll(modLibrary, parameterAddress, "Main");
                 }
             }
-
-            // Resume game after injection.
-            reloadedProcess.ResumeAllThreads();
         }
 
         /// <summary>

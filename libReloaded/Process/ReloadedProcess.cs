@@ -19,7 +19,11 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using Reloaded.Process.Threads;
+using static Reloaded.Native.WinAPI.Threads;
 using SystemProcess = System.Diagnostics.Process;
 
 namespace Reloaded.Process
@@ -35,7 +39,12 @@ namespace Reloaded.Process
         /// <summary>
         /// Stores an instance of System.Diagnostics.Process inside ReloadedProcess.
         /// </summary>
-        public SystemProcess Process { get; set; }
+        private SystemProcess _localSystemProcess;
+
+        /// <summary>
+        /// Stores an instance of System.Diagnostics.Process inside ReloadedProcess.
+        /// </summary>
+        public SystemProcess Process => GetProcessFromReloadedProcess();
 
         /// <summary>
         /// A handle to the program's first thread itself. 
@@ -58,6 +67,39 @@ namespace Reloaded.Process
         /// The handle is used to specify the process in all functions that perform operations on the Windows' Internal process object.
         /// </summary>
         public IntPtr ProcessHandle { get; private set; }
+
+        /// <summary>
+        /// Returns true if the process is a 64bit process.
+        /// </summary>
+        public bool Is64Bit
+        {
+            get
+            {
+                Native.Native.IsWow64Process(ProcessHandle, out bool isGame32Bit);
+                return !isGame32Bit;
+            }
+        }
+
+        /// <summary>
+        /// Populates a list of Remote threads from the native Process objects
+        /// and returns them as our beloved RemoteThread objects to the caller.
+        /// </summary>
+        /// <typeparam name="TThreadType">
+        ///     Specify <see cref="ThreadContext64"/> if 64bit, else <see cref="ThreadContext32"/>.
+        ///     Use <see cref="Is64Bit"/> to help you.
+        /// </typeparam>
+        /// <returns></returns>
+        public List<RemoteThread<TThreadType>> GetRemoteThreads<TThreadType>() where TThreadType : struct
+        {
+            // Populate a list of Remote Threads from the native Process object and return back to the caller.
+            List<RemoteThread<TThreadType>> remoteThreads = new List<RemoteThread<TThreadType>>(Process.Threads.Count);
+
+            // Append all the threads.
+            foreach (ProcessThread processThread in Process.Threads)
+                remoteThreads.Add(new RemoteThread<TThreadType>(processThread));
+
+            return remoteThreads;
+        }
 
         /// <summary>
         /// Empty constructor.
@@ -130,8 +172,6 @@ namespace Reloaded.Process
         /// <param name="process">Instance of System.Diagnostics.Process to create ReloadedProcess from.</param>
         public ReloadedProcess(SystemProcess process) : this()
         {
-            Process = process;
-
             // Set Process ID
             ProcessId = (IntPtr)process.Id;
 
@@ -142,7 +182,7 @@ namespace Reloaded.Process
             ThreadId = (IntPtr)process.Threads[0].Id;
 
             // Set thread handle to be that of the first thread.
-            ThreadHandle = Native.Native.OpenThread(Native.Native.THREAD_ALL_ACCESS, false, (int)ThreadId);
+            ThreadHandle = OpenThread(THREAD_ALL_ACCESS, false, (int)ThreadId);
         }
 
         /// <summary>
@@ -164,7 +204,7 @@ namespace Reloaded.Process
             ThreadId = (IntPtr)process.Threads[0].Id;
 
             // Set thread handle to be that of the first thread.
-            ThreadHandle = Native.Native.OpenThread(Native.Native.THREAD_ALL_ACCESS, false, (int)ThreadId);
+            ThreadHandle = OpenThread(THREAD_ALL_ACCESS, false, (int)ThreadId);
         }
 
 
@@ -192,7 +232,7 @@ namespace Reloaded.Process
                 reloadedProcess.ThreadId = (IntPtr)process.Threads[0].Id;
 
                 // Set thread handle to be that of the first thread.
-                reloadedProcess.ThreadHandle = Native.Native.OpenThread(Native.Native.THREAD_ALL_ACCESS, false, (int)reloadedProcess.ThreadId);
+                reloadedProcess.ThreadHandle = OpenThread(THREAD_ALL_ACCESS, false, (int)reloadedProcess.ThreadId);
 
                 // Retrun Reloaded Process
                 return reloadedProcess;
@@ -222,11 +262,10 @@ namespace Reloaded.Process
         /// <returns>Process class for the current Reloaded Process.</returns>
         public SystemProcess GetProcessFromReloadedProcess()
         {
-            if (Process != null)
-                return Process;
+            if (_localSystemProcess == null)
+                _localSystemProcess = SystemProcess.GetProcessById((int)ProcessId);
 
-            Process = SystemProcess.GetProcessById((int)ProcessId);
-            return Process;
+            return _localSystemProcess;
         }
     }
 }

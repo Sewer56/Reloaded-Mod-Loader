@@ -43,15 +43,16 @@ namespace Reloaded.Process.X86Hooking
         /// </summary>
         /// <param name="hookAddress">The address that is to be hooked.</param>
         /// <param name="hookLength">The minimum length of the hook, the length of our assembled bytes for the hook.</param>
+        /// <param name="architectureMode">Defines the architecture as X86 or X64 to use for disassembly.</param>
         /// <returns>The necessary length of bytes to hook the individual game function.</returns>
-        public static int GetHookLength(IntPtr hookAddress, int hookLength)
+        public static int GetHookLength86(IntPtr hookAddress, int hookLength, ArchitectureMode architectureMode)
         {
             // Retrieve the function header, arbitrary length of 32 bytes is used for this operation.
             // While you can technically build infinite length X86 instructions, anything greater than 16 to compare seems reasonable.
             byte[] functionHeader = Bindings.TargetProcess.ReadMemoryExternal(hookAddress, 64);
 
             // Define the disassembler.
-            Disassembler disassembler = new Disassembler(functionHeader, ArchitectureMode.x86_32);
+            Disassembler disassembler = new Disassembler(functionHeader, architectureMode);
 
             // Disassemble function header and find shortest amount of bytes.
             Instruction[] x86Instructions = disassembler.Disassemble().ToArray();

@@ -116,7 +116,7 @@
     <PackageProjectUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/Reloaded-GUI/Images/Static/ReloadedIcon.png</PackageIconUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj" />

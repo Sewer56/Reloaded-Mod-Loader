@@ -230,13 +230,6 @@ namespace Reloaded.Process.Native
         public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, IntPtr dwSize, out IntPtr lpNumberOfBytesRead);
 
         /// <summary>
-        /// Retrieves the ID of the currently running thread.
-        /// </summary>
-        /// <returns>The ID of the currently runing thread.</returns>
-        [DllImport("kernel32.dll")]
-        public static extern uint GetCurrentThreadId();
-
-        /// <summary>
         /// VirtualProtect
         ///     Changes the protection on a region of committed pages in the 
         ///     virtual address space of the calling process.
@@ -305,33 +298,6 @@ namespace Reloaded.Process.Native
         [DllImport("kernel32.dll")]
         public static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, IntPtr dwStackSize, 
             IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);
-
-        /// <summary>
-        /// WaitForSingleObject
-        ///     Waits until the specified object is in the signaled state or 
-        ///     the specific time-out interval elapses.
-        /// </summary>
-        /// <param name="hHandle">Handle to the object in question.</param>
-        /// <param name="dwMilliseconds">The time internal in milliseconds.</param>
-        /// <returns>
-        ///     If the function succeeds, the return value indicates the event that caused the function to return. 
-        ///     It can be one of the following values. See https://msdn.microsoft.com/en-us/library/windows/desktop/ms687032(v=vs.85).aspx.
-        /// </returns>
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
-
-        /// <summary>
-        /// GetExitCodeThread
-        ///     Retrieves the termination status of the specified thread.
-        /// </summary>
-        /// <param name="hThread">A handle to the thread.</param>
-        /// <param name="lpExitCode">
-        ///     A pointer to a variable to receive the thread termination status. 
-        ///     For more information, see Remarks.
-        /// </param>
-        /// <returns>If the function succeeds, the return value is nonzero.</returns>
-        [DllImport("kernel32.dll")]
-        public static extern bool GetExitCodeThread(IntPtr hThread, out uint lpExitCode);
 
         /// <summary>
         /// GetModuleHandle
@@ -434,41 +400,10 @@ namespace Reloaded.Process.Native
         public static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
 
         /// <summary>
-        /// Opens an existing thread object.
-        /// </summary>
-        /// <param name="dwDesiredAccess">
-        /// The access to the thread object. 
-        /// This access right is checked against the security descriptor for the thread. 
-        /// This parameter can be one or more of the thread access rights.
-        /// </param>
-        /// <param name="bInheritHandle">
-        /// If this value is TRUE, processes created by this process will inherit the handle. 
-        /// Otherwise, the processes do not inherit this handle.
-        /// </param>
-        /// <param name="dwProcessId">
-        /// The identifier of the thread to be opened.
-        /// </param>
-        /// <returns>If the function succeeds, the return value is an open handle to the specified thread.</returns>
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr OpenThread(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
-
-        /// <summary>
         /// Parameter of the OpenProcess method.
         /// Used to request full access of the desired process.
         /// </summary>
         public const int PROCESS_ALL_ACCESS = 0x1F0FFF;
-
-        /// <summary>
-        /// Parameter of the OpenThread method.
-        /// Used to request full access of the desired thread.
-        /// </summary>
-        public const int THREAD_ALL_ACCESS = 0x3FB;
-
-        /// <summary>
-        /// Parameter of the OpenThread method.
-        /// Used to request suspend/resume access of the desired thread.
-        /// </summary>
-        public const int THREAD_SUSPEND_RESUME = 0x0002;
 
         /// <summary>
         /// Specifies the window station, desktop, standard handles, and appearance of the main window for a process at creation time.

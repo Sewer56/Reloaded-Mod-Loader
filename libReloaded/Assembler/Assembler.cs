@@ -110,6 +110,12 @@ namespace Reloaded.Assembler
         /// <returns>0x90 (nop) if the assembly operation fails, else the successfully assembled bytes.</returns>
         public static byte[] Assemble(string[] mnemonics)
         {
+            // Connect if not connected (we may be disconnected after application DRM self-kill, timeout using debugger, etc.)
+            while (ReloadedClient.PeersCount < 1)
+            {
+                ConnectToServer();
+            }   
+
             // Build Message to Assemble Mnemonics.
             Message assemblyRequest = new Message
             {
@@ -181,7 +187,7 @@ namespace Reloaded.Assembler
             {
                 // Setup Local Server Client
                 ReloadedClientListener = new EventBasedNetListener();
-                ReloadedClient = new NetManager(ReloadedClientListener, ReloadedCheckMessage);
+                ReloadedClient = new NetManager(ReloadedClientListener, 10, ReloadedCheckMessage);
                 ReloadedClient.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, 0);
                 ReloadedClient.ReconnectDelay = 50;
                 ReloadedClient.MaxConnectAttempts = 5;

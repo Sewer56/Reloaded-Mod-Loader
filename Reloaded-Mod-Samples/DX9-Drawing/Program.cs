@@ -103,6 +103,8 @@ namespace Reloaded_Mod_Template
                 HookDelay: Some games require this due to bad programming *cough* Sonic Adventure 2 *cough*.
             */
             _directX9Overlay = await DX9Overlay.CreateDirectXOverlay(RenderDelegate, ResetDelegate, 4000);
+            _directX9Overlay.EndSceneHook.Activate();
+            _directX9Overlay.ResetHook.Activate();
 
             /*
                 Warning: Amateur DirectX 9 Rendering Code.
@@ -129,14 +131,6 @@ namespace Reloaded_Mod_Template
         /// <returns>The original function's result.</returns>
         private static int ResetDelegate(IntPtr device, ref PresentParameters presentParameters)
         {
-            // Wait till our hook is fully initialized in async.
-            // If you are performing hooks in the middle of a running game, you should adopt this pattern
-            // for functions that run at many times a second, and especially classes which instance many
-            // function hooks inside of them as part of initalization and do not return immediately after patching.
-            // Note: DirectX hooks work by looking for an already existing DX device, thus are performed mid-game and
-            // not at startup.
-            while (_directX9Overlay == null) { }
-
             // Here we add code to adjust our overlay as necessary to e.g. resolution changes.
             // In this very specific case however, no code is provided in the example.
 
@@ -238,14 +232,6 @@ namespace Reloaded_Mod_Template
         /// <returns>The original function's result.</returns>
         private static unsafe int RenderDelegate(IntPtr device)
         {
-            // Wait till our hook is fully initialized in async.
-            // If you are performing hooks in the middle of a running game, you should adopt this pattern
-            // for functions that run at many times a second, and especially classes which instance many
-            // function hooks inside of them as part of initalization and do not return immediately after patching.
-            // Note: DirectX hooks work by looking for an already existing DX device, thus are performed mid-game and
-            // not at startup.
-            while (_directX9Overlay == null) { }
-
             // Obtain SharpDX device instance.
             Device localDevice = new Device(device);
 

@@ -82,7 +82,7 @@
     <OutputPath>bin\x64\Github-Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>1.0.7</Version>
+    <Version>1.0.9</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -90,9 +90,12 @@
     <PackageIconUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/Reloaded-GUI/Images/Static/ReloadedIcon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>Main Development Library for Reloaded Mod Loader v1.03</PackageReleaseNotes>
+    <PackageReleaseNotes>Main Development Library for Reloaded Mod Loader</PackageReleaseNotes>
     <Authors>Sewer56</Authors>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Process\AlternateDllInjector.cs" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj" />
     <ProjectReference Include="..\ReloadedAssemblerService\Reloaded-Assembler.csproj" />

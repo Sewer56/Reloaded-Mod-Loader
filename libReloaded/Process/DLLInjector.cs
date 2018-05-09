@@ -19,6 +19,8 @@
 */
 
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using Reloaded.Process.Memory;
 
@@ -31,12 +33,6 @@ namespace Reloaded.Process
     /// </summary>
     public class DllInjector
     {
-        /// <summary>
-        /// The name of the function to be executed inside of the target
-        /// process. 
-        /// </summary>
-        public string FunctionToExecute { get; set; }
-
         /// <summary>
         /// A handle to the Kernel32 Module, whereby LoadLibraryA is stored.
         /// </summary>
@@ -76,9 +72,6 @@ namespace Reloaded.Process
             // We will later call LoadLibraryA inside the target process using CreateRemoteThread,
             // which will load our own wanted DLL (game modification) inside of the target process.
             LoadLibraryAddress = Native.Native.GetProcAddress(Kernel32Handle, "LoadLibraryA");
-
-            // Set the name of the function we will execute in the target process.
-            FunctionToExecute = "Main";
         }
 
         /// <summary>
@@ -93,7 +86,8 @@ namespace Reloaded.Process
         /// already in the target process (i.e. you need to write your parameterPointer structure into memory manually).
         /// If this parameterPointer is null, a value of 0/null is passed.
         /// </param>
-        public void InjectDll(string libraryPath, IntPtr parameterPointer)
+        /// <param name="functionToExecute">The name of the function to be executed inside of the target process. </param>
+        public void InjectDll(string libraryPath, IntPtr parameterPointer, string functionToExecute)
         {
             // Write the module name in process memory to be used by Kernel32's LoadLibraryA function.
             IntPtr libraryNameMemoryAddress = WriteModuleNameBytes(libraryPath);
@@ -104,10 +98,10 @@ namespace Reloaded.Process
             // This means that the game will now be able to access it ;)
             IntPtr moduleBaseAddress = (IntPtr)Process.CallLibrary(LoadLibraryAddress, libraryNameMemoryAddress);
 
-            // Get the address of the "FunctionToExecute" function by loading the library into
+            // Get the address of the "functionToExecute" function by loading the library into
             // ourselves. Then take away from the module base address to retrieve the offset of the requested
             // function. By sheer chance, the handle happens to be module base address :^)
-            IntPtr mainFunctionOffset = Libraries.GetLibraryFunctionOffset(libraryPath, FunctionToExecute);
+            IntPtr mainFunctionOffset = Libraries.GetLibraryFunctionOffset(libraryPath, functionToExecute);
             IntPtr functionAddress = (IntPtr)((long) moduleBaseAddress + (long)mainFunctionOffset);
 
             // Call our main function within the target executable.

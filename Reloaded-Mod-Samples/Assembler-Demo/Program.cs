@@ -5,9 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using Reloaded;
 using Reloaded.Assembler;
 using Reloaded.Native.Helpers.Arrays;
+using Reloaded.Native.WinAPI;
 using Reloaded.Process;
 using Reloaded.Process.Memory;
 

@@ -45,10 +45,10 @@ namespace Reloaded.Process
             IntPtr hThread = Native.Native.CreateRemoteThread(process.ProcessHandle, IntPtr.Zero, IntPtr.Zero, address, parameteraddress, 0, out IntPtr threadId);
 
             // Wait for the thread to finish.
-            Native.Native.WaitForSingleObject(hThread, unchecked((uint)-1));
+            Reloaded.Native.WinAPI.Threads.WaitForSingleObject(hThread, unchecked((uint)-1));
 
             // Store and retrieve the exit code for the thread.
-            Native.Native.GetExitCodeThread(hThread, out uint exitCode);
+            Reloaded.Native.WinAPI.Threads.GetExitCodeThread(hThread, out uint exitCode);
 
             // Return the exit code.
             return (int)exitCode;

@@ -29,6 +29,7 @@ using Reloaded.Assembler;
 using Reloaded.Process.Memory;
 using Reloaded.Process.X86Functions;
 using Reloaded.Process.X86Functions.CustomFunctionFactory;
+using SharpDisasm;
 using CallingConventions = Reloaded.Process.X86Functions.CallingConventions;
 
 namespace Reloaded.Process.X86Hooking
@@ -56,6 +57,18 @@ namespace Reloaded.Process.X86Hooking
         /// by the Garbage Collector.
         /// </summary>
         private TFunction _originalDelegate;
+
+        /// <summary>
+        /// Stores the address of where to write our jump for the hook and the bytes for said jump,
+        /// this is to activate our own hooks.
+        /// </summary>
+        private (IntPtr, byte[]) _hookToWrite;
+
+        /// <summary>
+        /// Contains a list of addresses belonging to other programs, hooks to be patched and the bytes to patch them with.
+        /// This is to patch other programs' hooks with our own while maintaining them.
+        /// </summary>
+        private List<(IntPtr, byte[])> _addressesToPatch;
 
         /// <summary>
         /// Creates a function hook for a function at a user specified address.
@@ -131,7 +144,7 @@ namespace Reloaded.Process.X86Hooking
             */
 
             // Retrieve hook length explicitly 
-            if (hookLength == -1) { hookLength = HookCommon.GetHookLength((IntPtr)gameFunctionAddress, jumpBytes.Count); }
+            if (hookLength == -1) { hookLength = HookCommon.GetHookLength86((IntPtr)gameFunctionAddress, jumpBytes.Count, ArchitectureMode.x86_32); }
 
             // Assemble JMP + NOPs for stolen/stray bytes.
             if (hookLength > jumpBytes.Count)
@@ -179,25 +192,28 @@ namespace Reloaded.Process.X86Hooking
                 [Apply Hook] Write hook bytes. 
                 It is very important that this class instance is returned back to the caller
             */
-            ApplyHook(((IntPtr)gameFunctionAddress, jumpBytes.ToArray()), stolenBytesAndAddressesToPatch.Item2);
+            functionHook._addressesToPatch = stolenBytesAndAddressesToPatch.Item2;
+            functionHook._hookToWrite = ((IntPtr)gameFunctionAddress, jumpBytes.ToArray());
 
             return functionHook;
         }
 
         /// <summary>
-        /// Writes the hook bytes at an delay, such that the instance of the <see cref="FunctionHook{TFunction}"/>
-        /// may be first returned back to the calling function before the actual hook is called.   
+        /// Activates our hook.
+        /// This function should be called after instantiation as soon as possible, preferably in the same line as instantiation.
+        /// This class exists such that we don't run into concurrency issues on attaching to other processes, whereby
+        /// a game calls a function while this class has not yet returned to the called from the factory method.
         /// </summary>
-        /// <param name="hookToWrite">Contains the address of where to write our jump for the hook and the bytes for said jump.</param>
-        /// <param name="addressesToPatch">Contains a list of addresses belonging to other programs, hooks to be patched and the bytes to patch them with.</param>
-        private static void ApplyHook((IntPtr, byte[]) hookToWrite, List<(IntPtr, byte[])> addressesToPatch)
+        public FunctionHook<TFunction> Activate()
         {
             // Patch all addresses
-            Bindings.TargetProcess.WriteMemory(hookToWrite.Item1, hookToWrite.Item2);
+            Bindings.TargetProcess.WriteMemory(_hookToWrite.Item1, _hookToWrite.Item2);
 
             // Apply all patches.
-            foreach (var addressToPatch in addressesToPatch)
+            foreach (var addressToPatch in _addressesToPatch)
             { Bindings.TargetProcess.WriteMemory(addressToPatch.Item1, addressToPatch.Item2); }
+
+            return this;
         }
 
         /// <summary>

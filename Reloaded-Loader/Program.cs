@@ -24,14 +24,22 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using LiteNetLib;
 using Reloaded;
+using Reloaded.Assembler;
 using Reloaded.IO.Config.Games;
+using Reloaded.Native.WinAPI;
 using Reloaded.Process;
+using Reloaded.Process.Memory;
+using Reloaded.Process.Threads;
+using Reloaded.Process.X86Hooking;
 using Reloaded_Loader.Core;
 using Reloaded_Loader.Miscellaneous;
 using Reloaded_Loader.Networking;
 using Reloaded_Loader.Terminal;
 using Reloaded_Loader.Terminal.Information;
+using SharpDisasm;
 using Squirrel;
 using Console = Colorful.Console;
 
@@ -107,10 +115,13 @@ namespace Reloaded_Loader
 
             // Add to exited event 
             _gameProcess.GetProcessFromReloadedProcess().EnableRaisingEvents = true;
-            _gameProcess.GetProcessFromReloadedProcess().Exited += (sender, eventArgs) => ProcessSelfReattach(args);
+            _gameProcess.GetProcessFromReloadedProcess().Exited += (sender, eventArgs) => ProcessSelfReattach();
 
             // Load modifications for the current game.
             ModLoader.LoadMods(_gameConfig, _gameProcess);
+
+            // Resume game after injection.
+            _gameProcess.ResumeAllThreads();
 
             // Stay alive in the background
             AppDomain.CurrentDomain.ProcessExit += Shutdown;
@@ -125,28 +136,17 @@ namespace Reloaded_Loader
         /// Checks whether to reattach Reloaded Mod Loader if the game process
         /// unexpectedly kills itself and then restarts (a standard for some games' launch procedures).
         /// </summary>
-        /// <param name="arguments">The commandline arguments originally passed to this process.</param>
-        /// <returns>Returns true if another game instance is running, else false.</returns>
-        private static void ProcessSelfReattach(string[] arguments)
+        private static void ProcessSelfReattach()
         {
-            // Decides whether
-            bool buildArgumentsList = false;
-
-            // Auto re-attach if there's another process instance that's up with matching name.
-            // First set the attach name if not set and add to the arguments.
-            if (_attachTargetName == null)
-            {
-                // Set attach name.
-                _attachTargetName = Path.GetFileNameWithoutExtension(_gameConfig.ExecutableLocation);
-                buildArgumentsList = true;
-            }
-
             // Use stopwatch for soft timing.
             Stopwatch timeoutStopWatch = new Stopwatch();
             timeoutStopWatch.Start();
 
+            // Set attach name for reattaching. 
+            _attachTargetName = Path.GetFileNameWithoutExtension(_gameConfig.ExecutableLocation);
+
             // Spin trying to get game process until timeout.
-            while (timeoutStopWatch.ElapsedMilliseconds < 5000)
+            while (timeoutStopWatch.ElapsedMilliseconds < 6000)
             {
                 // Grab current already running game.
                 ReloadedProcess localGameProcess = ReloadedProcess.GetProcessByName(_attachTargetName);
@@ -154,37 +154,29 @@ namespace Reloaded_Loader
                 // Did we find the process? If not, try again.
                 if (localGameProcess == null) continue;
 
-                // Suspend the resurrected game.
-                localGameProcess.SuspendAllThreads();
-
                 // Check if process is newer than our original game process, if it is, restart self.
                 if (localGameProcess.GetProcessFromReloadedProcess().StartTime > _processStartTime)
-                {
-                    // If the loader is lacking the "attach" flag.
-                    // The reason this is done here is because we want to freeze the
-                    // target process as soon as possible, such that we can hook onto it as early as possible.
-                    if (buildArgumentsList)
-                    {
-                        // List of arguments.
-                        List<string> argumentsList = arguments.ToList();
-
-                        // Append attach argument.
-                        argumentsList.Add($"{Strings.Common.LoaderSettingAttach}");
-
-                        // Append attach name.
-                        argumentsList.Add(_attachTargetName);
-
-                        // Replace array.
-                        arguments = argumentsList.ToArray();
-                    }
-
+                {                   
+                    // Game restart
+                    Bindings.PrintInfo($"// Game Restarted, Probably from Self-Kill e.g. Steam DRM, Reattaching! | {_attachTargetName}");
+                    Bindings.PrintInfo($"// In other words, super early attach not supported! Maybe with manual map in the future.");
                     _gameProcess = localGameProcess;
-                    RestartSelf(arguments);
-                    break;
-                }
 
-                // Resume the resurrected game.
-                localGameProcess.ResumeAllThreads();
+                    // Disconnect all clients
+                    foreach (NetPeer peer in LoaderServer.ReloadedServer.GetPeers())
+                    { LoaderServer.ReloadedServer.DisconnectPeer(peer); }
+
+                    // Re-subscribe to our event.
+                    _gameProcess.GetProcessFromReloadedProcess().EnableRaisingEvents = true;
+                    _gameProcess.GetProcessFromReloadedProcess().Exited += (sender, eventArgs) => ProcessSelfReattach();
+
+                    // Reload our mods.
+                    ModLoader.LoadMods(_gameConfig, _gameProcess);
+
+                    // Sleep infinitely as much as it is necessary.
+                    while (true)
+                    { Console.ReadLine(); }
+                }
             }
 
             // Kill the process itself.
@@ -353,5 +345,95 @@ namespace Reloaded_Loader
             { }
 
         }
+
+/*
+An earlier but still yet incomplete experiment to hijack the first thread
+and use it exclusively in a loop to use LoadLibrary.
+
+Will be revisited in the future.
+
+/// <summary>
+/// Stores the details used to allow for the patching of infinite jumps of the first thread,
+/// in the case of re-attach situations where Kernel32 has not yet been fully re-loaded.
+/// </summary>
+struct InfiniteJumpPatchDetails
+{
+    public byte[] LoopingJumpBytes;
+    public byte[] OriginalBytes;
+    public ulong PatchAddress;
+    public int OverWriteLength;
+}
+
+/// <summary>
+/// Patches an infinite jump onto the EIP of the first thread, and then resumes the thread.
+/// </summary>
+/// <param name="gameProcess">Contains the game process whose first thread is to be patched.</param>
+private static InfiniteJumpPatchDetails PatchInfiniteJump(ReloadedProcess gameProcess)
+{
+    // Generate an infinite looping jump.
+    // We need at least a thread alive for LoadLibrary DLL Injection
+    InfiniteJumpPatchDetails patchDetails = new InfiniteJumpPatchDetails();
+
+    // Grab our information.
+    if (_gameProcess.Is64Bit)
+    {
+        RemoteThread<Threads.ThreadContext64> remoteFirstThread = _gameProcess.GetRemoteThreads<Threads.ThreadContext64>()[0];
+        Threads.ThreadContext64 threadContext64 = remoteFirstThread.Context;
+
+        patchDetails.PatchAddress = threadContext64.Rip;
+        patchDetails.LoopingJumpBytes = Assembler.Assemble(new string[] { "use64", "jmp -2" });
+        patchDetails.OverWriteLength = HookCommon.GetHookLength86((IntPtr)patchDetails.PatchAddress, patchDetails.LoopingJumpBytes.Length, ArchitectureMode.x86_64);
+        patchDetails.OriginalBytes = _gameProcess.ReadMemoryExternal((IntPtr)patchDetails.PatchAddress, patchDetails.OverWriteLength);
+    }
+    else
+    {
+        RemoteThread<Threads.ThreadContext32> remoteFirstThread = _gameProcess.GetRemoteThreads<Threads.ThreadContext32>()[0];
+        Threads.ThreadContext32 threadContext32 = remoteFirstThread.Context;
+
+        patchDetails.PatchAddress = threadContext32.EIP;
+        patchDetails.LoopingJumpBytes = Assembler.Assemble(new string[] { "use32", "jmp -2" });
+        patchDetails.OverWriteLength = HookCommon.GetHookLength86((IntPtr)patchDetails.PatchAddress, patchDetails.LoopingJumpBytes.Length, ArchitectureMode.x86_32);
+        patchDetails.OriginalBytes = _gameProcess.ReadMemoryExternal((IntPtr)patchDetails.PatchAddress, patchDetails.OverWriteLength);
+    }
+
+    // Patch patch patch!
+    gameProcess.WriteMemoryExternal((IntPtr)patchDetails.PatchAddress, patchDetails.LoopingJumpBytes);
+    _gameProcess.GetRemoteThreads<Threads.ThreadContext64>()[0].Resume();
+    return patchDetails;
+}
+
+/// <summary>
+/// Restores a patched first thread that was previously replaced with an infinite jump by suspending it, and then resuming the thread.
+/// </summary>
+/// <param name="gameProcess">Contains the game process whose first thread is to be patched.</param>
+/// <param name="patchDetails">Contains the individual details of the jump that will now be used to unpatch the thread.</param>
+private static void UnPatchInfiniteJump(ReloadedProcess gameProcess, InfiniteJumpPatchDetails patchDetails)
+{
+    // Suspend primary thread.
+    _gameProcess.GetRemoteThreads<Threads.ThreadContext64>()[0].Suspend();
+
+    // Grab our information.
+    if (_gameProcess.Is64Bit)
+    {
+        RemoteThread<Threads.ThreadContext64> remoteFirstThread = _gameProcess.GetRemoteThreads<Threads.ThreadContext64>()[0];
+        Threads.ThreadContext64 threadContext64 = remoteFirstThread.Context;
+
+        threadContext64.Rip = patchDetails.PatchAddress;
+        remoteFirstThread.Context = threadContext64;
+    }
+    else
+    {
+        RemoteThread<Threads.ThreadContext32> remoteFirstThread = _gameProcess.GetRemoteThreads<Threads.ThreadContext32>()[0];
+        Threads.ThreadContext32 threadContext32 = remoteFirstThread.Context;
+
+        threadContext32.EIP = (uint)patchDetails.PatchAddress;
+        remoteFirstThread.Context = threadContext32;
+    }
+
+    // Patch patch patch!
+    gameProcess.WriteMemoryExternal((IntPtr)patchDetails.PatchAddress, patchDetails.OriginalBytes);
+    _gameProcess.GetRemoteThreads<Threads.ThreadContext64>()[0].Resume();
+}
+*/
     }
 }
