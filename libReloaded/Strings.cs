@@ -105,11 +105,6 @@ namespace Reloaded
             public const string ReloadedProtocolName = "Reloaded";
 
             /// <summary>
-            /// Lowercase variant of <see cref="ReloadedProtocolName"/>
-            /// </summary>
-            public const string ReloadedProtocolNameSmall = "reloaded";
-
-            /// <summary>
             /// Contains the name of the argument used for downloading of Reloaded Compatible Archives.
             /// </summary>
             public const string DownloadArgumentName = "--download";
@@ -165,16 +160,6 @@ namespace Reloaded
             {
                 Formatting = Formatting.Indented
             };
-
-            /// <summary>
-            /// Contains the character used in ini file comments and comments in other similar files.
-            /// </summary>
-            public static string CommentCharacter { get; } = "#";
-
-            /// <summary>
-            /// Contains the name of the file used for reading and writing of enabled mods.
-            /// </summary>
-            public static string EnabledModsFile { get; } = "Enabled_Mods.ini";
 
             /// <summary>
             /// Contains the name of the file used for reading and writing of theme properties and styles.
