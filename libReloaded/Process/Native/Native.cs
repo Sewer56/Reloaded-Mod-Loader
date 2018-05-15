@@ -432,6 +432,127 @@ namespace Reloaded.Process.Native
         }
 
         /// <summary>
+        /// Retrieves information about a range of pages within the virtual address space of a specified process.
+        /// </summary>
+        /// <param name="hProcess">
+        ///     A handle to the process whose memory information is queried.
+        ///     The handle must have been opened with the PROCESS_QUERY_INFORMATION access right,
+        ///     which enables using the handle to read information from the process object.
+        /// </param>
+        /// <param name="lpAddress">
+        ///     A pointer to the base address of the region of pages to be queried.
+        ///     This value is rounded down to the next page boundary.
+        ///     To determine the size of a page on the host computer, use the GetSystemInfo function.
+        /// </param>
+        /// <param name="lpBuffer">
+        ///     A pointer to a MEMORY_BASIC_INFORMATION structure in which information about the specified page range is returned.
+        /// </param>
+        /// <param name="dwLength">
+        ///     The size of the buffer pointed to by the lpBuffer parameter, in bytes.
+        /// </param>
+        /// <returns></returns>
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern int VirtualQueryEx(IntPtr hProcess, IntPtr lpAddress, out MEMORY_BASIC_INFORMATION lpBuffer, uint dwLength);
+
+        /// <summary>
+        /// Retrieves information about the current system.
+        /// To retrieve accurate information for an application running on WOW64, call the GetNativeSystemInfo function.
+        /// </summary>
+        /// <param name="lpSystemInfo">A pointer to a SYSTEM_INFO structure that receives the information.</param>
+        [DllImport("kernel32.dll")]
+        public static extern void GetSystemInfo(out SYSTEM_INFO lpSystemInfo);
+
+        /// <summary>
+        /// Contains information about the current computer system.
+        /// This includes the architecture and type of the processor,
+        /// the number of processors in the system, the page size, and other such information.
+        /// </summary>
+        public struct SYSTEM_INFO
+        {
+            /// <summary>
+            /// The processor architecture of the installed operating system.
+            /// </summary>
+            public ProcessorArchitecture processorArchitecture;
+
+            /// <summary>
+            /// This member is reserved for future use.
+            /// </summary>
+            ushort reserved;
+
+            /// <summary>
+            /// The page size and the granularity of page protection and commitment.
+            /// This is the page size used by the VirtualAlloc function.
+            /// </summary>
+            public uint pageSize;
+
+            /// <summary>
+            /// A pointer to the lowest memory address accessible to applications and dynamic-link libraries (DLLs).
+            /// </summary>
+            public IntPtr minimumApplicationAddress;
+
+            /// <summary>
+            /// A pointer to the highest memory address accessible to applications and DLLs.
+            /// </summary>
+            public IntPtr maximumApplicationAddress;
+
+            /// <summary>
+            /// A mask representing the set of processors configured into the system.
+            /// Bit 0 is processor 0; bit 31 is processor 31.
+            /// </summary>
+            public IntPtr activeProcessorMask;
+
+            /// <summary>
+            /// The number of logical processors in the current group.
+            /// To retrieve this value, use the GetLogicalProcessorInformation function.
+            /// </summary>
+            public uint numberOfProcessors;
+
+            /// <summary>
+            /// An obsolete member that is retained for compatibility.
+            /// Use the <see cref="processorArchitecture"/> member to determine the type of processor.
+            /// </summary>
+            public uint processorType;
+
+            /// <summary>
+            /// The granularity for the starting address at which virtual memory can be allocated.
+            /// For more information, see VirtualAlloc.
+            /// </summary>
+            public uint allocationGranularity;
+
+            /// <summary>
+            /// The architecture-dependent processor level. It should be used only for display purposes.
+            /// To determine the feature set of a processor, use the IsProcessorFeaturePresent function.
+            /// </summary>
+            public ushort processorLevel;
+
+            /// <summary>
+            /// The architecture-dependent processor revision. See MSDN for details.
+            /// </summary>
+            public ushort processorRevision;
+        }
+
+        public enum ProcessorArchitecture
+        {
+            /// <summary>
+            /// X86-64 Instruction Architecture.
+            /// </summary>
+            PROCESSOR_ARCHITECTURE_AMD64 = 9,
+
+            PROCESSOR_ARCHITECTURE_ARM = 5,
+            PROCESSOR_ARCHITECTURE_ARM64 = 12,
+
+            /// <summary>
+            /// Probably not what you want, see <see cref="PROCESSOR_ARCHITECTURE_AMD64"/>
+            /// </summary>
+            PROCESSOR_ARCHITECTURE_IA64 = 6,
+
+            /// <summary>
+            /// X86 Instruction Architecture
+            /// </summary>
+            PROCESSOR_ARCHITECTURE_INTEL = 0
+        }
+
+        /// <summary>
         /// Contains information about a newly created process and its primary thread. 
         /// It is used with the CreateProcess, CreateProcessAsUser, CreateProcessWithLogonW, or CreateProcessWithTokenW function.
         /// </summary>
@@ -460,6 +581,52 @@ namespace Reloaded.Process.Native
             /// The value is valid from the time the thread is created until all handles to the thread are closed and the thread object is freed; at this point, the identifier may be reused.
             /// </summary>
             public uint dwThreadId;
+        }
+
+        /// <summary>
+        /// Contains information about a range of pages in the virtual address space of a process.
+        /// The VirtualQuery and VirtualQueryEx functions use this structure.
+        /// </summary>
+        public struct MEMORY_BASIC_INFORMATION
+        {
+            /// <summary>
+            /// A pointer to the base address of the region of pages.
+            /// </summary>
+            public int BaseAddress;
+
+            /// <summary>
+            /// A pointer to the base address of a range of pages allocated by the VirtualAlloc function.
+            /// The page pointed to by the BaseAddress member is contained within this allocation range.
+            /// </summary>
+            public int AllocationBase;
+
+            /// <summary>
+            /// The memory protection option when the region was initially allocated.
+            /// This member can be one of the memory protection constants or 0 if the caller does not have access.
+            /// </summary>
+            public MemoryProtections AllocationProtect;
+
+            /// <summary>
+            /// The size of the region beginning at the base address in which all pages have identical attributes, in bytes.
+            /// </summary>
+            public int RegionSize;
+
+            /// <summary>
+            /// The state of the pages in the region.This member can be one of the following values.
+            /// </summary>
+            public int State;
+
+            /// <summary>
+            /// The access protection of the pages in the region.
+            /// This member is one of the values listed for the AllocationProtect member.
+            /// </summary>
+            public int Protect;
+
+            /// <summary>
+            /// The type of pages in the region.
+            /// The following types are defined.
+            /// </summary>
+            public int lType;
         }
 
         /// <summary>
