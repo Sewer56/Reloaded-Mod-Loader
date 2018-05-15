@@ -20,6 +20,7 @@
 
 
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Reloaded.Process.X86Functions
@@ -27,14 +28,28 @@ namespace Reloaded.Process.X86Functions
     public static class FunctionCommon
     {
         /// <summary>
-        /// Retrieves the number of parameters for a specific delegate Type.
+        /// Retrieves the number of parameters for a specific delegate Type, minus the floating point parameters.
         /// </summary>
         /// <param name="delegateType">The delegate type automatically containing the method "Invoke" with a set number of parameters.</param>
         /// <returns>Number of parameters for the supplied delegate type.</returns>
         public static int GetNumberofParameters(Type delegateType)
         {
             MethodInfo method = delegateType.GetMethod("Invoke");
-            return method != null ? method.GetParameters().Length : 0;
+            return method != null ? GetNonFloatParameters(method) : 0;
+        }
+
+        /// <summary>
+        /// Retrieves the number of parameters for a specific delegate type minus the floating point parameters.
+        /// </summary>
+        /// <param name="methodInformation">Defines the individual information that describes a method to be called.</param>
+        /// <returns>The number of non-float parameters.</returns>
+        public static int GetNonFloatParameters(MethodInfo methodInformation)
+        {
+            // Retrieve all parameters.
+            ParameterInfo[] parameters = methodInformation.GetParameters();
+
+            // Check for non-float and return amount.
+            return parameters.Count(parameter => parameter.ParameterType != typeof(float) || parameter.ParameterType != typeof(double));
         }
     }
 }
