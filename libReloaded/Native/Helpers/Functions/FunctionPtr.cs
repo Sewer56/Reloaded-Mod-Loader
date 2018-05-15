@@ -36,7 +36,7 @@ namespace Reloaded.Native.Helpers.Functions
     /// Represents a native function pointer.
     /// </summary>
     /// <typeparam name="TDelegate">Delegate type marked with complete ReloadedFunction Attribute that defines the individual function properties.</typeparam>
-    public abstract class FunctionPtr<TDelegate> // where TDelegate : Delegate /* For when C# 7.3 arrives to normal VS */
+    public class FunctionPtr<TDelegate> where TDelegate : Delegate
     {
         /// <summary>
         /// Contains a cache of already created function wrappers for functions at a specified address.
@@ -46,7 +46,7 @@ namespace Reloaded.Native.Helpers.Functions
         /// <summary>
         /// Contains the delegate specifying the native function to be called.
         /// </summary>
-        protected TDelegate Delegate;
+        private TDelegate _delegate;
 
         /// <summary>
         /// [Performance Optimization] Contains the address of the last called function.
@@ -68,28 +68,10 @@ namespace Reloaded.Native.Helpers.Functions
         /// Construct a new callback given the address of the function pointer assigned to the callback.
         /// </summary>
         /// <param name="functionPointer"></param>
-        protected FunctionPtr(ulong functionPointer)
+        public FunctionPtr(ulong functionPointer)
         {
             FunctionPointer = functionPointer;
             _methodCache = new Dictionary<IntPtr, TDelegate>();
-        }
-
-        /// <summary>
-        /// Calls the function behind the pointer.
-        /// </summary>
-        /// <param name="args">The arguments to be passsed to the delegate.</param>
-        /// <returns></returns>
-        public object CallFunction(params object[] args)
-        {
-            // Prepare the calling of the function.
-            PrepareInvoke();
-
-            // TODO: This is untested, not the non C# 7.3 version at least.
-            // Cast to delegate.
-            Delegate methodDelegate = Delegate as Delegate;
-
-            // Return delegate if exists.
-            return methodDelegate?.DynamicInvoke(args);
         }
 
         /// <summary>
@@ -99,40 +81,44 @@ namespace Reloaded.Native.Helpers.Functions
         public static implicit operator bool(FunctionPtr<TDelegate> value) => value.Pointer != IntPtr.Zero;
 
         /// <summary>
-        /// Prepare for the invocation of the callback delegate.
+        /// Retrieves an instance of the delegate which can be used to call the function behind the function pointer.
         /// </summary>
         /// <returns>False if the pointer to call is invalid, else true.</returns>
-        protected bool PrepareInvoke()
+        protected TDelegate GetDelegate()
         {
             // Return false if pointer points to invalid address.
             if (Pointer == IntPtr.Zero)
-                return false;
+                return null;
 
             // Get the pointer to the function.
+            // Our pointer is dereferenced here, see "Pointer" Property.
             IntPtr functionPointer = Pointer;
 
             // [Performance] Fast return if the pointer is the same as the last value.
             if (functionPointer == _lastFunctionPointer)
-                return true;
+                return _delegate;
 
             // Try to get the cached function wrapper.
             if (_methodCache.TryGetValue(functionPointer, out var cachedDelegate))
             {
-                Delegate = cachedDelegate;
+                return cachedDelegate;
             }
+
             // Cached delegate not found.
             else
             {
                 // Create wrapper if nonexisting.
-                Delegate = FunctionWrapper.CreateWrapperFunction<TDelegate>((long) functionPointer);
+                _delegate = FunctionWrapper.CreateWrapperFunction<TDelegate>((long) functionPointer);
 
                 // Cache the function wrapper.
-                _methodCache[functionPointer] = Delegate;
-            }
-            
-            _lastFunctionPointer = functionPointer;
+                _methodCache[functionPointer] = _delegate;
 
-            return true;
+                // Cache last function pointer.
+                _lastFunctionPointer = functionPointer;
+
+                // Return new Delegate
+                return _delegate;
+            }
         }
     }
 }
