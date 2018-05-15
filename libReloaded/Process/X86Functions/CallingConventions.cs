@@ -30,8 +30,7 @@ namespace Reloaded.Process.X86Functions
     {
         /// <summary>
         /// Attribute [UnmanagedFunctionPointer(CallingConvention.Cdecl)] on Delegate
-        /// Usage: Native C# GetDelegateForFunctionPointer() for calling, 
-        ///        append complete ReloadedFunction attribute for function hooking.
+        /// Usage: FunctionWrapper class.
         /// 
         /// Parameters are passed right to left onto the function pushing onto the stack.
         /// Calling function pops its own arguments from the stack. 
@@ -45,9 +44,8 @@ namespace Reloaded.Process.X86Functions
         Cdecl,
 
         /// <summary>
-        /// Attribute [UnmanagedFunctionPointer(CallingConvention.Stdcall)] on Delegate
-        /// Usage: Native C# GetDelegateForFunctionPointer() for calling, 
-        ///        append complete ReloadedFunction attribute for function hooking.
+        /// Attribute [UnmanagedFunctionPointer(CallingConvention.Cdecl)] on Delegate
+        /// Usage: FunctionWrapper class.
         /// 
         /// Parameters are passed right to left onto the function pushing onto the stack.
         /// Called function pops its own arguments from the stack.
