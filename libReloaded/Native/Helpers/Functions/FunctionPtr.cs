@@ -84,7 +84,7 @@ namespace Reloaded.Native.Helpers.Functions
         /// Retrieves an instance of the delegate which can be used to call the function behind the function pointer.
         /// </summary>
         /// <returns>False if the pointer to call is invalid, else true.</returns>
-        protected TDelegate GetDelegate()
+        public TDelegate GetDelegate()
         {
             // Return false if pointer points to invalid address.
             if (Pointer == IntPtr.Zero)
