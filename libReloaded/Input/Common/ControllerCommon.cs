@@ -542,11 +542,46 @@ namespace Reloaded.Input.Common
             /// </summary>
             public float GetLeftTriggerPressure() { return _leftTriggerPressure; }
 
-
             /// <summary>
             /// Retrieves the value stored in the right trigger.
             /// </summary>
             public float GetRightTriggerPressure() { return _rightTriggerPressure; }
+
+            /// <summary>
+            /// Returns a struct instance with default, zero set values.
+            /// </summary>
+            public static ControllerInputs GetDefaultInputs()
+            {
+                // Return default.
+                ControllerInputs inputs = new ControllerInputs()
+                {
+                    ControllerButtons = new ControllerButtonStruct()
+                    {
+                        ButtonA = false,
+                        ButtonB = false,
+                        ButtonBack = false,
+                        ButtonGuide = false,
+                        ButtonLb = false,
+                        ButtonLs = false,
+                        ButtonRb = false,
+                        ButtonRs = false,
+                        ButtonStart = false,
+                        ButtonX = false,
+                        ButtonY = false,
+                        DpadDown = false,
+                        DpadLeft = false,
+                        DpadRight = false,
+                        DpadUp = false
+                    },
+                    LeftStick = new AnalogStick(),
+                    RightStick = new AnalogStick()
+                };
+                inputs.LeftStick.SetX(0);
+                inputs.LeftStick.SetY(0);
+                inputs.RightStick.SetX(0);
+                inputs.RightStick.SetY(0);
+                return inputs;
+            }
         }
 
         /// <summary>

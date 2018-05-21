@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Diagnostics;
+using System.Threading;
 using Reloaded;
 using Reloaded.Input;
 using Reloaded.Input.Common;
@@ -43,7 +44,7 @@ namespace Reloaded_Mod_Template
             */
 
             // Want to see this in with a debugger? Uncomment this line.
-            // Debugger.Launch();
+            Debugger.Launch();
 
             // Print demo details.
             Thread controllerReadThread = new Thread(() =>

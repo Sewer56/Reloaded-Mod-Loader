@@ -154,40 +154,69 @@ namespace Reloaded.Input.DirectInput
         /// <returns>Controller inputs as a custom struct.</returns>
         public ControllerInputs GetControllerState()
         {
-            // Update the current state of the Joystick/Controller
-            JoystickState = GetCurrentState();
-
-            // Instantiate an instance of controller inputs.
-            ControllerInputs controllerInputs = new ControllerInputs();
-
-            // Retrieve all of the buttons;
-            controllerInputs = GetCurrentButtons(controllerInputs);
-
-            // Retrieve all of the axis.
-            controllerInputs = GetCurrentAxis(controllerInputs);
-
-            // Retrieve DPAD Information
-            if (JoystickState.PointOfViewControllers[0] == -1) { }
-            else
+            try
             {
-                switch ((DpadDirection)JoystickState.PointOfViewControllers[0])
+                // Update the current state of the Joystick/Controller
+                JoystickState = GetCurrentState();
+
+                // Instantiate an instance of controller inputs.
+                ControllerInputs controllerInputs = new ControllerInputs();
+
+                // Retrieve all of the buttons;
+                controllerInputs = GetCurrentButtons(controllerInputs);
+
+                // Retrieve all of the axis.
+                controllerInputs = GetCurrentAxis(controllerInputs);
+
+                // Retrieve DPAD Information
+                if (JoystickState.PointOfViewControllers[0] == -1)
                 {
-                    case DpadDirection.Up: controllerInputs.ControllerButtons.DpadUp = true; break;
-                    case DpadDirection.Down: controllerInputs.ControllerButtons.DpadDown = true; break;
-                    case DpadDirection.Left: controllerInputs.ControllerButtons.DpadLeft = true; break;
-                    case DpadDirection.Right: controllerInputs.ControllerButtons.DpadRight = true; break;
-                    case DpadDirection.UpLeft: controllerInputs.ControllerButtons.DpadUp = true; controllerInputs.ControllerButtons.DpadLeft = true; break;
-                    case DpadDirection.UpRight: controllerInputs.ControllerButtons.DpadUp = true; controllerInputs.ControllerButtons.DpadRight = true; break;
-                    case DpadDirection.DownLeft: controllerInputs.ControllerButtons.DpadDown = true; controllerInputs.ControllerButtons.DpadLeft = true; break;
-                    case DpadDirection.DownRight: controllerInputs.ControllerButtons.DpadDown = true; controllerInputs.ControllerButtons.DpadRight = true; break;
                 }
+                else
+                {
+                    switch ((DpadDirection) JoystickState.PointOfViewControllers[0])
+                    {
+                        case DpadDirection.Up:
+                            controllerInputs.ControllerButtons.DpadUp = true;
+                            break;
+                        case DpadDirection.Down:
+                            controllerInputs.ControllerButtons.DpadDown = true;
+                            break;
+                        case DpadDirection.Left:
+                            controllerInputs.ControllerButtons.DpadLeft = true;
+                            break;
+                        case DpadDirection.Right:
+                            controllerInputs.ControllerButtons.DpadRight = true;
+                            break;
+                        case DpadDirection.UpLeft:
+                            controllerInputs.ControllerButtons.DpadUp = true;
+                            controllerInputs.ControllerButtons.DpadLeft = true;
+                            break;
+                        case DpadDirection.UpRight:
+                            controllerInputs.ControllerButtons.DpadUp = true;
+                            controllerInputs.ControllerButtons.DpadRight = true;
+                            break;
+                        case DpadDirection.DownLeft:
+                            controllerInputs.ControllerButtons.DpadDown = true;
+                            controllerInputs.ControllerButtons.DpadLeft = true;
+                            break;
+                        case DpadDirection.DownRight:
+                            controllerInputs.ControllerButtons.DpadDown = true;
+                            controllerInputs.ControllerButtons.DpadRight = true;
+                            break;
+                    }
+                }
+
+                // Retrieve Emulated Keys
+                controllerInputs = GetCurrentEmulatedKeys(controllerInputs);
+
+                // Return to base.
+                return controllerInputs;
             }
-
-            // Retrieve Emulated Keys
-            controllerInputs = GetCurrentEmulatedKeys(controllerInputs);
-
-            // Return to base.
-            return controllerInputs;
+            catch
+            {
+                return ControllerInputs.GetDefaultInputs();
+            }
         }
 
         /// <summary>
