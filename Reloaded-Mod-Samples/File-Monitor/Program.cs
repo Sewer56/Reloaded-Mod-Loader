@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using Reloaded;
+using System.Windows.Forms;
+using libReloaded_Networking;
 using Reloaded.Process;
-using Reloaded.Process.Native;
-using Reloaded.Process.X86Hooking;
+using Reloaded.Process.Functions.X64Hooking;
+using Reloaded.Process.Functions.X86Hooking;
 using static Reloaded_Mod_Template.Native;
+using Bindings = Reloaded.Bindings;
 
 namespace Reloaded_Mod_Template
 {
@@ -37,6 +39,9 @@ namespace Reloaded_Mod_Template
             with constructor, which just runs the factory method and is an alias for it.
         */
 
+        private static X64FunctionHook<CreateFile> createFileHook64;
+        private static X64FunctionHook<CreateFileW> createFileWHook64;
+        private static X64FunctionHook<CreateFileA> createFileAHook64;
         private static FunctionHook<CreateFile> createFileHook;
         private static FunctionHook<CreateFileW> createFileWHook;
         private static FunctionHook<CreateFileA> createFileAHook;
@@ -60,6 +65,8 @@ namespace Reloaded_Mod_Template
                 parameter and redirect to the original functions.
             */
 
+            // Debugger.Launch();
+
             // This should automatically resolve to kernel32.dll as it is already registered by Windows.
             // The handle should return from already loaded library in memory, following the standard search strategy.
             IntPtr kernel32Handle = Reloaded.Process.Native.Native.LoadLibrary("kernel32");
@@ -70,9 +77,21 @@ namespace Reloaded_Mod_Template
             IntPtr createFilePointer = Reloaded.Process.Native.Native.GetProcAddress(kernel32Handle, "CreateFile");
 
             // Hook the obtained function pointers.
-            if (createFilePointer  != IntPtr.Zero)  { createFileWHook = FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
-            if (createFileAPointer != IntPtr.Zero)  { createFileAHook = FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
-            if (createFilePointer  != IntPtr.Zero)  { createFileHook  = FunctionHook<CreateFile >.Create((long)createFilePointer , CreateFileImpl).Activate();  }
+
+            // X86
+            if (IntPtr.Size == 4)
+            {
+                if (createFileWPointer != IntPtr.Zero) { createFileWHook = FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
+                if (createFileAPointer != IntPtr.Zero) { createFileAHook = FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
+                if (createFilePointer != IntPtr.Zero) { createFileHook = FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl).Activate(); }
+            }
+            // X64
+            else if (IntPtr.Size == 8)
+            {
+                if (createFileWPointer != IntPtr.Zero) { createFileWHook64 = X64FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
+                if (createFileAPointer != IntPtr.Zero) { createFileAHook64 = X64FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
+                if (createFilePointer != IntPtr.Zero) { createFileHook64 = X64FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl).Activate(); }
+            }
         }
 
         /// <summary>
@@ -85,9 +104,11 @@ namespace Reloaded_Mod_Template
             // It simply prints to the console of the Mod Loader's Loader (which is a local server).
             // The if statement filters out non-files such as HID devices.
             if (!filename.StartsWith(@"\\?\"))
-                Bindings.PrintInfo($"Loading File {filename}");
+                Bindings.PrintInfo($"[CFA] Loading File {filename}");
 
-            return createFileAHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+            return IntPtr.Size == 4 ?
+                createFileAHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
+                createFileAHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
         }
 
         /// <summary>
@@ -100,9 +121,11 @@ namespace Reloaded_Mod_Template
             // It simply prints to the console of the Mod Loader's Loader (which is a local server).
             // The if statement filters out non-files such as HID devices.
             if (!filename.StartsWith(@"\\?\"))
-                Bindings.PrintInfo($"Loading File {filename}");
+                Bindings.PrintInfo($"[CFW] Loading File {filename}");
 
-            return createFileWHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+            return IntPtr.Size == 4 ?
+                createFileWHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
+                createFileWHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
         }
 
         /// <summary>
@@ -115,9 +138,11 @@ namespace Reloaded_Mod_Template
             // It simply prints to the console of the Mod Loader's Loader (which is a local server).
             // The if statement filters out non-files such as HID devices.
             if (!filename.StartsWith(@"\\?\"))
-                Bindings.PrintInfo($"Loading File {filename}");
+                Bindings.PrintInfo($"[CF] Loading File {filename}");
 
-            return createFileHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+            return IntPtr.Size == 4 ?
+                createFileHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
+                createFileHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
         }
     }
 }

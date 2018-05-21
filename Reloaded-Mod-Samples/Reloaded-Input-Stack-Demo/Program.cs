@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using Reloaded;
-using Reloaded.Assembler;
 using Reloaded.Input;
 using Reloaded.Input.Common;
-using Reloaded.Native.Helpers.Arrays;
 using Reloaded.Process;
-using Reloaded.Process.Memory;
 
 namespace Reloaded_Mod_Template
 {

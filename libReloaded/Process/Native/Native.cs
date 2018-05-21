@@ -161,7 +161,7 @@ namespace Reloaded.Process.Native
         /// <param name="flProtect">The memory protection for the region of pages to be allocated.</param>
         /// <returns>If succeeds, the base address of the allocated region of pages, else NULL.</returns>
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        public static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, IntPtr dwSize, AllocationTypes flAllocationTypes, MemoryProtections flProtect);
+        public static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, uint dwSize, AllocationTypes flAllocationTypes, MemoryProtections flProtect);
 
         /// <summary>
         /// VirtualFreeEx
@@ -475,11 +475,6 @@ namespace Reloaded.Process.Native
             public ProcessorArchitecture processorArchitecture;
 
             /// <summary>
-            /// This member is reserved for future use.
-            /// </summary>
-            ushort reserved;
-
-            /// <summary>
             /// The page size and the granularity of page protection and commitment.
             /// This is the page size used by the VirtualAlloc function.
             /// </summary>
@@ -587,18 +582,19 @@ namespace Reloaded.Process.Native
         /// Contains information about a range of pages in the virtual address space of a process.
         /// The VirtualQuery and VirtualQueryEx functions use this structure.
         /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
         public struct MEMORY_BASIC_INFORMATION
         {
             /// <summary>
             /// A pointer to the base address of the region of pages.
             /// </summary>
-            public int BaseAddress;
+            public IntPtr BaseAddress;
 
             /// <summary>
             /// A pointer to the base address of a range of pages allocated by the VirtualAlloc function.
             /// The page pointed to by the BaseAddress member is contained within this allocation range.
             /// </summary>
-            public int AllocationBase;
+            public IntPtr AllocationBase;
 
             /// <summary>
             /// The memory protection option when the region was initially allocated.
@@ -609,24 +605,74 @@ namespace Reloaded.Process.Native
             /// <summary>
             /// The size of the region beginning at the base address in which all pages have identical attributes, in bytes.
             /// </summary>
-            public int RegionSize;
+            public IntPtr RegionSize;
 
             /// <summary>
-            /// The state of the pages in the region.This member can be one of the following values.
+            /// The state of the pages in the region.
             /// </summary>
-            public int State;
+            public PageState State;
 
             /// <summary>
             /// The access protection of the pages in the region.
             /// This member is one of the values listed for the AllocationProtect member.
             /// </summary>
-            public int Protect;
+            public MemoryProtections Protect;
 
             /// <summary>
             /// The type of pages in the region.
             /// The following types are defined.
             /// </summary>
-            public int lType;
+            public PageType lType;
+        }
+
+        /// <summary>
+        /// PageState
+        ///     The state of the pages in the region. This member can be one of the following values.
+        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366775(v=vs.85).aspx
+        /// </summary>
+        [Flags]
+        public enum PageState
+        {
+            /// <summary>
+            /// Indicates committed pages for which physical storage has been allocated, either in memory or in the paging file on disk.
+            /// </summary>
+            Commit = 0x1000,
+
+            /// <summary>
+            /// Indicates free pages not accessible to the calling process and available to be allocated.
+            /// For free pages, the information in the AllocationBase, AllocationProtect, Protect, and Type members is undefined.
+            /// </summary>
+            Free = 0x10000,
+
+            /// <summary>
+            /// Indicates reserved pages where a range of the process's virtual address space is reserved without any physical storage being allocated.
+            /// For reserved pages, the information in the Protect member is undefined.
+            /// </summary>
+            Reserve = 0x2000
+        }
+
+        /// <summary>
+        /// PageState
+        ///     The type of pages in the region. The following types are defined.
+        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366775(v=vs.85).aspx
+        /// </summary>
+        [Flags]
+        public enum PageType
+        {
+            /// <summary>
+            /// Indicates that the memory pages within the region are mapped into the view of an image section.
+            /// </summary>
+            Image = 0x1000000,
+
+            /// <summary>
+            /// Indicates that the memory pages within the region are mapped into the view of a section.
+            /// </summary>
+            Mapped = 0x40000,
+
+            /// <summary>
+            /// Indicates that the memory pages within the region are private (that is, not shared by other processes).
+            /// </summary>
+            Private = 0x20000
         }
 
         /// <summary>

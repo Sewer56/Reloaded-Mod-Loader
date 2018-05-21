@@ -1,5 +1,5 @@
 {
-  "ModName": "[X86] Reloaded File Redirector",
+  "ModName": "[X86/X64] Reloaded File Redirector",
   "ModDescription": "Redirects loading of game files from your game directory to files inside Plugins/Redirector/ in enabled mod folders.",
   "ModVersion": "1.0.0",
   "ModAuthor": "Sewer56lol",

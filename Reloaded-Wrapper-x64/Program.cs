@@ -21,7 +21,6 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Squirrel;
 
 namespace Reloaded_Wrapper_x64
 {

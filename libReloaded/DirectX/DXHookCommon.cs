@@ -34,7 +34,7 @@ namespace Reloaded.DirectX
         /// evaluating the currently loaded in DirectX modules.
         /// </summary>
         /// <returns></returns>
-        public static async Task<Direct3DVersion> DetermineDirectXVersion()
+        public static async Task<Direct3DVersion> GetDirectXVersion()
         {
             // Store the amount of attempts taken at hooking DirectX for a process.
             int attempts = 0;

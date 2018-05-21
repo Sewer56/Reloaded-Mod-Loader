@@ -43,7 +43,7 @@ namespace Reloaded.Process.Memory
             (
                 process.ProcessHandle, 
                 IntPtr.Zero, 
-                (IntPtr)length, 
+                (uint)length, 
                 AllocationTypes.Commit | AllocationTypes.Reserve, 
                 MemoryProtections.ExecuteReadWrite
             );

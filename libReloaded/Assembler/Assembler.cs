@@ -19,12 +19,10 @@
 */
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Threading;
 using libReloaded_Networking;
 using LiteNetLib;
@@ -56,7 +54,7 @@ namespace Reloaded.Assembler
         /// Listens to network events triggered as other clients interact with the
         /// Reloaded Mod Loader Server.
         /// </summary>
-        private static EventBasedNetListener ReloadedClientListener;
+        private static EventBasedNetListener _reloadedClientListener;
 
         /// <summary>
         /// Reloaded mod loader stuff reserve ports in the 1337X space.
@@ -104,7 +102,6 @@ namespace Reloaded.Assembler
         /// (X86, X64) and returns the result back to the user.
         /// 
         /// NOTE: THIS METHOD IS NOT THREAD SAFE, DO NOT CALL ASYNCHRONOUSLY.
-        /// TODO: ADD QUEUE TO ALLOW FOR ASYNCHRONY.
         /// </summary>
         /// <param name="mnemonics">The successfully assembled X86, X64 or other compatible mnemonics.</param>
         /// <returns>0x90 (nop) if the assembly operation fails, else the successfully assembled bytes.</returns>
@@ -133,7 +130,7 @@ namespace Reloaded.Assembler
             }
 
             // Add event for receiving on network.
-            ReloadedClientListener.NetworkReceiveEvent += GetMessageBytes;
+            _reloadedClientListener.NetworkReceiveEvent += GetMessageBytes;
             ReloadedClient.GetFirstPeer().Send(assemblyRequest.GetBytes(), SendOptions.ReliableOrdered);
 
             // Wait for response and return data.
@@ -141,7 +138,7 @@ namespace Reloaded.Assembler
             { ReloadedClient.PollEvents(); }
 
             // Unsubscribe delegate.
-            ReloadedClientListener.NetworkReceiveEvent -= GetMessageBytes;
+            _reloadedClientListener.NetworkReceiveEvent -= GetMessageBytes;
 
             return messageBytes;
         }
@@ -186,8 +183,8 @@ namespace Reloaded.Assembler
             else
             {
                 // Setup Local Server Client
-                ReloadedClientListener = new EventBasedNetListener();
-                ReloadedClient = new NetManager(ReloadedClientListener, 10, ReloadedCheckMessage);
+                _reloadedClientListener = new EventBasedNetListener();
+                ReloadedClient = new NetManager(_reloadedClientListener, 10, ReloadedCheckMessage);
                 ReloadedClient.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, 0);
                 ReloadedClient.ReconnectDelay = 50;
                 ReloadedClient.MaxConnectAttempts = 5;

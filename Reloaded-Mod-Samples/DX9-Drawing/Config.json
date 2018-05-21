@@ -1,5 +1,5 @@
 {
-  "ModName": "[X86] DX9 Internal Overlay Example",
+  "ModName": "[X86/X64] DX9 Internal Overlay Example",
   "ModDescription": "An example of drawing with an internal overlay using DirectX9 and Reloaded.\nFast, has low resource usage, more difficult to use.",
   "ModVersion": "1.0.0",
   "ModAuthor": "Sewer56lol",

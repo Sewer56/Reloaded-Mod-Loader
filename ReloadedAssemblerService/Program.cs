@@ -32,7 +32,6 @@
 
 using System;
 using System.Diagnostics;
-using System.ServiceProcess;
 using System.Threading;
 
 namespace ReloadedAssembler

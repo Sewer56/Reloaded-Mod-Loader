@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static Reloaded.Process.Native.Native;
 
 namespace Reloaded.Process.Memory
@@ -17,7 +14,7 @@ namespace Reloaded.Process.Memory
         /// Returns an individual list of various pages inside the current process' memory,
         /// </summary>
         /// <returns></returns>
-        public static List<MEMORY_BASIC_INFORMATION> GetPages()
+        public static List<MEMORY_BASIC_INFORMATION> GetPages(this ReloadedProcess reloadedProcess)
         {
             // Retrieve the system information which gives us the range of all pages available for DLL + EXE
             GetSystemInfo(out var systemInfo);
@@ -27,7 +24,7 @@ namespace Reloaded.Process.Memory
             ulong maxAddress = (ulong)systemInfo.maximumApplicationAddress;
 
             // Shorthand for convenience.
-            IntPtr processHandle = Bindings.TargetProcess.ProcessHandle;
+            IntPtr processHandle = reloadedProcess.ProcessHandle;
             List<MEMORY_BASIC_INFORMATION> memoryPages = new List<MEMORY_BASIC_INFORMATION>();
 
             // Until we get all of the pages.

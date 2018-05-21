@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
 using System.Windows;
-using Reloaded;
 using Reloaded.Native.Functions;
 using Reloaded.Overlay.External.D2D;
 using Reloaded.Process;

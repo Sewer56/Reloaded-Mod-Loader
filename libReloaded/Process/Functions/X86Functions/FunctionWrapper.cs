@@ -24,21 +24,22 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Reloaded.Assembler;
+using Reloaded.Process.Buffers;
 
-namespace Reloaded.Process.X86Functions.CustomFunctionFactory
+namespace Reloaded.Process.Functions.X86Functions
 {
     public static class FunctionWrapper
     {
         /// <summary>
         /// Creates the wrapper function that wraps a native function with our own 
-        /// defined or custom calling convention, as specified in ReloadedFunction Attribute 
+        /// defined or custom calling convention, as specified in <see cref="ReloadedFunctionAttribute"/>
         /// into a regular CDECL function that is natively supported by the C# programming language.
         /// 
         /// The return value is a delegate to be assigned to an [UnmanagedFunctionPointer(CallingConvention.Cdecl)] 
         /// Attribute marked delegate.
         /// </summary>
         /// <param name="functionAddress">The address of the game function to create the wrapper for.</param>
-        /// <typeparam name="TFunction">Delegate type marked with complete ReloadedFunction Attribute that defines the individual function properties.</typeparam>
+        /// <typeparam name="TFunction">Delegate type marked with complete <see cref="ReloadedFunctionAttribute"/> that defines the individual function properties.</typeparam>
         /// <returns>Delegate to assign back to ReloadedFunction marked game function</returns>
         public static TFunction CreateWrapperFunction<TFunction>(long functionAddress)
         {
@@ -96,7 +97,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
                 assemblyCode.AddRange(AssembleFunctionParameters(numberOfParameters, reloadedFunction.SourceRegisters));
 
             // Call Game Function Pointer (gameFunctionPointer is address at which our function address is written)
-            IntPtr gameFunctionPointer = MemoryBuffer.Add(functionAddress); 
+            IntPtr gameFunctionPointer = MemoryBufferManager.Add(functionAddress, IntPtr.Zero); 
             assemblyCode.Add("call dword [0x" + gameFunctionPointer.ToString("X") + "]"); 
 
             // Stack cleanup if necessary 
@@ -119,7 +120,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
 
             // Write function to buffer and return pointer.
             byte[] assembledMnemonics = Assembler.Assembler.Assemble(assemblyCode.ToArray());
-            return MemoryBuffer.Add(assembledMnemonics);
+            return MemoryBufferManager.Add(assembledMnemonics);
         }
 
         /// <summary>

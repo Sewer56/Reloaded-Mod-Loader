@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using Reloaded.Process.X86Functions;
-using Reloaded.Process.X86Functions.CustomFunctionFactory;
+using Reloaded.Process.Functions.X64Functions;
+using Reloaded.Process.Functions.X86Functions;
 
 namespace Reloaded_Mod_Template
 {
@@ -63,6 +63,7 @@ namespace Reloaded_Mod_Template
         /// </param>
         /// <returns>If the function succeeds, the return value is an open handle to the specified file, device, named pipe, or mail slot.</returns>
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        [X64ReloadedFunction(X64CallingConventions.Microsoft)]
         [ReloadedFunction(CallingConventions.Stdcall)]
         public delegate IntPtr CreateFile(
             [MarshalAs(UnmanagedType.LPTStr)] string filename,
@@ -110,6 +111,7 @@ namespace Reloaded_Mod_Template
         /// </param>
         /// <returns>If the function succeeds, the return value is an open handle to the specified file, device, named pipe, or mail slot.</returns>
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        [X64ReloadedFunction(X64CallingConventions.Microsoft)]
         [ReloadedFunction(CallingConventions.Stdcall)]
         public delegate IntPtr CreateFileA(
             [MarshalAs(UnmanagedType.LPStr)] string filename,
@@ -157,6 +159,7 @@ namespace Reloaded_Mod_Template
         /// </param>
         /// <returns>If the function succeeds, the return value is an open handle to the specified file, device, named pipe, or mail slot.</returns>
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        [X64ReloadedFunction(X64CallingConventions.Microsoft)]
         [ReloadedFunction(CallingConventions.Stdcall)]
         public delegate IntPtr CreateFileW(
             [MarshalAs(UnmanagedType.LPWStr)] string filename,

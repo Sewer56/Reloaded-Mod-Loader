@@ -22,7 +22,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Reloaded.Process.X86Functions.CustomFunctionFactory
+namespace Reloaded.Process.Functions.X86Functions
 {
     /// <summary>
     /// Class which stores the function information for custom functions
@@ -45,7 +45,7 @@ namespace Reloaded.Process.X86Functions.CustomFunctionFactory
 
         /// <summary>
         /// Defines the stack cleanup rule for the function.
-        /// Callee: Stack pointer restored inside the game function we are executing).
+        /// Callee: Stack pointer restored inside the game function we are executing.
         /// Caller: Stack pointer restored in our own wrapper function.
         /// </summary>
         public StackCleanup Cleanup { get; }

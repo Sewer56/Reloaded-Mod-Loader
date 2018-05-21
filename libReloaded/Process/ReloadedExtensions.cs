@@ -18,10 +18,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Threading;
 using Reloaded.Process.Threads;
 using static Reloaded.Native.WinAPI.Threads;
 

@@ -267,5 +267,16 @@ namespace Reloaded.Process
 
             return _localSystemProcess;
         }
+
+        /// <summary>
+        /// GetBaseAddress
+        ///     Retrieves the base address of the module, i.e. 0x400000 for executables
+        ///     not using Address Space Layout Randomization.
+        /// </summary>
+        /// <returns></returns>
+        public IntPtr GetBaseAddress()
+        {
+            return Native.Native.GetModuleHandle(null);
+        }
     }
 }

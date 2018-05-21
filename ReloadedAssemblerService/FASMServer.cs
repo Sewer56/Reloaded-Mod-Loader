@@ -31,13 +31,11 @@
  */
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.ServiceProcess;
-using System.Text;
 using Binarysharp.Assemblers.Fasm;
 using libReloaded_Networking;
 using LiteNetLib;
@@ -116,7 +114,12 @@ namespace ReloadedAssembler
                 // Create new server instance.
                 ReloadedServerListener = new EventBasedNetListener();
                 ReloadedServer = new NetManager(ReloadedServerListener, 65535, ReloadedCheckMessage);
+
                 ReloadedServer.DisconnectTimeout = 10000;
+                #if DEBUG
+                ReloadedServer.DisconnectTimeout = Int64.MaxValue;
+                #endif
+
                 ReloadedServer.ReconnectDelay = 100;
                 ReloadedServer.UnsyncedEvents = true;
                 ReloadedServer.MaxConnectAttempts = 10;

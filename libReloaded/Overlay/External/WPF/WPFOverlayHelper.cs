@@ -19,7 +19,6 @@
 */
 
 using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Interop;
 using Reloaded.Native.Functions;

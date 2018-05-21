@@ -40,17 +40,6 @@ namespace Reloaded.Process.Memory
         */
 
         /// <summary>
-        /// GetBaseAddress
-        ///     Retrieves the base address of the module, i.e. 0x400000 for executables
-        ///     not using Address Space Layout Randomization.
-        /// </summary>
-        /// <returns></returns>
-        public static IntPtr GetBaseAddress()
-        {
-            return GetModuleHandle(null);
-        }
-
-        /// <summary>
         /// ReadMemory
         ///     Reads a specified specific amount of bytes from memory of the current process.
         ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.

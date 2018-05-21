@@ -21,7 +21,7 @@
 using System;
 using System.Windows.Forms;
 using Reloaded.DirectX.Definitions;
-using Reloaded.Process.X86Functions.Utilities;
+using Reloaded.Process.Functions.Utilities;
 using SharpDX.Direct3D9;
 
 namespace Reloaded.DirectX

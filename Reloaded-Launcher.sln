@@ -18,6 +18,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Loader", "Reloaded
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Mod-Template", "Reloaded-Mod-Template\Reloaded-Mod-Template.csproj", "{9A6D278C-F643-4181-860A-D82C3A8FD6E9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF} = {E34EF040-EC6D-4DDC-B71A-76CE7AFA3FDF}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Wrapper-x64", "Reloaded-Wrapper-x64\Reloaded-Wrapper-x64.csproj", "{6465D81D-69D3-46BF-AEDE-DF59B86F5029}"
 EndProject
@@ -53,6 +56,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Input-Stack-Demo", "Reloaded-Mod-Samples\Reloaded-Input-Stack-Demo\Reloaded-Input-Stack-Demo.csproj", "{865DB536-2216-4C27-9D76-8A3E2415C6E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF-Demo-Overlay", "Reloaded-Mod-Samples\WPF-Demo-Overlay\WPF-Demo-Overlay.csproj", "{91A7C329-5B56-4AA4-BCC2-C299274C448D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test-Mod", "Reloaded-Mod-Samples\Test-Mod\Test-Mod.csproj", "{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -391,6 +396,24 @@ Global
 		{91A7C329-5B56-4AA4-BCC2-C299274C448D}.Release|x64.Build.0 = Release|Any CPU
 		{91A7C329-5B56-4AA4-BCC2-C299274C448D}.Release|x86.ActiveCfg = Release|Any CPU
 		{91A7C329-5B56-4AA4-BCC2-C299274C448D}.Release|x86.Build.0 = Release|Any CPU
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Debug|x64.ActiveCfg = Debug|x64
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Debug|x64.Build.0 = Debug|x64
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Debug|x86.ActiveCfg = Debug|x86
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Debug|x86.Build.0 = Debug|x86
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Github-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Github-Release|Any CPU.Build.0 = Release|Any CPU
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Github-Release|x64.ActiveCfg = Release|x64
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Github-Release|x64.Build.0 = Release|x64
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Github-Release|x86.ActiveCfg = Release|x86
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Github-Release|x86.Build.0 = Release|x86
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Release|x64.ActiveCfg = Release|x64
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Release|x64.Build.0 = Release|x64
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Release|x86.ActiveCfg = Release|x86
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -406,6 +429,7 @@ Global
 		{58716F20-D5F4-49E5-A40F-C78ACF029E4B} = {7C9F920E-A543-4747-B712-54A4A11A104E}
 		{865DB536-2216-4C27-9D76-8A3E2415C6E6} = {7C9F920E-A543-4747-B712-54A4A11A104E}
 		{91A7C329-5B56-4AA4-BCC2-C299274C448D} = {7C9F920E-A543-4747-B712-54A4A11A104E}
+		{6D794213-9DFB-4A6B-97A2-4262C6FECFA2} = {7C9F920E-A543-4747-B712-54A4A11A104E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AECD44BF-C6F0-4904-9C72-A0B8CB399EE9}

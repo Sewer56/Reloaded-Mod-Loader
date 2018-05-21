@@ -6,9 +6,9 @@ using ColorMine.ColorSpaces;
 using Reloaded.DirectX.Definitions;
 using Reloaded.Overlay.Internal;
 using Reloaded.Process;
-using Reloaded.Process.X86Functions;
-using Reloaded.Process.X86Functions.CustomFunctionFactory;
-using Reloaded.Process.X86Functions.Utilities;
+using Reloaded.Process.Functions.Utilities;
+using Reloaded.Process.Functions.X64Functions;
+using Reloaded.Process.Functions.X86Functions;
 using SharpDX;
 using SharpDX.Direct3D9;
 using SharpDX.Mathematics.Interop;
@@ -102,9 +102,13 @@ namespace Reloaded_Mod_Template
                 ResetDelegate: Reset hook, this is called when the resolution of the window changes, or a switch from fullscreen to window is performed.
                 HookDelay: Some games require this due to bad programming *cough* Sonic Adventure 2 *cough*.
             */
+            // Debugger.Launch();
+
             _directX9Overlay = await DX9Overlay.CreateDirectXOverlay(RenderDelegate, ResetDelegate, 4000);
-            _directX9Overlay.EndSceneHook.Activate();
-            _directX9Overlay.ResetHook.Activate();
+            _directX9Overlay.EndSceneHook?.Activate();
+            _directX9Overlay.ResetHook?.Activate();
+            _directX9Overlay.EndSceneHook64?.Activate();
+            _directX9Overlay.ResetHook64?.Activate();
 
             /*
                 Warning: Amateur DirectX 9 Rendering Code.
@@ -135,7 +139,10 @@ namespace Reloaded_Mod_Template
             // In this very specific case however, no code is provided in the example.
 
             // At the end of this, we should call the original Reset
-            return _directX9Overlay.ResetHook.OriginalFunction(device, ref presentParameters);
+            if (IntPtr.Size == 4)
+                return _directX9Overlay.ResetHook.OriginalFunction(device, ref presentParameters);
+            else
+                return _directX9Overlay.ResetHook64.OriginalFunction(device, ref presentParameters);
         }
 
         // Initialization flag
@@ -217,7 +224,7 @@ namespace Reloaded_Mod_Template
                 if (_directX9Overlay != null)
                 {
                     VirtualFunctionTable.TableEntry vTableEntry = _directX9Overlay.DirectX9Hook.DirectXFunctions[(int)Direct3DDevice9.SetPixelShader];
-                    _setPixelShaderFunction = vTableEntry.CreateX86WrapperFunction<SetPixelShaderDelegate>();
+                    _setPixelShaderFunction = vTableEntry.CreateWrapperFunction<SetPixelShaderDelegate>();
                 }
 
                 // Never run this again.
@@ -246,7 +253,10 @@ namespace Reloaded_Mod_Template
             RenderTriangle(localDevice);
 
             // At the end of this, we should call the original EndScene
-            return _directX9Overlay.EndSceneHook.OriginalFunction(device);
+            if (IntPtr.Size == 4)
+                return _directX9Overlay.EndSceneHook.OriginalFunction(device);
+            else
+                return _directX9Overlay.EndSceneHook64.OriginalFunction(device);
         }
 
         /// <summary>
@@ -365,6 +375,7 @@ namespace Reloaded_Mod_Template
         /// </summary>
         /// <param name="pixelShaderPointer">Pointer to the pixel shader.</param>
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode, SetLastError = true)]
+        [X64ReloadedFunction(X64CallingConventions.Microsoft)]
         [ReloadedFunction(CallingConventions.Stdcall)]
         public delegate int SetPixelShaderDelegate(IntPtr devicePtr, IntPtr pixelShaderPointer);
     }

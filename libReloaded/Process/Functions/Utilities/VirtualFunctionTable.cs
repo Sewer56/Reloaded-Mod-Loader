@@ -23,7 +23,7 @@ using System;
 using System.Collections.Generic;
 using Reloaded.Process.Memory;
 
-namespace Reloaded.Process.X86Functions.Utilities
+namespace Reloaded.Process.Functions.Utilities
 {
     /// <summary>
     /// Provides various utilities and fields related to Virtual Function

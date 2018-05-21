@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,6 +7,7 @@ using Reloaded;
 using Reloaded.Assembler;
 using Reloaded.Native.Helpers.Arrays;
 using Reloaded.Process;
+using Reloaded.Process.Buffers;
 using Reloaded.Process.Memory;
 
 namespace Reloaded_Mod_Template
@@ -57,7 +57,7 @@ namespace Reloaded_Mod_Template
             /// //////////////////////////////////
 
             // First let's allocate some memory to write our data to.
-            // See footnote at 1*, you should really instead use the MemoryBuffer class for this.
+            // See footnote at 1*, you should really instead use the MemoryBufferManager class for this.
             IntPtr addressOfAllocation = GameProcess.AllocateMemory(2048);
             Bindings.PrintInfo($"Memory allocated at {addressOfAllocation.ToString("X")}");
 
@@ -119,9 +119,9 @@ namespace Reloaded_Mod_Template
             
             // First write our arbitrary physics data into memory.
             byte[] physicsData = File.ReadAllBytes($"{ModDirectory}\\phys.bin"); // ModDirectory is from Reloaded Template 
-            IntPtr arrayLocation = MemoryBuffer.Add(physicsData);                // A good example of using MemoryBuffer (see note below), 
+            IntPtr arrayLocation = MemoryBufferManager.Add(physicsData);         // A good example of using MemoryBufferManager (see note below), 
                                                                                  // normally no guarantee our data will fit into our allocated memory, 
-                                                                                 // MemoryBuffer also handles that case without extra code.
+                                                                                 // MemoryBufferManager also handles that case without extra code.
             Bindings.PrintInfo($"Character physics data written to {arrayLocation.ToString("X")}");
 
             // Now let's read back the memory.
@@ -159,7 +159,7 @@ namespace Reloaded_Mod_Template
             this memory may be used to write our own assembly functions to redirect the program to or
             some other arbitrary user preferred reasons.
 
-            It is recommended HOWEVER that you use MemoryBuffer class in the Assembler namespace if writing some
+            It is recommended HOWEVER that you use MemoryBufferManager class in the Assembler namespace if writing some
             small size information into unallocated memory is all you want.
 
             The minimum granularity (smallest step amount) of allocation is the size of a page (4096bytes),

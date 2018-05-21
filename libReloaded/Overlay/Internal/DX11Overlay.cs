@@ -19,14 +19,17 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows;
 using Reloaded.DirectX;
 using Reloaded.DirectX.Definitions;
-using Reloaded.Process.X86Functions;
-using Reloaded.Process.X86Functions.CustomFunctionFactory;
-using Reloaded.Process.X86Functions.Utilities;
-using Reloaded.Process.X86Hooking;
+using Reloaded.Process.Functions.Utilities;
+using Reloaded.Process.Functions.X64Functions;
+using Reloaded.Process.Functions.X64Hooking;
+using Reloaded.Process.Functions.X86Functions;
+using Reloaded.Process.Functions.X86Hooking;
 using SharpDX.DXGI;
 
 namespace Reloaded.Overlay.Internal
@@ -51,46 +54,22 @@ namespace Reloaded.Overlay.Internal
         public FunctionHook<DXGISwapChain_ResizeTargetDelegate> ResizeTargetHook { get; private set; }
 
         /// <summary>
+        /// A copy of the delegate pointed to your own method used for rendering
+        /// of your own 2D elements over the game content.
+        /// </summary>
+        public X64FunctionHook<DXGISwapChain_PresentDelegate> PresentHook64 { get; private set; }
+
+        /// <summary>
+        /// A copy of the delegate pointed to your own method used executed when
+        /// the resolution, fullscreen/windowed mode or other state changes.
+        /// </summary>
+        public X64FunctionHook<DXGISwapChain_ResizeTargetDelegate> ResizeTargetHook64 { get; private set; }
+
+        /// <summary>
         /// An instance of the <see cref="DX11Hook"/> class allowing us to easily manage
         /// and hook as well as unhook various DirectX11 functions.
         /// </summary>
         public DX11Hook DirectX11Hook { get; private set; }
-
-        /// <summary>
-        /// Defines the delegate type which fires the user's own method 
-        /// used for rendering using a Direct3D11 device.
-        /// </summary>
-        //private DXGISwapChain_PresentDelegate direct2DRenderMethod;
-
-        /*
-         * Commented out is are remainments of (failed) attempts to bring over Direct2D
-         * rendering into Direct3D games universally. If you have sufficient experience
-         * in working with DirectX, contributions would be appreciated.
-         */
-
-        /// <summary>
-        /// Flag indicating whether Direct2D has been setup for user rendering for the first time.
-        /// </summary>
-        //private bool _direct2DSetup = false;
-
-        /// <summary>
-        /// Defines the delegate type which fires the user's own method 
-        /// used for rendering onto a Direct2D surface (or the screen rather).
-        /// </summary>
-        //private Direct2DRenderDelegate direct2DRenderMethod;
-
-        /// <summary>
-        /// The individual Direct2D render target used for rendering elements
-        /// onto the screen of the user.
-        /// </summary>
-        //private RenderTarget direct2DRenderTarget;
-        //private bool isDrawing;
-
-        /// <summary>
-        /// Delegate type which describes a method that accepts a RenderTarget for Direct2D rendering onto the game.
-        /// </summary>
-        /// <param name="renderTarget">The render target to which the user may draw individual elements.</param>
-        //public delegate void Direct2DRenderDelegate(RenderTarget renderTarget);
 
         /// <summary>
         /// Defines the IDXGISwapChain.Present function, used to show the rendered image right to the user.
@@ -100,6 +79,7 @@ namespace Reloaded.Overlay.Internal
         /// <param name="flags">An integer value that contains swap-chain presentation options. These options are defined by the DXGI_PRESENT constants.</param>
         /// <returns></returns>
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode, SetLastError = true)]
+        [X64ReloadedFunction(X64CallingConventions.Microsoft)]
         [ReloadedFunction(CallingConventions.Stdcall)]
         public delegate int DXGISwapChain_PresentDelegate(IntPtr swapChainPtr, int syncInterval, PresentFlags flags);
 
@@ -110,6 +90,7 @@ namespace Reloaded.Overlay.Internal
         /// <param name="newTargetParameters">Defines the details of the new display mode.</param>
         /// <returns></returns>
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode, SetLastError = true)]
+        [X64ReloadedFunction(X64CallingConventions.Microsoft)]
         [ReloadedFunction(CallingConventions.Stdcall)]
         public delegate int DXGISwapChain_ResizeTargetDelegate(IntPtr swapChainPtr, ref ModeDescription newTargetParameters);
 
@@ -169,7 +150,7 @@ namespace Reloaded.Overlay.Internal
             DX11Overlay dx11Overlay = new DX11Overlay();
 
             // Wait for DirectX
-            Direct3DVersion direct3DVersion = await DXHookCommon.DetermineDirectXVersion();
+            Direct3DVersion direct3DVersion = await DXHookCommon.GetDirectXVersion();
 
             // Return nothing if not D3D9
             if (direct3DVersion != Direct3DVersion.Direct3D11 && direct3DVersion != Direct3DVersion.Direct3D11_1 &&
@@ -190,9 +171,18 @@ namespace Reloaded.Overlay.Internal
             VirtualFunctionTable.TableEntry resizeTableEntry = dx11Overlay.DirectX11Hook.DXGISwapChainFunctions[(int)IDXGISwapChain.ResizeTarget];
 
             // Hook relevant DirectX functions.
-            dx11Overlay.PresentHook = FunctionHook<DXGISwapChain_PresentDelegate>.Create((long)presentTableEntry.FunctionPointer, DXGIPresentDelegate);
-            dx11Overlay.ResizeTargetHook = FunctionHook<DXGISwapChain_ResizeTargetDelegate>.Create((long)resizeTableEntry.FunctionPointer, DXGIResizeTargetDelegate);
-            //dx11Overlay.direct2DRenderMethod = renderDelegate;
+            if (IntPtr.Size == 4)
+            {
+                // X86
+                dx11Overlay.PresentHook = FunctionHook<DXGISwapChain_PresentDelegate>.Create((long)presentTableEntry.FunctionPointer, DXGIPresentDelegate);
+                dx11Overlay.ResizeTargetHook = FunctionHook<DXGISwapChain_ResizeTargetDelegate>.Create((long)resizeTableEntry.FunctionPointer, DXGIResizeTargetDelegate);
+            }
+            else if (IntPtr.Size == 8)
+            {
+                // X64
+                dx11Overlay.PresentHook64 = X64FunctionHook<DXGISwapChain_PresentDelegate>.Create((long)presentTableEntry.FunctionPointer, DXGIPresentDelegate);
+                dx11Overlay.ResizeTargetHook64 = X64FunctionHook<DXGISwapChain_ResizeTargetDelegate>.Create((long)resizeTableEntry.FunctionPointer, DXGIResizeTargetDelegate);
+            }
 
             // Return our DX9Overlay
             return dx11Overlay;
@@ -202,102 +192,5 @@ namespace Reloaded.Overlay.Internal
         /// Private constructor, please use factory method <see cref="CreateDirectXOverlay"/> instead.
         /// </summary>
         private DX11Overlay() { }
-
-        /*
-        /// <summary>
-        /// Hook for the IDXGISwapChain.Present function of DirectX 11, used to show the rendered image right to the user.
-        /// </summary>
-        /// <param name="swapChainPtr">The pointer to the actual swapchain, `this` object.</param>
-        /// <param name="syncInterval">An integer that specifies how to synchronize presentation of a frame with the vertical blank.</param>
-        /// <param name="flags">An integer value that contains swap-chain presentation options. These options are defined by the DXGI_PRESENT constants.</param>
-        /// <returns></returns>
-        private int DXGISwapChainPresentHook(IntPtr swapChainPtr, int syncInterval, PresentFlags flags)
-        {
-            // Setup Direct2D if it is not already setup.
-            /*
-            if (!_direct2DSetup)
-            { SetupDirect2D(swapChainPtr); }
-            
-            // Call the original function.
-            int returnValue = PresentHook.OriginalFunction(swapChainPtr, syncInterval, flags);
-
-            // Render to the screen, calling EndDraw will back again enter this method, 
-            // we need to make sure it doesn't run infinitely.
-            if (!isDrawing) {
-                isDrawing = true;
-                direct2DRenderMethod?.Invoke(direct2DRenderTarget);
-            }
-            isDrawing = false;
-
-            // Return back to original caller.
-            return returnValue;
-            *//*
-
-            // Call user function.
-            return direct2DRenderMethod.Invoke(swapChainPtr, syncInterval, flags);
-        }
-        */
-        /*
-        /// <summary>
-        /// Sets up Direct2D rendering to be performed by the user.
-        /// Uses rendering to bitma.
-        /// </summary>
-        /// <param name="swapChainPointer">The pointer to the swapchain object used for drawing.</param>
-        private void SetupDirect2D2(IntPtr swapChainPointer)
-        {
-            // Create the D2D Factory which aids with the creation of a WindowRenderTarget object.
-            Factory direct2DFactory = new Factory(FactoryType.SingleThreaded);
-
-            // Get the current swapchain as a managed object.
-            SwapChain currentSwapChain = new SwapChain(swapChainPointer);
-
-            // Get surface to be drawn.
-            Surface dxgiSurface = Surface.FromSwapChain(currentSwapChain, 0);
-
-            direct2DRenderTarget = new RenderTarget
-            (
-                direct2DFactory,
-                dxgiSurface,
-                new RenderTargetProperties
-                (
-                    new PixelFormat(Format.Unknown, AlphaMode.Ignore)
-                )
-            );
-        }*/
-
-        /*
-        /// <summary>
-        /// Sets up Direct2D rendering to be performed by the user.
-        /// </summary>
-        /// <param name="swapChainPointer">The pointer to the swapchain object used for drawing.</param>
-        private void SetupDirect2D(IntPtr swapChainPointer)
-        {
-            // Create the D2D Factory which aids with the creation of a WindowRenderTarget object.
-            Factory direct2DFactory = new Factory(FactoryType.SingleThreaded);
-            IntPtr gameWindowHandle = Bindings.TargetProcess.GetProcessFromReloadedProcess().MainWindowHandle;
-
-            // Retrieve window size of target window.
-            Point windowSize = WindowProperties.GetWindowClientSize(gameWindowHandle);
-
-            // Set the render properties!
-            HwndRenderTargetProperties direct2DRenderTargetProperties = new HwndRenderTargetProperties
-            {
-                Hwnd = gameWindowHandle,
-                PixelSize = new Size2(windowSize.X, windowSize.Y),
-                PresentOptions = PresentOptions.None
-            };
-
-            // Assign the Window Render Target
-            direct2DRenderTarget = new WindowRenderTarget
-            (
-                direct2DFactory,
-                new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)),
-                direct2DRenderTargetProperties
-            );
-
-            // D2D is setup
-            _direct2DSetup = true;
-        }
-        */
     }
 }

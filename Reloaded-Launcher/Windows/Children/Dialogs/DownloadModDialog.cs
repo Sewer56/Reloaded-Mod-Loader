@@ -20,7 +20,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
@@ -36,7 +35,6 @@ using Reloaded.IO.Config.Games;
 using Reloaded.Utilities;
 using Reloaded_GUI.Styles.Themes;
 using SevenZipExtractor;
-using SharpCompress.Readers;
 
 namespace ReloadedLauncher.Windows.Children.Dialogs
 {

@@ -24,10 +24,11 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Reloaded.DirectX;
 using Reloaded.DirectX.Definitions;
-using Reloaded.Process.X86Functions;
-using Reloaded.Process.X86Functions.CustomFunctionFactory;
-using Reloaded.Process.X86Functions.Utilities;
-using Reloaded.Process.X86Hooking;
+using Reloaded.Process.Functions.Utilities;
+using Reloaded.Process.Functions.X64Functions;
+using Reloaded.Process.Functions.X64Hooking;
+using Reloaded.Process.Functions.X86Functions;
+using Reloaded.Process.Functions.X86Hooking;
 using SharpDX.Direct3D9;
 
 namespace Reloaded.Overlay.Internal
@@ -46,10 +47,22 @@ namespace Reloaded.Overlay.Internal
         public FunctionHook<Direct3D9Device_EndSceneDelegate> EndSceneHook { get; private set; }
 
         /// <summary>
+        /// A copy of the delegate pointed to your own method used for rendering
+        /// of your own 2D elements over the game content.
+        /// </summary>
+        public X64FunctionHook<Direct3D9Device_EndSceneDelegate> EndSceneHook64 { get; private set; }
+
+        /// <summary>
         /// A copy of the delegate pointed to your own method used executed when
         /// the resolution, fullscreen/windowed mode or other state changes.
         /// </summary>
         public FunctionHook<Direct3D9Device_ResetDelegate> ResetHook { get; private set; }
+
+        /// <summary>
+        /// A copy of the delegate pointed to your own method used executed when
+        /// the resolution, fullscreen/windowed mode or other state changes.
+        /// </summary>
+        public X64FunctionHook<Direct3D9Device_ResetDelegate> ResetHook64 { get; private set; }
 
         /// <summary>
         /// An instance of the <see cref="DX9Hook"/> class allowing us to easily manage
@@ -63,6 +76,7 @@ namespace Reloaded.Overlay.Internal
         /// <param name="device">Pointer to the individual Direct3D9 device.</param>
         /// <returns></returns>
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode, SetLastError = true)]
+        [X64ReloadedFunction(X64CallingConventions.Microsoft)]
         [ReloadedFunction(CallingConventions.Stdcall)]
         public delegate int Direct3D9Device_EndSceneDelegate(IntPtr device);
 
@@ -74,6 +88,7 @@ namespace Reloaded.Overlay.Internal
         /// <param name="presentParameters">Pointer to a D3DPRESENT_PARAMETERS structure, describing the new presentation parameters.</param>
         /// <returns></returns>
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode, SetLastError = true)]
+        [X64ReloadedFunction(X64CallingConventions.Microsoft)]
         [ReloadedFunction(CallingConventions.Stdcall)]
         public delegate int Direct3D9Device_ResetDelegate(IntPtr device, ref PresentParameters presentParameters);
 
@@ -128,7 +143,7 @@ namespace Reloaded.Overlay.Internal
             DX9Overlay dx9Overlay = new DX9Overlay();
 
             // Wait for DirectX
-            Direct3DVersion direct3DVersion = await DXHookCommon.DetermineDirectXVersion();
+            Direct3DVersion direct3DVersion = await DXHookCommon.GetDirectXVersion();
 
             // Return nothing if not D3D9
             if (direct3DVersion != Direct3DVersion.Direct3D9)
@@ -148,8 +163,18 @@ namespace Reloaded.Overlay.Internal
             VirtualFunctionTable.TableEntry resetTableEntry = dx9Overlay.DirectX9Hook.DirectXFunctions[(int)Direct3DDevice9.Reset];
 
             // Hook relevant DirectX functions.
-            dx9Overlay.EndSceneHook = FunctionHook<Direct3D9Device_EndSceneDelegate>.Create((long)endSceneTableEntry.FunctionPointer, renderDelegate);
-            dx9Overlay.ResetHook = FunctionHook<Direct3D9Device_ResetDelegate>.Create((long)resetTableEntry.FunctionPointer, resetDelegate);
+            if (IntPtr.Size == 4)
+            {
+                // X86
+                dx9Overlay.EndSceneHook = FunctionHook<Direct3D9Device_EndSceneDelegate>.Create((long)endSceneTableEntry.FunctionPointer, renderDelegate);
+                dx9Overlay.ResetHook = FunctionHook<Direct3D9Device_ResetDelegate>.Create((long)resetTableEntry.FunctionPointer, resetDelegate);
+            }
+            else if (IntPtr.Size == 8)
+            {
+                // X64
+                dx9Overlay.EndSceneHook64 = X64FunctionHook<Direct3D9Device_EndSceneDelegate>.Create((long)endSceneTableEntry.FunctionPointer, renderDelegate);
+                dx9Overlay.ResetHook64 = X64FunctionHook<Direct3D9Device_ResetDelegate>.Create((long)resetTableEntry.FunctionPointer, resetDelegate);
+            }
 
             // Return our DX9Overlay
             return dx9Overlay;

@@ -18,9 +18,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-using Reloaded.Process.X86Functions.CustomFunctionFactory;
-
-namespace Reloaded.Process.X86Functions
+namespace Reloaded.Process.Functions.X86Functions
 {
     /// <summary>
     /// This class provides information on various commonly seen calling conventions and information on how

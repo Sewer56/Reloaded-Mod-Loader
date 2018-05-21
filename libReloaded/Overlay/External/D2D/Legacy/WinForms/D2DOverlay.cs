@@ -23,7 +23,6 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Interop;
 using Reloaded.Native.WinAPI;
 using Reloaded.Overlay.External.WinForms;
 using Reloaded.Overlay.Modules;

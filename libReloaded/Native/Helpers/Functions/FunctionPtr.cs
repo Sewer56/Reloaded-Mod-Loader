@@ -21,7 +21,7 @@
 
 using System;
 using System.Collections.Generic;
-using Reloaded.Process.X86Functions.CustomFunctionFactory;
+using Reloaded.Process.Functions.X86Functions;
 
 namespace Reloaded.Native.Helpers.Functions
 {

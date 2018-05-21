@@ -20,19 +20,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Reloaded.Assembler;
+using Reloaded.Process.Buffers;
+using Reloaded.Process.Functions.X86Functions;
 using Reloaded.Process.Memory;
-using Reloaded.Process.X86Functions;
-using Reloaded.Process.X86Functions.CustomFunctionFactory;
 using SharpDisasm;
-using CallingConventions = Reloaded.Process.X86Functions.CallingConventions;
+using CallingConventions = Reloaded.Process.Functions.X86Functions.CallingConventions;
 
-namespace Reloaded.Process.X86Hooking
+namespace Reloaded.Process.Functions.X86Hooking
 {
     /// <summary>
     /// The FunctionHook class provides Windows API (and general process) hooking functionality for standard cdecl, stdcall
@@ -137,14 +135,14 @@ namespace Reloaded.Process.X86Hooking
             // Assemble the wrapper function.
             // Assemble a jump to our wrapper function.
             IntPtr wrapperFunctionAddress = CreateWrapperFunction<TFunction>(cSharpFunctionAddress, reloadedFunction);
-            List<byte> jumpBytes = HookCommon.AssembleAbsoluteJump(wrapperFunctionAddress).ToList();
+            List<byte> jumpBytes = HookCommon.X86AssembleAbsoluteJump(wrapperFunctionAddress).ToList();
 
             /*
                 [Hook Part II] Calculate Hook Length (Unless Explicit)
             */
 
             // Retrieve hook length explicitly 
-            if (hookLength == -1) { hookLength = HookCommon.GetHookLength86((IntPtr)gameFunctionAddress, jumpBytes.Count, ArchitectureMode.x86_32); }
+            if (hookLength == -1) { hookLength = HookCommon.GetHookLength((IntPtr)gameFunctionAddress, jumpBytes.Count, ArchitectureMode.x86_32); }
 
             // Assemble JMP + NOPs for stolen/stray bytes.
             if (hookLength > jumpBytes.Count)
@@ -164,13 +162,13 @@ namespace Reloaded.Process.X86Hooking
             List<byte> stolenBytes = Bindings.TargetProcess.ReadMemoryExternal((IntPtr)gameFunctionAddress, hookLength).ToList();
 
             // Check other functions that may need to be patched.
-            (List<byte>, List<(IntPtr, byte[])>) stolenBytesAndAddressesToPatch = HookCommon.ProcessStolenBytes(stolenBytes, (IntPtr)gameFunctionAddress);
+            (List<byte>, List<(IntPtr, byte[])>) stolenBytesAndAddressesToPatch = HookCommon.ProcessStolenBytes(stolenBytes, (IntPtr)gameFunctionAddress, ArchitectureMode.x86_32);
             stolenBytes = stolenBytesAndAddressesToPatch.Item1;
 
             // Calculate jump back address for original function.
             // Append absolute JMP instruction to return to original function for calling the original function in hook.
             IntPtr jumpBackAddress = (IntPtr)(gameFunctionAddress + hookLength);
-            stolenBytes.AddRange(HookCommon.AssembleAbsoluteJump(jumpBackAddress));
+            stolenBytes.AddRange(HookCommon.X86AssembleAbsoluteJump(jumpBackAddress));
 
             /*
                 [Call Original Function part II] Instantiate and return functionHook with the original game function address.
@@ -180,7 +178,7 @@ namespace Reloaded.Process.X86Hooking
             FunctionHook<TFunction> functionHook = new FunctionHook<TFunction>();
 
             // Write original bytes and jump to memory, and return address.
-            IntPtr gameFunctionWrapperAddress = MemoryBuffer.Add(stolenBytes.ToArray());
+            IntPtr gameFunctionWrapperAddress = MemoryBufferManager.Add(stolenBytes.ToArray());
 
             // Create wrapper for calling the original function.
             functionHook.OriginalFunction = FunctionWrapper.CreateWrapperFunction<TFunction>((long)gameFunctionWrapperAddress);
@@ -264,7 +262,7 @@ namespace Reloaded.Process.X86Hooking
             assemblyCode.AddRange(AssembleFunctionParameters(numberOfParameters, reloadedFunction.SourceRegisters));
 
             // Call C# Function Pointer (cSharpFunctionPointer is address at which our C# function address is written)
-            IntPtr cSharpFunctionPointer = MemoryBuffer.Add(functionAddress);
+            IntPtr cSharpFunctionPointer = MemoryBufferManager.Add(functionAddress, IntPtr.Zero);
             assemblyCode.Add("call dword [0x" + cSharpFunctionPointer.ToString("X") + "]");
 
             // Restore stack pointer + stack frame
@@ -284,7 +282,7 @@ namespace Reloaded.Process.X86Hooking
 
             // Assemble and return pointer to code
             byte[] assembledMnemonics = Assembler.Assembler.Assemble(assemblyCode.ToArray());
-            return MemoryBuffer.Add(assembledMnemonics);
+            return MemoryBufferManager.Add(assembledMnemonics);
         }
 
         /// <summary>
@@ -304,8 +302,8 @@ namespace Reloaded.Process.X86Hooking
             // Reminder: The stack grows by DECREMENTING THE STACK POINTER.
 
             // The initial offset from EBP (Stack Base Pointer) for the rightmost parameter (right to left passing):
-            int currentBaseStackOffset = ((parameterCount + 1) * 4);
             int nonRegisterParameters = parameterCount - registers.Length;
+            int currentBaseStackOffset = ((nonRegisterParameters + 1) * 4);
 
             // Re-push our non-register parameters passed onto the method onto the stack.
             for (int x = 0; x < nonRegisterParameters; x++)
@@ -318,15 +316,12 @@ namespace Reloaded.Process.X86Hooking
             }
 
             // Now push the remaining parameters from the custom calling convention's registers onto the stack.
-            // We process the registers in right to left order, .
+            // We process the registers in right to left order.
             ReloadedFunctionAttribute.Register[] newRegisters = registers.Reverse().ToArray();
             foreach (ReloadedFunctionAttribute.Register registerParameter in newRegisters)
             {
                 // Push the register variable onto the stack for our C# CDECL function./
                 assemblyCode.Add($"push {registerParameter.ToString()}");
-
-                // Go to next parameter.
-                currentBaseStackOffset -= 4;
             }
 
             return assemblyCode.ToArray();
