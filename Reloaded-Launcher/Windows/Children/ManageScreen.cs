@@ -427,8 +427,8 @@ namespace ReloadedLauncher.Windows.Children
                 );
 
                 // Set new image.
-                box_GameBanner.BackgroundImage.Dispose();
-                Global.BaseForm.ChildrenForms.MainMenu.item_GameBanner.BackgroundImage.Dispose();
+                box_GameBanner.BackgroundImage?.Dispose();
+                Global.BaseForm.ChildrenForms.MainMenu.item_GameBanner.BackgroundImage?.Dispose();
 
                 // Copy the banner to new location.
                 try { File.Copy(imageDialog.FileName, GameConfigParser.GameConfig.GetBannerPath(gameConfig), true); }
