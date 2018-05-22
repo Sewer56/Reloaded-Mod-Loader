@@ -426,8 +426,15 @@ namespace ReloadedLauncher.Windows.Children
                     x.GameVersion == comboBoxDetails.GameVersion
                 );
 
+                // Set new image.
+                box_GameBanner.BackgroundImage.Dispose();
+                Global.BaseForm.ChildrenForms.MainMenu.item_GameBanner.BackgroundImage.Dispose();
+
                 // Copy the banner to new location.
-                File.Copy(imageDialog.FileName, GameConfigParser.GameConfig.GetBannerPath(gameConfig), true);
+                try { File.Copy(imageDialog.FileName, GameConfigParser.GameConfig.GetBannerPath(gameConfig), true); }
+
+                // Same image or no permissions to access directory/file.
+                catch { }
 
                 // Set new image.
                 box_GameBanner.BackgroundImage = Image.FromFile(GameConfigParser.GameConfig.GetBannerPath(gameConfig));
