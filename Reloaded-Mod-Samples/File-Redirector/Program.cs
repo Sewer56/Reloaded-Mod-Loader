@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Reloaded.IO;
 using Reloaded.IO.Config.Games;
@@ -79,6 +80,8 @@ namespace Reloaded_Mod_Template
                 In our hooks, we just check if the file path exists in the dictionary, and override it if so.
             */
 
+            // Debugger.Launch();
+
             // This should automatically resolve to kernel32.dll as it is already registered by Windows.
             // The handle should return from already loaded library in memory, following the standard search strategy.
             IntPtr kernel32Handle = Reloaded.Process.Native.Native.LoadLibrary("kernel32");
@@ -149,7 +152,7 @@ namespace Reloaded_Mod_Template
                         modFileLocation = Path.GetFullPath(modFileLocation);
 
                         // Appends to the file path replacement dictionary.
-                        remapperDictionary.Add(gameLocation, modFileLocation);
+                        remapperDictionary[gameLocation] = modFileLocation;
                     }
                 }
             }
