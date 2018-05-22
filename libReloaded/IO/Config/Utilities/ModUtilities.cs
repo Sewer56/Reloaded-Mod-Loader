@@ -18,9 +18,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using Reloaded.IO.Config.Games;
 using Reloaded.IO.Config.Mods;
 using Reloaded.Utilities;
@@ -56,14 +58,13 @@ namespace Reloaded.IO.Config.Utilities
         /// <returns>A list of all currently enabled mods for the game, including globals.</returns>
         public static List<ModConfigParser.ModConfig> GetAllEnabledMods(GameConfigParser.GameConfig gameConfiguration)
         {
-            // Get mods enabled for this game.
-            List<ModConfigParser.ModConfig> modConfigurations = ConfigManager.GetAllMods(gameConfiguration);
+            // Retrieve the game configurations
+            List<ModConfigParser.ModConfig> modConfigurations = new List<ModConfigParser.ModConfig>(gameConfiguration.EnabledMods.Count);
 
-            // Filter out the enabled mods.
-            modConfigurations = modConfigurations.Where(x =>
-                    // Get folder name containing the mod = Path.GetFileName(Path.GetDirectoryName(x.ModLocation))
-                    // Check if it's contained in the enabled mods list
-                    gameConfiguration.EnabledMods.Contains(Path.GetFileName(Path.GetDirectoryName(x.ModLocation)))).ToList();
+            // Read each game configuration
+            foreach (string directory in gameConfiguration.EnabledMods)
+                try { modConfigurations.Add(ModConfigParser.ParseConfig(Path.Combine(LoaderPaths.GetModLoaderModDirectory(), gameConfiguration.ModDirectory, directory))); }
+                catch (Exception ex) { MessageBox.Show("One of your mod configurations is missing or corrupt: " + ex.Message); }
 
             // Append global mods and return.
             modConfigurations.AddRange(GetEnabledGlobalMods());
