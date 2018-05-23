@@ -73,7 +73,7 @@ Your archive file should look as such:
 	<img src="https://i.imgur.com/6W1O2nq.png" align="center" width="500" />
 </center>
 
-*The empty Reloaded file is not necessary, see below for details.*
+*The empty RELOADED file at the archive is not necessary and is ignored by the loader, it is third party specific [GameBanana] (see below).*
 
 ### Third Parties
 Reloaded-Launcher has a custom URI handler and can download archived mods from the web if they begin with `reloaded:`.
@@ -93,6 +93,10 @@ Due to Reloaded's nature of being a universal loader, there is no specific detec
 
 ### Third Party Specifics:
 **GameBanana**
-Include an empty file with no extension named RELOADED at the root of archive.
 
+In order to be successfully picked up as a Reloaded mod on the site and gain a 1-click install, include an empty file with no extension named RELOADED at the root of archive.
+
+Should a 1-click install link be still missing after submission, then congratulations! You pioneer are the first to submit a Reloaded mod for a specific game on the site.
+
+Consider contacting a member of the site staff or myself to add the game to Reloaded's game list on the site to enable 1-click Reloaded links for the game. Due to performance reasons, on the site's end, 1-click cannot be added on a site basis and needs to be added on a per-game basis instead as-is.
 
