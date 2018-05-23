@@ -364,7 +364,7 @@ namespace Reloaded.Process.Native
         /// </param>
         /// <returns></returns>
         [DllImport("kernel32.dll")]
-        public static extern bool CreateProcess(string lpApplicationName, string lpCommandLine, IntPtr lpProcessAttributes,
+        public static extern bool CreateProcessA(string lpApplicationName, string lpCommandLine, IntPtr lpProcessAttributes,
             IntPtr lpThreadAttributes, bool bInheritHandles, ProcessCreationFlags dwCreationFlags,
             IntPtr lpEnvironment, string lpCurrentDirectory, ref STARTUPINFO lpStartupInfo,
             out PROCESS_INFORMATION lpProcessInformation);

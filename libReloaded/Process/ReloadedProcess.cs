@@ -123,7 +123,7 @@ namespace Reloaded.Process
         public ReloadedProcess(string filePath, string[] arguments)
         {
             // Build up the arguments string.
-            string lpCommandLine = filePath;
+            string lpCommandLine = $"\"{filePath}\"";
 
             // Build arguments if necessary.
             if (arguments != null)
@@ -140,7 +140,7 @@ namespace Reloaded.Process
 
             // Start up the process
             Native.Native.STARTUPINFO startupInfo = new Native.Native.STARTUPINFO();
-            bool success =  Native.Native.CreateProcess(null, lpCommandLine, IntPtr.Zero, 
+            bool success =  Native.Native.CreateProcessA(null, lpCommandLine, IntPtr.Zero, 
                             IntPtr.Zero, false, Native.Native.ProcessCreationFlags.CREATE_SUSPENDED,
                             IntPtr.Zero, Path.GetDirectoryName(filePath), ref startupInfo, 
                             out Native.Native.PROCESS_INFORMATION processInformation);
@@ -152,7 +152,7 @@ namespace Reloaded.Process
             ThreadId = (IntPtr)  processInformation.dwThreadId;
 
             // Print Error is Failed
-            if (!success) { Bindings.PrintError?.Invoke($"Failed to start ReloadedProcess {filePath}. Is your path correct?"); }
+            if (!success) { Bindings.PrintError?.Invoke($"Failed to start ReloadedProcess {filePath}. Is your path correct? Also try running as Administrator."); }
         }
 
         /// <summary>
