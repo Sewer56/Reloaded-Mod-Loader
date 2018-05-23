@@ -201,7 +201,7 @@ namespace ReloadedLauncher
             RegistryKey reloadedProtocolKey = classesSubKey?.CreateSubKey($"{Strings.Launcher.ReloadedProtocolName}");
             reloadedProtocolKey?.SetValue("", $"URL:{Strings.Launcher.ReloadedProtocolName}");
             reloadedProtocolKey?.SetValue("URL Protocol", "");
-            reloadedProtocolKey?.CreateSubKey(@"shell\open\command")?.SetValue("", $"{Assembly.GetExecutingAssembly().Location} --download %1");
+            reloadedProtocolKey?.CreateSubKey(@"shell\open\command")?.SetValue("", $"\"{Assembly.GetExecutingAssembly().Location}\" --download %1");
         }
 
         /// <summary>
