@@ -43,8 +43,10 @@ This list is non-exhaustive and does not contain all features, just the more not
  - [x] X86, X64, 16-bit live runtime assembly & disassembly.
  - [x] Automatic logging to console window during game execution with colour coding.
  - [x] Call X86 native game/process functions from C#, including custom calling conventions *"usercall", "userpurge"*.
- - [X] Hook X86 native game/process functions from C#, including custom calling conventions.
- - [X] Auto-patching of other loaders'/programs' function hooks when performing hooks, stack Reloaded hooks on Reloaded hooks and non-Reloaded hooks.
+ - [x] Hook X86 native game/process functions from C#, including custom calling conventions.
+ - [x] Call X64 custom calling conventions *"usercall", "userpurge"*
+ - [x] Hook X64 native game/process functions from C#, including custom calling conventions
+ - [x] Auto-patching of other loaders'/programs' function hooks when performing hooks, stack Reloaded hooks on Reloaded hooks and non-Reloaded hooks.
 
 ### Other
 - [x] Multiple external and internal overlays: WPF, D2D-WPF, D2D-WinForms, DX9, DX11.
@@ -62,5 +64,3 @@ Reloaded also contains multiple, very well documented sets of functions allowing
 
 ### In the future
 After a good rest at least. At time of writing, this has been my sole project for about 5 months now give-take.
- - [ ] Call X64 custom calling conventions *"usercall", "userpurge"*
- - [ ] Hook X64 native game/process functions from C#, including custom calling conventions
