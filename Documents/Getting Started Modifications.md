@@ -67,9 +67,9 @@ As such, for file redirection based mods you should specify a dependency on the 
 "Dependencies": [ "reloaded.global.fileredirector" ]
 ```
 
-For files to be loaded by the game with the mod enabled; you then create and place them inside of `Plugins/Redirector` from your mod's directory. You create the folder `Plugins` and inside that folder `Redirector` and place your files there.
+For files to be loaded by the game with the mod enabled, create the folders`Plugins/Redirector` in your mod directory; i.e. you create the folder `Plugins`, and inside that folder `Redirector` and place your files there.
 
-More specifically, the folder in `Plugins/Redirector` maps to individual game profile's `Game Directory` as seen in the launcher below:
+To be strictly precise, the folder in `Plugins/Redirector` maps to individual game profile's `Game Directory` as seen in the launcher below:
 
 <center>
 	<img src="https://i.imgur.com/a4BjzRP.png" align="center" width="500" />
