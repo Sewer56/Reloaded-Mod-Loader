@@ -6,11 +6,21 @@
 	<br/> <br/>
 </div>
 
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Compiling Reloaded (As a whole)](#compiling-reloaded-as-a-whole)
+- [Troubleshooting](#troubleshooting)
+  - [Cannot see local variables when debugging Reloaded Mods:](#cannot-see-local-variables-when-debugging-reloaded-mods)
+  - ["Main.il" is in use.](#mainil-is-in-use)
+- [FAQ](#faq)
+  - [Can I use another programming language with Reloaded-Loader?](#can-i-use-another-programming-language-with-reloaded-loader)
+  - [Address Space Layout Randomization (ASLR)?](#address-space-layout-randomization-aslr)
+  - [Can I use Reloaded Mod Loader alongside [X] Mod Loader](#can-i-use-reloaded-mod-loader-alongside-x-mod-loader)
+
 ## Prerequisites
-* Visual Studio 2017+
-* .NET Framework 4.7.1+
+* Visual Studio 2017+ (15.7+)
+* .NET Framework 4.7.2+
 * NuGet Package Manager (Fetching Dependencies)
-* Git for Windows (with Git.exe available in PATH)
 
 ## Compiling Reloaded (As a whole)
  - Clone this repository and the submodules.
