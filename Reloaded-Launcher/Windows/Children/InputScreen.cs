@@ -26,6 +26,7 @@ using Reloaded;
 using Reloaded.Input;
 using Reloaded.Input.Common;
 using Reloaded.Input.Modules;
+using Reloaded.Paths;
 using ReloadedLauncher.Windows.Children.Dialogs.Input_Screen;
 using Reloaded_GUI.Utilities.Controls;
 using Bindings = Reloaded_GUI.Styles.Themes.Bindings;

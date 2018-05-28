@@ -8,10 +8,11 @@
     <OutputType>library</OutputType>
     <RootNamespace>WPF_Demo_Overlay</RootNamespace>
     <AssemblyName>WPF-Demo-Overlay</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -79,6 +80,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libReloaded-Input\libReloaded-Input.csproj">
+      <Project>{956ce72c-aab4-4a8b-8281-8c82761180b4}</Project>
+      <Name>libReloaded-Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libReloaded-Overlay\libReloaded-Overlay.csproj">
+      <Project>{12134c3c-8fc1-4272-a211-f4399d6f0ce7}</Project>
+      <Name>libReloaded-Overlay</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\libReloaded\libReloaded.csproj">
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
       <Name>libReloaded</Name>

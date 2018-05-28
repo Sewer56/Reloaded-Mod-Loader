@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace HeroesModLoaderConfig.Styles.Controls.Enhanced
+namespace Reloaded_GUI.Styles.Controls.Enhanced
 {
     class EnhancedNumericUpDown : NumericUpDown
     {

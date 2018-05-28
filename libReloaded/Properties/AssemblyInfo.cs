@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("libReloaded")]
-[assembly: AssemblyDescription("The main library for the development of Reloaded Mod Loader Modifications.")]
+[assembly: AssemblyDescription("Arianrhod")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Sewer56")]
-[assembly: AssemblyProduct("libReloaded")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(false)]

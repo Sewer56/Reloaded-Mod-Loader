@@ -5,9 +5,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Reloaded;
 using Reloaded.Assembler;
-using Reloaded.Native.Helpers.Arrays;
 using Reloaded.Process;
 using Reloaded.Process.Buffers;
+using Reloaded.Process.Helpers.Arrays;
 using Reloaded.Process.Memory;
 
 namespace Reloaded_Mod_Template

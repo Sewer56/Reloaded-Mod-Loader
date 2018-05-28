@@ -26,7 +26,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using Reloaded;
 using Reloaded.IO.Config;
-using Reloaded.IO.Config.Games;
+using Reloaded.Paths;
 using Reloaded.Utilities;
 using ReloadedLauncher.Windows.Children.Dialogs;
 using Reloaded_GUI.Utilities.Controls;
@@ -83,7 +83,7 @@ namespace ReloadedLauncher.Windows.Children
         private void LoadGames()
         {
             // Save current game config
-            GameConfigParser.GameConfig currentConfig = Global.CurrentGameConfig;
+            GameConfig currentConfig = Global.CurrentGameConfig;
 
             // Clear the current listview.
             box_GameList.Rows.Clear();
@@ -92,7 +92,7 @@ namespace ReloadedLauncher.Windows.Children
             Global.GameConfigurations = ConfigManager.GetAllGameConfigs();
 
             // For each config, append it.
-            foreach (GameConfigParser.GameConfig gameConfig in Global.GameConfigurations)
+            foreach (GameConfig gameConfig in Global.GameConfigurations)
             {
                 // Stores the path of the mod for display.
                 string modPath = LoaderPaths.GetModLoaderModDirectory() + "\\" + gameConfig.ModDirectory;
@@ -112,7 +112,7 @@ namespace ReloadedLauncher.Windows.Children
         /// Re-selects the currently selected game upon entering the Main Menu.
         /// </summary>
         /// <param name="gameConfiguration">The game configuration to try and re-select.</param>
-        private void ReselectCurrentGame(GameConfigParser.GameConfig gameConfiguration)
+        private void ReselectCurrentGame(GameConfig gameConfiguration)
         {
             // Find and select the last highlighted game.
             string currentGameName = gameConfiguration?.GameName;
@@ -152,7 +152,7 @@ namespace ReloadedLauncher.Windows.Children
                 item_LocationBoxEXEPath.Text = "$DIRECTORY + " + Global.CurrentGameConfig.ExecutableLocation;
 
                 // Load the game image.
-                try { item_GameBanner.BackgroundImage = Image.FromFile(GameConfigParser.GameConfig.GetBannerPath(Global.CurrentGameConfig)); }
+                try { item_GameBanner.BackgroundImage = Image.FromFile(GameConfig.GetBannerPath(Global.CurrentGameConfig)); }
                 catch { item_GameBanner.BackgroundImage = null; }
             }
             catch { }
@@ -175,7 +175,7 @@ namespace ReloadedLauncher.Windows.Children
         private void item_LaunchBox_MouseClick(object sender, MouseEventArgs e)
         {
             // Check if global config
-            if (Global.CurrentGameConfig.ConfigLocation == GameConfigParser.GameConfig.GetGlobalConfigProperties().ConfigLocation)
+            if (Global.CurrentGameConfig.ConfigLocation == GameConfig.GetGlobalConfig().ConfigLocation)
             {
                 MessageBox.Show("One does not launch the Global Mod Configuration, you can try though...");
                 return;

@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Reloaded_Wrapper_x64</RootNamespace>
     <AssemblyName>Reloaded-Wrapper-x64</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>

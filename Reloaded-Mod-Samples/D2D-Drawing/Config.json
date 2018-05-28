@@ -1,9 +1,11 @@
 {
-  "ModName": "[X86/X64] Direct2D-WPF Hybrid External Overlay Example",
-  "ModDescription": "A Simple Example of a Direct2D-WPF External Overlay Hybrid. For freaks wanting maximum drawing capability, exists because it can. Incompatible with DX9 Internal. Comparatively relatively slow.",
-  "ModVersion": "1.0.0",
-  "ModAuthor": "Sewer56lol",
-  "ThemeSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-  "ThemeGithub": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-  "ModConfigExe": "N/A"
+	"ModId": "reloaded.demos.d2dwpf",
+	"ModName": "[X86/X64] Direct2D-WPF Hybrid External Overlay Example",
+	"ModDescription": "A Simple Example of a Direct2D-WPF External Overlay Hybrid. For freaks wanting maximum drawing capability, exists because it can. Incompatible with DX9 Internal. Comparatively relatively slow.",
+	"ModVersion": "1.0.0",
+	"ModAuthor": "Sewer56",
+	"ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+	"ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+	"ConfigurationFile": "",
+	"Dependencies": []
 }

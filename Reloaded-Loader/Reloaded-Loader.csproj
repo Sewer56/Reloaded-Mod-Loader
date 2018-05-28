@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Reloaded_Loader</RootNamespace>
     <AssemblyName>Reloaded-Loader</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="appicon.ico" />
+    <None Include="app.config" />
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -129,9 +130,21 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libReloaded-Input\libReloaded-Input.csproj">
+      <Project>{956ce72c-aab4-4a8b-8281-8c82761180b4}</Project>
+      <Name>libReloaded-Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libReloaded-IO\libReloaded-IO.csproj">
+      <Project>{183218A9-D8F6-44D4-91EE-098E2949218E}</Project>
+      <Name>libReloaded-IO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj">
       <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
       <Name>libReloaded-Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libReloaded-Paths\libReloaded-Paths.csproj">
+      <Project>{CB1994F7-61A4-4CB2-BBA0-4F2AAA75A491}</Project>
+      <Name>libReloaded-Paths</Name>
     </ProjectReference>
     <ProjectReference Include="..\libReloaded\libReloaded.csproj">
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>

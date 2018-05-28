@@ -21,7 +21,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Reloaded.IO.Config.Themes;
+using Reloaded.IO.Config;
 using Reloaded_GUI.Utilities.Fonts;
 
 namespace Reloaded_GUI.Styles.Themes.ApplyTheme
@@ -133,7 +133,7 @@ namespace Reloaded_GUI.Styles.Themes.ApplyTheme
         /// </summary>
         /// <param name="fontStyle">The font style as set in the theme properties.</param>
         /// <param name="systemFontStyle">The System.Drawing.Fontstyle to change. (Should be initialized to regular)</param>
-        private static FontStyle GetFontStyle(FontStyle systemFontStyle, ThemePropertyParser.FontStyle fontStyle)
+        private static FontStyle GetFontStyle(FontStyle systemFontStyle, ThemeProperties.FontStyle fontStyle)
         {
             // Check font style flags and apply.
             if (fontStyle.Bold) systemFontStyle = systemFontStyle | FontStyle.Bold;

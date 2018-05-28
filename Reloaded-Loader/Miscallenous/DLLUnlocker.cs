@@ -19,6 +19,7 @@
 */
 
 using System.IO;
+using Reloaded.Paths;
 using Reloaded.Utilities;
 using Reloaded_Loader.Terminal;
 

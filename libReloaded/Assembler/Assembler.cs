@@ -19,6 +19,7 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -166,8 +167,8 @@ namespace Reloaded.Assembler
                 else { currentExecutingFolder = Path.GetDirectoryName(currentExecutingFolder); }
 
                 // Create and define path in subdirectory
-                string assemblerDirectory = Path.GetTempPath();
-                string reloadedPath = assemblerDirectory + "//" + "Reloaded-Assembler.exe";
+                string assemblerDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string reloadedPath = assemblerDirectory + "//Reloaded-Assembler.exe";
                 Directory.CreateDirectory(assemblerDirectory);
 
                 // Extract the executable and run it.

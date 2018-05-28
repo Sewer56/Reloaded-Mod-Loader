@@ -31,7 +31,7 @@ using System.Net.Mime;
 using System.Text.RegularExpressions;
 using Reloaded;
 using Reloaded.IO.Config;
-using Reloaded.IO.Config.Games;
+using Reloaded.Paths;
 using Reloaded.Utilities;
 using Reloaded_GUI.Styles.Themes;
 using SevenZipExtractor;
@@ -68,7 +68,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// <summary>
         /// Stores a list of all mod loader game configurations.
         /// </summary>
-        private List<GameConfigParser.GameConfig> gameConfigs;
+        private List<GameConfig> gameConfigs;
 
         /// <summary>
         /// Set to true if the download button has been hit and the mod is being downloaded.
@@ -123,7 +123,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
 
             // Populate the dropdown listbox.
             // For each config, append the name of the game.
-            foreach (GameConfigParser.GameConfig gameConfig in gameConfigs)
+            foreach (GameConfig gameConfig in gameConfigs)
             {
                 borderless_SelectGame.Items.Add
                 (
@@ -167,7 +167,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
                 IsCurrentlyDownloading = true;
 
                 // Get the current game configuration.
-                GameConfigParser.GameConfig gameConfig = gameConfigs[borderless_SelectGame.SelectedIndex];
+                GameConfig gameConfig = gameConfigs[borderless_SelectGame.SelectedIndex];
 
                 // Try to get the file name of the file
                 string fileName = "temp.archive";

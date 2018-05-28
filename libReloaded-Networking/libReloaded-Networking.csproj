@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <RootNamespace>libReloaded_Networking</RootNamespace>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -37,7 +37,12 @@
     <RepositoryUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader</RepositoryUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/Reloaded-GUI/Images/Static/ReloadedIcon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader</PackageProjectUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Description>
+Contains classes used for packing and unpacking messages relayed by to and from Reloaded Mod Loader components such as Reloaded Assembler and Reloaded Mods.
+Feel free to reuse for your networking mods.
+    </Description>
+    <Version>1.1.3</Version>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

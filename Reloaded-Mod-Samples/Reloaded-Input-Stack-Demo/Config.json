@@ -1,9 +1,11 @@
 {
-  "ModName": "[X86/X64] Reloaded Input Stack Demo",
-  "ModDescription": "Demonstrates how to use the Reloaded Input Stack to read user inputs.",
-  "ModVersion": "1.0.0",
-  "ModAuthor": "Sewer56lol",
-  "ThemeSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-  "ThemeGithub": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-  "ModConfigExe": "N/A"
+	"ModId": "reloaded.demos.inputstack",
+	"ModName": "[X86/X64] Reloaded Input Stack Demo",
+	"ModDescription": "Demonstrates how to use the Reloaded Input Stack to read user inputs.",
+	"ModVersion": "1.0.0",
+	"ModAuthor": "Sewer56",
+	"ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+	"ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+	"ConfigurationFile": "",
+	"Dependencies": []
 }

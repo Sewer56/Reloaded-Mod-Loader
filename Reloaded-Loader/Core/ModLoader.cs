@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Reloaded;
-using Reloaded.IO.Config.Games;
+using Reloaded.IO.Config;
+using Reloaded.Paths;
 using Reloaded.Process;
 using Reloaded.Process.Memory;
 using Reloaded.Utilities;
@@ -41,7 +43,7 @@ namespace Reloaded_Loader.Core
         /// </summary>
         /// <param name="gameConfiguration">The game configuration which contains the current directory and list of mods to load.</param>
         /// <param name="reloadedProcess">The reloaded process to inject the modifications into.</param>
-        public static void LoadMods(GameConfigParser.GameConfig gameConfiguration, ReloadedProcess reloadedProcess)
+        public static void LoadMods(GameConfig gameConfiguration, ReloadedProcess reloadedProcess)
         {
             // Retrieve list of DLLs to be injected.
             string[] modLibraries = GetModulesToInject(gameConfiguration);
@@ -72,56 +74,36 @@ namespace Reloaded_Loader.Core
         /// </summary>
         /// <param name="gameConfiguration">The game configuration which contains the current directory and list of mods to load.</param>
         /// <returns>A list of DLL locations to be injected and loaded into the target process.</returns>
-        private static string[] GetModulesToInject(GameConfigParser.GameConfig gameConfiguration)
+        private static string[] GetModulesToInject(GameConfig gameConfiguration)
         {
-            // Get directory containing the global mod list.
-            GameConfigParser.GameConfig globalModConfig = GameConfigParser.ParseConfig(LoaderPaths.GetGlobalGameConfigDirectory());
+            // Build a complete list of mods for the game and for the global configuration.
+            List<ModConfig> enabledMods = GameConfig.GetAllEnabledMods(gameConfiguration);
 
-            // Get directory containing the game's mod list
-            string gameModDirectory = Path.Combine(LoaderPaths.GetModLoaderModDirectory(), gameConfiguration.ModDirectory);
-            string globalModDirectory = LoaderPaths.GetGlobalModDirectory();
+            // Topologically sort mods.
+            enabledMods = GameConfig.TopologicallySortConfigurations(enabledMods);
 
-            // Get directories containing enabled mods.
-            List<string> modLibraries = new List<string>(gameConfiguration.EnabledMods.Count);
+            // Convert back to folder structure and append to library list.
+            List<string> dllFiles = new List<string>(enabledMods.Count);
 
-            // Get the game mod dll locations.
-            foreach (string modDirectory in gameConfiguration.EnabledMods)
+            // Set path for all DLLs in enabled mods list.
+            foreach (var enabledMod in enabledMods)
             {
-                // Add native or not native.
                 if (ReloadedArchitecture.IsGame32Bit)
                 {
-                    string X86DllLocation = Path.Combine(gameModDirectory, modDirectory, Strings.Loader.Mod32BitDllFile);
-                    if (File.Exists(X86DllLocation))
-                        modLibraries.Add(X86DllLocation);
+                    string x86DllLocation = Path.Combine(enabledMod.GetModDirectory(), Strings.Loader.Mod32BitDllFile);
+                    if (File.Exists(x86DllLocation))
+                        dllFiles.Add(x86DllLocation);
                 }
                 else
                 {
-                    string X64DllLocation = Path.Combine(gameModDirectory, modDirectory, Strings.Loader.Mod64BitDllFile);
-                    if (File.Exists(X64DllLocation))
-                        modLibraries.Add(X64DllLocation);
-                }
-            }
-
-            // Get the game mod dll locations.
-            foreach (string modDirectory in globalModConfig.EnabledMods)
-            {
-                // Add native or not native.
-                if (ReloadedArchitecture.IsGame32Bit)
-                {
-                    string X86DllLocation = Path.Combine(globalModDirectory, modDirectory, Strings.Loader.Mod32BitDllFile);
-                    if (File.Exists(X86DllLocation))
-                        modLibraries.Add(X86DllLocation);
-                }
-                else
-                {
-                    string X64DllLocation = Path.Combine(globalModDirectory, modDirectory, Strings.Loader.Mod64BitDllFile);
-                    if (File.Exists(X64DllLocation))
-                        modLibraries.Add(X64DllLocation);
+                    string x64DllLocation = Path.Combine(enabledMod.GetModDirectory(), Strings.Loader.Mod32BitDllFile);
+                    if (File.Exists(x64DllLocation))
+                        dllFiles.Add(x64DllLocation);
                 }
             }
 
             // Return the list.
-            return modLibraries.ToArray();
+            return dllFiles.ToArray();
         }
     }
 }

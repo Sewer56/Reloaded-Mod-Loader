@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <RootNamespace>Reloaded_GUI</RootNamespace>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -32,9 +32,6 @@
     <OutputPath>bin\Github-Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\libReloaded\libReloaded.csproj" />
-  </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
@@ -94,5 +91,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ColorMine" Version="1.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libReloaded-IO\libReloaded-IO.csproj" />
+    <ProjectReference Include="..\libReloaded-Native\libReloaded-Native.csproj" />
   </ItemGroup>
 </Project>

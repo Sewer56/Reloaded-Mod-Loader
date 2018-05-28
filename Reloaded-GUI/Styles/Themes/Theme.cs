@@ -19,8 +19,8 @@
 */
 
 
-using Reloaded.IO.Config.Themes;
-using Reloaded.Utilities;
+using Reloaded.IO.Config;
+using Reloaded.Paths;
 
 namespace Reloaded_GUI.Styles.Themes
 {
@@ -33,7 +33,7 @@ namespace Reloaded_GUI.Styles.Themes
         /// <summary>
         /// Retrieves the general theme configuration for the current theme.
         /// </summary>
-        public static ThemePropertyParser.ThemeConfig ThemeProperties { get; set; }
+        public static ThemeProperties.Theme ThemeProperties { get; set; }
 
         /// <summary>
         /// Changes the directory for the theme to be used.

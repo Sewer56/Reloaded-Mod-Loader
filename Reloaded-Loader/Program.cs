@@ -24,7 +24,8 @@ using System.IO;
 using System.Reflection;
 using LiteNetLib;
 using Reloaded;
-using Reloaded.IO.Config.Games;
+using Reloaded.IO.Config;
+using Reloaded.Paths;
 using Reloaded.Process;
 using Reloaded_Loader.Core;
 using Reloaded_Loader.Miscellaneous;
@@ -51,7 +52,7 @@ namespace Reloaded_Loader
         /// <summary>
         /// Stores the game configuration to be used.
         /// </summary>
-        private static GameConfigParser.GameConfig _gameConfig;
+        private static GameConfig _gameConfig;
 
         /// <summary>
         /// Specifies the name of an already running executable to attach to.
@@ -196,14 +197,14 @@ namespace Reloaded_Loader
         /// Checks whether the supplied argument for the config path ends with Config.json and strips
         /// the argument if it does to obtain the game configuration from the parser.
         /// </summary>
-        private static GameConfigParser.GameConfig CheckConfigJson(string argument)
+        private static GameConfig CheckConfigJson(string argument)
         {
             // Accept the supplied config path if it ends on Config.json.
             if (argument.EndsWith(Strings.Parsers.ConfigFile))
-            { return GameConfigParser.ParseConfig(Path.GetDirectoryName(argument)); }
+            { return GameConfig.ParseConfig(Path.GetDirectoryName(argument)); }
 
             // Otherwise get the game config from the vanilla argument.
-            return GameConfigParser.ParseConfig(argument);
+            return GameConfig.ParseConfig(argument);
         }
 
         /// <summary>

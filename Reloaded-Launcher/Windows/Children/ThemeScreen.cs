@@ -25,8 +25,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Reloaded;
 using Reloaded.IO.Config;
-using Reloaded.IO.Config.Loader;
-using Reloaded.IO.Config.Themes;
+using Reloaded.Paths;
 using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Utilities.Controls;
 using Bindings = Reloaded_GUI.Styles.Themes.Bindings;
@@ -101,7 +100,7 @@ namespace ReloadedLauncher.Windows.Children
                 Global.ThemeConfigurations.Sort((x, y) => String.Compare(x.ThemeName, y.ThemeName, StringComparison.Ordinal));
 
                 // Iterate over each theme, populate the list.
-                foreach (ThemeConfigParser.ThemeConfig themeConfig in Global.ThemeConfigurations)
+                foreach (ThemeConfig themeConfig in Global.ThemeConfigurations)
                 {
                     // Cells[0] = Theme Name
                     // Cells[1] = Theme Description
@@ -143,7 +142,7 @@ namespace ReloadedLauncher.Windows.Children
                 string themeVersion = (string)row.Cells[4].Value;
 
                 // Get the theme configuration.
-                ThemeConfigParser.ThemeConfig themeConfiguration = FindThemeConfiguration(themeName, themeVersion);
+                ThemeConfig themeConfiguration = FindThemeConfiguration(themeName, themeVersion);
 
                 // Obtain theme directory.
                 string themeDirectory = Path.GetFileName(Path.GetDirectoryName(themeConfiguration.ThemeLocation));
@@ -166,7 +165,7 @@ namespace ReloadedLauncher.Windows.Children
         private void SaveCurrentTheme()
         {
             // Save the mod loader configuration.
-            LoaderConfigParser.WriteConfig(Global.LoaderConfiguration);
+            LoaderConfig.WriteConfig(Global.LoaderConfiguration);
         }
 
         /// <summary>
@@ -195,7 +194,7 @@ namespace ReloadedLauncher.Windows.Children
                 // Cells[4] = Version
 
                 // Get the theme configuration.
-                ThemeConfigParser.ThemeConfig themeConfiguration = FindThemeConfiguration(themeName, themeVersion);
+                ThemeConfig themeConfiguration = FindThemeConfiguration(themeName, themeVersion);
                 Global.CurrentThemeConfig = themeConfiguration;
 
                 // Set the button text for website, source.
@@ -217,7 +216,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         /// <param name="themeName">Name of the mod as shown in the launcher.</param>
         /// <param name="themeVersion">Version of the mod as shown in the launcher.</param>
-        private ThemeConfigParser.ThemeConfig FindThemeConfiguration(string themeName, string themeVersion)
+        private ThemeConfig FindThemeConfiguration(string themeName, string themeVersion)
         {
             // Search for first mod with title equivalent to mod title and version.
             return Global.ThemeConfigurations.First(x => x.ThemeName == themeName && x.ThemeVersion == themeVersion);

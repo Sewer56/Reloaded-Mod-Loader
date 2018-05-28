@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Weavers>
   <Costura>
-    <Costura IncludeDebugSymbols='true' />
+    <Costura IncludeDebugSymbols='false' />
     <IncludeAssemblies>
       Reloaded-Assembler
     </IncludeAssemblies>

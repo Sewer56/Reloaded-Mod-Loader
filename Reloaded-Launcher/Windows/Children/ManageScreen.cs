@@ -28,7 +28,7 @@ using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Reloaded;
 using Reloaded.IO.Config;
-using Reloaded.IO.Config.Games;
+using Reloaded.Paths;
 using Reloaded.Utilities;
 using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Utilities.Controls;
@@ -93,7 +93,7 @@ namespace ReloadedLauncher.Windows.Children
             Global.GameConfigurations = ConfigManager.GetAllGameConfigs();
 
             // For each config, append the name of the game.
-            foreach (GameConfigParser.GameConfig gameConfig in Global.GameConfigurations)
+            foreach (GameConfig gameConfig in Global.GameConfigurations)
             {
                 borderless_CurrentGame.Items.Add
                 (
@@ -116,7 +116,7 @@ namespace ReloadedLauncher.Windows.Children
             GameComboBoxDetails comboBoxDetails = GetSelectedGame();
 
             // Find and remove first by details.
-            foreach (GameConfigParser.GameConfig gameConfig in Global.GameConfigurations)
+            foreach (GameConfig gameConfig in Global.GameConfigurations)
             {
                 // Find the first match to game name, executable and version.
                 if (gameConfig.GameName == comboBoxDetails.GameName &&
@@ -236,7 +236,7 @@ namespace ReloadedLauncher.Windows.Children
             // Add a new game onto the configurations.
             Global.GameConfigurations.Add
             (
-                new GameConfigParser.GameConfig
+                new GameConfig
                 {
                     GameName = "New Game " + nextGameIndex,
                     GameDirectory = "",
@@ -249,10 +249,10 @@ namespace ReloadedLauncher.Windows.Children
             );
 
             // Get latest gameconfig
-            GameConfigParser.GameConfig gameConfig = Global.GameConfigurations.Last();
+            GameConfig gameConfig = Global.GameConfigurations.Last();
 
             // Write latest gameconfig
-            GameConfigParser.WriteConfig(gameConfig);
+            GameConfig.WriteConfig(gameConfig);
 
             // Add a new configuration.
             borderless_CurrentGame.Items.Add
@@ -275,7 +275,7 @@ namespace ReloadedLauncher.Windows.Children
             GameComboBoxDetails comboBoxDetails = GetSelectedGame();
 
             // Find by details.
-            GameConfigParser.GameConfig gameConfig = Global.GameConfigurations.First
+            GameConfig gameConfig = Global.GameConfigurations.First
             (
                 x => x.GameName == comboBoxDetails.GameName && 
                 x.ExecutableLocation == comboBoxDetails.ExecutableRelativeLocation && 
@@ -293,7 +293,7 @@ namespace ReloadedLauncher.Windows.Children
             borderless_GameDirectory.Text = gameConfig.GameDirectory;
 
             // Load the game image.
-            try { box_GameBanner.BackgroundImage = Image.FromFile(GameConfigParser.GameConfig.GetBannerPath(gameConfig)); }
+            try { box_GameBanner.BackgroundImage = Image.FromFile(GameConfig.GetBannerPath(gameConfig)); }
             catch { box_GameBanner.BackgroundImage = null; }
         }
 
@@ -419,7 +419,7 @@ namespace ReloadedLauncher.Windows.Children
                 GameComboBoxDetails comboBoxDetails = GetSelectedGame();
 
                 // Find current config by details.
-                GameConfigParser.GameConfig gameConfig = Global.GameConfigurations.First
+                GameConfig gameConfig = Global.GameConfigurations.First
                 (
                     x => x.GameName == comboBoxDetails.GameName &&
                     x.ExecutableLocation == comboBoxDetails.ExecutableRelativeLocation &&
@@ -431,13 +431,13 @@ namespace ReloadedLauncher.Windows.Children
                 Global.BaseForm.ChildrenForms.MainMenu.item_GameBanner.BackgroundImage?.Dispose();
 
                 // Copy the banner to new location.
-                try { File.Copy(imageDialog.FileName, GameConfigParser.GameConfig.GetBannerPath(gameConfig), true); }
+                try { File.Copy(imageDialog.FileName, GameConfig.GetBannerPath(gameConfig), true); }
 
                 // Same image or no permissions to access directory/file.
                 catch { }
 
                 // Set new image.
-                box_GameBanner.BackgroundImage = Image.FromFile(GameConfigParser.GameConfig.GetBannerPath(gameConfig));
+                box_GameBanner.BackgroundImage = Image.FromFile(GameConfig.GetBannerPath(gameConfig));
             }
 
             // Dispose dialog.

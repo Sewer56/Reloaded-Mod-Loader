@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Reloaded_Mod_Template</RootNamespace>
     <AssemblyName>main</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -120,6 +120,10 @@
     <ProjectReference Include="..\..\libReloaded-Networking\libReloaded-Networking.csproj">
       <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
       <Name>libReloaded-Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libReloaded-Paths\libReloaded-Paths.csproj">
+      <Project>{cb1994f7-61a4-4cb2-bba0-4f2aaa75a491}</Project>
+      <Name>libReloaded-Paths</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\libReloaded\libReloaded.csproj">
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>

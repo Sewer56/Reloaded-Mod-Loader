@@ -25,7 +25,8 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using Reloaded;
 using Reloaded.IO;
-using Reloaded.IO.Config.Loader;
+using Reloaded.IO.Config;
+using Reloaded.Paths;
 using Reloaded.Utilities;
 using Reloaded_GUI.Styles.Themes;
 using ReloadedLauncher.Windows;
@@ -112,7 +113,7 @@ namespace ReloadedLauncher
 
             // Grab relevant configs.
             // Note: Game list is grabbed upon entry to the main screen form.
-            Global.LoaderConfiguration = LoaderConfigParser.ParseConfig();
+            Global.LoaderConfiguration = LoaderConfig.ParseConfig();
 
             // Set the initial menu name.
             Global.CurrentMenuName = "Main Menu";

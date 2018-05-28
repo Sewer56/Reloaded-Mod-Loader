@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Reloaded.IO;
-using Reloaded.IO.Config.Games;
-using Reloaded.IO.Config.Mods;
-using Reloaded.IO.Config.Utilities;
+using Reloaded.IO.Config;
 using Reloaded.Process;
 using Reloaded.Process.Functions.X64Hooking;
 using Reloaded.Process.Functions.X86Hooking;
@@ -41,12 +39,12 @@ namespace Reloaded_Mod_Template
             with constructor, which just runs the factory method and is an alias for it.
         */
 
-        private static X64FunctionHook<CreateFile> createFileHook64;
-        private static X64FunctionHook<CreateFileW> createFileWHook64;
-        private static X64FunctionHook<CreateFileA> createFileAHook64;
-        private static FunctionHook<CreateFile> createFileHook;
-        private static FunctionHook<CreateFileW> createFileWHook;
-        private static FunctionHook<CreateFileA> createFileAHook;
+        private static X64FunctionHook<CreateFile> _createFileHook64;
+        private static X64FunctionHook<CreateFileW> _createFileWHook64;
+        private static X64FunctionHook<CreateFileA> _createFileAHook64;
+        private static FunctionHook<CreateFile> _createFileHook;
+        private static FunctionHook<CreateFileW> _createFileWHook;
+        private static FunctionHook<CreateFileA> _createFileAHook;
 
         /*
             Contains a dictionary which maps a file path (game's file path) to another file path
@@ -57,7 +55,29 @@ namespace Reloaded_Mod_Template
         /// Maps file paths to be accessed by the game to another file path which
         /// belongs to a modification.
         /// </summary>
-        private static Dictionary<string, string> remapperDictionary;
+        private static Dictionary<string, string> _remapperDictionary;
+
+        /// <summary>
+        /// Part of Reloaded-IO package.
+        /// Stores a list of all currently enabled modifications, we cache them in order
+        /// to detect new files to be redirected.
+        /// </summary>
+        private static List<ModConfig> _enabledMods;
+
+        /// <summary>
+        /// Part of Reloaded-IO package.
+        /// Stores the current game configuration, which includes the enabled mods.
+        /// We cache this to because building the file redirection dictionary requires us to know the
+        /// game path.
+        /// </summary>
+        private static GameConfig _currentGameConfig;
+
+        /// <summary>
+        /// With this, we setup an event for when each of the individual mods' Plugins/Redirector
+        /// folders have a change in files, such that we may pick up, live, new changes to existing folders.
+        /// We map the individual mod configuration to a FileSystemWatcher, allowing us to ensure that 
+        /// </summary>
+        private static Dictionary<ModConfig, FileSystemWatcher> _fileSystemWatcherDictionary;
 
         /// <summary>
         /// Your own user code starts here.
@@ -92,27 +112,31 @@ namespace Reloaded_Mod_Template
             IntPtr createFilePointer = Reloaded.Process.Native.Native.GetProcAddress(kernel32Handle, "CreateFile");
 
             // Retreieve all enabled mods using utility functions in libReloaded.
-            GameConfigParser.GameConfig currentGameConfig = ModUtilities.GetGameConfigFromExecutablePath(ExecutingGameLocation);
-            List<ModConfigParser.ModConfig> enabledMods = ModUtilities.GetAllEnabledMods(currentGameConfig);
+            _currentGameConfig = GameConfig.GetGameConfigFromExecutablePath(ExecutingGameLocation);
+            _enabledMods = GameConfig.GetAllEnabledMods(_currentGameConfig);
+            _enabledMods = GameConfig.TopologicallySortConfigurations(_enabledMods);
+
+            // Generate a list of new filesystemwatchers which will let us monitor redirector folders in real time.
+            _fileSystemWatcherDictionary = new Dictionary<ModConfig, FileSystemWatcher>();
 
             // Build a dictionary of enabled mods.
-            BuildFileRedirectionDictionary(enabledMods, currentGameConfig);
+            BuildFileRedirectionDictionary(_enabledMods, _currentGameConfig);
 
             // Hook the obtained function pointers.
 
             // X86
             if (IntPtr.Size == 4)
             {
-                if (createFileWPointer != IntPtr.Zero) { createFileWHook = FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
-                if (createFileAPointer != IntPtr.Zero) { createFileAHook = FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
-                if (createFilePointer != IntPtr.Zero) { createFileHook = FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl).Activate(); }
+                if (createFileWPointer != IntPtr.Zero) { _createFileWHook = FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
+                if (createFileAPointer != IntPtr.Zero) { _createFileAHook = FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
+                if (createFilePointer != IntPtr.Zero) { _createFileHook = FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl).Activate(); }
             }
             // X64
             else if (IntPtr.Size == 8)
             {
-                if (createFileWPointer != IntPtr.Zero) { createFileWHook64 = X64FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
-                if (createFileAPointer != IntPtr.Zero) { createFileAHook64 = X64FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
-                if (createFilePointer != IntPtr.Zero) { createFileHook64 = X64FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl).Activate(); }
+                if (createFileWPointer != IntPtr.Zero) { _createFileWHook64 = X64FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
+                if (createFileAPointer != IntPtr.Zero) { _createFileAHook64 = X64FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
+                if (createFilePointer != IntPtr.Zero) { _createFileHook64 = X64FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl).Activate(); }
             }
         }
 
@@ -121,11 +145,11 @@ namespace Reloaded_Mod_Template
         /// </summary>
         /// <param name="modConfigurations">Stores the individual modification details and configuration.</param>
         /// <param name="currentGameConfig">The current game configuration, used to let us know the base directory of the game.</param>
-        private static void BuildFileRedirectionDictionary(List<ModConfigParser.ModConfig> modConfigurations, GameConfigParser.GameConfig currentGameConfig)
+        private static void BuildFileRedirectionDictionary(List<ModConfig> modConfigurations, GameConfig currentGameConfig)
         {
             // Instance dictionary.
             // OrdinalIgnoreCase = Ignore capitals/smalls in paths, we later want no case sensitivity when mapping A to B.
-            remapperDictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            Dictionary<string, string> localRemapperDictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
             // Enumerate over all mods, iterating over their directories.
             foreach (var modConfiguration in modConfigurations)
@@ -152,11 +176,25 @@ namespace Reloaded_Mod_Template
                         modFileLocation = Path.GetFullPath(modFileLocation);
 
                         // Appends to the file path replacement dictionary.
-                        remapperDictionary[gameLocation] = modFileLocation;
+                        localRemapperDictionary[gameLocation] = modFileLocation;
+                    }
+
+                    // Setup event based, realtime file addition/removal as new files are removed or added if not setup.
+                    if (!_fileSystemWatcherDictionary.ContainsKey(modConfiguration)) // Ensure this is only done once.
+                    {
+                        FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(redirectonFolder);
+                        fileSystemWatcher.EnableRaisingEvents = true;
+                        fileSystemWatcher.IncludeSubdirectories = true;
+                        fileSystemWatcher.Created += (sender, args) => { BuildFileRedirectionDictionary(modConfigurations, currentGameConfig); };
+                        fileSystemWatcher.Deleted += (sender, args) => { BuildFileRedirectionDictionary(modConfigurations, currentGameConfig); };
+                        fileSystemWatcher.Renamed += (sender, args) => { BuildFileRedirectionDictionary(modConfigurations, currentGameConfig); };
+                        _fileSystemWatcherDictionary.Add(modConfiguration, fileSystemWatcher);
                     }
                 }
             }
 
+            // Assign dictionary.
+            _remapperDictionary = localRemapperDictionary;
         }
 
         /// <summary>
@@ -168,17 +206,17 @@ namespace Reloaded_Mod_Template
             // Here we simply check whether the file path is in the dictionary,
             // if it is, we replace it.
             if (!filename.StartsWith(@"\\?\"))
-                if (remapperDictionary.TryGetValue(Path.GetFullPath(filename), out string newFileName))
+                if (_remapperDictionary.TryGetValue(Path.GetFullPath(filename), out string newFileName))
                 {
                     return IntPtr.Size == 4 ? 
-                        createFileAHook.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
-                        createFileAHook64.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                        _createFileAHook.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
+                        _createFileAHook64.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
                 }
 
             // Execute either X86 or X64 original function.
             return IntPtr.Size == 4 ?
-                createFileAHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
-                createFileAHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                _createFileAHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
+                _createFileAHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
         }
 
         /// <summary>
@@ -190,16 +228,16 @@ namespace Reloaded_Mod_Template
             // Here we simply check whether the file path is in the dictionary,
             // if it is, we replace it.
             if (!filename.StartsWith(@"\\?\"))
-                if (remapperDictionary.TryGetValue(Path.GetFullPath(filename), out string newFileName))
+                if (_remapperDictionary.TryGetValue(Path.GetFullPath(filename), out string newFileName))
                 {
                     return IntPtr.Size == 4 ?
-                        createFileWHook.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
-                        createFileWHook64.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                        _createFileWHook.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
+                        _createFileWHook64.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
                 }
 
             return IntPtr.Size == 4 ?
-                createFileWHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
-                createFileWHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                _createFileWHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
+                _createFileWHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
         }
 
         /// <summary>
@@ -211,16 +249,16 @@ namespace Reloaded_Mod_Template
             // Here we simply check whether the file path is in the dictionary,
             // if it is, we replace it.
             if (!filename.StartsWith(@"\\?\"))
-                if (remapperDictionary.TryGetValue(Path.GetFullPath(filename), out string newFileName))
+                if (_remapperDictionary.TryGetValue(Path.GetFullPath(filename), out string newFileName))
                 {
                     return IntPtr.Size == 4 ?
-                        createFileHook.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
-                        createFileHook64.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                        _createFileHook.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
+                        _createFileHook64.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
                 }
 
             return IntPtr.Size == 4 ?
-                createFileHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
-                createFileHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                _createFileHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
+                _createFileHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
         }
     }
 }

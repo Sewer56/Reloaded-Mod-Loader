@@ -1,0 +1,2 @@
+The main library for the development of Reloaded Mod Loader Modifications.
+Provides you with JIT X86/64 Assembly, Memory Buffers, X86/64 Function Calling, X86/64 Function Hooking, X86/64 Custom Function Hooking (Usercall/Userpurge), X86/64 Function Pointers, Virtual Function Table Hooking/Calling, Native Array Utilities, Pattern/Signature Scanning, Reading/Writing Memory, Memory Page Management, Easy DLL Injector, Thread Management and more.

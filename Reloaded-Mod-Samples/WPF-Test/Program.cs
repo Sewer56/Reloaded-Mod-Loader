@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
-using Reloaded.Overlay.External.WinForms;
 using Reloaded.Process;
 using Reloaded_Mod_Template.ReloadedCode;
 using WPF_Demo_Overlay;
@@ -31,7 +30,6 @@ namespace Reloaded_Mod_Template
         #endregion Reloaded Mod Template Stuff
 
         private static OverlayWindow WPFWindow;
-        private static TransparentWinform OverlayForm;
         private static System.Windows.Application WPFApp;
 
         /// <summary>

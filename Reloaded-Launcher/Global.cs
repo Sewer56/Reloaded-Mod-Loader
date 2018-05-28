@@ -19,10 +19,7 @@
 */
 
 using System.Collections.Generic;
-using Reloaded.IO.Config.Games;
-using Reloaded.IO.Config.Loader;
-using Reloaded.IO.Config.Mods;
-using Reloaded.IO.Config.Themes;
+using Reloaded.IO.Config;
 using Reloaded_GUI.Styles.Themes;
 using ReloadedLauncher.Windows;
 
@@ -52,39 +49,39 @@ namespace ReloadedLauncher
         /// <summary>
         /// Stores the current configuration for the mod loader.
         /// </summary>
-        public static LoaderConfigParser.Config LoaderConfiguration { get; set; }
+        public static LoaderConfig LoaderConfiguration { get; set; }
 
         /// <summary>
         /// Stores the currently loaded/highlighted game configuration.
         /// Changed when the user changes the game in the main menu.
         /// </summary>
-        public static GameConfigParser.GameConfig CurrentGameConfig { get; set; }
+        public static GameConfig CurrentGameConfig { get; set; }
 
         /// <summary>
         /// Stores the currently loaded/highlighted modification/plugin configuration.
         /// Changed when the user changes the modification/plugin in the mod/plugin menu.
         /// </summary>
-        public static ModConfigParser.ModConfig CurrentModConfig { get; set; }
+        public static ModConfig CurrentModConfig { get; set; }
 
         /// <summary>
         /// Stores the current loaded/highlighted theme configuration.
         /// Changes when the user changes the theme in the themes menu.
         /// </summary>
-        public static ThemeConfigParser.ThemeConfig CurrentThemeConfig { get; set; }
+        public static ThemeConfig CurrentThemeConfig { get; set; }
 
         /// <summary>
         /// Stores the individual game configurations for loaded games.
         /// </summary>
-        public static List<GameConfigParser.GameConfig> GameConfigurations { get; set; }
+        public static List<GameConfig> GameConfigurations { get; set; }
 
         /// <summary>
         /// Stores the individual mod configuration for the currently selected game.
         /// </summary>
-        public static List<ModConfigParser.ModConfig> ModConfigurations { get; set; }
+        public static List<ModConfig> ModConfigurations { get; set; }
 
         /// <summary>
         /// Stores the individual theme configurations.
         /// </summary>
-        public static List<ThemeConfigParser.ThemeConfig> ThemeConfigurations { get; set; }
+        public static List<ThemeConfig> ThemeConfigurations { get; set; }
     }
 }

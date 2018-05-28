@@ -1,9 +1,11 @@
 {
-  "ModName": "[X86/X64] Reloaded File Monitor",
-  "ModDescription": "Prints out the individual locations of filesystem files as the game/program loads or writes to them.",
-  "ModVersion": "1.0.0",
-  "ModAuthor": "Sewer56lol",
-  "ThemeSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-  "ThemeGithub": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-  "ModConfigExe": "N/A"
+	"ModId": "reloaded.global.filemonitor",
+	"ModName": "[X86/X64] Reloaded File Monitor",
+	"ModDescription": "Prints out the individual locations of filesystem files as the game/program loads or writes to them.",
+	"ModVersion": "1.0.0",
+	"ModAuthor": "Sewer56",
+	"ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+	"ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+	"ConfigurationFile": "",
+	"Dependencies": []
 }

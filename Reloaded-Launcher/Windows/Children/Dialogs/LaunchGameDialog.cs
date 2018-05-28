@@ -25,6 +25,7 @@ using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Reloaded;
 using Reloaded.Native.WinAPI;
+using Reloaded.Paths;
 using Reloaded_GUI.Styles.Themes.ApplyTheme;
 using Reloaded_GUI.Utilities.Windows;
 using Bindings = Reloaded_GUI.Styles.Themes.Bindings;

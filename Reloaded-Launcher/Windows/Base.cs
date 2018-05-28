@@ -23,7 +23,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using Reloaded.IO.Config.Themes;
+using Reloaded.IO.Config;
 using Reloaded.Native.WinAPI;
 using Reloaded_GUI.Styles.Themes;
 using ReloadedLauncher.Windows.Children;
@@ -119,7 +119,7 @@ namespace ReloadedLauncher.Windows
         public void UpdateTitle(string extraText)
         {
             // Retrieve the theme properties.
-            ThemePropertyParser.ThemeConfig themeProperties = Theme.ThemeProperties;
+            ThemeProperties.Theme themeProperties = Theme.ThemeProperties;
 
             // Stores the title of the mod loader, before it is set and rendered.
             string loaderTitle = "";

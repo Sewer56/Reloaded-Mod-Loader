@@ -39,12 +39,12 @@ namespace Reloaded_Mod_Template
             with constructor, which just runs the factory method and is an alias for it.
         */
 
-        private static X64FunctionHook<CreateFile> createFileHook64;
-        private static X64FunctionHook<CreateFileW> createFileWHook64;
-        private static X64FunctionHook<CreateFileA> createFileAHook64;
-        private static FunctionHook<CreateFile> createFileHook;
-        private static FunctionHook<CreateFileW> createFileWHook;
-        private static FunctionHook<CreateFileA> createFileAHook;
+        private static X64FunctionHook<CreateFile> _createFileHook64;
+        private static X64FunctionHook<CreateFileW> _createFileWHook64;
+        private static X64FunctionHook<CreateFileA> _createFileAHook64;
+        private static FunctionHook<CreateFile> _createFileHook;
+        private static FunctionHook<CreateFileW> _createFileWHook;
+        private static FunctionHook<CreateFileA> _createFileAHook;
 
         /// <summary>
         /// Your own user code starts here.
@@ -81,16 +81,16 @@ namespace Reloaded_Mod_Template
             // X86
             if (IntPtr.Size == 4)
             {
-                if (createFileWPointer != IntPtr.Zero) { createFileWHook = FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
-                if (createFileAPointer != IntPtr.Zero) { createFileAHook = FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
-                if (createFilePointer != IntPtr.Zero) { createFileHook = FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl).Activate(); }
+                if (createFileWPointer != IntPtr.Zero) { _createFileWHook = FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
+                if (createFileAPointer != IntPtr.Zero) { _createFileAHook = FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
+                if (createFilePointer != IntPtr.Zero) { _createFileHook = FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl).Activate(); }
             }
             // X64
             else if (IntPtr.Size == 8)
             {
-                if (createFileWPointer != IntPtr.Zero) { createFileWHook64 = X64FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
-                if (createFileAPointer != IntPtr.Zero) { createFileAHook64 = X64FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
-                if (createFilePointer != IntPtr.Zero) { createFileHook64 = X64FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl).Activate(); }
+                if (createFileWPointer != IntPtr.Zero) { _createFileWHook64 = X64FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
+                if (createFileAPointer != IntPtr.Zero) { _createFileAHook64 = X64FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
+                if (createFilePointer != IntPtr.Zero) { _createFileHook64 = X64FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl).Activate(); }
             }
         }
 
@@ -107,8 +107,8 @@ namespace Reloaded_Mod_Template
                 Bindings.PrintInfo($"[CFA] Loading File {filename}");
 
             return IntPtr.Size == 4 ?
-                createFileAHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
-                createFileAHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                _createFileAHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
+                _createFileAHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
         }
 
         /// <summary>
@@ -124,8 +124,8 @@ namespace Reloaded_Mod_Template
                 Bindings.PrintInfo($"[CFW] Loading File {filename}");
 
             return IntPtr.Size == 4 ?
-                createFileWHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
-                createFileWHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                _createFileWHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
+                _createFileWHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
         }
 
         /// <summary>
@@ -141,8 +141,8 @@ namespace Reloaded_Mod_Template
                 Bindings.PrintInfo($"[CF] Loading File {filename}");
 
             return IntPtr.Size == 4 ?
-                createFileHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
-                createFileHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                _createFileHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
+                _createFileHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
         }
     }
 }

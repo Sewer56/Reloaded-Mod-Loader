@@ -20,7 +20,7 @@
 
 using System.Drawing;
 using System.Windows.Forms;
-using Reloaded.IO.Config.Themes;
+using Reloaded.IO.Config;
 using Reloaded_GUI.Styles.Animation;
 using Reloaded_GUI.Styles.Controls.Animated;
 using Reloaded_GUI.Styles.Controls.Custom;
@@ -79,7 +79,7 @@ namespace Reloaded_GUI.Styles.Themes.ApplyTheme
         public static void LoadProperties(string themeDirectory)
         {
             // If the baseform is instantiated
-            Theme.ThemeProperties = ThemePropertyParser.ParseConfig(themeDirectory);
+            Theme.ThemeProperties = ThemeProperties.Theme.ParseConfig(themeDirectory);
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Reloaded_GUI.Styles.Themes.ApplyTheme
         /// <param name="buttonColours">Defines the main button colours of the button in question</param>
         /// <param name="enterAnimation">Defines the mouse enter animation of the button.</param>
         /// <param name="exitAnimation">Defines the mouse exit animation of the buttons.</param>
-        private static void ThemeButton(Control control, ThemePropertyParser.BarColours buttonColours, ThemePropertyParser.ButtonMouseAnimation enterAnimation, ThemePropertyParser.ButtonMouseAnimation exitAnimation, bool themeBorder)
+        private static void ThemeButton(Control control, ThemeProperties.BarColours buttonColours, ThemeProperties.ButtonMouseAnimation enterAnimation, ThemeProperties.ButtonMouseAnimation exitAnimation, bool themeBorder)
         {
             // Set the control backcolor and forecolor.
             control.ForeColor = buttonColours.TextColour;

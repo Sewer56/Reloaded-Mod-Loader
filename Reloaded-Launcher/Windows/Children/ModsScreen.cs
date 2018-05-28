@@ -27,9 +27,9 @@ using System.Linq;
 using System.Windows.Forms;
 using Reloaded;
 using Reloaded.IO.Config;
-using Reloaded.IO.Config.Games;
-using Reloaded.IO.Config.Mods;
+using Reloaded.Paths;
 using ReloadedLauncher.Misc;
+using ReloadedLauncher.Windows.Children.Dialogs;
 using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Utilities.Controls;
 using Bindings = Reloaded_GUI.Styles.Themes.Bindings;
@@ -96,7 +96,7 @@ namespace ReloadedLauncher.Windows.Children
             try
             {
                 // Retrieve current mod list the into Global.
-                Global.ModConfigurations = ConfigManager.GetAllMods(Global.CurrentGameConfig);
+                Global.ModConfigurations = ConfigManager.GetAllModsForGame(Global.CurrentGameConfig);
 
                 // Hold enabled rows which we will later reverse order of and append to disabled rows.
                 // Also store disabled rows.
@@ -130,7 +130,7 @@ namespace ReloadedLauncher.Windows.Children
             // Iterate over each "enabled" mod folder list.
             foreach (string modFolder in Global.CurrentGameConfig.EnabledMods)
             // Iterate over mod configurations and find relevant mod config.
-            foreach (ModConfigParser.ModConfig modConfig in Global.ModConfigurations)
+            foreach (ModConfig modConfig in Global.ModConfigurations)
             {
                 // Reloaded-Mods/SA2/Testmod => Testmod
                 string modConfigFolderName = Path.GetFileName(Path.GetDirectoryName(modConfig.ModLocation));
@@ -164,7 +164,7 @@ namespace ReloadedLauncher.Windows.Children
         private void GetDisabledMods(List<DataGridViewRow> disabledRows)
         {
             // Append all disabled mods to disabled mod list.
-            foreach (ModConfigParser.ModConfig modConfig in Global.ModConfigurations)
+            foreach (ModConfig modConfig in Global.ModConfigurations)
             {
                 // Get the folder name of the durrent mod.
                 string directoryName = Path.GetFileName(Path.GetDirectoryName(modConfig.ModLocation));
@@ -217,7 +217,7 @@ namespace ReloadedLauncher.Windows.Children
                 {
                     // Find the mod configuration from the set row and column.
                     // Match by mod title and version.
-                    ModConfigParser.ModConfig modConfiguration = FindModConfiguration((string)row.Cells[1].Value, (string)row.Cells[4].Value);
+                    ModConfig modConfiguration = FindModConfiguration((string)row.Cells[1].Value, (string)row.Cells[4].Value);
 
                     // Append the folder name only to the list of mods.
                     // Reloaded-Mods/SA2/Testmod => Testmod
@@ -232,7 +232,7 @@ namespace ReloadedLauncher.Windows.Children
             Global.CurrentGameConfig.EnabledMods = enabledMods;
 
             // Save the game configuration.
-            GameConfigParser.WriteConfig(Global.CurrentGameConfig);
+            GameConfig.WriteConfig(Global.CurrentGameConfig);
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         /// <param name="modName">Name of the mod as shown in the launcher.</param>
         /// <param name="modVersion">Version of the mod as shown in the launcher.</param>
-        private ModConfigParser.ModConfig FindModConfiguration(string modName, string modVersion)
+        private ModConfig FindModConfiguration(string modName, string modVersion)
         {
             // Search for first mod with title equivalent to mod title and version.
             return Global.ModConfigurations.First(x => x.ModName == modName && x.ModVersion == modVersion);
@@ -251,16 +251,82 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void Box_ModList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Cast the sender to the datagridview
+            // Our sender is a datagridview, always.
             var senderGrid = (DataGridView)sender;
 
-            // Check if the column index is the first column
+            // Check if the column index is the first column (disable/enable checkbox).
             if (e.ColumnIndex == 0)
             {
-                if ((string)senderGrid.Rows[e.RowIndex].Cells[0].Value == TextButtons.ButtonDisabled)
+                if ((string) senderGrid.Rows[e.RowIndex].Cells[0].Value == TextButtons.ButtonDisabled)
+                {
+                    CheckDependenciesModEnable();
                     senderGrid.Rows[e.RowIndex].Cells[0].Value = TextButtons.ButtonEnabled;
+                }
                 else
+                {
+                    CheckDependenciesModDisable();
                     senderGrid.Rows[e.RowIndex].Cells[0].Value = TextButtons.ButtonDisabled;
+                } 
+            }
+        }
+
+        /// <summary>
+        /// Performs a dependency check for a mod that is about to be disabled, letting the user know of
+        /// any mods that depend on the current mod.
+        /// </summary>
+        private void CheckDependenciesModDisable()
+        {
+            // Populate a list of every single mod.
+            List<GameConfig> allGameConfigs = ConfigManager.GetAllGameConfigs();
+            List<ModConfig> allMods = new List<ModConfig>(100);
+
+            // Populate total mod list.
+            foreach (var gameConfig in allGameConfigs)
+                allMods.AddRange(ConfigManager.GetAllModsForGame(gameConfig));
+
+            // Check for any dependencies on current entry.
+            ModConfig localModConfig = Global.CurrentModConfig;
+            List<ModConfig> allEnabledDependencies = allMods.Where(x => x.Dependencies.Contains(localModConfig.ModId) && x.IsEnabled()).ToList();
+
+            // Display dialog optionally.
+            if (allEnabledDependencies.Count > 0)
+            {
+                EnabledDependencyDialog dependencyDialog = new EnabledDependencyDialog(allEnabledDependencies);
+                dependencyDialog.ShowDialog();
+            }
+        }
+
+        /// <summary>
+        /// Performs a dependency check for a mod that is about to be enabled to inform the user of missing
+        /// dependencies and ensure that all of the mod's necessary dependencies are enabled.
+        /// </summary>
+        private void CheckDependenciesModEnable()
+        {
+            // Check for missing dependencies.
+            List<string> missingDependencies = Global.CurrentModConfig.GetMissingDependencies();
+            if (missingDependencies.Count > 0)
+            {
+                MessageBox.Show($"Seems that you are missing some dependencies required by the current modification: {string.Join(",", missingDependencies)}.\n\n" +
+                                $"While you will not be stopped from enabling the mod, do note your mod may not perform as expected (and possibly crash).");
+            }
+
+            // Check for disabled dependencies.
+            List<ModConfig> disabledConfigs = Global.CurrentModConfig.GetDisabledDependencies();
+            if (disabledConfigs.Count > 0)
+            {
+                DisabledDependencyDialog disabledDependencyDialog = new DisabledDependencyDialog(disabledConfigs);
+                disabledDependencyDialog.ShowDialog();
+
+                // If uses decides to not enable dependencies, exit handler.
+                if (!disabledDependencyDialog.EnableDependencies)
+                    return;
+
+                // Else enable each dependency.
+                foreach (var disabledConfig in disabledConfigs)
+                {
+                    disabledConfig.ParentGame.EnabledMods.Add(disabledConfig.GetModDirectoryName());
+                    GameConfig.WriteConfig(disabledConfig.ParentGame); // Inefficient but will do for now.
+                }
             }
         }
 
@@ -290,22 +356,22 @@ namespace ReloadedLauncher.Windows.Children
                 // Cells[4] = Version
 
                 // Get the mod configuration.
-                ModConfigParser.ModConfig modConfiguration = FindModConfiguration(modTitle, modVersion);
+                ModConfig modConfiguration = FindModConfiguration(modTitle, modVersion);
                 Global.CurrentModConfig = modConfiguration;
 
                 // Set the description.
                 item_ModDescription.Text = modConfiguration.ModDescription;
 
                 // Set the button text for website, config, source.
-                borderless_ConfigBox.Text   = modConfiguration.ModConfigExe != "N/A" ? "N/A" : "Configuration";
-                borderless_WebBox.Text      = modConfiguration.ThemeSite    != "N/A" ? "N/A" : "Webpage";
-                borderless_SourceBox.Text   = modConfiguration.ThemeGithub  != "N/A" ? "N/A" : "Source Code";
+                borderless_ConfigBox.Text   = modConfiguration.ConfigurationFile == "" ? "N/A" : "Configuration";
+                borderless_WebBox.Text      = modConfiguration.ModSite           == "" ? "N/A" : "Webpage";
+                borderless_SourceBox.Text   = modConfiguration.ModSource         == "" ? "N/A" : "Source Code";
 
                 // Obtain mod directory.
-                string modDirectory = Path.GetDirectoryName(modConfiguration.ModLocation);
+                string localModDirectory = Path.GetDirectoryName(modConfiguration.ModLocation);
 
                 // Attempt to load image.
-                try { box_ModPreview.BackgroundImage = Image.FromFile(modDirectory + $"\\{Strings.Launcher.BannerName}"); }
+                try { box_ModPreview.BackgroundImage = Image.FromFile(localModDirectory + $"\\{Strings.Launcher.BannerName}"); }
                 catch { box_ModPreview.BackgroundImage = null; }
             }
             catch { }
@@ -317,7 +383,7 @@ namespace ReloadedLauncher.Windows.Children
         private void SourceBox_Click(object sender, EventArgs e)
         {
             if (CheckIfEnabled((Control)sender))
-                OpenFile(Global.CurrentModConfig.ThemeGithub);
+                OpenFile(Global.CurrentModConfig.ModSource);
         }
 
         /// <summary>
@@ -326,7 +392,7 @@ namespace ReloadedLauncher.Windows.Children
         private void WebBox_Click(object sender, EventArgs e)
         {
             if (CheckIfEnabled((Control)sender))
-                OpenFile(Global.CurrentModConfig.ThemeSite);
+                OpenFile(Global.CurrentModConfig.ModSite);
         }
 
         /// <summary>
@@ -335,7 +401,7 @@ namespace ReloadedLauncher.Windows.Children
         private void ConfigBox_Click(object sender, EventArgs e)
         {
             if (CheckIfEnabled((Control)sender))
-                OpenFile(Global.CurrentModConfig.ModConfigExe);
+                OpenFile(Global.CurrentModConfig.ConfigurationFile);
         }
 
         /// <summary>
@@ -354,7 +420,7 @@ namespace ReloadedLauncher.Windows.Children
         /// <param name="control">The control (typically button) to check.</param>
         private bool CheckIfEnabled(Control control)
         {
-            if (control.Text != "N/A")
+            if (control.Text != "")
                 return true;
             return false;
         }

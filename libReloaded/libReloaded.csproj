@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <RootNamespace>Reloaded</RootNamespace>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -15,7 +15,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\net472\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -73,78 +73,42 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|AnyCPU'">
-    <OutputPath>bin\Github-Release\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|x86'">
-    <OutputPath>bin\x86\Github-Release\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|x64'">
-    <OutputPath>bin\x64\Github-Release\</OutputPath>
-  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Process\AlternateDllInjector.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libReloaded-Native\libReloaded-Native.csproj" />
+    <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj" />
+    <ProjectReference Include="..\Reloaded-Assembler\Reloaded-Assembler.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Costura.Fody" Version="2.0.0" />
+    <PackageReference Include="Fody" Version="3.0.3" />
+    <PackageReference Include="LiteNetLib-custom" Version="0.0.1" />
+    <PackageReference Include="SharpDisasm" Version="1.1.9" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FodyWeavers.xml" />
+  </ItemGroup>
   <PropertyGroup>
-    <Version>1.1.1</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.1.3</Version>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/Reloaded-GUI/Images/Static/ReloadedIcon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader</RepositoryUrl>
-    <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>Main Development Library for Reloaded Mod Loader</PackageReleaseNotes>
+    <RepositoryType>git</RepositoryType>
+    <Description>
+The main library for the development of Reloaded Mod Loader Modifications.
+Provides you with JIT X86/64 Assembly, Memory Buffers, X86/64 Function Calling, X86/64 Function Hooking, X86/64 Custom Function Hooking (Usercall/Userpurge), X86/64 Function Pointers, Virtual Function Table Hooking/Calling, Native Array Utilities, Pattern/Signature Scanning, Reading/Writing Memory, Memory Page Management, Easy DLL Injector, Thread Management and more.
+    </Description>
+    <PackageReleaseNotes>Main Development Library for Reloaded Mod Loader Modifications</PackageReleaseNotes>
     <Authors>Sewer56</Authors>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Process\AlternateDllInjector.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj" />
-    <ProjectReference Include="..\ReloadedAssemblerService\Reloaded-Assembler.csproj" />
-  </ItemGroup>
-    <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="2.0.0" />
-    <PackageReference Include="D2dControl-Custom" Version="1.1.1" />
-    <PackageReference Include="Fody" Version="3.0.3" />
-    <PackageReference Include="LiteNetLib-custom" Version="0.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="SharpDisasm" Version="1.1.9" />
-    <PackageReference Include="SharpDX" Version="4.0.1" />
-    <PackageReference Include="SharpDX.Desktop" Version="4.0.1" />
-    <PackageReference Include="SharpDX.Direct2D1" Version="4.0.1" />
-    <PackageReference Include="SharpDX.Direct3D11" Version="4.0.1" />
-    <PackageReference Include="SharpDX.Direct3D9" Version="4.0.1" />
-    <PackageReference Include="SharpDX.DirectInput" Version="4.0.1" />
-    <PackageReference Include="SharpDX.DXGI" Version="4.0.1" />
-    <PackageReference Include="SharpDX.XInput" Version="4.0.1" />
-    <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
-    <PackageReference Include="System.Net.NetworkInformation" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.4.0" />
-    <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="UIAutomationProvider" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Overlay\External\D2D\WPFOverlayWindow.xaml.cs">
-      <DependentUpon>WPFOverlayWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Overlay\External\WinForms\TransparentWinform.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Overlay\External\WinForms\TransparentWinform.Designer.cs">
-      <DependentUpon>TransparentWinform.cs</DependentUpon>
-    </Compile>
-    <None Include="buildnuget.bat" />
-    <None Include="FodyWeavers.xml" />
-    <Page Include="Overlay\External\D2D\WPFOverlayWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
 </Project>

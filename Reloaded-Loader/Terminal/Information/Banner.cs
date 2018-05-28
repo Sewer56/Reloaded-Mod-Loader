@@ -21,6 +21,7 @@
 using System;
 using Colorful;
 using Reloaded;
+using Reloaded.Paths;
 using Console = Colorful.Console;
 
 namespace Reloaded_Loader.Terminal.Information

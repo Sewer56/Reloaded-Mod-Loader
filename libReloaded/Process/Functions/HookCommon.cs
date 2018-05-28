@@ -28,7 +28,6 @@ using Reloaded.Process.Memory;
 using SharpDisasm;
 using SharpDisasm.Udis86;
 using Reloaded.Process.Functions.X64Functions;
-using SharpDX.Multimedia;
 using static Reloaded.Assembler.Assembler;
 
 namespace Reloaded.Process.Functions

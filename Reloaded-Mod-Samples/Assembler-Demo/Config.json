@@ -1,9 +1,11 @@
 {
-  "ModName": "[X86/X64] Reloaded Assembler Demo",
-  "ModDescription": "Demonstrates the simple usage of ReloadedAssembler, a background service wrapped around FASM.NET",
-  "ModVersion": "1.0.0",
-  "ModAuthor": "Sewer56lol",
-  "ThemeSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-  "ThemeGithub": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-  "ModConfigExe": "N/A"
+	"ModId": "reloaded.demos.assembler",
+	"ModName": "[X86/X64] Reloaded Assembler Demo",
+	"ModDescription": "Demonstrates the simple usage of ReloadedAssembler, a background service wrapped around FASM.NET",
+	"ModVersion": "1.0.0",
+	"ModAuthor": "Sewer56",
+	"ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+	"ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+	"ConfigurationFile": "",
+	"Dependencies": []
 }

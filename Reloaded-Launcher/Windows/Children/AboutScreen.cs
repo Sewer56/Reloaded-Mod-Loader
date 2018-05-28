@@ -23,7 +23,8 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Reloaded;
-using Reloaded.IO.Config.Loader;
+using Reloaded.IO.Config;
+using Reloaded.Paths;
 using Reloaded_GUI.Utilities.Controls;
 using Bindings = Reloaded_GUI.Styles.Themes.Bindings;
 
@@ -86,7 +87,7 @@ namespace ReloadedLauncher.Windows.Children
                 Global.LoaderConfiguration.SilentUpdates = borderless_SilentUpdatesBox.ButtonEnabled;
                 Global.LoaderConfiguration.AllowBetaBuilds = borderless_AllowPreReleasesBox.ButtonEnabled;
                 Global.LoaderConfiguration.ExitAfterLaunch = borderless_CloseOnLaunchBox.ButtonEnabled;
-                LoaderConfigParser.WriteConfig(Global.LoaderConfiguration);
+                LoaderConfig.WriteConfig(Global.LoaderConfiguration);
             }
         }
     }
