@@ -9,11 +9,11 @@
 
 
 # Introduction
-**[Reloaded]** is a WIP DLL Injection based Mod Loader, Mod Management System, Optional Mod SDK *(libReloaded)* among various other utilities. 
+**[Reloaded]** is an actively developed DLL Injection based Mod Loader, Mod Management System, Optional Mod SDK *(libReloaded)* among various other utilities. 
 
 <div align="center">
 	<img src="https://i.imgur.com/aG6rXm9.png" width="550" align="center" />
-	<br/>
+	<br/><br/>
 </div>
 
 It is a completely free and open source public rewrite of **Heroes Mod Loader**, my original first attempt at a mod management/loader system all the way from the ground up using the C# programming language.
