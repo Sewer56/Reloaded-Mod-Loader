@@ -11,6 +11,7 @@
  - 0% Filesystem/Executable Modifications.
  - Can attach to already running games at any time, not only at startup.
  - Mods are forward and backward compatible (Statically Compiled Modifications).
+ - Mods can list dependencies on other mods.
  - Allows for running of multiple instances at once, feel free to write Netplay/Cross-game mods.
  - Compatible with both X86 & X64 games/processes and/or Address Space Layout Randomization (ASLR).
  - Compatible out of the box with other mod loaders in 99.99% of cases (one of Reloaded's main design goals).
@@ -63,4 +64,4 @@ Reloaded also contains multiple, very well documented sets of functions allowing
  - [x] Set window event hooks, capture when a window moves or is resized, etc.
 
 ### In the future
-After a good rest at least. At time of writing, this has been my sole project for about 5 months now give-take.
+After a good rest at least. At time of writing, this has been my sole project for about 6+ months now give-take.
