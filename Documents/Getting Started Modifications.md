@@ -5,6 +5,19 @@
 	<br/> <br/>
 </div>
 
+## Table of Contents
+- [Modification Structure](#modification-structure)
+  - [Config.json](#configjson)
+  - [Banner.png](#bannerpng)
+- [File Redirection Modifications](#file-redirection-modifications)
+  - [File Redirection Modifications: Extra Info](#file-redirection-modifications-extra-info)
+- [Building Code/Script based Modifications](#building-codescript-based-modifications)
+- [Distributing Modifications](#distributing-modifications)
+  - [Third Parties](#third-parties)
+  - [Third Parties: User's End](#third-parties-users-end)
+  - [Third Party Specifics:](#third-party-specifics)
+
+
 ## Modification Structure
 
 At the core, Reloaded Modifications consist of three components:
@@ -16,18 +29,26 @@ main32/main64.dll: Used for code mods only. Contains custom C# user code.
 ```
 
 ### Config.json
-The typical configuration file is defined as follows, you simply require to fill the following fields.
+The typical configuration file is defined in a JSON file as follows, you simply should fill the following fields.
 ```json
 {
-  "ModName": "Reloaded Template Mod",
-  "ModDescription": "Reloaded Template which prints \"Hello World\" to the console output on launch.",
-  "ModVersion": "1.0.0",
-  "ModAuthor": "Sewer56lol",
-  "ThemeSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-  "ThemeGithub": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-  "ModConfigExe": "N/A"
+	"ModId": "reloaded.global.fileredirector",
+	"ModName": "[X86/X64] Reloaded File Redirector",
+	"ModDescription": "Redirects loading of game files from your game directory to files inside Plugins/Redirector/ in enabled mod folders.",
+	"ModVersion": "1.0.0",
+	"ModAuthor": "Sewer56",
+	"ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+	"ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
+	"ConfigurationFile": "",
+	"Dependencies": []
 }
 ```
+
+- ModId: Can be any arbitrary piece of text or value, just make it unique. Once set, it should not be changed.
+
+- Dependencies: A list of other mods' Mod IDs that require to be loaded for your mod to function. When set, any dependencies of a mod will always be loaded before the mod itself.
+
+- ConfigurationFile: A name of a file to be opened inside the mod directory when the user selects "Configuration" in Reloaded-Launcher. Can be an executable, ini or any other file kind.
 
 ### Banner.png
 The size of the image is 271x271 pixels, as displayed in Reloaded-Launcher.
@@ -35,21 +56,30 @@ The size of the image is 271x271 pixels, as displayed in Reloaded-Launcher.
 ![Sample Image](https://i.imgur.com/Yg960UU.png)
 
 ## File Redirection Modifications
-Due to Reloaded's quest to modularity, all features that actually do the tampering with games are enabled inside mods rather than at the core with the loader explicitly implementing them, as such, Reloaded's file redirection capabilities are implemented in a mod itself that must be enabled, you should make sure that the user knows about this:
+Due to Reloaded's quest to modularity, all features that actually do the tampering with games are enabled inside mods rather than at the core with the loader. As such, Reloaded's file redirection capabilities are implemented in a mod itself (which ships with all Reloaded copies) as seen below:
 
 <center>
 	<img src="https://i.imgur.com/0oeTNXr.png" align="center" width="500" />
 </center>
 
-Nonetheless, packing file redirection mods is quite easy, all you are required to do is include and complete `Config.json` and `Banner.png` as aforementioned.
+As such, for file redirection based mods you should specify a dependency on the mod above:
+```json
+"Dependencies": [ "reloaded.global.fileredirector" ]
+```
 
-For files to be loaded by the game with the mod enabled, you create the folders `Plugins` and inside that `Redirector`, game files to be replaced as the game executable loads them are placed there.
+For files to be loaded by the game with the mod enabled; you then create and place them inside of `Plugins/Redirector` from your mod's directory. You create the folder `Plugins` and inside that folder `Redirector` and place your files there.
 
-The folder `Plugins/Redirector` will map to is specifically the game profile specified `Game Directory` as seen in the launcher:
+More specifically, the folder in `Plugins/Redirector` maps to individual game profile's `Game Directory` as seen in the launcher below:
 
 <center>
 	<img src="https://i.imgur.com/a4BjzRP.png" align="center" width="500" />
 </center>
+
+That's all you need to know.
+
+[Here's an example.](https://gamebanana.com/skins/162715)
+
+### File Redirection Modifications: Extra Info
 
 Files are not mapped by filename but their location relative to the game folder, thus in this scenario, to replace a music file at `E:/Projects/Sonic Hacking Stuff/SonicHeroes/Game/dvdroot/bgm/SNG_STG26.adx` your mod should place the file at `Plugins/Redirector/dvdroot/bgm/SNG_STG26.adx`.
 
