@@ -96,7 +96,7 @@ namespace Reloaded_Loader.Core
                 }
                 else
                 {
-                    string x64DllLocation = Path.Combine(enabledMod.GetModDirectory(), Strings.Loader.Mod32BitDllFile);
+                    string x64DllLocation = Path.Combine(enabledMod.GetModDirectory(), Strings.Loader.Mod64BitDllFile);
                     if (File.Exists(x64DllLocation))
                         dllFiles.Add(x64DllLocation);
                 }
