@@ -4,9 +4,23 @@
 	<br/> <br/>
 </div>
 
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Downloading](#downloading)
+- [Navigation Tips](#navigation-tips)
+- [Adding Games](#adding-games)
+- [Enabling Mods](#enabling-mods)
+  - [Setting Mod Order](#setting-mod-order)
+  - [Long Mod Lists](#long-mod-lists)
+- [Configuring Controller Inputs](#configuring-controller-inputs)
+  - [Preview & Controller Ports](#preview-controller-ports)
+  - [Axis](#axis)
+- [Alternate Launch Dialog](#alternate-launch-dialog)
+
+
 ## Prerequisites
 * Windows 7, 8.1, 10 or newer.
-* .NET Framework 4.7.1+
+* .NET Framework 4.7.2+
 
 ## Downloading
 - Download Setup.exe from the Releases section on Github (or wherever found).
