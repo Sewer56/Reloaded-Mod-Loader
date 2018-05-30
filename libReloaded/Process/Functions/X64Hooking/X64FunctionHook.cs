@@ -247,7 +247,7 @@ namespace Reloaded.Process.Functions.X64Hooking
         private static IntPtr CreateWrapperFunction<TFunction>(IntPtr functionAddress, X64ReloadedFunctionAttribute reloadedFunction)
         {
             // Retrieve number of parameters.
-            int numberOfParameters = FunctionCommon.GetNumberofParameters(typeof(TFunction));
+            int numberOfParameters = FunctionCommon.GetNumberofParametersWithoutFloats(typeof(TFunction));
             int nonRegisterParameters = numberOfParameters - reloadedFunction.SourceRegisters.Length;
 
             // List of ASM Instructions to be Compiled
