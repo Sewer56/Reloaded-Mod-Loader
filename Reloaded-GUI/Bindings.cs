@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Reloaded_GUI.Styles.Themes
+namespace Reloaded_GUI
 {
     /// <summary>
     /// Method/delegate/variable declarations for Reloaded-GUI to use for theming the Mod Loader.

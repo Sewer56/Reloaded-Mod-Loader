@@ -27,6 +27,7 @@ using Reloaded.IO.Config;
 using Reloaded.Native.WinAPI;
 using Reloaded_GUI.Styles.Themes;
 using ReloadedLauncher.Windows.Children;
+using Reloaded_GUI;
 using Reloaded_GUI.Utilities.Windows;
 
 namespace ReloadedLauncher.Windows

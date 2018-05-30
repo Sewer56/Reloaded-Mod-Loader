@@ -28,7 +28,7 @@ using Reloaded.Native.WinAPI;
 using Reloaded.Paths;
 using Reloaded_GUI.Styles.Themes.ApplyTheme;
 using Reloaded_GUI.Utilities.Windows;
-using Bindings = Reloaded_GUI.Styles.Themes.Bindings;
+using Bindings = Reloaded_GUI.Bindings;
 
 namespace ReloadedLauncher.Windows.Children.Dialogs
 {
