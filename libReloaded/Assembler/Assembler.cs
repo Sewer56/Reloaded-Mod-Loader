@@ -95,7 +95,8 @@ namespace Reloaded.Assembler
         /// </summary>
         static Assembler()
         {
-            ConnectToServer();
+            try { ConnectToServer(); }
+            catch (Exception Ex) { Bindings.PrintError($"Failure initializing Reloaded Assembler | {Ex.Message} | {Ex.StackTrace}"); }
         }
 
         /// <summary>
@@ -149,12 +150,6 @@ namespace Reloaded.Assembler
         /// </summary>
         private static void ConnectToServer()
         {
-            // Get port from file.
-            if (File.Exists(ModLoaderAssemblerPort))
-            {
-                _serverPort = Convert.ToInt32(File.ReadAllText(ModLoaderAssemblerPort));
-            }
-
             // Is server not running?
             if (System.Diagnostics.Process.GetProcessesByName("Reloaded-Assembler").Length < 1)
             {
@@ -183,6 +178,10 @@ namespace Reloaded.Assembler
             // Else try to find/connect to the server if already running.
             else
             {
+                // Get port from file.
+                if (File.Exists(ModLoaderAssemblerPort))
+                { _serverPort = Convert.ToInt32(File.ReadAllText(ModLoaderAssemblerPort)); }
+
                 // Setup Local Server Client
                 _reloadedClientListener = new EventBasedNetListener();
                 ReloadedClient = new NetManager(_reloadedClientListener, 10, ReloadedCheckMessage);
