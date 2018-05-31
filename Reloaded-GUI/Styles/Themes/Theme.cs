@@ -38,6 +38,7 @@ namespace Reloaded_GUI.Styles.Themes
         /// <summary>
         /// Changes the directory for the theme to be used.
         /// After setting, the current theme is automatically changed/loaded.
+        /// The directory is relative to the mod loader's Config/Themes directory in AppData.
         /// </summary>
         public string ThemeDirectory
         {
@@ -56,6 +57,15 @@ namespace Reloaded_GUI.Styles.Themes
         /// with LoadTheme();
         /// </summary>
         private string _themeDirectory;
+
+        /// <summary>
+        /// Automatically obtains and loads the currently enabled theme in the user's
+        /// Reloaded Mod Loader settings.
+        /// </summary>
+        public void LoadCurrentTheme()
+        {
+            ThemeDirectory = Reloaded.IO.Config.LoaderConfig.ParseConfig().CurrentTheme;
+        }
 
         /// <summary>
         /// Loads the theme set at the current directory.
