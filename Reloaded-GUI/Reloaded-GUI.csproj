@@ -31,7 +31,19 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|AnyCPU'">
     <OutputPath>bin\Github-Release\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup />
+  <PropertyGroup>
+    <Version>1.0.1</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/Reloaded-GUI/Images/Static/ReloadedIcon.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/</RepositoryUrl>
+    <Description>
+Contains the driving components of the Windows Forms UI interface that backs up Reloaded Mod Loader's Launcher.
+Do note that this project is tailored entirely for Reloaded, thus may not be the most universal and does take some rather "weird" conventions. See Github for usage instructions.
+    </Description>
+    <Authors>Sewer56</Authors>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>

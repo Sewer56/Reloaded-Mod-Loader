@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Reloaded-Mod-Template")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Contains the driving components of the Windows Forms UI interface that backs up Reloaded Mod Loader's Launcher.\r\nDo note that this project is tailored entirely for Reloaded, thus may not be the most universal and does take some rather \"weird\" conventions. See Github for usage instructions.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Reloaded-Mod-Template")]
