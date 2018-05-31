@@ -64,7 +64,7 @@ namespace Reloaded_Loader.Networking
         public static void SetupServer()
         {
             // Triggered on soft reboot, self killing and restarting games.
-            if (ReloadedServer != null)
+            if (ReloadedServer != null && ReloadedServer.IsRunning)
             {
                 ConsoleFunctions.PrintMessageWithTime("Local Server Already Running!", ConsoleFunctions.PrintInfoMessage);
                 return;
@@ -93,6 +93,14 @@ namespace Reloaded_Loader.Networking
 
                 // Start Server Internally
                 ReloadedServer.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, ServerPort);
+
+                // If Server Doesn't start, port might be occupied.
+                if (!ReloadedServer.IsRunning)
+                {
+                    ConsoleFunctions.PrintMessageWithTime("Reloaded Server did not start. Perhaps port is occupied, let's try another!", ConsoleFunctions.PrintWarningMessage);
+                    ServerPort += 1;
+                    SetupServer();
+                }
 
                 // Print words of success
                 Bindings.PrintInfo($"Local Server Started at: {ReloadedServer.LocalPort}");
