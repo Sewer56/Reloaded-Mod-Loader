@@ -20,15 +20,28 @@ namespace Reloaded.Process.Memory
             GetSystemInfo(out var systemInfo);
 
             // Used to iterate our memory pages, get our address range of pages.
-            ulong currentAddress = (ulong)systemInfo.minimumApplicationAddress;
-            ulong maxAddress = (ulong)systemInfo.maximumApplicationAddress;
+            ulong currentAddress;
+            ulong maxAddress;
+            ulong maxIntPtr; // Contains the maximum addressable address.
+            if (IntPtr.Size == 4)
+            {
+                currentAddress = (uint)systemInfo.minimumApplicationAddress;
+                maxAddress = (uint)systemInfo.maximumApplicationAddress;
+                maxIntPtr = Int32.MaxValue;
+            }
+            else
+            {
+                currentAddress = (ulong)systemInfo.minimumApplicationAddress;
+                maxAddress = (ulong)systemInfo.maximumApplicationAddress;
+                maxIntPtr = Int64.MaxValue;
+            }
 
             // Shorthand for convenience.
             IntPtr processHandle = reloadedProcess.ProcessHandle;
             List<MEMORY_BASIC_INFORMATION> memoryPages = new List<MEMORY_BASIC_INFORMATION>();
 
             // Until we get all of the pages.
-            while (currentAddress < maxAddress)
+            while (currentAddress < maxAddress && currentAddress < maxIntPtr)
             {
                 // Get our info from VirtualQueryEx.
                 MEMORY_BASIC_INFORMATION memoryInformation = new MEMORY_BASIC_INFORMATION();
