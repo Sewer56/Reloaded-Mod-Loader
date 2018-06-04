@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using Reloaded.Process;
@@ -59,13 +60,20 @@ namespace Reloaded_Mod_Template
 
                 Inside the thread, we initiate a regular WPF window to use for drawing.
             */
-            Thread setBorderlessThread = new Thread
+
+            /*
+             * Generates a random sleep value ontop of the existing sleep value.
+             * We want to reduce the amount of possible collisions of WPF overlays launching
+             * at the same identical time, as Application.Current is not updated in real-time (seemingly).
+            */
+            Random randomNumberGenerator = new Random();
+            int randomSleepValue = randomNumberGenerator.Next(0, 3000);
+            Thread.Sleep(32); // Ensures different tick value for seeding, offsets overlay launch time to prevent collisions.
+
+            Thread launchWpfThread = new Thread
             (
                 () =>
                 {
-                    // Wait a fixed amount of time.
-                    Thread.Sleep(4000);
-
                     // Loop infinitely until a window handle is found.
                     while (GameProcess.Process.MainWindowHandle == IntPtr.Zero)
                     {
@@ -73,12 +81,15 @@ namespace Reloaded_Mod_Template
                         Thread.Sleep(1000);
                     }
 
+                    // Wait a fixed amount of time + random extra (to not try to launch different copies at once, minimize collisions).
+                    Thread.Sleep(randomSleepValue);
+
                     // Run the WPF window.
 
                     // Note that our OverlayWindow comes from WPF-Demo-Overlay project (it's added in as a reference).
                     // To use WPF windows, you want to create another project which is a WPF UserControl library, remove the
                     // usercontrol and create a window, use that library as a reference in your Reloaded WPF overlays.
-                    
+
                     // While this isn't strictly necessary to use another library/project, it will save you a lot of hassle when it
                     // comes to interoperating with different overlays, this will also make your life easier in other ways, believe me.
 
@@ -94,19 +105,31 @@ namespace Reloaded_Mod_Template
                     // This is the first overlay.
                     else
                     {
-                        // Create new Application Context.
-                        Application WPFApp = new System.Windows.Application();
+                        try
+                        {
+                            // Create new Application Context.
+                            Application WPFApp = new System.Windows.Application();
 
-                        // Create our window
-                        WPFWindow = new OverlayWindow();
+                            // Create our window
+                            WPFWindow = new OverlayWindow();
 
-                        // Instance the overlay.
-                        WPFApp.Run(WPFWindow);
+                            // Instance the overlay.
+                            WPFApp.Run(WPFWindow);
+                        }
+                        catch
+                        {
+                            // If it fails, fall back to second overlay anyway.
+                            Application.Current?.Dispatcher.Invoke(() =>
+                            {
+                                WPFWindow = new OverlayWindow();
+                                WPFWindow.Show();
+                            });
+                        }
                     }
                 }
             );
-            setBorderlessThread.SetApartmentState(ApartmentState.STA);
-            setBorderlessThread.Start();
+            launchWpfThread.SetApartmentState(ApartmentState.STA);
+            launchWpfThread.Start();
         }
 
 

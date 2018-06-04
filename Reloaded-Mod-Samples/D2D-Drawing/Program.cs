@@ -55,15 +55,25 @@ namespace Reloaded_Mod_Template
                 WPFOverlayWindow was copied from libReloaded's source, the main development library for
                 Reloaded Mod Loader.
             */
+
+            /*
+                * Generates a random sleep value ontop of the existing sleep value.
+                * We want to reduce the amount of possible collisions of WPF overlays launching
+                * at the same identical time, as Application.Current is not updated in real-time (seemingly).
+            */
+            Random randomNumberGenerator = new Random();
+            int randomSleepValue = randomNumberGenerator.Next(0, 3000);
+            Thread.Sleep(32); // Ensures different tick value for seeding, offsets overlay launch time to prevent collisions.
+
             Thread D2DWindowThread = new Thread(() =>
             {
-                // Sleep to not access the main window.
-                // Fixes odd badly programmed games like Sonic Adventure 2
-                Thread.Sleep(2000);
-
                 // Wait for game window.
                 while (GameProcess.Process.MainWindowHandle == IntPtr.Zero)
-                { Thread.Sleep(2000); }
+                { Thread.Sleep(1000); }
+
+                // Sleep to not access the main window.
+                // Fixes odd badly programmed games like Sonic Adventure 2
+                Thread.Sleep(randomSleepValue);
 
                 /* Adjusted and tested for interop between different windows. */
 
@@ -80,15 +90,27 @@ namespace Reloaded_Mod_Template
                 // This is the first overlay.
                 else
                 {
-                    // Create new Application Context.
-                    Application WPFApp = new System.Windows.Application();
+                    try
+                    {
+                        // Create new Application Context.
+                        Application WPFApp = new System.Windows.Application();
 
-                    // Create our window
-                    _externalOverlayWindow = new WPFOverlayWindow(GameProcess.Process.MainWindowHandle, RenderDelegate);
-                    _externalOverlayWindow.GameWindowResizeDelegate += GameWindowResizeDelegate;
+                        // Create our window
+                        _externalOverlayWindow = new WPFOverlayWindow(GameProcess.Process.MainWindowHandle, RenderDelegate);
+                        _externalOverlayWindow.GameWindowResizeDelegate += GameWindowResizeDelegate;
 
-                    // Instance the overlay.
-                    WPFApp.Run(_externalOverlayWindow);
+                        // Instance the overlay.
+                        WPFApp.Run(_externalOverlayWindow);
+                    }
+                    catch
+                    {
+                        Application.Current?.Dispatcher.Invoke(() =>
+                        {
+                            _externalOverlayWindow = new WPFOverlayWindow(GameProcess.Process.MainWindowHandle, RenderDelegate);
+                            _externalOverlayWindow.GameWindowResizeDelegate += GameWindowResizeDelegate;
+                            _externalOverlayWindow.Show();
+                        });
+                    }
                 }
             });
             D2DWindowThread.SetApartmentState(ApartmentState.STA);
