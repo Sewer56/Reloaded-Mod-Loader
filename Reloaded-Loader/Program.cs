@@ -112,9 +112,10 @@ namespace Reloaded_Loader
             // Load modifications for the current game.
             ModLoader.LoadMods(_gameConfig, _gameProcess);
 
-            // Resume game after injection.
-            _gameProcess.ResumeAllThreads();
-
+            // Resume game after injection if we are NOT in attach mode.
+            if (_attachTargetName == null)
+            { _gameProcess.ResumeAllThreads(); }
+            
             // Stay alive in the background
             AppDomain.CurrentDomain.ProcessExit += Shutdown;
             Console.CancelKeyPress += Shutdown;
@@ -306,17 +307,6 @@ namespace Reloaded_Loader
 
             // Bye Bye Current Process
             Shutdown(null, null);
-        }
-
-        /// <summary>
-        /// Reboots the Reloaded Loader to re-inject in the case a game has killed
-        /// its own process and then resurrected simultaneously.
-        /// </summary>
-        /// <param name="arguments">A copy of the arguments originally passed to the starting application.</param>
-        private static void RestartSelf(string[] arguments)
-        {
-            // Re-call main.
-            Main(arguments);
         }
 
         /// <summary>
