@@ -55,7 +55,7 @@ namespace Reloaded_Mod_Template
         {
             /*
                 Reloaded Mod Loader Sample: File Monitor
-                Architectures supported: X86, no X64 (hooking currently unavailable)
+                Architectures supported: X86, X64
 
                 Gets our Windows API function pointers by first grabbing a handle to Kernel32 where
                 the individual functions are located and then calling the GetProcAddress() Windows API

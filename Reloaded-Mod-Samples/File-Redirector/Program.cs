@@ -88,7 +88,7 @@ namespace Reloaded_Mod_Template
         {
             /*
                 Reloaded Mod Loader Sample: File Redirector
-                Architectures supported: X86, no X64 (hooking currently unavailable)
+                Architectures supported: X86, X64
 
                 This sample mod builds upon the File Monitor sample, providing universal file redirection for modifications
                 which implement a `Plugins/Redirector/` folder.
