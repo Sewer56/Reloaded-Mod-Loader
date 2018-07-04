@@ -73,6 +73,26 @@ namespace libReloaded_Networking
             /// Data:               ASCII Encoded String, e.g. Encoding.ASCII.GetBytes("Ayylmao");
             /// </summary>
             PrintError = 0x5,
+
+            /// <summary>
+            /// See <see cref="PrintText"/>. The Unicode variant.
+            /// </summary>
+            PrintTextUnicode = 0x6,
+
+            /// <summary>
+            /// See <see cref="PrintWarning"/>. The Unicode variant.
+            /// </summary>
+            PrintWarningUnicode = 0x7,
+
+            /// <summary>
+            /// See <see cref="PrintInfo"/>. The Unicode variant.
+            /// </summary>
+            PrintInfoUnicode = 0x8,
+
+            /// <summary>
+            /// See <see cref="PrintError"/>. The Unicode variant.
+            /// </summary>
+            PrintErrorUnicode = 0x9
         }
     }
 }

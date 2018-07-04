@@ -136,10 +136,14 @@ namespace Reloaded_Loader.Networking
             switch (messageStruct.MessageType)
             {
                 // Text Functions
-                case (ushort)MessageType.PrintText: Print(PrintMessageType.PrintText, messageStruct.Data); break;
-                case (ushort)MessageType.PrintInfo: Print(PrintMessageType.PrintInfo, messageStruct.Data); break;
-                case (ushort)MessageType.PrintWarning: Print(PrintMessageType.PrintWarning, messageStruct.Data); break;
-                case (ushort)MessageType.PrintError: Print(PrintMessageType.PrintError, messageStruct.Data); break;
+                case (ushort)MessageType.PrintText: PrintASCII(PrintMessageType.PrintText, messageStruct.Data); break;
+                case (ushort)MessageType.PrintInfo: PrintASCII(PrintMessageType.PrintInfo, messageStruct.Data); break;
+                case (ushort)MessageType.PrintWarning: PrintASCII(PrintMessageType.PrintWarning, messageStruct.Data); break;
+                case (ushort)MessageType.PrintError: PrintASCII(PrintMessageType.PrintError, messageStruct.Data); break;
+                case (ushort)MessageType.PrintTextUnicode: PrintUnicode(PrintMessageType.PrintText, messageStruct.Data); break;
+                case (ushort)MessageType.PrintInfoUnicode: PrintUnicode(PrintMessageType.PrintInfo, messageStruct.Data); break;
+                case (ushort)MessageType.PrintWarningUnicode: PrintUnicode(PrintMessageType.PrintWarning, messageStruct.Data); break;
+                case (ushort)MessageType.PrintErrorUnicode: PrintUnicode(PrintMessageType.PrintError, messageStruct.Data); break;
             }
         }
     }

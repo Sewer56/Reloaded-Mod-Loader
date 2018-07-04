@@ -59,31 +59,52 @@ namespace Reloaded_Loader.Networking.LoaderServerFunctions
         /// </summary>
         /// <param name="printMessageType">The message colour/type to print.</param>
         /// <param name="asciiMessage">The character array of ASCII bytes to parse back to string. (MessageStruct.Data)</param>
-        public static void Print(PrintMessageType printMessageType, byte[] asciiMessage)
+        public static void PrintASCII(PrintMessageType printMessageType, byte[] asciiMessage)
         {
             // Retrieve the message to print.
             string messageToPrint = Encoding.ASCII.GetString(asciiMessage);
+            PrintMessageTypeMethod(printMessageType, messageToPrint);
+        }
 
+        /// <summary>
+        /// Prints a message received from a client to the console/standard output.
+        /// </summary>
+        /// <param name="printMessageType">The message colour/type to print.</param>
+        /// <param name="asciiMessage">The character array of Unicode bytes to parse back to string. (MessageStruct.Data)</param>
+        public static void PrintUnicode(PrintMessageType printMessageType, byte[] asciiMessage)
+        {
+            // Retrieve the message to print.
+            string messageToPrint = Encoding.Unicode.GetString(asciiMessage);
+            PrintMessageTypeMethod(printMessageType, messageToPrint);
+        }
+
+        /// <summary>
+        /// Switches on the specific message type to print and outputs it to the screen.
+        /// </summary>
+        /// <param name="printMessageType"></param>
+        /// <param name="message"></param>
+        public static void PrintMessageTypeMethod(PrintMessageType printMessageType, string message)
+        {
             // Print to screen.
             switch (printMessageType)
             {
                 case PrintMessageType.PrintText:
-                    ConsoleFunctions.PrintMessageWithTime(messageToPrint, ConsoleFunctions.PrintMessage);
+                    ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintMessage);
                     break;
 
 
                 case PrintMessageType.PrintInfo:
-                    ConsoleFunctions.PrintMessageWithTime(messageToPrint, ConsoleFunctions.PrintInfoMessage);
+                    ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintInfoMessage);
                     break;
 
 
                 case PrintMessageType.PrintWarning:
-                    ConsoleFunctions.PrintMessageWithTime(messageToPrint, ConsoleFunctions.PrintWarningMessage);
+                    ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintWarningMessage);
                     break;
 
 
                 case PrintMessageType.PrintError:
-                    ConsoleFunctions.PrintMessageWithTime(messageToPrint, ConsoleFunctions.PrintErrorMessage);
+                    ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintErrorMessage);
                     break;
             }
         }
