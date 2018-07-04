@@ -80,7 +80,7 @@ namespace Reloaded.Process
         public static IntPtr GetLibraryFunctionAddress(string libraryPath, string functionName)
         {
             // Obtain the handle to the library.
-            IntPtr libraryHandle = Native.Native.LoadLibrary(libraryPath);
+            IntPtr libraryHandle = Native.Native.LoadLibraryW(libraryPath);
 
             // Return the address of the function with the specified function name.
             return Native.Native.GetProcAddress(libraryHandle, functionName);
@@ -99,7 +99,7 @@ namespace Reloaded.Process
         public static IntPtr GetLibraryFunctionOffset(string libraryPath, string functionName)
         {
             // Obtain the handle to the library.
-            IntPtr libraryHandle = Native.Native.LoadLibrary(libraryPath);
+            IntPtr libraryHandle = Native.Native.LoadLibraryW(libraryPath);
 
             // The address of the function with the specified function name.
             IntPtr functionHandle = Native.Native.GetProcAddress(libraryHandle, functionName);

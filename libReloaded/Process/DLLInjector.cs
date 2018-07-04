@@ -32,12 +32,12 @@ namespace Reloaded.Process
     public class DllInjector
     {
         /// <summary>
-        /// A handle to the Kernel32 Module, whereby LoadLibraryA is stored.
+        /// A handle to the Kernel32 Module, whereby LoadLibraryW is stored.
         /// </summary>
         private static IntPtr Kernel32Handle { get; set; }
 
         /// <summary>
-        /// Pointer to the address of the exported LoadLibraryA function of Kernel32. 
+        /// Pointer to the address of the exported LoadLibraryW function of Kernel32. 
         /// Allows for loading a specified module into the address space of the calling process. 
         /// </summary>
         private static IntPtr LoadLibraryAddress { get; set; }
@@ -64,12 +64,12 @@ namespace Reloaded.Process
 
             // This should automatically resolve to kernel32.dll as it is already registered by Windows.
             // The handle should return from already loaded library in memory, following the standard search strategy.
-            Kernel32Handle = Native.Native.LoadLibrary("kernel32");
+            Kernel32Handle = Native.Native.LoadLibraryW("kernel32");
 
-            // Retrieves the address to the LoadLibraryA function.
-            // We will later call LoadLibraryA inside the target process using CreateRemoteThread,
+            // Retrieves the address to the LoadLibraryW function.
+            // We will later call LoadLibraryW inside the target process using CreateRemoteThread,
             // which will load our own wanted DLL (game modification) inside of the target process.
-            LoadLibraryAddress = Native.Native.GetProcAddress(Kernel32Handle, "LoadLibraryA");
+            LoadLibraryAddress = Native.Native.GetProcAddress(Kernel32Handle, "LoadLibraryW");
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Reloaded.Process
         /// <param name="functionToExecute">The name of the function to be executed inside of the target process. </param>
         public void InjectDll(string libraryPath, IntPtr parameterPointer, string functionToExecute)
         {
-            // Write the module name in process memory to be used by Kernel32's LoadLibraryA function.
+            // Write the module name in process memory to be used by Kernel32's LoadLibraryW function.
             IntPtr libraryNameMemoryAddress = WriteModuleNameBytes(libraryPath);
 
             // Call Kernel32's LoadLibrary function and execute it within the target process.
@@ -116,7 +116,7 @@ namespace Reloaded.Process
         private IntPtr WriteModuleNameBytes(string libraryPath)
         {
             // Retrieve the library name as a series of bytes.
-            byte[] libraryNameBytes = Encoding.UTF8.GetBytes(libraryPath);
+            byte[] libraryNameBytes = Encoding.Unicode.GetBytes(libraryPath);
 
             // Get the pointer to the freed up memory for the library name.
             IntPtr processPointer = Process.AllocateMemory(libraryNameBytes.Length);

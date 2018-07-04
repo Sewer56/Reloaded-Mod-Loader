@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using Reloaded.Process.Threads;
 using static Reloaded.Native.WinAPI.Threads;
 using SystemProcess = System.Diagnostics.Process;
@@ -140,10 +141,14 @@ namespace Reloaded.Process
 
             // Start up the process
             Native.Native.STARTUPINFO startupInfo = new Native.Native.STARTUPINFO();
-            bool success =  Native.Native.CreateProcessA(null, lpCommandLine, IntPtr.Zero, 
-                            IntPtr.Zero, false, Native.Native.ProcessCreationFlags.CREATE_SUSPENDED,
-                            IntPtr.Zero, Path.GetDirectoryName(filePath), ref startupInfo, 
-                            out Native.Native.PROCESS_INFORMATION processInformation);
+            Native.Native.SECURITY_ATTRIBUTES lpProcessAttributes = new Native.Native.SECURITY_ATTRIBUTES();
+            Native.Native.SECURITY_ATTRIBUTES lpThreadAttributes = new Native.Native.SECURITY_ATTRIBUTES();
+            Native.Native.PROCESS_INFORMATION processInformation = new Native.Native.PROCESS_INFORMATION();
+
+            bool success =  Native.Native.CreateProcessW(null, lpCommandLine, ref lpProcessAttributes,
+                            ref lpThreadAttributes, false, Native.Native.ProcessCreationFlags.CREATE_SUSPENDED,
+                            IntPtr.Zero, Path.GetDirectoryName(filePath), ref startupInfo,
+                            ref processInformation);
 
             // Move Process Properties.
             ProcessHandle = processInformation.hProcess;

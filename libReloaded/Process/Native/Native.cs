@@ -127,8 +127,8 @@ namespace Reloaded.Process.Native
         ///     standard search strategy.
         /// </param>
         /// <returns>Handle to the module.</returns>
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
-        public static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)]string lpFileName);
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr LoadLibraryW([MarshalAs(UnmanagedType.LPWStr)]string lpFileName);
 
         /// <summary>
         /// GetProcAddress
@@ -364,10 +364,24 @@ namespace Reloaded.Process.Native
         /// </param>
         /// <returns></returns>
         [DllImport("kernel32.dll")]
-        public static extern bool CreateProcessA(string lpApplicationName, string lpCommandLine, IntPtr lpProcessAttributes,
-            IntPtr lpThreadAttributes, bool bInheritHandles, ProcessCreationFlags dwCreationFlags,
-            IntPtr lpEnvironment, string lpCurrentDirectory, ref STARTUPINFO lpStartupInfo,
-            out PROCESS_INFORMATION lpProcessInformation);
+        public static extern bool CreateProcessW(
+                                                 [MarshalAs(UnmanagedType.LPWStr)]
+                                                 string lpApplicationName,
+
+                                                 [MarshalAs(UnmanagedType.LPWStr)]
+                                                 string lpCommandLine,
+
+                                                 ref SECURITY_ATTRIBUTES lpProcessAttributes, 
+                                                 ref SECURITY_ATTRIBUTES lpThreadAttributes,
+                                                 bool bInheritHandles, 
+                                                 ProcessCreationFlags dwCreationFlags,
+                                                 IntPtr lpEnvironment,
+
+                                                 [MarshalAs(UnmanagedType.LPWStr)]
+                                                 string lpCurrentDirectory,
+
+                                                 ref STARTUPINFO lpStartupInfo, 
+                                                 ref PROCESS_INFORMATION lpProcessInformation);
 
         /// <summary>
         /// Determines whether the specified process is running under Windows on Windows 64.
@@ -681,7 +695,7 @@ namespace Reloaded.Process.Native
         /// See: https://msdn.microsoft.com/en-us/library/windows/desktop/ms684863(v=vs.85).aspx 
         /// </summary>
         [Flags]
-        public enum ProcessCreationFlags : uint
+        public enum ProcessCreationFlags : int
         {
             ZERO_FLAG = 0x00000000,
             CREATE_BREAKAWAY_FROM_JOB = 0x01000000,
@@ -700,6 +714,18 @@ namespace Reloaded.Process.Native
             DETACHED_PROCESS = 0x00000008,
             EXTENDED_STARTUPINFO_PRESENT = 0x00080000,
             INHERIT_PARENT_AFFINITY = 0x00010000
+        }
+
+        /// <summary>
+        /// The SECURITY_ATTRIBUTES structure contains the security descriptor for an object and specifies whether the handle retrieved by specifying this structure is inheritable.
+        /// This structure provides security settings for objects created by various functions, such as CreateFile, CreatePipe, CreateProcess, RegCreateKeyEx, or RegSaveKeyEx.
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
+        public struct SECURITY_ATTRIBUTES
+        {
+            public int nLength;
+            public IntPtr lpSecurityDescriptor;
+            public int bInheritHandle;
         }
     }
 }
