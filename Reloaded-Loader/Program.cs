@@ -71,6 +71,10 @@ namespace Reloaded_Loader
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
+            #if DEBUG
+            Debugger.Launch();
+            #endif
+
             // Find Assemblies Manually if necessary (Deprecate app.config)
             AppDomain.CurrentDomain.AssemblyResolve += AssemblyFinder.CurrentDomain_AssemblyResolve;
 
