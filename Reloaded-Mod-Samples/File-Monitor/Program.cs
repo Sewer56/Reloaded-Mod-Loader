@@ -69,7 +69,7 @@ namespace Reloaded_Mod_Template
 
             // This should automatically resolve to kernel32.dll as it is already registered by Windows.
             // The handle should return from already loaded library in memory, following the standard search strategy.
-            IntPtr kernel32Handle = Reloaded.Process.Native.Native.LoadLibrary("kernel32");
+            IntPtr kernel32Handle = Reloaded.Process.Native.Native.LoadLibraryW("kernel32");
 
             // Get the addresses of the CreateFileA, CreateFileW, CreateFile functions.
             IntPtr createFileAPointer = Reloaded.Process.Native.Native.GetProcAddress(kernel32Handle, "CreateFileA");
