@@ -26,3 +26,15 @@ At the time of writing of this readme, Reloaded has currently been in developmen
 - [Getting Started: Modifications](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Getting%20Started%20Modifications.md)
 - [Getting Started: Programmers](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Getting%20Started%20for%20Developers.md)
 - [Project Structure](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Project%20Structure.md)
+
+# Notice
+
+I've had one or two people ask me whether they can use the library safely in online game X/Y.
+
+The only answer I may give to this is be cautious and tread wisely.
+
+Reloaded does not make any kinds of attempts to disguise itself among other applications and uses standard, common methods of DLL Injection. As a result of this, there is a good chance that Reloaded is fairly easily detectable by function signatures (and also throw false positives by AV Scanners). 
+
+In addition, I do not personally support or commit to cheating in online, competitive games. If necessary, or things go out of hand - I may even report my project/modules to get it blacklisted from anti-cheat solutions and vendors. As universal as Reloaded is, I do not wish for it to belong in the competitive multiplayer space.
+
+While I cannot stop you, I would advise that If you *really* want to cheat, or write cheats for online games, you should write your own private solutions without using the Reloaded libraries and not share them with the rest of the world. 
