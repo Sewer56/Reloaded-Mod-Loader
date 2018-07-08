@@ -55,7 +55,7 @@ namespace Reloaded.IO.Config
         /// No alerts, nothing.
         /// </summary>
         [JsonProperty(Required = Required.Default)]
-        public bool EnableAutomaticUpdates { get; set; } = true;
+        public bool EnableAutomaticUpdates { get; set; }
 
         /// <summary>
         /// Set to true to enable silent updates in Reloaded Mod Loader.
@@ -63,6 +63,12 @@ namespace Reloaded.IO.Config
         /// </summary>
         [JsonProperty(Required = Required.Default)]
         public bool SilentUpdates { get; set; }
+
+        /// <summary>
+        /// If set to false, displays the first launch prompt when booting Reloaded.
+        /// </summary>
+        [JsonProperty(Required = Required.Default)]
+        public bool FirstLaunch { get; set; } = true;
 
         /// <summary>
         /// Retrieves the Mod Loader configuration file struct.
