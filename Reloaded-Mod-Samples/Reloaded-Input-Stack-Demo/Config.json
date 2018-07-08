@@ -1,6 +1,6 @@
 {
 	"ModId": "reloaded.demos.inputstack",
-	"ModName": "[X86/X64] Reloaded Input Stack Demo",
+	"ModName": "Reloaded Input Stack Demo",
 	"ModDescription": "Demonstrates how to use the Reloaded Input Stack to read user inputs.",
 	"ModVersion": "1.0.0",
 	"ModAuthor": "Sewer56",

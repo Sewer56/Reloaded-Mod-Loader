@@ -1,6 +1,6 @@
 {
 	"ModId": "reloaded.demos.assembler",
-	"ModName": "[X86/X64] Reloaded Assembler Demo",
+	"ModName": "Reloaded Assembler Demo",
 	"ModDescription": "Demonstrates the simple usage of ReloadedAssembler, a background service wrapped around FASM.NET",
 	"ModVersion": "1.0.0",
 	"ModAuthor": "Sewer56",

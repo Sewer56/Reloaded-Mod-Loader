@@ -1,6 +1,6 @@
 {
 	"ModId": "reloaded.demos.memory",
-	"ModName": "[X86/X64] Memory Manipulation Example",
+	"ModName": "Memory Manipulation Example",
 	"ModDescription": "A Simple Guide on Memory Manipulation with Reloaded.",
 	"ModVersion": "1.0.0",
 	"ModAuthor": "Sewer56",

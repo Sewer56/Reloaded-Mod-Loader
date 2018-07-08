@@ -1,6 +1,6 @@
 {
 	"ModId": "reloaded.demos.wpf",
-	"ModName": "[X86/X64] Sample WPF Overlay",
+	"ModName": "Sample WPF Overlay",
 	"ModDescription": "Example of how GUI utilities, debugging tools and/or overlays could be developed with libReloaded. Offers good performance, compatible with anything windowed/borderless, issues using with internal DX9 overlay.",
 	"ModVersion": "1.0.0",
 	"ModAuthor": "Sewer56",
