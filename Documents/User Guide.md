@@ -13,10 +13,10 @@
   - [Setting Mod Order](#setting-mod-order)
   - [Long Mod Lists](#long-mod-lists)
 - [Configuring Controller Inputs](#configuring-controller-inputs)
-  - [Preview & Controller Ports](#preview-controller-ports)
+  - [Preview & Controller Ports](#preview-&-controller-ports)
   - [Axis](#axis)
 - [Alternate Launch Dialog](#alternate-launch-dialog)
-
+- [Troubleshooting](#troubleshooting)
 
 ## Prerequisites
 * Windows 7, 8.1, 10 or newer.
@@ -131,3 +131,36 @@ In the main menu screen, if you hold the left CTRL key while pressing the "Launc
 </center>
 
 From here, you can either load Reloaded into an already running game by pressing the `Attach` button or launch Reloaded while also dumping a copy of the console window when the game is launched by ticking the Log File Location checkbox.
+
+## Troubleshooting
+
+#### Failed to start ReloadedProcess Undefined\Undefined ...
+
+The path to the individual game has not been set in the Manage tab, thus defaults to "Undefined".
+In most cases, chances are you just forgot to hit the `Save Game Settings` button in the user interface.
+
+In extremely, near impossible cases - you may be on some super locked down system and not have write access to `AppData\Roaming\Reloaded-Mod-Loader`, in which case either Run As Administrator (if you can), or seek the nearest administrator.
+
+Reloaded is incapable (nothing is) of automatically scanning contents of all connected storage devices and magically determining
+the correct executables for your arbitrarily added games.
+
+#### Failed to start ReloadedProcess (Valid Executable Path)
+
+Try running Reloaded-Launcher (the Reloaded Mod Loader shortcut on your desktop) as an Administrator.
+
+In some cases you may find that your user may just simply not have the correct priviledges to access a file where your game is installed available to other programs, as may be the case with `Program Files` for some people.
+
+#### Alternate Launch Dialog - Attach Fails
+
+Attaching and loading mods into an already running process may sometimes fail in the cases that you do not have equal or greater
+priviledge level as the process/user which started the game/application you are attaching to.
+
+i.e. If you run your game as administrator and want to attach to it, you must start Reloaded as administrator.
+
+#### Reloaded fails to launch for an unexplicable reason.
+
+Check your Antivirus software. Due to the nature of how Reloaded operates (Dll Injection, packing Reloaded-Assembler into libReloaded.dll), it is relatively easy for antivirus software to mistaken Reloaded for malware or other questionably moral software.
+
+I generally, when I can, send tickets to AV Companies whenever it is easy to do so/possible when I hear of false detections. I encourage you to do the same should you ever receive a false positive (please link back in false detection details/descriptions to the Github source code page).
+
+At the moment, the only two official sources of Reloaded's distribution are on this Github page (https://github.com/sewer56lol/Reloaded-Mod-Loader) and GameBanana (https://gamebanana.com/tools/6424).
