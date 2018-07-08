@@ -494,8 +494,15 @@ namespace ReloadedLauncher.Windows.Children
         /// <param name="e"></param>
         private void item_OpenGameDir_Click(object sender, EventArgs e)
         {
-            try { Process.Start(Global.CurrentGameConfig.GameDirectory); }
-            catch { MessageBox.Show("It would appear that the given game directory does not exist, did you move it? Did you move me? I feel oddly suspicious..."); }
+            try
+            {
+                if (Directory.Exists(Global.CurrentGameConfig.GameDirectory))
+                { Process.Start(Global.CurrentGameConfig.GameDirectory); }
+                else
+                { MessageBox.Show("It would appear that the given game directory does not exist, did you move it? Did you move me? I feel oddly suspicious..."); }
+            }
+            catch { MessageBox.Show("Failed to launch your default file manager inside the game directory. In some cases this may simply be a permissions problem" +
+                                    "because you are trying to open a protected folder (e.g. in Program Files), in which case you may need to run Reloaded as an Administrator."); }
             
         }
 

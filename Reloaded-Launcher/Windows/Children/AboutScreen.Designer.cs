@@ -52,7 +52,6 @@ namespace ReloadedLauncher.Windows.Children
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutScreen));
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties1 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage1 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage2 = new Reloaded_GUI.Styles.Animation.AnimMessage();
@@ -75,69 +74,25 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage11 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage12 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             System.Drawing.StringFormat stringFormat4 = new System.Drawing.StringFormat();
-            this.box_ReloadedLogo = new System.Windows.Forms.PictureBox();
-            this.toolTipHelper = new System.Windows.Forms.ToolTip(this.components);
-            this.borderless_CloseOnLaunch = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
-            this.borderless_AllowPreReleases = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutScreen));
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties7 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage13 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage14 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             this.borderless_Author = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.borderless_AllowPreReleasesBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButtonPressIndicator();
             this.borderless_CloseOnLaunchBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButtonPressIndicator();
             this.borderless_GPLV3 = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.borderless_SilentUpdates = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.borderless_SilentUpdatesBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButtonPressIndicator();
-            this.borderless_AutoUpdates = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.borderless_AutoUpdatesBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButtonPressIndicator();
+            this.box_ReloadedLogo = new System.Windows.Forms.PictureBox();
+            this.toolTipHelper = new System.Windows.Forms.ToolTip(this.components);
+            this.borderless_CloseOnLaunch = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.borderless_AllowPreReleases = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.borderless_SilentUpdates = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.borderless_AutoUpdates = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.borderless_Documentation = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             ((System.ComponentModel.ISupportInitialize)(this.box_ReloadedLogo)).BeginInit();
             this.SuspendLayout();
-            // 
-            // box_ReloadedLogo
-            // 
-            this.box_ReloadedLogo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("box_ReloadedLogo.BackgroundImage")));
-            this.box_ReloadedLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.box_ReloadedLogo.Location = new System.Drawing.Point(106, 24);
-            this.box_ReloadedLogo.Name = "box_ReloadedLogo";
-            this.box_ReloadedLogo.Size = new System.Drawing.Size(688, 223);
-            this.box_ReloadedLogo.TabIndex = 0;
-            this.box_ReloadedLogo.TabStop = false;
-            // 
-            // borderless_CloseOnLaunch
-            // 
-            this.borderless_CloseOnLaunch.BackColor = System.Drawing.Color.Transparent;
-            this.borderless_CloseOnLaunch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_CloseOnLaunch.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.borderless_CloseOnLaunch.ForeColor = System.Drawing.Color.White;
-            this.borderless_CloseOnLaunch.IgnoreMouse = false;
-            this.borderless_CloseOnLaunch.Location = new System.Drawing.Point(518, 455);
-            this.borderless_CloseOnLaunch.Margin = new System.Windows.Forms.Padding(0);
-            this.borderless_CloseOnLaunch.Name = "borderless_CloseOnLaunch";
-            this.borderless_CloseOnLaunch.Size = new System.Drawing.Size(290, 24);
-            this.borderless_CloseOnLaunch.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.borderless_CloseOnLaunch.TabIndex = 51;
-            this.borderless_CloseOnLaunch.Text = "Close on Game Launch";
-            this.borderless_CloseOnLaunch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borderless_CloseOnLaunch.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.toolTipHelper.SetToolTip(this.borderless_CloseOnLaunch, "Does not close Reloaded-Launcher when a game is started.\r\nUseful for some develop" +
-        "ers.");
-            // 
-            // borderless_AllowPreReleases
-            // 
-            this.borderless_AllowPreReleases.BackColor = System.Drawing.Color.Transparent;
-            this.borderless_AllowPreReleases.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_AllowPreReleases.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.borderless_AllowPreReleases.ForeColor = System.Drawing.Color.White;
-            this.borderless_AllowPreReleases.IgnoreMouse = false;
-            this.borderless_AllowPreReleases.Location = new System.Drawing.Point(518, 405);
-            this.borderless_AllowPreReleases.Margin = new System.Windows.Forms.Padding(0);
-            this.borderless_AllowPreReleases.Name = "borderless_AllowPreReleases";
-            this.borderless_AllowPreReleases.Size = new System.Drawing.Size(290, 24);
-            this.borderless_AllowPreReleases.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.borderless_AllowPreReleases.TabIndex = 50;
-            this.borderless_AllowPreReleases.Text = "Get Prerelease/Beta Builds";
-            this.borderless_AllowPreReleases.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borderless_AllowPreReleases.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.toolTipHelper.SetToolTip(this.borderless_AllowPreReleases, "Allows for downloading of early builds tagged as Pre-release on Github.\r\nPre-rele" +
-        "ase builds will likely contain new features, default mod updates or internal imp" +
-        "rovements but may introduce bugs.");
             // 
             // borderless_Author
             // 
@@ -303,7 +258,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GPLV3.ForeColor = System.Drawing.Color.White;
             this.borderless_GPLV3.IgnoreMouse = false;
             this.borderless_GPLV3.IgnoreMouseClicks = false;
-            this.borderless_GPLV3.Location = new System.Drawing.Point(309, 321);
+            this.borderless_GPLV3.Location = new System.Drawing.Point(166, 323);
             this.borderless_GPLV3.Name = "borderless_GPLV3";
             this.borderless_GPLV3.Size = new System.Drawing.Size(282, 73);
             this.borderless_GPLV3.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -311,25 +266,6 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GPLV3.Text = "Reloaded is Free Software\r\nLicensed under GNU GPL V3\r\n";
             this.borderless_GPLV3.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.borderless_GPLV3.UseVisualStyleBackColor = false;
-            // 
-            // borderless_SilentUpdates
-            // 
-            this.borderless_SilentUpdates.BackColor = System.Drawing.Color.Transparent;
-            this.borderless_SilentUpdates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_SilentUpdates.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.borderless_SilentUpdates.ForeColor = System.Drawing.Color.White;
-            this.borderless_SilentUpdates.IgnoreMouse = false;
-            this.borderless_SilentUpdates.Location = new System.Drawing.Point(205, 455);
-            this.borderless_SilentUpdates.Margin = new System.Windows.Forms.Padding(0);
-            this.borderless_SilentUpdates.Name = "borderless_SilentUpdates";
-            this.borderless_SilentUpdates.Size = new System.Drawing.Size(256, 24);
-            this.borderless_SilentUpdates.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.borderless_SilentUpdates.TabIndex = 44;
-            this.borderless_SilentUpdates.Text = "Enable Silent Updates";
-            this.borderless_SilentUpdates.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borderless_SilentUpdates.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.toolTipHelper.SetToolTip(this.borderless_SilentUpdates, "Updates silently and transparently in Google Chrome style.\r\nIf an update is downl" +
-        "oaded, it will be applied the next time you start up Reloaded.");
             // 
             // borderless_SilentUpdatesBox
             // 
@@ -378,25 +314,6 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_SilentUpdatesBox.TopBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_SilentUpdatesBox.TopBorderWidth = 1;
             // 
-            // borderless_AutoUpdates
-            // 
-            this.borderless_AutoUpdates.BackColor = System.Drawing.Color.Transparent;
-            this.borderless_AutoUpdates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_AutoUpdates.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.borderless_AutoUpdates.ForeColor = System.Drawing.Color.White;
-            this.borderless_AutoUpdates.IgnoreMouse = false;
-            this.borderless_AutoUpdates.Location = new System.Drawing.Point(205, 405);
-            this.borderless_AutoUpdates.Margin = new System.Windows.Forms.Padding(0);
-            this.borderless_AutoUpdates.Name = "borderless_AutoUpdates";
-            this.borderless_AutoUpdates.Size = new System.Drawing.Size(256, 24);
-            this.borderless_AutoUpdates.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.borderless_AutoUpdates.TabIndex = 42;
-            this.borderless_AutoUpdates.Text = "Enable Automatic Updates";
-            this.borderless_AutoUpdates.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borderless_AutoUpdates.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.toolTipHelper.SetToolTip(this.borderless_AutoUpdates, "Automatically starts the update process if Silent Updates are not enabled.\r\nHas n" +
-        "o effect if Silent Updates are enabled.");
-            // 
             // borderless_AutoUpdatesBox
             // 
             animMessage11.Control = this.borderless_AutoUpdatesBox;
@@ -444,12 +361,141 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_AutoUpdatesBox.TopBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this.borderless_AutoUpdatesBox.TopBorderWidth = 1;
             // 
+            // box_ReloadedLogo
+            // 
+            this.box_ReloadedLogo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("box_ReloadedLogo.BackgroundImage")));
+            this.box_ReloadedLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.box_ReloadedLogo.Location = new System.Drawing.Point(106, 24);
+            this.box_ReloadedLogo.Name = "box_ReloadedLogo";
+            this.box_ReloadedLogo.Size = new System.Drawing.Size(688, 223);
+            this.box_ReloadedLogo.TabIndex = 0;
+            this.box_ReloadedLogo.TabStop = false;
+            // 
+            // borderless_CloseOnLaunch
+            // 
+            this.borderless_CloseOnLaunch.BackColor = System.Drawing.Color.Transparent;
+            this.borderless_CloseOnLaunch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_CloseOnLaunch.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.borderless_CloseOnLaunch.ForeColor = System.Drawing.Color.White;
+            this.borderless_CloseOnLaunch.IgnoreMouse = false;
+            this.borderless_CloseOnLaunch.Location = new System.Drawing.Point(518, 455);
+            this.borderless_CloseOnLaunch.Margin = new System.Windows.Forms.Padding(0);
+            this.borderless_CloseOnLaunch.Name = "borderless_CloseOnLaunch";
+            this.borderless_CloseOnLaunch.Size = new System.Drawing.Size(290, 24);
+            this.borderless_CloseOnLaunch.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_CloseOnLaunch.TabIndex = 51;
+            this.borderless_CloseOnLaunch.Text = "Close on Game Launch";
+            this.borderless_CloseOnLaunch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.borderless_CloseOnLaunch.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.borderless_CloseOnLaunch, "Does not close Reloaded-Launcher when a game is started.\r\nUseful for some develop" +
+        "ers.");
+            // 
+            // borderless_AllowPreReleases
+            // 
+            this.borderless_AllowPreReleases.BackColor = System.Drawing.Color.Transparent;
+            this.borderless_AllowPreReleases.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_AllowPreReleases.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.borderless_AllowPreReleases.ForeColor = System.Drawing.Color.White;
+            this.borderless_AllowPreReleases.IgnoreMouse = false;
+            this.borderless_AllowPreReleases.Location = new System.Drawing.Point(518, 405);
+            this.borderless_AllowPreReleases.Margin = new System.Windows.Forms.Padding(0);
+            this.borderless_AllowPreReleases.Name = "borderless_AllowPreReleases";
+            this.borderless_AllowPreReleases.Size = new System.Drawing.Size(290, 24);
+            this.borderless_AllowPreReleases.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_AllowPreReleases.TabIndex = 50;
+            this.borderless_AllowPreReleases.Text = "Get Prerelease/Beta Builds";
+            this.borderless_AllowPreReleases.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.borderless_AllowPreReleases.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.borderless_AllowPreReleases, "Allows for downloading of early builds tagged as Pre-release on Github.\r\nPre-rele" +
+        "ase builds will likely contain new features, default mod updates or internal imp" +
+        "rovements but may introduce bugs.");
+            // 
+            // borderless_SilentUpdates
+            // 
+            this.borderless_SilentUpdates.BackColor = System.Drawing.Color.Transparent;
+            this.borderless_SilentUpdates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_SilentUpdates.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.borderless_SilentUpdates.ForeColor = System.Drawing.Color.White;
+            this.borderless_SilentUpdates.IgnoreMouse = false;
+            this.borderless_SilentUpdates.Location = new System.Drawing.Point(205, 455);
+            this.borderless_SilentUpdates.Margin = new System.Windows.Forms.Padding(0);
+            this.borderless_SilentUpdates.Name = "borderless_SilentUpdates";
+            this.borderless_SilentUpdates.Size = new System.Drawing.Size(256, 24);
+            this.borderless_SilentUpdates.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_SilentUpdates.TabIndex = 44;
+            this.borderless_SilentUpdates.Text = "Enable Silent Updates";
+            this.borderless_SilentUpdates.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.borderless_SilentUpdates.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.borderless_SilentUpdates, "Updates silently and transparently in Google Chrome style.\r\nIf an update is downl" +
+        "oaded, it will be applied the next time you start up Reloaded.");
+            // 
+            // borderless_AutoUpdates
+            // 
+            this.borderless_AutoUpdates.BackColor = System.Drawing.Color.Transparent;
+            this.borderless_AutoUpdates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_AutoUpdates.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.borderless_AutoUpdates.ForeColor = System.Drawing.Color.White;
+            this.borderless_AutoUpdates.IgnoreMouse = false;
+            this.borderless_AutoUpdates.Location = new System.Drawing.Point(205, 405);
+            this.borderless_AutoUpdates.Margin = new System.Windows.Forms.Padding(0);
+            this.borderless_AutoUpdates.Name = "borderless_AutoUpdates";
+            this.borderless_AutoUpdates.Size = new System.Drawing.Size(256, 24);
+            this.borderless_AutoUpdates.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_AutoUpdates.TabIndex = 42;
+            this.borderless_AutoUpdates.Text = "Enable Automatic Updates";
+            this.borderless_AutoUpdates.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.borderless_AutoUpdates.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.borderless_AutoUpdates, "Automatically starts the update process if Silent Updates are not enabled.\r\nHas n" +
+        "o effect if Silent Updates are enabled.");
+            // 
+            // borderless_Documentation
+            // 
+            animMessage13.Control = this.borderless_Documentation;
+            animMessage13.PlayAnimation = true;
+            animProperties7.BackColorMessage = animMessage13;
+            animMessage14.Control = this.borderless_Documentation;
+            animMessage14.PlayAnimation = true;
+            animProperties7.ForeColorMessage = animMessage14;
+            animProperties7.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties7.MouseEnterDuration = 0F;
+            animProperties7.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties7.MouseEnterFramerate = 0F;
+            animProperties7.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties7.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties7.MouseLeaveDuration = 0F;
+            animProperties7.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties7.MouseLeaveFramerate = 0F;
+            animProperties7.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_Documentation.AnimProperties = animProperties7;
+            this.borderless_Documentation.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("borderless_Documentation.BackgroundImage")));
+            this.borderless_Documentation.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.borderless_Documentation.CaptureChildren = false;
+            this.borderless_Documentation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.borderless_Documentation.FlatAppearance.BorderSize = 0;
+            this.borderless_Documentation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_Documentation.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_Documentation.ForeColor = System.Drawing.Color.White;
+            this.borderless_Documentation.IgnoreMouse = false;
+            this.borderless_Documentation.IgnoreMouseClicks = false;
+            this.borderless_Documentation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.borderless_Documentation.Location = new System.Drawing.Point(479, 339);
+            this.borderless_Documentation.Name = "borderless_Documentation";
+            this.borderless_Documentation.Size = new System.Drawing.Size(270, 45);
+            this.borderless_Documentation.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_Documentation.TabIndex = 58;
+            this.borderless_Documentation.Text = "User Guide + Docs";
+            this.borderless_Documentation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.borderless_Documentation.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            this.borderless_Documentation.UseVisualStyleBackColor = true;
+            this.borderless_Documentation.Click += new System.EventHandler(this.borderless_Documentation_Click);
+            // 
             // AboutScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(900, 512);
+            this.Controls.Add(this.borderless_Documentation);
             this.Controls.Add(this.borderless_CloseOnLaunch);
             this.Controls.Add(this.borderless_AllowPreReleases);
             this.Controls.Add(this.borderless_Author);
@@ -485,5 +531,6 @@ namespace ReloadedLauncher.Windows.Children
         private AnimatedButton borderless_Author;
         private EnhancedLabel borderless_AllowPreReleases;
         private EnhancedLabel borderless_CloseOnLaunch;
+        public AnimatedButton borderless_Documentation;
     }
 }

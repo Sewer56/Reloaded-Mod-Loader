@@ -31,6 +31,7 @@ using Reloaded.Utilities;
 using Reloaded_GUI.Styles.Themes;
 using ReloadedLauncher.Windows;
 using ReloadedLauncher.Windows.Children.Dialogs;
+using ReloadedLauncher.Windows.Children.Dialogs.Tutorial;
 using Squirrel;
 
 namespace ReloadedLauncher
@@ -55,7 +56,7 @@ namespace ReloadedLauncher
             // Start self-update.
             DoSquirrelStuff();
 
-            // Checks if the is a Reloaded Protocol download.
+            // Checks if this is a Reloaded Protocol download.
             HandleDownloads(arguments);
 
             // Initialize all WinForms.
@@ -124,6 +125,17 @@ namespace ReloadedLauncher
         /// </summary>
         private void InitializeForms()
         {
+            // Display the Welcome Message.
+            if (Global.LoaderConfiguration.FirstLaunch)
+            {
+                // Display the welcome dialog.
+                new WelcomeScreen().ShowDialog();
+
+                // Save without prompt.
+                Global.LoaderConfiguration.FirstLaunch = false;
+                LoaderConfig.WriteConfig(Global.LoaderConfiguration);
+            }
+
             // Store the base form in Global
             Global.BaseForm = new Base();
 

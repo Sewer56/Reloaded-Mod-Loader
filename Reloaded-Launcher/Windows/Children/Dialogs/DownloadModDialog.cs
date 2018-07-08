@@ -68,23 +68,23 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// <summary>
         /// Stores a list of all mod loader game configurations.
         /// </summary>
-        private List<GameConfig> gameConfigs;
+        private List<GameConfig> _gameConfigs;
 
         /// <summary>
         /// Set to true if the download button has been hit and the mod is being downloaded.
         /// </summary>
-        private bool IsCurrentlyDownloading;
+        private bool _isCurrentlyDownloading;
 
         /// <summary>
         /// Stores the HTTP URL to the modification, allowing downloads 
         /// </summary>
-        private string ModificationURL;
+        private readonly string _modificationUrl;
 
         /// <summary>
         /// Initializes the form.
         /// </summary>
-        /// <param name="modDownloadURL">Specifies the URL of the mod to be downloaded.</param>
-        public DownloadModDialog(string modDownloadURL)
+        /// <param name="modDownloadUrl">Specifies the URL of the mod to be downloaded.</param>
+        public DownloadModDialog(string modDownloadUrl)
         {
             // Standard WinForms Init
             InitializeComponent();
@@ -93,12 +93,12 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             MakeRoundedWindow.RoundWindow(this, 30, 30);
 
             // Set the URL to download.
-            ModificationURL = modDownloadURL;
+            _modificationUrl = modDownloadUrl;
 
             // Strip the Reloaded Link Specifier (if necessary)
-            if (ModificationURL.StartsWith(Strings.Launcher.ReloadedProtocolName, true, CultureInfo.InvariantCulture))
+            if (_modificationUrl.StartsWith(Strings.Launcher.ReloadedProtocolName, true, CultureInfo.InvariantCulture))
             {
-                ModificationURL = Regex.Replace(ModificationURL, "reloaded:", "", RegexOptions.IgnoreCase);
+                _modificationUrl = Regex.Replace(_modificationUrl, "reloaded:", "", RegexOptions.IgnoreCase);
             }
         }
 
@@ -116,14 +116,14 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             ApplyTheme.ThemeWindowsForm(this);
 
             // Get all available games and populate them.
-            gameConfigs = ConfigManager.GetAllGameConfigs();
+            _gameConfigs = ConfigManager.GetAllGameConfigs();
 
             // Clear available items.
             borderless_SelectGame.Items.Clear();
 
             // Populate the dropdown listbox.
             // For each config, append the name of the game.
-            foreach (GameConfig gameConfig in gameConfigs)
+            foreach (GameConfig gameConfig in _gameConfigs)
             {
                 borderless_SelectGame.Items.Add
                 (
@@ -153,7 +153,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
                 Button testButton = (Button)sender;
 
                 // Do nothing if we are currently downloading.
-                if (IsCurrentlyDownloading)
+                if (_isCurrentlyDownloading)
                     return;
 
                 // Check if download complete by chacking the value of the progressbar.
@@ -164,10 +164,10 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
                 testButton.Text = "Downloading";
 
                 // We're currently donwloading.
-                IsCurrentlyDownloading = true;
+                _isCurrentlyDownloading = true;
 
                 // Get the current game configuration.
-                GameConfig gameConfig = gameConfigs[borderless_SelectGame.SelectedIndex];
+                GameConfig gameConfig = _gameConfigs[borderless_SelectGame.SelectedIndex];
 
                 // Try to get the file name of the file
                 string fileName = "temp.archive";
@@ -176,7 +176,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
                     using (WebClient client = new WebClient())
                     {
                         // Obtain the name of the file.
-                        client.OpenRead(ModificationURL);
+                        client.OpenRead(_modificationUrl);
                         fileName = new ContentDisposition(client.ResponseHeaders["content-disposition"]).FileName;
                     }
                 }
@@ -190,7 +190,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
                 using (WebClient client = new WebClient())
                 {
                     // Obtain the name of the file.
-                    Uri fileDownloadUri = new Uri(ModificationURL);
+                    Uri fileDownloadUri = new Uri(_modificationUrl);
                     client.DownloadProgressChanged += ClientOnUploadProgressChanged;
 
                     // Download
@@ -213,7 +213,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
                 File.Delete(fileLocationOutput);
 
                 // Finished downloading.
-                IsCurrentlyDownloading = false;
+                _isCurrentlyDownloading = false;
 
                 // Set update progress to max.
                 borderless_UpdateProgressBar.Value = borderless_UpdateProgressBar.MAX_VALUE;
@@ -226,7 +226,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
                 MessageBox.Show(exception.Message);
 
                 // Not downloading.
-                IsCurrentlyDownloading = false;
+                _isCurrentlyDownloading = false;
             }
 
         }

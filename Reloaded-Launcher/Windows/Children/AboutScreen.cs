@@ -19,6 +19,7 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -89,6 +90,11 @@ namespace ReloadedLauncher.Windows.Children
                 Global.LoaderConfiguration.ExitAfterLaunch = borderless_CloseOnLaunchBox.ButtonEnabled;
                 LoaderConfig.WriteConfig(Global.LoaderConfiguration);
             }
+        }
+
+        private void borderless_Documentation_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/README.md");
         }
     }
 }

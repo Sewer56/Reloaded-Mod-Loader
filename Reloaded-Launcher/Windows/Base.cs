@@ -219,6 +219,8 @@ namespace ReloadedLauncher.Windows
             Global.BaseForm.ChildrenForms.ManageMenu.box_GameDirectorySelect.BackgroundImage = images.TweaksImage;
             Global.BaseForm.ChildrenForms.ManageMenu.box_GameEXESelect.BackgroundImage = images.TweaksImage;
             Global.BaseForm.ChildrenForms.ManageMenu.box_GameFolderSelect.BackgroundImage = images.TweaksImage;
+
+            Global.BaseForm.ChildrenForms.AboutMenu.borderless_Documentation.BackgroundImage = images.GithubImage;
         }
 
         /// <summary>

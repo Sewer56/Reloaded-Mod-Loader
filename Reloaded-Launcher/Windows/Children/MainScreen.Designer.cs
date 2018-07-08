@@ -71,8 +71,6 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage11 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage12 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties7 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage13 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage14 = new Reloaded_GUI.Styles.Animation.AnimMessage();
@@ -82,43 +80,37 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties9 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage17 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage18 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainScreen));
-            this.item_GameBanner = new System.Windows.Forms.PictureBox();
-            this.tooltipHelper = new System.Windows.Forms.ToolTip(this.components);
             this.item_LaunchBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_QuitBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.item_InjectionBoxInjection = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_InjectionBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.item_VersionBoxVersion = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_VersionBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_PictureBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_GameList = new Reloaded_GUI.Styles.Controls.Animated.AnimatedDataGridView();
-            this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box_GameListBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.box_NoteBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.box_LocationBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.item_GameBanner = new System.Windows.Forms.PictureBox();
+            this.tooltipHelper = new System.Windows.Forms.ToolTip(this.components);
+            this.item_InjectionBoxInjection = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.item_VersionBoxVersion = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_NoteBoxVerPath = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_NoteBoxEXEPath = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_NoteBoxVERTitle = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_NoteBoxEXETitle = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_NoteBoxGameName = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_NoteBoxSeparator = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
-            this.box_NoteBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_LocationBoxEXEPath = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_LocationBoxDirectoryPath = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_LocationBoxDirectoryTitle = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_LocationBoxEXETitle = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
-            this.box_LocationBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).BeginInit();
+            this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).BeginInit();
             this.SuspendLayout();
-            // 
-            // item_GameBanner
-            // 
-            this.item_GameBanner.Location = new System.Drawing.Point(590, 40);
-            this.item_GameBanner.Name = "item_GameBanner";
-            this.item_GameBanner.Size = new System.Drawing.Size(271, 83);
-            this.item_GameBanner.TabIndex = 15;
-            this.item_GameBanner.TabStop = false;
             // 
             // item_LaunchBox
             // 
@@ -199,23 +191,6 @@ namespace ReloadedLauncher.Windows.Children
             this.item_QuitBox.UseVisualStyleBackColor = false;
             this.item_QuitBox.Click += new System.EventHandler(this.QuitBox_Click);
             // 
-            // item_InjectionBoxInjection
-            // 
-            this.item_InjectionBoxInjection.BackColor = System.Drawing.Color.Transparent;
-            this.item_InjectionBoxInjection.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_InjectionBoxInjection.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_InjectionBoxInjection.ForeColor = System.Drawing.Color.White;
-            this.item_InjectionBoxInjection.IgnoreMouse = false;
-            this.item_InjectionBoxInjection.Location = new System.Drawing.Point(244, 438);
-            this.item_InjectionBoxInjection.Margin = new System.Windows.Forms.Padding(0);
-            this.item_InjectionBoxInjection.Name = "item_InjectionBoxInjection";
-            this.item_InjectionBoxInjection.Size = new System.Drawing.Size(228, 24);
-            this.item_InjectionBoxInjection.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_InjectionBoxInjection.TabIndex = 20;
-            this.item_InjectionBoxInjection.Text = "Injection: Instant";
-            this.item_InjectionBoxInjection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_InjectionBoxInjection.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
             // box_InjectionBox
             // 
             animMessage5.Control = this.box_InjectionBox;
@@ -251,23 +226,6 @@ namespace ReloadedLauncher.Windows.Children
             this.box_InjectionBox.Text = null;
             this.box_InjectionBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             this.box_InjectionBox.UseVisualStyleBackColor = false;
-            // 
-            // item_VersionBoxVersion
-            // 
-            this.item_VersionBoxVersion.BackColor = System.Drawing.Color.Transparent;
-            this.item_VersionBoxVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_VersionBoxVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_VersionBoxVersion.ForeColor = System.Drawing.Color.White;
-            this.item_VersionBoxVersion.IgnoreMouse = false;
-            this.item_VersionBoxVersion.Location = new System.Drawing.Point(42, 438);
-            this.item_VersionBoxVersion.Margin = new System.Windows.Forms.Padding(0);
-            this.item_VersionBoxVersion.Name = "item_VersionBoxVersion";
-            this.item_VersionBoxVersion.Size = new System.Drawing.Size(168, 24);
-            this.item_VersionBoxVersion.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_VersionBoxVersion.TabIndex = 18;
-            this.item_VersionBoxVersion.Text = "Version: 0.85";
-            this.item_VersionBoxVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_VersionBoxVersion.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
             // box_VersionBox
             // 
@@ -404,28 +362,6 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameList.TabIndex = 14;
             this.box_GameList.SelectionChanged += new System.EventHandler(this.GameList_SelectionChanged);
             // 
-            // modName
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.modName.DefaultCellStyle = dataGridViewCellStyle1;
-            this.modName.FillWeight = 152.2843F;
-            this.modName.HeaderText = "Mod name";
-            this.modName.Name = "modName";
-            this.modName.ReadOnly = true;
-            this.modName.Width = 200;
-            // 
-            // modDirectory
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.modDirectory.DefaultCellStyle = dataGridViewCellStyle2;
-            this.modDirectory.FillWeight = 47.71573F;
-            this.modDirectory.HeaderText = "Mod Directory";
-            this.modDirectory.Name = "modDirectory";
-            this.modDirectory.ReadOnly = true;
-            this.modDirectory.Width = 318;
-            // 
             // box_GameListBox
             // 
             animMessage13.Control = this.box_GameListBox;
@@ -462,6 +398,120 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameListBox.Text = null;
             this.box_GameListBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             this.box_GameListBox.UseVisualStyleBackColor = false;
+            // 
+            // box_NoteBox
+            // 
+            animMessage15.Control = this.box_NoteBox;
+            animMessage15.PlayAnimation = true;
+            animProperties8.BackColorMessage = animMessage15;
+            animMessage16.Control = this.box_NoteBox;
+            animMessage16.PlayAnimation = true;
+            animProperties8.ForeColorMessage = animMessage16;
+            animProperties8.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterDuration = 0F;
+            animProperties8.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterFramerate = 0F;
+            animProperties8.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties8.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveDuration = 0F;
+            animProperties8.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveFramerate = 0F;
+            animProperties8.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_NoteBox.AnimProperties = animProperties8;
+            this.box_NoteBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_NoteBox.CaptureChildren = true;
+            this.box_NoteBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.box_NoteBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_NoteBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_NoteBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_NoteBox.IgnoreMouse = false;
+            this.box_NoteBox.IgnoreMouseClicks = true;
+            this.box_NoteBox.Location = new System.Drawing.Point(589, 154);
+            this.box_NoteBox.Name = "box_NoteBox";
+            this.box_NoteBox.Size = new System.Drawing.Size(273, 138);
+            this.box_NoteBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            this.box_NoteBox.TabIndex = 5;
+            this.box_NoteBox.Text = null;
+            this.box_NoteBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+            this.box_NoteBox.UseVisualStyleBackColor = false;
+            // 
+            // box_LocationBox
+            // 
+            animMessage17.Control = this.box_LocationBox;
+            animMessage17.PlayAnimation = true;
+            animProperties9.BackColorMessage = animMessage17;
+            animMessage18.Control = this.box_LocationBox;
+            animMessage18.PlayAnimation = true;
+            animProperties9.ForeColorMessage = animMessage18;
+            animProperties9.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterDuration = 0F;
+            animProperties9.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterFramerate = 0F;
+            animProperties9.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties9.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveDuration = 0F;
+            animProperties9.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveFramerate = 0F;
+            animProperties9.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_LocationBox.AnimProperties = animProperties9;
+            this.box_LocationBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_LocationBox.CaptureChildren = true;
+            this.box_LocationBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.box_LocationBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_LocationBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.box_LocationBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_LocationBox.IgnoreMouse = false;
+            this.box_LocationBox.IgnoreMouseClicks = true;
+            this.box_LocationBox.Location = new System.Drawing.Point(40, 322);
+            this.box_LocationBox.Name = "box_LocationBox";
+            this.box_LocationBox.Size = new System.Drawing.Size(822, 77);
+            this.box_LocationBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            this.box_LocationBox.TabIndex = 0;
+            this.box_LocationBox.Text = null;
+            this.box_LocationBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+            this.box_LocationBox.UseVisualStyleBackColor = false;
+            // 
+            // item_GameBanner
+            // 
+            this.item_GameBanner.Location = new System.Drawing.Point(590, 40);
+            this.item_GameBanner.Name = "item_GameBanner";
+            this.item_GameBanner.Size = new System.Drawing.Size(271, 83);
+            this.item_GameBanner.TabIndex = 15;
+            this.item_GameBanner.TabStop = false;
+            // 
+            // item_InjectionBoxInjection
+            // 
+            this.item_InjectionBoxInjection.BackColor = System.Drawing.Color.Transparent;
+            this.item_InjectionBoxInjection.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_InjectionBoxInjection.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_InjectionBoxInjection.ForeColor = System.Drawing.Color.White;
+            this.item_InjectionBoxInjection.IgnoreMouse = false;
+            this.item_InjectionBoxInjection.Location = new System.Drawing.Point(244, 438);
+            this.item_InjectionBoxInjection.Margin = new System.Windows.Forms.Padding(0);
+            this.item_InjectionBoxInjection.Name = "item_InjectionBoxInjection";
+            this.item_InjectionBoxInjection.Size = new System.Drawing.Size(228, 24);
+            this.item_InjectionBoxInjection.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_InjectionBoxInjection.TabIndex = 20;
+            this.item_InjectionBoxInjection.Text = "Injection: Instant";
+            this.item_InjectionBoxInjection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.item_InjectionBoxInjection.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_VersionBoxVersion
+            // 
+            this.item_VersionBoxVersion.BackColor = System.Drawing.Color.Transparent;
+            this.item_VersionBoxVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_VersionBoxVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_VersionBoxVersion.ForeColor = System.Drawing.Color.White;
+            this.item_VersionBoxVersion.IgnoreMouse = false;
+            this.item_VersionBoxVersion.Location = new System.Drawing.Point(42, 438);
+            this.item_VersionBoxVersion.Margin = new System.Windows.Forms.Padding(0);
+            this.item_VersionBoxVersion.Name = "item_VersionBoxVersion";
+            this.item_VersionBoxVersion.Size = new System.Drawing.Size(168, 24);
+            this.item_VersionBoxVersion.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_VersionBoxVersion.TabIndex = 18;
+            this.item_VersionBoxVersion.Text = "Version: 0.85";
+            this.item_VersionBoxVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.item_VersionBoxVersion.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
             // item_NoteBoxVerPath
             // 
@@ -569,42 +619,6 @@ namespace ReloadedLauncher.Windows.Children
             this.item_NoteBoxSeparator.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.item_NoteBoxSeparator.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
-            // box_NoteBox
-            // 
-            animMessage15.Control = this.box_NoteBox;
-            animMessage15.PlayAnimation = true;
-            animProperties8.BackColorMessage = animMessage15;
-            animMessage16.Control = this.box_NoteBox;
-            animMessage16.PlayAnimation = true;
-            animProperties8.ForeColorMessage = animMessage16;
-            animProperties8.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties8.MouseEnterDuration = 0F;
-            animProperties8.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties8.MouseEnterFramerate = 0F;
-            animProperties8.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties8.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties8.MouseLeaveDuration = 0F;
-            animProperties8.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties8.MouseLeaveFramerate = 0F;
-            animProperties8.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_NoteBox.AnimProperties = animProperties8;
-            this.box_NoteBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_NoteBox.CaptureChildren = true;
-            this.box_NoteBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.box_NoteBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_NoteBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_NoteBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_NoteBox.IgnoreMouse = false;
-            this.box_NoteBox.IgnoreMouseClicks = true;
-            this.box_NoteBox.Location = new System.Drawing.Point(589, 154);
-            this.box_NoteBox.Name = "box_NoteBox";
-            this.box_NoteBox.Size = new System.Drawing.Size(273, 138);
-            this.box_NoteBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-            this.box_NoteBox.TabIndex = 5;
-            this.box_NoteBox.Text = null;
-            this.box_NoteBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            this.box_NoteBox.UseVisualStyleBackColor = false;
-            // 
             // item_LocationBoxEXEPath
             // 
             this.item_LocationBoxEXEPath.BackColor = System.Drawing.Color.Transparent;
@@ -674,41 +688,27 @@ namespace ReloadedLauncher.Windows.Children
             this.item_LocationBoxEXETitle.Text = "EXE PATH:";
             this.item_LocationBoxEXETitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
-            // box_LocationBox
+            // modName
             // 
-            animMessage17.Control = this.box_LocationBox;
-            animMessage17.PlayAnimation = true;
-            animProperties9.BackColorMessage = animMessage17;
-            animMessage18.Control = this.box_LocationBox;
-            animMessage18.PlayAnimation = true;
-            animProperties9.ForeColorMessage = animMessage18;
-            animProperties9.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties9.MouseEnterDuration = 0F;
-            animProperties9.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties9.MouseEnterFramerate = 0F;
-            animProperties9.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties9.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties9.MouseLeaveDuration = 0F;
-            animProperties9.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties9.MouseLeaveFramerate = 0F;
-            animProperties9.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_LocationBox.AnimProperties = animProperties9;
-            this.box_LocationBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_LocationBox.CaptureChildren = true;
-            this.box_LocationBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.box_LocationBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_LocationBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_LocationBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_LocationBox.IgnoreMouse = false;
-            this.box_LocationBox.IgnoreMouseClicks = true;
-            this.box_LocationBox.Location = new System.Drawing.Point(40, 322);
-            this.box_LocationBox.Name = "box_LocationBox";
-            this.box_LocationBox.Size = new System.Drawing.Size(822, 77);
-            this.box_LocationBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-            this.box_LocationBox.TabIndex = 0;
-            this.box_LocationBox.Text = null;
-            this.box_LocationBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            this.box_LocationBox.UseVisualStyleBackColor = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.modName.DefaultCellStyle = dataGridViewCellStyle1;
+            this.modName.FillWeight = 152.2843F;
+            this.modName.HeaderText = "Mod name";
+            this.modName.Name = "modName";
+            this.modName.ReadOnly = true;
+            this.modName.Width = 200;
+            // 
+            // modDirectory
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.modDirectory.DefaultCellStyle = dataGridViewCellStyle2;
+            this.modDirectory.FillWeight = 47.71573F;
+            this.modDirectory.HeaderText = "Mod Directory";
+            this.modDirectory.Name = "modDirectory";
+            this.modDirectory.ReadOnly = true;
+            this.modDirectory.Width = 318;
             // 
             // MainScreen
             // 
@@ -744,8 +744,8 @@ namespace ReloadedLauncher.Windows.Children
             this.Name = "MainScreen";
             this.Text = "Main_Screen";
             this.VisibleChanged += new System.EventHandler(this.Main_Screen_VisibleChanged);
-            ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -774,9 +774,9 @@ namespace ReloadedLauncher.Windows.Children
         private AnimatedButton box_InjectionBox;
         private AnimatedButton item_QuitBox;
         private AnimatedButton item_LaunchBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn modName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn modDirectory;
         public System.Windows.Forms.PictureBox item_GameBanner;
         private System.Windows.Forms.ToolTip tooltipHelper;
+        private System.Windows.Forms.DataGridViewTextBoxColumn modName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn modDirectory;
     }
 }
