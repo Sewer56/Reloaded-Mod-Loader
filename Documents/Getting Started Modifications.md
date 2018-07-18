@@ -64,8 +64,9 @@ Due to Reloaded's quest to modularity, all features that actually do the tamperi
 
 As such, for file redirection based mods you should specify a dependency on the mod above:
 ```json
-"Dependencies": [ "reloaded.global.fileredirector" ]
+"Dependencies": [ "reloaded.global.fileredirector.new" ]
 ```
+(Originally `reloaded.global.fileredirector`, now replaced with a new implementation)
 
 For files to be loaded by the game with the mod enabled, create the folders`Plugins/Redirector` in your mod directory; i.e. you create the folder `Plugins`, and inside that folder `Redirector` and place your files there.
 
