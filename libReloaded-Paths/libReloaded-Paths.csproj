@@ -101,5 +101,6 @@ used to build file paths by the individual mod loader components.
     <PackageReleaseNotes></PackageReleaseNotes>
     <Description>Arianrhod</Description>
     <Authors>Sewer56</Authors>
+    <AssemblyName>libReloaded-Paths-119</AssemblyName>
   </PropertyGroup>
 </Project>

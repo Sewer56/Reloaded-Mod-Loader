@@ -98,6 +98,7 @@ Provides you with access to Reloaded's individual input stack, a fully featured,
 The Reloaded input stack supports realtime controller remapping, controller hotplugging, multi controllers per port, arbitrary axis assignment, axis to axis mapping, button to axis, deadzone per axis, radius per axis, etc...
     </Description>
     <Authors>Sewer56</Authors>
+    <AssemblyName>libReloaded-Input-119</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />

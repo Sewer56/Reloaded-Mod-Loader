@@ -99,5 +99,6 @@ Contains mainly functions related to window management.
     </Description>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Authors>Sewer56</Authors>
+    <AssemblyName>libReloaded-Native-119</AssemblyName>
   </PropertyGroup>
 </Project>

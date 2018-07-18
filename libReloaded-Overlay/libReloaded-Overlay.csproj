@@ -99,6 +99,7 @@ Included are DX9 Overlay, DX11 Overlay, WPF Overlay, D2D-WPF Overlay, D2D-WinFor
 For examples of usage, refer to the mod loader's mod samples included in the main Github repository.
     </Description>
     <Authors>Sewer56</Authors>
+    <AssemblyName>libReloaded-Overlay-119</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Process\AlternateDllInjector.cs" />

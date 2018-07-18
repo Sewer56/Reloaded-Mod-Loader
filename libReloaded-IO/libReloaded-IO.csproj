@@ -99,6 +99,7 @@ Potential uses for modders would be allowing mods to determine other enabled mod
 Includes an extra tool (RelativePaths) for cloning files directory to directory either via Hardlink or Copy, with full respect to the folder structure.
     </Description>
     <Authors>Sewer56</Authors>
+    <AssemblyName>libReloaded-IO-119</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />

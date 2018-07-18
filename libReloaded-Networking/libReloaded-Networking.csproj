@@ -46,6 +46,7 @@ Feel free to reuse for your networking mods.
     </Description>
     <Version>1.1.7</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <AssemblyName>libReloaded-Networking-119</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
