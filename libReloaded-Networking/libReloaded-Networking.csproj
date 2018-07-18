@@ -44,7 +44,7 @@
 Contains classes used for packing and unpacking messages relayed by to and from Reloaded Mod Loader components such as Reloaded Assembler and Reloaded Mods.
 Feel free to reuse for your networking mods.
     </Description>
-    <Version>1.1.7</Version>
+    <Version>1.1.9</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <AssemblyName>libReloaded-Networking-119</AssemblyName>
   </PropertyGroup>
