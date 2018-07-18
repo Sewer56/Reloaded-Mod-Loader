@@ -180,7 +180,7 @@ namespace Reloaded.Process.Buffers
         public IntPtr Add<TStructure>(TStructure bytesToWrite)
         {
             // Know what to do
-            return Add(MemoryReadWrite.ConvertStructureToByteArray(ref bytesToWrite));
+            return Add(MemoryReadWrite.ConvertStructureToByteArrayUnsafe(ref bytesToWrite));
         }
 
         /// <summary>

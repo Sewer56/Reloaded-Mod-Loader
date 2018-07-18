@@ -478,7 +478,7 @@ namespace Reloaded.Process.Memory
         [HandleProcessCorruptedStateExceptions]
         public static void WriteMemory<TType>(this ReloadedProcess process, IntPtr address, ref TType data)
         {
-            byte[] newData = ConvertStructureToByteArray(ref data);
+            byte[] newData = ConvertStructureToByteArrayUnsafe(ref data);
             WriteMemory(process, address, ref newData);
         }
 
@@ -494,7 +494,7 @@ namespace Reloaded.Process.Memory
         [HandleProcessCorruptedStateExceptions]
         public static void WriteMemory<TType>(this ReloadedProcess process, IntPtr address, TType data)
         {
-            byte[] newData = ConvertStructureToByteArray(ref data);
+            byte[] newData = ConvertStructureToByteArrayUnsafe(ref data);
             WriteMemory(process, address, ref newData);
         }
 
@@ -555,7 +555,7 @@ namespace Reloaded.Process.Memory
         public static bool WriteMemoryExternalFast<TType>(this ReloadedProcess process, IntPtr address, ref TType data)
         {
             // Return value
-            byte[] newData = ConvertStructureToByteArray(ref data);
+            byte[] newData = ConvertStructureToByteArrayUnsafe(ref data);
             return WriteMemoryExternalFast(process, address, ref newData);
         }
 
@@ -572,7 +572,7 @@ namespace Reloaded.Process.Memory
         public static bool WriteMemoryExternalFast<TType>(this ReloadedProcess process, IntPtr address, TType data)
         {
             // Return value
-            byte[] newData = ConvertStructureToByteArray(ref data);
+            byte[] newData = ConvertStructureToByteArrayUnsafe(ref data);
             return WriteMemoryExternalFast(process, address, ref newData);
         }
 
@@ -625,7 +625,7 @@ namespace Reloaded.Process.Memory
         public static bool WriteMemoryExternal<TType>(this ReloadedProcess process, IntPtr address, ref TType data)
         {
             // Return value
-            byte[] newData = ConvertStructureToByteArray(ref data);
+            byte[] newData = ConvertStructureToByteArrayUnsafe(ref data);
             return WriteMemoryExternal(process, address, ref newData);
         }
 
@@ -642,7 +642,7 @@ namespace Reloaded.Process.Memory
         public static bool WriteMemoryExternal<TType>(this ReloadedProcess process, IntPtr address, TType data)
         {
             // Return value
-            byte[] newData = ConvertStructureToByteArray(ref data);
+            byte[] newData = ConvertStructureToByteArrayUnsafe(ref data);
             return WriteMemoryExternal(process, address, ref newData);
         }
 
@@ -702,6 +702,7 @@ namespace Reloaded.Process.Memory
         /// <param name="type">The type to convert to (same as type to return.</param>
         /// <returns>In the requested format</returns>
         [HandleProcessCorruptedStateExceptions]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TType ConvertToPrimitive<TType>(ref byte[] buffer, Type type)
         {
             // Convert to user specified structure if none of the types above apply.
@@ -715,11 +716,12 @@ namespace Reloaded.Process.Memory
         /// <param name="bytes">The array of bytes to convert into a specified structure.</param>
         /// <returns>The array of bytes converted to the user's own specified class or structure.</returns>
         [HandleProcessCorruptedStateExceptions]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe TStructure ArrayToStructure<TStructure>(ref byte[] bytes)
         {
             fixed (byte* ptr = &bytes[0])
             {
-                try { return (TStructure)Marshal.PtrToStructure((IntPtr)ptr, typeof(TStructure)); }
+                try { return Helpers.ThirdParty.FastStructure<TStructure>.PtrToStructure((IntPtr)ptr); }
                 catch { return default(TStructure); }
             }
         }
@@ -731,10 +733,11 @@ namespace Reloaded.Process.Memory
         /// <param name="bytes">The array of bytes to convert into a specified structure.</param>
         /// <returns>The array of bytes converted to the user's own specified class or structure.</returns>#
         [HandleProcessCorruptedStateExceptions]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe TStructure ArrayToStructureUnsafe<TStructure>(ref byte[] bytes)
         {
             fixed (byte* ptr = &bytes[0])
-                return Unsafe.Read<TStructure>(ptr);
+                return Helpers.ThirdParty.FastStructure<TStructure>.PtrToStructure((IntPtr)ptr);
         }
 
         /// <summary>
@@ -743,6 +746,7 @@ namespace Reloaded.Process.Memory
         /// <param name="structure">The structure to be converted to an array of bytes.</param>
         /// <returns>The user converted structure as an array of bytes.</returns>
         [HandleProcessCorruptedStateExceptions]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte[] ConvertStructureToByteArray<TStructure>(ref TStructure structure)
         {
             // Retrieve size of structure and allocate buffer.
@@ -751,7 +755,7 @@ namespace Reloaded.Process.Memory
 
             // Allocate memory and marshal structure into it.
             IntPtr structPointer = Marshal.AllocHGlobal(structSize);
-            Marshal.StructureToPtr(structure, structPointer, true);
+            Helpers.ThirdParty.FastStructure<TStructure>.StructureToPtr(ref structure, structPointer);
 
             // Copy the structure into our buffer.
             Marshal.Copy(structPointer, buffer, 0, structSize);
@@ -767,11 +771,12 @@ namespace Reloaded.Process.Memory
         /// <param name="structure">The structure to be converted to an array of bytes.</param>
         /// <returns>The user converted structure as an array of bytes.</returns>
         [HandleProcessCorruptedStateExceptions]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe byte[] ConvertStructureToByteArrayUnsafe<TStructure>(ref TStructure structure)
         {
             byte[] buffer = new byte[Unsafe.SizeOf<TStructure>()];
             fixed ( byte* pBuffer = &buffer[0] )
-                Unsafe.Write( pBuffer, structure );
+                Helpers.ThirdParty.FastStructure<TStructure>.StructureToPtr(ref structure, (IntPtr)pBuffer);
 
             return buffer;
         }
@@ -784,10 +789,11 @@ namespace Reloaded.Process.Memory
         /// <param name="targetAddress">The target address to write the structure contents to.</param>
         /// <returns>The user converted structure as an array of bytes.</returns>
         [HandleProcessCorruptedStateExceptions]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void WriteStructureToAddress<TStructure>(ref TStructure structure, IntPtr targetAddress)
         {
             // Allocate memory and marshal structure into it.
-            Marshal.StructureToPtr(structure, targetAddress, true);
+            Helpers.ThirdParty.FastStructure<TStructure>.StructureToPtr(ref structure, targetAddress);
         }
 
         /// <summary>
@@ -797,9 +803,10 @@ namespace Reloaded.Process.Memory
         /// <param name="targetAddress">The target address to write the structure contents to.</param>
         /// <returns>The user converted structure as an array of bytes.</returns>
         [HandleProcessCorruptedStateExceptions]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe void WriteStructureToAddressUnsafe<TStructure>(ref TStructure structure, IntPtr targetAddress)
         {
-            Unsafe.Write(targetAddress.ToPointer(), structure);
+            Helpers.ThirdParty.FastStructure<TStructure>.StructureToPtr(ref structure, targetAddress);
         }
     }
 }
