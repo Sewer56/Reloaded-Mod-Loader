@@ -74,7 +74,7 @@ namespace Reloaded_Loader.Networking
             {
                 // Create new server instance.
                 ReloadedServerListener = new EventBasedNetListener();
-                ReloadedServer = new NetManager(ReloadedServerListener, Strings.Loader.ServerConnectKey);
+                ReloadedServer = new NetManager(ReloadedServerListener, 65535, Strings.Loader.ServerConnectKey);
 
                 // Ping when message is received.
                 ReloadedServerListener.PeerConnectedEvent += peer =>
