@@ -1,6 +1,6 @@
 {
-	"ModId": "reloaded.global.filemonitor",
-	"ModName": "Reloaded File Monitor (Legacy)",
+	"ModId": "reloaded.global.filemonitor.new",
+	"ModName": "Reloaded File Monitor",
 	"ModDescription": "Prints out the individual locations of filesystem files as the game/program loads or writes to them.",
 	"ModVersion": "1.0.0",
 	"ModAuthor": "Sewer56",
