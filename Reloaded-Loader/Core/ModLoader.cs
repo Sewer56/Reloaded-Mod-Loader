@@ -61,7 +61,8 @@ namespace Reloaded_Loader.Core
                     IntPtr parameterAddress = reloadedProcess.AllocateMemory(IntPtr.Size);
 
                     // Write Server Port to Game Memory
-                    reloadedProcess.WriteMemoryExternal(parameterAddress, BitConverter.GetBytes(LoaderServer.ServerPort));
+                    byte[] serverPort = BitConverter.GetBytes(LoaderServer.ServerPort);
+                    reloadedProcess.WriteMemoryExternal(parameterAddress, ref serverPort);
 
                     // Inject the individual DLL.
                     reloadedClassicDllInjector.InjectDll(modLibrary, parameterAddress, "Main");

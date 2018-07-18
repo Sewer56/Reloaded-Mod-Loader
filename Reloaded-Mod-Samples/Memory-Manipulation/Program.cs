@@ -62,7 +62,8 @@ namespace Reloaded_Mod_Template
             Bindings.PrintInfo($"Memory allocated at {addressOfAllocation.ToString("X")}");
 
             // Now let's write some memory to the given address.
-            GameProcess.WriteMemory(addressOfAllocation, 1337);
+            int oneThreeThreeSeven = 1337;
+            GameProcess.WriteMemory(addressOfAllocation, ref oneThreeThreeSeven);
             Bindings.PrintInfo($"Written {1337} to address {addressOfAllocation.ToString("X")}");
 
             // Wait what!? That simple??
@@ -90,7 +91,7 @@ namespace Reloaded_Mod_Template
             };
 
             // Now let's write it to memory.
-            GameProcess.WriteMemory(addressOfAllocation, playerCoordinates);
+            GameProcess.WriteMemory(addressOfAllocation, ref playerCoordinates);
             Bindings.PrintInfo($"Written arbitrary player coordinates {playerCoordinates.xPosition} {playerCoordinates.yPosition} {playerCoordinates.zPosition} to address {addressOfAllocation.ToString("X")}");
 
             // Wait... Nothing changed?

@@ -229,7 +229,7 @@ namespace Reloaded.Process.Buffers
         public static IntPtr Add<TStructure>(TStructure bytesToWrite)
         {
             // Know what to do
-            return Add(MemoryReadWrite.ConvertStructureToByteArray(bytesToWrite));
+            return Add(MemoryReadWrite.ConvertStructureToByteArray(ref bytesToWrite));
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace Reloaded.Process.Buffers
         public static IntPtr Add<TStructure>(TStructure bytesToWrite, IntPtr targetAddress)
         {
             // Know what to do
-            return Add(MemoryReadWrite.ConvertStructureToByteArray(bytesToWrite), targetAddress);
+            return Add(MemoryReadWrite.ConvertStructureToByteArray(ref bytesToWrite), targetAddress);
         }
 
         /// <summary>

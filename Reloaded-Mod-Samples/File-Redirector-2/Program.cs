@@ -45,27 +45,6 @@ namespace Reloaded_Mod_Template
         private static FunctionHook<NtCreateFile> _ntCreateFileHook;
 
         /*
-            Included here due to some weird JIT bug that claims LoadLibraryW
-            does not exist if a mod has been prior loaded inside certain processes.
-        */
-
-        /// <summary>
-        /// LoadLibrary
-        ///     Loads the specified module into the address space of the calling process.
-        ///     The specified module may cause other modules to be loaded.
-        /// </summary>
-        /// <param name="lpFileName">
-        ///     The name of the module. This can be either a library module (a.dll file) 
-        ///     or an executable module (.exe file). If the string specifies a full path, 
-        ///     the function searches only that path for the module. If the string specifies 
-        ///     a relative path or a module name without a path, the function uses the 
-        ///     standard search strategy.
-        /// </param>
-        /// <returns>Handle to the module.</returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr LoadLibraryW([MarshalAs(UnmanagedType.LPWStr)]string lpFileName);
-
-        /*
             Contains a dictionary which maps a file path (game's file path) to another file path
             belonging to a modification.
         */

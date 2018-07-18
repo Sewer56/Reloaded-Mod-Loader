@@ -205,7 +205,7 @@ namespace Reloaded.Process.Functions.X86Hooking
         public FunctionHook<TFunction> Activate()
         {
             // Patch all addresses
-            Bindings.TargetProcess.WriteMemory(_hookToWrite.Item1, _hookToWrite.Item2);
+            Bindings.TargetProcess.WriteMemory(_hookToWrite.Item1, ref _hookToWrite.Item2);
 
             // Apply all patches.
             foreach (var addressToPatch in _addressesToPatch)

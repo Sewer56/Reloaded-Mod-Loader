@@ -64,7 +64,7 @@ namespace Reloaded.Process.Memory
             Marshal.Copy(address, buffer, 0, size);
 
             // Return the read memory.
-            return ConvertToPrimitive<TType>(buffer, type);
+            return ConvertToPrimitive<TType>(ref buffer, type);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Reloaded.Process.Memory
         /// <param name="address">The address of the first byte you want to write memory to.</param>
         /// <returns>The bytes which have been read from the memory at the specified offset and length.</returns>
         [HandleProcessCorruptedStateExceptions]
-        public static unsafe TType ReadMemoryFastUnsafe<TType>( this ReloadedProcess process, IntPtr address )
+        public static unsafe TType ReadMemoryFastUnsafe<TType>(this ReloadedProcess process, IntPtr address)
         {
             return Unsafe.Read<TType>( address.ToPointer() );
         }
@@ -91,7 +91,7 @@ namespace Reloaded.Process.Memory
         /// <param name="length">The value you want to write at the address as a byte array.</param>
         /// <returns>The bytes which have been read from the memory at the specified offset and length.</returns>
         [HandleProcessCorruptedStateExceptions]
-        public static unsafe byte[] ReadMemoryFast( this ReloadedProcess process, IntPtr address, int length)
+        public static unsafe byte[] ReadMemoryFast(this ReloadedProcess process, IntPtr address, int length)
         {
             // Read memory
             byte[] buffer = new byte[length];
@@ -133,7 +133,7 @@ namespace Reloaded.Process.Memory
             VirtualProtect(address, (IntPtr)size, oldProtection, out oldProtection);
 
             // Return the read memory.
-            return ConvertToPrimitive<TType>(buffer,type);
+            return ConvertToPrimitive<TType>(ref buffer,type);
         }
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace Reloaded.Process.Memory
             ReadProcessMemory(process.ProcessHandle, address, buffer, (IntPtr)size, out _);
 
             // Return the read memory.
-            return ConvertToPrimitive<TType>(buffer, type);
+            return ConvertToPrimitive<TType>(ref buffer, type);
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace Reloaded.Process.Memory
             VirtualProtectEx(process.ProcessHandle, address, (IntPtr)size, oldProtection, out oldProtection);
 
             // Return the read memory.
-            return ConvertToPrimitive<TType>(buffer, type);
+            return ConvertToPrimitive<TType>(ref buffer, type);
         }
 
         /// <summary>
@@ -382,12 +382,44 @@ namespace Reloaded.Process.Memory
         /// <param name="data">The value you want to write at the address as a byte array.</param>
         /// <returns>Whether the write operation has been successful as true/false</returns>
         [HandleProcessCorruptedStateExceptions]
-        public static unsafe void WriteMemoryFast(this ReloadedProcess process, IntPtr address, byte[] data)
+        public static unsafe void WriteMemoryFast(this ReloadedProcess process, IntPtr address, ref byte[] data)
         {
             // Write the process memory.      
             fixed ( byte* pBuffer = &data[0] )
                 Unsafe.CopyBlock( address.ToPointer(), pBuffer, ( uint )data.Length );
         }
+
+        /// <summary>
+        /// WriteMemory
+        ///     Writes a specified specific amount of bytes to the process memory.
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The value you want to write at the address as a byte array.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        [HandleProcessCorruptedStateExceptions]
+        public static unsafe void WriteMemoryFast(this ReloadedProcess process, IntPtr address, byte[] data)
+        {
+            // Write the process memory.      
+            fixed (byte* pBuffer = &data[0])
+                Unsafe.CopyBlock(address.ToPointer(), pBuffer, (uint)data.Length);
+        }
+
+        /// <summary>
+        /// WriteMemory
+        ///     Writes a specified specific amount of bytes to the process memory.
+        ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The structure or class marked [StructLayout(LayoutKind.Sequential)] to write to the target address.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        [HandleProcessCorruptedStateExceptions]
+        public static void WriteMemoryFast<TType>(this ReloadedProcess process, IntPtr address, ref TType data)
+        {
+            WriteStructureToAddress(ref data, address);
+        }
+
 
         /// <summary>
         /// WriteMemory
@@ -401,7 +433,22 @@ namespace Reloaded.Process.Memory
         [HandleProcessCorruptedStateExceptions]
         public static void WriteMemoryFast<TType>(this ReloadedProcess process, IntPtr address, TType data)
         {
-            WriteStructureToAddress(data, address);
+            WriteStructureToAddress(ref data, address);
+        }
+
+        /// <summary>
+        /// WriteMemory
+        ///     Writes a specified specific amount of bytes to the process memory.
+        ///     Supports fully unmanaged structures.
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The structure or class marked [StructLayout(LayoutKind.Sequential)] to write to the target address.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        [HandleProcessCorruptedStateExceptions]
+        public static void WriteMemoryFastUnsafe<TType>(this ReloadedProcess process, IntPtr address, ref TType data)
+        {
+            WriteStructureToAddressUnsafe(ref data, address);
         }
 
         /// <summary>
@@ -416,7 +463,23 @@ namespace Reloaded.Process.Memory
         [HandleProcessCorruptedStateExceptions]
         public static void WriteMemoryFastUnsafe<TType>(this ReloadedProcess process, IntPtr address, TType data)
         {
-            WriteStructureToAddressUnsafe(data, address);
+            WriteStructureToAddressUnsafe(ref data, address);
+        }
+
+        /// <summary>
+        /// WriteMemory
+        ///     Writes a specified specific amount of bytes to the process memory.
+        ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The structure or class marked [StructLayout(LayoutKind.Sequential)] to write to the target address.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        [HandleProcessCorruptedStateExceptions]
+        public static void WriteMemory<TType>(this ReloadedProcess process, IntPtr address, ref TType data)
+        {
+            byte[] newData = ConvertStructureToByteArray(ref data);
+            WriteMemory(process, address, ref newData);
         }
 
         /// <summary>
@@ -431,7 +494,30 @@ namespace Reloaded.Process.Memory
         [HandleProcessCorruptedStateExceptions]
         public static void WriteMemory<TType>(this ReloadedProcess process, IntPtr address, TType data)
         {
-            WriteMemory(process, address, ConvertStructureToByteArray(data));
+            byte[] newData = ConvertStructureToByteArray(ref data);
+            WriteMemory(process, address, ref newData);
+        }
+
+        /// <summary>
+        /// WriteMemory
+        ///     Writes a specified specific amount of bytes to the process memory.
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The value you want to write at the address as a byte array.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        [HandleProcessCorruptedStateExceptions]
+        public static unsafe void WriteMemory(this ReloadedProcess process, IntPtr address, ref byte[] data)
+        {
+            // Mark memory we are writing to as ExecuteReadWrite
+            VirtualProtect(address, (IntPtr)data.Length, MemoryProtections.ExecuteReadWrite, out MemoryProtections oldProtection);
+
+            // Write the process memory
+            fixed (byte* pData = &data[0])            
+                Unsafe.CopyBlock(address.ToPointer(), pData, (uint)data.Length);
+
+            // Restore the old memory protection.
+            VirtualProtect(address, (IntPtr)data.Length, oldProtection, out oldProtection);
         }
 
         /// <summary>
@@ -449,7 +535,7 @@ namespace Reloaded.Process.Memory
             VirtualProtect(address, (IntPtr)data.Length, MemoryProtections.ExecuteReadWrite, out MemoryProtections oldProtection);
 
             // Write the process memory
-            fixed (byte* pData = &data[0])            
+            fixed (byte* pData = &data[0])
                 Unsafe.CopyBlock(address.ToPointer(), pData, (uint)data.Length);
 
             // Restore the old memory protection.
@@ -466,10 +552,46 @@ namespace Reloaded.Process.Memory
         /// <param name="data">The structure or class marked [StructLayout(LayoutKind.Sequential)] to write to the target address.</param>
         /// <returns>Whether the write operation has been successful as true/false</returns>
         [HandleProcessCorruptedStateExceptions]
+        public static bool WriteMemoryExternalFast<TType>(this ReloadedProcess process, IntPtr address, ref TType data)
+        {
+            // Return value
+            byte[] newData = ConvertStructureToByteArray(ref data);
+            return WriteMemoryExternalFast(process, address, ref newData);
+        }
+
+        /// <summary>
+        /// WriteMemoryExternal
+        ///     Writes a specified specific amount of bytes to the process using the native WriteProcessMemory call. 
+        ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The structure or class marked [StructLayout(LayoutKind.Sequential)] to write to the target address.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        [HandleProcessCorruptedStateExceptions]
         public static bool WriteMemoryExternalFast<TType>(this ReloadedProcess process, IntPtr address, TType data)
         {
             // Return value
-            return WriteMemoryExternalFast(process, address, ConvertStructureToByteArray(data));
+            byte[] newData = ConvertStructureToByteArray(ref data);
+            return WriteMemoryExternalFast(process, address, ref newData);
+        }
+
+        /// <summary>
+        /// WriteMemoryExternal
+        ///     Writes a specified specific amount of bytes to the process using the native WriteProcessMemory call. 
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The value you want to write at the address as a byte array.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        [HandleProcessCorruptedStateExceptions]
+        public static bool WriteMemoryExternalFast(this ReloadedProcess process, IntPtr address, ref byte[] data)
+        {
+            // Write the process memory.
+            bool success = WriteProcessMemory(process.ProcessHandle, address, data, (IntPtr)data.Length, out _);
+
+            // Return value
+            return success;
         }
 
         /// <summary>
@@ -500,12 +622,53 @@ namespace Reloaded.Process.Memory
         /// <param name="data">The structure or class marked [StructLayout(LayoutKind.Sequential)] to write to the target address.</param>
         /// <returns>Whether the write operation has been successful as true/false</returns>
         [HandleProcessCorruptedStateExceptions]
+        public static bool WriteMemoryExternal<TType>(this ReloadedProcess process, IntPtr address, ref TType data)
+        {
+            // Return value
+            byte[] newData = ConvertStructureToByteArray(ref data);
+            return WriteMemoryExternal(process, address, ref newData);
+        }
+
+        /// <summary>
+        /// WriteMemoryExternal
+        ///     Writes a specified specific amount of bytes to the process using the native WriteProcessMemory call. 
+        ///     Supports classes marked [StructLayout(LayoutKind.Sequential)] and regular structures.
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The structure or class marked [StructLayout(LayoutKind.Sequential)] to write to the target address.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        [HandleProcessCorruptedStateExceptions]
         public static bool WriteMemoryExternal<TType>(this ReloadedProcess process, IntPtr address, TType data)
         {
             // Return value
-            return WriteMemoryExternal(process, address, ConvertStructureToByteArray(data));
+            byte[] newData = ConvertStructureToByteArray(ref data);
+            return WriteMemoryExternal(process, address, ref newData);
         }
 
+        /// <summary>
+        /// WriteMemoryExternal
+        ///     Writes a specified specific amount of bytes to the process using the native WriteProcessMemory call. 
+        /// </summary>
+        /// <param name="process">The process object of the game, Process.GetCurrentProcess() if injected into the game.</param>
+        /// <param name="address">The address of the first byte you want to write memory to.</param>
+        /// <param name="data">The value you want to write at the address as a byte array.</param>
+        /// <returns>Whether the write operation has been successful as true/false</returns>
+        [HandleProcessCorruptedStateExceptions]
+        public static bool WriteMemoryExternal(this ReloadedProcess process, IntPtr address, ref byte[] data)
+        {
+            // Mark memory we are writing to as ExecuteReadWrite
+            VirtualProtectEx(process.ProcessHandle, address, (IntPtr)data.Length, MemoryProtections.ExecuteReadWrite, out MemoryProtections oldProtection);
+
+            // Write the process memory.
+            bool success = WriteProcessMemory(process.ProcessHandle, address, data, (IntPtr)data.Length, out _);
+
+            // Restore the old memory protection.
+            VirtualProtectEx(process.ProcessHandle, address, (IntPtr)data.Length, oldProtection, out oldProtection);
+
+            // Return value
+            return success;
+        }
 
         /// <summary>
         /// WriteMemoryExternal
@@ -539,10 +702,10 @@ namespace Reloaded.Process.Memory
         /// <param name="type">The type to convert to (same as type to return.</param>
         /// <returns>In the requested format</returns>
         [HandleProcessCorruptedStateExceptions]
-        public static TType ConvertToPrimitive<TType>(byte[] buffer, Type type)
+        public static TType ConvertToPrimitive<TType>(ref byte[] buffer, Type type)
         {
             // Convert to user specified structure if none of the types above apply.
-            return ArrayToStructure<TType>(buffer);
+            return ArrayToStructure<TType>(ref buffer);
         }
 
         /// <summary>
@@ -552,7 +715,7 @@ namespace Reloaded.Process.Memory
         /// <param name="bytes">The array of bytes to convert into a specified structure.</param>
         /// <returns>The array of bytes converted to the user's own specified class or structure.</returns>
         [HandleProcessCorruptedStateExceptions]
-        public static unsafe TStructure ArrayToStructure<TStructure>(byte[] bytes)
+        public static unsafe TStructure ArrayToStructure<TStructure>(ref byte[] bytes)
         {
             fixed (byte* ptr = &bytes[0])
             {
@@ -568,7 +731,7 @@ namespace Reloaded.Process.Memory
         /// <param name="bytes">The array of bytes to convert into a specified structure.</param>
         /// <returns>The array of bytes converted to the user's own specified class or structure.</returns>#
         [HandleProcessCorruptedStateExceptions]
-        public static unsafe TStructure ArrayToStructureUnsafe<TStructure>(byte[] bytes)
+        public static unsafe TStructure ArrayToStructureUnsafe<TStructure>(ref byte[] bytes)
         {
             fixed (byte* ptr = &bytes[0])
                 return Unsafe.Read<TStructure>(ptr);
@@ -580,7 +743,7 @@ namespace Reloaded.Process.Memory
         /// <param name="structure">The structure to be converted to an array of bytes.</param>
         /// <returns>The user converted structure as an array of bytes.</returns>
         [HandleProcessCorruptedStateExceptions]
-        public static byte[] ConvertStructureToByteArray<TStructure>(TStructure structure)
+        public static byte[] ConvertStructureToByteArray<TStructure>(ref TStructure structure)
         {
             // Retrieve size of structure and allocate buffer.
             int structSize = Marshal.SizeOf(structure);
@@ -604,7 +767,7 @@ namespace Reloaded.Process.Memory
         /// <param name="structure">The structure to be converted to an array of bytes.</param>
         /// <returns>The user converted structure as an array of bytes.</returns>
         [HandleProcessCorruptedStateExceptions]
-        public static unsafe byte[] ConvertStructureToByteArrayUnsafe<TStructure>(TStructure structure)
+        public static unsafe byte[] ConvertStructureToByteArrayUnsafe<TStructure>(ref TStructure structure)
         {
             byte[] buffer = new byte[Unsafe.SizeOf<TStructure>()];
             fixed ( byte* pBuffer = &buffer[0] )
@@ -621,7 +784,7 @@ namespace Reloaded.Process.Memory
         /// <param name="targetAddress">The target address to write the structure contents to.</param>
         /// <returns>The user converted structure as an array of bytes.</returns>
         [HandleProcessCorruptedStateExceptions]
-        public static void WriteStructureToAddress<TStructure>(TStructure structure, IntPtr targetAddress)
+        public static void WriteStructureToAddress<TStructure>(ref TStructure structure, IntPtr targetAddress)
         {
             // Allocate memory and marshal structure into it.
             Marshal.StructureToPtr(structure, targetAddress, true);
@@ -634,7 +797,7 @@ namespace Reloaded.Process.Memory
         /// <param name="targetAddress">The target address to write the structure contents to.</param>
         /// <returns>The user converted structure as an array of bytes.</returns>
         [HandleProcessCorruptedStateExceptions]
-        public static unsafe void WriteStructureToAddressUnsafe<TStructure>(TStructure structure, IntPtr targetAddress)
+        public static unsafe void WriteStructureToAddressUnsafe<TStructure>(ref TStructure structure, IntPtr targetAddress)
         {
             Unsafe.Write(targetAddress.ToPointer(), structure);
         }

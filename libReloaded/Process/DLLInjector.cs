@@ -122,7 +122,7 @@ namespace Reloaded.Process
             IntPtr processPointer = Process.AllocateMemory(libraryNameBytes.Length);
 
             // Write the name of the library to the memory space of the process.
-            Process.WriteMemoryExternal(processPointer, libraryNameBytes);
+            Process.WriteMemoryExternal(processPointer, ref libraryNameBytes);
 
             // Return the address of written path.
             return processPointer;

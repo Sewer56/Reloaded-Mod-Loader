@@ -135,7 +135,7 @@ namespace Reloaded.Process.Buffers
                     ReloadedMagic = MemoryBufferHeader.RELOADED_MAGIC
                 };
 
-                Bindings.TargetProcess.WriteMemoryExternal(BaseBufferAddress, BufferHeader);
+                Bindings.TargetProcess.WriteMemoryExternal(BaseBufferAddress, ref BufferHeader);
             }
         }
 
@@ -160,13 +160,13 @@ namespace Reloaded.Process.Buffers
 
             // Do the append operation.
             IntPtr appendAddress = (IntPtr)((ulong)BaseBufferAddress + BufferHeader.BufferOffset);
-            Bindings.TargetProcess.WriteMemoryExternal(appendAddress, bytesToWrite);
+            Bindings.TargetProcess.WriteMemoryExternal(appendAddress, ref bytesToWrite);
 
             // Set current offset.
             BufferHeader.BufferOffset += (uint)bytesToWrite.Length;
 
             // Write the new buffer contents back to memory.
-            Bindings.TargetProcess.WriteMemoryExternal(BaseBufferAddress, BufferHeader);
+            Bindings.TargetProcess.WriteMemoryExternal(BaseBufferAddress, ref BufferHeader);
 
             return appendAddress;
         }
@@ -180,7 +180,7 @@ namespace Reloaded.Process.Buffers
         public IntPtr Add<TStructure>(TStructure bytesToWrite)
         {
             // Know what to do
-            return Add(MemoryReadWrite.ConvertStructureToByteArray(bytesToWrite));
+            return Add(MemoryReadWrite.ConvertStructureToByteArray(ref bytesToWrite));
         }
 
         /// <summary>

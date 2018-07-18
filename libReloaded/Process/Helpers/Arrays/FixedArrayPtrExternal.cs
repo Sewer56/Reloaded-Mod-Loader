@@ -65,7 +65,7 @@ namespace Reloaded.Process.Helpers.Arrays
         public TStruct this[int index]
         {
             get => Bindings.TargetProcess.ReadMemoryExternal<TStruct>((IntPtr)GetPointerToElement(index));
-            set => Bindings.TargetProcess.WriteMemoryExternal((IntPtr)GetPointerToElement(index), value);
+            set => Bindings.TargetProcess.WriteMemoryExternal((IntPtr)GetPointerToElement(index), ref value);
         }
 
         /// <summary>
