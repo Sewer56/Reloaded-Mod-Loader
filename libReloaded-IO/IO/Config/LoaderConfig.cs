@@ -71,6 +71,12 @@ namespace Reloaded.IO.Config
         public bool FirstLaunch { get; set; } = true;
 
         /// <summary>
+        /// Stores the physical directory location of the last loaded game configuration for automatic re-selection in launcher.
+        /// </summary>
+        [JsonProperty(Required = Required.Default)]
+        public string LastGameFolder { get; set; }
+
+        /// <summary>
         /// Retrieves the Mod Loader configuration file struct.
         /// </summary>
         /// <returns>Parses a Mod Loader configuration file.</returns>

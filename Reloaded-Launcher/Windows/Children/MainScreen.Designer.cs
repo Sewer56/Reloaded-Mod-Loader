@@ -71,6 +71,8 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage11 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage12 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties7 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage13 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage14 = new Reloaded_GUI.Styles.Animation.AnimMessage();
@@ -80,8 +82,6 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties9 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage17 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage18 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainScreen));
             this.item_LaunchBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_QuitBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
@@ -89,6 +89,8 @@ namespace ReloadedLauncher.Windows.Children
             this.box_VersionBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_PictureBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_GameList = new Reloaded_GUI.Styles.Controls.Animated.AnimatedDataGridView();
+            this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box_GameListBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_NoteBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_LocationBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
@@ -106,8 +108,6 @@ namespace ReloadedLauncher.Windows.Children
             this.item_LocationBoxDirectoryPath = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_LocationBoxDirectoryTitle = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_LocationBoxEXETitle = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
-            this.modName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.item_GameBanner)).BeginInit();
             this.SuspendLayout();
@@ -361,6 +361,28 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameList.StandardTab = true;
             this.box_GameList.TabIndex = 14;
             this.box_GameList.SelectionChanged += new System.EventHandler(this.GameList_SelectionChanged);
+            // 
+            // modName
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.modName.DefaultCellStyle = dataGridViewCellStyle1;
+            this.modName.FillWeight = 152.2843F;
+            this.modName.HeaderText = "Mod name";
+            this.modName.Name = "modName";
+            this.modName.ReadOnly = true;
+            this.modName.Width = 200;
+            // 
+            // modDirectory
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.modDirectory.DefaultCellStyle = dataGridViewCellStyle2;
+            this.modDirectory.FillWeight = 47.71573F;
+            this.modDirectory.HeaderText = "Mod Directory";
+            this.modDirectory.Name = "modDirectory";
+            this.modDirectory.ReadOnly = true;
+            this.modDirectory.Width = 318;
             // 
             // box_GameListBox
             // 
@@ -687,28 +709,6 @@ namespace ReloadedLauncher.Windows.Children
             this.item_LocationBoxEXETitle.TabIndex = 2;
             this.item_LocationBoxEXETitle.Text = "EXE PATH:";
             this.item_LocationBoxEXETitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // modName
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.modName.DefaultCellStyle = dataGridViewCellStyle1;
-            this.modName.FillWeight = 152.2843F;
-            this.modName.HeaderText = "Mod name";
-            this.modName.Name = "modName";
-            this.modName.ReadOnly = true;
-            this.modName.Width = 200;
-            // 
-            // modDirectory
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.modDirectory.DefaultCellStyle = dataGridViewCellStyle2;
-            this.modDirectory.FillWeight = 47.71573F;
-            this.modDirectory.HeaderText = "Mod Directory";
-            this.modDirectory.Name = "modDirectory";
-            this.modDirectory.ReadOnly = true;
-            this.modDirectory.Width = 318;
             // 
             // MainScreen
             // 

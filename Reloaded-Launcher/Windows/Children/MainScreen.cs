@@ -74,7 +74,27 @@ namespace ReloadedLauncher.Windows.Children
 
                 // Load games.
                 LoadGames();
+
+                // Re-select the last selected game.
+                ReselectCurrentGame();
             }
+            else
+            {
+                SaveLastGame();
+            }
+        }
+
+        /// <summary>
+        /// Saves the last selected game such that it may be re-selected on launch.
+        /// </summary>
+        public void SaveLastGame()
+        {
+            // No game config selected (yet) at initialization.
+            if (Global.CurrentGameConfig == null) return;
+
+            // Write the loader config with the last saved game.
+            Global.LoaderConfiguration.LastGameFolder = Global.CurrentGameConfig.ConfigLocation;
+            LoaderConfig.WriteConfig(Global.LoaderConfiguration);
         }
 
         /// <summary>
@@ -82,9 +102,6 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void LoadGames()
         {
-            // Save current game config
-            GameConfig currentConfig = Global.CurrentGameConfig;
-
             // Clear the current listview.
             box_GameList.Rows.Clear();
 
@@ -103,29 +120,23 @@ namespace ReloadedLauncher.Windows.Children
                 // Add the relative path.
                 box_GameList.Rows.Add(gameConfig.GameName, relativeModPath);
             }
-
-            // Re-select the currently selected game.
-            ReselectCurrentGame(currentConfig);
         }
 
         /// <summary>
-        /// Re-selects the currently selected game upon entering the Main Menu.
+        /// Re-selects the last selected game upon entering the Main Menu.
         /// </summary>
-        /// <param name="gameConfiguration">The game configuration to try and re-select.</param>
-        private void ReselectCurrentGame(GameConfig gameConfiguration)
+        private void ReselectCurrentGame()
         {
-            // Find and select the last highlighted game.
-            string currentGameName = gameConfiguration?.GameName;
-            string currentRelativeModDirectory = LoaderPaths.GetModLoaderRelativePath(LoaderPaths.GetModLoaderModDirectory() + "\\" + gameConfiguration?.ModDirectory);
+            int currentRowIndex = 0;
 
-            foreach (DataGridViewRow row in box_GameList.Rows)
+            // Find row of last selected game.
+            for (; currentRowIndex < Global.GameConfigurations.Count; currentRowIndex++)
             {
-                // Cells[0] = Game Name
-                // Cells[1] = Mod Location
-                if ((string)row.Cells[0].Value == currentGameName &&
-                    (string)row.Cells[1].Value == currentRelativeModDirectory)
+                // Select the row if there is a directory match.
+                if (Global.GameConfigurations[currentRowIndex].ConfigLocation == Global.LoaderConfiguration.LastGameFolder)
                 {
-                    row.Selected = true;
+                    box_GameList.Rows[currentRowIndex].Selected = true;
+                    break;
                 }
             }
         }
@@ -163,6 +174,9 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void QuitBox_Click(object sender, EventArgs e)
         {
+            // Remember last selected game.
+            SaveLastGame();
+
             // Shutdown program.
             Functions.Shutdown();
         }
@@ -174,6 +188,9 @@ namespace ReloadedLauncher.Windows.Children
         /// <param name="e"></param>
         private void item_LaunchBox_MouseClick(object sender, MouseEventArgs e)
         {
+            // Remember last selected game.
+            SaveLastGame();
+
             // Check if global config
             if (Global.CurrentGameConfig.ConfigLocation == GameConfig.GetGlobalConfig().ConfigLocation)
             {

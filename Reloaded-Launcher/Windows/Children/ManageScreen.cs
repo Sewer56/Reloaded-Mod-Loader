@@ -73,11 +73,34 @@ namespace ReloadedLauncher.Windows.Children
 
                 // Load the mod list for the game. 
                 LoadGames();
+
+                // Reselect the current game.
+                ReselectCurrentGame();
             }
             else
             {
                 // Save all configs.
                 ConfigManager.WriteAllGameConfigs(Global.GameConfigurations);
+                Global.BaseForm.ChildrenForms.MainMenu.SaveLastGame();
+            }
+        }
+
+        /// <summary>
+        /// Re-selects the last selected game upon entering the Main Menu.
+        /// </summary>
+        private void ReselectCurrentGame()
+        {
+            int currentRowIndex = 0;
+
+            // Find row of last selected game.
+            for (; currentRowIndex < Global.GameConfigurations.Count; currentRowIndex++)
+            {
+                // Select the row if there is a directory match.
+                if (Global.GameConfigurations[currentRowIndex].ConfigLocation == Global.LoaderConfiguration.LastGameFolder)
+                {
+                    borderless_CurrentGame.SelectedIndex = currentRowIndex;
+                    break;
+                }
             }
         }
 
