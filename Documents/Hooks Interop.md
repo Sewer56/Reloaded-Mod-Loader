@@ -1,3 +1,9 @@
+## Page Information
+
+🕒 Reading Time: 10 Minutes
+
+💯 Difficulty Level: 4/5
+
 ### Can I use Reloaded Mod Loader alongside [X] Mod Loader [Technical Edition]
 If you want just the simple answer, see the user guide.
 tl;dr 99.9% of the cases everything will work perfectly with you having to do 0% work.

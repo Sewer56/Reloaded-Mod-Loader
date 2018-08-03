@@ -5,6 +5,12 @@
 	<br/> <br/>
 </div>
 
+## Page Information
+
+🕒 Reading Time: <5 Minutes
+
+💯 Difficulty Level: 0/5 (Although has a few technical terms)
+
 ## Characteristics
  - 100% C# Source Code.
  - Launchable from GUI and CLI.

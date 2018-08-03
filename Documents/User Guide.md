@@ -4,6 +4,12 @@
 	<br/> <br/>
 </div>
 
+## Page Information
+
+🕒 Reading Time: 05-15 Minutes
+
+💯 Difficulty Level: 0/5
+
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Downloading](#downloading)

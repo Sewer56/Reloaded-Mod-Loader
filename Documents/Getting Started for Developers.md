@@ -6,6 +6,12 @@
 	<br/> <br/>
 </div>
 
+## Page Information
+
+🕒 Reading Time: 5-10 Minutes
+
+💯 Difficulty Level: 2/5
+
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Compiling Reloaded (As a whole)](#compiling-reloaded-as-a-whole)

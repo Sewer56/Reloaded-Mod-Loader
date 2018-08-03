@@ -5,6 +5,12 @@
 	<br/> <br/>
 </div>
 
+## Page Information
+
+🕒 Reading Time: 5 Minutes
+
+💯 Difficulty Level: 1/5
+
 ## Table of Contents
 - [Modification Structure](#modification-structure)
   - [Config.json](#configjson)
