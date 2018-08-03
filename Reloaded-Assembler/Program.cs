@@ -50,7 +50,14 @@ namespace ReloadedAssembler
             { Environment.Exit(0); }
 
             FasmServer fasmServer = new FasmServer();
-            Thread.Sleep(Timeout.Infinite);
+
+            // Wait for a client to connect.
+            while (fasmServer.ReloadedServer.PeersCount == 0)
+            { Thread.Sleep(5000); }
+
+            // Reloaded Assembler will Terminate Self after all clients disconnect.
+            while (fasmServer.ReloadedServer.PeersCount != 0)
+            { Thread.Sleep(5000); }
         }
     }
 }
