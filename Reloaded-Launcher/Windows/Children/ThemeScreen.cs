@@ -207,6 +207,10 @@ namespace ReloadedLauncher.Windows.Children
                 // Load theme.
                 Global.Theme.ThemeDirectory = themeDirectory;
                 Global.LoaderConfiguration.CurrentTheme = themeDirectory;
+
+                // Set the titlebar.  
+                Global.CurrentMenuName = Strings.Launcher.Menus.ThemeMenuName;
+                Global.BaseForm.UpdateTitle("");
             }
             catch { }
         }
