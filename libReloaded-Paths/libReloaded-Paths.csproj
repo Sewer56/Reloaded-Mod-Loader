@@ -85,7 +85,7 @@
     <OutputPath>bin\x64\Github-Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>1.1.9</Version>
+    <Version>1.1.9-fix</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -101,6 +101,7 @@ used to build file paths by the individual mod loader components.
     <PackageReleaseNotes></PackageReleaseNotes>
     <Description>Arianrhod</Description>
     <Authors>Sewer56</Authors>
-    <AssemblyName>libReloaded-Paths-119</AssemblyName>
+    <AssemblyName>libReloaded-Paths-119-hotfix</AssemblyName>
+    <PackageId>libReloaded-Paths</PackageId>
   </PropertyGroup>
 </Project>

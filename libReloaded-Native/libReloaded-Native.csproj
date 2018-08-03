@@ -85,7 +85,7 @@
     <OutputPath>bin\x64\Github-Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>1.1.9</Version>
+    <Version>1.1.9-fix</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -99,6 +99,7 @@ Contains mainly functions related to window management.
     </Description>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Authors>Sewer56</Authors>
-    <AssemblyName>libReloaded-Native-119</AssemblyName>
+    <AssemblyName>libReloaded-Native-119-hotfix</AssemblyName>
+    <PackageId>libReloaded-Native</PackageId>
   </PropertyGroup>
 </Project>

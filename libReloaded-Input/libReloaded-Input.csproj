@@ -85,7 +85,7 @@
     <OutputPath>bin\x64\Github-Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>1.1.9</Version>
+    <Version>1.1.9-fix</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -98,7 +98,8 @@ Provides you with access to Reloaded's individual input stack, a fully featured,
 The Reloaded input stack supports realtime controller remapping, controller hotplugging, multi controllers per port, arbitrary axis assignment, axis to axis mapping, button to axis, deadzone per axis, radius per axis, etc...
     </Description>
     <Authors>Sewer56</Authors>
-    <AssemblyName>libReloaded-Input-119</AssemblyName>
+    <AssemblyName>libReloaded-Input-119-hotfix</AssemblyName>
+    <PackageId>libReloaded-Input</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
