@@ -73,7 +73,8 @@ namespace Reloaded_Mod_Template
         /// <summary>
         /// With this, we setup an event for when each of the individual mods' Plugins/Redirector
         /// folders have a change in files, such that we may pick up, live, new changes to existing folders.
-        /// We map the individual mod configuration to a FileSystemWatcher, allowing us to ensure that 
+        /// We map the individual mod configuration to a FileSystemWatcher, allowing us to ensure that we can have
+        /// a watcher set up for each mod uniquely.
         /// </summary>
         private static Dictionary<ModConfig, FileSystemWatcher> _fileSystemWatcherDictionary;
 
