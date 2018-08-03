@@ -2,14 +2,14 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <RootNamespace>Reloaded</RootNamespace>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyTitleAttribute>true</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyCompanyAttribute>true</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyDescriptionAttribute>true</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>true</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>true</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>true</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>true</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyConfigurationAttribute>true</GenerateAssemblyConfigurationAttribute>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,7 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>latest</LangVersion>
     <DocumentationFile>bin\Release\net472\libReloaded.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -97,8 +97,11 @@
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
   <PropertyGroup>
-    <Version>1.1.9-fix</Version>
+    <Version>1.2.0</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -106,13 +109,12 @@
     <PackageIconUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/Reloaded-GUI/Images/Static/ReloadedIcon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Description>
-The main library for the development of Reloaded Mod Loader Modifications.
+    <Description>The main library for the development of Reloaded Mod Loader Modifications.
 Provides you with JIT X86/64 Assembly, Memory Buffers, X86/64 Function Calling, X86/64 Function Hooking, X86/64 Custom Function Hooking (Usercall/Userpurge), X86/64 Function Pointers, Virtual Function Table Hooking/Calling, Native Array Utilities, Pattern/Signature Scanning, Reading/Writing Memory, Memory Page Management, Easy DLL Injector, Thread Management and more.
-    </Description>
+</Description>
     <PackageReleaseNotes>Main Development Library for Reloaded Mod Loader Modifications</PackageReleaseNotes>
     <Authors>Sewer56</Authors>
-    <AssemblyName>libReloaded-119-hotfix</AssemblyName>
+    <AssemblyName>libReloaded-120</AssemblyName>
     <PackageId>libReloaded</PackageId>
   </PropertyGroup>
 </Project>

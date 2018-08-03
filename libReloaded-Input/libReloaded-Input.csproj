@@ -2,14 +2,14 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <RootNamespace>Reloaded</RootNamespace>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyTitleAttribute>true</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyCompanyAttribute>true</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyDescriptionAttribute>true</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>true</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>true</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>true</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>true</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyConfigurationAttribute>true</GenerateAssemblyConfigurationAttribute>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,7 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>latest</LangVersion>
     <DocumentationFile>bin\Release\net472\libReloaded-Input.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -85,7 +85,7 @@
     <OutputPath>bin\x64\Github-Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>1.1.9-fix</Version>
+    <Version>1.2.0</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -93,12 +93,11 @@
     <PackageIconUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/Reloaded-GUI/Images/Static/ReloadedIcon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Description>
-Provides you with access to Reloaded's individual input stack, a fully featured, custom from the ground up input implementation over XInput + DInput. To get started with reading inputs, use the ControllerManager class.
+    <Description>Provides you with access to Reloaded's individual input stack, a fully featured, custom from the ground up input implementation over XInput + DInput. To get started with reading inputs, use the ControllerManager class.
 The Reloaded input stack supports realtime controller remapping, controller hotplugging, multi controllers per port, arbitrary axis assignment, axis to axis mapping, button to axis, deadzone per axis, radius per axis, etc...
-    </Description>
+</Description>
     <Authors>Sewer56</Authors>
-    <AssemblyName>libReloaded-Input-119-hotfix</AssemblyName>
+    <AssemblyName>libReloaded-Input-120</AssemblyName>
     <PackageId>libReloaded-Input</PackageId>
   </PropertyGroup>
   <ItemGroup>

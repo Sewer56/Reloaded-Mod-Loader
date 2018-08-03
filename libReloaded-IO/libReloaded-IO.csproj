@@ -2,14 +2,14 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <RootNamespace>Reloaded</RootNamespace>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyTitleAttribute>true</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyCompanyAttribute>true</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyDescriptionAttribute>true</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>true</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>true</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>true</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>true</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyConfigurationAttribute>true</GenerateAssemblyConfigurationAttribute>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -85,7 +85,7 @@
     <OutputPath>bin\x64\Github-Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>1.1.9-fix</Version>
+    <Version>1.2.0</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -93,13 +93,12 @@
     <PackageIconUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/Reloaded-GUI/Images/Static/ReloadedIcon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Description>
-Provides you with access to Reloaded's parsers for the individual config formats used for storing game, mod, loader and theme information.
+    <Description>Provides you with access to Reloaded's parsers for the individual config formats used for storing game, mod, loader and theme information.
 Potential uses for modders would be allowing mods to determine other enabled mods for the current game, or global enabled mods, or for loading other mods.
 Includes an extra tool (RelativePaths) for cloning files directory to directory either via Hardlink or Copy, with full respect to the folder structure.
-    </Description>
+</Description>
     <Authors>Sewer56</Authors>
-    <AssemblyName>libReloaded-IO-119-hotfix</AssemblyName>
+    <AssemblyName>libReloaded-IO-120</AssemblyName>
     <PackageId>libReloaded-IO</PackageId>
   </PropertyGroup>
   <ItemGroup>
