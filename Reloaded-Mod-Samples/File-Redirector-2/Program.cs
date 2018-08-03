@@ -213,12 +213,8 @@ namespace Reloaded_Mod_Template
 
                 objectAttributes.ObjectName = new UNICODE_STRING("\\??\\" + newFileName);
 
-                if (objectAttributes.RootDirectory != null)
-                { objectAttributes.RootDirectory = IntPtr.Zero; }
-
-                return IntPtr.Size == 4 ?
-                    _ntCreateFileHook.OriginalFunction(out filehandle, access, ref objectAttributes, ref ioStatus, ref allocSize, fileattributes, share, createDisposition, createOptions, eaBuffer, eaLength) :
-                    _ntCreateFileHook64.OriginalFunction(out filehandle, access, ref objectAttributes, ref ioStatus, ref allocSize, fileattributes, share, createDisposition, createOptions, eaBuffer, eaLength);
+                // Since are providing an absolute path, we need to clear the root directory since our path is not relative. 
+                objectAttributes.RootDirectory = IntPtr.Zero;
             }
 
             return IntPtr.Size == 4 ?
