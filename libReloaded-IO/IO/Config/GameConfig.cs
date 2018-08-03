@@ -68,6 +68,12 @@ namespace Reloaded.IO.Config
         public string ModDirectory { get; set; } = "Undefined";
 
         /// <summary>
+        /// Specifies command-line arguments to be passed to the application.
+        /// </summary>
+        [JsonProperty(Required = Required.Default)]
+        public string CommandLineArgs { get; set; } = "";
+
+        /// <summary>
         /// Specifies a list of enabled mods, separated by a comma.
         /// </summary>
         [JsonProperty(Required = Required.Default)]

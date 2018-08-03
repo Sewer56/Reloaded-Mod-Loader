@@ -159,6 +159,7 @@ namespace ReloadedLauncher.Windows.Children
                     gameConfig.GameDirectory = borderless_GameDirectory.Text;
                     gameConfig.ExecutableLocation = borderless_GameExecutableDirectory.Text;
                     gameConfig.ModDirectory = borderless_GameModDirectory.Text;
+                    gameConfig.CommandLineArgs = borderless_CommandLineArguments.Text;
 
                     // Change the current item name to reflect new changes.
                     borderless_CurrentGame.Items[borderless_CurrentGame.SelectedIndex] =
@@ -314,6 +315,7 @@ namespace ReloadedLauncher.Windows.Children
             borderless_GameVersion.Text = gameConfig.GameVersion;
             borderless_GameExecutableDirectory.Text = gameConfig.ExecutableLocation;
             borderless_GameDirectory.Text = gameConfig.GameDirectory;
+            borderless_CommandLineArguments.Text = gameConfig.CommandLineArgs;
 
             // Load the game image.
             try { box_GameBanner.BackgroundImage = Image.FromFile(GameConfig.GetBannerPath(gameConfig)); }

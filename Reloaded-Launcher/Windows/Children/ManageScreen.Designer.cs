@@ -94,85 +94,41 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties14 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage27 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage28 = new Reloaded_GUI.Styles.Animation.AnimMessage();
-            this.box_GameBanner = new System.Windows.Forms.PictureBox();
-            this.box_GameDirectorySelect = new System.Windows.Forms.PictureBox();
-            this.box_GameEXESelect = new System.Windows.Forms.PictureBox();
-            this.toolTipHelper = new System.Windows.Forms.ToolTip(this.components);
-            this.box_GameFolderSelect = new System.Windows.Forms.PictureBox();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties15 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage29 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage30 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             this.item_OpenConfigDirectory = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_OpenGameDir = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_OpenModDir = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.item_Reserved = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_Reserved = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_SaveGame = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.box_GameDirectory = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.borderless_GameDirectory = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
-            this.box_GameExecutableDirectory = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.borderless_GameExecutableDirectory = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             this.borderless_GameVersion = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
-            this.box_GameVersion = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
-            this.box_GameModDirectory = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.item_DeleteBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_NewGame = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.box_GameName = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_BannerBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.borderless_GameName = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             this.borderless_GameModDirectory = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             this.borderless_CurrentGame = new Reloaded_GUI.Styles.Controls.Animated.AnimatedComboBox();
+            this.box_GameBanner = new System.Windows.Forms.PictureBox();
+            this.box_GameDirectorySelect = new System.Windows.Forms.PictureBox();
+            this.box_GameEXESelect = new System.Windows.Forms.PictureBox();
+            this.toolTipHelper = new System.Windows.Forms.ToolTip(this.components);
+            this.box_GameDirectory = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.box_GameExecutableDirectory = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.box_GameVersion = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.box_GameModDirectory = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.box_GameName = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.box_GameFolderSelect = new System.Windows.Forms.PictureBox();
+            this.item_Reserved = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.box_CommandLineArguments = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.borderless_CommandLineArguments = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameBanner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameDirectorySelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameEXESelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameFolderSelect)).BeginInit();
             this.SuspendLayout();
-            // 
-            // box_GameBanner
-            // 
-            this.box_GameBanner.BackColor = System.Drawing.Color.Transparent;
-            this.box_GameBanner.ErrorImage = null;
-            this.box_GameBanner.InitialImage = null;
-            this.box_GameBanner.Location = new System.Drawing.Point(590, 41);
-            this.box_GameBanner.Name = "box_GameBanner";
-            this.box_GameBanner.Size = new System.Drawing.Size(271, 83);
-            this.box_GameBanner.TabIndex = 17;
-            this.box_GameBanner.TabStop = false;
-            this.toolTipHelper.SetToolTip(this.box_GameBanner, "Allows you to set a game banner (273x85).");
-            this.box_GameBanner.Click += new System.EventHandler(this.SelectNewGameBanner);
-            // 
-            // box_GameDirectorySelect
-            // 
-            this.box_GameDirectorySelect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.box_GameDirectorySelect.Location = new System.Drawing.Point(259, 258);
-            this.box_GameDirectorySelect.Name = "box_GameDirectorySelect";
-            this.box_GameDirectorySelect.Size = new System.Drawing.Size(25, 25);
-            this.box_GameDirectorySelect.TabIndex = 32;
-            this.box_GameDirectorySelect.TabStop = false;
-            this.box_GameDirectorySelect.Click += new System.EventHandler(this.SelectGameDirectory);
-            // 
-            // box_GameEXESelect
-            // 
-            this.box_GameEXESelect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.box_GameEXESelect.Location = new System.Drawing.Point(259, 217);
-            this.box_GameEXESelect.Name = "box_GameEXESelect";
-            this.box_GameEXESelect.Size = new System.Drawing.Size(25, 25);
-            this.box_GameEXESelect.TabIndex = 33;
-            this.box_GameEXESelect.TabStop = false;
-            this.box_GameEXESelect.Click += new System.EventHandler(this.SelectExecutableLocation);
-            // 
-            // toolTipHelper
-            // 
-            this.toolTipHelper.AutoPopDelay = 7000;
-            this.toolTipHelper.InitialDelay = 500;
-            this.toolTipHelper.ReshowDelay = 100;
-            // 
-            // box_GameFolderSelect
-            // 
-            this.box_GameFolderSelect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.box_GameFolderSelect.Location = new System.Drawing.Point(259, 175);
-            this.box_GameFolderSelect.Name = "box_GameFolderSelect";
-            this.box_GameFolderSelect.Size = new System.Drawing.Size(25, 25);
-            this.box_GameFolderSelect.TabIndex = 34;
-            this.box_GameFolderSelect.TabStop = false;
-            this.box_GameFolderSelect.Click += new System.EventHandler(this.SelectModFolder);
             // 
             // item_OpenConfigDirectory
             // 
@@ -203,7 +159,7 @@ namespace ReloadedLauncher.Windows.Children
             this.item_OpenConfigDirectory.ForeColor = System.Drawing.Color.White;
             this.item_OpenConfigDirectory.IgnoreMouse = false;
             this.item_OpenConfigDirectory.IgnoreMouseClicks = false;
-            this.item_OpenConfigDirectory.Location = new System.Drawing.Point(325, 312);
+            this.item_OpenConfigDirectory.Location = new System.Drawing.Point(325, 347);
             this.item_OpenConfigDirectory.Name = "item_OpenConfigDirectory";
             this.item_OpenConfigDirectory.Size = new System.Drawing.Size(250, 43);
             this.item_OpenConfigDirectory.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -242,7 +198,7 @@ namespace ReloadedLauncher.Windows.Children
             this.item_OpenGameDir.ForeColor = System.Drawing.Color.White;
             this.item_OpenGameDir.IgnoreMouse = false;
             this.item_OpenGameDir.IgnoreMouseClicks = false;
-            this.item_OpenGameDir.Location = new System.Drawing.Point(38, 312);
+            this.item_OpenGameDir.Location = new System.Drawing.Point(38, 347);
             this.item_OpenGameDir.Name = "item_OpenGameDir";
             this.item_OpenGameDir.Size = new System.Drawing.Size(250, 43);
             this.item_OpenGameDir.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -281,7 +237,7 @@ namespace ReloadedLauncher.Windows.Children
             this.item_OpenModDir.ForeColor = System.Drawing.Color.White;
             this.item_OpenModDir.IgnoreMouse = false;
             this.item_OpenModDir.IgnoreMouseClicks = false;
-            this.item_OpenModDir.Location = new System.Drawing.Point(613, 312);
+            this.item_OpenModDir.Location = new System.Drawing.Point(613, 347);
             this.item_OpenModDir.Name = "item_OpenModDir";
             this.item_OpenModDir.Size = new System.Drawing.Size(250, 43);
             this.item_OpenModDir.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -290,23 +246,6 @@ namespace ReloadedLauncher.Windows.Children
             this.item_OpenModDir.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.item_OpenModDir.UseVisualStyleBackColor = false;
             this.item_OpenModDir.Click += new System.EventHandler(this.item_OpenModDir_Click);
-            // 
-            // item_Reserved
-            // 
-            this.item_Reserved.BackColor = System.Drawing.Color.Transparent;
-            this.item_Reserved.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_Reserved.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_Reserved.ForeColor = System.Drawing.Color.White;
-            this.item_Reserved.IgnoreMouse = false;
-            this.item_Reserved.Location = new System.Drawing.Point(39, 386);
-            this.item_Reserved.Margin = new System.Windows.Forms.Padding(0);
-            this.item_Reserved.Name = "item_Reserved";
-            this.item_Reserved.Size = new System.Drawing.Size(821, 88);
-            this.item_Reserved.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_Reserved.TabIndex = 36;
-            this.item_Reserved.Text = "This section is reserved.";
-            this.item_Reserved.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_Reserved.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
             // box_Reserved
             // 
@@ -335,9 +274,9 @@ namespace ReloadedLauncher.Windows.Children
             this.box_Reserved.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.box_Reserved.IgnoreMouse = false;
             this.box_Reserved.IgnoreMouseClicks = true;
-            this.box_Reserved.Location = new System.Drawing.Point(38, 385);
+            this.box_Reserved.Location = new System.Drawing.Point(38, 414);
             this.box_Reserved.Name = "box_Reserved";
-            this.box_Reserved.Size = new System.Drawing.Size(825, 90);
+            this.box_Reserved.Size = new System.Drawing.Size(825, 61);
             this.box_Reserved.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
             this.box_Reserved.TabIndex = 35;
             this.box_Reserved.Text = null;
@@ -384,25 +323,6 @@ namespace ReloadedLauncher.Windows.Children
             this.item_SaveGame.UseVisualStyleBackColor = false;
             this.item_SaveGame.Click += new System.EventHandler(this.SaveGameButton);
             // 
-            // box_GameDirectory
-            // 
-            this.box_GameDirectory.AutoSize = true;
-            this.box_GameDirectory.BackColor = System.Drawing.Color.Transparent;
-            this.box_GameDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_GameDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.box_GameDirectory.ForeColor = System.Drawing.Color.White;
-            this.box_GameDirectory.IgnoreMouse = false;
-            this.box_GameDirectory.Location = new System.Drawing.Point(40, 259);
-            this.box_GameDirectory.Margin = new System.Windows.Forms.Padding(0);
-            this.box_GameDirectory.Name = "box_GameDirectory";
-            this.box_GameDirectory.Size = new System.Drawing.Size(193, 22);
-            this.box_GameDirectory.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.box_GameDirectory.TabIndex = 30;
-            this.box_GameDirectory.Text = "GAME DIRECTORY:";
-            this.box_GameDirectory.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.toolTipHelper.SetToolTip(this.box_GameDirectory, "You should only modify this if executable directory does not contain rest of game" +
-        " files\r\ne.g. <Game>/build/game.exe and <Game>/assets/\r\n\r\n");
-            // 
             // borderless_GameDirectory
             // 
             animMessage11.Control = this.borderless_GameDirectory;
@@ -445,25 +365,6 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameDirectory.TopBorderColour = System.Drawing.Color.Transparent;
             this.borderless_GameDirectory.TopBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameDirectory.TopBorderWidth = 0;
-            // 
-            // box_GameExecutableDirectory
-            // 
-            this.box_GameExecutableDirectory.AutoSize = true;
-            this.box_GameExecutableDirectory.BackColor = System.Drawing.Color.Transparent;
-            this.box_GameExecutableDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_GameExecutableDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.box_GameExecutableDirectory.ForeColor = System.Drawing.Color.White;
-            this.box_GameExecutableDirectory.IgnoreMouse = false;
-            this.box_GameExecutableDirectory.Location = new System.Drawing.Point(40, 217);
-            this.box_GameExecutableDirectory.Margin = new System.Windows.Forms.Padding(0);
-            this.box_GameExecutableDirectory.Name = "box_GameExecutableDirectory";
-            this.box_GameExecutableDirectory.Size = new System.Drawing.Size(215, 22);
-            this.box_GameExecutableDirectory.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.box_GameExecutableDirectory.TabIndex = 28;
-            this.box_GameExecutableDirectory.Text = "EXE RELATIVE PATH:";
-            this.box_GameExecutableDirectory.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.toolTipHelper.SetToolTip(this.box_GameExecutableDirectory, "Specifies the path of the game executable to run, relative of the game directory." +
-        "");
             // 
             // borderless_GameExecutableDirectory
             // 
@@ -549,44 +450,6 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameVersion.TopBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameVersion.TopBorderWidth = 0;
             // 
-            // box_GameVersion
-            // 
-            this.box_GameVersion.AutoSize = true;
-            this.box_GameVersion.BackColor = System.Drawing.Color.Transparent;
-            this.box_GameVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_GameVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.box_GameVersion.ForeColor = System.Drawing.Color.White;
-            this.box_GameVersion.IgnoreMouse = false;
-            this.box_GameVersion.Location = new System.Drawing.Point(40, 133);
-            this.box_GameVersion.Margin = new System.Windows.Forms.Padding(0);
-            this.box_GameVersion.Name = "box_GameVersion";
-            this.box_GameVersion.Size = new System.Drawing.Size(165, 22);
-            this.box_GameVersion.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.box_GameVersion.TabIndex = 25;
-            this.box_GameVersion.Text = "GAME VERSION:";
-            this.box_GameVersion.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.toolTipHelper.SetToolTip(this.box_GameVersion, "Specifies the game version. This value is arbitrary and is only present for your " +
-        "convenience of managing game mods.");
-            // 
-            // box_GameModDirectory
-            // 
-            this.box_GameModDirectory.AutoSize = true;
-            this.box_GameModDirectory.BackColor = System.Drawing.Color.Transparent;
-            this.box_GameModDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_GameModDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.box_GameModDirectory.ForeColor = System.Drawing.Color.White;
-            this.box_GameModDirectory.IgnoreMouse = false;
-            this.box_GameModDirectory.Location = new System.Drawing.Point(40, 175);
-            this.box_GameModDirectory.Margin = new System.Windows.Forms.Padding(0);
-            this.box_GameModDirectory.Name = "box_GameModDirectory";
-            this.box_GameModDirectory.Size = new System.Drawing.Size(181, 22);
-            this.box_GameModDirectory.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.box_GameModDirectory.TabIndex = 24;
-            this.box_GameModDirectory.Text = "MOD DIRECTORY:";
-            this.box_GameModDirectory.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.toolTipHelper.SetToolTip(this.box_GameModDirectory, "Specifies the folder location, subdirectory of Reloaded-Mods directory to be used" +
-        " for the current game configuration.");
-            // 
             // item_DeleteBox
             // 
             animMessage17.Control = this.item_DeleteBox;
@@ -665,24 +528,6 @@ namespace ReloadedLauncher.Windows.Children
             this.item_NewGame.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.item_NewGame.UseVisualStyleBackColor = false;
             this.item_NewGame.Click += new System.EventHandler(this.AddNewGame);
-            // 
-            // box_GameName
-            // 
-            this.box_GameName.AutoSize = true;
-            this.box_GameName.BackColor = System.Drawing.Color.Transparent;
-            this.box_GameName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_GameName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.box_GameName.ForeColor = System.Drawing.Color.White;
-            this.box_GameName.IgnoreMouse = false;
-            this.box_GameName.Location = new System.Drawing.Point(40, 91);
-            this.box_GameName.Margin = new System.Windows.Forms.Padding(0);
-            this.box_GameName.Name = "box_GameName";
-            this.box_GameName.Size = new System.Drawing.Size(133, 22);
-            this.box_GameName.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.box_GameName.TabIndex = 19;
-            this.box_GameName.Text = "GAME NAME:";
-            this.box_GameName.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.toolTipHelper.SetToolTip(this.box_GameName, "Specifies the name of the game as seen in Reloaded Launcher");
             // 
             // box_BannerBox
             // 
@@ -859,12 +704,236 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_CurrentGame.TopBorderWidth = 2;
             this.borderless_CurrentGame.SelectedIndexChanged += new System.EventHandler(this.SelectedGameChanged);
             // 
+            // box_GameBanner
+            // 
+            this.box_GameBanner.BackColor = System.Drawing.Color.Transparent;
+            this.box_GameBanner.ErrorImage = null;
+            this.box_GameBanner.InitialImage = null;
+            this.box_GameBanner.Location = new System.Drawing.Point(590, 41);
+            this.box_GameBanner.Name = "box_GameBanner";
+            this.box_GameBanner.Size = new System.Drawing.Size(271, 83);
+            this.box_GameBanner.TabIndex = 17;
+            this.box_GameBanner.TabStop = false;
+            this.toolTipHelper.SetToolTip(this.box_GameBanner, "Allows you to set a game banner (273x85).");
+            this.box_GameBanner.Click += new System.EventHandler(this.SelectNewGameBanner);
+            // 
+            // box_GameDirectorySelect
+            // 
+            this.box_GameDirectorySelect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.box_GameDirectorySelect.Location = new System.Drawing.Point(259, 258);
+            this.box_GameDirectorySelect.Name = "box_GameDirectorySelect";
+            this.box_GameDirectorySelect.Size = new System.Drawing.Size(25, 25);
+            this.box_GameDirectorySelect.TabIndex = 32;
+            this.box_GameDirectorySelect.TabStop = false;
+            this.box_GameDirectorySelect.Click += new System.EventHandler(this.SelectGameDirectory);
+            // 
+            // box_GameEXESelect
+            // 
+            this.box_GameEXESelect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.box_GameEXESelect.Location = new System.Drawing.Point(259, 217);
+            this.box_GameEXESelect.Name = "box_GameEXESelect";
+            this.box_GameEXESelect.Size = new System.Drawing.Size(25, 25);
+            this.box_GameEXESelect.TabIndex = 33;
+            this.box_GameEXESelect.TabStop = false;
+            this.box_GameEXESelect.Click += new System.EventHandler(this.SelectExecutableLocation);
+            // 
+            // toolTipHelper
+            // 
+            this.toolTipHelper.AutoPopDelay = 7000;
+            this.toolTipHelper.InitialDelay = 500;
+            this.toolTipHelper.ReshowDelay = 100;
+            // 
+            // box_GameDirectory
+            // 
+            this.box_GameDirectory.AutoSize = true;
+            this.box_GameDirectory.BackColor = System.Drawing.Color.Transparent;
+            this.box_GameDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_GameDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_GameDirectory.ForeColor = System.Drawing.Color.White;
+            this.box_GameDirectory.IgnoreMouse = false;
+            this.box_GameDirectory.Location = new System.Drawing.Point(40, 259);
+            this.box_GameDirectory.Margin = new System.Windows.Forms.Padding(0);
+            this.box_GameDirectory.Name = "box_GameDirectory";
+            this.box_GameDirectory.Size = new System.Drawing.Size(193, 22);
+            this.box_GameDirectory.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.box_GameDirectory.TabIndex = 30;
+            this.box_GameDirectory.Text = "GAME DIRECTORY:";
+            this.box_GameDirectory.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.box_GameDirectory, "You should only modify this if executable directory does not contain rest of game" +
+        " files\r\ne.g. <Game>/build/game.exe and <Game>/assets/\r\n\r\n");
+            // 
+            // box_GameExecutableDirectory
+            // 
+            this.box_GameExecutableDirectory.AutoSize = true;
+            this.box_GameExecutableDirectory.BackColor = System.Drawing.Color.Transparent;
+            this.box_GameExecutableDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_GameExecutableDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_GameExecutableDirectory.ForeColor = System.Drawing.Color.White;
+            this.box_GameExecutableDirectory.IgnoreMouse = false;
+            this.box_GameExecutableDirectory.Location = new System.Drawing.Point(40, 217);
+            this.box_GameExecutableDirectory.Margin = new System.Windows.Forms.Padding(0);
+            this.box_GameExecutableDirectory.Name = "box_GameExecutableDirectory";
+            this.box_GameExecutableDirectory.Size = new System.Drawing.Size(215, 22);
+            this.box_GameExecutableDirectory.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.box_GameExecutableDirectory.TabIndex = 28;
+            this.box_GameExecutableDirectory.Text = "EXE RELATIVE PATH:";
+            this.box_GameExecutableDirectory.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.box_GameExecutableDirectory, "Specifies the path of the game executable to run, relative of the game directory." +
+        "");
+            // 
+            // box_GameVersion
+            // 
+            this.box_GameVersion.AutoSize = true;
+            this.box_GameVersion.BackColor = System.Drawing.Color.Transparent;
+            this.box_GameVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_GameVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_GameVersion.ForeColor = System.Drawing.Color.White;
+            this.box_GameVersion.IgnoreMouse = false;
+            this.box_GameVersion.Location = new System.Drawing.Point(40, 133);
+            this.box_GameVersion.Margin = new System.Windows.Forms.Padding(0);
+            this.box_GameVersion.Name = "box_GameVersion";
+            this.box_GameVersion.Size = new System.Drawing.Size(165, 22);
+            this.box_GameVersion.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.box_GameVersion.TabIndex = 25;
+            this.box_GameVersion.Text = "GAME VERSION:";
+            this.box_GameVersion.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.box_GameVersion, "Specifies the game version. This value is arbitrary and is only present for your " +
+        "convenience of managing game mods.");
+            // 
+            // box_GameModDirectory
+            // 
+            this.box_GameModDirectory.AutoSize = true;
+            this.box_GameModDirectory.BackColor = System.Drawing.Color.Transparent;
+            this.box_GameModDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_GameModDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_GameModDirectory.ForeColor = System.Drawing.Color.White;
+            this.box_GameModDirectory.IgnoreMouse = false;
+            this.box_GameModDirectory.Location = new System.Drawing.Point(40, 175);
+            this.box_GameModDirectory.Margin = new System.Windows.Forms.Padding(0);
+            this.box_GameModDirectory.Name = "box_GameModDirectory";
+            this.box_GameModDirectory.Size = new System.Drawing.Size(181, 22);
+            this.box_GameModDirectory.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.box_GameModDirectory.TabIndex = 24;
+            this.box_GameModDirectory.Text = "MOD DIRECTORY:";
+            this.box_GameModDirectory.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.box_GameModDirectory, "Specifies the folder location, subdirectory of Reloaded-Mods directory to be used" +
+        " for the current game configuration.");
+            // 
+            // box_GameName
+            // 
+            this.box_GameName.AutoSize = true;
+            this.box_GameName.BackColor = System.Drawing.Color.Transparent;
+            this.box_GameName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_GameName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_GameName.ForeColor = System.Drawing.Color.White;
+            this.box_GameName.IgnoreMouse = false;
+            this.box_GameName.Location = new System.Drawing.Point(40, 91);
+            this.box_GameName.Margin = new System.Windows.Forms.Padding(0);
+            this.box_GameName.Name = "box_GameName";
+            this.box_GameName.Size = new System.Drawing.Size(133, 22);
+            this.box_GameName.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.box_GameName.TabIndex = 19;
+            this.box_GameName.Text = "GAME NAME:";
+            this.box_GameName.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.box_GameName, "Specifies the name of the game as seen in Reloaded Launcher");
+            // 
+            // box_GameFolderSelect
+            // 
+            this.box_GameFolderSelect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.box_GameFolderSelect.Location = new System.Drawing.Point(259, 175);
+            this.box_GameFolderSelect.Name = "box_GameFolderSelect";
+            this.box_GameFolderSelect.Size = new System.Drawing.Size(25, 25);
+            this.box_GameFolderSelect.TabIndex = 34;
+            this.box_GameFolderSelect.TabStop = false;
+            this.box_GameFolderSelect.Click += new System.EventHandler(this.SelectModFolder);
+            // 
+            // item_Reserved
+            // 
+            this.item_Reserved.BackColor = System.Drawing.Color.Transparent;
+            this.item_Reserved.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_Reserved.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.item_Reserved.ForeColor = System.Drawing.Color.White;
+            this.item_Reserved.IgnoreMouse = false;
+            this.item_Reserved.Location = new System.Drawing.Point(39, 415);
+            this.item_Reserved.Margin = new System.Windows.Forms.Padding(0);
+            this.item_Reserved.Name = "item_Reserved";
+            this.item_Reserved.Size = new System.Drawing.Size(821, 59);
+            this.item_Reserved.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_Reserved.TabIndex = 36;
+            this.item_Reserved.Text = "This section is reserved.";
+            this.item_Reserved.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.item_Reserved.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // box_CommandLineArguments
+            // 
+            this.box_CommandLineArguments.AutoSize = true;
+            this.box_CommandLineArguments.BackColor = System.Drawing.Color.Transparent;
+            this.box_CommandLineArguments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_CommandLineArguments.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_CommandLineArguments.ForeColor = System.Drawing.Color.White;
+            this.box_CommandLineArguments.IgnoreMouse = false;
+            this.box_CommandLineArguments.Location = new System.Drawing.Point(40, 301);
+            this.box_CommandLineArguments.Margin = new System.Windows.Forms.Padding(0);
+            this.box_CommandLineArguments.Name = "box_CommandLineArguments";
+            this.box_CommandLineArguments.Size = new System.Drawing.Size(220, 22);
+            this.box_CommandLineArguments.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.box_CommandLineArguments.TabIndex = 40;
+            this.box_CommandLineArguments.Text = "COMMANDLINE ARGS:";
+            this.box_CommandLineArguments.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.box_CommandLineArguments, "You should only modify this if executable directory does not contain rest of game" +
+        " files\r\ne.g. <Game>/build/game.exe and <Game>/assets/\r\n\r\n");
+            // 
+            // borderless_CommandLineArguments
+            // 
+            animMessage29.Control = this.borderless_CommandLineArguments;
+            animMessage29.PlayAnimation = true;
+            animProperties15.BackColorMessage = animMessage29;
+            animMessage30.Control = this.borderless_CommandLineArguments;
+            animMessage30.PlayAnimation = true;
+            animProperties15.ForeColorMessage = animMessage30;
+            animProperties15.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties15.MouseEnterDuration = 0F;
+            animProperties15.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties15.MouseEnterFramerate = 0F;
+            animProperties15.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties15.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties15.MouseLeaveDuration = 0F;
+            animProperties15.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties15.MouseLeaveFramerate = 0F;
+            animProperties15.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_CommandLineArguments.AnimProperties = animProperties15;
+            this.borderless_CommandLineArguments.BackColor = System.Drawing.Color.Gray;
+            this.borderless_CommandLineArguments.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.borderless_CommandLineArguments.BottomBorderColour = System.Drawing.Color.Transparent;
+            this.borderless_CommandLineArguments.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            this.borderless_CommandLineArguments.BottomBorderWidth = 55;
+            this.borderless_CommandLineArguments.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_CommandLineArguments.ForeColor = System.Drawing.Color.Transparent;
+            this.borderless_CommandLineArguments.LeftBorderColour = System.Drawing.Color.Transparent;
+            this.borderless_CommandLineArguments.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
+            this.borderless_CommandLineArguments.LeftBorderWidth = 0;
+            this.borderless_CommandLineArguments.Location = new System.Drawing.Point(290, 301);
+            this.borderless_CommandLineArguments.Name = "borderless_CommandLineArguments";
+            this.borderless_CommandLineArguments.RightBorderColour = System.Drawing.Color.Transparent;
+            this.borderless_CommandLineArguments.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
+            this.borderless_CommandLineArguments.RightBorderWidth = 0;
+            this.borderless_CommandLineArguments.Size = new System.Drawing.Size(572, 21);
+            this.borderless_CommandLineArguments.TabIndex = 41;
+            this.borderless_CommandLineArguments.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTipHelper.SetToolTip(this.borderless_CommandLineArguments, "You should only modify this if executable directory does not contain rest of game" +
+        " files\r\ne.g. <Game>/build/game.exe and <Game>/assets/\r\n");
+            this.borderless_CommandLineArguments.TopBorderColour = System.Drawing.Color.Transparent;
+            this.borderless_CommandLineArguments.TopBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
+            this.borderless_CommandLineArguments.TopBorderWidth = 0;
+            // 
             // ManageScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(900, 512);
+            this.Controls.Add(this.borderless_CommandLineArguments);
+            this.Controls.Add(this.box_CommandLineArguments);
             this.Controls.Add(this.item_OpenConfigDirectory);
             this.Controls.Add(this.item_OpenGameDir);
             this.Controls.Add(this.item_OpenModDir);
@@ -930,5 +999,7 @@ namespace ReloadedLauncher.Windows.Children
         private AnimatedButton box_Reserved;
         private EnhancedLabel item_Reserved;
         private AnimatedButton item_OpenConfigDirectory;
+        private EnhancedLabel box_CommandLineArguments;
+        private AnimatedTextbox borderless_CommandLineArguments;
     }
 }

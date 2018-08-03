@@ -260,7 +260,7 @@ namespace Reloaded_Loader
             // Otherwise start process suspended in Reloaded, hook it, exploit it and resume the intended way.
             else
             {
-                _gameProcess = new ReloadedProcess($"{Path.Combine(_gameConfig.GameDirectory, _gameConfig.ExecutableLocation)}");
+                _gameProcess = new ReloadedProcess($"{Path.Combine(_gameConfig.GameDirectory, _gameConfig.ExecutableLocation)}", _gameConfig.CommandLineArgs.Split(' '));
 
                 // The process handle is 0 if the process failed to initialize.
                 if ((int)_gameProcess.ProcessHandle == 0)
