@@ -49,6 +49,11 @@ namespace Reloaded.Process.Functions.X64Hooking
         public TFunction OriginalFunction;
 
         /// <summary>
+        /// Intended for debugging purposes. Exposes the address that the C# code calls for running the <see cref="OriginalFunction"/>.
+        /// </summary>
+        public IntPtr OriginalFunctionAddress { get; private set; }
+
+        /// <summary>
         /// Stores a copy of the original delegate passed into the Function Hook generator
         /// such that the delegate which provided our function pointer to our C# code is not swept up
         /// by the Garbage Collector.
@@ -177,10 +182,10 @@ namespace Reloaded.Process.Functions.X64Hooking
             X64FunctionHook<TFunction> functionHook = new X64FunctionHook<TFunction>();
 
             // Write original bytes and jump to memory, and return address.
-            IntPtr gameFunctionWrapperAddress = MemoryBufferManager.Add(stolenBytes.ToArray());
+            functionHook.OriginalFunctionAddress = MemoryBufferManager.Add(stolenBytes.ToArray());
 
             // Create wrapper for calling the original function.
-            functionHook.OriginalFunction = X64FunctionWrapper.CreateWrapperFunction<TFunction>((long)gameFunctionWrapperAddress);
+            functionHook.OriginalFunction = X64FunctionWrapper.CreateWrapperFunction<TFunction>((long)functionHook.OriginalFunctionAddress);
 
             // Store a copy of the original function.
             functionHook._originalDelegate = functionDelegate;
