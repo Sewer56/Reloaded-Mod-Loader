@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>7.3</LangVersion>
-    <DocumentationFile>bin\Release\net472\libReloaded-Paths.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net472\libReloaded-Paths-121.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -85,7 +85,7 @@
     <OutputPath>bin\x64\Github-Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -96,7 +96,7 @@
     <PackageReleaseNotes></PackageReleaseNotes>
     <Description>Exposes the namespace Reloaded.Paths containing classes providing you access with the install path of Reloaded-Mod-Loader and various common strings.</Description>
     <Authors>Sewer56</Authors>
-    <AssemblyName>libReloaded-Paths-120</AssemblyName>
+    <AssemblyName>libReloaded-Paths-121</AssemblyName>
     <PackageId>libReloaded-Paths</PackageId>
   </PropertyGroup>
 </Project>
