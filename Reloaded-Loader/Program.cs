@@ -24,6 +24,7 @@ using System.IO;
 using System.Reflection;
 using LiteNetLib;
 using Reloaded;
+using Reloaded.Assembler;
 using Reloaded.IO.Config;
 using Reloaded.Paths;
 using Reloaded.Process;
@@ -103,6 +104,9 @@ namespace Reloaded_Loader
 
             // Parse Arguments
             ParseArguments(args);
+
+            // Startup Assembler (So a running instance/open handle does not bother devs working on mods)
+            Assembler.Assemble(new string[] {"use32", "nop eax"});
 
             // Start game
             InjectByMethod(args);
