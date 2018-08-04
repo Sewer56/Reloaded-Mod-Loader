@@ -102,9 +102,9 @@ The Reloaded input stack supports realtime controller remapping, controller hotp
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="SharpDX.DirectInput" Version="4.0.1" />
-    <PackageReference Include="SharpDX.XInput" Version="4.0.1" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.4.0" />
+    <PackageReference Include="SharpDX.DirectInput" Version="4.1.0" />
+    <PackageReference Include="SharpDX.XInput" Version="4.1.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libReloaded-Paths\libReloaded-Paths.csproj" />

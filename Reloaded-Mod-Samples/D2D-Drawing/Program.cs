@@ -215,7 +215,7 @@ namespace Reloaded_Mod_Template
             /* Text Properties */
             _textFormat?.Dispose();
             _textFormat = new TextFormat(new SharpDX.DirectWrite.Factory(), "Times New Roman", 20);
-            _textFormat.TextAlignment = TextAlignment.Center;
+            _textFormat.SetTextAlignment(TextAlignment.Center);
 
             _initialized = true;
         }

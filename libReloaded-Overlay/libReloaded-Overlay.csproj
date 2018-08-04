@@ -106,9 +106,9 @@ For examples of usage, refer to the mod loader's mod samples included in the mai
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="D2dControl-Custom" Version="1.1.1" />
-    <PackageReference Include="SharpDX.Direct2D1" Version="4.0.1" />
-    <PackageReference Include="SharpDX.Direct3D11" Version="4.0.1" />
-    <PackageReference Include="SharpDX.Direct3D9" Version="4.0.1" />
+    <PackageReference Include="SharpDX.Direct2D1" Version="4.1.0" />
+    <PackageReference Include="SharpDX.Direct3D11" Version="4.1.0" />
+    <PackageReference Include="SharpDX.Direct3D9" Version="4.1.0" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Overlay\External\D2D\WPFOverlayWindow.xaml" />

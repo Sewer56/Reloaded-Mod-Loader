@@ -84,11 +84,11 @@
     <ProjectReference Include="..\Reloaded-Assembler\Reloaded-Assembler.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="2.0.0" />
-    <PackageReference Include="Fody" Version="3.0.3" />
+    <PackageReference Include="Costura.Fody" Version="3.1.0" />
+    <PackageReference Include="Fody" Version="3.1.4" />
     <PackageReference Include="LiteNetLib-custom" Version="0.0.1" />
-    <PackageReference Include="SharpDisasm" Version="1.1.9" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.4.0" />
+    <PackageReference Include="SharpDisasm" Version="1.1.11" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.1" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Xaml" />
