@@ -46,9 +46,8 @@ namespace Reloaded.Process.Functions
         /// <param name="hookAddress">The address that is to be hooked.</param>
         /// <param name="hookLength">The minimum length of the hook, the length of our assembled bytes for the hook.</param>
         /// <param name="architectureMode">Defines the architecture as X86 or X64 to use for disassembly.</param>
-        /// <param name="reloadedFunctionX64">[Only for X64] Contains the register blacklist (source registers) and a default register for assembling absolute jumps in ASLR mode.</param>
         /// <returns>The necessary length of bytes to hook the individual game function.</returns>
-        public static int GetHookLength(IntPtr hookAddress, int hookLength, ArchitectureMode architectureMode, X64ReloadedFunctionAttribute reloadedFunctionX64 = null)
+        public static int GetHookLength(IntPtr hookAddress, int hookLength, ArchitectureMode architectureMode)
         {
             // Retrieve the function header, arbitrary length of 32 bytes is used for this operation.
             // While you can technically build infinite length X86 instructions, anything greater than 16 to compare seems reasonable.
