@@ -87,14 +87,14 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Reloaded-Mod-Template\ReloadedCode\Client.cs">
-      <Link>ReloadedCode\Client.cs</Link>
+    <Compile Include="..\..\reloaded-mod-template\reloadedtemplate\Client.cs">
+      <Link>ReloadedTemplate\Client.cs</Link>
     </Compile>
-    <Compile Include="..\..\Reloaded-Mod-Template\ReloadedCode\Initializer.cs">
-      <Link>ReloadedCode\Initializer.cs</Link>
+    <Compile Include="..\..\reloaded-mod-template\reloadedtemplate\Initializer.cs">
+      <Link>ReloadedTemplate\Initializer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Reloaded-Mod-Template\ReloadedCode\LocalAssemblyFinder.cs">
-      <Link>ReloadedCode\LocalAssemblyFinder.cs</Link>
+    <Compile Include="..\..\reloaded-mod-template\reloadedtemplate\LocalAssemblyFinder.cs">
+      <Link>ReloadedTemplate\LocalAssemblyFinder.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
