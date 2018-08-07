@@ -92,6 +92,10 @@ namespace Reloaded.Process.Functions.X86Functions
             assemblyCode.Add("push ebp");       // Backup old call frame
             assemblyCode.Add("mov ebp, esp");   // Setup new call frame
 
+            // Reserve Extra Stack Space
+            if (reloadedFunction.ReservedStackSpace > 0)
+            { assemblyCode.Add($"sub esp, {reloadedFunction.ReservedStackSpace}"); }
+
             // Setup Function Parameters
             if (numberOfParameters > 0)
                 assemblyCode.AddRange(AssembleFunctionParameters(numberOfParameters, reloadedFunction.SourceRegisters));
@@ -114,10 +118,14 @@ namespace Reloaded.Process.Functions.X86Functions
                 assemblyCode.Add("mov eax, " + reloadedFunction.ReturnRegister);
             }
 
+            // Unreserve Extra Stack Space
+            if (reloadedFunction.ReservedStackSpace > 0)
+            { assemblyCode.Add($"add esp, {reloadedFunction.ReservedStackSpace}"); }
+
             // Restore Stack Frame and Return
             assemblyCode.Add("pop ebp");
             assemblyCode.Add("ret");
-
+            
             // Write function to buffer and return pointer.
             byte[] assembledMnemonics = Assembler.Assembler.Assemble(assemblyCode.ToArray());
             return MemoryBufferManager.Add(assembledMnemonics);
