@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using Reloaded.Process;
-using Reloaded_Mod_Template.ReloadedCode;
+using Reloaded_Mod_Template.ReloadedTemplate;
 using WPF_Demo_Overlay;
 
 namespace Reloaded_Mod_Template
@@ -130,17 +130,6 @@ namespace Reloaded_Mod_Template
             );
             launchWpfThread.SetApartmentState(ApartmentState.STA);
             launchWpfThread.Start();
-        }
-
-
-        // The runtime class derives from MarshalByRefObject, so that a proxy can be returned
-        // across an AppDomain boundary.
-        public static class Runtime
-        {
-            public static void Run(IntPtr portLocation)
-            {
-                Initializer.Initialize(portLocation);
-            }
         }
     }
 }

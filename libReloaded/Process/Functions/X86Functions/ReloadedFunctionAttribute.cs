@@ -51,6 +51,12 @@ namespace Reloaded.Process.Functions.X86Functions
         public StackCleanup Cleanup { get; }
 
         /// <summary>
+        /// Allocates an extra amount of uninitialized (not zero-written) stack space 
+        /// for the function to use. Required by some compiler optimized functions.
+        /// </summary>
+        public int ReservedStackSpace { get; }
+
+        /// <summary>
         /// Specifies the target X86 ISA register for a specific parameter.
         /// </summary>
         [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -82,11 +88,13 @@ namespace Reloaded.Process.Functions.X86Functions
         /// <param name="sourceRegisters">Specifies the registers in left to right parameter order to pass to the custom function to be called.</param>
         /// <param name="returnRegister">Specifies the register to return the value from the funtion in (mov eax, source). This is typically eax.</param>
         /// <param name="stackCleanup">Defines the stack cleanup rule for the function. See <see cref="StackCleanup"/> for more details.</param>
-        public ReloadedFunctionAttribute(Register[] sourceRegisters, Register returnRegister, StackCleanup stackCleanup)
+        /// <param name="reservedStackSpace">Allocates an extra amount of uninitialized (not zero-written) stack space for the function to use when calling. Required by some compiler optimized functions.</param>
+        public ReloadedFunctionAttribute(Register[] sourceRegisters, Register returnRegister, StackCleanup stackCleanup, int reservedStackSpace = 0)
         {
             SourceRegisters = sourceRegisters;
             ReturnRegister = returnRegister;
             Cleanup = stackCleanup;
+            ReservedStackSpace = reservedStackSpace;
         }
 
         /// <summary>
@@ -95,11 +103,13 @@ namespace Reloaded.Process.Functions.X86Functions
         /// <param name="sourceRegister">Specifies the registers for the parameter.</param>
         /// <param name="returnRegister">Specifies the register to return the value from the funtion in (mov eax, source). This is typically eax.</param>
         /// <param name="stackCleanup">Defines the stack cleanup rule for the function. See <see cref="StackCleanup"/> for more details.</param>
-        public ReloadedFunctionAttribute(Register sourceRegister, Register returnRegister, StackCleanup stackCleanup)
+        /// <param name="reservedStackSpace">Allocates an extra amount of uninitialized (not zero-written) stack space for the function to use when calling. Required by some compiler optimized functions.</param>
+        public ReloadedFunctionAttribute(Register sourceRegister, Register returnRegister, StackCleanup stackCleanup, int reservedStackSpace = 0)
         {
             SourceRegisters = new[] { sourceRegister };
             ReturnRegister = returnRegister;
             Cleanup = stackCleanup;
+            ReservedStackSpace = reservedStackSpace;
         }
 
         /// <summary>
