@@ -101,7 +101,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <PropertyGroup>
-    <Version>1.2.1-dev1</Version>
+    <Version>1.2.1</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -114,7 +114,7 @@ Provides you with JIT X86/64 Assembly, Memory Buffers, X86/64 Function Calling, 
 </Description>
     <PackageReleaseNotes>Main Development Library for Reloaded Mod Loader Modifications</PackageReleaseNotes>
     <Authors>Sewer56</Authors>
-    <AssemblyName>libReloaded-121-dev1</AssemblyName>
+    <AssemblyName>libReloaded-121</AssemblyName>
     <PackageId>libReloaded</PackageId>
   </PropertyGroup>
 </Project>

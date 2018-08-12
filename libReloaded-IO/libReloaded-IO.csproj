@@ -85,7 +85,7 @@
     <OutputPath>bin\x64\Github-Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>1.2.1-dev1</Version>
+    <Version>1.2.1</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -98,7 +98,7 @@ Potential uses for modders would be allowing mods to determine other enabled mod
 Includes an extra tool (RelativePaths) for cloning files directory to directory either via Hardlink or Copy, with full respect to the folder structure.
 </Description>
     <Authors>Sewer56</Authors>
-    <AssemblyName>libReloaded-IO-121-dev1</AssemblyName>
+    <AssemblyName>libReloaded-IO-121</AssemblyName>
     <PackageId>libReloaded-IO</PackageId>
   </PropertyGroup>
   <ItemGroup>
