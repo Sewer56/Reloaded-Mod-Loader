@@ -18,8 +18,6 @@
 
 It is a completely free and open source public rewrite of **Heroes Mod Loader**, my original first attempt at a mod management/loader system all the way from the ground up using the C# programming language.
 
-At the time of writing of this readme, Reloaded has currently been in development for 5 months, plus the extra time spent on the predecessing mod loader, this included me learning many new aspects of hacking and reverse engineering from the ground up.
-
 # Prerequisites
 
 - Windows 7, 8.1, 10 or above.
