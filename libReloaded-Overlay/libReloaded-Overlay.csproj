@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>7.3</LangVersion>
-    <DocumentationFile>bin\Release\net472\libReloaded-Overlay-121.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net472\libReloaded-Overlay.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -85,7 +85,7 @@
     <OutputPath>bin\x64\Github-Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>1.2.1</Version>
+    <Version>1.2.2-dev</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -98,7 +98,7 @@ Included are DX9 Overlay, DX11 Overlay, WPF Overlay, D2D-WPF Overlay, D2D-WinFor
 For examples of usage, refer to the mod loader's mod samples included in the main Github repository.
 </Description>
     <Authors>Sewer56</Authors>
-    <AssemblyName>libReloaded-Overlay-121</AssemblyName>
+    <AssemblyName>libReloaded-Overlay</AssemblyName>
     <PackageId>libReloaded-Overlay</PackageId>
   </PropertyGroup>
   <ItemGroup>

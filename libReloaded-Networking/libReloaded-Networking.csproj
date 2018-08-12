@@ -28,7 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\net472\libReloaded-Networking-121.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net472\libReloaded-Networking.xml</DocumentationFile>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Github-Release|AnyCPU'">
@@ -45,9 +45,9 @@
 Contains classes used for packing and unpacking messages relayed by to and from Reloaded Mod Loader components such as Reloaded Assembler and Reloaded Mods.
 Feel free to reuse for your networking mods.
     </Description>
-    <Version>1.2.1</Version>
+    <Version>1.2.2-dev</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyName>libReloaded-Networking-121</AssemblyName>
+    <AssemblyName>libReloaded-Networking</AssemblyName>
     <PackageId>libReloaded-Networking</PackageId>
   </PropertyGroup>
   <ItemGroup>
