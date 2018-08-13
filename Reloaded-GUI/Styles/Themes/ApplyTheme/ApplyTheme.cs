@@ -18,6 +18,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Reloaded.IO.Config;
@@ -146,6 +147,9 @@ namespace Reloaded_GUI.Styles.Themes.ApplyTheme
 
             else
                 ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true);
+
+            foreach (Control controlEmbedded in control.Controls)
+                ThemeControl(controlEmbedded);
         }
 
         /// <summary>
