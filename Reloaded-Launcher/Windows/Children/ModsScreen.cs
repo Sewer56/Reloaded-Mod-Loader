@@ -401,7 +401,7 @@ namespace ReloadedLauncher.Windows.Children
         private void ConfigBox_Click(object sender, EventArgs e)
         {
             if (CheckIfEnabled((Control)sender))
-                OpenFile(Global.CurrentModConfig.ConfigurationFile);
+                OpenFile(Global.CurrentModConfig.GetModDirectory() + "\\" + Global.CurrentModConfig.ConfigurationFile);
         }
 
         /// <summary>
