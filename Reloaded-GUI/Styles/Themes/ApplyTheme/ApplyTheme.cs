@@ -148,8 +148,9 @@ namespace Reloaded_GUI.Styles.Themes.ApplyTheme
             else
                 ThemeButton(control, Theme.ThemeProperties.MainColours, Theme.ThemeProperties.MainEnterAnimation, Theme.ThemeProperties.MainLeaveAnimation, true);
 
-            foreach (Control controlEmbedded in control.Controls)
-                ThemeControl(controlEmbedded);
+            if (! control.Name.StartsWith("box_"))
+                foreach (Control controlEmbedded in control.Controls)
+                    ThemeControl(controlEmbedded);
         }
 
         /// <summary>
