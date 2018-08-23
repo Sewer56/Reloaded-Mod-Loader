@@ -85,7 +85,7 @@
     <OutputPath>bin\x64\Github-Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>1.2.2-dev</Version>
+    <Version>2.0.0</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -105,7 +105,7 @@ For examples of usage, refer to the mod loader's mod samples included in the mai
     <Compile Remove="Process\AlternateDllInjector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="D2dControl-Custom" Version="1.1.1" />
+    <PackageReference Include="D2dControl-Custom" Version="1.1.3-custom" />
     <PackageReference Include="SharpDX.Direct2D1" Version="4.1.0" />
     <PackageReference Include="SharpDX.Direct3D11" Version="4.1.0" />
     <PackageReference Include="SharpDX.Direct3D9" Version="4.1.0" />

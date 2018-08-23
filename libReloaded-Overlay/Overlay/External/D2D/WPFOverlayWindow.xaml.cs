@@ -108,7 +108,6 @@ namespace Reloaded.Overlay.External.D2D
             // Ignore our window.
             _overlayHelper.IgnoreWindow();
             _overlayHelper.WindowFollowMode = WindowFollowMode.Overlay;
-            d2dRenderControl.FrameRate = 60;
         }
 
         /// <summary>

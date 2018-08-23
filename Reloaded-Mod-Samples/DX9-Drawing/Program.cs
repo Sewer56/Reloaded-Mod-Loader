@@ -104,7 +104,7 @@ namespace Reloaded_Mod_Template
             */
             // Debugger.Launch();
 
-            _directX9Overlay = await DX9Overlay.CreateDirectXOverlay(RenderDelegate, ResetDelegate, 4000);
+            _directX9Overlay = await DX9Overlay.CreateDirectXOverlay(RenderDelegate, ResetDelegate, 0);
             _directX9Overlay.EndSceneHook?.Activate();
             _directX9Overlay.ResetHook?.Activate();
             _directX9Overlay.EndSceneHook64?.Activate();

@@ -58,19 +58,14 @@ namespace Reloaded.Overlay.External.D2D
         public D2DWindowRenderer DirectD2DWindowRenderer { get; set; }
 
         /// <summary>
+        /// Controls the frame pacing/frames per second of the current application.
+        /// </summary>
+        public SharpFPS SharpFPS { get; set; }
+
+        /// <summary>
         /// This is kept only to ensure no garbage collection.
         /// </summary>
         private System.Windows.Application _windowsApplication;
-
-        /// <summary>
-        /// Defines the amount of time of sleep for the CPU, rounded down to the nearest millisecond.
-        /// </summary>
-        private float FrameRate { get; set; }
-
-        /// <summary>
-        /// Defines the stopwatch used for the accurate measurement of frames.
-        /// </summary>
-        private Stopwatch StopWatch { get; set; }
 
         /// <summary>
         /// Empty private constructor, use factory method.
@@ -271,11 +266,8 @@ namespace Reloaded.Overlay.External.D2D
         private void EnableOverlay(D2DWindowRenderer.DelegateRenderDirect2D renderDelegate, IntPtr targetWindowHandle)
         {
             // Set framerate
-            FrameRate = 60;
-
-            // Initiate the timer
-            StopWatch = new Stopwatch();
-            StopWatch.Start();
+            SharpFPS = new SharpFPS();
+            SharpFPS.FPSLimit = 60F;
 
             // Enable the Overlay Window.
             WPFThread = new Thread (() =>
@@ -300,39 +292,16 @@ namespace Reloaded.Overlay.External.D2D
                 {
                     while (true)
                     {
+                        SharpFPS.StartFrame();
                         DirectD2DWindowRenderer?.DirectXRender();
-                        SleepFrameRate();
+                        SharpFPS.EndFrame();
+                        SharpFPS.Sleep();
                     }
                 }
             );
             WPFThread.SetApartmentState(ApartmentState.STA);
             WPFThread.Start();
             RenderLoopThread.Start();
-        }
-
-        /// <summary>
-        /// Sleeps and then spins a set amount of time to match the target framerate.
-        /// </summary>
-        public void SleepFrameRate()
-        {
-            // Calculate time for 1 frame.
-            float sleepMilliseconds = 1000F / FrameRate;
-
-            // Calculate time to Thread.Sleep (round down to nearest millisecond)
-            int threadSleepMilliseconds = (int)sleepMilliseconds;
-
-            // Go down another millisecond if not 0.
-            if (threadSleepMilliseconds >= 1) { threadSleepMilliseconds -= 1; }
-
-            // Sleep the thread.
-            Thread.Sleep(threadSleepMilliseconds);
-
-            // Stall with while loop
-            while (StopWatch.Elapsed.TotalMilliseconds < sleepMilliseconds)
-            { }
-
-            // Reset stopwatch.
-            StopWatch.Restart();
         }
 
         /// <summary>
