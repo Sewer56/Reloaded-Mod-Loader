@@ -159,7 +159,7 @@ namespace Reloaded_Loader
                 if (localGameProcess.GetProcessFromReloadedProcess().StartTime > _processStartTime)
                 {                   
                     // Game restart
-                    Bindings.PrintInfo($"// Game Restarted, Probably from Self-Kill e.g. Steam DRM, Reattaching! | {_attachTargetName}");
+                    Bindings.PrintInfo($"// Game Restarted, Probably from Self-Kill e.g. Denuvo, VMProtect Reattaching! | {_attachTargetName}");
                     Bindings.PrintInfo($"// In other words, super early attach not supported! Maybe with manual map in the future.");
                     _gameProcess = localGameProcess;
 

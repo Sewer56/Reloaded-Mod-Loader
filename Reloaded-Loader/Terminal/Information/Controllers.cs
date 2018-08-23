@@ -37,6 +37,8 @@ namespace Reloaded_Loader.Terminal.Information
             // Header
             ConsoleFunctions.PrintMessageWithTime("Displaying Connected Controller List", ConsoleFunctions.PrintInfoMessage);
             ConsoleFunctions.PrintMessageWithTime("Key: [Controller Port] [Controller Type] <Controller Name> (Disconnected?)", ConsoleFunctions.PrintInfoMessage);
+            ConsoleFunctions.PrintMessageWithTime("If this freezes, you're probably running Win 10 & are experiencing a DirectInput bug.", ConsoleFunctions.PrintInfoMessage);
+            ConsoleFunctions.PrintMessageWithTime("The only way to get around that is to restart your PC; sorry :/", ConsoleFunctions.PrintInfoMessage);
 
             // Retrieve Controllers
             ControllerManager controllerManager = new ControllerManager();
