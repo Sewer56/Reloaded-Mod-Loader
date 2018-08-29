@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
@@ -33,6 +34,9 @@ using Reloaded;
 using Reloaded.IO.Config;
 using Reloaded.Paths;
 using Reloaded.Utilities;
+using ReloadedUpdateChecker;
+using ReloadedUpdateChecker.Updaters;
+using ReloadedUpdateChecker.Utilities.Downloader;
 using Reloaded_GUI.Styles.Themes;
 using SevenZipExtractor;
 
@@ -78,7 +82,12 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// <summary>
         /// Stores the HTTP URL to the modification, allowing downloads 
         /// </summary>
-        private readonly string _modificationUrl;
+        private string _modificationUrl;
+
+        /// <summary>
+        /// The update sources whose events will be fired during download.
+        /// </summary>
+        private List<IUpdateSource> _updateSources;
 
         /// <summary>
         /// Initializes the form.
@@ -88,14 +97,11 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         {
             // Standard WinForms Init
             InitializeComponent();
-
-            // Make the form rounded.
+            _updateSources = UpdateChecker.UpdateSources;
             MakeRoundedWindow.RoundWindow(this, 30, 30);
-
-            // Set the URL to download.
             _modificationUrl = modDownloadUrl;
 
-            // Strip the Reloaded Link Specifier (if necessary)
+            // Strip the Reloaded Link Specifier (if necessary) | reloaded:
             if (_modificationUrl.StartsWith(Strings.Launcher.ReloadedProtocolName, true, CultureInfo.InvariantCulture))
             {
                 _modificationUrl = Regex.Replace(_modificationUrl, "reloaded:", "", RegexOptions.IgnoreCase);
@@ -133,10 +139,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
                 );
             }
 
-            // Select first item.
             borderless_SelectGame.SelectedIndex = 0;
-
-            // Reset value of progressbar.
             borderless_UpdateProgressBar.Value = 0;
         }
 
@@ -149,83 +152,53 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         {
             try
             {
-                // Cast the button.
+                Debugger.Launch();
+                // Cast the button & ignore if currently downloading.
                 Button testButton = (Button)sender;
-
-                // Do nothing if we are currently downloading.
                 if (_isCurrentlyDownloading)
                     return;
 
-                // Check if download complete by chacking the value of the progressbar.
+                // If the progressbar is max, we are done here.
                 if (borderless_UpdateProgressBar.Value == borderless_UpdateProgressBar.MAX_VALUE)
                     this.Close();
 
-                // Start download process.
-                testButton.Text = "Downloading";
+                // Set flags & GUI
+                testButton.Text             = "Downloading";
+                _isCurrentlyDownloading     = true;
 
-                // We're currently donwloading.
-                _isCurrentlyDownloading = true;
+                // Get the current game configuration & file paths.
+                GameConfig gameConfig       = _gameConfigs[borderless_SelectGame.SelectedIndex];
+                string gameModDirectory     = $"{LoaderPaths.GetModLoaderModDirectory()}\\{gameConfig.ModDirectory}";
+                CallUpdateSourcesOnDownloadLink(gameModDirectory);                                   // May change modification URL download link.
+                string fileName             = "Temp.tmp";
+                string downloadLocation     = $"{gameModDirectory}\\{fileName}";
 
-                // Get the current game configuration.
-                GameConfig gameConfig = _gameConfigs[borderless_SelectGame.SelectedIndex];
+                // Start the modification download.
+                byte[] remoteFile = await FileDownloader.DownloadFile
+                (
+                    new Uri(_modificationUrl), 
+                    downloadProgressChanged: ClientOnDownloadProgressChanged
+                );
 
-                // Try to get the file name of the file
-                string fileName = "temp.archive";
-                try
-                {
-                    using (WebClient client = new WebClient())
-                    {
-                        // Obtain the name of the file.
-                        client.OpenRead(_modificationUrl);
-                        fileName = new ContentDisposition(client.ResponseHeaders["content-disposition"]).FileName;
-                    }
-                }
-                catch { }
-
-                // Set the other paths.
-                string gameModDirectory = $"{LoaderPaths.GetModLoaderModDirectory()}\\{gameConfig.ModDirectory}";
-                string fileLocationOutput = $"{gameModDirectory}\\{fileName}";
-
-                // Setup the modification download.
-                using (WebClient client = new WebClient())
-                {
-                    // Obtain the name of the file.
-                    Uri fileDownloadUri = new Uri(_modificationUrl);
-                    client.DownloadProgressChanged += ClientOnUploadProgressChanged;
-
-                    // Download
-                    await client.DownloadFileTaskAsync(fileDownloadUri, fileLocationOutput);
-                }
-
-                // Start download process.
-                testButton.Text = "Downloading";
-
-                // Change the text.
+                // Start unpacking
                 testButton.Text = "Unpacking";
-
-                // Unpacking
-                using (ArchiveFile archiveFile = new ArchiveFile(fileLocationOutput))
+                testButton.Refresh();
+                using (Stream stream = new MemoryStream(remoteFile))
+                using (ArchiveFile archiveFile = new ArchiveFile(stream))
                 {
                     archiveFile.Extract($"{gameModDirectory}\\");
-                }        
+                    CallUpdateSourcesOnExtractLink(archiveFile);
+                }    
 
-                // Delete original.
-                File.Delete(fileLocationOutput);
-
-                // Finished downloading.
+                // Cleanup
+                File.Delete(downloadLocation);
                 _isCurrentlyDownloading = false;
-
-                // Set update progress to max.
                 borderless_UpdateProgressBar.Value = borderless_UpdateProgressBar.MAX_VALUE;
-
-                // Change the text to close.
                 testButton.Text = "Close";
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
-
-                // Not downloading.
                 _isCurrentlyDownloading = false;
             }
 
@@ -235,14 +208,13 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// Updates the current progress of downloading the Mod Loader
         /// update in questioon.
         /// </summary>
-        private void ClientOnUploadProgressChanged(object sender, DownloadProgressChangedEventArgs downloadProgressChangedEventArgs)
+        private void ClientOnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs downloadProgressChangedEventArgs)
         {
-            // 100 = Default maximum
             borderless_UpdateProgressBar.Value = (int)((float)downloadProgressChangedEventArgs.ProgressPercentage / 100 * borderless_UpdateProgressBar.MAX_VALUE);
 
             // Get the current downloaded progress as megabytes and set the control text.
-            string downloadedMegabytes = ((float)downloadProgressChangedEventArgs.BytesReceived / 1000.0F / 1000.0F).ToString("000.#");
-            string remainingMegabytes = ((float)downloadProgressChangedEventArgs.TotalBytesToReceive / 1000.0F / 1000.0F).ToString("000.#");
+            string downloadedMegabytes       = ((float)downloadProgressChangedEventArgs.BytesReceived / 1000.0F / 1000.0F).ToString("000.0");
+            string remainingMegabytes        = ((float)downloadProgressChangedEventArgs.TotalBytesToReceive / 1000.0F / 1000.0F).ToString("000.0");
             borderless_DownloadProgress.Text = $"{downloadedMegabytes}/{remainingMegabytes}MB";
         }
 
@@ -254,6 +226,35 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         private void item_Close_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        /*
+            -----------------
+            Interface Callers
+            -----------------
+        */
+        private void CallUpdateSourcesOnDownloadLink(string gameModDirectory)
+        {
+            foreach (var updateSource in _updateSources)
+                _modificationUrl = updateSource.OnLinkDownload(_modificationUrl, gameModDirectory);
+        }
+
+        private void CallUpdateSourcesOnExtractLink(ArchiveFile archive)
+        {
+            // Finds every single top level folder of the archive and passes it to our update sources.
+            List<string> folderNames = new List<string>();
+
+            foreach (var entry in archive.Entries)
+            {
+                // Second condition tests for subfolders.
+                if (entry.IsFolder && Path.GetDirectoryName(entry.FileName) == "")
+                {
+                    folderNames.Add(entry.FileName);
+                }
+            }
+
+            foreach (var updateSource in _updateSources)
+               updateSource.OnModExtract(folderNames.ToArray());
         }
     }
 }

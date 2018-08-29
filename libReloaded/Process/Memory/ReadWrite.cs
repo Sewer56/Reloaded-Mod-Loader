@@ -40,6 +40,15 @@ namespace Reloaded.Process.Memory
                 Unsafe   - Does not marshal managed data to unmanaged representations. Use with truly unmanaged types only!!
         */
 
+        /*
+            In order of speed:
+                Unsafe   - Can fail if appropriate permissions not set for a page.
+                Fast     - Can fail if appropriate permissions not set for a page.
+                Regular  - Should always succeed.
+                External - Should always succeed.
+         
+        */
+
         /// <summary>
         /// ReadMemory
         ///     Reads a specified specific amount of bytes from memory of the current process.

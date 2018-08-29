@@ -1,11 +1,11 @@
 {
-	"ModId": "reloaded.demos.dx9",
-	"ModName": "DX9 Internal Overlay Example",
-	"ModDescription": "An example of drawing with an internal overlay using DirectX9 and Reloaded.\nFast, has low resource usage, more difficult to use.",
-	"ModVersion": "1.0.0",
-	"ModAuthor": "Sewer56",
-	"ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-	"ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-	"ConfigurationFile": "",
-	"Dependencies": []
+  "ModId": "reloaded.demos.dx9",
+  "ModName": "DX9 Internal Overlay Example",
+  "ModDescription": "An example of drawing with an internal overlay using DirectX9 and Reloaded.\nFast, has low resource usage, more difficult to use.",
+  "ModVersion": "1.0.0",
+  "ModAuthor": "Sewer56",
+  "ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader/tree/master/Reloaded-Mod-Samples/DX9-Drawing",
+  "ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader/tree/master/Reloaded-Mod-Samples/DX9-Drawing",
+  "ConfigurationFile": "",
+  "Dependencies": []
 }

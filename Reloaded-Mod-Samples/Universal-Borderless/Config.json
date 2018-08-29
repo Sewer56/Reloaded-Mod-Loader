@@ -1,11 +1,11 @@
 {
-	"ModId": "reloaded.global.borderless",
-	"ModName": "Universal Borderless Windowed",
-	"ModDescription": "Waits until the game or process spwans a window and changes the main window style to borderless. Works fine in most games.",
-	"ModVersion": "1.0.0",
-	"ModAuthor": "Sewer56",
-	"ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-	"ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-	"ConfigurationFile": "",
-	"Dependencies": []
+  "ModId": "reloaded.global.borderless",
+  "ModName": "Universal Borderless Windowed",
+  "ModDescription": "Waits until the game or process spwans a window and changes the main window style to borderless. Works fine in most games.",
+  "ModVersion": "1.0.0",
+  "ModAuthor": "Sewer56",
+  "ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader/tree/master/Reloaded-Mod-Samples/Universal-Borderless",
+  "ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader/tree/master/Reloaded-Mod-Samples/Universal-Borderless",
+  "ConfigurationFile": "",
+  "Dependencies": []
 }

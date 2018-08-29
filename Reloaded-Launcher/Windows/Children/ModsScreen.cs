@@ -144,7 +144,7 @@ namespace ReloadedLauncher.Windows.Children
                     dataGridViewRow.CreateCells(box_ModList);
 
                     // Assign row
-                    dataGridViewRow.Cells[0].Value = TextButtons.ButtonEnabled;    // Enabled Mod
+                    dataGridViewRow.Cells[0].Value = TextButtons.ButtonEnabled;     // Enabled Mod
                     dataGridViewRow.Cells[1].Value = modConfig.ModName;             // The name of the mod
                     dataGridViewRow.Cells[2].Value = modConfig.ModAuthor;           // Author of the mod
                     dataGridViewRow.Cells[3].Value = Theme.ThemeProperties.TitleProperties.LoaderTitleDelimiter; // Separator character as set by theme
@@ -172,12 +172,6 @@ namespace ReloadedLauncher.Windows.Children
                 // Store the datagridviewrow
                 DataGridViewRow dataGridViewRow = (DataGridViewRow)box_ModList.RowTemplate.Clone();
                 dataGridViewRow.CreateCells(box_ModList);
-
-                // Cells[0] = Enabled/Disabled Tickbox
-                // Cells[1] = Mod Title
-                // Cells[2] = Author
-                // Cells[3] = Separator
-                // Cells[4] = Version
 
                 // Check if the mod is disabled.
                 if (!Global.CurrentGameConfig.EnabledMods.Contains(directoryName))
@@ -210,14 +204,14 @@ namespace ReloadedLauncher.Windows.Children
                 DataGridViewRow row = box_ModList.Rows[x];
 
                 // Check if the mod in the row is enabled.
-                bool modEnabled = (string)row.Cells[0].Value == TextButtons.ButtonEnabled;
+                bool modEnabled = (string)row.Cells[(int)ModListCell.Enabled].Value == TextButtons.ButtonEnabled;
 
                 // If the mod is enabled.
                 if (modEnabled)
                 {
                     // Find the mod configuration from the set row and column.
                     // Match by mod title and version.
-                    ModConfig modConfiguration = FindModConfiguration((string)row.Cells[1].Value, (string)row.Cells[4].Value);
+                    ModConfig modConfiguration = FindModConfiguration((string)row.Cells[(int)ModListCell.ModTitle].Value, (string)row.Cells[(int)ModListCell.Version].Value);
 
                     // Append the folder name only to the list of mods.
                     // Reloaded-Mods/SA2/Testmod => Testmod
@@ -257,15 +251,15 @@ namespace ReloadedLauncher.Windows.Children
             // Check if the column index is the first column (disable/enable checkbox).
             if (e.ColumnIndex == 0)
             {
-                if ((string) senderGrid.Rows[e.RowIndex].Cells[0].Value == TextButtons.ButtonDisabled)
+                if ((string) senderGrid.Rows[e.RowIndex].Cells[(int)ModListCell.Enabled].Value == TextButtons.ButtonDisabled)
                 {
                     CheckDependenciesModEnable();
-                    senderGrid.Rows[e.RowIndex].Cells[0].Value = TextButtons.ButtonEnabled;
+                    senderGrid.Rows[e.RowIndex].Cells[(int)ModListCell.Enabled].Value = TextButtons.ButtonEnabled;
                 }
                 else
                 {
                     CheckDependenciesModDisable();
-                    senderGrid.Rows[e.RowIndex].Cells[0].Value = TextButtons.ButtonDisabled;
+                    senderGrid.Rows[e.RowIndex].Cells[(int)ModListCell.Enabled].Value = TextButtons.ButtonDisabled;
                 } 
             }
         }
@@ -346,23 +340,16 @@ namespace ReloadedLauncher.Windows.Children
                 int rowIndex = senderGrid.SelectedCells[0].RowIndex;
 
                 // Get the mod title and version.
-                string modTitle = (string)senderGrid.Rows[rowIndex].Cells[1].Value;
-                string modVersion = (string)senderGrid.Rows[rowIndex].Cells[4].Value;
-
-                // Cells[0] = Enabled/Disabled Tickbox
-                // Cells[1] = Mod Title
-                // Cells[2] = Author
-                // Cells[3] = Separator
-                // Cells[4] = Version
+                string modTitle = (string)senderGrid.Rows[rowIndex].Cells[(int)ModListCell.ModTitle].Value;
+                string modVersion = (string)senderGrid.Rows[rowIndex].Cells[(int)ModListCell.Version].Value;
 
                 // Get the mod configuration.
                 ModConfig modConfiguration = FindModConfiguration(modTitle, modVersion);
                 Global.CurrentModConfig = modConfiguration;
 
-                // Set the description.
+                // Set the description, button text for website, config, source.
                 item_ModDescription.Text = modConfiguration.ModDescription;
 
-                // Set the button text for website, config, source.
                 borderless_ConfigBox.Text   = modConfiguration.ConfigurationFile == "" ? "N/A" : "Configuration";
                 borderless_WebBox.Text      = modConfiguration.ModSite           == "" ? "N/A" : "Webpage";
                 borderless_SourceBox.Text   = modConfiguration.ModSource         == "" ? "N/A" : "Source Code";
@@ -400,8 +387,18 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void ConfigBox_Click(object sender, EventArgs e)
         {
-            if (CheckIfEnabled((Control)sender))
-                OpenFile(Global.CurrentModConfig.GetModDirectory() + "\\" + Global.CurrentModConfig.ConfigurationFile);
+            if (CheckIfEnabled((Control) sender))
+            {
+                string filePath = Global.CurrentModConfig.GetModDirectory() + "\\" +
+                                  Global.CurrentModConfig.ConfigurationFile;
+
+                if (File.Exists(filePath))
+                    OpenFile(filePath);
+                else
+                    MessageBox.Show($@"This mod's configuration file {filePath} does not exist." +
+                                    "\n\nPlease note that some mods may require to run them at least once to autogenerate a config file.");
+            }
+                
         }
 
         /// <summary>
@@ -420,7 +417,7 @@ namespace ReloadedLauncher.Windows.Children
         /// <param name="control">The control (typically button) to check.</param>
         private bool CheckIfEnabled(Control control)
         {
-            if (control.Text != "")
+            if (control.Text != "" && control.Text != "N/A")
                 return true;
             return false;
         }
@@ -434,6 +431,15 @@ namespace ReloadedLauncher.Windows.Children
             borderless_SourceBox.Text = "N/A";
             borderless_WebBox.Text = "N/A";
             item_ModDescription.Text = "You have no mods, heheheheh.";
+        }
+
+        private enum ModListCell : int
+        {
+            Enabled     = 0,
+            ModTitle    = 1,
+            Author      = 2,
+            Separator   = 3,
+            Version     = 4
         }
     }
 }

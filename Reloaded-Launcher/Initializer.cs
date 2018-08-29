@@ -32,6 +32,7 @@ using Reloaded_GUI.Styles.Themes;
 using ReloadedLauncher.Windows;
 using ReloadedLauncher.Windows.Children.Dialogs;
 using ReloadedLauncher.Windows.Children.Dialogs.Tutorial;
+using ReloadedUpdateChecker;
 using Squirrel;
 
 namespace ReloadedLauncher
@@ -53,8 +54,9 @@ namespace ReloadedLauncher
             // Unpack default files if not available.
             CopyDefaultFiles();
 
-            // Start self-update.
+            // Check for updates.
             DoSquirrelStuff();
+            CheckForModUpdates();
 
             // Checks if this is a Reloaded Protocol download.
             HandleDownloads(arguments);
@@ -237,6 +239,17 @@ namespace ReloadedLauncher
                     downloadModDialog.ShowDialog();
                     Environment.Exit(0);
                 }
+            }
+        }
+
+        private static async void CheckForModUpdates()
+        {
+            var updates = await UpdateChecker.GetAllUpdatesFromSources();
+
+            if (updates.Count > 0)
+            {
+                DownloadModUpdatesDialog dialog = new DownloadModUpdatesDialog(updates);
+                dialog.ShowDialog();
             }
         }
     }

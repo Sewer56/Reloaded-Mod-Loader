@@ -1,11 +1,11 @@
 {
-	"ModId": "reloaded.demos.memory",
-	"ModName": "Memory Manipulation Example",
-	"ModDescription": "A Simple Guide on Memory Manipulation with Reloaded.",
-	"ModVersion": "1.0.0",
-	"ModAuthor": "Sewer56",
-	"ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-	"ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-	"ConfigurationFile": "",
-	"Dependencies": []
+  "ModId": "reloaded.demos.memory",
+  "ModName": "Memory Manipulation Example",
+  "ModDescription": "A Simple Guide on Memory Manipulation with Reloaded.",
+  "ModVersion": "1.0.0",
+  "ModAuthor": "Sewer56",
+  "ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader/tree/master/Reloaded-Mod-Samples/Memory-Manipulation",
+  "ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader/tree/master/Reloaded-Mod-Samples/Memory-Manipulation",
+  "ConfigurationFile": "",
+  "Dependencies": []
 }

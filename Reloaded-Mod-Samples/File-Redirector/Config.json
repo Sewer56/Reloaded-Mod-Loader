@@ -1,11 +1,11 @@
 {
-	"ModId": "reloaded.global.fileredirector",
-	"ModName": "Reloaded File Redirector (Legacy)",
-	"ModDescription": "Redirects loading of game files from your game directory to files inside Plugins/Redirector/ in enabled mod folders.",
-	"ModVersion": "1.0.0",
-	"ModAuthor": "Sewer56",
-	"ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-	"ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader",
-	"ConfigurationFile": "",
-	"Dependencies": []
+  "ModId": "reloaded.global.fileredirector",
+  "ModName": "Reloaded File Redirector (Legacy)",
+  "ModDescription": "Redirects loading of game files from your game directory to files inside Plugins/Redirector/ in enabled mod folders.",
+  "ModVersion": "1.0.0",
+  "ModAuthor": "Sewer56",
+  "ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader/tree/master/Reloaded-Mod-Samples/File-Redirector",
+  "ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader/tree/master/Reloaded-Mod-Samples/File-Redirector",
+  "ConfigurationFile": "",
+  "Dependencies": []
 }

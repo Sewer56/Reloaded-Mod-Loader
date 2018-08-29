@@ -82,33 +82,17 @@ namespace Reloaded_Loader
             /* - Initialization - */
             DoSquirrelStuff();
 
-            // Initialize the console.
             ConsoleFunctions.Initialize();
-
-            // Setup libReloaded Debug Bindings
             SetuplibReloadedBindings();
-
-            // Print startup information.
             Banner.PrintBanner();
-
-            // Get Controller Order
             Controllers.PrintControllerOrder();
-
-            // Unlock DLLs, Removes Zone Information which may prevent DLL injection if DLL was downloaded from e.g. Internet Explorer
-            DllUnlocker.UnblockDlls();
-
-            // Setup Server
+            DllUnlocker.UnblockDlls(); // Removes Zone Information which may prevent DLL injection if DLL was downloaded from e.g. Internet Explorer
             LoaderServer.SetupServer();
 
             /* - Option Parsing, Linking - */
 
-            // Parse Arguments
             ParseArguments(args);
-
-            // Startup Assembler (So a running instance/open handle does not bother devs working on mods)
-            Assembler.Assemble(new string[] {"use32", "nop eax"});
-
-            // Start game
+            Assembler.Assemble(new string[] {"use32", "nop eax"}); // Startup Assembler (So a running instance/open handle does not bother devs working on mods)
             InjectByMethod(args);
 
             /* - Load and enter main close polling loop - */
@@ -128,7 +112,7 @@ namespace Reloaded_Loader
             AppDomain.CurrentDomain.ProcessExit += Shutdown;
             Console.CancelKeyPress += Shutdown;
 
-            // Sleep infinitely as much as it is necessary.
+            // Sleep infinitely.
             while (true)
             { Console.ReadLine(); }
         }
@@ -149,16 +133,15 @@ namespace Reloaded_Loader
             // Spin trying to get game process until timeout.
             while (timeoutStopWatch.ElapsedMilliseconds < 6000)
             {
-                // Grab current already running game.
+                // Grab current already running game, did we find it? Not? Try again.
                 ReloadedProcess localGameProcess = ReloadedProcess.GetProcessByName(_attachTargetName);
 
-                // Did we find the process? If not, try again.
-                if (localGameProcess == null) continue;
+                if (localGameProcess == null)
+                    continue;
 
-                // Check if process is newer than our original game process, if it is, restart self.
+                // Ensure we didn't find some background process that was running all along.
                 if (localGameProcess.GetProcessFromReloadedProcess().StartTime > _processStartTime)
                 {                   
-                    // Game restart
                     Bindings.PrintInfo($"// Game Restarted, Probably from Self-Kill e.g. Denuvo, VMProtect Reattaching! | {_attachTargetName}");
                     Bindings.PrintInfo($"// In other words, super early attach not supported! Maybe with manual map in the future.");
                     _gameProcess = localGameProcess;
@@ -174,7 +157,7 @@ namespace Reloaded_Loader
                     // Reload our mods.
                     ModLoader.LoadMods(_gameConfig, _gameProcess);
 
-                    // Sleep infinitely as much as it is necessary.
+                    // Sleep infinitely.
                     while (true)
                     { Console.ReadLine(); }
                 }
@@ -256,9 +239,7 @@ namespace Reloaded_Loader
 
                 // Check if the current running architecture matched ~(32 bit), if not, restart as x64.
                 if (!_gameProcess.CheckArchitectureMatch())
-                {
                     RebootX64(arguments);
-                }
             }
 
             // Otherwise start process suspended in Reloaded, hook it, exploit it and resume the intended way.
