@@ -127,9 +127,7 @@ namespace Reloaded.Assembler
 
             // Local function to assign the message Bytes.
             void GetMessageBytes(NetPeer peer, NetDataReader reader)
-            {
-                messageBytes = Message.GetMessage(reader.GetBytesWithLength()).Data;
-            }
+            { messageBytes = Message.GetMessage(reader.GetBytesWithLength()).Data; }
 
             // Add event for receiving on network.
             _reloadedClientListener.NetworkReceiveEvent += GetMessageBytes;
@@ -189,6 +187,7 @@ namespace Reloaded.Assembler
                 ReloadedClient.ReconnectDelay = 50;
                 ReloadedClient.MaxConnectAttempts = 5;
                 ReloadedClient.DisconnectTimeout = Int64.MaxValue;
+                ReloadedClient.UpdateTime = 2;
                 ReloadedClient.Connect(IPAddress.Loopback.ToString(), _serverPort);
 
                 // Check below if connected client is our assembler.

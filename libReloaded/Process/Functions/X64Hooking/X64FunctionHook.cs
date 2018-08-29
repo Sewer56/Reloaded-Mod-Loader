@@ -270,9 +270,9 @@ namespace Reloaded.Process.Functions.X64Hooking
                 assemblyCode.Add("push rbp");       // Backup old call frame
                 assemblyCode.Add("mov rbp, rsp");   // Setup new call frame
                 
-                // TODO: Something Better to ensure alignment if not Aligned
                 // We assume that we are stack aligned in usercall/custom calling conventions, if we are not, game over for now.
                 // Our stack frame alignment is off by 8 here, we must also consider non-register parameters.
+                // Note to self: In the case you forget, dummy. Your stack needs to be 16 byte aligned.
 
                 // Calculate the bytes our wrapper parameters take on the stack in total.
                 // The stack frame backup, push rbp and CALL negate themselves so it's down to this.
@@ -299,7 +299,7 @@ namespace Reloaded.Process.Functions.X64Hooking
                 assemblyCode.Add("add rsp, " + ((nonRegisterParameters * 8) + 32));
 
                 // Restore stack alignment
-                assemblyCode.Add($"add rbp, {stackMisalignment}");   // Setup new call frame
+                assemblyCode.Add($"add rbp, {stackMisalignment}");
 
                 // Restore Stack Frame and Return
                 assemblyCode.Add("pop rbp");

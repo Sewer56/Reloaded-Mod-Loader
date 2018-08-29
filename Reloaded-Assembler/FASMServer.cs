@@ -123,6 +123,7 @@ namespace ReloadedAssembler
                 ReloadedServer.ReconnectDelay = 100;
                 ReloadedServer.UnsyncedEvents = true;
                 ReloadedServer.MaxConnectAttempts = 10;
+                ReloadedServer.UpdateTime = 2;
 
                 // Send received data to the message handler
                 ReloadedServerListener.NetworkReceiveEvent += ReceiveMessage;

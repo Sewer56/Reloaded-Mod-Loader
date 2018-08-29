@@ -270,7 +270,6 @@ namespace Reloaded.Process.Functions
             newBytes.AddRange(X64AssembleAbsoluteJump((IntPtr)reloadedHookEndAddress, reloadedFunction));
 
             // Write to memory buffer and return
-            // TODO: Position Wrapper Correctly.
             return MemoryBufferManager.Add(newBytes.ToArray(), (IntPtr)wrapperAddress);
         }
 
@@ -422,7 +421,14 @@ namespace Reloaded.Process.Functions
         public static byte[] X64AssembleRelativeJump(IntPtr relativeJumpOffset)
         {
             // List of ASM Instructions to be Compiled
-            // TODO: If outside of range, use a targeted memorybuffer created in range, and absolute jmp from that buffer.
+            // TODO: [Optional] If outside of range, use a targeted memorybuffer created in range, and absolute jmp from that buffer.
+
+            /*
+                The probability of this to-do being necessary is pretty much 0 in a realistic scenario as Reloaded would preallocate the necessary
+                memory before the application would allocate any extra memory on its heap. (Remember: Reloaded mods execute on a suspended application).
+
+                Even popular commercial 3rd party software such as overlays (e.g. Steam, RTSS) do not seem to make a consideration of this.
+            */
             List<string> assemblyCode = new List<string> { "use64" };
 
             // Jump by a relative amount of bytes.
