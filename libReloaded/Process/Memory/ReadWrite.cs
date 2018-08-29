@@ -42,7 +42,7 @@ namespace Reloaded.Process.Memory
 
         /*
             In order of speed:
-                Unsafe   - Can fail if appropriate permissions not set for a page.
+                Unsafe   - Can fail if appropriate permissions not set for a page. (depending if FastUnsafe or just Unsafe)
                 Fast     - Can fail if appropriate permissions not set for a page.
                 Regular  - Should always succeed.
                 External - Should always succeed.

@@ -25,6 +25,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
+using Binarysharp.Assemblers.Fasm;
 using libReloaded_Networking;
 using LiteNetLib;
 using LiteNetLib.Utils;
@@ -109,11 +110,20 @@ namespace Reloaded.Assembler
         /// <returns>0x90 (nop) if the assembly operation fails, else the successfully assembled bytes.</returns>
         public static byte[] Assemble(string[] mnemonics)
         {
+            // Native route for X86.
+            if (IntPtr.Size == 4)
+            {
+                return FasmNETAssemble(mnemonics);
+            }
+
+            // X64 processes do not support Fasm.NET, we must make use of our remote assembler.
+            // This means that things will go a bit slower :/
+
             // Connect if not connected (we may be disconnected after application DRM self-kill, timeout using debugger, etc.)
             while (ReloadedClient.PeersCount < 1)
             {
                 ConnectToServer();
-            }   
+            }
 
             // Build Message to Assemble Mnemonics.
             Message assemblyRequest = new Message
@@ -141,6 +151,11 @@ namespace Reloaded.Assembler
             _reloadedClientListener.NetworkReceiveEvent -= GetMessageBytes;
 
             return messageBytes;
+        }
+
+        private static byte[] FasmNETAssemble(string[] source)
+        {
+            return FasmNet.Assemble(source);
         }
 
         /// <summary>

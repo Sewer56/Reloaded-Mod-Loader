@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using Reloaded.Process.Functions.X64Functions;
 using Reloaded.Process.Functions.X86Functions;
 
 namespace Reloaded.Process.Helpers.Functions
@@ -65,7 +66,7 @@ namespace Reloaded.Process.Helpers.Functions
         public unsafe IntPtr Pointer => *(IntPtr*)FunctionPointer;
 
         /// <summary>
-        /// Construct a new callback given the address of the function pointer assigned to the callback.
+        /// Abstracts a pointer to a native function.
         /// </summary>
         /// <param name="functionPointer"></param>
         public FunctionPtr(ulong functionPointer)
@@ -108,7 +109,10 @@ namespace Reloaded.Process.Helpers.Functions
             else
             {
                 // Create wrapper if nonexisting.
-                _delegate = FunctionWrapper.CreateWrapperFunction<TDelegate>((long) functionPointer);
+                if (IntPtr.Size == 4)
+                    _delegate = FunctionWrapper.CreateWrapperFunction<TDelegate>((long) functionPointer);
+                else
+                    _delegate = X64FunctionWrapper.CreateWrapperFunction<TDelegate>((long)functionPointer);
 
                 // Cache the function wrapper.
                 _methodCache[functionPointer] = _delegate;

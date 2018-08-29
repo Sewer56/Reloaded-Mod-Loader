@@ -54,7 +54,8 @@ namespace Reloaded_Mod_Template
                 Note: Debugging this might prove troublesome for this entry function, with async methods,
                 local variable values are not exactly known to show in all configurations.
 
-                The following sample has been tested with Sonic Adventure 2 and Sonic Heroes (under Crosire's D3D8To9).
+                The following sample has been tested with Sonic Adventure 2 and Sonic Heroes (under Crosire's D3D8To9)
+                as well as Tales of Berseria (X64 & Denuvo).
             */
             
             /*
@@ -102,7 +103,6 @@ namespace Reloaded_Mod_Template
                 ResetDelegate: Reset hook, this is called when the resolution of the window changes, or a switch from fullscreen to window is performed.
                 HookDelay: Some games require this due to bad programming *cough* Sonic Adventure 2 *cough*.
             */
-            // Debugger.Launch();
 
             _directX9Overlay = await DX9Overlay.CreateDirectXOverlay(RenderDelegate, ResetDelegate, 0);
             _directX9Overlay.EndSceneHook?.Activate();
@@ -112,11 +112,9 @@ namespace Reloaded_Mod_Template
 
             /*
                 Warning: Amateur DirectX 9 Rendering Code.
-                I've only provided the hooks, I'm not familliar with DirectX nor SharpDX myself, below is a basic
-                example of rendering some text, a line and a basic arbitrary shape.
+                I've only provided the hooks, at the time of writing this, I was not familliar with DirectX 
+                nor SharpDX myself, below is (was) a basic example of rendering some text, a line and a basic arbitrary shape.
 
-                The triangle example is stolen and adapted shamelessly from: http://www.directxtutorial.com/Lesson.aspx?lessonid=9-4-4
-                The animation is my own.
                 Protip: If looking for a SharpDX function, search the SharpDX repository with the C++ function.
                 I would also highly advise looking at SharpDX examples https://github.com/sharpdx/SharpDX-Samples/tree/master/Desktop/Direct3D9
             */

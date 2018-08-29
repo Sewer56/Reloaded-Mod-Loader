@@ -152,7 +152,6 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         {
             try
             {
-                Debugger.Launch();
                 // Cast the button & ignore if currently downloading.
                 Button testButton = (Button)sender;
                 if (_isCurrentlyDownloading)
