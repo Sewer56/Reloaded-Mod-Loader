@@ -25,8 +25,17 @@ It is a completely free and open source public rewrite of **Heroes Mod Loader**,
 - Visual C++ Redist 2012 (if on Windows 7 | required by a dependency I may replace someday with a bit of Native code).
 
 # Table of Contents
+
+## For Users
 - [Features](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Features.md)
 - [User Guide](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/User%20Guide.md)
+
+## Casual Modders
 - [Getting Started: Modifications](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Getting%20Started%20Modifications.md)
+
+## Programmers
 - [Getting Started: Programmers](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Getting%20Started%20for%20Developers.md)
+- [Writing Reloaded Code Mods: Quick Tour](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Writing%20Reloaded%20Code%20Mods%20Quick%20Tour.md)
+
+## Potential Contributors
 - [Project Structure](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Project%20Structure.md)
