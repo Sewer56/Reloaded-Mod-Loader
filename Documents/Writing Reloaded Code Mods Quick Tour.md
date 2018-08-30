@@ -14,7 +14,7 @@
 
 The following is a small, quick, non-exhaustive tool to help some of you fellow programmers getting started with developing some simple modifications - providing an introduction to developing mods with Reloaded. The following serves as a guide to help you get going, covering the basics and essentials.
 
-This guide is intended to be read after Reloaded for Programmers, it also assumes you have at least a small amount of experience with hacking games already. 
+This guide is intended to be read after [Reloaded for Programmers](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Getting%20Started%20for%20Developers.md), it also assumes you have at least a small amount of experience with hacking games already. 
 
 ## Table of Contents
 - [1. Reading/Writing to/from Memory](#1-readingwriting-tofrom-memory)
