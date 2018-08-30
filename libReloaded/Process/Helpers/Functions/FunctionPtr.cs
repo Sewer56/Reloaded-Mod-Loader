@@ -55,15 +55,15 @@ namespace Reloaded.Process.Helpers.Functions
         private IntPtr _lastFunctionPointer;
 
         /// <summary>
-        /// Gets the address of the assigned function pointer for the method to be called.
+        /// The address of the pointer in memory with which this class was instantiated with.
         /// </summary>
         public ulong FunctionPointer { get; }
 
         /// <summary>
-        /// Gets the address of the function from the assigned function pointer for the method to be executed.
+        /// Address of the function to which the pointer is currently pointing to.
         /// This may be null/IntPtr.Zero.
         /// </summary>
-        public unsafe IntPtr Pointer => *(IntPtr*)FunctionPointer;
+        public unsafe IntPtr FunctionAddress => *(IntPtr*)FunctionPointer;
 
         /// <summary>
         /// Abstracts a pointer to a native function.
@@ -79,7 +79,7 @@ namespace Reloaded.Process.Helpers.Functions
         /// Overrides the boolean operator, returning false if the pointer is invalid (zero).
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator bool(FunctionPtr<TDelegate> value) => value.Pointer != IntPtr.Zero;
+        public static implicit operator bool(FunctionPtr<TDelegate> value) => value.FunctionAddress != IntPtr.Zero;
 
         /// <summary>
         /// Retrieves an instance of the delegate which can be used to call the function behind the function pointer.
@@ -88,12 +88,12 @@ namespace Reloaded.Process.Helpers.Functions
         public TDelegate GetDelegate()
         {
             // Return false if pointer points to invalid address.
-            if (Pointer == IntPtr.Zero)
+            if (FunctionAddress == IntPtr.Zero)
                 return null;
 
             // Get the pointer to the function.
             // Our pointer is dereferenced here, see "Pointer" Property.
-            IntPtr functionPointer = Pointer;
+            IntPtr functionPointer = FunctionAddress;
 
             // [Performance] Fast return if the pointer is the same as the last value.
             if (functionPointer == _lastFunctionPointer)
