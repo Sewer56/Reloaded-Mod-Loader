@@ -12,7 +12,7 @@
 
 ## Introduction
 
-The following is a small, quick, non-exhaustive tool to help some of you fellow programmers getting started with developing some simple modifications - providing an introduction to developing mods with Reloaded. The following serves as a guide to help you get going, covering the basics and essentials.
+The following is a small, quick, non-exhaustive resource to help some of you fellow programmers getting started with developing some simple modifications - providing an introduction to developing mods with Reloaded. This serves as a guide to help you get going, covering the basics and essentials.
 
 This guide is intended to be read after [Reloaded for Programmers](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Getting%20Started%20for%20Developers.md), it also assumes you have at least a small amount of experience with hacking games already. 
 
@@ -184,6 +184,8 @@ byte[] result64 = Assembler.Assemble(x64asm);
 Bear in mind, that because the solution for assembly is FASM under the hood - this cannot be *natively* used within an x64 process. If your mod is running inside an x64 application, libReloaded will automatically unpack its own remote assembler (Reloaded-Assembler) and communicate with it over the local system instead.
 
 You are also advised to test whether your assembly compiles with FASM manually before adding it into your mod - Reloaded does not warn you if the assembler failed to compile and simply returns a nop (0x90). 
+
+*Should you want to execute your own arbitrary assembly code, feel free to read onward onto the `Native Functions` section. That said, you'll probably never practically end up requiring to do that realistically.*
 
 ## 4. Native Functions
 
