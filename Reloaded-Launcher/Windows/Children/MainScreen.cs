@@ -163,7 +163,15 @@ namespace ReloadedLauncher.Windows.Children
                 item_LocationBoxEXEPath.Text = "$DIRECTORY + " + Global.CurrentGameConfig.ExecutableLocation;
 
                 // Load the game image.
-                try { item_GameBanner.BackgroundImage = Image.FromFile(GameConfig.GetBannerPath(Global.CurrentGameConfig)); }
+                try
+                {
+                    // Doing this the roundabout way to not leave file handles open.
+                    Image image;
+                    using (var bmpTemp = new Bitmap(GameConfig.GetBannerPath(Global.CurrentGameConfig)))
+                    { image = new Bitmap(bmpTemp); }
+
+                    item_GameBanner.BackgroundImage = image;
+                }
                 catch { item_GameBanner.BackgroundImage = null; }
             }
             catch { }

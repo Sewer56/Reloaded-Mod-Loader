@@ -361,7 +361,15 @@ namespace ReloadedLauncher.Windows.Children
                 string localModDirectory = Path.GetDirectoryName(modConfiguration.ModLocation);
 
                 // Attempt to load image.
-                try { box_ModPreview.BackgroundImage = Image.FromFile(localModDirectory + $"\\{Strings.Launcher.BannerName}"); }
+                try
+                {
+                    // We do not want to keep open file handles.
+                    Image image;
+                    using (var bmpTemp = new Bitmap(localModDirectory + $"\\{Strings.Launcher.BannerName}"))
+                    { image = new Bitmap(bmpTemp); }
+
+                    box_ModPreview.BackgroundImage = image;
+                }
                 catch { box_ModPreview.BackgroundImage = null; }
             }
             catch { }

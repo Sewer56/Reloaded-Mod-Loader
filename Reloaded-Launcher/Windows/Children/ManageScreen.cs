@@ -318,7 +318,15 @@ namespace ReloadedLauncher.Windows.Children
             borderless_CommandLineArguments.Text = gameConfig.CommandLineArgs;
 
             // Load the game image.
-            try { box_GameBanner.BackgroundImage = Image.FromFile(GameConfig.GetBannerPath(gameConfig)); }
+            try
+            {
+                // We do not want to keep open file handles.
+                Image image;
+                using (var bmpTemp = new Bitmap(GameConfig.GetBannerPath(gameConfig)))
+                { image = new Bitmap(bmpTemp); }
+
+                box_GameBanner.BackgroundImage = image;
+            }
             catch { box_GameBanner.BackgroundImage = null; }
         }
 
