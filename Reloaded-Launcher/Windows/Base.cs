@@ -61,12 +61,13 @@ namespace ReloadedLauncher.Windows
         /// </summary>
         public class ChildForms
         {
-            public MainScreen MainMenu { get; set; }
-            public ModsScreen ModsMenu { get; set; }
-            public ThemeScreen ThemeMenu { get; set; }
-            public AboutScreen AboutMenu { get; set; }
-            public ManageScreen ManageMenu { get; set; }
-            public InputScreen InputMenu { get; set; }
+            public MainScreen       MainMenu    { get; set; }
+            public ModsScreen       ModsMenu    { get; set; }
+            public ThemeScreen      ThemeMenu   { get; set; }
+            public AboutScreen      AboutMenu   { get; set; }
+            public ManageScreen     ManageMenu  { get; set; }
+            public InputScreen      InputMenu   { get; set; }
+            public PluginScreen     PluginMenu  { get; set; }
 
             /// <summary>
             /// Stores the currently opened menu.
@@ -207,6 +208,7 @@ namespace ReloadedLauncher.Windows
             Global.BaseForm.categoryBar_Input.Image = images.InputImage;
             Global.BaseForm.categoryBar_Mods.Image = images.TweaksImage;
             Global.BaseForm.categoryBar_Games.Image = images.GamesImage;
+            Global.BaseForm.categoryBar_Plugin.Image = images.PluginImage;
 
             Global.BaseForm.ChildrenForms.ModsMenu.borderless_ConfigBox.Image = images.TweaksImage2;
             Global.BaseForm.ChildrenForms.ModsMenu.borderless_SourceBox.Image = images.GithubImage;
@@ -238,7 +240,8 @@ namespace ReloadedLauncher.Windows
                 ThemeMenu = new ThemeScreen(this),
                 AboutMenu = new AboutScreen(this),
                 ManageMenu = new ManageScreen(this),
-                InputMenu = new InputScreen(this)
+                InputMenu = new InputScreen(this),
+                PluginMenu = new PluginScreen(this)
             };
 
             // Create the children
@@ -323,6 +326,7 @@ namespace ReloadedLauncher.Windows
                 case MenuScreens.ThemeMenu: SwapMenu(ChildrenForms.ThemeMenu); break;
                 case MenuScreens.AboutMenu: SwapMenu(ChildrenForms.AboutMenu); break;
                 case MenuScreens.ManageMenu: SwapMenu(ChildrenForms.ManageMenu); break;
+                case MenuScreens.PluginMenu: SwapMenu(ChildrenForms.PluginMenu); break;
                 case MenuScreens.InputMenu: SwapMenu(ChildrenForms.InputMenu); break;
             }
         }
@@ -346,7 +350,10 @@ namespace ReloadedLauncher.Windows
                 return MenuScreens.AboutMenu;
             if (currentMenu == ChildrenForms.ManageMenu)
                 return MenuScreens.ManageMenu;
-            if (currentMenu == ChildrenForms.InputMenu) return MenuScreens.InputMenu;
+            if (currentMenu == ChildrenForms.InputMenu)
+                return MenuScreens.InputMenu;
+            if (currentMenu == ChildrenForms.PluginMenu)
+                return MenuScreens.PluginMenu;
 
             // Return main menu as default.
             return MenuScreens.MainMenu;
@@ -417,8 +424,9 @@ namespace ReloadedLauncher.Windows
             MainMenu,
             ModsMenu,
             InputMenu,
-            ThemeMenu,
             ManageMenu,
+            PluginMenu,
+            ThemeMenu,
             AboutMenu
         }
 
@@ -439,6 +447,7 @@ namespace ReloadedLauncher.Windows
         private void CategoryBar_Theme_Click(object sender, EventArgs e) { SwapMenu(ChildrenForms.ThemeMenu); }
         private void CategoryBar_Manager_Click(object sender, EventArgs e) { SwapMenu(ChildrenForms.ManageMenu); }
         private void CategoryBar_About_Click(object sender, EventArgs e) { SwapMenu(ChildrenForms.AboutMenu); }
+        private void categoryBar_Plugin_Click(object sender, EventArgs e) { SwapMenu(ChildrenForms.PluginMenu); }
 
         #endregion
 
@@ -446,5 +455,6 @@ namespace ReloadedLauncher.Windows
         {
 
         }
+
     }
 }

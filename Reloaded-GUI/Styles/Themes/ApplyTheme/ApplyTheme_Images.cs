@@ -38,15 +38,16 @@ namespace Reloaded_GUI.Styles.Themes.ApplyTheme
             // Load the images from HDD.
             try
             {
-                Bindings.Images.AboutIconImage = Image.FromFile(imagesFolder + "\\About-Icon.png");
-                Bindings.Images.ManagerImage = Image.FromFile(imagesFolder + "\\Entry-Icon.png");
-                Bindings.Images.PaintImage = Image.FromFile(imagesFolder + "\\Paint-Icon.png");
-                Bindings.Images.InputImage = Image.FromFile(imagesFolder + "\\Controller-Icon.png");
-                Bindings.Images.TweaksImage = Image.FromFile(imagesFolder + "\\Tweaks-Icon.png");
-                Bindings.Images.GamesImage = Image.FromFile(imagesFolder + "\\Main-Icon.png");
-                Bindings.Images.TweaksImage2 = Image.FromFile(imagesFolder + "\\Tweaks2-Icon.png");
-                Bindings.Images.GithubImage = Image.FromFile(imagesFolder + "\\Github-Icon.png");
-                Bindings.Images.WorldImage = Image.FromFile(imagesFolder + "\\World-Icon.png");
+                Bindings.Images.AboutIconImage  = Image.FromFile(imagesFolder + "\\About-Icon.png");
+                Bindings.Images.ManagerImage    = Image.FromFile(imagesFolder + "\\Entry-Icon.png");
+                Bindings.Images.PaintImage      = Image.FromFile(imagesFolder + "\\Paint-Icon.png");
+                Bindings.Images.InputImage      = Image.FromFile(imagesFolder + "\\Controller-Icon.png");
+                Bindings.Images.TweaksImage     = Image.FromFile(imagesFolder + "\\Tweaks-Icon.png");
+                Bindings.Images.GamesImage      = Image.FromFile(imagesFolder + "\\Main-Icon.png");
+                Bindings.Images.TweaksImage2    = Image.FromFile(imagesFolder + "\\Tweaks2-Icon.png");
+                Bindings.Images.GithubImage     = Image.FromFile(imagesFolder + "\\Github-Icon.png");
+                Bindings.Images.WorldImage      = Image.FromFile(imagesFolder + "\\World-Icon.png");
+                Bindings.Images.PluginImage     = Image.FromFile(imagesFolder + "\\Plugin-Icon.png");
             }
             catch { MessageBox.Show("Could not load theme images, either the current theme is not installed or no theme is installed."); }
             

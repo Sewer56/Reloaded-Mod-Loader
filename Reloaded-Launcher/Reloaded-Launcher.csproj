@@ -211,6 +211,12 @@
     <Compile Include="Windows\Children\ManageScreen.Designer.cs">
       <DependentUpon>ManageScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Children\PluginScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Children\PluginScreen.Designer.cs">
+      <DependentUpon>PluginScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Children\ThemeScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -281,6 +287,9 @@
     <EmbeddedResource Include="Windows\Children\ManageScreen.resx">
       <DependentUpon>ManageScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Children\PluginScreen.resx">
+      <DependentUpon>PluginScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Windows\Children\ThemeScreen.resx">
       <DependentUpon>ThemeScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -335,6 +344,10 @@
     <ProjectReference Include="..\Reloaded-GUI\Reloaded-GUI.csproj">
       <Project>{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}</Project>
       <Name>Reloaded-GUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reloaded-Plugin-Interfaces\Reloaded-Plugin-Interfaces.csproj">
+      <Project>{6917b3c3-4972-4ffd-87c9-4bbcccf1d180}</Project>
+      <Name>Reloaded-Plugin-Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\ReloadedUpdateChecker\Reloaded-Update-Checker.csproj">
       <Project>{3a842049-862c-4cea-83f2-004a4c536088}</Project>

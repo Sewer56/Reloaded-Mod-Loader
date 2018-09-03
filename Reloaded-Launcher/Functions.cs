@@ -25,6 +25,7 @@ using System.Reflection;
 using Reloaded;
 using Reloaded.Paths;
 using Reloaded.Process;
+using Reloaded_Plugin_System;
 
 namespace ReloadedLauncher
 {
@@ -62,6 +63,9 @@ namespace ReloadedLauncher
 
             // We are done here.
             argumentsList.AddRange(localArguments);
+
+            foreach (var launcherEventPlugin in PluginLoader.LauncherEventPlugins)
+                argumentsList = launcherEventPlugin.SetLoaderParameters(argumentsList);
 
             // Start process
             ReloadedProcess process = new ReloadedProcess(filePath, argumentsList.ToArray());

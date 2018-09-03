@@ -18,9 +18,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System.Collections.Generic;
+using Reloaded;
 using Reloaded.Input;
 using Reloaded.Input.Common;
 using Reloaded.Input.Modules;
+using Reloaded_Plugin_System;
+using Reloaded_Plugin_System.Config.Loader;
 
 namespace Reloaded_Loader.Terminal.Information
 {
@@ -29,43 +33,64 @@ namespace Reloaded_Loader.Terminal.Information
     /// </summary>
     internal static class Controllers
     {
+        public static ControllerOptions ControllerOptions;
+
+        static Controllers()
+        {
+            ControllerOptions = new ControllerOptions();
+            ControllerOptions.PrintHeader = PrintHeaderDefault;
+            ControllerOptions.PrintControllerFunction = PrintControllerDefault;
+
+            foreach (var configPlugin in PluginLoader.LoaderConfigPlugins)
+                ControllerOptions = configPlugin.SetControllerOptions(ControllerOptions);
+        }
+
         /// <summary>
         /// Retrieves the controller list from the mod loader library libReloaded and prints it to the screen.
         /// </summary>
         public static void PrintControllerOrder()
         {
-            // Header
-            ConsoleFunctions.PrintMessageWithTime("Displaying Connected Controller List", ConsoleFunctions.PrintInfoMessage);
-            ConsoleFunctions.PrintMessageWithTime("Key: [Controller Port] [Controller Type] <Controller Name> (Disconnected?)", ConsoleFunctions.PrintInfoMessage);
-            ConsoleFunctions.PrintMessageWithTime("If this freezes, you're probably running Win 10 & are experiencing a DirectInput bug.", ConsoleFunctions.PrintInfoMessage);
-            ConsoleFunctions.PrintMessageWithTime("The only way to get around that is to restart your PC; sorry :/", ConsoleFunctions.PrintInfoMessage);
-
-            // Retrieve Controllers
-            ControllerManager controllerManager = new ControllerManager();
+            ControllerOptions.PrintHeader();
+            List<ControllerCommon.IController> controllers = GetControllersDefault();
 
             // Print list of controllers.
-            foreach (ControllerCommon.IController controller in controllerManager.Controllers)
+            foreach (ControllerCommon.IController controller in controllers)
             {
-                // Is controller XInput or DInput
-                string controllerName = "[" + controller.InputMappings.ControllerId.ToString("00") + "]";
+                string controllerId = controller.InputMappings.ControllerId.ToString("00");
+                string controllerAPI = controller.Remapper.DeviceType == Remapper.InputDeviceType.XInput ? "XInput" : "DInput";
+                string controllerName = controller.Remapper.GetControllerName;
+                bool isConnected = controller.IsConnected();
 
-                // Get Controller Type
-                if (controller.Remapper.DeviceType == Remapper.InputDeviceType.XInput)
-                    controllerName += " [XInput] ";
-                else if (controller.Remapper.DeviceType == Remapper.InputDeviceType.DirectInput)
-                    controllerName += " [DInput] ";
-
-                // Add controller name from remapper.
-                controllerName += controller.Remapper.GetControllerName;
-
-                // Check if disconnected.
-                if (! controller.IsConnected()) { controllerName += " (Disconnected)"; }
-
-                // Print controller to screen.
-                ConsoleFunctions.PrintMessageWithTime(controllerName, ConsoleFunctions.PrintMessage);
+                ControllerOptions.PrintControllerFunction(controllerId, controllerAPI, controllerName, isConnected);
             }
 
+            ControllerOptions.PostCleanController?.Invoke();
+        }
 
+        /*
+            -----------------------------------
+            No Plugins: Default Method Handlers
+            -----------------------------------
+        */
+
+        private static void PrintHeaderDefault()
+        {
+            Bindings.PrintInfo("Displaying Connected Controller List");
+            Bindings.PrintInfo("Key: [Controller Port] [Controller Type] <Controller Name> (Disconnected?)");
+            Bindings.PrintInfo("If this freezes, you're probably running Win 10 & are experiencing a DirectInput bug.");
+            Bindings.PrintInfo("The only way to get around that is to restart your PC; sorry :/");
+        }
+
+        private static List<ControllerCommon.IController> GetControllersDefault()
+        {
+            ControllerManager controllerManager = new ControllerManager();
+            return controllerManager.Controllers;
+        }
+
+        private static void PrintControllerDefault(string controllerId, string controllerAPI, string controllerName, bool isConnected)
+        {
+            string connectedText = isConnected ? "" : "(Disconnected)";
+            Bindings.PrintText($"[{controllerId}] [{controllerAPI}] {controllerName} {connectedText}");
         }
     }
 }

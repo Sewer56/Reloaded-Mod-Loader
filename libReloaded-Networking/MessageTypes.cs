@@ -18,6 +18,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
+using System;
+
 namespace libReloaded_Networking
 {
     /// <summary>
@@ -42,8 +44,9 @@ namespace libReloaded_Networking
             /// Expects Response:   True 
             /// Definition:         Assembles your x86 mnemonics sent to the mod loader server. Powered by FASM.NET.
             /// Data:               Returns the bytes representing the x86 mnemonics given. 
-            /// Notes:              Return data is 100% raw. Not a message struct.
+            /// Notes:              Removed from the loader indefinitively. Return data was 100% raw. Not a message struct.
             /// </summary>
+            [Obsolete]
             AssembleX86 = 0x1,
 
             /// <summary>

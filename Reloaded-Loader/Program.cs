@@ -29,10 +29,11 @@ using Reloaded.IO.Config;
 using Reloaded.Paths;
 using Reloaded.Process;
 using Reloaded_Loader.Core;
-using Reloaded_Loader.Miscellaneous;
+using Reloaded_Loader.Miscallenous;
 using Reloaded_Loader.Networking;
 using Reloaded_Loader.Terminal;
 using Reloaded_Loader.Terminal.Information;
+using Reloaded_Plugin_System;
 using Squirrel;
 using Console = Colorful.Console;
 
@@ -80,29 +81,23 @@ namespace Reloaded_Loader
             AppDomain.CurrentDomain.AssemblyResolve += AssemblyFinder.CurrentDomain_AssemblyResolve;
 
             /* - Initialization - */
-            DoSquirrelStuff();
+            IgnoreSquirrel();
 
-            ConsoleFunctions.Initialize();
+            LoaderConsole.Initialize();
             SetuplibReloadedBindings();
-            Banner.PrintBanner();
+            Banner.Execute();
             Controllers.PrintControllerOrder();
-            DllUnlocker.UnblockDlls(); // Removes Zone Information which may prevent DLL injection if DLL was downloaded from e.g. Internet Explorer
+            DllUnlocker.UnblockDlls();          // Removes Zone Information which may prevent DLL injection if DLL was downloaded from e.g. Internet Explorer
             LoaderServer.SetupServer();
 
             /* - Option Parsing, Linking - */
 
             ParseArguments(args);
             Assembler.Assemble(new string[] {"use32", "nop eax"}); // Startup Assembler (So a running instance/open handle does not bother devs working on mods)
-            InjectByMethod(args);
+            GetGameProcess(args);
 
             /* - Load and enter main close polling loop - */
-
-            // Add to exited event 
-            _gameProcess.GetProcessFromReloadedProcess().EnableRaisingEvents = true;
-            _gameProcess.GetProcessFromReloadedProcess().Exited += (sender, eventArgs) => ProcessSelfReattach();
-
-            // Load modifications for the current game.
-            ModLoader.LoadMods(_gameConfig, _gameProcess);
+            InjectMods();
 
             // Resume game after injection if we are NOT in attach mode.
             if (_attachTargetName == null)
@@ -112,7 +107,7 @@ namespace Reloaded_Loader
             AppDomain.CurrentDomain.ProcessExit += Shutdown;
             Console.CancelKeyPress += Shutdown;
 
-            // Sleep infinitely.
+            // Wait infinitely.
             while (true)
             { Console.ReadLine(); }
         }
@@ -150,14 +145,9 @@ namespace Reloaded_Loader
                     foreach (NetPeer peer in LoaderServer.ReloadedServer.GetPeers())
                     { LoaderServer.ReloadedServer.DisconnectPeer(peer); }
 
-                    // Re-subscribe to our event.
-                    _gameProcess.GetProcessFromReloadedProcess().EnableRaisingEvents = true;
-                    _gameProcess.GetProcessFromReloadedProcess().Exited += (sender, eventArgs) => ProcessSelfReattach();
+                    InjectMods();
 
-                    // Reload our mods.
-                    ModLoader.LoadMods(_gameConfig, _gameProcess);
-
-                    // Sleep infinitely.
+                    // Wait infinitely.
                     while (true)
                     { Console.ReadLine(); }
                 }
@@ -168,11 +158,28 @@ namespace Reloaded_Loader
         }
 
         /// <summary>
+        /// Kicks off the individual mods running inside the target process
+        /// specified by our <see cref="_gameProcess"/> variable.
+        /// </summary>
+        private static void InjectMods()
+        {
+            _gameProcess.GetProcessFromReloadedProcess().EnableRaisingEvents = true;
+            _gameProcess.GetProcessFromReloadedProcess().Exited += (sender, eventArgs) => ProcessSelfReattach();
+            ModLoader.LoadMods(_gameConfig, _gameProcess);
+        }
+
+        /// <summary>
         /// Parses the arguments passed into the application.
         /// </summary>
         /// <param name="arguments"></param>
         private static void ParseArguments(string[] arguments)
         {
+            // Set/Get arguments for all plugins.
+            foreach (var eventPlugin in PluginLoader.LoaderEventPlugins)
+            {
+                arguments = eventPlugin.SetArguments(arguments);
+            }
+
             // Go over known arguments.
             for (int x = 0; x < arguments.Length; x++)
             {
@@ -182,42 +189,14 @@ namespace Reloaded_Loader
             }
 
             // Check game config
-            if (_gameConfig == null) { Banner.DisplayWarning(); }
+            if (_gameConfig == null) { Information.DisplayWarning(); }
         }
 
         /// <summary>
-        /// Checks whether the supplied argument for the config path ends with Config.json and strips
-        /// the argument if it does to obtain the game configuration from the parser.
-        /// </summary>
-        private static GameConfig CheckConfigJson(string argument)
-        {
-            // Accept the supplied config path if it ends on Config.json.
-            if (argument.EndsWith(Strings.Parsers.ConfigFile))
-            { return GameConfig.ParseConfig(Path.GetDirectoryName(argument)); }
-
-            // Otherwise get the game config from the vanilla argument.
-            return GameConfig.ParseConfig(argument);
-        }
-
-        /// <summary>
-        /// Sets up bindings for libReloaded Print functions for printing any errors which happen within
-        /// libReloaded.
-        /// </summary>
-        private static void SetuplibReloadedBindings()
-        {
-            Bindings.PrintError    += delegate (string message) { ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintErrorMessage); };
-            Bindings.PrintWarning  += delegate (string message) { ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintWarningMessage); };
-            Bindings.PrintInfo     += delegate (string message) { ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintInfoMessage); };
-            Bindings.PrintText     += delegate (string message) { ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintMessage); };
-        }
-
-        /// <summary>
-        /// Injects itself to the game depending on the individual method chosen either from the commandline or in the launcher.
-        /// By default, Reloaded starts the game and injects immediately into suspended, otherwise if --attach is specified, Reloaded
-        /// tries to hook itself into an already running game/application.
+        /// Retrieves the game instance we are going to be hacking as a ReloadedProcess 
         /// </summary>
         /// <param name="arguments">A copy of the arguments passed into the application used for optionally rebooting in x64 mode.</param>
-        private static void InjectByMethod(string[] arguments)
+        private static void GetGameProcess(string[] arguments)
         {
             // Fast return if soft reboot (game process killed and restarted itself)
             if (_gameProcess != null)
@@ -232,7 +211,7 @@ namespace Reloaded_Loader
                 // Check if gameProcess successfully returned.
                 if (_gameProcess == null)
                 {
-                    ConsoleFunctions.PrintMessageWithTime("Error: An active running game instance was not found.", ConsoleFunctions.PrintErrorMessage);
+                    LoaderConsole.PrintFormattedMessage("Error: An active running game instance was not found.", LoaderConsole.PrintErrorMessage);
                     Console.ReadLine();
                     Shutdown(null, null);
                 }
@@ -271,18 +250,30 @@ namespace Reloaded_Loader
                 _processStartTime = _gameProcess.GetProcessFromReloadedProcess().StartTime;
         }
 
+
+        /*
+            ---------------------
+            Miscellaneous Actions
+            ---------------------
+        */
+
+
         /// <summary>
-        /// Shuts down the application when the user presses CTRL+C.
+        /// Checks whether the supplied argument for the config path ends with Config.json and strips
+        /// the argument if it does to obtain the game configuration from the parser.
         /// </summary>
-        private static void Shutdown(object sender, EventArgs e)
+        private static GameConfig CheckConfigJson(string argument)
         {
-            // Kill self.
-            Environment.Exit(0);
+            // Accept the supplied config path if it ends on Config.json.
+            if (argument.EndsWith(Strings.Parsers.ConfigFile))
+            { return GameConfig.ParseConfig(Path.GetDirectoryName(argument)); }
+
+            // Otherwise get the game config from the vanilla argument.
+            return GameConfig.ParseConfig(argument);
         }
 
         /// <summary>
-        /// Reboots the Reloaded Loader in x64 mode by running
-        /// the x64 wrapper.
+        /// Reboots the Reloaded Loader in x64 mode by running the x64 wrapper.
         /// </summary>
         /// <param name="arguments">A copy of the arguments originally passed to the starting application.</param>
         private static void RebootX64(string[] arguments)
@@ -294,14 +285,15 @@ namespace Reloaded_Loader
             ReloadedProcess reloadedProcess = new ReloadedProcess($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Reloaded-Wrapper-x64.exe", arguments);
             reloadedProcess.ResumeAllThreads();
 
-            // Bye Bye Current Process
+
             Shutdown(null, null);
         }
 
         /// <summary>
         /// Shuts itself down upon being started by Squirrel.Windows over an update event.
+        /// Squirrel.Windows has no business to do here.
         /// </summary>
-        private static void DoSquirrelStuff()
+        private static void IgnoreSquirrel()
         {
             try
             {
@@ -315,6 +307,25 @@ namespace Reloaded_Loader
             catch (Exception e)
             { }
 
+        }
+
+        /// <summary>
+        /// Sets up the print function shorthands.
+        /// </summary>
+        private static void SetuplibReloadedBindings()
+        {
+            Bindings.PrintError     += delegate (string message) { LoaderConsole.PrintFormattedMessage(message, LoaderConsole.PrintErrorMessage); };
+            Bindings.PrintWarning   += delegate (string message) { LoaderConsole.PrintFormattedMessage(message, LoaderConsole.PrintWarningMessage); };
+            Bindings.PrintInfo      += delegate (string message) { LoaderConsole.PrintFormattedMessage(message, LoaderConsole.PrintInfoMessage); };
+            Bindings.PrintText      += delegate (string message) { LoaderConsole.PrintFormattedMessage(message, LoaderConsole.PrintMessage); };
+        }
+
+        /// <summary>
+        /// Shuts down the application. Intended to be triggered when user presses CTRL+C.
+        /// </summary>
+        private static void Shutdown(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

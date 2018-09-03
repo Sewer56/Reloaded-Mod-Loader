@@ -81,6 +81,18 @@ namespace Reloaded.IO.Config
         public string ConfigurationFile { get; set; } = "N/A";
 
         /// <summary>
+        /// [Optional] Specifies the DLL File name to load if the mod is being loaded into a 32 bit application.
+        /// </summary>
+        [JsonProperty(Required = Required.Default)]
+        public string DllFile32 { get; set; } = "";
+
+        /// <summary>
+        /// [Optional] Specifies the DLL File name to load if the mod is being loaded into a 64 bit application.
+        /// </summary>
+        [JsonProperty(Required = Required.Default)]
+        public string DllFile64 { get; set; } = "";
+
+        /// <summary>
         /// Specifies a list of other mod ids to be loaded if the current mod is enabled.
         /// This is not specifically enforced, but is a hint to the Reloaded Launcher.
         /// </summary>
@@ -127,9 +139,10 @@ namespace Reloaded.IO.Config
 
             try
             {
+                string jsonText = File.ReadAllText(modConfigurationLocation);
                 modConfiguration =
                     File.Exists(modConfigurationLocation)
-                        ? JsonConvert.DeserializeObject<ModConfig>(File.ReadAllText(modConfigurationLocation))
+                        ? JsonConvert.DeserializeObject<ModConfig>(jsonText)
                         : new ModConfig();
             }
             catch { modConfiguration = new ModConfig(); }
@@ -288,6 +301,14 @@ namespace Reloaded.IO.Config
         {
             // Filter down to all disabled mods.
             return GetAllDependencies().Where(x => x.IsEnabled()).ToList();
+        }
+
+        /// <summary>
+        /// Returns true if the config file for the mod exists, else false.
+        /// </summary>
+        public bool IsValidModConfig()
+        {
+            return File.Exists(ModLocation);
         }
     }
 }

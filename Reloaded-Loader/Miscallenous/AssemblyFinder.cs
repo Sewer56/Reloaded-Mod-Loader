@@ -22,7 +22,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace Reloaded_Loader.Miscellaneous
+namespace Reloaded_Loader.Miscallenous
 {
     public static class AssemblyFinder
     {

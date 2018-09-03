@@ -111,6 +111,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameName = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             this.borderless_GameModDirectory = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             this.borderless_CurrentGame = new Reloaded_GUI.Styles.Controls.Animated.AnimatedComboBox();
+            this.borderless_CommandLineArguments = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             this.box_GameBanner = new System.Windows.Forms.PictureBox();
             this.box_GameDirectorySelect = new System.Windows.Forms.PictureBox();
             this.box_GameEXESelect = new System.Windows.Forms.PictureBox();
@@ -120,10 +121,9 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameVersion = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_GameModDirectory = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_GameName = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.box_CommandLineArguments = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_GameFolderSelect = new System.Windows.Forms.PictureBox();
             this.item_Reserved = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
-            this.box_CommandLineArguments = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
-            this.borderless_CommandLineArguments = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameBanner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameDirectorySelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameEXESelect)).BeginInit();
@@ -704,6 +704,49 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_CurrentGame.TopBorderWidth = 2;
             this.borderless_CurrentGame.SelectedIndexChanged += new System.EventHandler(this.SelectedGameChanged);
             // 
+            // borderless_CommandLineArguments
+            // 
+            animMessage29.Control = this.borderless_CommandLineArguments;
+            animMessage29.PlayAnimation = true;
+            animProperties15.BackColorMessage = animMessage29;
+            animMessage30.Control = this.borderless_CommandLineArguments;
+            animMessage30.PlayAnimation = true;
+            animProperties15.ForeColorMessage = animMessage30;
+            animProperties15.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties15.MouseEnterDuration = 0F;
+            animProperties15.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties15.MouseEnterFramerate = 0F;
+            animProperties15.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties15.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties15.MouseLeaveDuration = 0F;
+            animProperties15.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties15.MouseLeaveFramerate = 0F;
+            animProperties15.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_CommandLineArguments.AnimProperties = animProperties15;
+            this.borderless_CommandLineArguments.BackColor = System.Drawing.Color.Gray;
+            this.borderless_CommandLineArguments.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.borderless_CommandLineArguments.BottomBorderColour = System.Drawing.Color.Transparent;
+            this.borderless_CommandLineArguments.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            this.borderless_CommandLineArguments.BottomBorderWidth = 55;
+            this.borderless_CommandLineArguments.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_CommandLineArguments.ForeColor = System.Drawing.Color.Transparent;
+            this.borderless_CommandLineArguments.LeftBorderColour = System.Drawing.Color.Transparent;
+            this.borderless_CommandLineArguments.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
+            this.borderless_CommandLineArguments.LeftBorderWidth = 0;
+            this.borderless_CommandLineArguments.Location = new System.Drawing.Point(290, 301);
+            this.borderless_CommandLineArguments.Name = "borderless_CommandLineArguments";
+            this.borderless_CommandLineArguments.RightBorderColour = System.Drawing.Color.Transparent;
+            this.borderless_CommandLineArguments.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
+            this.borderless_CommandLineArguments.RightBorderWidth = 0;
+            this.borderless_CommandLineArguments.Size = new System.Drawing.Size(572, 21);
+            this.borderless_CommandLineArguments.TabIndex = 41;
+            this.borderless_CommandLineArguments.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTipHelper.SetToolTip(this.borderless_CommandLineArguments, "You should only modify this if executable directory does not contain rest of game" +
+        " files\r\ne.g. <Game>/build/game.exe and <Game>/assets/\r\n");
+            this.borderless_CommandLineArguments.TopBorderColour = System.Drawing.Color.Transparent;
+            this.borderless_CommandLineArguments.TopBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
+            this.borderless_CommandLineArguments.TopBorderWidth = 0;
+            // 
             // box_GameBanner
             // 
             this.box_GameBanner.BackColor = System.Drawing.Color.Transparent;
@@ -837,6 +880,25 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameName.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.toolTipHelper.SetToolTip(this.box_GameName, "Specifies the name of the game as seen in Reloaded Launcher");
             // 
+            // box_CommandLineArguments
+            // 
+            this.box_CommandLineArguments.AutoSize = true;
+            this.box_CommandLineArguments.BackColor = System.Drawing.Color.Transparent;
+            this.box_CommandLineArguments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.box_CommandLineArguments.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.box_CommandLineArguments.ForeColor = System.Drawing.Color.White;
+            this.box_CommandLineArguments.IgnoreMouse = false;
+            this.box_CommandLineArguments.Location = new System.Drawing.Point(40, 301);
+            this.box_CommandLineArguments.Margin = new System.Windows.Forms.Padding(0);
+            this.box_CommandLineArguments.Name = "box_CommandLineArguments";
+            this.box_CommandLineArguments.Size = new System.Drawing.Size(220, 22);
+            this.box_CommandLineArguments.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.box_CommandLineArguments.TabIndex = 40;
+            this.box_CommandLineArguments.Text = "COMMANDLINE ARGS:";
+            this.box_CommandLineArguments.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.box_CommandLineArguments, "You should only modify this if executable directory does not contain rest of game" +
+        " files\r\ne.g. <Game>/build/game.exe and <Game>/assets/\r\n\r\n");
+            // 
             // box_GameFolderSelect
             // 
             this.box_GameFolderSelect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -860,71 +922,9 @@ namespace ReloadedLauncher.Windows.Children
             this.item_Reserved.Size = new System.Drawing.Size(821, 59);
             this.item_Reserved.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.item_Reserved.TabIndex = 36;
-            this.item_Reserved.Text = "This section is reserved.";
+            this.item_Reserved.Text = "Todo: Game Shortcut Gen, New Mod Btn";
             this.item_Reserved.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.item_Reserved.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            // 
-            // box_CommandLineArguments
-            // 
-            this.box_CommandLineArguments.AutoSize = true;
-            this.box_CommandLineArguments.BackColor = System.Drawing.Color.Transparent;
-            this.box_CommandLineArguments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_CommandLineArguments.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.box_CommandLineArguments.ForeColor = System.Drawing.Color.White;
-            this.box_CommandLineArguments.IgnoreMouse = false;
-            this.box_CommandLineArguments.Location = new System.Drawing.Point(40, 301);
-            this.box_CommandLineArguments.Margin = new System.Windows.Forms.Padding(0);
-            this.box_CommandLineArguments.Name = "box_CommandLineArguments";
-            this.box_CommandLineArguments.Size = new System.Drawing.Size(220, 22);
-            this.box_CommandLineArguments.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.box_CommandLineArguments.TabIndex = 40;
-            this.box_CommandLineArguments.Text = "COMMANDLINE ARGS:";
-            this.box_CommandLineArguments.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.toolTipHelper.SetToolTip(this.box_CommandLineArguments, "You should only modify this if executable directory does not contain rest of game" +
-        " files\r\ne.g. <Game>/build/game.exe and <Game>/assets/\r\n\r\n");
-            // 
-            // borderless_CommandLineArguments
-            // 
-            animMessage29.Control = this.borderless_CommandLineArguments;
-            animMessage29.PlayAnimation = true;
-            animProperties15.BackColorMessage = animMessage29;
-            animMessage30.Control = this.borderless_CommandLineArguments;
-            animMessage30.PlayAnimation = true;
-            animProperties15.ForeColorMessage = animMessage30;
-            animProperties15.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties15.MouseEnterDuration = 0F;
-            animProperties15.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties15.MouseEnterFramerate = 0F;
-            animProperties15.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties15.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties15.MouseLeaveDuration = 0F;
-            animProperties15.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties15.MouseLeaveFramerate = 0F;
-            animProperties15.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_CommandLineArguments.AnimProperties = animProperties15;
-            this.borderless_CommandLineArguments.BackColor = System.Drawing.Color.Gray;
-            this.borderless_CommandLineArguments.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.borderless_CommandLineArguments.BottomBorderColour = System.Drawing.Color.Transparent;
-            this.borderless_CommandLineArguments.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            this.borderless_CommandLineArguments.BottomBorderWidth = 55;
-            this.borderless_CommandLineArguments.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.borderless_CommandLineArguments.ForeColor = System.Drawing.Color.Transparent;
-            this.borderless_CommandLineArguments.LeftBorderColour = System.Drawing.Color.Transparent;
-            this.borderless_CommandLineArguments.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
-            this.borderless_CommandLineArguments.LeftBorderWidth = 0;
-            this.borderless_CommandLineArguments.Location = new System.Drawing.Point(290, 301);
-            this.borderless_CommandLineArguments.Name = "borderless_CommandLineArguments";
-            this.borderless_CommandLineArguments.RightBorderColour = System.Drawing.Color.Transparent;
-            this.borderless_CommandLineArguments.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
-            this.borderless_CommandLineArguments.RightBorderWidth = 0;
-            this.borderless_CommandLineArguments.Size = new System.Drawing.Size(572, 21);
-            this.borderless_CommandLineArguments.TabIndex = 41;
-            this.borderless_CommandLineArguments.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.toolTipHelper.SetToolTip(this.borderless_CommandLineArguments, "You should only modify this if executable directory does not contain rest of game" +
-        " files\r\ne.g. <Game>/build/game.exe and <Game>/assets/\r\n");
-            this.borderless_CommandLineArguments.TopBorderColour = System.Drawing.Color.Transparent;
-            this.borderless_CommandLineArguments.TopBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
-            this.borderless_CommandLineArguments.TopBorderWidth = 0;
             // 
             // ManageScreen
             // 

@@ -33,6 +33,8 @@ using ReloadedLauncher.Windows;
 using ReloadedLauncher.Windows.Children.Dialogs;
 using ReloadedLauncher.Windows.Children.Dialogs.Tutorial;
 using ReloadedUpdateChecker;
+using Reloaded_Plugin_System;
+using Reloaded_Plugin_System.Config;
 using Squirrel;
 
 namespace ReloadedLauncher
@@ -48,11 +50,19 @@ namespace ReloadedLauncher
         /// </summary>
         public Initializer(string[] arguments)
         {
-            // Initialize the Configs.
-            InitializeGlobalProperties();
-
             // Unpack default files if not available.
             CopyDefaultFiles();
+
+            // Run OnLaunch of plugins.
+            foreach (var launcherEventPlugin in PluginLoader.LauncherEventPlugins)
+                launcherEventPlugin.OnLaunch();
+
+            #if DEBUG
+            GenerateConfigTemplates();
+            #endif
+
+            // Initialize the Configs.
+            InitializeGlobalProperties();
 
             // Check for updates.
             DoSquirrelStuff();
@@ -77,13 +87,16 @@ namespace ReloadedLauncher
 
             // Copy without replacement.
             // Source directory = App Directory
+            string sourceDirectoryDefaultPlugins    = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Default-Plugins";
+            string targetDirectoryDefaulPlugins     = LoaderPaths.GetPluginsDirectory();
+
             string sourceDirectoryDefaultMods = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Default-Mods";
             string targetDirectoryDefaultMods = LoaderPaths.GetGlobalModDirectory();
-
+            
             // Files
             try
             {
-                RelativePaths.CopyByRelativePath(sourceDirectory, targetDirectory, RelativePaths.FileCopyMethod.Copy, false);
+                RelativePaths.CopyByRelativePath(sourceDirectory, targetDirectory, RelativePaths.FileCopyMethod.Copy, false, true);
                 Directory.Delete(sourceDirectory, true);
             }
             catch (Exception)
@@ -92,15 +105,30 @@ namespace ReloadedLauncher
             // Mods
             try
             {
-                RelativePaths.CopyByRelativePath(sourceDirectoryDefaultMods, targetDirectoryDefaultMods, RelativePaths.FileCopyMethod.Copy, true);
+                RelativePaths.CopyByRelativePath(sourceDirectoryDefaultMods, targetDirectoryDefaultMods, RelativePaths.FileCopyMethod.Copy, true, true);
 
-                // Don't delete debug symbols at their path if in debug mode.
+                // We want to avoid deleting symbols.
                 #if DEBUG
-                return;
-                #endif
-                
+                    // Do nothing.
+                #else
                 // Delete default mods directory.
                 Directory.Delete(sourceDirectoryDefaultMods, true);
+                #endif
+            }
+            catch (Exception)
+            { /* ¯\_(ツ)_/¯ */ }
+
+            // Plugins
+            try
+            {
+                RelativePaths.CopyByRelativePath(sourceDirectoryDefaultPlugins, targetDirectoryDefaulPlugins, RelativePaths.FileCopyMethod.Copy, true, true);
+
+                #if DEBUG
+                    // Do nothing.
+                #else
+                // Delete default plugins directory.
+                Directory.Delete(sourceDirectoryDefaultPlugins, true);
+                #endif
             }
             catch (Exception)
             { /* ¯\_(ツ)_/¯ */ }
@@ -161,10 +189,21 @@ namespace ReloadedLauncher
                 {
                     // Handle application installs, uninstalls.
                     SquirrelAwareApp.HandleEvents(
-                        onInitialInstall: v => tempUpdateManager.CreateShortcutForThisExe(),
-                        onAppUpdate: v => tempUpdateManager.CreateShortcutForThisExe(),
-                        onAppUninstall: v => tempUpdateManager.RemoveShortcutForThisExe()
-                    );
+                        onInitialInstall: v =>
+                        {
+                            tempUpdateManager.CreateShortcutForThisExe();
+                            GenerateConfigTemplates();
+                        },
+                        onAppUpdate: v =>
+                        {
+                            tempUpdateManager.CreateShortcutForThisExe();
+                            GenerateConfigTemplates();
+                        },
+                        onAppUninstall: v =>
+                        {
+                            tempUpdateManager.RemoveShortcutForThisExe();
+                            // TODO: Ask user should all data for Reloaded be deleted.
+                        });
                 }
 
                 // Update from Github
@@ -240,6 +279,19 @@ namespace ReloadedLauncher
                     Environment.Exit(0);
                 }
             }
+        }
+
+        private static void GenerateConfigTemplates()
+        {
+            // Get path to our folder containing the template set of configs.
+            string templateDirectory = LoaderPaths.GetModLoaderConfigDirectory() + "\\Config Templates";
+            Directory.CreateDirectory(templateDirectory);
+
+            // Write all configs.
+            ModConfig.WriteConfig(new ModConfig() { ModLocation = $"{templateDirectory}\\Mod-Config.json" });
+            GameConfig.WriteConfig(new GameConfig() { ConfigLocation = $"{templateDirectory}\\Game-Config.json" });
+            ThemeConfig.WriteConfig(new ThemeConfig() { ThemeLocation = $"{templateDirectory}\\Theme-Config.json" });
+            PluginConfig.WriteConfig(new PluginConfig() { PluginConfigLocation = $"{templateDirectory}\\Plugin-Config.json" } );
         }
 
         private static async void CheckForModUpdates()

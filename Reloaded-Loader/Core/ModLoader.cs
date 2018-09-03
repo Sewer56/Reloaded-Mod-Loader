@@ -22,22 +22,27 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Newtonsoft.Json;
 using Reloaded;
 using Reloaded.IO.Config;
 using Reloaded.Paths;
 using Reloaded.Process;
 using Reloaded.Process.Memory;
 using Reloaded.Utilities;
-using Reloaded_Loader.Miscellaneous;
+using Reloaded_Loader.Miscallenous;
 using Reloaded_Loader.Networking;
+using Reloaded_Plugin_System;
 
 namespace Reloaded_Loader.Core
 {
-    /// <summary>
-    /// Finds the mods that are currently enabled for the game and injects into the target process.
-    /// </summary>
     public static class ModLoader
     {
+        /*
+            ------------------------
+            Performing DLL Injection
+            ------------------------
+        */
+
         /// <summary>
         /// Finds the mods that are currently enabled for the game and injects into the target process.
         /// </summary>
@@ -51,24 +56,48 @@ namespace Reloaded_Loader.Core
             // Initialize DLL Injector
             DllInjector reloadedClassicDllInjector = new DllInjector(reloadedProcess);
 
-            // If the main.dll exists, load it.
+            // For each DLL file, if the DLL exists, load the DLL.
             foreach (string modLibrary in modLibraries)
             {
-                // If the DLL Exists, Try to Load It
                 if (File.Exists(modLibrary))
                 {
-                    // Allocate Memory for Server Port In Game Memory
-                    IntPtr parameterAddress = reloadedProcess.AllocateMemory(IntPtr.Size);
+                    // To handle plugin support for this one, we pass the parameters onto each plugin and
+                    // each plugin on their own can decide whether to manually inject themselves or not.
+                    // If they return "true", we go to next file; else we inject normally.
+                    bool dllInjected = false;
+                    foreach (var plugin in PluginLoader.LoaderEventPlugins)
+                    {
+                        if (plugin.ManualDllInject((int)reloadedProcess.ProcessId, modLibrary, "Main"))
+                        {
+                            dllInjected = true;
+                            break;
+                        }
+                    }
 
-                    // Write Server Port to Game Memory
-                    byte[] serverPort = BitConverter.GetBytes(LoaderServer.ServerPort);
-                    reloadedProcess.WriteMemoryExternal(parameterAddress, ref serverPort);
-
-                    // Inject the individual DLL.
-                    reloadedClassicDllInjector.InjectDll(modLibrary, parameterAddress, "Main");
+                    if (!dllInjected)
+                        InjectDLLDefault(reloadedProcess, reloadedClassicDllInjector, modLibrary, "Main");
                 }
             }
         }
+
+        private static void InjectDLLDefault(ReloadedProcess reloadedProcess, DllInjector dllInjector, string dllPath, string dllMethodName)
+        {
+            // Allocate Memory for Server Port In Game Memory
+            IntPtr parameterAddress = reloadedProcess.AllocateMemory(IntPtr.Size);
+
+            // Write Server Port to Game Memory
+            byte[] serverPort = BitConverter.GetBytes(LoaderServer.ServerPort);
+            reloadedProcess.WriteMemoryExternal(parameterAddress, ref serverPort);
+
+            // Inject the individual DLL.
+            dllInjector.InjectDll(dllPath, parameterAddress, dllMethodName);
+        }
+
+        /*
+            -----------------------
+            Preparing DLL Injection
+            -----------------------
+        */
 
         /// <summary>
         /// Retrieves an array of DLLs locations to be injected and loaded into the target process.
@@ -83,28 +112,55 @@ namespace Reloaded_Loader.Core
             // Topologically sort mods.
             enabledMods = GameConfig.TopologicallySortConfigurations(enabledMods);
 
-            // Convert back to folder structure and append to library list.
-            List<string> dllFiles = new List<string>(enabledMods.Count);
+            // Set path for all DLLs in enabled mods list; including plugin supported mods.
+            string gameConfig = JsonConvert.SerializeObject(gameConfiguration);
 
-            // Set path for all DLLs in enabled mods list.
+            List<string> dllFiles = new List<string>(enabledMods.Count);
             foreach (var enabledMod in enabledMods)
             {
-                if (ReloadedArchitecture.IsGame32Bit)
-                {
-                    string x86DllLocation = Path.Combine(enabledMod.GetModDirectory(), Strings.Loader.Mod32BitDllFile);
-                    if (File.Exists(x86DllLocation))
-                        dllFiles.Add(x86DllLocation);
-                }
-                else
-                {
-                    string x64DllLocation = Path.Combine(enabledMod.GetModDirectory(), Strings.Loader.Mod64BitDllFile);
-                    if (File.Exists(x64DllLocation))
-                        dllFiles.Add(x64DllLocation);
-                }
+                // Get dll path to inject.
+                string dllPath = GetDLLPathToInject(enabledMod);
+
+                string modConfig = JsonConvert.SerializeObject(enabledMod);
+                foreach (var plugin in PluginLoader.LoaderEventPlugins)
+                    dllPath = plugin.SetDllInjectionPath(dllPath, modConfig, gameConfig);
+
+                if (dllPath != null)
+                    dllFiles.Add(dllPath);
             }
 
-            // Return the list.
             return dllFiles.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the full path of the mod dll to be injected for this individual game.
+        /// </summary>
+        private static string GetDLLPathToInject(ModConfig modConfig)
+        {
+            if (ReloadedArchitecture.IsGame32Bit)
+            {
+                // Explicitly Set? Use that path.
+                if (! String.IsNullOrEmpty(modConfig.DllFile32))
+                    return Path.Combine(modConfig.GetModDirectory(), modConfig.DllFile32);
+
+                // Not Explicitly Set.
+                string x86DllLocation = Path.Combine(modConfig.GetModDirectory(), Strings.Loader.Mod32BitDllFile);
+                if (File.Exists(x86DllLocation))
+                    return x86DllLocation;
+            }
+            else
+            {
+                // Explicitly Set? Use that path.
+                if (!String.IsNullOrEmpty(modConfig.DllFile64))
+                    return Path.Combine(modConfig.GetModDirectory(), modConfig.DllFile64);
+
+                // Not Explicitly Set.
+                string x64DllLocation = Path.Combine(modConfig.GetModDirectory(), Strings.Loader.Mod64BitDllFile);
+                if (File.Exists(x64DllLocation))
+                    return x64DllLocation;
+            }
+
+            return null;
         }
     }
 }

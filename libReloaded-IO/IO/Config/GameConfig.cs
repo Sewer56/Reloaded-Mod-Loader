@@ -111,7 +111,7 @@ namespace Reloaded.IO.Config
             config.ConfigLocation = configFile;
 
             // Override names if default config.
-            if (gameConfigDirectory == LoaderPaths.GetGlobalGameConfigDirectory())
+            if (gameConfigDirectory == LoaderPaths.GetGlobalGameConfigDirectory()) // Function call gemerates !Global if it does not exist.
                 config = GameConfig.SetGlobalConfigProperties(config);
 
             // Create mod directory if nonexistant.

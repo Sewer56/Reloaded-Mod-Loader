@@ -62,6 +62,11 @@ namespace Reloaded.Paths
         private static readonly string GamesLocation = GetModLoaderConfigDirectory() + "\\Games";
 
         /// <summary>
+        /// Specifies the location of the plugins folder for Reloaded.
+        /// </summary>
+        private static readonly string PluginsLocation = GetModLoaderConfigDirectory() + "\\Plugins";
+
+        /// <summary>
         /// Specifies the location of the configuration file for Reloaded.
         /// </summary>
         private static readonly string ConfigFileLocation = GetModLoaderConfigDirectory() + $"/{Strings.Parsers.ConfigFile}";
@@ -189,6 +194,16 @@ namespace Reloaded.Paths
         {
             if (!Directory.Exists(GlobalConfigLocation)) { Directory.CreateDirectory(GlobalConfigLocation); }
             return GlobalConfigLocation;
+        }
+
+        /// <summary>
+        /// Retrieves the folder location of the plugins directory for Reloaded.
+        /// </summary>
+        public static string GetPluginsDirectory()
+        {
+            if (!Directory.Exists(GlobalConfigLocation)) { Directory.CreateDirectory(GlobalConfigLocation); }
+            if (!Directory.Exists(PluginsLocation)) { Directory.CreateDirectory(PluginsLocation); }
+            return PluginsLocation;
         }
 
         /// <summary>

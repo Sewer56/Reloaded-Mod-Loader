@@ -25,6 +25,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using Reloaded;
 using Reloaded.IO.Config;
 using Reloaded.Paths;
@@ -32,6 +33,7 @@ using ReloadedLauncher.Misc;
 using ReloadedLauncher.Windows.Children.Dialogs;
 using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Utilities.Controls;
+using Reloaded_Plugin_System;
 using Bindings = Reloaded_GUI.Bindings;
 
 namespace ReloadedLauncher.Windows.Children
@@ -129,6 +131,7 @@ namespace ReloadedLauncher.Windows.Children
             // Appends all enabled mods to enabled mod list.
             // Iterate over each "enabled" mod folder list.
             foreach (string modFolder in Global.CurrentGameConfig.EnabledMods)
+
             // Iterate over mod configurations and find relevant mod config.
             foreach (ModConfig modConfig in Global.ModConfigurations)
             {
@@ -441,5 +444,7 @@ namespace ReloadedLauncher.Windows.Children
             Separator   = 3,
             Version     = 4
         }
+
+
     }
 }

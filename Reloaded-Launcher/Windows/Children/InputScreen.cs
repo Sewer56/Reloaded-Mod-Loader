@@ -358,7 +358,7 @@ namespace ReloadedLauncher.Windows.Children
 
             // Cell Order
             // Cells[0] Axis Name
-            // Cells[1] Axis Property/Source Axis (DINPUT), N/A FOR XINPUT
+            // Cells[1] Axis Property/Site Axis (DINPUT), N/A FOR XINPUT
             // Cells[2] Destination Axis (Axis the loader will treat current axis as)
             // Cells[3] Is Axis Inverted?
             // Cells[4] Deadzone % (0-100)
@@ -770,7 +770,7 @@ namespace ReloadedLauncher.Windows.Children
             // Pass event to relevant column by index.
             switch (e.ColumnIndex)
             {
-                // Remap Source Axis With Controller
+                // Remap Site Axis With Controller
                 case (int)AxisColumns.AxisSource:
 
                     // Cancel current remapping.
@@ -818,7 +818,7 @@ namespace ReloadedLauncher.Windows.Children
             int axisRow = (int)row;
             int axisColumn = (int)AxisColumns.AxisSource;
 
-            // Get DatagridView Cell for Source Axis
+            // Get DatagridView Cell for Site Axis
             DataGridViewCell sourceCell = box_AxisList.Rows[axisRow].Cells[axisColumn];
 
             // Thread to update current assignment cell.

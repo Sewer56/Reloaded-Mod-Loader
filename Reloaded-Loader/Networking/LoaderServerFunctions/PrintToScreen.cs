@@ -19,6 +19,7 @@
 */
 
 using System.Text;
+using Reloaded;
 using Reloaded_Loader.Terminal;
 
 namespace Reloaded_Loader.Networking.LoaderServerFunctions
@@ -88,24 +89,10 @@ namespace Reloaded_Loader.Networking.LoaderServerFunctions
             // Print to screen.
             switch (printMessageType)
             {
-                case PrintMessageType.PrintText:
-                    ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintMessage);
-                    break;
-
-
-                case PrintMessageType.PrintInfo:
-                    ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintInfoMessage);
-                    break;
-
-
-                case PrintMessageType.PrintWarning:
-                    ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintWarningMessage);
-                    break;
-
-
-                case PrintMessageType.PrintError:
-                    ConsoleFunctions.PrintMessageWithTime(message, ConsoleFunctions.PrintErrorMessage);
-                    break;
+                case PrintMessageType.PrintText:    Bindings.PrintText(message);    break;
+                case PrintMessageType.PrintInfo:    Bindings.PrintInfo(message);    break;
+                case PrintMessageType.PrintWarning: Bindings.PrintWarning(message); break;
+                case PrintMessageType.PrintError:   Bindings.PrintError(message);   break;
             }
         }
     }

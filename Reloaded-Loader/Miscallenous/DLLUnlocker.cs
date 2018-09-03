@@ -23,7 +23,7 @@ using Reloaded.Paths;
 using Reloaded.Utilities;
 using Reloaded_Loader.Terminal;
 
-namespace Reloaded_Loader.Miscellaneous
+namespace Reloaded_Loader.Miscallenous
 {
     /// <summary>
     /// Removes Zone Information from dynamic link libraries downloaded from the internet such
@@ -42,7 +42,7 @@ namespace Reloaded_Loader.Miscellaneous
         public static void UnblockDlls()
         {
             // Print Info Message about Unlocking DLLs
-            ConsoleFunctions.PrintMessageWithTime("Removing Zone Identifiers from Files (DLL Unlocking)", ConsoleFunctions.PrintInfoMessage);
+            LoaderConsole.PrintFormattedMessage("Removing Zone Identifiers from Files (DLL Unlocking)", LoaderConsole.PrintInfoMessage);
 
             // Search all DLLs under loader directories.
             // Normally I'd restrict this to mod directories, but the loader's own libraries might also be worth checking.

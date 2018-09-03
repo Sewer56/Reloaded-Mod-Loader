@@ -66,57 +66,50 @@ namespace Reloaded_Loader.Networking
             // Triggered on soft reboot, self killing and restarting games.
             if (ReloadedServer != null && ReloadedServer.IsRunning)
             {
-                ConsoleFunctions.PrintMessageWithTime("Local Server Already Running!", ConsoleFunctions.PrintInfoMessage);
+                Bindings.PrintInfo("Local Server Already Running!");
                 return;
             }
 
             try
             {
                 // Create new server instance.
-                ReloadedServerListener = new EventBasedNetListener();
-                ReloadedServer = new NetManager(ReloadedServerListener, 65535, Strings.Loader.ServerConnectKey);
+                ReloadedServerListener  = new EventBasedNetListener();
+                ReloadedServer          = new NetManager(ReloadedServerListener, 65535, Strings.Loader.ServerConnectKey);
 
                 // Ping when message is received.
-                ReloadedServerListener.PeerConnectedEvent += peer =>
-                    { Bindings.PrintInfo($"Received connection from: {peer.EndPoint.Host}:{peer.EndPoint.Port}"); };
-
-                // Send received data to the message handler
+                ReloadedServerListener.PeerConnectedEvent += peer => Bindings.PrintInfo($"Received connection from: {peer.EndPoint.Host}:{peer.EndPoint.Port}");
                 ReloadedServerListener.NetworkReceiveEvent += MessageHandler;
-
-                // Process received events immediately.
-                ReloadedServer.UnsyncedEvents = true;
-
-                // Disconnect options.
                 ReloadedServer.MaxConnectAttempts = 5;
                 ReloadedServer.ReconnectDelay = 100;
                 ReloadedServer.DisconnectTimeout = Int64.MaxValue;
 
+                // Process received events immediately.
+                ReloadedServer.UnsyncedEvents = true;
+
                 // Start Server Internally
+                // The modification we made specifically for Reloaded of this library, supporting loopback addresses
+                // allows us to ensure that our PC is not exposed to the internet, and that Windows Firewall does
+                // not get in our way.
                 ReloadedServer.Start(IPAddress.Loopback, IPAddress.IPv6Loopback, ServerPort);
 
-                // If Server Doesn't start, port might be occupied.
                 if (!ReloadedServer.IsRunning)
                 {
-                    ConsoleFunctions.PrintMessageWithTime("Reloaded Server did not start. Perhaps port is occupied, let's try another!", ConsoleFunctions.PrintWarningMessage);
                     ServerPort += 1;
+                    Bindings.PrintWarning($"Reloaded Server did not start. Perhaps port is occupied, trying port {ServerPort}");
                     SetupServer();
                 }
 
-                // Print words of success
                 Bindings.PrintInfo($"Local Server Started at: {ReloadedServer.LocalPort}");
             }
             // If the port is occupied, an exception will be thrown.
             // Try hosting the server on another port.
             catch (Exception ex)
             {
-                // Print Warning
-                ConsoleFunctions.PrintMessageWithTime("Failed to create local host at port " + ServerPort + ". Attempting port " + (ServerPort + 1) + ".", ConsoleFunctions.PrintWarningMessage);
-                ConsoleFunctions.PrintMessageWithTime("Original Message: " + ex.Message, ConsoleFunctions.PrintWarningMessage);
-
-                // Increment the port number.
+                Bindings.PrintWarning($"Failed to create local host at port {ServerPort}. Attempting port {ServerPort + 1}.");
+                Bindings.PrintWarning($"Original Message: {ex.Message}");
                 ServerPort += 1;
 
-                // Call self
+                // Re-call self.
                 SetupServer();
             }
         }
@@ -136,14 +129,14 @@ namespace Reloaded_Loader.Networking
             switch (messageStruct.MessageType)
             {
                 // Text Functions
-                case (ushort)MessageType.PrintText: PrintASCII(PrintMessageType.PrintText, messageStruct.Data); break;
-                case (ushort)MessageType.PrintInfo: PrintASCII(PrintMessageType.PrintInfo, messageStruct.Data); break;
-                case (ushort)MessageType.PrintWarning: PrintASCII(PrintMessageType.PrintWarning, messageStruct.Data); break;
-                case (ushort)MessageType.PrintError: PrintASCII(PrintMessageType.PrintError, messageStruct.Data); break;
-                case (ushort)MessageType.PrintTextUnicode: PrintUnicode(PrintMessageType.PrintText, messageStruct.Data); break;
-                case (ushort)MessageType.PrintInfoUnicode: PrintUnicode(PrintMessageType.PrintInfo, messageStruct.Data); break;
-                case (ushort)MessageType.PrintWarningUnicode: PrintUnicode(PrintMessageType.PrintWarning, messageStruct.Data); break;
-                case (ushort)MessageType.PrintErrorUnicode: PrintUnicode(PrintMessageType.PrintError, messageStruct.Data); break;
+                case (ushort)MessageType.PrintText:             PrintASCII(PrintMessageType.PrintText, messageStruct.Data); break;
+                case (ushort)MessageType.PrintInfo:             PrintASCII(PrintMessageType.PrintInfo, messageStruct.Data); break;
+                case (ushort)MessageType.PrintWarning:          PrintASCII(PrintMessageType.PrintWarning, messageStruct.Data); break;
+                case (ushort)MessageType.PrintError:            PrintASCII(PrintMessageType.PrintError, messageStruct.Data); break;
+                case (ushort)MessageType.PrintTextUnicode:      PrintUnicode(PrintMessageType.PrintText, messageStruct.Data); break;
+                case (ushort)MessageType.PrintInfoUnicode:      PrintUnicode(PrintMessageType.PrintInfo, messageStruct.Data); break;
+                case (ushort)MessageType.PrintWarningUnicode:   PrintUnicode(PrintMessageType.PrintWarning, messageStruct.Data); break;
+                case (ushort)MessageType.PrintErrorUnicode:     PrintUnicode(PrintMessageType.PrintError, messageStruct.Data); break;
             }
         }
     }

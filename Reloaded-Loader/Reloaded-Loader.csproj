@@ -102,12 +102,13 @@
     <Compile Include="Miscallenous\ReloadedArchitecture.cs" />
     <Compile Include="Networking\LoaderServer.cs" />
     <Compile Include="Networking\LoaderServerFunctions\PrintToScreen.cs" />
-    <Compile Include="Terminal\ConsoleFunctions.cs" />
+    <Compile Include="Terminal\LoaderConsole.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Terminal\Information\Banner.cs" />
     <Compile Include="Terminal\Information\Controllers.cs" />
     <Compile Include="Core\ModLoader.cs" />
+    <Compile Include="Terminal\Information\Information.cs" />
     <Compile Include="Terminal\Logger.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +150,10 @@
     <ProjectReference Include="..\libReloaded\libReloaded.csproj">
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
       <Name>libReloaded</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reloaded-Plugin-Interfaces\Reloaded-Plugin-Interfaces.csproj">
+      <Project>{6917b3c3-4972-4ffd-87c9-4bbcccf1d180}</Project>
+      <Name>Reloaded-Plugin-Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

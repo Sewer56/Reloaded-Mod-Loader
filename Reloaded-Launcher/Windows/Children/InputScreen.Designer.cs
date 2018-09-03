@@ -503,7 +503,7 @@ namespace ReloadedLauncher.Windows.Children
             // 
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.AxisProperty.DefaultCellStyle = dataGridViewCellStyle3;
-            this.AxisProperty.HeaderText = "Axis Source";
+            this.AxisProperty.HeaderText = "Axis Site";
             this.AxisProperty.Name = "AxisProperty";
             this.AxisProperty.ReadOnly = true;
             this.AxisProperty.Resizable = System.Windows.Forms.DataGridViewTriState.False;

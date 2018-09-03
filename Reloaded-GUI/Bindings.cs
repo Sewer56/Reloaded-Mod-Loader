@@ -98,6 +98,11 @@ namespace Reloaded_GUI
             /// Reloaded Launcher: World Icon
             /// </summary>
             public Image WorldImage { get; set; }
+
+            /// <summary>
+            /// Reloaded Launcher: Plugin Icon
+            /// </summary>
+            public Image PluginImage { get; set; }
         }
 
         /// <summary>

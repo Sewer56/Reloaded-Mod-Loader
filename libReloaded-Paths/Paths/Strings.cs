@@ -38,7 +38,7 @@ namespace Reloaded.Paths
             public const string Mod32BitDllFile = "main32.dll";
 
             /// <summary>
-            /// Contains the name of the 32bit mod DLL file for a Reloaded Mod Loader mod.
+            /// Contains the name of the 64bit mod DLL file for a Reloaded Mod Loader mod.
             /// </summary>
             public const string Mod64BitDllFile = "main64.dll";
 
@@ -78,6 +78,11 @@ namespace Reloaded.Paths
                 /// Contains the name of the Theme Menu used in Reloaded Launcher.
                 /// </summary>
                 public const string ThemeMenuName = "Theme Menu";
+
+                /// <summary>
+                /// Contains the name of the Plugin Menu used in Reloaded Launcher.
+                /// </summary>
+                public const string PluginMenuName = "Plugin Menu";
 
                 /// <summary>
                 /// Contains the name of the Manage Menu used in Reloaded Launcher.

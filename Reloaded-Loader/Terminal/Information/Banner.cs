@@ -19,9 +19,13 @@
 */
 
 using System;
+using System.Collections.Generic;
 using Colorful;
 using Reloaded;
 using Reloaded.Paths;
+using Reloaded_Plugin_System;
+using Reloaded_Plugin_System.Config;
+using Reloaded_Plugin_System.Config.Loader;
 using Console = Colorful.Console;
 
 namespace Reloaded_Loader.Terminal.Information
@@ -29,58 +33,105 @@ namespace Reloaded_Loader.Terminal.Information
     internal static class Banner
     {
         /// <summary>
-        /// Prints all of the text to be displayed on startup of the Reloaded Launcher.
+        /// Controls the individual options for the banner/info operations.
+        /// Powered by Reloaded's plugin system.
         /// </summary>
-        public static void PrintBanner()
+        public static BannerOptions BannerOptions;
+
+        static Banner()
+        {
+            // Auto prepare Banner class before first call.
+            BannerOptions = new BannerOptions();
+            BannerOptions.PrintBannerFunction           = PrintBannerDefault;
+            BannerOptions.PrintRandomMessage            = PrintRandomMessageDefault;
+            BannerOptions.SelectRandomMessage           = SelectRandomMessageDefault;
+
+            BannerOptions.RandomMessages = new List<string>()
+            {
+                "Think your Mod Loader has EDGE? Think again.",
+                "A Mod Loader by Sewer56?",
+                "Cuteness is Justice. It is the law!",
+               @"It all started here: https://discord.gg/4DHujrb",
+                "null",
+                "All your base are belong to us.",
+                "The answer is \"Sometime between now and never.\"",
+               @"Don't forget to backup Salvato's character file.",
+                "\"For A Really Disturbing Image... Flip Disc Over\"",
+                "Hello! Trojan:Win32/ReloadedModLoader",
+
+                "The program 'fortune' is currently not installed.\n" +
+                "You can install it by typing: sudo apt install fortune-mod"
+            };
+
+            foreach (var configPlugin in PluginLoader.LoaderConfigPlugins)
+                BannerOptions = configPlugin.SetBannerOptions(BannerOptions);
+        }
+
+        /*
+            --------------------
+            Class Implementation
+            --------------------
+        */
+
+        /// <summary>
+        /// Executes all of the banner related options.
+        /// </summary>
+        public static void Execute()
         {
             // Print the banner
-            PrintBannerInternal();
+            BannerOptions.PrintBannerFunction();
 
-            // Print semi-random message
-            PrintRandomMessage();
+            // Select random function and print it.
+            string message = BannerOptions.SelectRandomMessage(BannerOptions.RandomMessages);
+            BannerOptions.PrintRandomMessage(message);
+        }
+
+
+        /*
+            -----------------------------------
+            No Plugins: Default Method Handlers
+            -----------------------------------
+        */
+
+        /// <summary>
+        /// Prints a random message to the console window.
+        /// </summary>
+        /// <param name="message"></param>
+        private static void PrintRandomMessageDefault(string message)
+        {
+            // Print the message.
+            LoaderConsole.PrintMessageCenter(message, LoaderConsole.PrintMessage);
+            LoaderConsole.PrintMessage("");
         }
 
         /// <summary>
-        /// Displays a warning about how to use the mod loader.
+        /// Selects a random message from the list of messages.
         /// </summary>
-        public static void DisplayWarning()
+        private static string SelectRandomMessageDefault(List<string> messages)
         {
-            // Print
-            ConsoleFunctions.PrintMessageWithTime("No game to launch has been specified.", ConsoleFunctions.PrintErrorMessage);
-            ConsoleFunctions.PrintInfoMessage
-            (
-                "\nCommand Line Reloaded Mod Loader Usage Instructions:\n" +
-                "Reloaded-Loader.exe <Arguments>\n\n" +
-
-                "Arguments List:\n" +
-               $"{Strings.Common.LoaderSettingConfig} <GAME_CONFIGURATION_PATH> | Specifies the game configuration to run.\n" +
-               $"{Strings.Common.LoaderSettingAttach} <EXECUTABLE_NAME> | Attaches to an already running game/executable.\n\n" +
-                
-                "Examples:\n" +
-               $"Reloaded-Loader.exe {Strings.Common.LoaderSettingConfig} D:/Reloaded/Reloaded-Config/Games/Sonic-Heroes\n" +
-               $"Reloaded-Loader.exe {Strings.Common.LoaderSettingConfig} D:/Reloaded/Reloaded-Config/Games/Sonic-Heroes {Strings.Common.LoaderSettingAttach} Tsonic_win_custom.exe\n\n"
-            );
-            Console.ReadLine();
-            Environment.Exit(0);
+            // Random number generator.
+            Random randonNumberGenerator = new Random();
+            int arrayIndex = randonNumberGenerator.Next(0, messages.Count);
+            return messages[arrayIndex];
         }
 
         /// <summary>
         /// Prints the Reloaded Logo banner,
         /// </summary>
-        private static void PrintBannerInternal()
+        private static void PrintBannerDefault()
         {
             // Print empty line (spacing)
-            ConsoleFunctions.PrintMessage("");
+            LoaderConsole.PrintMessage("");
 
             // Reloaded Banner Stylesheet
             Formatter[] reloadedFormatter = {
-                new Formatter(@"MMMMMMMMMMMMNmyyyyyyyyyyyy-:yy`           /syyyyyyyyo.     `/     :yyyyyyyyyys: /yyyyyyyyyyyy`+yyyyyyyyyyo.", ConsoleFunctions.TextColor),
-                new Formatter(@"MMMMM   MNMMhodmhmo:::::::.:hh.          /hho:::::/yhy`   `sh/    :hh+:::::/yhh./hh/:::::::::`ohy::::::/yhy", ConsoleFunctions.TextColor),
-                new Formatter(@"MMMMM   :+MMo-hh/./.....   :hh.          +hh       /hh`  `ohhh/   :hh.      -hh-/hh-......`   ohy       +hh", ConsoleFunctions.TextColor),
-                new Formatter(@"MMMMM  MMMMm--dddddddddh   /dd.          odd       +dd`  sdy-dd/  :dd.      :dd-+dddddddddo   sdh       odd", ConsoleFunctions.TextColor),
-                new Formatter(@"MMoyMMMMMMd/ :NN:          +NN.          sNN`      oNN``dNd::+NNs /NN-      :NN:oNN`          yNm       sNN", ConsoleFunctions.TextColor),
-                new Formatter(@"MMN.m   :dMMh+hhhhhhhhhhhh::hhhhhhhhhhhh./hhhhhhhhhhhy.yhhhhhhhhho:hhhhhhhhhhhh./hhhhhhhhhhhh`ohhhhhhhhhhhy", ConsoleFunctions.TextColor),
-                new Formatter(@"MMM/h     :ssso+++++++++++.-++++++++++++` :+++++++++/.:+/      `++/++++++++++/- -++++++++++++`:++++++++++:.", ConsoleFunctions.TextColor)
+                new Formatter(@"MMMMMMMMMMMMNmyyyyyyyyyyyy-:yy`           /syyyyyyyyo.     `/     :yyyyyyyyyys: /yyyyyyyyyyyy`+yyyyyyyyyyo.", LoaderConsole.Colours.TextColor),
+                new Formatter(@"MMMMM   MNMMhodmhmo:::::::.:hh.          /hho:::::/yhy`   `sh/    :hh+:::::/yhh./hh/:::::::::`ohy::::::/yhy", LoaderConsole.Colours.TextColor),
+                new Formatter(@"MMMMM   :+MMo-hh/./.....   :hh.          +hh       /hh`  `ohhh/   :hh.      -hh-/hh-......`   ohy       +hh", LoaderConsole.Colours.TextColor),
+                new Formatter(@"MMMMM  MMMMm--dddddddddh   /dd.          odd       +dd`  sdy-dd/  :dd.      :dd-+dddddddddo   sdh       odd", LoaderConsole.Colours.TextColor),
+                new Formatter(@"MMoyMMMMMMd/ :NN:          +NN.          sNN`      oNN``dNd::+NNs /NN-      :NN:oNN`          yNm       sNN", LoaderConsole.Colours.TextColor),
+                new Formatter(@"MMN.m   :dMMh+hhhhhhhhhhhh::hhhhhhhhhhhh./hhhhhhhhhhhy.yhhhhhhhhho:hhhhhhhhhhhh./hhhhhhhhhhhh`ohhhhhhhhhhhy", LoaderConsole.Colours.TextColor),
+                new Formatter(@"MMM/h     :ssso+++++++++++.-++++++++++++` :+++++++++/.:+/      `++/++++++++++/- -++++++++++++`:++++++++++:.", LoaderConsole.Colours.TextColor)
             };
 
             // Reloaded Text to Print
@@ -106,42 +157,10 @@ mMNMMMMMMMMMMMm.Nh
             `:+ydmNMNdy+:`";
 
             // Write formatted line.
-            Console.WriteLineFormatted(reloadedBannerText, ConsoleFunctions.ColorRed, reloadedFormatter);
+            Console.WriteLineFormatted(reloadedBannerText, LoaderConsole.Colours.ColorRed, reloadedFormatter);
 
             // Print empty line (spacing)
-            ConsoleFunctions.PrintMessage("");
-        }
-
-        /// <summary>
-        /// Prints a random message from a hardcoded array of messages.
-        /// </summary>
-        private static void PrintRandomMessage()
-        {
-            string[] messages = {
-                "Think your Mod Loader has EDGE? Think again.",
-                "A Mod Loader by Sewer56?",
-                "Cuteness is Justice. It is the law!",
-               @"It all started here: https://discord.gg/4DHujrb",
-                "null",
-                "All your base are belong to us.",
-                "The answer is \"Sometime between now and never.\"",
-               @"Don't forget to backup Salvato's character file.",
-                "\"For A Really Disturbing Image... Flip Disc Over\"",
-                "Hello! Trojan:Win32/ReloadedModLoader",
-
-                "The program 'fortune' is currently not installed.\n" +
-                "You can install it by typing: sudo apt install fortune-mod"
-            };
-
-            // Random number generator.
-            Random randonNumberGenerator = new Random();
-            int arrayIndex = randonNumberGenerator.Next(0, messages.Length);
-
-            // Print the message.
-            ConsoleFunctions.PrintMessageCenter(messages[arrayIndex], ConsoleFunctions.PrintMessage);
-
-            // Print Space
-            Console.WriteLine();
+            LoaderConsole.PrintMessage("");
         }
     }
 }

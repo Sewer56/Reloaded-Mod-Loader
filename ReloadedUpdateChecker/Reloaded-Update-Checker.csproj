@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\libReloaded-IO\libReloaded-IO.csproj" />
     <ProjectReference Include="..\libReloaded-Paths\libReloaded-Paths.csproj" />
+    <ProjectReference Include="..\libReloaded\libReloaded.csproj" />
   </ItemGroup>
 
   <ItemGroup>

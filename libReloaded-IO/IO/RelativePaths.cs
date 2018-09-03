@@ -145,7 +145,8 @@ namespace Reloaded.IO
         /// <param name="targetDirectory">Specifies the arget directory to which the files are meant to be copied. Should not end on a back/forward slash.</param>
         /// <param name="fileCopyMethod">Specifies the way the files will be copied from A to B.</param>
         /// <param name="overWrite">Declares whether the files should be overwritten or not.</param>
-        public static void CopyByRelativePath(List<string> relativePaths, string sourceDirectory, string targetDirectory, FileCopyMethod fileCopyMethod, bool overWrite)
+        /// <param name="onlyNewer">Will only copy the file if the file is newer than the existing file.</param>
+        private static void CopyByRelativePath(List<string> relativePaths, string sourceDirectory, string targetDirectory, FileCopyMethod fileCopyMethod, bool overWrite, bool onlyNewer)
         {
             // For each relative path.
             foreach(string relativePath in relativePaths)
@@ -160,12 +161,32 @@ namespace Reloaded.IO
                 if (! File.Exists(sourcePath))
                     continue;
 
+                // Check if the file is newer or not.
+                if (onlyNewer && File.Exists(targetPath))
+                {
+                    if (File.GetLastWriteTime(sourcePath).ToUniversalTime() < File.GetLastWriteTime(targetPath).ToUniversalTime())
+                        continue; // Source file is older, proceed to next.
+                }
+
                 if (! Directory.Exists(Path.GetDirectoryName(targetPath)))
                     Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
 
                 // Copy the files from A to B using the specified target method.
                 CopyWithMethod(sourcePath, targetPath, fileCopyMethod, overWrite);
             }
+        }
+
+        /// <summary>
+        /// Copies a list of files by relative path from a list of relative paths to a specified set target directory.
+        /// </summary>
+        /// <param name="relativePaths">Specifies the relative file paths which are to be copied.</param>
+        /// <param name="sourceDirectory">Specifies the source directory from which the files are meant to be copied from. Should not end on a back/forward slash.</param>
+        /// <param name="targetDirectory">Specifies the arget directory to which the files are meant to be copied. Should not end on a back/forward slash.</param>
+        /// <param name="fileCopyMethod">Specifies the way the files will be copied from A to B.</param>
+        /// <param name="overWrite">Declares whether the files should be overwritten or not.</param>
+        public static void CopyByRelativePath(List<string> relativePaths, string sourceDirectory, string targetDirectory, FileCopyMethod fileCopyMethod, bool overWrite)
+        {
+            CopyByRelativePath(relativePaths, sourceDirectory, targetDirectory, fileCopyMethod, overWrite, false);
         }
 
         /// <summary>
@@ -181,7 +202,24 @@ namespace Reloaded.IO
             List<string> relativePaths = GetRelativeFilePaths(sourceDirectory);
 
             // Call the other overload.
-            CopyByRelativePath(relativePaths, sourceDirectory, targetDirectory, fileCopyMethod, overWrite);
+            CopyByRelativePath(relativePaths, sourceDirectory, targetDirectory, fileCopyMethod, overWrite, false);
+        }
+
+        /// <summary>
+        /// Copies a list of files by relative path from a list of relative paths to a specified set target directory.
+        /// </summary>
+        /// <param name="sourceDirectory">Specifies the source directory from which the files are meant to be copied from. Should not end on a back/forward slash.</param>
+        /// <param name="targetDirectory">Specifies the arget directory to which the files are meant to be copied. Should not end on a back/forward slash.</param>
+        /// <param name="fileCopyMethod">Specifies the way the files will be copied from A to B.</param>
+        /// <param name="overWrite">Declares whether the files should be overwritten or not.</param>
+        /// <param name="onlyNewer">Will only copy the file if the file is newer than the existing file.</param>
+        public static void CopyByRelativePath(string sourceDirectory, string targetDirectory, FileCopyMethod fileCopyMethod, bool overWrite, bool onlyNewer)
+        {
+            // Obtain the relative paths to the target directory.
+            List<string> relativePaths = GetRelativeFilePaths(sourceDirectory);
+
+            // Call the other overload.
+            CopyByRelativePath(relativePaths, sourceDirectory, targetDirectory, fileCopyMethod, overWrite, onlyNewer);
         }
 
         /// <summary>
