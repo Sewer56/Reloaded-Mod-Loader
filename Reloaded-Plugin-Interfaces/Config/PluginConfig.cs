@@ -19,8 +19,8 @@ namespace Reloaded_Plugin_System.Config
         public string Description     { get; set; } = "Plugin Description Undefined";
         public string Version         { get; set; } = "Undefined";
         public string Author          { get; set; } = "Undefined";
-        public string ConfigFile      { get; set; } = "N/A";
-        public string Site            { get; set; } = "N/A";
+        public string ConfigFile      { get; set; } = "";
+        public string Site            { get; set; } = "";
         public string DllName         { get; set; } = "";
         public bool   Enabled         { get; set; } = false;
 

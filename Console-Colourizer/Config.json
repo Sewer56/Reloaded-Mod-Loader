@@ -4,7 +4,7 @@
   "Version": "1.0.0",
   "Author": "Sewer56",
   "ConfigFile": "Settings.json",
-  "Site": "N/A",
+  "Site": "",
   "DllName": "Colourizer.dll",
   "Enabled": false
 }
