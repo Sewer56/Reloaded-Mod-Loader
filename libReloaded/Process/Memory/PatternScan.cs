@@ -46,6 +46,28 @@ namespace Reloaded.Process.Memory
         /// </remarks>
         public static IntPtr FindPattern(byte[] memoryRegion, byte[] bytePattern, string stringMask)
         {
+            return FindPattern(ref memoryRegion, bytePattern, stringMask);
+        }
+
+        /// <summary>
+        /// FindPattern  
+        ///     Attempts to locate the given pattern inside a supplied memory region,
+        ///     with support for checking against a given mask. 
+        ///     If the pattern is found, the offset within the supplied memory region
+        ///     where the pattern matches is returned.
+        /// </summary>
+        /// <param name="memoryRegion">The memory region in which to look for the specified pattern.</param>
+        /// <param name="bytePattern">Byte pattern to look for in the dumped region. e.g. new byte[] { 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88 }</param>
+        /// <param name="stringMask">The mask string to compare against. `x` represents check while `?` ignores. Each `x` and `?` represent 1 byte.</param>
+        /// <returns>0 if not found, offset in memory region if found.</returns>
+        /// <remarks>
+        ///     Generally useful when looking for game code for games which receive periodic updates.
+        ///     As the generated compiler code is not likely to differ, you could automatically re-obtain
+        ///     certain memory addresses for ASM code that writes to, for example player location between
+        ///     different executables and versions of the same game or target process.
+        /// </remarks>
+        public static IntPtr FindPattern(ref byte[] memoryRegion, byte[] bytePattern, string stringMask)
+        {
             try
             {
                 // Ensure mask and pattern length match.
@@ -56,7 +78,7 @@ namespace Reloaded.Process.Memory
                 for (int x = 0; x < memoryRegion.Length; x++)
                 {
                     // Check for the mask, incrementing start offset each time.
-                    if (MaskCheck(memoryRegion, bytePattern, stringMask, x))
+                    if (MaskCheck(ref memoryRegion, bytePattern, stringMask, x))
                         return new IntPtr(x);
                 }
 
@@ -79,7 +101,7 @@ namespace Reloaded.Process.Memory
         /// <param name="startOffset">Offset in the dump to start comparing bytes against at.</param>
         /// <returns>Boolean depending on if the pattern was found.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool MaskCheck(byte[] memoryRegion, byte[] bytePattern, string stringMask, int startOffset)
+        private static bool MaskCheck(ref byte[] memoryRegion, byte[] bytePattern, string stringMask, int startOffset)
         {
             // Loop the pattern and compare to the mask and our memory region.
             for (int x = 0; x < bytePattern.Length; x++)
