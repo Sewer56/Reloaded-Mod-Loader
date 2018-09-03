@@ -1,0 +1,10 @@
+{
+  "Name": "Console Colourizer",
+  "Description": "Not a fan of colour coding? Taste the rainbow!",
+  "Version": "1.0.0",
+  "Author": "Sewer56",
+  "ConfigFile": "Settings.json",
+  "Site": "N/A",
+  "DllName": "Colourizer.dll",
+  "Enabled": false
+}
