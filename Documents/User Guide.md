@@ -22,6 +22,7 @@
   - [Preview & Controller Ports](#preview-&-controller-ports)
   - [Axis](#axis)
 - [Alternate Launch Dialog](#alternate-launch-dialog)
+- [Installing Plugins](#installing-plugins)
 - [Troubleshooting](#troubleshooting)
 
 ## Prerequisites
@@ -137,6 +138,18 @@ In the main menu screen, if you hold the left CTRL key while pressing the "Launc
 </center>
 
 From here, you can either load Reloaded into an already running game by pressing the `Attach` button or launch Reloaded while also dumping a copy of the console window when the game is launched by ticking the Log File Location checkbox.
+
+## Installing Plugins
+
+Starting with version 2.00, Reloaded provides basic plugin support for those who wish to extend the functionality of the loader and/or launcher. The idea of plugin support in Reloaded is mostly "experimental" and plugin support currently available will be improved and/or extended should plugins find an increased demand or popularity.
+
+### How Plugins Work
+Plugins function mostly the same as mods, except without support for plugin order, updates or dependencies. They can be installed by dropping directories directly into `AppData\Roaming\Reloaded-Mod-Loader\Reloaded-Config\Plugins` folder. 
+
+### Limitations & Troubleshooting Plugins
+There is no list of enabled/disabled plugins, at the current moment, each plugin states whether it should be enabled or disabled via its own `Config.json` configuration file.
+
+In the case of a rogue plugin that crashes and prevents you from operating the launcher properly; you are required to disable it explicitly through the plugin's config file.
 
 ## Troubleshooting
 
