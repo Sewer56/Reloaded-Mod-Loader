@@ -15,13 +15,17 @@
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Compiling Reloaded (As a whole)](#compiling-reloaded-as-a-whole)
+- [Mod Examples: Getting Started](#mod-examples-getting-started)
+- [Starting Reloaded C# Projects](#starting-reloaded-c-projects)
+- [Writing Reloaded Plugins](#writing-reloaded-plugins)
 - [Troubleshooting](#troubleshooting)
-  - [Cannot see local variables when debugging Reloaded Mods:](#cannot-see-local-variables-when-debugging-reloaded-mods)
-  - ["Main.il" is in use.](#mainil-is-in-use)
+	- [Cannot see local variables when debugging Reloaded Mods:](#cannot-see-local-variables-when-debugging-reloaded-mods)
+	- ["Main.il" is in use.](#mainil-is-in-use)
 - [FAQ](#faq)
-  - [Can I use another programming language with Reloaded-Loader?](#can-i-use-another-programming-language-with-reloaded-loader)
-  - [Address Space Layout Randomization (ASLR)?](#address-space-layout-randomization-aslr)
-  - [Can I use Reloaded Mod Loader alongside [X] Mod Loader](#can-i-use-reloaded-mod-loader-alongside-x-mod-loader)
+	- [Can I use another programming language with Reloaded-Loader?](#can-i-use-another-programming-language-with-reloaded-loader)
+	- [Address Space Layout Randomization (ASLR)?](#address-space-layout-randomization-aslr)
+	- [Can I use Reloaded Mod Loader alongside [X] Mod Loader](#can-i-use-reloaded-mod-loader-alongside-x-mod-loader)
+
 
 ## Prerequisites
 * Visual Studio 2017+ (15.7+)
@@ -77,6 +81,16 @@ Note: If this is your first time, I would first recommend looking at mod samples
 
 PS. Remember to change the output path.
 Loader Mod Directory: `%AppData%/Roaming/Reloaded-Mod-Loader/Reloaded-Mods`
+
+## Writing Reloaded Plugins
+
+Not much can be said about the process of writing plugins for Reloaded Mod Loader.
+
+The plugin system works very similarly to Reloaded's mod system; by consisting of a config file and a DLL. The only large difference is that the DLL file name is specified directly inside the Config.json file.
+
+To start working on plugins for Reloaded, you simply need to project reference the `Reloaded-Plugin-System` project and implement the individual interfaces corresponding to functionality you may want to override in the launcher or loader.
+
+You should take a look through the stock plugins inside `Reloaded-Plugin-Samples`; the process of creating a plugin should become fairly trivial from there - just inherit from an interface.
 
 ## Troubleshooting
 
