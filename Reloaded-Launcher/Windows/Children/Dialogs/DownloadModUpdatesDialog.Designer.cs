@@ -97,7 +97,6 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             this.borderless_TotalUpdateProgressBar = new Reloaded_GUI.Styles.Controls.Custom.HorizontalProgressBar();
             this.borderless_FileUpdateProgressBar = new Reloaded_GUI.Styles.Controls.Custom.HorizontalProgressBar();
             this.Enabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ModID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ModName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Version = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FileSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -381,7 +380,6 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             this.box_UpdateList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.box_UpdateList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Enabled,
-            this.ModID,
             this.ModName,
             this.Version,
             this.FileSize});
@@ -601,14 +599,6 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             this.Enabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Enabled.Width = 30;
             // 
-            // ModID
-            // 
-            this.ModID.HeaderText = "Mod ID";
-            this.ModID.Name = "ModID";
-            this.ModID.ReadOnly = true;
-            this.ModID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ModID.Width = 200;
-            // 
             // ModName
             // 
             this.ModName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -623,7 +613,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             this.Version.Name = "Version";
             this.Version.ReadOnly = true;
             this.Version.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Version.Width = 75;
+            this.Version.Width = 150;
             // 
             // FileSize
             // 
@@ -679,7 +669,6 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedButton borderless_FilesCompleteNumber;
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedButton borderless_DownloadTimer;
         private System.Windows.Forms.DataGridViewTextBoxColumn Enabled;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ModID;
         private System.Windows.Forms.DataGridViewTextBoxColumn ModName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Version;
         private System.Windows.Forms.DataGridViewTextBoxColumn FileSize;

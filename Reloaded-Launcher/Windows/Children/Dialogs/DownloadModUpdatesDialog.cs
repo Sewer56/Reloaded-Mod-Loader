@@ -186,7 +186,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         {
             foreach (var update in _updates)
             {
-                box_UpdateList.Rows.Add(TextButtons.ButtonEnabled, update.ModId, update.ModName, update.ModVersion, $"{update.FileSizeMB:000.0}MB");
+                box_UpdateList.Rows.Add(TextButtons.ButtonEnabled, update.ModName, update.ModVersion, $"{update.FileSizeMB:000.0}MB");
             }
         }
 
