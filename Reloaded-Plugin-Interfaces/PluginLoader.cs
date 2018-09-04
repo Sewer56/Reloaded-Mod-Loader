@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Reloaded_Plugin_System.Config;
 using Reloaded_Plugin_System.Interfaces.Launcher;
 using Reloaded_Plugin_System.Interfaces.Loader;
+using Reloaded_Plugin_System.Interfaces.Updaters;
 
 namespace Reloaded_Plugin_System
 {
@@ -18,6 +19,7 @@ namespace Reloaded_Plugin_System
         public static List<ILoaderEventsV1> LoaderEventPlugins  { get; private set; } = new List<ILoaderEventsV1>();
         public static List<ILauncherEventsV1> LauncherEventPlugins { get; private set; } = new List<ILauncherEventsV1>();
         public static List<ILoaderBehaviourV1> LoaderConfigPlugins { get; private set; } = new List<ILoaderBehaviourV1>();
+        public static List<IUpdateSourceV1> UpdateSourcePlugins { get; private set; } = new List<IUpdateSourceV1>();
 
         /// <summary>
         /// The constructor gets a list of enabled plugins and populates the individual interface lists.
@@ -36,6 +38,7 @@ namespace Reloaded_Plugin_System
             List<ILoaderEventsV1> loaderEventPlugins  = new List<ILoaderEventsV1>();
             List<ILoaderBehaviourV1> loaderConfigPlugins = new List<ILoaderBehaviourV1>();
             List<ILauncherEventsV1> launcherEventPlugins = new List<ILauncherEventsV1>();
+            List<IUpdateSourceV1> updateSourcePlugins = new List<IUpdateSourceV1>();
 
             // Load every DLL belonging to a plugin and populate the plugin list.
             foreach (var pluginConfig in pluginConfigs)
@@ -53,21 +56,25 @@ namespace Reloaded_Plugin_System
                             if (classType.GetInterfaces().Contains(typeof(ILoaderEventsV1))) { loaderEventPlugins.Add(Activator.CreateInstance(classType) as ILoaderEventsV1); }
                             if (classType.GetInterfaces().Contains(typeof(ILoaderBehaviourV1))) { loaderConfigPlugins.Add(Activator.CreateInstance(classType) as ILoaderBehaviourV1); }
                             if (classType.GetInterfaces().Contains(typeof(ILauncherEventsV1))) { launcherEventPlugins.Add(Activator.CreateInstance(classType) as ILauncherEventsV1); }
+                            if (classType.GetInterfaces().Contains(typeof(IUpdateSourceV1))) { updateSourcePlugins.Add(Activator.CreateInstance(classType) as IUpdateSourceV1); }
                         }
                     }
                     else
                     {
                         MessageBox.Show($"The file path for the plugin {pluginConfig.Name} does not exist. Illegal path: {dllPath}");
                     }
-
                 }
             }
+
+
 
             // Replace the new event and config plugins.
             LoaderEventPlugins.Clear();
             LoaderConfigPlugins.Clear();
             LauncherEventPlugins.Clear();
+            UpdateSourcePlugins.Clear();
 
+            UpdateSourcePlugins = updateSourcePlugins;
             LoaderEventPlugins = loaderEventPlugins;
             LoaderConfigPlugins = loaderConfigPlugins;
             LauncherEventPlugins = launcherEventPlugins;

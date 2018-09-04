@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using Reloaded;
 using Reloaded.Native.WinAPI;
 using Reloaded.Paths;
 using Reloaded_GUI.Styles.Themes.ApplyTheme;

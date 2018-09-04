@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Reloaded.IO.Config.Interfaces;
 using Reloaded.Paths;
 
 namespace Reloaded.IO.Config
@@ -29,7 +30,7 @@ namespace Reloaded.IO.Config
     /// <summary>
     /// Defines a general struct for the loader mod configuration file.
     /// </summary>
-    public class ModConfig
+    public class ModConfig : IModConfigV1
     {
         /// <summary>
         /// Contains a unique name assigned to the modification which

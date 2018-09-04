@@ -112,18 +112,13 @@ namespace Reloaded_Loader.Core
             // Topologically sort mods.
             enabledMods = GameConfig.TopologicallySortConfigurations(enabledMods);
 
-            // Set path for all DLLs in enabled mods list; including plugin supported mods.
-            string gameConfig = JsonConvert.SerializeObject(gameConfiguration);
-
             List<string> dllFiles = new List<string>(enabledMods.Count);
             foreach (var enabledMod in enabledMods)
             {
                 // Get dll path to inject.
                 string dllPath = GetDLLPathToInject(enabledMod);
-
-                string modConfig = JsonConvert.SerializeObject(enabledMod);
                 foreach (var plugin in PluginLoader.LoaderEventPlugins)
-                    dllPath = plugin.SetDllInjectionPath(dllPath, modConfig, gameConfig);
+                    dllPath = plugin.SetDllInjectionPath(dllPath, enabledMod, gameConfiguration);
 
                 if (dllPath != null)
                     dllFiles.Add(dllPath);

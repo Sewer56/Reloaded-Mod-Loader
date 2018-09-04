@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Reloaded;
 using Reloaded.Paths;
 using Reloaded.Process;
 using Reloaded_Plugin_System;

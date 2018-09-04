@@ -1,0 +1,10 @@
+{
+  "Name": "GameBanana Updater",
+  "Description": "Maintains a list and updates mods downloaded via 1 click links.",
+  "Version": "1.0.0",
+  "Author": "Sewer56",
+  "ConfigFile": "",
+  "Site": "",
+  "DllName": "GamebananaUpdater.dll",
+  "Enabled": false
+}

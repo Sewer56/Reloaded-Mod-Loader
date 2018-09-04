@@ -151,9 +151,9 @@
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
       <Name>libReloaded</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Reloaded-Plugin-Interfaces\Reloaded-Plugin-Interfaces.csproj">
+    <ProjectReference Include="..\Reloaded-Plugin-Interfaces\Reloaded-Plugin-System.csproj">
       <Project>{6917b3c3-4972-4ffd-87c9-4bbcccf1d180}</Project>
-      <Name>Reloaded-Plugin-Interfaces</Name>
+      <Name>Reloaded-Plugin-System</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

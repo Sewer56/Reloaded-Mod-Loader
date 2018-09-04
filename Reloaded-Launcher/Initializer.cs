@@ -19,20 +19,18 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Win32;
-using Reloaded;
 using Reloaded.IO;
 using Reloaded.IO.Config;
 using Reloaded.Paths;
-using Reloaded.Utilities;
 using Reloaded_GUI.Styles.Themes;
 using ReloadedLauncher.Windows;
 using ReloadedLauncher.Windows.Children.Dialogs;
 using ReloadedLauncher.Windows.Children.Dialogs.Tutorial;
-using ReloadedUpdateChecker;
 using Reloaded_Plugin_System;
 using Reloaded_Plugin_System.Config;
 using Squirrel;
@@ -296,6 +294,7 @@ namespace ReloadedLauncher
 
         private static async void CheckForModUpdates()
         {
+            Debugger.Launch();
             var updates = await UpdateChecker.GetAllUpdatesFromSources();
 
             if (updates.Count > 0)

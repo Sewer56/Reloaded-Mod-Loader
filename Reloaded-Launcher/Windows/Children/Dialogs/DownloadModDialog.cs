@@ -20,7 +20,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
@@ -28,17 +27,14 @@ using Reloaded.Native.WinAPI;
 using Reloaded_GUI.Styles.Themes.ApplyTheme;
 using Reloaded_GUI.Utilities.Windows;
 using System.Net;
-using System.Net.Mime;
 using System.Text.RegularExpressions;
-using Reloaded;
 using Reloaded.IO.Config;
 using Reloaded.Paths;
-using Reloaded.Utilities;
-using ReloadedUpdateChecker;
-using ReloadedUpdateChecker.Updaters;
-using ReloadedUpdateChecker.Utilities.Downloader;
 using Reloaded_GUI.Styles.Themes;
+using Reloaded_Plugin_System;
 using SevenZipExtractor;
+using Reloaded_Plugin_System.Interfaces.Updaters;
+using Reloaded_Plugin_System.Utilities.Downloader;
 
 namespace ReloadedLauncher.Windows.Children.Dialogs
 {
@@ -87,7 +83,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// <summary>
         /// The update sources whose events will be fired during download.
         /// </summary>
-        private List<IUpdateSource> _updateSources;
+        private List<IUpdateSourceV1> _updateSources;
 
         /// <summary>
         /// Initializes the form.
@@ -97,7 +93,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         {
             // Standard WinForms Init
             InitializeComponent();
-            _updateSources = UpdateChecker.UpdateSources;
+            _updateSources = PluginLoader.UpdateSourcePlugins;
             MakeRoundedWindow.RoundWindow(this, 30, 30);
             _modificationUrl = modDownloadUrl;
 

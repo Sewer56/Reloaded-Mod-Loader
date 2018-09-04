@@ -24,6 +24,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using Reloaded.IO.Config.Interfaces;
 using Reloaded.Paths;
 
 namespace Reloaded.IO.Config
@@ -31,7 +32,7 @@ namespace Reloaded.IO.Config
     /// <summary>
     /// Defines a general struct for the loader game configuration file.
     /// </summary>
-    public class GameConfig
+    public class GameConfig : IGameConfigV1
     {
         /// <summary>
         /// Specifies the directory of the game.

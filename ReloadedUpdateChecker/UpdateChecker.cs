@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -22,6 +22,15 @@ namespace ReloadedUpdateChecker
 
         static UpdateChecker()
         {
+            Reset();
+        }
+
+        /// <summary>
+        /// Used to reload the update checked plugins.
+        /// </summary>
+        public static void Reset()
+        {
+            UpdateSources = new List<IUpdateSource>();
             UpdateSources = GetUpdateSources();
         }
 
@@ -50,12 +59,29 @@ namespace ReloadedUpdateChecker
         /// </summary>
         private static List<IUpdateSource> GetUpdateSources()
         {
-            var interfaceType = typeof(IUpdateSource);
-            var all =   AppDomain.CurrentDomain.GetAssemblies()
-                        .SelectMany(x => x.GetTypes())
-                        .Where(x => interfaceType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                        .Select(x => Activator.CreateInstance(x));
-            return all.Cast<IUpdateSource>().ToList();
+            // Clear any previous assembly.
+            UpdateSources.Clear();
+
+            // Get our interface type, assemblies and create all implementations of assembly.
+            var assemblies          = AppDomain.CurrentDomain.GetAssemblies();
+
+            foreach (var assembly in assemblies)
+            {
+                try
+                {
+                    // Get all classes implementing interfaces, create them and populate lists.
+                    foreach (var classType in assembly.GetTypes())
+                    {
+                        if (classType.GetInterfaces().Contains(typeof(IUpdateSource))) { UpdateSources.Add(Activator.CreateInstance(classType) as IUpdateSource); }
+                    }
+                }
+                catch
+                {
+                    /* Idi Nahui */
+                }
+            }
+
+            return UpdateSources;
         }
     }
 }

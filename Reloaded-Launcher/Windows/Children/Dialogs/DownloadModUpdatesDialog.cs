@@ -21,23 +21,15 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using Reloaded.Native.WinAPI;
 using Reloaded_GUI.Styles.Themes.ApplyTheme;
 using Reloaded_GUI.Utilities.Windows;
 using System.Net;
-using System.Net.Mime;
-using System.Text.RegularExpressions;
-using Reloaded;
-using Reloaded.IO.Config;
-using Reloaded.Paths;
-using Reloaded.Utilities;
 using ReloadedLauncher.Misc;
-using ReloadedUpdateChecker.Updaters;
-using ReloadedUpdateChecker.Utilities.Downloader;
-using Reloaded_GUI.Styles.Themes;
+using Reloaded_Plugin_System.Interfaces.Updaters;
+using Reloaded_Plugin_System.Utilities.Downloader;
 using SevenZipExtractor;
 // ReSharper disable All
 
@@ -73,7 +65,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// <summary>
         /// Contains a list of updates.
         /// </summary>
-        private List<Update> _updates;
+        private List<IUpdate> _updates;
         private bool _isUpdating;
         
         /// <summary>
@@ -90,7 +82,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// <summary>
         /// Creates a new instance of the mod update dialog.
         /// </summary>
-        public DownloadModUpdatesDialog(List<Update> modUpdates)
+        public DownloadModUpdatesDialog(List<IUpdate> modUpdates)
         {
             InitializeComponent();
             _updates = modUpdates;
@@ -198,10 +190,10 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             }
         }
 
-        private List<Update> GetEnabledMods()
+        private List<IUpdate> GetEnabledMods()
         {
             // The DataGridView cannot be rearranged, thus the order of _updates matches our tick/cross order.
-            List<Update> enabledUpdates = new List<Update>();
+            List<IUpdate> enabledUpdates = new List<IUpdate>();
 
             for (int x = 0; x < box_UpdateList.Rows.Count; x++)
             {

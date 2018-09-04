@@ -22,7 +22,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Reloaded;
 using Reloaded.Input;
 using Reloaded.Input.Common;
 using Reloaded.Input.Modules;

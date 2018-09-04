@@ -1,0 +1,10 @@
+{
+  "Name": "Github Updater",
+  "Description": "Updater for mods with a repository link specified in ModSource.",
+  "Version": "1.0.0",
+  "Author": "Sewer56",
+  "ConfigFile": "",
+  "Site": "",
+  "DllName": "GithubUpdater.dll",
+  "Enabled": false
+}

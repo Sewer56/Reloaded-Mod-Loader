@@ -345,13 +345,9 @@
       <Project>{D8DAE954-D469-4D01-925E-5AAF6B9C8FB6}</Project>
       <Name>Reloaded-GUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Reloaded-Plugin-Interfaces\Reloaded-Plugin-Interfaces.csproj">
+    <ProjectReference Include="..\Reloaded-Plugin-Interfaces\Reloaded-Plugin-System.csproj">
       <Project>{6917b3c3-4972-4ffd-87c9-4bbcccf1d180}</Project>
-      <Name>Reloaded-Plugin-Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ReloadedUpdateChecker\Reloaded-Update-Checker.csproj">
-      <Project>{3a842049-862c-4cea-83f2-004a4c536088}</Project>
-      <Name>Reloaded-Update-Checker</Name>
+      <Name>Reloaded-Plugin-System</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -20,14 +20,10 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Reloaded;
-using Reloaded.IO.Config;
 using Reloaded.Paths;
 using ReloadedLauncher.Misc;
-using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Utilities.Controls;
 using Reloaded_Plugin_System.Config;
 using Bindings = Reloaded_GUI.Bindings;

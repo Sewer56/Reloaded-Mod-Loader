@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Reloaded.IO.Config.Interfaces;
 
 namespace Reloaded_Plugin_System.Interfaces.Launcher
 {
@@ -21,15 +22,7 @@ namespace Reloaded_Plugin_System.Interfaces.Launcher
         /// </summary>
         /// <param name="modConfigurations">Contains an array (as in JSON array) of all of the mod configurations.</param>
         /// <returns>Same as parameter. A (JSON) array of serialized mod configurations which the old configurations will be replaced by.</returns>
-        string ResolveModConfigurations(string modConfigurations);
-
-        /// <summary>
-        /// Allows the plugin implementation to receive a list of theme configurations serialized as JSON
-        /// which it can parse and validate/change individual theme entries.
-        /// </summary>
-        /// <param name="themeConfigurations">Contains an array (as in JSON array) of all of the theme configurations.</param>
-        /// <returns>Same as parameter. A (JSON) array of serialized theme configurations which the old theme configurations will be replaced by.</returns>
-        string ResolveThemeConfigurations(string themeConfigurations);
+        List<IModConfigV1> ResolveModConfigurations(List<IModConfigV1> modConfigurations);
 
         /// <summary>
         /// Allows the plugin implementation to receive a list of game configurations serialized as JSON
@@ -37,7 +30,7 @@ namespace Reloaded_Plugin_System.Interfaces.Launcher
         /// </summary>
         /// <param name="gameConfigurations">Contains an array (as in JSON array) of all of the game configurations.</param>
         /// <returns>Same as parameter. A (JSON) array of serialized game configurations which the old game configurations will be replaced by.</returns>
-        string ResolveGameConfigurations(string gameConfigurations);
+        List<IGameConfigV1> ResolveGameConfigurations(List<IGameConfigV1> gameConfigurations);
 
         /// <summary>
         /// Allows you to modify the parameters sent into Reloaded-Loader.

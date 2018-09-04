@@ -19,10 +19,10 @@
 */
 
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Reloaded.IO.Config;
+using Reloaded.IO.Config.Interfaces;
 using Reloaded_GUI.Styles.Themes;
 using ReloadedLauncher.Windows;
 using Reloaded_Plugin_System;
@@ -109,12 +109,7 @@ namespace ReloadedLauncher
         /// <summary>
         /// Stores the individual theme configurations.
         /// </summary>
-        public static List<ThemeConfig> ThemeConfigurations
-        {
-            get => _themeConfigurations;
-            set => _themeConfigurations = ResolveThemeConfigurations(value);
-        }
-        private static List<ThemeConfig> _themeConfigurations;
+        public static List<ThemeConfig> ThemeConfigurations { get; set; }
 
         /*
             --------------------
@@ -131,27 +126,11 @@ namespace ReloadedLauncher
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.ContractResolver = new LauncherHelper.JsonIgnoreAttributeIgnorerContractResolver();
 
-            string modConfigurations = JsonConvert.SerializeObject(newModConfigurations, settings);
+            List<IModConfigV1> modConfigV1s = newModConfigurations.ToList<IModConfigV1>();
             foreach (var launcherEventPlugin in PluginLoader.LauncherEventPlugins)
-                modConfigurations = launcherEventPlugin.ResolveModConfigurations(modConfigurations);
+                modConfigV1s = launcherEventPlugin.ResolveModConfigurations(modConfigV1s);
 
-            return JsonConvert.DeserializeObject<List<ModConfig>>(modConfigurations, settings);
-        }
-
-        /// <summary>
-        /// Allows individual plugins to intercept mod list loading.
-        /// </summary>
-        private static List<ThemeConfig> ResolveThemeConfigurations(List<ThemeConfig> newThemeConfigurations)
-        {
-            // Gets the configs, lets each mod tamper with them and restores configs.
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.ContractResolver = new LauncherHelper.JsonIgnoreAttributeIgnorerContractResolver();
-
-            string themeConfigurations = JsonConvert.SerializeObject(newThemeConfigurations, settings);
-            foreach (var launcherEventPlugin in PluginLoader.LauncherEventPlugins)
-                themeConfigurations = launcherEventPlugin.ResolveThemeConfigurations(themeConfigurations);
-
-            return JsonConvert.DeserializeObject<List<ThemeConfig>>(themeConfigurations, settings);
+            return modConfigV1s.Cast<ModConfig>().ToList();
         }
 
         /// <summary>
@@ -163,11 +142,11 @@ namespace ReloadedLauncher
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.ContractResolver = new LauncherHelper.JsonIgnoreAttributeIgnorerContractResolver();
 
-            string gameConfigurations = JsonConvert.SerializeObject(newGameConfigurations, settings);
+            List<IGameConfigV1> gameConfigsV1s = newGameConfigurations.Cast<IGameConfigV1>().ToList();
             foreach (var launcherEventPlugin in PluginLoader.LauncherEventPlugins)
-                gameConfigurations = launcherEventPlugin.ResolveGameConfigurations(gameConfigurations);
+                gameConfigsV1s = launcherEventPlugin.ResolveGameConfigurations(gameConfigsV1s);
 
-            return JsonConvert.DeserializeObject<List<GameConfig>>(gameConfigurations, settings);
+            return gameConfigsV1s.Cast<GameConfig>().ToList();
         }
     }
 }

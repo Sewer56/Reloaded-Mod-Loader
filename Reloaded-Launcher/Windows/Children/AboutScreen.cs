@@ -23,7 +23,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using Reloaded;
 using Reloaded.IO.Config;
 using Reloaded.Paths;
 using Reloaded_GUI.Utilities.Controls;

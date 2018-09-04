@@ -1,4 +1,6 @@
 ﻿
+using Reloaded.IO.Config.Interfaces;
+
 namespace Reloaded_Plugin_System.Interfaces.Loader
 {
     /// <summary>
@@ -33,7 +35,7 @@ namespace Reloaded_Plugin_System.Interfaces.Loader
         /// <param name="modConfig">Contains a JSON serialized copy of the ModConfig used.</param>
         /// <param name="gameConfig">Contains a JSON serialized copy of the GameConfig used.</param>
         /// <returns>The new DLL Injection path.</returns>
-        string SetDllInjectionPath(string currentPath, string modConfig, string gameConfig);
+        string SetDllInjectionPath(string currentPath, IModConfigV1 modConfig, IGameConfigV1 gameConfig);
 
         /// <summary>
         /// Allows an individual plugin to manually perform DLL Injection for a specific DLL.
