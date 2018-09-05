@@ -1,4 +1,4 @@
-﻿/*
+/*
     [Reloaded] Mod Loader Launcher
     The launcher for a universal, powerful, multi-game and multi-process mod loader
     based off of the concept of DLL Injection to execute arbitrary program code.
@@ -294,7 +294,6 @@ namespace ReloadedLauncher
 
         private static async void CheckForModUpdates()
         {
-            Debugger.Launch();
             var updates = await UpdateChecker.GetAllUpdatesFromSources();
 
             if (updates.Count > 0)
