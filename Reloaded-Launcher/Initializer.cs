@@ -19,6 +19,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -284,9 +285,13 @@ namespace ReloadedLauncher
                 {
                     // Gets the game config specified and launches the launcher.
                     Global.CurrentGameConfig = GameConfig.ParseConfig(arguments[1]);
-                    Functions.LaunchLoader(new string[0]);
 
-                    // Byebye!
+                    // Get arguments and launch, then say goodbye.
+                    string[] additionalArguments = new string[0];
+                    if (arguments.Length > 2)
+                        additionalArguments = Slice(arguments, 2, arguments.Length);
+
+                    Functions.LaunchLoader(additionalArguments);
                     Functions.Shutdown();
                 }
             }
@@ -314,6 +319,28 @@ namespace ReloadedLauncher
                 DownloadModUpdatesDialog dialog = new DownloadModUpdatesDialog(updates);
                 dialog.ShowDialog();
             }
+        }
+
+        /// <summary>
+        /// Get the array slice between the two indexes.
+        /// Inclusive for start index, exclusive for end index.
+        /// </summary>
+        private static T[] Slice<T>(T[] source, int start, int end)
+        {
+            // Handles negative ends.
+            if (end < 0)
+            {
+                end = source.Length + end;
+            }
+            int len = end - start;
+
+            // Return new array.
+            T[] res = new T[len];
+            for (int i = 0; i < len; i++)
+            {
+                res[i] = source[i + start];
+            }
+            return res;
         }
     }
 }

@@ -75,11 +75,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Plugin-System", "R
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reloaded-Plugin-Samples", "Reloaded-Plugin-Samples", "{E4DD576A-E501-46F9-8A89-892E1597B676}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console-Colourizer", "Reloaded-Plugin-Samples\Console-Colourizer\Console-Colourizer.csproj", "{39730A60-DA73-4445-A3DA-98B7CDA3FDBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console-Colourizer", "Reloaded-Plugin-Samples\Console-Colourizer\Console-Colourizer.csproj", "{39730A60-DA73-4445-A3DA-98B7CDA3FDBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Github-Updater", "Reloaded-Plugin-Samples\Github-Updater\Github-Updater.csproj", "{C73825C4-4776-44D0-B627-FCC1544692B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Github-Updater", "Reloaded-Plugin-Samples\Github-Updater\Github-Updater.csproj", "{C73825C4-4776-44D0-B627-FCC1544692B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamebananaUpdater", "Reloaded-Plugin-Samples\GamebananaUpdater\GamebananaUpdater.csproj", "{F5CB0E06-F272-466A-B2C3-3314BBC4A7DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamebananaUpdater", "Reloaded-Plugin-Samples\GamebananaUpdater\GamebananaUpdater.csproj", "{F5CB0E06-F272-466A-B2C3-3314BBC4A7DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Steam-Shim", "Reloaded-Steam-Shim\Reloaded-Steam-Shim.csproj", "{6B11F52C-36E6-4405-92CB-FB4FBBF81344}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -613,6 +615,24 @@ Global
 		{F5CB0E06-F272-466A-B2C3-3314BBC4A7DF}.Release|x64.Build.0 = Release|Any CPU
 		{F5CB0E06-F272-466A-B2C3-3314BBC4A7DF}.Release|x86.ActiveCfg = Release|Any CPU
 		{F5CB0E06-F272-466A-B2C3-3314BBC4A7DF}.Release|x86.Build.0 = Release|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Debug|x64.Build.0 = Debug|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Debug|x86.Build.0 = Debug|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Github-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Github-Release|Any CPU.Build.0 = Release|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Github-Release|x64.ActiveCfg = Release|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Github-Release|x64.Build.0 = Release|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Github-Release|x86.ActiveCfg = Release|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Github-Release|x86.Build.0 = Release|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Release|x64.ActiveCfg = Release|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Release|x64.Build.0 = Release|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

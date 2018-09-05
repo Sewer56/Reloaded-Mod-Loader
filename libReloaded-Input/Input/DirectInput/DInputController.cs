@@ -169,9 +169,7 @@ namespace Reloaded.Input.DirectInput
                 controllerInputs = GetCurrentAxis(controllerInputs);
 
                 // Retrieve DPAD Information
-                if (JoystickState.PointOfViewControllers[0] == -1)
-                {
-                }
+                if (JoystickState.PointOfViewControllers[0] == -1) { }
                 else
                 {
                     switch ((DpadDirection) JoystickState.PointOfViewControllers[0])

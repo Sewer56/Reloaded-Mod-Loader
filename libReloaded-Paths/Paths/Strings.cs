@@ -142,6 +142,16 @@ namespace Reloaded.Paths
             public static string LoaderSettingLog { get; } = "--log";
 
             /// <summary>
+            /// This tells the loader to launch the game normally if ReloadedShim.json is present and this argument is not specified.
+            /// </summary>
+            public static string LoaderSettingSteamShim { get; } = "--steamhack";
+
+            /// <summary>
+            /// The name of the Reloaded Shim config file.
+            /// </summary>
+            public static string SteamShimFileName { get; } = "ReloadedShim.json";
+
+            /// <summary>
             /// The name of the mod list that is used globally, regardless of the game.
             /// </summary>
             public static string GlobalModName { get; } = "!-- Global Mods --!";

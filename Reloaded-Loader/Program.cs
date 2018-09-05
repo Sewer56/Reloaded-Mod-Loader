@@ -21,6 +21,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using LiteNetLib;
 using Reloaded;
@@ -94,8 +95,8 @@ namespace Reloaded_Loader
 
             /* - Boot up Reloaded Assembler, Get the Game Process running/attached and with mods running. - */
             Assembler.Assemble(new string[] {"use32", "nop eax"}); // Startup Assembler (So a running instance/open handle does not bother devs working on mods)
-            GetGameProcess();
-            InjectMods();
+            GetGameProcess(args);
+            InjectMods(args);
 
             // Resume game after injection if we are NOT in attach mode.
             if (_attachTargetName == null)
@@ -103,7 +104,7 @@ namespace Reloaded_Loader
             
             // Stay alive in the background
             AppDomain.CurrentDomain.ProcessExit += Shutdown;
-            Console.CancelKeyPress += Shutdown;
+            Console.CancelKeyPress              += Shutdown;
 
             // Wait infinitely.
             while (true)
@@ -114,7 +115,7 @@ namespace Reloaded_Loader
         /// Checks whether to reattach Reloaded Mod Loader if the game process
         /// unexpectedly kills itself and then restarts (a standard for some games' launch procedures).
         /// </summary>
-        private static void ProcessSelfReattach()
+        private static void ProcessSelfReattach(string[] args)
         {
             // Use stopwatch for soft timing.
             Stopwatch timeoutStopWatch = new Stopwatch();
@@ -143,7 +144,7 @@ namespace Reloaded_Loader
                     foreach (NetPeer peer in LoaderServer.ReloadedServer.GetPeers())
                     { LoaderServer.ReloadedServer.DisconnectPeer(peer); }
 
-                    InjectMods();
+                    InjectMods(args);
 
                     // Wait infinitely.
                     while (true)
@@ -159,10 +160,21 @@ namespace Reloaded_Loader
         /// Kicks off the individual mods running inside the target process
         /// specified by our <see cref="_gameProcess"/> variable.
         /// </summary>
-        private static void InjectMods()
+        private static void InjectMods(string[] commandLineArguments)
         {
-            _gameProcess.GetProcessFromReloadedProcess().EnableRaisingEvents = true;
-            _gameProcess.GetProcessFromReloadedProcess().Exited += (sender, eventArgs) => ProcessSelfReattach();
+            // Do not reattach on exit for Steam Shims - they should not reboot if shimmed.
+            if (commandLineArguments.Contains(Strings.Common.LoaderSettingSteamShim))
+            {
+                _gameProcess.GetProcessFromReloadedProcess().EnableRaisingEvents = true;
+                _gameProcess.GetProcessFromReloadedProcess().Exited += (sender, eventArgs) => Shutdown(null, null);
+            }
+            else
+            {
+                _gameProcess.GetProcessFromReloadedProcess().EnableRaisingEvents = true;
+                _gameProcess.GetProcessFromReloadedProcess().Exited += (sender, eventArgs) => ProcessSelfReattach(commandLineArguments);
+            }
+            
+
             ModLoader.LoadMods(_gameConfig, _gameProcess);
         }
 
@@ -202,7 +214,7 @@ namespace Reloaded_Loader
         /// <summary>
         /// Retrieves the game instance we are going to be hacking as a ReloadedProcess 
         /// </summary>
-        private static void GetGameProcess()
+        private static void GetGameProcess(string[] originalArguments)
         {
             // Fast return if soft reboot (game process killed and restarted itself)
             if (_gameProcess != null)
@@ -235,6 +247,9 @@ namespace Reloaded_Loader
                     Console.ReadLine();
                     Shutdown(null, null);
                 }
+
+                // Check if the game should run normally to toggle the shim.
+                CheckSteamHack(originalArguments);
             }
 
             // Set binding for target process for memory IO
@@ -252,6 +267,29 @@ namespace Reloaded_Loader
             ---------------------
         */
 
+        /// <summary>
+        /// Looks for the existence of ReloadedShim.json and restarts the game through the
+        /// Steam shim using Steam if necessary. The game will relaunch itself through Steam.
+        /// </summary>
+        /// <param name="commandlineArguments">Original Commandline Parameters Passed to Application.</param>
+        private static void CheckSteamHack(string[] commandlineArguments)
+        {
+            // If Steam shimming is not specified, check for existence of ReloadedShim.json.
+            if (! commandlineArguments.Contains(Strings.Common.LoaderSettingSteamShim))
+            {
+                // Here, check for the shim existence. 
+                // If the shim config exists and commandline parameter not specified, launch game normally and shutdown.
+                string gameExeFile          = Path.Combine(_gameConfig.GameDirectory, _gameConfig.ExecutableLocation);
+                string gameExeDirectory     = Path.GetDirectoryName(gameExeFile);
+
+                string potentialShimFile    = $"{gameExeDirectory}\\{Strings.Common.SteamShimFileName}";
+                if (File.Exists(potentialShimFile))
+                {
+                    _gameProcess.ResumeAllThreads();
+                    Environment.Exit(0);
+                }
+            }
+        }
 
         /// <summary>
         /// Checks whether the supplied argument for the config path ends with Config.json and strips
