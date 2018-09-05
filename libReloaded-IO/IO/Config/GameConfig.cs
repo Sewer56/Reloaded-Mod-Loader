@@ -81,7 +81,7 @@ namespace Reloaded.IO.Config
         public List<string> EnabledMods { get; set; } = new List<string>();
 
         /// <summary>
-        /// [DO NOT MODIFY] Stores the physical directory location of the game configuration for re-save purposes.
+        /// [DO NOT MODIFY] Stores the physical directory location of the game configuration (Config.json) for re-save purposes.
         /// </summary>
         [JsonIgnore]
         public string ConfigLocation { get; set; }

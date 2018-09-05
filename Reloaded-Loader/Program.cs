@@ -280,7 +280,6 @@ namespace Reloaded_Loader
             ReloadedProcess reloadedProcess = new ReloadedProcess($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Reloaded-Wrapper-x64.exe", arguments);
             reloadedProcess.ResumeAllThreads();
 
-
             Shutdown(null, null);
         }
 

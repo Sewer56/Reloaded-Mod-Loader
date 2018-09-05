@@ -111,6 +111,11 @@ namespace Reloaded.Paths
             public const string DownloadArgumentName = "--download";
 
             /// <summary>
+            /// Launches a specific game configuration using Reloaded-Loader.
+            /// </summary>
+            public const string LaunchArgumentName = "--launch";
+
+            /// <summary>
             /// Contains the name of the default log file used in Reloaded.
             /// </summary>
             public const string DefaultLogFileName = "Reloaded-Log.txt";

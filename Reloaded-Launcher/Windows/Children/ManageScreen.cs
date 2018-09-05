@@ -24,13 +24,16 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Microsoft.WindowsAPICodePack.Shell;
 using Reloaded.IO.Config;
 using Reloaded.Paths;
 using Reloaded_GUI.Styles.Themes;
 using Reloaded_GUI.Utilities.Controls;
 using Bindings = Reloaded_GUI.Bindings;
+using ShellLink = Squirrel.Shell.ShellLink;
 
 namespace ReloadedLauncher.Windows.Children
 {
@@ -562,7 +565,34 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void item_CreateShortcut_Click(object sender, EventArgs e)
         {
+            // Check if this is a Squirrel Install
+            string currentApplicationDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string possibleSquirrelDirectory = Path.GetDirectoryName(currentApplicationDirectory);
+            string possibleSquirrelUpdater = possibleSquirrelDirectory + "\\Update.exe";
 
+            // Shortcut details
+            string executablePath;
+            string commandlineArguments;
+            string shortcutLocation = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + $"\\[Reloaded] {Global.CurrentGameConfig.GameName}.lnk";
+
+            // If true, this is a squirrel install, use the static location of Reloaded's loader.
+            if (File.Exists(possibleSquirrelUpdater))
+                executablePath = possibleSquirrelDirectory + "\\Reloaded-Launcher.exe";
+            else
+                executablePath = Assembly.GetExecutingAssembly().Location;
+
+            commandlineArguments = $"{Strings.Launcher.LaunchArgumentName} \"{Path.GetDirectoryName(Global.CurrentGameConfig.ConfigLocation)}\"";
+
+            // Now create the actual shortcut itself.
+            using (ShellLink link = new ShellLink())
+            {
+                link.Description = $"Launch {Global.CurrentGameConfig.GameName} using Reloaded Mod Loader";
+                link.Target      = $"{executablePath}";
+                link.Arguments   = $"{commandlineArguments}";
+                link.Save(shortcutLocation);
+            }
+
+            MessageBox.Show($"A shortcut has been placed in the following location: {shortcutLocation}");
         }
     }
 }

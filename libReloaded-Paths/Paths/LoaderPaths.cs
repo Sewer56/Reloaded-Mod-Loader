@@ -31,6 +31,12 @@ namespace Reloaded.Paths
     public static class LoaderPaths
     {
         /// <summary>
+        /// (Not supported in portable mode).
+        /// Contains the static location of Reloaded's launcher for when Reloaded has been installed by Squirrel.Windows.
+        /// </summary>
+        public static readonly string ReloadedLauncherLocation = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\ReloadedModLoader\\Reloaded-Launcher.exe";
+
+        /// <summary>
         /// Specifies the location of the file which informs injected DLLs of the 
         /// current location of the mod loader in question. 
         /// </summary>

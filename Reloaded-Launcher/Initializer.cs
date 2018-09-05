@@ -1,4 +1,4 @@
-/*
+﻿/*
     [Reloaded] Mod Loader Launcher
     The launcher for a universal, powerful, multi-game and multi-process mod loader
     based off of the concept of DLL Injection to execute arbitrary program code.
@@ -48,6 +48,10 @@ namespace ReloadedLauncher
         /// </summary>
         public Initializer(string[] arguments)
         {
+#if DEBUG
+            Debugger.Launch();  
+#endif
+
             // Unpack default files if not available.
             CopyDefaultFiles();
 
@@ -275,6 +279,15 @@ namespace ReloadedLauncher
                     DownloadModDialog downloadModDialog = new DownloadModDialog(httpPath);
                     downloadModDialog.ShowDialog();
                     Environment.Exit(0);
+                }
+                else if (arguments[0] == Strings.Launcher.LaunchArgumentName)
+                {
+                    // Gets the game config specified and launches the launcher.
+                    Global.CurrentGameConfig = GameConfig.ParseConfig(arguments[1]);
+                    Functions.LaunchLoader(new string[0]);
+
+                    // Byebye!
+                    Functions.Shutdown();
                 }
             }
         }
