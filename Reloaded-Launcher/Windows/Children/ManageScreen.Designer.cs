@@ -97,6 +97,9 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties15 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage29 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage30 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties16 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage31 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage32 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             this.item_OpenConfigDirectory = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_OpenGameDir = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_OpenModDir = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
@@ -124,6 +127,7 @@ namespace ReloadedLauncher.Windows.Children
             this.box_CommandLineArguments = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_GameFolderSelect = new System.Windows.Forms.PictureBox();
             this.item_Reserved = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.item_CreateShortcut = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameBanner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameDirectorySelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameEXESelect)).BeginInit();
@@ -274,9 +278,9 @@ namespace ReloadedLauncher.Windows.Children
             this.box_Reserved.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.box_Reserved.IgnoreMouse = false;
             this.box_Reserved.IgnoreMouseClicks = true;
-            this.box_Reserved.Location = new System.Drawing.Point(38, 414);
+            this.box_Reserved.Location = new System.Drawing.Point(325, 414);
             this.box_Reserved.Name = "box_Reserved";
-            this.box_Reserved.Size = new System.Drawing.Size(825, 61);
+            this.box_Reserved.Size = new System.Drawing.Size(538, 61);
             this.box_Reserved.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
             this.box_Reserved.TabIndex = 35;
             this.box_Reserved.Text = null;
@@ -916,15 +920,54 @@ namespace ReloadedLauncher.Windows.Children
             this.item_Reserved.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.item_Reserved.ForeColor = System.Drawing.Color.White;
             this.item_Reserved.IgnoreMouse = false;
-            this.item_Reserved.Location = new System.Drawing.Point(39, 415);
+            this.item_Reserved.Location = new System.Drawing.Point(326, 415);
             this.item_Reserved.Margin = new System.Windows.Forms.Padding(0);
             this.item_Reserved.Name = "item_Reserved";
-            this.item_Reserved.Size = new System.Drawing.Size(821, 59);
+            this.item_Reserved.Size = new System.Drawing.Size(534, 59);
             this.item_Reserved.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.item_Reserved.TabIndex = 36;
             this.item_Reserved.Text = "Todo: Game Shortcut Gen, New Mod Btn";
             this.item_Reserved.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.item_Reserved.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            // 
+            // item_CreateShortcut
+            // 
+            animMessage31.Control = this.item_CreateShortcut;
+            animMessage31.PlayAnimation = true;
+            animProperties16.BackColorMessage = animMessage31;
+            animMessage32.Control = this.item_CreateShortcut;
+            animMessage32.PlayAnimation = true;
+            animProperties16.ForeColorMessage = animMessage32;
+            animProperties16.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties16.MouseEnterDuration = 0F;
+            animProperties16.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties16.MouseEnterFramerate = 0F;
+            animProperties16.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties16.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties16.MouseLeaveDuration = 0F;
+            animProperties16.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties16.MouseLeaveFramerate = 0F;
+            animProperties16.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.item_CreateShortcut.AnimProperties = animProperties16;
+            this.item_CreateShortcut.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            this.item_CreateShortcut.CaptureChildren = true;
+            this.item_CreateShortcut.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.item_CreateShortcut.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.item_CreateShortcut.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.item_CreateShortcut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_CreateShortcut.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_CreateShortcut.ForeColor = System.Drawing.Color.White;
+            this.item_CreateShortcut.IgnoreMouse = false;
+            this.item_CreateShortcut.IgnoreMouseClicks = false;
+            this.item_CreateShortcut.Location = new System.Drawing.Point(38, 414);
+            this.item_CreateShortcut.Name = "item_CreateShortcut";
+            this.item_CreateShortcut.Size = new System.Drawing.Size(250, 43);
+            this.item_CreateShortcut.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_CreateShortcut.TabIndex = 42;
+            this.item_CreateShortcut.Text = "Create Shortcut";
+            this.item_CreateShortcut.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.item_CreateShortcut.UseVisualStyleBackColor = false;
+            this.item_CreateShortcut.Click += new System.EventHandler(this.item_CreateShortcut_Click);
             // 
             // ManageScreen
             // 
@@ -932,6 +975,7 @@ namespace ReloadedLauncher.Windows.Children
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(900, 512);
+            this.Controls.Add(this.item_CreateShortcut);
             this.Controls.Add(this.borderless_CommandLineArguments);
             this.Controls.Add(this.box_CommandLineArguments);
             this.Controls.Add(this.item_OpenConfigDirectory);
@@ -1001,5 +1045,6 @@ namespace ReloadedLauncher.Windows.Children
         private AnimatedButton item_OpenConfigDirectory;
         private EnhancedLabel box_CommandLineArguments;
         private AnimatedTextbox borderless_CommandLineArguments;
+        private AnimatedButton item_CreateShortcut;
     }
 }

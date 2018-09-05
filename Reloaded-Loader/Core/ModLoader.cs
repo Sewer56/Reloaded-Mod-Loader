@@ -118,7 +118,7 @@ namespace Reloaded_Loader.Core
                 // Get dll path to inject.
                 string dllPath = GetDLLPathToInject(enabledMod);
                 foreach (var plugin in PluginLoader.LoaderEventPlugins)
-                    dllPath = plugin.SetDllInjectionPath(dllPath, enabledMod, gameConfiguration);
+                    dllPath = plugin.GetSetDllInjectionPath(dllPath, enabledMod, gameConfiguration);
 
                 if (dllPath != null)
                     dllFiles.Add(dllPath);
@@ -132,7 +132,9 @@ namespace Reloaded_Loader.Core
         /// </summary>
         private static string GetDLLPathToInject(ModConfig modConfig)
         {
-            if (ReloadedArchitecture.IsGame32Bit)
+            // If we are a 32bit process, inject 32bit mods.
+            // We would have restarted in 64bit mode by now if the game was 64bit.
+            if (IntPtr.Size == 4)
             {
                 // Explicitly Set? Use that path.
                 if (! String.IsNullOrEmpty(modConfig.DllFile32))

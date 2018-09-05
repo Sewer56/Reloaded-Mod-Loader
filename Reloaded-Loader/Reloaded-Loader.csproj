@@ -99,7 +99,6 @@
   <ItemGroup>
     <Compile Include="Miscallenous\AssemblyFinder.cs" />
     <Compile Include="Miscallenous\DLLUnlocker.cs" />
-    <Compile Include="Miscallenous\ReloadedArchitecture.cs" />
     <Compile Include="Networking\LoaderServer.cs" />
     <Compile Include="Networking\LoaderServerFunctions\PrintToScreen.cs" />
     <Compile Include="Terminal\LoaderConsole.cs" />

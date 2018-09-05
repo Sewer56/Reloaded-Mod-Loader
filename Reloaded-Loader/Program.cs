@@ -35,6 +35,7 @@ using Reloaded_Loader.Terminal;
 using Reloaded_Loader.Terminal.Information;
 using Reloaded_Plugin_System;
 using Squirrel;
+using static Reloaded.Utilities.CheckArchitecture;
 using Console = Colorful.Console;
 
 namespace Reloaded_Loader
@@ -82,6 +83,7 @@ namespace Reloaded_Loader
 
             /* - Initialization - */
             IgnoreSquirrel();
+            ParseArguments(args);
 
             LoaderConsole.Initialize();
             SetuplibReloadedBindings();
@@ -90,13 +92,9 @@ namespace Reloaded_Loader
             DllUnlocker.UnblockDlls();          // Removes Zone Information which may prevent DLL injection if DLL was downloaded from e.g. Internet Explorer
             LoaderServer.SetupServer();
 
-            /* - Option Parsing, Linking - */
-
-            ParseArguments(args);
+            /* - Boot up Reloaded Assembler, Get the Game Process running/attached and with mods running. - */
             Assembler.Assemble(new string[] {"use32", "nop eax"}); // Startup Assembler (So a running instance/open handle does not bother devs working on mods)
-            GetGameProcess(args);
-
-            /* - Load and enter main close polling loop - */
+            GetGameProcess();
             InjectMods();
 
             // Resume game after injection if we are NOT in attach mode.
@@ -174,11 +172,12 @@ namespace Reloaded_Loader
         /// <param name="arguments"></param>
         private static void ParseArguments(string[] arguments)
         {
+            // Save the original arguments from plugins in the case the process is X64.
+            string[] originalArguments = arguments;
+
             // Set/Get arguments for all plugins.
             foreach (var eventPlugin in PluginLoader.LoaderEventPlugins)
-            {
-                arguments = eventPlugin.SetArguments(arguments);
-            }
+            { arguments = eventPlugin.GetSetArguments(arguments); }
 
             // Go over known arguments.
             for (int x = 0; x < arguments.Length; x++)
@@ -190,13 +189,20 @@ namespace Reloaded_Loader
 
             // Check game config
             if (_gameConfig == null) { Information.DisplayWarning(); }
+
+            // Are we running in 32bit mode.
+            if (IntPtr.Size != 8)
+            {
+                // If the executable is 64bit, restart.
+                if (GetMachineTypeFromPeHeader(_gameConfig.GameDirectory + $"\\{_gameConfig.ExecutableLocation}") == PEMachineType.AMD64)
+                    RebootX64(originalArguments);
+            } 
         }
 
         /// <summary>
         /// Retrieves the game instance we are going to be hacking as a ReloadedProcess 
         /// </summary>
-        /// <param name="arguments">A copy of the arguments passed into the application used for optionally rebooting in x64 mode.</param>
-        private static void GetGameProcess(string[] arguments)
+        private static void GetGameProcess()
         {
             // Fast return if soft reboot (game process killed and restarted itself)
             if (_gameProcess != null)
@@ -215,10 +221,6 @@ namespace Reloaded_Loader
                     Console.ReadLine();
                     Shutdown(null, null);
                 }
-
-                // Check if the current running architecture matched ~(32 bit), if not, restart as x64.
-                if (!_gameProcess.CheckArchitectureMatch())
-                    RebootX64(arguments);
             }
 
             // Otherwise start process suspended in Reloaded, hook it, exploit it and resume the intended way.
@@ -232,13 +234,6 @@ namespace Reloaded_Loader
                     // libReloaded will already print the error message.
                     Console.ReadLine();
                     Shutdown(null, null);
-                }
-
-                // Check if the current running architecture matched ~(32 bit), if not, restart as x64.
-                if (!_gameProcess.CheckArchitectureMatch())
-                {
-                    _gameProcess.KillProcess();
-                    RebootX64(arguments);
                 }
             }
 

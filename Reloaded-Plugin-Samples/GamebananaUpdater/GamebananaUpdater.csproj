@@ -1,23 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <ProjectGuid>{39730A60-DA73-4445-A3DA-98B7CDA3FDBF}</ProjectGuid>
-    <RootNamespace>Console_Colourizer</RootNamespace>
-    <AssemblyName>Colourizer</AssemblyName>
+    <ProjectGuid>{F5CB0E06-F272-466A-B2C3-3314BBC4A7DF}</ProjectGuid>
     <TargetFramework>net472</TargetFramework>
-    <AssemblyTitle>Console-Colourizer</AssemblyTitle>
-    <Product>Console-Colourizer</Product>
+    <AssemblyTitle>GamebananaUpdater.cs</AssemblyTitle>
+    <Product>GamebananaUpdater.cs</Product>
     <Copyright>Copyright ©  2018</Copyright>
+    <OutputPath>..\build\$(Configuration)\Default-Plugins\GamebananaUpdater\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
-    <OutputPath>..\..\build\$(Configuration)\Default-Plugins\Colourizer\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <OutputPath>..\build\$(Configuration)\Default-Plugins\Colourizer\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Colorful.Console" Version="1.2.9" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
   <ItemGroup>
@@ -26,11 +22,12 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libReloaded-Paths\libReloaded-Paths.csproj" />
+    <ProjectReference Include="..\..\Reloaded-Plugin-Interfaces\Reloaded-Plugin-System.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Reloaded-Plugin-Interfaces\Reloaded-Plugin-System.csproj" />
   </ItemGroup>
 </Project>

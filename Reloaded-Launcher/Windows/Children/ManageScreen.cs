@@ -556,5 +556,13 @@ namespace ReloadedLauncher.Windows.Children
         {
             Process.Start(Path.GetDirectoryName(Global.CurrentGameConfig.ConfigLocation));
         }
+
+        /// <summary>
+        /// Allows the user to create a shortcut used to launch the game directly.
+        /// </summary>
+        private void item_CreateShortcut_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

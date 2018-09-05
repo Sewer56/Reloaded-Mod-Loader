@@ -47,12 +47,35 @@ namespace ReloadedLauncher
         /// Shuts down the Reloaded Launcher and launches the currently selected game.
         /// The parameter of this method allows for the specification OPTIONAL ADDITIONAL arguments such as --log or --attach.
         /// </summary>
-        /// <param name="localArguments">Additional command line arguments/options to pass to Reloaded-Loader.</param>
-        public static void LaunchLoader(string[] localArguments)
+        /// <param name="extraArguments">Additional command line arguments/options to pass to Reloaded-Loader.</param>
+        public static void LaunchLoader(string[] extraArguments)
         {
-            // Build filepath and arguments
-            string filePath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Reloaded-Loader.exe";
+            // Gets a file path of the loader.
+            string filePath = GetLoaderFilePath();
+            
+            // Start process
+            ReloadedProcess process = new ReloadedProcess(filePath, GetCommandlineParameters(extraArguments).ToArray());
+            process.ResumeAllThreads();
 
+            // Self-shutdown.
+            if (Global.LoaderConfiguration.ExitAfterLaunch)
+                Shutdown();
+        }
+
+        /// <summary>
+        /// Gets the file path of Reloaded's Loader executable.
+        /// </summary>
+        public static string GetLoaderFilePath()
+        {
+            return $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Reloaded-Loader.exe";
+        }
+
+        /// <summary>
+        /// Retrieves the commandline parameters to launch the currently selected global process in <see cref="Global.CurrentGameConfig"/>
+        /// </summary>
+        /// <param name="extraArguments">Additional command line arguments/options to pass to Reloaded-Loader.</param>
+        public static List<string> GetCommandlineParameters(string[] extraArguments)
+        {
             // Build arguments.
             List<string> argumentsList = new List<string>()
             {
@@ -61,18 +84,12 @@ namespace ReloadedLauncher
             };
 
             // We are done here.
-            argumentsList.AddRange(localArguments);
+            argumentsList.AddRange(extraArguments);
 
             foreach (var launcherEventPlugin in PluginLoader.LauncherEventPlugins)
                 argumentsList = launcherEventPlugin.SetLoaderParameters(argumentsList);
 
-            // Start process
-            ReloadedProcess process = new ReloadedProcess(filePath, argumentsList.ToArray());
-            process.ResumeAllThreads();
-
-            // Self-shutdown.
-            if (Global.LoaderConfiguration.ExitAfterLaunch)
-                Shutdown();
+            return argumentsList;
         }
     }
 }

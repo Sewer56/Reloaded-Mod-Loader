@@ -79,7 +79,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console-Colourizer", "Reloa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Github-Updater", "Reloaded-Plugin-Samples\Github-Updater\Github-Updater.csproj", "{C73825C4-4776-44D0-B627-FCC1544692B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamebananaUpdater", "GamebananaUpdater.cs\GamebananaUpdater.csproj", "{F5CB0E06-F272-466A-B2C3-3314BBC4A7DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamebananaUpdater", "Reloaded-Plugin-Samples\GamebananaUpdater\GamebananaUpdater.csproj", "{F5CB0E06-F272-466A-B2C3-3314BBC4A7DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

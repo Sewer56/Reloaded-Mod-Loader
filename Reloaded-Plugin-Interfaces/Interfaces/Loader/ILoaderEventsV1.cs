@@ -13,7 +13,7 @@ namespace Reloaded_Plugin_System.Interfaces.Loader
         /// Allows you to get and/or change the individual arguments passed into Reloaded's
         /// loader at startup.
         /// </summary>
-        string[] SetArguments(string[] args);
+        string[] GetSetArguments(string[] args);
 
         /*
             As the various layouts of individual classes in libReloaded can change 
@@ -35,7 +35,7 @@ namespace Reloaded_Plugin_System.Interfaces.Loader
         /// <param name="modConfig">Contains a JSON serialized copy of the ModConfig used.</param>
         /// <param name="gameConfig">Contains a JSON serialized copy of the GameConfig used.</param>
         /// <returns>The new DLL Injection path.</returns>
-        string SetDllInjectionPath(string currentPath, IModConfigV1 modConfig, IGameConfigV1 gameConfig);
+        string GetSetDllInjectionPath(string currentPath, IModConfigV1 modConfig, IGameConfigV1 gameConfig);
 
         /// <summary>
         /// Allows an individual plugin to manually perform DLL Injection for a specific DLL.
