@@ -70,10 +70,14 @@ namespace Reloaded_Steam_Shim
             var gameConfigurations      = ConfigManager.GetAllGameConfigs();
             string currentDirectory     = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             currentDirectory            = Path.GetFullPath(currentDirectory);
+
+            // Grab all valid configs.
+            gameConfigurations          = gameConfigurations.Where(x => x.ModDirectory != "!Global" && x.ExecutableLocation != "Undefined" && x.GameDirectory != "Undefined").ToList();
+            
             foreach (var gameConfiguration in gameConfigurations)
             {
                 string gameFullDirectory = Path.GetFullPath(gameConfiguration.GameDirectory);
-                if (currentDirectory.Contains(gameFullDirectory))
+                if (gameFullDirectory == currentDirectory || gameFullDirectory.Contains(currentDirectory) || currentDirectory.Contains(gameFullDirectory))
                 {
                     GameConfigurations.Add(gameConfiguration);
                 }
