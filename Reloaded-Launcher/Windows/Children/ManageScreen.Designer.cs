@@ -100,10 +100,13 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties16 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage31 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage32 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties17 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage33 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage34 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageScreen));
             this.item_OpenConfigDirectory = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_OpenGameDir = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_OpenModDir = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.box_Reserved = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_SaveGame = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.borderless_GameDirectory = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             this.borderless_GameExecutableDirectory = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
@@ -127,7 +130,8 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameName = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_CommandLineArguments = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_GameFolderSelect = new System.Windows.Forms.PictureBox();
-            this.item_Reserved = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.item_CreateSteamShim = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.borderless_SteamShimInfo = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameBanner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameDirectorySelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameEXESelect)).BeginInit();
@@ -251,12 +255,12 @@ namespace ReloadedLauncher.Windows.Children
             this.item_OpenModDir.UseVisualStyleBackColor = false;
             this.item_OpenModDir.Click += new System.EventHandler(this.item_OpenModDir_Click);
             // 
-            // box_Reserved
+            // item_SaveGame
             // 
-            animMessage7.Control = this.box_Reserved;
+            animMessage7.Control = this.item_SaveGame;
             animMessage7.PlayAnimation = true;
             animProperties4.BackColorMessage = animMessage7;
-            animMessage8.Control = this.box_Reserved;
+            animMessage8.Control = this.item_SaveGame;
             animMessage8.PlayAnimation = true;
             animProperties4.ForeColorMessage = animMessage8;
             animProperties4.MouseEnterBackColor = System.Drawing.Color.Empty;
@@ -269,43 +273,7 @@ namespace ReloadedLauncher.Windows.Children
             animProperties4.MouseLeaveForeColor = System.Drawing.Color.Empty;
             animProperties4.MouseLeaveFramerate = 0F;
             animProperties4.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_Reserved.AnimProperties = animProperties4;
-            this.box_Reserved.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_Reserved.CaptureChildren = true;
-            this.box_Reserved.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.box_Reserved.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_Reserved.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.box_Reserved.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.box_Reserved.IgnoreMouse = false;
-            this.box_Reserved.IgnoreMouseClicks = true;
-            this.box_Reserved.Location = new System.Drawing.Point(325, 414);
-            this.box_Reserved.Name = "box_Reserved";
-            this.box_Reserved.Size = new System.Drawing.Size(538, 61);
-            this.box_Reserved.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-            this.box_Reserved.TabIndex = 35;
-            this.box_Reserved.Text = null;
-            this.box_Reserved.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            this.box_Reserved.UseVisualStyleBackColor = false;
-            // 
-            // item_SaveGame
-            // 
-            animMessage9.Control = this.item_SaveGame;
-            animMessage9.PlayAnimation = true;
-            animProperties5.BackColorMessage = animMessage9;
-            animMessage10.Control = this.item_SaveGame;
-            animMessage10.PlayAnimation = true;
-            animProperties5.ForeColorMessage = animMessage10;
-            animProperties5.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties5.MouseEnterDuration = 0F;
-            animProperties5.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties5.MouseEnterFramerate = 0F;
-            animProperties5.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties5.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties5.MouseLeaveDuration = 0F;
-            animProperties5.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties5.MouseLeaveFramerate = 0F;
-            animProperties5.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.item_SaveGame.AnimProperties = animProperties5;
+            this.item_SaveGame.AnimProperties = animProperties4;
             this.item_SaveGame.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
             this.item_SaveGame.CaptureChildren = true;
             this.item_SaveGame.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -329,23 +297,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // borderless_GameDirectory
             // 
-            animMessage11.Control = this.borderless_GameDirectory;
-            animMessage11.PlayAnimation = true;
-            animProperties6.BackColorMessage = animMessage11;
-            animMessage12.Control = this.borderless_GameDirectory;
-            animMessage12.PlayAnimation = true;
-            animProperties6.ForeColorMessage = animMessage12;
-            animProperties6.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties6.MouseEnterDuration = 0F;
-            animProperties6.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties6.MouseEnterFramerate = 0F;
-            animProperties6.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties6.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties6.MouseLeaveDuration = 0F;
-            animProperties6.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties6.MouseLeaveFramerate = 0F;
-            animProperties6.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_GameDirectory.AnimProperties = animProperties6;
+            animMessage9.Control = this.borderless_GameDirectory;
+            animMessage9.PlayAnimation = true;
+            animProperties5.BackColorMessage = animMessage9;
+            animMessage10.Control = this.borderless_GameDirectory;
+            animMessage10.PlayAnimation = true;
+            animProperties5.ForeColorMessage = animMessage10;
+            animProperties5.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties5.MouseEnterDuration = 0F;
+            animProperties5.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties5.MouseEnterFramerate = 0F;
+            animProperties5.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties5.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties5.MouseLeaveDuration = 0F;
+            animProperties5.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties5.MouseLeaveFramerate = 0F;
+            animProperties5.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_GameDirectory.AnimProperties = animProperties5;
             this.borderless_GameDirectory.BackColor = System.Drawing.Color.Gray;
             this.borderless_GameDirectory.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.borderless_GameDirectory.BottomBorderColour = System.Drawing.Color.Transparent;
@@ -372,23 +340,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // borderless_GameExecutableDirectory
             // 
-            animMessage13.Control = this.borderless_GameExecutableDirectory;
-            animMessage13.PlayAnimation = true;
-            animProperties7.BackColorMessage = animMessage13;
-            animMessage14.Control = this.borderless_GameExecutableDirectory;
-            animMessage14.PlayAnimation = true;
-            animProperties7.ForeColorMessage = animMessage14;
-            animProperties7.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties7.MouseEnterDuration = 0F;
-            animProperties7.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties7.MouseEnterFramerate = 0F;
-            animProperties7.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties7.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties7.MouseLeaveDuration = 0F;
-            animProperties7.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties7.MouseLeaveFramerate = 0F;
-            animProperties7.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_GameExecutableDirectory.AnimProperties = animProperties7;
+            animMessage11.Control = this.borderless_GameExecutableDirectory;
+            animMessage11.PlayAnimation = true;
+            animProperties6.BackColorMessage = animMessage11;
+            animMessage12.Control = this.borderless_GameExecutableDirectory;
+            animMessage12.PlayAnimation = true;
+            animProperties6.ForeColorMessage = animMessage12;
+            animProperties6.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties6.MouseEnterDuration = 0F;
+            animProperties6.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties6.MouseEnterFramerate = 0F;
+            animProperties6.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties6.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties6.MouseLeaveDuration = 0F;
+            animProperties6.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties6.MouseLeaveFramerate = 0F;
+            animProperties6.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_GameExecutableDirectory.AnimProperties = animProperties6;
             this.borderless_GameExecutableDirectory.BackColor = System.Drawing.Color.Gray;
             this.borderless_GameExecutableDirectory.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.borderless_GameExecutableDirectory.BottomBorderColour = System.Drawing.Color.Empty;
@@ -414,23 +382,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // borderless_GameVersion
             // 
-            animMessage15.Control = this.borderless_GameVersion;
-            animMessage15.PlayAnimation = true;
-            animProperties8.BackColorMessage = animMessage15;
-            animMessage16.Control = this.borderless_GameVersion;
-            animMessage16.PlayAnimation = true;
-            animProperties8.ForeColorMessage = animMessage16;
-            animProperties8.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties8.MouseEnterDuration = 0F;
-            animProperties8.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties8.MouseEnterFramerate = 0F;
-            animProperties8.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties8.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties8.MouseLeaveDuration = 0F;
-            animProperties8.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties8.MouseLeaveFramerate = 0F;
-            animProperties8.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_GameVersion.AnimProperties = animProperties8;
+            animMessage13.Control = this.borderless_GameVersion;
+            animMessage13.PlayAnimation = true;
+            animProperties7.BackColorMessage = animMessage13;
+            animMessage14.Control = this.borderless_GameVersion;
+            animMessage14.PlayAnimation = true;
+            animProperties7.ForeColorMessage = animMessage14;
+            animProperties7.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties7.MouseEnterDuration = 0F;
+            animProperties7.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties7.MouseEnterFramerate = 0F;
+            animProperties7.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties7.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties7.MouseLeaveDuration = 0F;
+            animProperties7.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties7.MouseLeaveFramerate = 0F;
+            animProperties7.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_GameVersion.AnimProperties = animProperties7;
             this.borderless_GameVersion.BackColor = System.Drawing.Color.Gray;
             this.borderless_GameVersion.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.borderless_GameVersion.BottomBorderColour = System.Drawing.Color.Empty;
@@ -456,23 +424,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // item_DeleteBox
             // 
-            animMessage17.Control = this.item_DeleteBox;
-            animMessage17.PlayAnimation = true;
-            animProperties9.BackColorMessage = animMessage17;
-            animMessage18.Control = this.item_DeleteBox;
-            animMessage18.PlayAnimation = true;
-            animProperties9.ForeColorMessage = animMessage18;
-            animProperties9.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties9.MouseEnterDuration = 0F;
-            animProperties9.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties9.MouseEnterFramerate = 0F;
-            animProperties9.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties9.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties9.MouseLeaveDuration = 0F;
-            animProperties9.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties9.MouseLeaveFramerate = 0F;
-            animProperties9.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.item_DeleteBox.AnimProperties = animProperties9;
+            animMessage15.Control = this.item_DeleteBox;
+            animMessage15.PlayAnimation = true;
+            animProperties8.BackColorMessage = animMessage15;
+            animMessage16.Control = this.item_DeleteBox;
+            animMessage16.PlayAnimation = true;
+            animProperties8.ForeColorMessage = animMessage16;
+            animProperties8.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterDuration = 0F;
+            animProperties8.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterFramerate = 0F;
+            animProperties8.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties8.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveDuration = 0F;
+            animProperties8.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveFramerate = 0F;
+            animProperties8.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.item_DeleteBox.AnimProperties = animProperties8;
             this.item_DeleteBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
             this.item_DeleteBox.CaptureChildren = true;
             this.item_DeleteBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -496,23 +464,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // item_NewGame
             // 
-            animMessage19.Control = this.item_NewGame;
-            animMessage19.PlayAnimation = true;
-            animProperties10.BackColorMessage = animMessage19;
-            animMessage20.Control = this.item_NewGame;
-            animMessage20.PlayAnimation = true;
-            animProperties10.ForeColorMessage = animMessage20;
-            animProperties10.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties10.MouseEnterDuration = 0F;
-            animProperties10.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties10.MouseEnterFramerate = 0F;
-            animProperties10.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties10.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties10.MouseLeaveDuration = 0F;
-            animProperties10.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties10.MouseLeaveFramerate = 0F;
-            animProperties10.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.item_NewGame.AnimProperties = animProperties10;
+            animMessage17.Control = this.item_NewGame;
+            animMessage17.PlayAnimation = true;
+            animProperties9.BackColorMessage = animMessage17;
+            animMessage18.Control = this.item_NewGame;
+            animMessage18.PlayAnimation = true;
+            animProperties9.ForeColorMessage = animMessage18;
+            animProperties9.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterDuration = 0F;
+            animProperties9.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterFramerate = 0F;
+            animProperties9.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties9.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveDuration = 0F;
+            animProperties9.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveFramerate = 0F;
+            animProperties9.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.item_NewGame.AnimProperties = animProperties9;
             this.item_NewGame.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
             this.item_NewGame.CaptureChildren = true;
             this.item_NewGame.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -535,23 +503,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // box_BannerBox
             // 
-            animMessage21.Control = this.box_BannerBox;
-            animMessage21.PlayAnimation = true;
-            animProperties11.BackColorMessage = animMessage21;
-            animMessage22.Control = this.box_BannerBox;
-            animMessage22.PlayAnimation = true;
-            animProperties11.ForeColorMessage = animMessage22;
-            animProperties11.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties11.MouseEnterDuration = 0F;
-            animProperties11.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties11.MouseEnterFramerate = 0F;
-            animProperties11.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties11.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties11.MouseLeaveDuration = 0F;
-            animProperties11.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties11.MouseLeaveFramerate = 0F;
-            animProperties11.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.box_BannerBox.AnimProperties = animProperties11;
+            animMessage19.Control = this.box_BannerBox;
+            animMessage19.PlayAnimation = true;
+            animProperties10.BackColorMessage = animMessage19;
+            animMessage20.Control = this.box_BannerBox;
+            animMessage20.PlayAnimation = true;
+            animProperties10.ForeColorMessage = animMessage20;
+            animProperties10.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties10.MouseEnterDuration = 0F;
+            animProperties10.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties10.MouseEnterFramerate = 0F;
+            animProperties10.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties10.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties10.MouseLeaveDuration = 0F;
+            animProperties10.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties10.MouseLeaveFramerate = 0F;
+            animProperties10.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.box_BannerBox.AnimProperties = animProperties10;
             this.box_BannerBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.box_BannerBox.CaptureChildren = true;
             this.box_BannerBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -571,23 +539,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // borderless_GameName
             // 
-            animMessage23.Control = this.borderless_GameName;
-            animMessage23.PlayAnimation = true;
-            animProperties12.BackColorMessage = animMessage23;
-            animMessage24.Control = this.borderless_GameName;
-            animMessage24.PlayAnimation = true;
-            animProperties12.ForeColorMessage = animMessage24;
-            animProperties12.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties12.MouseEnterDuration = 0F;
-            animProperties12.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties12.MouseEnterFramerate = 0F;
-            animProperties12.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties12.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties12.MouseLeaveDuration = 0F;
-            animProperties12.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties12.MouseLeaveFramerate = 0F;
-            animProperties12.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_GameName.AnimProperties = animProperties12;
+            animMessage21.Control = this.borderless_GameName;
+            animMessage21.PlayAnimation = true;
+            animProperties11.BackColorMessage = animMessage21;
+            animMessage22.Control = this.borderless_GameName;
+            animMessage22.PlayAnimation = true;
+            animProperties11.ForeColorMessage = animMessage22;
+            animProperties11.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties11.MouseEnterDuration = 0F;
+            animProperties11.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties11.MouseEnterFramerate = 0F;
+            animProperties11.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties11.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties11.MouseLeaveDuration = 0F;
+            animProperties11.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties11.MouseLeaveFramerate = 0F;
+            animProperties11.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_GameName.AnimProperties = animProperties11;
             this.borderless_GameName.BackColor = System.Drawing.Color.Gray;
             this.borderless_GameName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.borderless_GameName.BottomBorderColour = System.Drawing.Color.Red;
@@ -613,23 +581,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // borderless_GameModDirectory
             // 
-            animMessage25.Control = this.borderless_GameModDirectory;
-            animMessage25.PlayAnimation = true;
-            animProperties13.BackColorMessage = animMessage25;
-            animMessage26.Control = this.borderless_GameModDirectory;
-            animMessage26.PlayAnimation = true;
-            animProperties13.ForeColorMessage = animMessage26;
-            animProperties13.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties13.MouseEnterDuration = 0F;
-            animProperties13.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties13.MouseEnterFramerate = 0F;
-            animProperties13.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties13.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties13.MouseLeaveDuration = 0F;
-            animProperties13.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties13.MouseLeaveFramerate = 0F;
-            animProperties13.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_GameModDirectory.AnimProperties = animProperties13;
+            animMessage23.Control = this.borderless_GameModDirectory;
+            animMessage23.PlayAnimation = true;
+            animProperties12.BackColorMessage = animMessage23;
+            animMessage24.Control = this.borderless_GameModDirectory;
+            animMessage24.PlayAnimation = true;
+            animProperties12.ForeColorMessage = animMessage24;
+            animProperties12.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties12.MouseEnterDuration = 0F;
+            animProperties12.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties12.MouseEnterFramerate = 0F;
+            animProperties12.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties12.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties12.MouseLeaveDuration = 0F;
+            animProperties12.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties12.MouseLeaveFramerate = 0F;
+            animProperties12.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_GameModDirectory.AnimProperties = animProperties12;
             this.borderless_GameModDirectory.BackColor = System.Drawing.Color.Gray;
             this.borderless_GameModDirectory.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.borderless_GameModDirectory.BottomBorderColour = System.Drawing.Color.Empty;
@@ -655,23 +623,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // borderless_CurrentGame
             // 
-            animMessage27.Control = this.borderless_CurrentGame;
-            animMessage27.PlayAnimation = true;
-            animProperties14.BackColorMessage = animMessage27;
-            animMessage28.Control = this.borderless_CurrentGame;
-            animMessage28.PlayAnimation = true;
-            animProperties14.ForeColorMessage = animMessage28;
-            animProperties14.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties14.MouseEnterDuration = 0F;
-            animProperties14.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties14.MouseEnterFramerate = 0F;
-            animProperties14.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties14.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties14.MouseLeaveDuration = 0F;
-            animProperties14.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties14.MouseLeaveFramerate = 0F;
-            animProperties14.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_CurrentGame.AnimProperties = animProperties14;
+            animMessage25.Control = this.borderless_CurrentGame;
+            animMessage25.PlayAnimation = true;
+            animProperties13.BackColorMessage = animMessage25;
+            animMessage26.Control = this.borderless_CurrentGame;
+            animMessage26.PlayAnimation = true;
+            animProperties13.ForeColorMessage = animMessage26;
+            animProperties13.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties13.MouseEnterDuration = 0F;
+            animProperties13.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties13.MouseEnterFramerate = 0F;
+            animProperties13.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties13.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties13.MouseLeaveDuration = 0F;
+            animProperties13.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties13.MouseLeaveFramerate = 0F;
+            animProperties13.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_CurrentGame.AnimProperties = animProperties13;
             this.borderless_CurrentGame.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.borderless_CurrentGame.BottomBorderColour = System.Drawing.Color.White;
             this.borderless_CurrentGame.BottomBorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
@@ -710,23 +678,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // borderless_CommandLineArguments
             // 
-            animMessage29.Control = this.borderless_CommandLineArguments;
-            animMessage29.PlayAnimation = true;
-            animProperties15.BackColorMessage = animMessage29;
-            animMessage30.Control = this.borderless_CommandLineArguments;
-            animMessage30.PlayAnimation = true;
-            animProperties15.ForeColorMessage = animMessage30;
-            animProperties15.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties15.MouseEnterDuration = 0F;
-            animProperties15.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties15.MouseEnterFramerate = 0F;
-            animProperties15.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties15.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties15.MouseLeaveDuration = 0F;
-            animProperties15.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties15.MouseLeaveFramerate = 0F;
-            animProperties15.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_CommandLineArguments.AnimProperties = animProperties15;
+            animMessage27.Control = this.borderless_CommandLineArguments;
+            animMessage27.PlayAnimation = true;
+            animProperties14.BackColorMessage = animMessage27;
+            animMessage28.Control = this.borderless_CommandLineArguments;
+            animMessage28.PlayAnimation = true;
+            animProperties14.ForeColorMessage = animMessage28;
+            animProperties14.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties14.MouseEnterDuration = 0F;
+            animProperties14.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties14.MouseEnterFramerate = 0F;
+            animProperties14.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties14.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties14.MouseLeaveDuration = 0F;
+            animProperties14.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties14.MouseLeaveFramerate = 0F;
+            animProperties14.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_CommandLineArguments.AnimProperties = animProperties14;
             this.borderless_CommandLineArguments.BackColor = System.Drawing.Color.Gray;
             this.borderless_CommandLineArguments.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.borderless_CommandLineArguments.BottomBorderColour = System.Drawing.Color.Transparent;
@@ -753,23 +721,23 @@ namespace ReloadedLauncher.Windows.Children
             // 
             // item_CreateShortcut
             // 
-            animMessage31.Control = this.item_CreateShortcut;
-            animMessage31.PlayAnimation = true;
-            animProperties16.BackColorMessage = animMessage31;
-            animMessage32.Control = this.item_CreateShortcut;
-            animMessage32.PlayAnimation = true;
-            animProperties16.ForeColorMessage = animMessage32;
-            animProperties16.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties16.MouseEnterDuration = 0F;
-            animProperties16.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties16.MouseEnterFramerate = 0F;
-            animProperties16.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties16.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties16.MouseLeaveDuration = 0F;
-            animProperties16.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties16.MouseLeaveFramerate = 0F;
-            animProperties16.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.item_CreateShortcut.AnimProperties = animProperties16;
+            animMessage29.Control = this.item_CreateShortcut;
+            animMessage29.PlayAnimation = true;
+            animProperties15.BackColorMessage = animMessage29;
+            animMessage30.Control = this.item_CreateShortcut;
+            animMessage30.PlayAnimation = true;
+            animProperties15.ForeColorMessage = animMessage30;
+            animProperties15.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties15.MouseEnterDuration = 0F;
+            animProperties15.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties15.MouseEnterFramerate = 0F;
+            animProperties15.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties15.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties15.MouseLeaveDuration = 0F;
+            animProperties15.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties15.MouseLeaveFramerate = 0F;
+            animProperties15.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.item_CreateShortcut.AnimProperties = animProperties15;
             this.item_CreateShortcut.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
             this.item_CreateShortcut.CaptureChildren = true;
             this.item_CreateShortcut.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -788,7 +756,7 @@ namespace ReloadedLauncher.Windows.Children
             this.item_CreateShortcut.Text = "Create Shortcut";
             this.item_CreateShortcut.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.item_CreateShortcut.UseVisualStyleBackColor = false;
-            this.item_CreateShortcut.Click += new System.EventHandler(this.item_CreateShortcut_Click);
+            this.item_CreateShortcut.Click += new System.EventHandler(this.CreateShortcut_Click);
             // 
             // box_GameBanner
             // 
@@ -952,22 +920,84 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameFolderSelect.TabStop = false;
             this.box_GameFolderSelect.Click += new System.EventHandler(this.SelectModFolder);
             // 
-            // item_Reserved
+            // item_CreateSteamShim
             // 
-            this.item_Reserved.BackColor = System.Drawing.Color.Transparent;
-            this.item_Reserved.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_Reserved.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.item_Reserved.ForeColor = System.Drawing.Color.White;
-            this.item_Reserved.IgnoreMouse = false;
-            this.item_Reserved.Location = new System.Drawing.Point(326, 415);
-            this.item_Reserved.Margin = new System.Windows.Forms.Padding(0);
-            this.item_Reserved.Name = "item_Reserved";
-            this.item_Reserved.Size = new System.Drawing.Size(534, 59);
-            this.item_Reserved.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_Reserved.TabIndex = 36;
-            this.item_Reserved.Text = "Todo: Game Shortcut Gen, New Mod Btn";
-            this.item_Reserved.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.item_Reserved.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            animMessage31.Control = this.item_CreateSteamShim;
+            animMessage31.PlayAnimation = true;
+            animProperties16.BackColorMessage = animMessage31;
+            animMessage32.Control = this.item_CreateSteamShim;
+            animMessage32.PlayAnimation = true;
+            animProperties16.ForeColorMessage = animMessage32;
+            animProperties16.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties16.MouseEnterDuration = 0F;
+            animProperties16.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties16.MouseEnterFramerate = 0F;
+            animProperties16.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties16.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties16.MouseLeaveDuration = 0F;
+            animProperties16.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties16.MouseLeaveFramerate = 0F;
+            animProperties16.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.item_CreateSteamShim.AnimProperties = animProperties16;
+            this.item_CreateSteamShim.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            this.item_CreateSteamShim.CaptureChildren = true;
+            this.item_CreateSteamShim.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.item_CreateSteamShim.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.item_CreateSteamShim.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.item_CreateSteamShim.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_CreateSteamShim.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_CreateSteamShim.ForeColor = System.Drawing.Color.White;
+            this.item_CreateSteamShim.IgnoreMouse = false;
+            this.item_CreateSteamShim.IgnoreMouseClicks = false;
+            this.item_CreateSteamShim.Location = new System.Drawing.Point(325, 414);
+            this.item_CreateSteamShim.Name = "item_CreateSteamShim";
+            this.item_CreateSteamShim.Size = new System.Drawing.Size(250, 43);
+            this.item_CreateSteamShim.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_CreateSteamShim.TabIndex = 43;
+            this.item_CreateSteamShim.Text = "Generate Steam Shim";
+            this.item_CreateSteamShim.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.item_CreateSteamShim.UseVisualStyleBackColor = false;
+            this.item_CreateSteamShim.Click += new System.EventHandler(this.CreateSteamShim_Click);
+            // 
+            // borderless_SteamShimInfo
+            // 
+            animMessage33.Control = this.borderless_SteamShimInfo;
+            animMessage33.PlayAnimation = true;
+            animProperties17.BackColorMessage = animMessage33;
+            animMessage34.Control = this.borderless_SteamShimInfo;
+            animMessage34.PlayAnimation = true;
+            animProperties17.ForeColorMessage = animMessage34;
+            animProperties17.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties17.MouseEnterDuration = 0F;
+            animProperties17.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties17.MouseEnterFramerate = 0F;
+            animProperties17.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties17.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties17.MouseLeaveDuration = 0F;
+            animProperties17.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties17.MouseLeaveFramerate = 0F;
+            animProperties17.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_SteamShimInfo.AnimProperties = animProperties17;
+            this.borderless_SteamShimInfo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("borderless_SteamShimInfo.BackgroundImage")));
+            this.borderless_SteamShimInfo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.borderless_SteamShimInfo.CaptureChildren = false;
+            this.borderless_SteamShimInfo.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.borderless_SteamShimInfo.FlatAppearance.BorderSize = 0;
+            this.borderless_SteamShimInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_SteamShimInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_SteamShimInfo.ForeColor = System.Drawing.Color.White;
+            this.borderless_SteamShimInfo.IgnoreMouse = false;
+            this.borderless_SteamShimInfo.IgnoreMouseClicks = false;
+            this.borderless_SteamShimInfo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.borderless_SteamShimInfo.Location = new System.Drawing.Point(613, 414);
+            this.borderless_SteamShimInfo.Name = "borderless_SteamShimInfo";
+            this.borderless_SteamShimInfo.Size = new System.Drawing.Size(250, 45);
+            this.borderless_SteamShimInfo.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_SteamShimInfo.TabIndex = 59;
+            this.borderless_SteamShimInfo.Text = "What is a Steam Shim?";
+            this.borderless_SteamShimInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.borderless_SteamShimInfo.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            this.borderless_SteamShimInfo.UseVisualStyleBackColor = true;
             // 
             // ManageScreen
             // 
@@ -975,14 +1005,14 @@ namespace ReloadedLauncher.Windows.Children
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(900, 512);
+            this.Controls.Add(this.borderless_SteamShimInfo);
+            this.Controls.Add(this.item_CreateSteamShim);
             this.Controls.Add(this.item_CreateShortcut);
             this.Controls.Add(this.borderless_CommandLineArguments);
             this.Controls.Add(this.box_CommandLineArguments);
             this.Controls.Add(this.item_OpenConfigDirectory);
             this.Controls.Add(this.item_OpenGameDir);
             this.Controls.Add(this.item_OpenModDir);
-            this.Controls.Add(this.item_Reserved);
-            this.Controls.Add(this.box_Reserved);
             this.Controls.Add(this.box_GameFolderSelect);
             this.Controls.Add(this.box_GameEXESelect);
             this.Controls.Add(this.box_GameDirectorySelect);
@@ -1040,11 +1070,11 @@ namespace ReloadedLauncher.Windows.Children
         public System.Windows.Forms.PictureBox box_GameFolderSelect;
         private AnimatedButton item_OpenModDir;
         private AnimatedButton item_OpenGameDir;
-        private AnimatedButton box_Reserved;
-        private EnhancedLabel item_Reserved;
         private AnimatedButton item_OpenConfigDirectory;
         private EnhancedLabel box_CommandLineArguments;
         private AnimatedTextbox borderless_CommandLineArguments;
         private AnimatedButton item_CreateShortcut;
+        private AnimatedButton item_CreateSteamShim;
+        public AnimatedButton borderless_SteamShimInfo;
     }
 }

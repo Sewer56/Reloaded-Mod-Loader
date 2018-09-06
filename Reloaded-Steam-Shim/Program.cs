@@ -21,6 +21,10 @@ namespace Reloaded_Steam_Shim
         [STAThread]
         static void Main()
         {
+            #if DEBUG
+            Debugger.Launch();
+            #endif
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             RetrieveConfigs();
@@ -45,6 +49,13 @@ namespace Reloaded_Steam_Shim
             {
                 // Single game, launch it.
                 Functions.LaunchGame(Path.GetDirectoryName(GameConfigurations[0].ConfigLocation));
+            }
+
+            if (GameConfigurations.Count < 1)
+            {
+                MessageBox.Show("No game profiles found pointing to either the current directory or any of the subfolders.\n" +
+                                "Please ensure you have your game profiles correctly set up.\n" +
+                                "Refer to the readme pages on Github for more information.");
             }
         }
 

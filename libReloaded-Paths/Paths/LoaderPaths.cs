@@ -73,6 +73,11 @@ namespace Reloaded.Paths
         private static readonly string PluginsLocation = GetModLoaderConfigDirectory() + "\\Plugins";
 
         /// <summary>
+        /// Specifies the location of the templates folder for Reloaded.
+        /// </summary>
+        private static readonly string TemplatesLocation = GetModLoaderConfigDirectory() + "\\Templates";
+
+        /// <summary>
         /// Specifies the location of the configuration file for Reloaded.
         /// </summary>
         private static readonly string ConfigFileLocation = GetModLoaderConfigDirectory() + $"/{Strings.Parsers.ConfigFile}";
@@ -210,6 +215,16 @@ namespace Reloaded.Paths
             if (!Directory.Exists(GlobalConfigLocation)) { Directory.CreateDirectory(GlobalConfigLocation); }
             if (!Directory.Exists(PluginsLocation)) { Directory.CreateDirectory(PluginsLocation); }
             return PluginsLocation;
+        }
+
+        /// <summary>
+        /// Retrieves the folder location of the templates directory for Reloaded.
+        /// </summary>
+        public static string GetTemplatesDirectory()
+        {
+            if (!Directory.Exists(GlobalConfigLocation)) { Directory.CreateDirectory(GlobalConfigLocation); }
+            if (!Directory.Exists(TemplatesLocation)) { Directory.CreateDirectory(TemplatesLocation); }
+            return TemplatesLocation;
         }
 
         /// <summary>

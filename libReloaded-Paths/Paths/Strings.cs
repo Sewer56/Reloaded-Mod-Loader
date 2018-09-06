@@ -96,6 +96,33 @@ namespace Reloaded.Paths
             }
 
             /// <summary>
+            /// Defines the name of the folders from which data is copied when Reloaded Launcher starts up.
+            /// The folders are in the same directory as the launcher.
+            /// </summary>
+            public static class CopyOnLaunchFolders
+            {
+                /// <summary>
+                /// Stores the default template Reloaded-Config.
+                /// </summary>
+                public const string DefaultConfigFolder = "Default-Config";
+
+                /// <summary>
+                /// Stores the default plugins to include with this Reloaded release.
+                /// </summary>
+                public const string DefaultPluginsFolder = "Default-Plugins";
+
+                /// <summary>
+                /// Stores the default mods (Global mods) to include with this Reloaded release.
+                /// </summary>
+                public const string DefaultModsFolder = "Default-Mods";
+
+                /// <summary>
+                /// Stores the default templates (e.g. Mod Template, Steam Shim, etc.) to include with this release.
+                /// </summary>
+                public const string DefaultTemplatesFolder = "Default-Templates";
+            }
+
+            /// <summary>
             /// Contains the name of the preview banners used for mods of Reloaded Mod Loader.
             /// </summary>
             public const string BannerName = "Banner.png";

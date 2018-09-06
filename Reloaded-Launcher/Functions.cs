@@ -20,8 +20,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using Reloaded.IO;
 using Reloaded.Paths;
 using Reloaded.Process;
 using Reloaded_Plugin_System;
@@ -90,6 +92,45 @@ namespace ReloadedLauncher
                 argumentsList = launcherEventPlugin.SetLoaderParameters(argumentsList);
 
             return argumentsList;
+        }
+
+        /// <summary>
+        /// Generates a Reloaded Steam shim for the currently selected game.
+        /// </summary>
+        public static void GenerateShim()
+        {
+            // Get file names and paths.
+            string shimExecutableName = Path.GetFileName(Global.CurrentGameConfig.ExecutableLocation);
+            string shimOutputLocation = Path.GetTempPath() + "\\Reloaded-Temp-Steam-Shim";
+
+            // Generate instructions.
+            string instructions = $"Using the shim as a pseudo-launcher:\r\n" +
+                                  $"1. Rename {Global.CurrentGameConfig.ExecutableLocation} to a different name e.g. {Global.CurrentGameConfig.ExecutableLocation.Replace(".exe", "-Reloaded.exe")}\r\n" +
+                                  $"2. Set the new executable path for the game to the changed path, e.g. {Global.CurrentGameConfig.ExecutableLocation.Replace(".exe", "-Reloaded.exe")} in Reloaded-Launcher.\r\n" +
+                                  $"3. Copy Reloaded's Steam shim \"{shimExecutableName}\" to the place of the old executable {Global.CurrentGameConfig.ExecutableLocation}\r\n" +
+                                  $"Result: You can now launch games directly through Steam and Reloaded mods still are applied.\r\n\r\n" +
+                                  $"-----------------------------------------------------------------------------------------\r\n\r\n" +
+                                  $"Using the shim as a game's basic launcher replacement (for Steam DRM games that can only be launched via launcher):\r\n" +
+                                  $"1. Rename the shim executable name \"{shimExecutableName}\" to the name of the game's default launcher (e.g. SteamLauncher.exe)\r\n" +
+                                  $"2. Replace the game's launcher executable with the shim executable.\r\n" +
+                                  $"3. Create (if you haven't already), individual game profiles for individual executables the default launcher would launch e.g. Shenmue.exe, Shenmue2.exe\r\n" +
+                                  "Result: If done correctly, when launching the game via Steam, you will get a prompt asking\r\n" +
+                                  "which game to launch via Reloaded if there is more than 1 game. Else the only game will be launched directly.\r\n\r\n" +
+
+                                  "Note that after Steam updates, or verifying game files you may have to redo this process.\r\n" +
+                                  "For more information refer to Reloaded's Github readme pages/wiki.\r\n" +
+                                  "You should delete this folder when you are done.";
+
+            // Output everything to disc.
+            Directory.CreateDirectory(shimOutputLocation);
+            File.WriteAllText($"{shimOutputLocation}\\Instructions.txt", instructions);
+            RelativePaths.CopyByRelativePath($"{LoaderPaths.GetTemplatesDirectory()}\\Steam-Shim", shimOutputLocation, RelativePaths.FileCopyMethod.Copy, true);
+
+            if (File.Exists($"{shimOutputLocation}\\{shimExecutableName}")) { File.Delete($"{shimOutputLocation}\\{shimExecutableName}"); }
+            File.Move($"{shimOutputLocation}\\Reloaded-Steam-Shim.exe", $"{shimOutputLocation}\\{shimExecutableName}");
+            
+            // Open directory in explorer.
+            Process.Start($"{shimOutputLocation}");
         }
     }
 }

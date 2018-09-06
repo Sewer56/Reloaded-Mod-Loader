@@ -563,7 +563,7 @@ namespace ReloadedLauncher.Windows.Children
         /// <summary>
         /// Allows the user to create a shortcut used to launch the game directly.
         /// </summary>
-        private void item_CreateShortcut_Click(object sender, EventArgs e)
+        private void CreateShortcut_Click(object sender, EventArgs e)
         {
             // Check if this is a Squirrel Install
             string currentApplicationDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -593,6 +593,14 @@ namespace ReloadedLauncher.Windows.Children
             }
 
             MessageBox.Show($"A shortcut has been placed in the following location: {shortcutLocation}");
+        }
+
+        /// <summary>
+        /// Generates a Steam Shim for the current executable.
+        /// </summary>
+        private void CreateSteamShim_Click(object sender, EventArgs e)
+        {
+            Functions.GenerateShim();
         }
     }
 }

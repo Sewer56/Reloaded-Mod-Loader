@@ -65,23 +65,38 @@ namespace Reloaded_Steam_Shim
             int attempts            = 0;
             int attemptLimit        = 20;
             int attemptRetryTime    = 666;
+
             while (true)
             {
-                var processes = Process.GetProcessesByName("Reloaded-Loader");
+                var x86processes = Process.GetProcessesByName("Reloaded-Loader");
+                var x64processes = Process.GetProcessesByName("Reloaded-Wrapper-x64");
+
+                // Group all arch processes onto single list.
+                List<Process> processes = new List<Process>();
+                processes.AddRange(x86processes);
+                processes.AddRange(x64processes);
 
                 // Find Reloaded-Loader with the same architecture.
                 foreach (var process in processes)
                 {
-                    // We probably found what we want if this is true.
-                    if (IsProcess64Bit(process) == is64Bit && process.StartTime > processNewerThan)
+                    try
                     {
-                        process.EnableRaisingEvents = true;
-                        process.Exited += (sender, args) => Environment.Exit(0);
+                        // We probably found what we want if this is true.
+                        if (IsProcess64Bit(process) == is64Bit && process.StartTime > processNewerThan)
+                        {
+                            process.EnableRaisingEvents = true;
+                            process.Exited += (sender, args) => { Environment.Exit(0); };
 
-                        // Our shim's exit time is synchronized, we're good here.
-                        while (true)
-                            Thread.Sleep(66666);
+                            // Our shim's exit time is synchronized, we're good here.
+                            while (true)
+                                Thread.Sleep(66666);
+                        }
                     }
+                    catch
+                    {
+                        /* Process died due to restart to X64 wrapper, ignore this. */
+                    }
+
                 }
 
                 // Loop and check if attempt limit reached.
@@ -118,30 +133,30 @@ namespace Reloaded_Steam_Shim
                         return shimSettings.LauncherLocation;
 
                 // Get file location from user.
-                using (OpenFileDialog openFileDialog = new OpenFileDialog())
-                {
-                    MessageBox.Show("Reloaded-Launcher not found at default location; please specify the location manually.");
-                    openFileDialog.Title        = "Select Reloaded-Launcher.exe location";
-                    openFileDialog.Multiselect  = false;
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                
+                MessageBox.Show("Reloaded-Launcher not found at default location; please specify the location manually.");
+                openFileDialog.Title        = "Select Reloaded-Launcher.exe location";
+                openFileDialog.Multiselect  = false;
 
-                    // Keep opening dialog until not OK
-                    while (openFileDialog.ShowDialog() != DialogResult.OK)
-                    { }
+                // Keep opening dialog until not OK
+                while (openFileDialog.ShowDialog() != DialogResult.OK)
+                { }
 
-                    shimSettings.LauncherLocation = openFileDialog.FileName;
-                    shimSettings.SaveShim();
-                    return openFileDialog.FileName;
-                }
+                string fileName = openFileDialog.FileName;
+                shimSettings.LauncherLocation = openFileDialog.FileName;
+                shimSettings.SaveShim();
+                
+                openFileDialog.Dispose();
+                return fileName;
             }
-
-            return null;
         }
         
         private static bool IsProcess64Bit(Process reloadedProcess)
         {
             // Check if Process is x86.
-            bool is32Bit = Native.IsWow64Process(reloadedProcess.Handle, out bool _);
-            return !is32Bit;
+            Native.IsWow64Process(reloadedProcess.Handle, out bool isActually32Bit);
+            return !isActually32Bit;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Reloaded.IO.Config;
@@ -45,6 +46,8 @@ namespace Reloaded_Steam_Shim
             {
                 item_GameList.Items.Add(new ListViewItem(gameConfiguration.GameName));
             }
+
+            this.BringToFront();
         }
 
         /// <summary>
@@ -64,8 +67,12 @@ namespace Reloaded_Steam_Shim
 
             // Save shim settings and launch game.
             _shimSettings.SaveShim();
-            this.Close();
-            Functions.LaunchGame(gameConfigFolder);
+            this.Dispose();
+
+            // Launch new thread which may spawn windows.
+            Thread launchGameThread = new Thread(() => { Functions.LaunchGame(gameConfigFolder); });
+            launchGameThread.SetApartmentState(ApartmentState.STA);
+            launchGameThread.Start();
         }
     }
 }

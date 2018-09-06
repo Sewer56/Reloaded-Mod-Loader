@@ -85,17 +85,20 @@ namespace ReloadedLauncher
         {
             // Copy without replacement.
             // Source directory = App Directory
-            string sourceDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Files";
+            string sourceDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + $"\\{Strings.Launcher.CopyOnLaunchFolders.DefaultConfigFolder}";
             string targetDirectory = LoaderPaths.GetModLoaderDirectory();
 
             // Copy without replacement.
             // Source directory = App Directory
-            string sourceDirectoryDefaultPlugins    = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Default-Plugins";
-            string targetDirectoryDefaulPlugins     = LoaderPaths.GetPluginsDirectory();
+            string sourceDirectoryDefaultPlugins    = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + $"\\{Strings.Launcher.CopyOnLaunchFolders.DefaultPluginsFolder}";
+            string targetDirectoryDefaultPlugins     = LoaderPaths.GetPluginsDirectory();
 
-            string sourceDirectoryDefaultMods = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Default-Mods";
+            string sourceDirectoryDefaultMods = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + $"\\{Strings.Launcher.CopyOnLaunchFolders.DefaultModsFolder}";
             string targetDirectoryDefaultMods = LoaderPaths.GetGlobalModDirectory();
-            
+
+            string sourceDirectoryDefaultTemplates  = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + $"\\{Strings.Launcher.CopyOnLaunchFolders.DefaultTemplatesFolder}";
+            string targetDirectoryDefaultTemplates  = LoaderPaths.GetTemplatesDirectory();
+
             // Files
             try
             {
@@ -124,10 +127,25 @@ namespace ReloadedLauncher
             // Plugins
             try
             {
-                RelativePaths.CopyByRelativePath(sourceDirectoryDefaultPlugins, targetDirectoryDefaulPlugins, RelativePaths.FileCopyMethod.Copy, true, true);
+                RelativePaths.CopyByRelativePath(sourceDirectoryDefaultPlugins, targetDirectoryDefaultPlugins, RelativePaths.FileCopyMethod.Copy, true, true);
 
                 #if DEBUG
                     // Do nothing.
+                #else
+                // Delete default plugins directory.
+                Directory.Delete(sourceDirectoryDefaultPlugins, true);
+                #endif
+            }
+            catch (Exception)
+            { /* ¯\_(ツ)_/¯ */ }
+
+            // Templates
+            try
+            {
+                RelativePaths.CopyByRelativePath(sourceDirectoryDefaultTemplates, targetDirectoryDefaultTemplates, RelativePaths.FileCopyMethod.Copy, true, true);
+
+                #if DEBUG
+                // Do nothing.
                 #else
                 // Delete default plugins directory.
                 Directory.Delete(sourceDirectoryDefaultPlugins, true);
@@ -297,10 +315,13 @@ namespace ReloadedLauncher
             }
         }
 
+        /// <summary>
+        /// Generates dummy templates for the individual different configurations of project types.
+        /// </summary>
         private static void GenerateConfigTemplates()
         {
             // Get path to our folder containing the template set of configs.
-            string templateDirectory = LoaderPaths.GetModLoaderConfigDirectory() + "\\Config Templates";
+            string templateDirectory = LoaderPaths.GetTemplatesDirectory() + "\\Config";
             Directory.CreateDirectory(templateDirectory);
 
             // Write all configs.
