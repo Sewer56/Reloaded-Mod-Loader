@@ -1,4 +1,4 @@
-﻿/*
+/*
     [Reloaded] Mod Loader Launcher
     The launcher for a universal, powerful, multi-game and multi-process mod loader
     based off of the concept of DLL Injection to execute arbitrary program code.
@@ -202,27 +202,32 @@ namespace ReloadedLauncher.Windows
         private void ApplyImagesDelegate(Bindings.ReloadedImages images)
         {
             // Assign individual images.
-            Global.BaseForm.categoryBar_About.Image = images.AboutIconImage;
-            Global.BaseForm.categoryBar_Manager.Image = images.ManagerImage;
-            Global.BaseForm.categoryBar_Theme.Image = images.PaintImage;
-            Global.BaseForm.categoryBar_Input.Image = images.InputImage;
-            Global.BaseForm.categoryBar_Mods.Image = images.TweaksImage;
-            Global.BaseForm.categoryBar_Games.Image = images.GamesImage;
-            Global.BaseForm.categoryBar_Plugin.Image = images.PluginImage;
+            Global.BaseForm.categoryBar_About.Image     = images.AboutIconImage ?? Global.BaseForm.categoryBar_About.Image;
+            Global.BaseForm.categoryBar_Manager.Image   = images.ManagerImage   ?? Global.BaseForm.categoryBar_Manager.Image;
+            Global.BaseForm.categoryBar_Theme.Image     = images.PaintImage     ?? Global.BaseForm.categoryBar_Theme.Image;
+            Global.BaseForm.categoryBar_Input.Image     = images.InputImage     ?? Global.BaseForm.categoryBar_Input.Image;
+            Global.BaseForm.categoryBar_Mods.Image      = images.TweaksImage    ?? Global.BaseForm.categoryBar_Mods.Image;
+            Global.BaseForm.categoryBar_Games.Image     = images.GamesImage     ?? Global.BaseForm.categoryBar_Games.Image;
+            Global.BaseForm.categoryBar_Plugin.Image    = images.PluginImage    ?? Global.BaseForm.categoryBar_Plugin.Image;
 
-            Global.BaseForm.ChildrenForms.ModsMenu.borderless_ConfigBox.Image = images.TweaksImage2;
-            Global.BaseForm.ChildrenForms.ModsMenu.borderless_SourceBox.Image = images.GithubImage;
-            Global.BaseForm.ChildrenForms.ModsMenu.borderless_WebBox.Image = images.WorldImage;
+            Global.BaseForm.ChildrenForms.ModsMenu.borderless_ConfigBox.Image   = images.TweaksImage2 ?? Global.BaseForm.ChildrenForms.ModsMenu.borderless_ConfigBox.Image;
+            Global.BaseForm.ChildrenForms.ModsMenu.borderless_SourceBox.Image   = images.GithubImage  ?? Global.BaseForm.ChildrenForms.ModsMenu.borderless_SourceBox.Image;
+            Global.BaseForm.ChildrenForms.ModsMenu.borderless_WebBox.Image      = images.WorldImage   ?? Global.BaseForm.ChildrenForms.ModsMenu.borderless_WebBox.Image;
 
-            Global.BaseForm.ChildrenForms.ThemeMenu.borderless_ConfigBox.Image = images.TweaksImage2;
-            Global.BaseForm.ChildrenForms.ThemeMenu.borderless_SourceBox.Image = images.GithubImage;
-            Global.BaseForm.ChildrenForms.ThemeMenu.borderless_WebBox.Image = images.WorldImage;
-            
-            Global.BaseForm.ChildrenForms.ManageMenu.box_GameDirectorySelect.BackgroundImage = images.TweaksImage;
-            Global.BaseForm.ChildrenForms.ManageMenu.box_GameEXESelect.BackgroundImage = images.TweaksImage;
-            Global.BaseForm.ChildrenForms.ManageMenu.box_GameFolderSelect.BackgroundImage = images.TweaksImage;
+            Global.BaseForm.ChildrenForms.ThemeMenu.borderless_ConfigBox.Image  = images.TweaksImage2 ?? Global.BaseForm.ChildrenForms.ThemeMenu.borderless_ConfigBox.Image;
+            Global.BaseForm.ChildrenForms.ThemeMenu.borderless_SourceBox.Image  = images.GithubImage  ?? Global.BaseForm.ChildrenForms.ThemeMenu.borderless_SourceBox.Image;
+            Global.BaseForm.ChildrenForms.ThemeMenu.borderless_WebBox.Image     = images.WorldImage   ?? Global.BaseForm.ChildrenForms.ThemeMenu.borderless_WebBox.Image;
 
-            Global.BaseForm.ChildrenForms.AboutMenu.borderless_Documentation.BackgroundImage = images.GithubImage;
+            Global.BaseForm.ChildrenForms.PluginMenu.borderless_ConfigBox.Image = images.TweaksImage2   ?? Global.BaseForm.ChildrenForms.PluginMenu.borderless_ConfigBox.Image;
+            Global.BaseForm.ChildrenForms.PluginMenu.borderless_WebBox.Image    = images.WorldImage     ?? Global.BaseForm.ChildrenForms.PluginMenu.borderless_WebBox.Image;
+            Global.BaseForm.ChildrenForms.PluginMenu.borderless_InfoBox.Image   = images.AboutIconImage ?? Global.BaseForm.ChildrenForms.PluginMenu.borderless_InfoBox.Image;
+
+            Global.BaseForm.ChildrenForms.ManageMenu.box_GameDirectorySelect.BackgroundImage    = images.TweaksImage    ?? Global.BaseForm.ChildrenForms.ManageMenu.box_GameDirectorySelect.BackgroundImage;
+            Global.BaseForm.ChildrenForms.ManageMenu.box_GameEXESelect.BackgroundImage          = images.TweaksImage    ?? Global.BaseForm.ChildrenForms.ManageMenu.box_GameEXESelect.BackgroundImage;
+            Global.BaseForm.ChildrenForms.ManageMenu.box_GameFolderSelect.BackgroundImage       = images.TweaksImage    ?? Global.BaseForm.ChildrenForms.ManageMenu.box_GameFolderSelect.BackgroundImage;
+            Global.BaseForm.ChildrenForms.ManageMenu.borderless_SteamShimInfo.BackgroundImage   = images.AboutIconImage ?? Global.BaseForm.ChildrenForms.ManageMenu.borderless_SteamShimInfo.BackgroundImage;
+
+            Global.BaseForm.ChildrenForms.AboutMenu.borderless_Documentation.BackgroundImage    = images.GithubImage    ?? Global.BaseForm.ChildrenForms.AboutMenu.borderless_Documentation.BackgroundImage;
         }
 
         /// <summary>
