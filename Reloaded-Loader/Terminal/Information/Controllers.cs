@@ -51,10 +51,10 @@ namespace Reloaded_Loader.Terminal.Information
         public static void PrintControllerOrder()
         {
             ControllerOptions.PrintHeader();
-            List<ControllerCommon.IController> controllers = GetControllersDefault();
+            List<IController> controllers = GetControllersDefault();
 
             // Print list of controllers.
-            foreach (ControllerCommon.IController controller in controllers)
+            foreach (IController controller in controllers)
             {
                 string controllerId = controller.InputMappings.ControllerId.ToString("00");
                 string controllerAPI = controller.Remapper.DeviceType == Remapper.InputDeviceType.XInput ? "XInput" : "DInput";
@@ -81,7 +81,7 @@ namespace Reloaded_Loader.Terminal.Information
             Bindings.PrintInfo("The only way to get around that is to restart your PC; sorry :/");
         }
 
-        private static List<ControllerCommon.IController> GetControllersDefault()
+        private static List<IController> GetControllersDefault()
         {
             ControllerManager controllerManager = new ControllerManager();
             return controllerManager.Controllers;

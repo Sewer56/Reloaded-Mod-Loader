@@ -6,6 +6,7 @@ using System.Windows.Interop;
 using Reloaded;
 using Reloaded.Input;
 using Reloaded.Input.Common;
+using Reloaded.Input.Common.ControllerInputs;
 using Reloaded.Overlay.External.WPF;
 using Reloaded.Overlay.External.WPF.Structures;
 using Reloaded.Overlay.External.WPF.Utilities;
@@ -77,7 +78,7 @@ namespace WPF_Demo_Overlay
                 while (true)
                 {
                     // Get inputs.
-                    ControllerCommon.ControllerInputs controllerInputs = _reloadedControllerManager.GetInput(0);
+                    ControllerInputs controllerInputs = _reloadedControllerManager.GetInput(0);
 
                     // Process inputs.
                     ProcessInputs(controllerInputs);
@@ -98,7 +99,7 @@ namespace WPF_Demo_Overlay
         /// Processes the obtained controller inputs from a background thread.
         /// </summary>
         /// <param name="controllerInputs"></param>
-        private void ProcessInputs(ControllerCommon.ControllerInputs controllerInputs)
+        private void ProcessInputs(ControllerInputs controllerInputs)
         {
             if (controllerInputs.ControllerButtons.ButtonLs)
             {

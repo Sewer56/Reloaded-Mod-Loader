@@ -3,6 +3,7 @@ using System.Threading;
 using Reloaded;
 using Reloaded.Input;
 using Reloaded.Input.Common;
+using Reloaded.Input.Common.ControllerInputs;
 using Reloaded.Process;
 
 namespace Reloaded_Mod_Template
@@ -57,7 +58,7 @@ namespace Reloaded_Mod_Template
                 while (true)
                 {
                     // That's it, did you expect anything more? Easy peasy!
-                    ControllerCommon.ControllerInputs inputs = controllerManager.GetInput(controllerPort);
+                    ControllerInputs inputs = controllerManager.GetInput(controllerPort);
 
                     // Let's print it to the console.
                     Bindings.PrintText

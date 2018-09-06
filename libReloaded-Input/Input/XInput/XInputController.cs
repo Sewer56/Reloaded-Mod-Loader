@@ -19,6 +19,10 @@
 */
 
 using System;
+using Reloaded.Input.Common;
+using Reloaded.Input.Common.ControllerInputs;
+using Reloaded.Input.Config;
+using Reloaded.Input.Config.Substructures;
 using Reloaded.Input.DirectInput;
 using Reloaded.Input.Modules;
 using SharpDX.XInput;

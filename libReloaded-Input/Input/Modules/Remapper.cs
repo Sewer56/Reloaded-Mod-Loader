@@ -25,6 +25,7 @@ using System.Reflection;
 using System.Threading;
 using Reloaded.Input.Common;
 using Reloaded.Input.Config;
+using Reloaded.Input.Config.Substructures;
 using Reloaded.Input.DirectInput;
 using Reloaded.Input.XInput;
 using Reloaded.Paths;
@@ -41,33 +42,6 @@ namespace Reloaded.Input.Modules
     public class Remapper
     {
         /// <summary>
-        /// Defines whether a configuration file should be loaded by the instance GUID or
-        /// the product GUID for an individual controller.
-        /// </summary>
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        public enum DirectInputConfigType
-        {
-            /// <summary>
-            /// Differentiate by product (identical controllers will carry identical config).
-            /// </summary>
-            ProductGUID,
-
-            /// <summary>
-            /// Differentiate by instance (each controller is unique but also tied to USB port).
-            /// </summary>
-            InstanceGUID
-        }
-
-        /// <summary>
-        /// Specifies the individual device type for the instantiation of this device.
-        /// </summary>
-        public enum InputDeviceType
-        {
-            DirectInput,
-            XInput
-        }
-
-        /// <summary>
         /// The amount of percent an axis requires to be moved by to register by the remapper.
         /// </summary>
         private const float PercentageAxisDelta = 20.0F;
@@ -82,38 +56,6 @@ namespace Reloaded.Input.Modules
         /// Milliseconds in a second. It's not Rocket Science.
         /// </summary>
         private const int MillisecondsInSecond = 1000;
-
-        /// <summary>
-        /// This is the constructor for DirectInput devices. See class description for information
-        /// about this class.
-        /// </summary>
-        /// <param name="deviceType">The type of the device (DirectInput)</param>
-        /// <param name="dInputController">The directInput controller instance.</param>
-        public Remapper(InputDeviceType deviceType, DInputController dInputController)
-        {
-            DeviceType = deviceType;
-            Controller = dInputController;
-
-            // Retrieve the configuration location.
-            GetConfigLocation(dInputController);
-        }
-
-        /// <summary>
-        /// The Remapper class provides the means of loading and saving individual configurations for
-        /// each DirectInput and XInput Device in question.
-        /// Separate implementations are provided for both DirectInput and XInput.
-        /// </summary>
-        /// <param name="deviceType">The type of the device (XInput)</param>
-        /// <param name="xInputController">The directInput controller instance.</param>
-        public Remapper(InputDeviceType deviceType, XInputController xInputController)
-        {
-            DeviceType = deviceType;
-            Controller = xInputController;
-            XInputPort = xInputController.ControllerId;
-
-            // Retrieve the configuration location.
-            GetConfigLocation(null);
-        }
 
         /// <summary>
         /// Retrieves the file name of the controller, specifying
@@ -149,7 +91,39 @@ namespace Reloaded.Input.Modules
         /// Stores the instance of a DirectInput controller used for
         /// remapping DirectInput devices specifically.
         /// </summary>
-        private ControllerCommon.IController Controller { get; }
+        private IController Controller { get; }
+
+        /// <summary>
+        /// This is the constructor for DirectInput devices. See class description for information
+        /// about this class.
+        /// </summary>
+        /// <param name="deviceType">The type of the device (DirectInput)</param>
+        /// <param name="dInputController">The directInput controller instance.</param>
+        public Remapper(InputDeviceType deviceType, DInputController dInputController)
+        {
+            DeviceType = deviceType;
+            Controller = dInputController;
+
+            // Retrieve the configuration location.
+            GetConfigLocation(dInputController);
+        }
+
+        /// <summary>
+        /// The Remapper class provides the means of loading and saving individual configurations for
+        /// each DirectInput and XInput Device in question.
+        /// Separate implementations are provided for both DirectInput and XInput.
+        /// </summary>
+        /// <param name="deviceType">The type of the device (XInput)</param>
+        /// <param name="xInputController">The directInput controller instance.</param>
+        public Remapper(InputDeviceType deviceType, XInputController xInputController)
+        {
+            DeviceType = deviceType;
+            Controller = xInputController;
+            XInputPort = xInputController.ControllerId;
+
+            // Retrieve the configuration location.
+            GetConfigLocation(null);
+        }
 
         /// <summary>
         /// Retrieves the configuration file location for the individual controller.
@@ -186,15 +160,15 @@ namespace Reloaded.Input.Modules
         /// </summary>
         public void SetMappings()
         {
-            ControllerConfigParser.WriteConfig(ConfigurationFileLocation, Controller);
+            InputMappings.WriteConfig(ConfigurationFileLocation, Controller);
         }
 
         /// <summary>
         /// Retrieves the current controller mappings from the controller's ini file.
         /// </summary>
-        public ControllerCommon.IController GetMappings()
+        public IController GetMappings()
         {
-            return ControllerConfigParser.ParseConfig(ConfigurationFileLocation, Controller);
+            return InputMappings.ParseConfig(ConfigurationFileLocation, Controller);
         }
 
         /// <summary>
@@ -206,7 +180,7 @@ namespace Reloaded.Input.Modules
         /// <param name="mappingEntry">Specififies the mapping entry containing the axis to be remapped.</param>
         /// <param name="cancellationToken">The method polls on this boolean such that if it is set to true, the method will exit.</param>
         /// <returns>True if a new axis has been assigned to the current mapping entry.</returns>
-        public bool RemapAxis(int timeoutSeconds, out float currentTimeout, ControllerCommon.AxisMappingEntry mappingEntry, ref bool cancellationToken)
+        public bool RemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry, ref bool cancellationToken)
         {
             // Retrieve the object type of the controller.
             Type controllerType = Controller.GetType();
@@ -222,7 +196,7 @@ namespace Reloaded.Input.Modules
         /// Remaps the axis of a DirectInput controller.
         /// </summary>
         /// <returns>True if a new axis has been assigned to the current mapping entry.</returns>
-        private bool DInputRemapAxis(int timeoutSeconds, out float currentTimeout, ControllerCommon.AxisMappingEntry mappingEntry, ref bool cancellationToken)
+        private bool DInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry, ref bool cancellationToken)
         {
             // Cast Controller to DInput Controller
             DInputController dInputController = (DInputController)Controller;
@@ -307,7 +281,7 @@ namespace Reloaded.Input.Modules
         /// <summary>
         /// Remaps the axis of an XInput controller.
         /// </summary>
-        private bool XInputRemapAxis(int timeoutSeconds, out float currentTimeout, ControllerCommon.AxisMappingEntry mappingEntry, ref bool cancellationToken)
+        private bool XInputRemapAxis(int timeoutSeconds, out float currentTimeout, AxisMappingEntry mappingEntry, ref bool cancellationToken)
         {
             // Cast Controller to DInput Controller
             XInputController xInputController = (XInputController)Controller;
@@ -429,7 +403,7 @@ namespace Reloaded.Input.Modules
                     if (joystickState.Buttons[x] != joystickStateNew.Buttons[x])
                     {
                         // Retrieve the button mapping.
-                        ControllerCommon.ButtonMapping buttonMapping = Controller.InputMappings.ButtonMapping;
+                        ButtonMapping buttonMapping = Controller.InputMappings.ButtonMapping;
 
                         // Assign requested button.
                         buttonToMap = (byte) x;
@@ -493,7 +467,7 @@ namespace Reloaded.Input.Modules
                     if (buttonState[x] != buttonStateNew[x])
                     {
                         // Retrieve the button mapping.
-                        ControllerCommon.ButtonMapping buttonMapping = Controller.InputMappings.ButtonMapping;
+                        ButtonMapping buttonMapping = Controller.InputMappings.ButtonMapping;
 
                         // Assign requested button.
                         buttonToMap = (byte) x;
@@ -523,6 +497,33 @@ namespace Reloaded.Input.Modules
             // Assign the current timeout.
             currentTimeout = 0;
             return false;
+        }
+
+        /// <summary>
+        /// Defines whether a configuration file should be loaded by the instance GUID or
+        /// the product GUID for an individual controller.
+        /// </summary>
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        public enum DirectInputConfigType
+        {
+            /// <summary>
+            /// Differentiate by product (identical controllers will carry identical config).
+            /// </summary>
+            ProductGUID,
+
+            /// <summary>
+            /// Differentiate by instance (each controller is unique but also tied to USB port).
+            /// </summary>
+            InstanceGUID
+        }
+
+        /// <summary>
+        /// Specifies the individual device type for the instantiation of this device.
+        /// </summary>
+        public enum InputDeviceType
+        {
+            DirectInput,
+            XInput
         }
     }
 }

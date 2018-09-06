@@ -20,10 +20,12 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Reloaded.Input.Common;
+using Reloaded.Input.Common.ControllerInputs;
+using Reloaded.Input.Common.Controller_Inputs_Substructures;
 using Reloaded.Input.DirectInput;
 using Reloaded.Input.Modules;
 using Reloaded.Input.XInput;
-using static Reloaded.Input.Common.ControllerCommon;
 using static Reloaded.Input.Modules.Hotplugger;
 
 namespace Reloaded.Input
@@ -118,7 +120,7 @@ namespace Reloaded.Input
             // Get input for every controller at port # and add onto the input struct.
             ControllerInputs controllerInputs = new ControllerInputs
             {
-                ControllerButtons = new ControllerButtonStruct(),
+                ControllerButtons = new JoystickButtons(),
                 LeftStick = new AnalogStick()
             };
 

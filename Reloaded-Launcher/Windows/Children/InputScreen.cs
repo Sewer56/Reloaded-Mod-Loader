@@ -24,6 +24,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Reloaded.Input;
 using Reloaded.Input.Common;
+using Reloaded.Input.Common.ControllerInputs;
+using Reloaded.Input.Config.Substructures;
 using Reloaded.Input.Modules;
 using Reloaded.Paths;
 using ReloadedLauncher.Windows.Children.Dialogs.Input_Screen;
@@ -234,7 +236,7 @@ namespace ReloadedLauncher.Windows.Children
             _currentControllerPort = Convert.ToInt32(borderless_ControllerPort.Text);
 
             // Get Current Controller
-            ControllerCommon.IController currentController = _controllerManager.Controllers[_lastControllerIndex];
+            IController currentController = _controllerManager.Controllers[_lastControllerIndex];
 
             // Set Current Controller Port
             currentController.InputMappings.ControllerId = Convert.ToInt32(borderless_ControllerPort.Text);
@@ -255,7 +257,7 @@ namespace ReloadedLauncher.Windows.Children
             borderless_CurrentController.Items.Clear();
 
             // Populate Controller List with Names.
-            foreach (ControllerCommon.IController controller in _controllerManager.Controllers)
+            foreach (IController controller in _controllerManager.Controllers)
             {
                 // Is controller XInput or DInput
                 string controllerType = "";
@@ -281,7 +283,7 @@ namespace ReloadedLauncher.Windows.Children
             box_ButtonList.Rows.Clear();
 
             // Current controller entry.
-            ControllerCommon.IController controller = GetCurrentController();
+            IController controller = GetCurrentController();
 
             // Populate Button List.
             box_ButtonList.Rows.Add("BTN A:", controller.InputMappings.ButtonMapping.ButtonA);
@@ -307,7 +309,7 @@ namespace ReloadedLauncher.Windows.Children
             box_EmulatedAxisList.Rows.Clear();
 
             // Current controller entry.
-            ControllerCommon.IController controller = GetCurrentController();
+            IController controller = GetCurrentController();
 
             // Populate Button List.
             box_EmulatedAxisList.Rows.Add("LEFT STICK UP:", controller.InputMappings.EmulationMapping.LeftStickUp);
@@ -339,21 +341,21 @@ namespace ReloadedLauncher.Windows.Children
             box_AxisList.Rows.Clear();
 
             // Get Current Controller Entry
-            ControllerCommon.IController controller = GetCurrentController();
+            IController controller = GetCurrentController();
 
             // Is XInput?
             bool isXInput = IsControllerXInput(controller);
 
             // Axis mapping entries.
-            ControllerCommon.AxisMapping axisMappings = controller.InputMappings.AxisMapping;
+            AxisMapping axisMappings = controller.InputMappings.AxisMapping;
 
             // Invividual mappings.
-            ControllerCommon.AxisMappingEntry leftStickX = axisMappings.LeftStickX;
-            ControllerCommon.AxisMappingEntry leftStickY = axisMappings.LeftStickY;
-            ControllerCommon.AxisMappingEntry rightStickX = axisMappings.RightStickX;
-            ControllerCommon.AxisMappingEntry rightStickY = axisMappings.RightStickY;
-            ControllerCommon.AxisMappingEntry leftTrigger = axisMappings.LeftTrigger;
-            ControllerCommon.AxisMappingEntry rightTrigger = axisMappings.RightTrigger;
+            AxisMappingEntry leftStickX = axisMappings.LeftStickX;
+            AxisMappingEntry leftStickY = axisMappings.LeftStickY;
+            AxisMappingEntry rightStickX = axisMappings.RightStickX;
+            AxisMappingEntry rightStickY = axisMappings.RightStickY;
+            AxisMappingEntry leftTrigger = axisMappings.LeftTrigger;
+            AxisMappingEntry rightTrigger = axisMappings.RightTrigger;
 
             // Cell Order
             // Cells[0] Axis Name
@@ -419,7 +421,7 @@ namespace ReloadedLauncher.Windows.Children
             if (_lastControllerIndex != -1)
             {
                 // Get Controller
-                ControllerCommon.IController currentController = _controllerManager.Controllers[_lastControllerIndex];
+                IController currentController = _controllerManager.Controllers[_lastControllerIndex];
 
                 // Set Only Controller Port, All Other Properties Were Already Saved when Set.
                 currentController.InputMappings.ControllerId = Convert.ToInt32(borderless_ControllerPort.Text);
@@ -441,7 +443,7 @@ namespace ReloadedLauncher.Windows.Children
         /// Retrieves the controller object for the currently selected controller.
         /// </summary>
         /// <returns>The controller object for the currently selected controller.</returns>
-        private ControllerCommon.IController GetCurrentController()
+        private IController GetCurrentController()
         {   
             // Get current controller entry.
             int currentControllerEntry = borderless_CurrentController.SelectedIndex;
@@ -452,7 +454,7 @@ namespace ReloadedLauncher.Windows.Children
         /// Returns true if the currently selected controller is an XInput Controller
         /// </summary>
         /// <param name="controller">The controller to check whether is or is not XInput</param>
-        private bool IsControllerXInput(ControllerCommon.IController controller)
+        private bool IsControllerXInput(IController controller)
         {
             return controller.Remapper.DeviceType == Remapper.InputDeviceType.XInput;
         }
@@ -464,7 +466,7 @@ namespace ReloadedLauncher.Windows.Children
         /// <returns>An axis mapping entry for the current row.</returns>        
         /// <param name="axisRow">Axis mapping DataGridView row for which to obtain the axis mapping.</param>
         /// <param name="controller">The controller object to get axis mapping from.</param>
-        private ControllerCommon.AxisMappingEntry GetAxisMappingEntry(ControllerCommon.IController controller, AxisRows axisRow)
+        private AxisMappingEntry GetAxisMappingEntry(IController controller, AxisRows axisRow)
         {
             // Obtain axis mapping to modify.
             switch (axisRow)
@@ -496,7 +498,7 @@ namespace ReloadedLauncher.Windows.Children
             CancelCurrentTask();
 
             // Get current controller
-            ControllerCommon.IController controller = GetCurrentController(); 
+            IController controller = GetCurrentController(); 
 
             // Rebind <X> button.
             Task.Run( () => { ControllerButtonAssign(e.RowIndex, controller, sender); } );            
@@ -509,7 +511,7 @@ namespace ReloadedLauncher.Windows.Children
         /// <param name="row">The row of whose source button is to be changed.</param>
         /// <param name="controller">Specifies the current controller object.</param>
         /// <param name="dataGridView">The source datagridview with the source button field (either button or emulation)</param>
-        private void ControllerButtonAssign(int row, ControllerCommon.IController controller, object dataGridView)
+        private void ControllerButtonAssign(int row, IController controller, object dataGridView)
         {
             // Disable Mouse Tab Switching
             Global.BaseForm.EnableTabSwitching = false;
@@ -566,7 +568,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         /// <param name="row">The row of the datagridview for which the appropriate button should be obtained.</param>
         /// <param name="controller">The controller to obtain button mapping from.</param>
-        private int GetButtonIndex(ButtonRows row, ControllerCommon.IController controller)
+        private int GetButtonIndex(ButtonRows row, IController controller)
         {
             switch (row)
             {
@@ -593,7 +595,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         /// <param name="row">The row of the datagridview for which the appropriate button should be obtained.</param>
         /// <param name="controller">The controller to obtain button mapping from.</param>
-        private int GetButtonIndex(EmulationRows row, ControllerCommon.IController controller)
+        private int GetButtonIndex(EmulationRows row, IController controller)
         {
             switch (row)
             {
@@ -625,7 +627,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         /// <param name="row">The row of the datagridview for which the appropriate button should be remapped.</param>
         /// <param name="controller">The controller to remap button mapping from.</param>
-        private void SetupButtonRemap(ButtonRows row, ControllerCommon.IController controller)
+        private void SetupButtonRemap(ButtonRows row, IController controller)
         {
             // Remap specified button
             switch (row)
@@ -651,7 +653,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         /// <param name="row">The row of the datagridview for which the appropriate button should be remapped.</param>
         /// <param name="controller">The controller to remap button mapping from.</param>
-        private void SetupButtonRemap(EmulationRows row, ControllerCommon.IController controller)
+        private void SetupButtonRemap(EmulationRows row, IController controller)
         {
             // Remap specified button
             switch (row)
@@ -776,7 +778,7 @@ namespace ReloadedLauncher.Windows.Children
                     CancelCurrentTask();
 
                     // Obtain controller object for remapping.
-                    ControllerCommon.IController controller = GetCurrentController();
+                    IController controller = GetCurrentController();
 
                     // Remap the controller
                     Task.Run(() => { ControllerSourceAxisAssign((AxisRows)e.RowIndex, controller); });
@@ -808,7 +810,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         /// <param name="row">The row of whose source axis is to be changed.</param>
         /// <param name="controller">Specifies the current controller object.</param>
-        private void ControllerSourceAxisAssign(AxisRows row, ControllerCommon.IController controller)
+        private void ControllerSourceAxisAssign(AxisRows row, IController controller)
         {
             // Do not execute if the controller is XInput (XInput axis are pre-programmed).
             if (IsControllerXInput(controller)) return;
@@ -835,7 +837,7 @@ namespace ReloadedLauncher.Windows.Children
             updateCellThread.Start();
 
             // Remapping Operation Commence.
-            ControllerCommon.AxisMappingEntry axisMapping = GetAxisMappingEntry(controller, row);
+            AxisMappingEntry axisMapping = GetAxisMappingEntry(controller, row);
 
             // Set Task
             _controllerAssignTask = new Task<bool>(() => controller.RemapAxis(RemapTimeout, out _currentTimeout, axisMapping, ref _taskCancellationToken));
@@ -881,8 +883,8 @@ namespace ReloadedLauncher.Windows.Children
             box_AxisList.Rows[(int)axisRow].Cells[(int)AxisColumns.AxisDestination].Value = returnedAxis;
 
             // Set value to axis mapping entry.
-            ControllerCommon.IController currentController = GetCurrentController();
-            ControllerCommon.AxisMappingEntry axisMapping = GetAxisMappingEntry(currentController, axisRow);
+            IController currentController = GetCurrentController();
+            AxisMappingEntry axisMapping = GetAxisMappingEntry(currentController, axisRow);
             axisMapping.DestinationAxis = returnedAxis;
         }
 
@@ -902,8 +904,8 @@ namespace ReloadedLauncher.Windows.Children
             box_AxisList.Rows[(int)axisRow].Cells[(int)AxisColumns.AxisInverted].Value = isEnabled;
 
             // Set value to axis mapping entry.
-            ControllerCommon.IController currentController = GetCurrentController();
-            ControllerCommon.AxisMappingEntry axisMapping = GetAxisMappingEntry(currentController, axisRow);
+            IController currentController = GetCurrentController();
+            AxisMappingEntry axisMapping = GetAxisMappingEntry(currentController, axisRow);
             axisMapping.IsReversed = isEnabled;
         }
 
@@ -926,8 +928,8 @@ namespace ReloadedLauncher.Windows.Children
             box_AxisList.Rows[(int)axisRow].Cells[(int)AxisColumns.AxisDeadzone].Value = deadZone;
 
             // Set value to axis mapping entry.
-            ControllerCommon.IController currentController = GetCurrentController();
-            ControllerCommon.AxisMappingEntry axisMapping = GetAxisMappingEntry(currentController, axisRow);
+            IController currentController = GetCurrentController();
+            AxisMappingEntry axisMapping = GetAxisMappingEntry(currentController, axisRow);
             axisMapping.DeadZone = deadZone;
         }
 
@@ -950,8 +952,8 @@ namespace ReloadedLauncher.Windows.Children
             box_AxisList.Rows[(int)axisRow].Cells[(int)AxisColumns.AxisRadiusScale].Value = radius;
 
             // Set value to axis mapping entry.
-            ControllerCommon.IController currentController = GetCurrentController();
-            ControllerCommon.AxisMappingEntry axisMapping = GetAxisMappingEntry(currentController, axisRow);
+            IController currentController = GetCurrentController();
+            AxisMappingEntry axisMapping = GetAxisMappingEntry(currentController, axisRow);
             axisMapping.RadiusScale = radius;
         }
 
@@ -989,7 +991,7 @@ namespace ReloadedLauncher.Windows.Children
         private void ShowControllerPreview()
         {
             // Get the current set controller inputs for preview.
-            ControllerCommon.ControllerInputs controllerInputs = _controllerManager.GetInput(_currentControllerPort);
+            ControllerInputs controllerInputs = _controllerManager.GetInput(_currentControllerPort);
 
             // Set the analog indicator values.
             SetAnalogIndicatorValues(controllerInputs);
@@ -1007,7 +1009,7 @@ namespace ReloadedLauncher.Windows.Children
         /// to the realtime axis changes.
         /// </summary>
         /// <param name="controllerInputs">The structure containing the current controller inputs.</param>
-        private void SetAnalogIndicatorValues(ControllerCommon.ControllerInputs controllerInputs)
+        private void SetAnalogIndicatorValues(ControllerInputs controllerInputs)
         {
             // Retrieve analog stick X and Y values.
             float analogStickX = controllerInputs.LeftStick.GetX();
@@ -1032,7 +1034,7 @@ namespace ReloadedLauncher.Windows.Children
         /// axis changes.
         /// </summary>
         /// <param name="controllerInputs">The structure containing the current controller inputs.</param>
-        private void SetTriggers(ControllerCommon.ControllerInputs controllerInputs)
+        private void SetTriggers(ControllerInputs controllerInputs)
         {
             // Retrieve trigger pressure values.
             float leftTriggerPressure = controllerInputs.GetLeftTriggerPressure();
@@ -1053,7 +1055,7 @@ namespace ReloadedLauncher.Windows.Children
         /// to respond to whether a specific button is pressed or not.
         /// </summary>
         /// <param name="controllerInputs">The structure containing the current controller inputs.</param>
-        private void SetButtons(ControllerCommon.ControllerInputs controllerInputs)
+        private void SetButtons(ControllerInputs controllerInputs)
         {
             // Set button press states for each button.
             borderless_ButtonA.ButtonEnabled = controllerInputs.ControllerButtons.ButtonA;
