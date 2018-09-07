@@ -134,6 +134,9 @@ namespace ReloadedLauncher.Windows.Children
                 // Conditionally Update Buttons
                 borderless_ConfigBox.Text   = Global.CurrentPlugin.ConfigFile  == "" ? "N/A" : "Configuration";
                 borderless_WebBox.Text      = Global.CurrentPlugin.Site        == "" ? "N/A" : "Webpage";
+
+                // Update description
+                borderless_ModDescription.Text = Global.PluginConfigurations[rowIndex].Description;
             }
             catch
             { }
@@ -195,8 +198,7 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void InfoBox_Click(object sender, EventArgs e)
         {
-            if (CheckIfEnabled((Control)sender))
-                OpenFile("https://github.com/sewer56lol/Reloaded-Mod-Loader");
+            OpenFile("https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Getting%20Started%20for%20Developers.md#writing-reloaded-plugins");
         }
 
         /// <summary>

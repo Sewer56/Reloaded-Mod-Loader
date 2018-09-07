@@ -72,6 +72,9 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties5 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage9 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage10 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties6 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage11 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage12 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             this.borderless_InfoBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.borderless_WebBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.borderless_ConfigBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
@@ -83,6 +86,7 @@ namespace ReloadedLauncher.Windows.Children
             this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box_PluginListBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.borderless_LauncherRestartNote = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
+            this.borderless_ModDescription = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             ((System.ComponentModel.ISupportInitialize)(this.box_PluginList)).BeginInit();
             this.SuspendLayout();
             // 
@@ -268,7 +272,7 @@ namespace ReloadedLauncher.Windows.Children
             this.box_PluginList.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.box_PluginList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.box_PluginList.ShowCellToolTips = false;
-            this.box_PluginList.Size = new System.Drawing.Size(820, 332);
+            this.box_PluginList.Size = new System.Drawing.Size(820, 309);
             this.box_PluginList.StandardTab = true;
             this.box_PluginList.TabIndex = 14;
             this.box_PluginList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PluginList_CellClick);
@@ -360,7 +364,7 @@ namespace ReloadedLauncher.Windows.Children
             this.box_PluginListBox.Location = new System.Drawing.Point(40, 29);
             this.box_PluginListBox.Margin = new System.Windows.Forms.Padding(0);
             this.box_PluginListBox.Name = "box_PluginListBox";
-            this.box_PluginListBox.Size = new System.Drawing.Size(822, 334);
+            this.box_PluginListBox.Size = new System.Drawing.Size(822, 311);
             this.box_PluginListBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.box_PluginListBox.TabIndex = 13;
             this.box_PluginListBox.Text = null;
@@ -385,12 +389,52 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_LauncherRestartNote.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.borderless_LauncherRestartNote.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
+            // borderless_ModDescription
+            // 
+            animMessage11.Control = this.borderless_ModDescription;
+            animMessage11.PlayAnimation = true;
+            animProperties6.BackColorMessage = animMessage11;
+            animMessage12.Control = this.borderless_ModDescription;
+            animMessage12.PlayAnimation = true;
+            animProperties6.ForeColorMessage = animMessage12;
+            animProperties6.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties6.MouseEnterDuration = 0F;
+            animProperties6.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties6.MouseEnterFramerate = 0F;
+            animProperties6.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties6.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties6.MouseLeaveDuration = 0F;
+            animProperties6.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties6.MouseLeaveFramerate = 0F;
+            animProperties6.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_ModDescription.AnimProperties = animProperties6;
+            this.borderless_ModDescription.BackColor = System.Drawing.Color.Transparent;
+            this.borderless_ModDescription.CaptureChildren = true;
+            this.borderless_ModDescription.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.borderless_ModDescription.FlatAppearance.BorderSize = 0;
+            this.borderless_ModDescription.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.borderless_ModDescription.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.borderless_ModDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_ModDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_ModDescription.ForeColor = System.Drawing.Color.White;
+            this.borderless_ModDescription.IgnoreMouse = false;
+            this.borderless_ModDescription.IgnoreMouseClicks = false;
+            this.borderless_ModDescription.Location = new System.Drawing.Point(40, 351);
+            this.borderless_ModDescription.Name = "borderless_ModDescription";
+            this.borderless_ModDescription.Size = new System.Drawing.Size(822, 29);
+            this.borderless_ModDescription.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_ModDescription.TabIndex = 48;
+            this.borderless_ModDescription.Text = "Hello World!";
+            this.borderless_ModDescription.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.borderless_ModDescription.UseVisualStyleBackColor = false;
+            // 
             // PluginScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(900, 512);
+            this.Controls.Add(this.borderless_ModDescription);
             this.Controls.Add(this.borderless_LauncherRestartNote);
             this.Controls.Add(this.borderless_InfoBox);
             this.Controls.Add(this.borderless_WebBox);
@@ -419,5 +463,6 @@ namespace ReloadedLauncher.Windows.Children
         private System.Windows.Forms.DataGridViewTextBoxColumn Author;
         private System.Windows.Forms.DataGridViewTextBoxColumn modDirectory;
         private Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel borderless_LauncherRestartNote;
+        private AnimatedButton borderless_ModDescription;
     }
 }
