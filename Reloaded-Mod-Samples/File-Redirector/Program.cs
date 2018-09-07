@@ -39,10 +39,8 @@ namespace Reloaded_Mod_Template
             with constructor, which just runs the factory method and is an alias for it.
         */
 
-        private static X64FunctionHook<CreateFile> _createFileHook64;
         private static X64FunctionHook<CreateFileW> _createFileWHook64;
         private static X64FunctionHook<CreateFileA> _createFileAHook64;
-        private static FunctionHook<CreateFile> _createFileHook;
         private static FunctionHook<CreateFileW> _createFileWHook;
         private static FunctionHook<CreateFileA> _createFileAHook;
 
@@ -109,7 +107,6 @@ namespace Reloaded_Mod_Template
             // Get the addresses of the CreateFileA, CreateFileW, CreateFile functions.
             IntPtr createFileAPointer = Reloaded.Process.Native.Native.GetProcAddress(kernel32Handle, "CreateFileA");
             IntPtr createFileWPointer = Reloaded.Process.Native.Native.GetProcAddress(kernel32Handle, "CreateFileW");
-            IntPtr createFilePointer = Reloaded.Process.Native.Native.GetProcAddress(kernel32Handle, "CreateFile");
 
             // Retreieve all enabled mods using utility functions in libReloaded.
             _currentGameConfig = GameConfig.GetGameConfigFromExecutablePath(ExecutingGameLocation);
@@ -129,14 +126,12 @@ namespace Reloaded_Mod_Template
             {
                 if (createFileWPointer != IntPtr.Zero) { _createFileWHook = FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
                 if (createFileAPointer != IntPtr.Zero) { _createFileAHook = FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
-                if (createFilePointer != IntPtr.Zero) { _createFileHook = FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl).Activate(); }
             }
             // X64
             else if (IntPtr.Size == 8)
             {
                 if (createFileWPointer != IntPtr.Zero) { _createFileWHook64 = X64FunctionHook<CreateFileW>.Create((long)createFileWPointer, CreateFileWImpl).Activate(); }
                 if (createFileAPointer != IntPtr.Zero) { _createFileAHook64 = X64FunctionHook<CreateFileA>.Create((long)createFileAPointer, CreateFileAImpl).Activate(); }
-                if (createFilePointer != IntPtr.Zero) { _createFileHook64 = X64FunctionHook<CreateFile>.Create((long)createFilePointer, CreateFileImpl).Activate(); }
             }
         }
 
@@ -238,27 +233,6 @@ namespace Reloaded_Mod_Template
             return IntPtr.Size == 4 ?
                 _createFileWHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
                 _createFileWHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
-        }
-
-        /// <summary>
-        /// Contains the implementation of the CreateFile hook.
-        /// Simply prints the file name to the console and calls + returns the original function.
-        /// </summary>
-        private static IntPtr CreateFileImpl(string filename, FileAccess access, FileShare share, IntPtr securityAttributes, FileMode creationDisposition, FileAttributes flagsAndAttributes, IntPtr templateFile)
-        {
-            // Here we simply check whether the file path is in the dictionary,
-            // if it is, we replace it.
-            if (!filename.StartsWith(@"\\?\"))
-                if (_remapperDictionary.TryGetValue(Path.GetFullPath(filename), out string newFileName))
-                {
-                    return IntPtr.Size == 4 ?
-                        _createFileHook.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
-                        _createFileHook64.OriginalFunction(newFileName, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
-                }
-
-            return IntPtr.Size == 4 ?
-                _createFileHook.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile) :
-                _createFileHook64.OriginalFunction(filename, access, share, securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
         }
     }
 }
