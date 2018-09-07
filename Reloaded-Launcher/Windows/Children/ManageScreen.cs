@@ -602,5 +602,15 @@ namespace ReloadedLauncher.Windows.Children
         {
             Functions.GenerateShim();
         }
+
+        private void borderless_SteamShimInfo_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Reloaded%20and%20Steam%20Games%20Reattaching.md");
+        }
+
+        private void borderless_WhatIsLauncher_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Reloaded%20Pseudo%20Launcher.md");
+        }
     }
 }

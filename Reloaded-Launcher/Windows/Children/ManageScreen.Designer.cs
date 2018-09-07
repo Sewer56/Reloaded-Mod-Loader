@@ -104,6 +104,9 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage33 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage34 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageScreen));
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties18 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage35 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage36 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             this.item_OpenConfigDirectory = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_OpenGameDir = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_OpenModDir = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
@@ -119,6 +122,8 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_CurrentGame = new Reloaded_GUI.Styles.Controls.Animated.AnimatedComboBox();
             this.borderless_CommandLineArguments = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             this.item_CreateShortcut = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.item_CreateSteamShim = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.borderless_SteamShimInfo = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_GameBanner = new System.Windows.Forms.PictureBox();
             this.box_GameDirectorySelect = new System.Windows.Forms.PictureBox();
             this.box_GameEXESelect = new System.Windows.Forms.PictureBox();
@@ -130,8 +135,8 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameName = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_CommandLineArguments = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_GameFolderSelect = new System.Windows.Forms.PictureBox();
-            this.item_CreateSteamShim = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.borderless_SteamShimInfo = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.borderless_WhatIsLauncher = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.borderless_ManageSeparator2 = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameBanner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameDirectorySelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_GameEXESelect)).BeginInit();
@@ -167,12 +172,12 @@ namespace ReloadedLauncher.Windows.Children
             this.item_OpenConfigDirectory.ForeColor = System.Drawing.Color.White;
             this.item_OpenConfigDirectory.IgnoreMouse = false;
             this.item_OpenConfigDirectory.IgnoreMouseClicks = false;
-            this.item_OpenConfigDirectory.Location = new System.Drawing.Point(325, 347);
+            this.item_OpenConfigDirectory.Location = new System.Drawing.Point(44, 427);
             this.item_OpenConfigDirectory.Name = "item_OpenConfigDirectory";
-            this.item_OpenConfigDirectory.Size = new System.Drawing.Size(250, 43);
+            this.item_OpenConfigDirectory.Size = new System.Drawing.Size(519, 43);
             this.item_OpenConfigDirectory.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.item_OpenConfigDirectory.TabIndex = 39;
-            this.item_OpenConfigDirectory.Text = "Open Config Directory";
+            this.item_OpenConfigDirectory.Text = "Open Game Configuration Directory";
             this.item_OpenConfigDirectory.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.item_OpenConfigDirectory.UseVisualStyleBackColor = false;
             this.item_OpenConfigDirectory.Click += new System.EventHandler(this.item_OpenConfigDirectory_Click);
@@ -206,9 +211,9 @@ namespace ReloadedLauncher.Windows.Children
             this.item_OpenGameDir.ForeColor = System.Drawing.Color.White;
             this.item_OpenGameDir.IgnoreMouse = false;
             this.item_OpenGameDir.IgnoreMouseClicks = false;
-            this.item_OpenGameDir.Location = new System.Drawing.Point(38, 347);
+            this.item_OpenGameDir.Location = new System.Drawing.Point(44, 366);
             this.item_OpenGameDir.Name = "item_OpenGameDir";
-            this.item_OpenGameDir.Size = new System.Drawing.Size(250, 43);
+            this.item_OpenGameDir.Size = new System.Drawing.Size(240, 43);
             this.item_OpenGameDir.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.item_OpenGameDir.TabIndex = 38;
             this.item_OpenGameDir.Text = "Open Game Directory";
@@ -245,9 +250,9 @@ namespace ReloadedLauncher.Windows.Children
             this.item_OpenModDir.ForeColor = System.Drawing.Color.White;
             this.item_OpenModDir.IgnoreMouse = false;
             this.item_OpenModDir.IgnoreMouseClicks = false;
-            this.item_OpenModDir.Location = new System.Drawing.Point(613, 347);
+            this.item_OpenModDir.Location = new System.Drawing.Point(317, 366);
             this.item_OpenModDir.Name = "item_OpenModDir";
-            this.item_OpenModDir.Size = new System.Drawing.Size(250, 43);
+            this.item_OpenModDir.Size = new System.Drawing.Size(246, 43);
             this.item_OpenModDir.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.item_OpenModDir.TabIndex = 37;
             this.item_OpenModDir.Text = "Open Mod Directory";
@@ -280,16 +285,16 @@ namespace ReloadedLauncher.Windows.Children
             this.item_SaveGame.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_SaveGame.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_SaveGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_SaveGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_SaveGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.item_SaveGame.ForeColor = System.Drawing.Color.White;
             this.item_SaveGame.IgnoreMouse = false;
             this.item_SaveGame.IgnoreMouseClicks = false;
-            this.item_SaveGame.Location = new System.Drawing.Point(589, 199);
+            this.item_SaveGame.Location = new System.Drawing.Point(771, 138);
             this.item_SaveGame.Name = "item_SaveGame";
-            this.item_SaveGame.Size = new System.Drawing.Size(273, 43);
+            this.item_SaveGame.Size = new System.Drawing.Size(91, 33);
             this.item_SaveGame.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.item_SaveGame.TabIndex = 8;
-            this.item_SaveGame.Text = "Save Game Settings";
+            this.item_SaveGame.Text = "Save";
             this.item_SaveGame.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.toolTipHelper.SetToolTip(this.item_SaveGame, "You should probably click this before selecting another game.");
             this.item_SaveGame.UseVisualStyleBackColor = false;
@@ -324,7 +329,7 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameDirectory.LeftBorderColour = System.Drawing.Color.Transparent;
             this.borderless_GameDirectory.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameDirectory.LeftBorderWidth = 0;
-            this.borderless_GameDirectory.Location = new System.Drawing.Point(290, 259);
+            this.borderless_GameDirectory.Location = new System.Drawing.Point(290, 301);
             this.borderless_GameDirectory.Name = "borderless_GameDirectory";
             this.borderless_GameDirectory.RightBorderColour = System.Drawing.Color.Transparent;
             this.borderless_GameDirectory.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
@@ -366,12 +371,12 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_GameExecutableDirectory.LeftBorderColour = System.Drawing.Color.Empty;
             this.borderless_GameExecutableDirectory.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameExecutableDirectory.LeftBorderWidth = 0;
-            this.borderless_GameExecutableDirectory.Location = new System.Drawing.Point(290, 217);
+            this.borderless_GameExecutableDirectory.Location = new System.Drawing.Point(290, 259);
             this.borderless_GameExecutableDirectory.Name = "borderless_GameExecutableDirectory";
             this.borderless_GameExecutableDirectory.RightBorderColour = System.Drawing.Color.Empty;
             this.borderless_GameExecutableDirectory.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_GameExecutableDirectory.RightBorderWidth = 0;
-            this.borderless_GameExecutableDirectory.Size = new System.Drawing.Size(270, 21);
+            this.borderless_GameExecutableDirectory.Size = new System.Drawing.Size(572, 21);
             this.borderless_GameExecutableDirectory.TabIndex = 4;
             this.borderless_GameExecutableDirectory.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTipHelper.SetToolTip(this.borderless_GameExecutableDirectory, "Specifies the path of the game executable to run, relative of the game directory." +
@@ -447,16 +452,16 @@ namespace ReloadedLauncher.Windows.Children
             this.item_DeleteBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_DeleteBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_DeleteBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_DeleteBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_DeleteBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.item_DeleteBox.ForeColor = System.Drawing.Color.White;
             this.item_DeleteBox.IgnoreMouse = false;
             this.item_DeleteBox.IgnoreMouseClicks = false;
-            this.item_DeleteBox.Location = new System.Drawing.Point(734, 144);
+            this.item_DeleteBox.Location = new System.Drawing.Point(680, 138);
             this.item_DeleteBox.Name = "item_DeleteBox";
-            this.item_DeleteBox.Size = new System.Drawing.Size(128, 43);
+            this.item_DeleteBox.Size = new System.Drawing.Size(90, 33);
             this.item_DeleteBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.item_DeleteBox.TabIndex = 7;
-            this.item_DeleteBox.Text = "Del Game";
+            this.item_DeleteBox.Text = "Delete";
             this.item_DeleteBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.toolTipHelper.SetToolTip(this.item_DeleteBox, "Removes the current game (MOD DIRECTORY IS NOT DELETED).");
             this.item_DeleteBox.UseVisualStyleBackColor = false;
@@ -487,16 +492,16 @@ namespace ReloadedLauncher.Windows.Children
             this.item_NewGame.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_NewGame.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_NewGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_NewGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_NewGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.item_NewGame.ForeColor = System.Drawing.Color.White;
             this.item_NewGame.IgnoreMouse = false;
             this.item_NewGame.IgnoreMouseClicks = false;
-            this.item_NewGame.Location = new System.Drawing.Point(589, 144);
+            this.item_NewGame.Location = new System.Drawing.Point(589, 138);
             this.item_NewGame.Name = "item_NewGame";
-            this.item_NewGame.Size = new System.Drawing.Size(128, 43);
+            this.item_NewGame.Size = new System.Drawing.Size(90, 33);
             this.item_NewGame.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.item_NewGame.TabIndex = 6;
-            this.item_NewGame.Text = "New Game";
+            this.item_NewGame.Text = "New";
             this.item_NewGame.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.item_NewGame.UseVisualStyleBackColor = false;
             this.item_NewGame.Click += new System.EventHandler(this.AddNewGame);
@@ -705,12 +710,12 @@ namespace ReloadedLauncher.Windows.Children
             this.borderless_CommandLineArguments.LeftBorderColour = System.Drawing.Color.Transparent;
             this.borderless_CommandLineArguments.LeftBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_CommandLineArguments.LeftBorderWidth = 0;
-            this.borderless_CommandLineArguments.Location = new System.Drawing.Point(290, 301);
+            this.borderless_CommandLineArguments.Location = new System.Drawing.Point(290, 217);
             this.borderless_CommandLineArguments.Name = "borderless_CommandLineArguments";
             this.borderless_CommandLineArguments.RightBorderColour = System.Drawing.Color.Transparent;
             this.borderless_CommandLineArguments.RightBorderStyle = System.Windows.Forms.ButtonBorderStyle.None;
             this.borderless_CommandLineArguments.RightBorderWidth = 0;
-            this.borderless_CommandLineArguments.Size = new System.Drawing.Size(572, 21);
+            this.borderless_CommandLineArguments.Size = new System.Drawing.Size(270, 21);
             this.borderless_CommandLineArguments.TabIndex = 41;
             this.borderless_CommandLineArguments.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTipHelper.SetToolTip(this.borderless_CommandLineArguments, "You should only modify this if executable directory does not contain rest of game" +
@@ -744,19 +749,102 @@ namespace ReloadedLauncher.Windows.Children
             this.item_CreateShortcut.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_CreateShortcut.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.item_CreateShortcut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_CreateShortcut.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_CreateShortcut.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.item_CreateShortcut.ForeColor = System.Drawing.Color.White;
             this.item_CreateShortcut.IgnoreMouse = false;
             this.item_CreateShortcut.IgnoreMouseClicks = false;
-            this.item_CreateShortcut.Location = new System.Drawing.Point(38, 414);
+            this.item_CreateShortcut.Location = new System.Drawing.Point(589, 177);
             this.item_CreateShortcut.Name = "item_CreateShortcut";
-            this.item_CreateShortcut.Size = new System.Drawing.Size(250, 43);
+            this.item_CreateShortcut.Size = new System.Drawing.Size(273, 33);
             this.item_CreateShortcut.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.item_CreateShortcut.TabIndex = 42;
             this.item_CreateShortcut.Text = "Create Shortcut";
             this.item_CreateShortcut.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.item_CreateShortcut, "Creates a shortcut which allows you to launch the game directly via Reloaded.");
             this.item_CreateShortcut.UseVisualStyleBackColor = false;
             this.item_CreateShortcut.Click += new System.EventHandler(this.CreateShortcut_Click);
+            // 
+            // item_CreateSteamShim
+            // 
+            animMessage31.Control = this.item_CreateSteamShim;
+            animMessage31.PlayAnimation = true;
+            animProperties16.BackColorMessage = animMessage31;
+            animMessage32.Control = this.item_CreateSteamShim;
+            animMessage32.PlayAnimation = true;
+            animProperties16.ForeColorMessage = animMessage32;
+            animProperties16.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties16.MouseEnterDuration = 0F;
+            animProperties16.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties16.MouseEnterFramerate = 0F;
+            animProperties16.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties16.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties16.MouseLeaveDuration = 0F;
+            animProperties16.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties16.MouseLeaveFramerate = 0F;
+            animProperties16.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.item_CreateSteamShim.AnimProperties = animProperties16;
+            this.item_CreateSteamShim.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            this.item_CreateSteamShim.CaptureChildren = true;
+            this.item_CreateSteamShim.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.item_CreateSteamShim.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.item_CreateSteamShim.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.item_CreateSteamShim.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_CreateSteamShim.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_CreateSteamShim.ForeColor = System.Drawing.Color.White;
+            this.item_CreateSteamShim.IgnoreMouse = false;
+            this.item_CreateSteamShim.IgnoreMouseClicks = false;
+            this.item_CreateSteamShim.Location = new System.Drawing.Point(589, 216);
+            this.item_CreateSteamShim.Name = "item_CreateSteamShim";
+            this.item_CreateSteamShim.Size = new System.Drawing.Size(273, 33);
+            this.item_CreateSteamShim.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_CreateSteamShim.TabIndex = 43;
+            this.item_CreateSteamShim.Text = "Generate Launcher";
+            this.item_CreateSteamShim.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.toolTipHelper.SetToolTip(this.item_CreateSteamShim, "Generates a pseudo-launcher for the game; a workaround for some of those games th" +
+        "at require a launcher launch.");
+            this.item_CreateSteamShim.UseVisualStyleBackColor = false;
+            this.item_CreateSteamShim.Click += new System.EventHandler(this.CreateSteamShim_Click);
+            // 
+            // borderless_SteamShimInfo
+            // 
+            animMessage33.Control = this.borderless_SteamShimInfo;
+            animMessage33.PlayAnimation = true;
+            animProperties17.BackColorMessage = animMessage33;
+            animMessage34.Control = this.borderless_SteamShimInfo;
+            animMessage34.PlayAnimation = true;
+            animProperties17.ForeColorMessage = animMessage34;
+            animProperties17.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties17.MouseEnterDuration = 0F;
+            animProperties17.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties17.MouseEnterFramerate = 0F;
+            animProperties17.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties17.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties17.MouseLeaveDuration = 0F;
+            animProperties17.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties17.MouseLeaveFramerate = 0F;
+            animProperties17.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_SteamShimInfo.AnimProperties = animProperties17;
+            this.borderless_SteamShimInfo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("borderless_SteamShimInfo.BackgroundImage")));
+            this.borderless_SteamShimInfo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.borderless_SteamShimInfo.CaptureChildren = false;
+            this.borderless_SteamShimInfo.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.borderless_SteamShimInfo.FlatAppearance.BorderSize = 0;
+            this.borderless_SteamShimInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_SteamShimInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_SteamShimInfo.ForeColor = System.Drawing.Color.White;
+            this.borderless_SteamShimInfo.IgnoreMouse = false;
+            this.borderless_SteamShimInfo.IgnoreMouseClicks = false;
+            this.borderless_SteamShimInfo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.borderless_SteamShimInfo.Location = new System.Drawing.Point(589, 427);
+            this.borderless_SteamShimInfo.Name = "borderless_SteamShimInfo";
+            this.borderless_SteamShimInfo.Size = new System.Drawing.Size(280, 45);
+            this.borderless_SteamShimInfo.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_SteamShimInfo.TabIndex = 59;
+            this.borderless_SteamShimInfo.Text = "Preventing Reattaching";
+            this.borderless_SteamShimInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.borderless_SteamShimInfo.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            this.borderless_SteamShimInfo.UseVisualStyleBackColor = true;
+            this.borderless_SteamShimInfo.Click += new System.EventHandler(this.borderless_SteamShimInfo_Click);
             // 
             // box_GameBanner
             // 
@@ -774,7 +862,7 @@ namespace ReloadedLauncher.Windows.Children
             // box_GameDirectorySelect
             // 
             this.box_GameDirectorySelect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.box_GameDirectorySelect.Location = new System.Drawing.Point(259, 258);
+            this.box_GameDirectorySelect.Location = new System.Drawing.Point(259, 300);
             this.box_GameDirectorySelect.Name = "box_GameDirectorySelect";
             this.box_GameDirectorySelect.Size = new System.Drawing.Size(25, 25);
             this.box_GameDirectorySelect.TabIndex = 32;
@@ -784,7 +872,7 @@ namespace ReloadedLauncher.Windows.Children
             // box_GameEXESelect
             // 
             this.box_GameEXESelect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.box_GameEXESelect.Location = new System.Drawing.Point(259, 217);
+            this.box_GameEXESelect.Location = new System.Drawing.Point(259, 259);
             this.box_GameEXESelect.Name = "box_GameEXESelect";
             this.box_GameEXESelect.Size = new System.Drawing.Size(25, 25);
             this.box_GameEXESelect.TabIndex = 33;
@@ -805,7 +893,7 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.box_GameDirectory.ForeColor = System.Drawing.Color.White;
             this.box_GameDirectory.IgnoreMouse = false;
-            this.box_GameDirectory.Location = new System.Drawing.Point(40, 259);
+            this.box_GameDirectory.Location = new System.Drawing.Point(40, 301);
             this.box_GameDirectory.Margin = new System.Windows.Forms.Padding(0);
             this.box_GameDirectory.Name = "box_GameDirectory";
             this.box_GameDirectory.Size = new System.Drawing.Size(193, 22);
@@ -824,7 +912,7 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameExecutableDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.box_GameExecutableDirectory.ForeColor = System.Drawing.Color.White;
             this.box_GameExecutableDirectory.IgnoreMouse = false;
-            this.box_GameExecutableDirectory.Location = new System.Drawing.Point(40, 217);
+            this.box_GameExecutableDirectory.Location = new System.Drawing.Point(40, 259);
             this.box_GameExecutableDirectory.Margin = new System.Windows.Forms.Padding(0);
             this.box_GameExecutableDirectory.Name = "box_GameExecutableDirectory";
             this.box_GameExecutableDirectory.Size = new System.Drawing.Size(215, 22);
@@ -899,7 +987,7 @@ namespace ReloadedLauncher.Windows.Children
             this.box_CommandLineArguments.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.box_CommandLineArguments.ForeColor = System.Drawing.Color.White;
             this.box_CommandLineArguments.IgnoreMouse = false;
-            this.box_CommandLineArguments.Location = new System.Drawing.Point(40, 301);
+            this.box_CommandLineArguments.Location = new System.Drawing.Point(40, 217);
             this.box_CommandLineArguments.Margin = new System.Windows.Forms.Padding(0);
             this.box_CommandLineArguments.Name = "box_CommandLineArguments";
             this.box_CommandLineArguments.Size = new System.Drawing.Size(220, 22);
@@ -920,84 +1008,64 @@ namespace ReloadedLauncher.Windows.Children
             this.box_GameFolderSelect.TabStop = false;
             this.box_GameFolderSelect.Click += new System.EventHandler(this.SelectModFolder);
             // 
-            // item_CreateSteamShim
+            // borderless_WhatIsLauncher
             // 
-            animMessage31.Control = this.item_CreateSteamShim;
-            animMessage31.PlayAnimation = true;
-            animProperties16.BackColorMessage = animMessage31;
-            animMessage32.Control = this.item_CreateSteamShim;
-            animMessage32.PlayAnimation = true;
-            animProperties16.ForeColorMessage = animMessage32;
-            animProperties16.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties16.MouseEnterDuration = 0F;
-            animProperties16.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties16.MouseEnterFramerate = 0F;
-            animProperties16.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties16.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties16.MouseLeaveDuration = 0F;
-            animProperties16.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties16.MouseLeaveFramerate = 0F;
-            animProperties16.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.item_CreateSteamShim.AnimProperties = animProperties16;
-            this.item_CreateSteamShim.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
-            this.item_CreateSteamShim.CaptureChildren = true;
-            this.item_CreateSteamShim.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.item_CreateSteamShim.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.item_CreateSteamShim.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.item_CreateSteamShim.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_CreateSteamShim.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.item_CreateSteamShim.ForeColor = System.Drawing.Color.White;
-            this.item_CreateSteamShim.IgnoreMouse = false;
-            this.item_CreateSteamShim.IgnoreMouseClicks = false;
-            this.item_CreateSteamShim.Location = new System.Drawing.Point(325, 414);
-            this.item_CreateSteamShim.Name = "item_CreateSteamShim";
-            this.item_CreateSteamShim.Size = new System.Drawing.Size(250, 43);
-            this.item_CreateSteamShim.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_CreateSteamShim.TabIndex = 43;
-            this.item_CreateSteamShim.Text = "Generate Steam Shim";
-            this.item_CreateSteamShim.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.item_CreateSteamShim.UseVisualStyleBackColor = false;
-            this.item_CreateSteamShim.Click += new System.EventHandler(this.CreateSteamShim_Click);
+            animMessage35.Control = this.borderless_WhatIsLauncher;
+            animMessage35.PlayAnimation = true;
+            animProperties18.BackColorMessage = animMessage35;
+            animMessage36.Control = this.borderless_WhatIsLauncher;
+            animMessage36.PlayAnimation = true;
+            animProperties18.ForeColorMessage = animMessage36;
+            animProperties18.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties18.MouseEnterDuration = 0F;
+            animProperties18.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties18.MouseEnterFramerate = 0F;
+            animProperties18.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties18.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties18.MouseLeaveDuration = 0F;
+            animProperties18.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties18.MouseLeaveFramerate = 0F;
+            animProperties18.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_WhatIsLauncher.AnimProperties = animProperties18;
+            this.borderless_WhatIsLauncher.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("borderless_WhatIsLauncher.BackgroundImage")));
+            this.borderless_WhatIsLauncher.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.borderless_WhatIsLauncher.CaptureChildren = false;
+            this.borderless_WhatIsLauncher.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.borderless_WhatIsLauncher.FlatAppearance.BorderSize = 0;
+            this.borderless_WhatIsLauncher.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_WhatIsLauncher.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_WhatIsLauncher.ForeColor = System.Drawing.Color.White;
+            this.borderless_WhatIsLauncher.IgnoreMouse = false;
+            this.borderless_WhatIsLauncher.IgnoreMouseClicks = false;
+            this.borderless_WhatIsLauncher.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.borderless_WhatIsLauncher.Location = new System.Drawing.Point(589, 366);
+            this.borderless_WhatIsLauncher.Name = "borderless_WhatIsLauncher";
+            this.borderless_WhatIsLauncher.Size = new System.Drawing.Size(280, 45);
+            this.borderless_WhatIsLauncher.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_WhatIsLauncher.TabIndex = 60;
+            this.borderless_WhatIsLauncher.Text = "\"Generate Launcher\" ?";
+            this.borderless_WhatIsLauncher.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.borderless_WhatIsLauncher.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            this.borderless_WhatIsLauncher.UseVisualStyleBackColor = true;
+            this.borderless_WhatIsLauncher.Click += new System.EventHandler(this.borderless_WhatIsLauncher_Click);
             // 
-            // borderless_SteamShimInfo
+            // borderless_ManageSeparator2
             // 
-            animMessage33.Control = this.borderless_SteamShimInfo;
-            animMessage33.PlayAnimation = true;
-            animProperties17.BackColorMessage = animMessage33;
-            animMessage34.Control = this.borderless_SteamShimInfo;
-            animMessage34.PlayAnimation = true;
-            animProperties17.ForeColorMessage = animMessage34;
-            animProperties17.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties17.MouseEnterDuration = 0F;
-            animProperties17.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties17.MouseEnterFramerate = 0F;
-            animProperties17.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties17.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties17.MouseLeaveDuration = 0F;
-            animProperties17.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties17.MouseLeaveFramerate = 0F;
-            animProperties17.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_SteamShimInfo.AnimProperties = animProperties17;
-            this.borderless_SteamShimInfo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("borderless_SteamShimInfo.BackgroundImage")));
-            this.borderless_SteamShimInfo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.borderless_SteamShimInfo.CaptureChildren = false;
-            this.borderless_SteamShimInfo.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.borderless_SteamShimInfo.FlatAppearance.BorderSize = 0;
-            this.borderless_SteamShimInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borderless_SteamShimInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.borderless_SteamShimInfo.ForeColor = System.Drawing.Color.White;
-            this.borderless_SteamShimInfo.IgnoreMouse = false;
-            this.borderless_SteamShimInfo.IgnoreMouseClicks = false;
-            this.borderless_SteamShimInfo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borderless_SteamShimInfo.Location = new System.Drawing.Point(613, 414);
-            this.borderless_SteamShimInfo.Name = "borderless_SteamShimInfo";
-            this.borderless_SteamShimInfo.Size = new System.Drawing.Size(250, 45);
-            this.borderless_SteamShimInfo.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.borderless_SteamShimInfo.TabIndex = 59;
-            this.borderless_SteamShimInfo.Text = "What is a Steam Shim?";
-            this.borderless_SteamShimInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.borderless_SteamShimInfo.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-            this.borderless_SteamShimInfo.UseVisualStyleBackColor = true;
+            this.borderless_ManageSeparator2.BackColor = System.Drawing.Color.Transparent;
+            this.borderless_ManageSeparator2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_ManageSeparator2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_ManageSeparator2.ForeColor = System.Drawing.Color.White;
+            this.borderless_ManageSeparator2.IgnoreMouse = false;
+            this.borderless_ManageSeparator2.Location = new System.Drawing.Point(40, 339);
+            this.borderless_ManageSeparator2.Margin = new System.Windows.Forms.Padding(0);
+            this.borderless_ManageSeparator2.Name = "borderless_ManageSeparator2";
+            this.borderless_ManageSeparator2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.borderless_ManageSeparator2.Size = new System.Drawing.Size(822, 24);
+            this.borderless_ManageSeparator2.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_ManageSeparator2.TabIndex = 62;
+            this.borderless_ManageSeparator2.Text = resources.GetString("borderless_ManageSeparator2.Text");
+            this.borderless_ManageSeparator2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.borderless_ManageSeparator2.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             // 
             // ManageScreen
             // 
@@ -1005,9 +1073,12 @@ namespace ReloadedLauncher.Windows.Children
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(900, 512);
-            this.Controls.Add(this.borderless_SteamShimInfo);
-            this.Controls.Add(this.item_CreateSteamShim);
+            this.Controls.Add(this.item_SaveGame);
             this.Controls.Add(this.item_CreateShortcut);
+            this.Controls.Add(this.item_CreateSteamShim);
+            this.Controls.Add(this.borderless_ManageSeparator2);
+            this.Controls.Add(this.borderless_WhatIsLauncher);
+            this.Controls.Add(this.borderless_SteamShimInfo);
             this.Controls.Add(this.borderless_CommandLineArguments);
             this.Controls.Add(this.box_CommandLineArguments);
             this.Controls.Add(this.item_OpenConfigDirectory);
@@ -1016,7 +1087,6 @@ namespace ReloadedLauncher.Windows.Children
             this.Controls.Add(this.box_GameFolderSelect);
             this.Controls.Add(this.box_GameEXESelect);
             this.Controls.Add(this.box_GameDirectorySelect);
-            this.Controls.Add(this.item_SaveGame);
             this.Controls.Add(this.box_GameDirectory);
             this.Controls.Add(this.borderless_GameDirectory);
             this.Controls.Add(this.box_GameExecutableDirectory);
@@ -1076,5 +1146,7 @@ namespace ReloadedLauncher.Windows.Children
         private AnimatedButton item_CreateShortcut;
         private AnimatedButton item_CreateSteamShim;
         public AnimatedButton borderless_SteamShimInfo;
+        public AnimatedButton borderless_WhatIsLauncher;
+        private EnhancedLabel borderless_ManageSeparator2;
     }
 }

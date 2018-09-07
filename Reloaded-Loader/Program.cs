@@ -136,8 +136,8 @@ namespace Reloaded_Loader
                 // Ensure we didn't find some background process that was running all along.
                 if (localGameProcess.GetProcessFromReloadedProcess().StartTime > _processStartTime)
                 {                   
-                    Bindings.PrintInfo($"// Game Restarted, Probably from Self-Kill e.g. Denuvo, VMProtect Reattaching! | {_attachTargetName}");
-                    Bindings.PrintInfo($"// In other words, super early attach not supported! Maybe with manual map in the future.");
+                    Bindings.PrintInfo($"// Game killed itself, probably due to Steam for restarting. Attempting reattach! | {_attachTargetName}");
+                    Bindings.PrintInfo($"// Consider using the Steam shim.");
                     _gameProcess = localGameProcess;
 
                     // Disconnect all clients

@@ -77,8 +77,6 @@ namespace Reloaded_Loader.Terminal.Information
         {
             Bindings.PrintInfo("Displaying Connected Controller List");
             Bindings.PrintInfo("Key: [Controller Port] [Controller Type] <Controller Name> (Disconnected?)");
-            Bindings.PrintInfo("If this freezes, you're probably running Win 10 & are experiencing a DirectInput bug.");
-            Bindings.PrintInfo("The only way to get around that is to restart your PC; sorry :/");
         }
 
         private static List<IController> GetControllersDefault()
