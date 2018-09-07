@@ -19,6 +19,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Reloaded.Process.Memory;
 using static Reloaded.Process.Native.Native;
@@ -195,6 +196,24 @@ namespace Reloaded.Process.Buffers
                 return false;
             else
                 return true;
+        }
+
+        /// <summary>
+        /// The two <see cref="MemoryBuffer"/>s are equal if their base address is the same.
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            var buffer = obj as MemoryBuffer;
+            return buffer != null && BaseBufferAddress == buffer.BaseBufferAddress;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 2004231517;
+            hashCode = hashCode * -1521134295 + EqualityComparer<IntPtr>.Default.GetHashCode(BaseBufferAddress);
+            hashCode = hashCode * -1521134295 + Is32BitBuffer.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<MemoryBufferHeader>.Default.GetHashCode(BufferHeader);
+            return hashCode;
         }
     }
 }

@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Reloaded.Process.Memory;
 using System.Runtime.InteropServices;
 using static Reloaded.Process.Native.Native;
@@ -33,6 +34,27 @@ namespace Reloaded.Process.Buffers
     /// </summary>
     public static class MemoryBufferManager
     {
+        /// <summary>
+        /// Contains a list of already known memorybuffers to use.
+        /// </summary>
+        private static List<MemoryBuffer> _knownBuffers = new List<MemoryBuffer>();
+
+        /// <summary>
+        /// A wrapper over the <see cref="GetBuffers"/> method that will return a set of
+        /// already previously discovered buffers (if they exist) that meet the desired size.
+        /// </summary>
+        /// <param name="size">Specifies an optional size in bytes that must be at least available in the buffer for it to be included in the list.</param>
+        public static List<MemoryBuffer> GetCachedBuffers(int size = 0)
+        {
+            // Return the already known buffers if there is a buffer that can fit the size.
+            if (_knownBuffers.Any(x => x.CheckItemSize(size)))
+                return _knownBuffers;
+
+            // No cached buffers meet the criteria; find a set of new buffers.
+            var memoryBuffers = GetBuffers(size);
+            return memoryBuffers;
+        }
+
         /// <summary>
         /// Scans the currently targeted process in <see cref="Bindings.TargetProcess"/> for any buffers
         /// managed by Reloaded and returns a list of available buffers.
@@ -54,8 +76,15 @@ namespace Reloaded.Process.Buffers
                 if (memoryBasicInformation[x].State == (PageState.Commit | PageState.Reserve) && memoryBasicInformation[x].lType == PageType.Private && IsBuffer(memoryBasicInformation[x].BaseAddress))
                 {
                     MemoryBuffer buffer = new MemoryBuffer(memoryBasicInformation[x].BaseAddress, systemInfo.allocationGranularity);
+
+                    // Add the buffer to list if the item fits.
                     if (buffer.CheckItemSize(size))
                         memoryBuffers.Add(buffer);
+
+                    // Add the buffer to the known list of buffers if
+                    // a buffer with this address is not known to exist.
+                    if (! (_knownBuffers.Any(z => z.BaseBufferAddress == buffer.BaseBufferAddress)))
+                        _knownBuffers.Add(buffer);
                 }      
             }
 
@@ -77,7 +106,7 @@ namespace Reloaded.Process.Buffers
         public static unsafe IntPtr Add(byte[] bytesToWrite, IntPtr targetAddress)
         {
             // Get available buffers.
-            List<MemoryBuffer> buffers = GetBuffers(bytesToWrite.Length);
+            List<MemoryBuffer> buffers = GetCachedBuffers(bytesToWrite.Length);
 
             // Iterate over all buffers to see if any fits the desired target.
             ulong minimumAddress = (ulong)(targetAddress  + -2000000000); // 2GB
@@ -138,6 +167,7 @@ namespace Reloaded.Process.Buffers
                                                        && lastPageBase > (ulong)memoryPages.BaseAddress)
                     {
                         MemoryBuffer buffer = new MemoryBuffer((IntPtr)lastPageBase, desiredBufferSize);
+                        _knownBuffers.Add(buffer);
                         return buffer.Add(bytesToWrite);
                     }
                     // 1. Check if inbounds. 2. Check if new page start aligned to 64K/Granularity still fits.
@@ -145,6 +175,7 @@ namespace Reloaded.Process.Buffers
                                                              && firstPageEnd < (ulong)memoryPages.BaseAddress + (ulong) memoryPages.RegionSize)
                     {
                         MemoryBuffer buffer = new MemoryBuffer((IntPtr)firstPageBase, desiredBufferSize);
+                        _knownBuffers.Add(buffer);
                         return buffer.Add(bytesToWrite);
                     }
                 }
@@ -163,7 +194,7 @@ namespace Reloaded.Process.Buffers
         public static IntPtr Add(byte[] bytesToWrite)
         {
             // Get available buffers.
-            List<MemoryBuffer> buffers = GetBuffers(bytesToWrite.Length);
+            List<MemoryBuffer> buffers = GetCachedBuffers(bytesToWrite.Length);
 
             // If there are no available buffers, create one.
             if (buffers.Count < 1)
@@ -200,12 +231,14 @@ namespace Reloaded.Process.Buffers
                         if (lastPageBase > (long)memoryPages.BaseAddress)
                         {
                             MemoryBuffer buffer = new MemoryBuffer((IntPtr)lastPageBase, desiredBufferSize);
+                            _knownBuffers.Add(buffer);
                             return buffer.Add(bytesToWrite);
                         }
                         // 1. Check if inbounds. 2. Check if new page start aligned to 64K/Granularity still fits.
                         else if (firstPageEnd < (long)memoryPages.BaseAddress + (long)memoryPages.RegionSize)
                         {
                             MemoryBuffer buffer = new MemoryBuffer((IntPtr)firstPageBase, desiredBufferSize);
+                            _knownBuffers.Add(buffer);
                             return buffer.Add(bytesToWrite);
                         }
                     }
