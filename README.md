@@ -29,6 +29,8 @@ It is a completely free and open source public rewrite of **Heroes Mod Loader**,
 ## For Users
 - [Features](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Features.md)
 - [User Guide](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/User%20Guide.md)
+- [Reloaded and Steam Games "Reattaching"](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Reloaded%20and%20Steam%20Games%20Reattaching.md)
+- [Reloaded's Pseudo Launcher](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Reloaded%20Pseudo%20Launcher.md)
 
 ## Casual Modders
 - [Getting Started: Modifications](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Getting%20Started%20Modifications.md)
