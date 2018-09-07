@@ -18,27 +18,28 @@ This guide is intended to be read after [Reloaded for Programmers](https://githu
 
 ## Table of Contents
 - [1. Reading/Writing to/from Memory](#1-readingwriting-tofrom-memory)
-	- [Examples](#examples)
-	- [Memory Read/Write Operations](#memory-readwrite-operations)
-	- [Helper Functions](#helper-functions)
-		- [ArrayPtr & FixedArrayPtr](#arrayptr--fixedarrayptr)
-		- [Pointer](#pointer)
-	- [Memory R/W: Remarks](#memory-rw-remarks)
+  - [Examples](#examples)
+  - [Memory Read/Write Operations](#memory-readwrite-operations)
+  - [Helper Functions](#helper-functions)
+    - [ArrayPtr & FixedArrayPtr](#arrayptr--fixedarrayptr)
+    - [Pointer](#pointer)
+  - [Memory R/W: Remarks](#memory-rw-remarks)
 - [2. Allocating/Freeing/Managing Native Memory](#2-allocatingfreeingmanaging-native-memory)
-	- [Reusable Memory](#reusable-memory)
-	- [Permanent/Long Term Storage](#permanentlong-term-storage)
+  - [Reusable Memory](#reusable-memory)
+  - [Permanent/Long Term Storage](#permanentlong-term-storage)
 - [3. Writing Assembly Code](#3-writing-assembly-code)
 - [4. Native Functions](#4-native-functions)
-	- [Defining Reloaded-Compatible Delegates](#defining-reloaded-compatible-delegates)
-		- [Examples](#examples-1)
-	- [Calling Functions](#calling-functions)
-	- [Hooking Functions](#hooking-functions)
-		- [Example](#example)
-		- [Hooking Functions: Additional Remarks](#hooking-functions-additional-remarks)
-	- [Function Pointers](#function-pointers)
+  - [Defining Reloaded-Compatible Delegates](#defining-reloaded-compatible-delegates)
+    - [Examples](#examples)
+  - [Calling Functions](#calling-functions)
+  - [Hooking Functions](#hooking-functions)
+    - [Example](#example)
+    - [Hooking Functions: Additional Remarks](#hooking-functions-additional-remarks)
+  - [Calling Function Pointers](#calling-function-pointers)
+  - [Function Pointers to C# Functions](#function-pointers-to-c-functions)
 - [5. Further Exploration](#5-further-exploration)
-	- [Personal Recommendations](#personal-recommendations)
-	- [Additional Remarks](#additional-remarks)
+  - [Personal Recommendations](#personal-recommendations)
+  - [Additional Remarks](#additional-remarks)
 
 ## 1. Reading/Writing to/from Memory
 
@@ -305,7 +306,7 @@ Other notable fairly unique features of Reloaded's hooking mechanism include bei
 public delegate int PlayADX(string fileName);
 ```
 
-### Function Pointers
+### Calling Function Pointers
 
 Should you ever find yourself needing to call functions that are pointed to by a pointer whose value constantly changes, Reloaded provides you with a simple utility class to help you alleviate the pain of constantly changing function addresses.
 
@@ -328,6 +329,53 @@ myCustomFunction(1000);
 ```
 
 Regarding the topic of performance - the class automatically caches function wrappers using a Dictionary under the hood as the pointer points to each new address. This means that for those custom functions whose pointers will alternate between a set number of values, most, if not at some point all of the time the class will already have a pre-prepared function wrapper ready to call, thus reducing overhead.
+
+### Function Pointers to C# Functions
+
+No hacking adventure would be ever complete with pointers to our own functions.
+
+Reloaded supports this and as you'd expect, it makes life very easy for you. You can even have pointers to C# functions that will obey custom calling conventions. *A pointer to a C# function that will accept arbitrary registers as parameters without any custom assembler anywhere? Sign me up!*
+
+Support for this functionality is provided through the use of the factory classes `ReverseFunctionWrapper` (*Reloaded.Process.Functions.X86Functions*) and `X64ReverseFunctionWrapper` (*Reloaded.Process.Functions.X64Functions*) respectively. These will return back an instance of the class, which contains a property `Pointer` that can be used to call the C# function from native code.
+
+```csharp
+// Define a fastcall Reloaded function.
+// Microsoft Fastcall passes first two parameters in registers ECX, EDX and returns value in EAX.
+[ReloadedFunction(CallingConventions.Fastcall)]
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void FastcallExample(int a, int b, int c);
+
+/* Fields */
+private static ReverseFunctionWrapper<FastcallExample> reverseFunctionWrapper;  // Pointer to C# Fastcall function.
+private static FastcallExample                         functionWrapper;         // We will call our C# function through the pointer to prove.
+
+/* Main/Init Method */
+void FastcallCSharpFunctionPointerTest()
+{
+    // Create our pointer to our C# "fastcall" function.
+    // reverseFunctionWrapper.Pointer now has the address of the C# function, that's fastcall.
+    reverseFunctionWrapper = ReverseFunctionWrapper<FastcallExample>.CreateReverseWrapper(CSharpFastcallFunction);
+
+    // To prove our C# "fastcall" function works, let's just call it like a native function.
+    functionWrapper = FunctionWrapper.CreateWrapperFunction<FastcallExample>((long)reverseFunctionWrapper.Pointer);
+    functionWrapper(1,2,3);
+}
+
+
+/* Function Implementation */
+
+/// <summary>
+/// When called through the address in reverseFunctionWrapper.Pointer,
+/// this function is now a "fastcall" function.
+/// </summary>
+/// <param name="a">This number is passed into ECX!</param>
+/// <param name="b">This number is passed into EDX!</param>
+/// <param name="c">This number is on the stack.</param>
+private static void CSharpFastcallFunction(int a, int b, int c)
+{
+    MessageBox.Show($"{a + b + c}");
+}
+```
 
 ## 5. Further Exploration
 
