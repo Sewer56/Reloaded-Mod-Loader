@@ -23,6 +23,8 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Reloaded.Process.Functions.X64Functions;
+using Reloaded.Process.Functions.X86Functions;
+using CallingConventions = System.Reflection.CallingConventions;
 
 namespace Reloaded.Process.Functions
 {
@@ -70,7 +72,6 @@ namespace Reloaded.Process.Functions
 
         /// <summary>
         /// Returns a register to be used for calling of the target function.
-        /// Using this class may be necessary due to the fact that 
         /// </summary>
         /// <param name="reloadedFunction">
         ///     Structure containing the details of the actual function in question.
@@ -112,6 +113,55 @@ namespace Reloaded.Process.Functions
             return callRegister;
         }
 
+        /// <summary>
+        /// Retrieves a ReloadedFunction attribute from a supplied delegate type.
+        /// </summary>
+        /// <typeparam name="TFunction">Delegate type marked with complete ReloadedFunction Attribute that defines the individual function properties.</typeparam>
+        /// <returns>ReloadedFunction class instance that the delegate has been tagged with.</returns>
+        public static ReloadedFunctionAttribute GetReloadedFunctionAttribute<TFunction>()
+        {
+            // Retrieve the ReloadedFunction attribute
+            foreach (Attribute attribute in typeof(TFunction).GetCustomAttributes())
+            {
+                if (attribute is ReloadedFunctionAttribute reloadedFunction)
+                    return reloadedFunction;
+            }
 
+            // Return cdecl if false.
+            Bindings.PrintWarning?.Invoke
+            (
+                $"Instance of {typeof(TFunction).Name} in a developer declared hook is missing its ReloadedFunction attribute.\n" +
+                "The specified calling convention will be assumed as CDECL by default.\n" +
+                "To developers: Please don't do this! Refer to the wiki or CallingConventions.cs common convention settings."
+            );
+
+            return new ReloadedFunctionAttribute(X86Functions.CallingConventions.Cdecl);
+        }
+
+
+        /// <summary>
+        /// Retrieves a ReloadedFunction from a supplied delegate type.
+        /// </summary>
+        /// <typeparam name="TFunction">Delegate type marked with complete ReloadedFunction Attribute that defines the individual function properties.</typeparam>
+        /// <returns>ReloadedFunction class instance that the delegate has been tagged with.</returns>
+        public static X64ReloadedFunctionAttribute GetX64ReloadedFunctionAttribute<TFunction>()
+        {
+            // Retrieve the ReloadedFunction attribute
+            foreach (Attribute attribute in typeof(TFunction).GetCustomAttributes())
+            {
+                if (attribute is X64ReloadedFunctionAttribute reloadedFunction)
+                    return reloadedFunction;
+            }
+
+            // Return cdecl if false.
+            Bindings.PrintWarning?.Invoke
+            (
+                $"Instance of {typeof(TFunction).Name} in a developer declared hook is missing its ReloadedFunction attribute.\n" +
+                "The specified calling convention will be assumed as CDECL by default.\n" +
+                "To developers: Please don't do this! Refer to the wiki or CallingConventions.cs common convention settings."
+            );
+
+            return new X64ReloadedFunctionAttribute(X64CallingConventions.Microsoft);
+        }
     }
 }

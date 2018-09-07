@@ -130,8 +130,8 @@ namespace Reloaded.Process.Functions.X86Hooking
 
             // Retrieve the function address from the supplied user delegate.
             // Our ReloadedFunction attribute.
-            IntPtr cSharpFunctionAddress = Marshal.GetFunctionPointerForDelegate(functionDelegate);
-            ReloadedFunctionAttribute reloadedFunction = GetReloadedFunctionAttribute<TFunction>();
+            IntPtr cSharpFunctionAddress                = Marshal.GetFunctionPointerForDelegate(functionDelegate);
+            ReloadedFunctionAttribute reloadedFunction  = FunctionCommon.GetReloadedFunctionAttribute<TFunction>();
 
             /*
                 [Hook Part I] Create Custom => CDECL Wrapper and Assemble 
@@ -139,7 +139,7 @@ namespace Reloaded.Process.Functions.X86Hooking
 
             // Assemble the wrapper function.
             // Assemble a jump to our wrapper function.
-            IntPtr wrapperFunctionAddress = CreateWrapperFunction<TFunction>(cSharpFunctionAddress, reloadedFunction);
+            IntPtr wrapperFunctionAddress = ReverseFunctionWrapper<TFunction>.CreateReverseWrapperInternal<TFunction>(cSharpFunctionAddress, reloadedFunction);
             List<byte> jumpBytes = HookCommon.X86AssembleAbsoluteJump(wrapperFunctionAddress).ToList();
 
             /*
@@ -219,118 +219,9 @@ namespace Reloaded.Process.Functions.X86Hooking
             return this;
         }
 
-        /// <summary>
-        /// Retrieves a ReloadedFunction from a supplied delegate type.
-        /// </summary>
-        /// <typeparam name="TFunction">Delegate type marked with complete ReloadedFunction Attribute that defines the individual function properties.</typeparam>
-        /// <returns>ReloadedFunction class instance that the delegate has been tagged with.</returns>
-        public static ReloadedFunctionAttribute GetReloadedFunctionAttribute<TFunction>()
-        {
-            // Retrieve the ReloadedFunction attribute
-            foreach (Attribute attribute in typeof(TFunction).GetCustomAttributes())
-            {
-                if (attribute is ReloadedFunctionAttribute reloadedFunction)
-                    return reloadedFunction;
-            }
+        
 
-            // Return cdecl if false.
-            Bindings.PrintWarning?.Invoke
-            (
-                $"Instance of {typeof(TFunction).Name} in a developer declared hook is missing its ReloadedFunction attribute.\n" +
-                 "The specified calling convention will be assumed as CDECL by default.\n" +
-                 "To developers: Please don't do this! Refer to the wiki or CallingConventions.cs common convention settings."
-            );
 
-            return new ReloadedFunctionAttribute(CallingConventions.Cdecl);
-        }
-
-        /// <summary>
-        /// Creates the wrapper function for redirecting program flow to our C# function.
-        /// </summary>
-        /// <param name="reloadedFunction">Structure containing the details of the actual function in question.</param>
-        /// <param name="functionAddress">The address of the function to create a wrapper for.</param>
-        /// <returns></returns>
-        private static IntPtr CreateWrapperFunction<TFunction>(IntPtr functionAddress, ReloadedFunctionAttribute reloadedFunction)
-        {
-            // Retrieve number of parameters.
-            int numberOfParameters = FunctionCommon.GetNumberofParameters(typeof(TFunction));
-            int nonRegisterParameters = numberOfParameters - reloadedFunction.SourceRegisters.Length;
-
-            // List of ASM Instructions to be Compiled
-            List<string> assemblyCode = new List<string> { "use32" };
-
-            // Backup Stack Frame
-            assemblyCode.Add("push ebp");       // Backup old call frame
-            assemblyCode.Add("mov ebp, esp");   // Setup new call frame
-
-            // Push registers for our C# method as necessary.
-            assemblyCode.AddRange(AssembleFunctionParameters(numberOfParameters, reloadedFunction.SourceRegisters));
-
-            // Call C# Function Pointer (cSharpFunctionPointer is address at which our C# function address is written)
-            IntPtr cSharpFunctionPointer = MemoryBufferManager.Add(functionAddress, IntPtr.Zero);
-            assemblyCode.Add("call dword [0x" + cSharpFunctionPointer.ToString("X") + "]");
-
-            // Restore stack pointer + stack frame
-            assemblyCode.Add($"add esp, {numberOfParameters * 4}");
-
-            // MOV our own return register, EAX into the register expected by the calling convention
-            assemblyCode.Add($"mov {reloadedFunction.ReturnRegister}, eax");
-
-            // Restore Stack Frame and Return
-            assemblyCode.Add("pop ebp");
-
-            // Caller/Callee Cleanup
-            if (reloadedFunction.Cleanup == ReloadedFunctionAttribute.StackCleanup.Callee)
-                assemblyCode.Add($"ret {nonRegisterParameters * 4}");
-            else
-                assemblyCode.Add("ret");
-
-            // Assemble and return pointer to code
-            byte[] assembledMnemonics = Assembler.Assembler.Assemble(assemblyCode.ToArray());
-            return MemoryBufferManager.Add(assembledMnemonics);
-        }
-
-        /// <summary>
-        /// Generates the assembly code to assemble for the passing of the 
-        /// function parameters for to our own C# CDECL compliant function.
-        /// </summary>
-        /// <param name="parameterCount">The total amount of parameters that the target function accepts.</param>
-        /// <param name="registers">The registers in left to right order used in the calling convention we are hooking.</param>
-        /// <returns>A string array of compatible x86 mnemonics to be assembled.</returns>
-        private static string[] AssembleFunctionParameters(int parameterCount, ReloadedFunctionAttribute.Register[] registers)
-        {
-            // Store our JIT Assembly Code
-            List<string> assemblyCode = new List<string>();
-
-            // At the current moment in time, the base address of old call stack (EBP) is at [ebp + 0]
-            // the return address of the calling function is at [ebp + 4], last parameter is therefore at [ebp + 8].
-            // Reminder: The stack grows by DECREMENTING THE STACK POINTER.
-
-            // The initial offset from EBP (Stack Base Pointer) for the rightmost parameter (right to left passing):
-            int nonRegisterParameters = parameterCount - registers.Length;
-            int currentBaseStackOffset = ((nonRegisterParameters + 1) * 4);
-
-            // Re-push our non-register parameters passed onto the method onto the stack.
-            for (int x = 0; x < nonRegisterParameters; x++)
-            {
-                // Push parameter onto stack.
-                assemblyCode.Add($"push dword [ebp + {currentBaseStackOffset}]");
-
-                // Go to next parameter.
-                currentBaseStackOffset -= 4;
-            }
-
-            // Now push the remaining parameters from the custom calling convention's registers onto the stack.
-            // We process the registers in right to left order.
-            ReloadedFunctionAttribute.Register[] newRegisters = registers.Reverse().ToArray();
-            foreach (ReloadedFunctionAttribute.Register registerParameter in newRegisters)
-            {
-                // Push the register variable onto the stack for our C# CDECL function./
-                assemblyCode.Add($"push {registerParameter.ToString()}");
-            }
-
-            return assemblyCode.ToArray();
-        }
 
         /// <summary>
         /// Private constructor, constructors do not support delegates therefore use Factory Design Pattern.
