@@ -79,7 +79,7 @@ namespace ReloadedLauncher.Windows.Children
             else
             {
                 // Save mod list when user exits screen.
-                try { SaveMods(); }
+                try   { SaveMods(); }
                 catch { }
             }
         }
@@ -194,6 +194,16 @@ namespace ReloadedLauncher.Windows.Children
         /// </summary>
         private void SaveMods()
         {
+            // Update and save the game configuration.
+            UpdateCurrentGameConfig();
+            GameConfig.WriteConfig(Global.CurrentGameConfig);
+        }
+
+        /// <summary>
+        /// Updates the current game configuration under the hood.
+        /// </summary>
+        private void UpdateCurrentGameConfig()
+        {
             // Stores the currently enabled mods.
             List<string> enabledMods = new List<string>();
 
@@ -224,9 +234,6 @@ namespace ReloadedLauncher.Windows.Children
 
             // Assign the currently enabled mods for the game.
             Global.CurrentGameConfig.EnabledMods = enabledMods;
-
-            // Save the game configuration.
-            GameConfig.WriteConfig(Global.CurrentGameConfig);
         }
 
         /// <summary>
@@ -249,17 +256,26 @@ namespace ReloadedLauncher.Windows.Children
             var senderGrid = (DataGridView)sender;
 
             // Check if the column index is the first column (disable/enable checkbox).
+            int rowIndex = e.RowIndex;
             if (e.ColumnIndex == 0)
             {
                 if ((string) senderGrid.Rows[e.RowIndex].Cells[(int)ModListCell.Enabled].Value == TextButtons.ButtonDisabled)
                 {
-                    CheckDependenciesModEnable();
                     senderGrid.Rows[e.RowIndex].Cells[(int)ModListCell.Enabled].Value = TextButtons.ButtonEnabled;
+                    UpdateCurrentGameConfig();
+
+                    // Extra dependencies were enabled, we need to refresh current menu.
+                    if (CheckDependenciesOnModEnable())
+                    {
+                        LoadMods();
+                        senderGrid.Rows[rowIndex].Selected = true;
+                    }
                 }
                 else
                 {
-                    CheckDependenciesModDisable();
                     senderGrid.Rows[e.RowIndex].Cells[(int)ModListCell.Enabled].Value = TextButtons.ButtonDisabled;
+                    UpdateCurrentGameConfig();
+                    CheckDependenciesOnModDisable();
                 } 
             }
         }
@@ -268,7 +284,7 @@ namespace ReloadedLauncher.Windows.Children
         /// Performs a dependency check for a mod that is about to be disabled, letting the user know of
         /// any mods that depend on the current mod.
         /// </summary>
-        private void CheckDependenciesModDisable()
+        private void CheckDependenciesOnModDisable()
         {
             // Populate a list of every single mod.
             List<GameConfig> allGameConfigs = ConfigManager.GetAllGameConfigs();
@@ -294,7 +310,8 @@ namespace ReloadedLauncher.Windows.Children
         /// Performs a dependency check for a mod that is about to be enabled to inform the user of missing
         /// dependencies and ensure that all of the mod's necessary dependencies are enabled.
         /// </summary>
-        private void CheckDependenciesModEnable()
+        /// <returns>True if addittional dependencies were enabled.</returns>
+        private bool CheckDependenciesOnModEnable()
         {
             // Check for missing dependencies.
             List<string> missingDependencies = Global.CurrentModConfig.GetMissingDependencies();
@@ -313,7 +330,7 @@ namespace ReloadedLauncher.Windows.Children
 
                 // If uses decides to not enable dependencies, exit handler.
                 if (!disabledDependencyDialog.EnableDependencies)
-                    return;
+                    return false;
 
                 // Else enable each dependency.
                 foreach (var disabledConfig in disabledConfigs)
@@ -321,7 +338,11 @@ namespace ReloadedLauncher.Windows.Children
                     disabledConfig.ParentGame.EnabledMods.Add(disabledConfig.GetModDirectoryName());
                     GameConfig.WriteConfig(disabledConfig.ParentGame); // Inefficient but will do for now.
                 }
+
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
