@@ -21,8 +21,11 @@
 - [Distributing Modifications](#distributing-modifications)
   - [Third Parties](#third-parties)
   - [Third Parties: User's End](#third-parties-users-end)
-  - [Third Party Specifics:](#third-party-specifics)
-
+  - [Distributing Updates (Default Plugins)](#distributing-updates-default-plugins)
+      - [Github](#github)
+      - [GameBanana](#gamebanana)
+  - [Third Party Specifics](#third-party-specifics)
+      - [GameBanana](#gamebanana)
 
 ## Modification Structure
 
@@ -127,13 +130,38 @@ Due to Reloaded's nature of being a universal loader, there is no specific detec
 	<img src="https://i.imgur.com/C9cY3cc.png" align="center" width="300" />
 </center>
 
+### Distributing Updates (Default Plugins)
 
-### Third Party Specifics:
-**GameBanana**
+##### Github 
+
+The plugin looks for updates in Github repositories linked in the ModSource member of each mod's config.json.
+
+```csharp
+"ModSource": "https://github.com/sewer56lol/Heroes-Graphics-Essentials",
+```
+
+Once that is setup, pushing new updates is easy. In order to push a new update, simply create a new `Release` on Github.
+
+The plugin will look for a file that starts with `Update-` and download it when the publish time is newer than the last time Config.json was edited.
+
+![](https://i.imgur.com/8H9WHAU.png)
+
+##### GameBanana
+
+You don't need to do anything. Literally.
+Just add a new update to the submission on the site and the plugin will show a new update.
+![](https://i.imgur.com/Y0QMf9S.png)
+
+*Note: This only functions with mods downloaded through 1 click links at the moment.*
+*Note 2: The functionality is currently be inactive until a stable release of Reloaded 2.00. Coming to you very soon!*
+
+### Third Party Specifics
+
+##### GameBanana
 
 In order to be successfully picked up as a Reloaded mod on the site and gain a 1-click install, include an empty file with no extension named RELOADED at the root of archive.
 
-Should a 1-click install link be still missing after submission, then congratulations! You pioneer are the first to submit a Reloaded mod for a specific game on the site.
+If a 1 click link does not appear and/or you are the first person to submit a Reloaded mod for a specific game, let either myself or a member of GameBanana site staff know.
 
-Consider contacting a member of the site staff or myself to add the game to Reloaded's game list on the site to enable 1-click Reloaded links for the game. Due to performance reasons, on the site's end, 1-click cannot be added on a site basis and needs to be added on a per-game basis instead as-is.
+Currently due to implementation, for performance reasons validation against mod loaders is done on a game to game basis and individual games need to be enabled for individual mod loaders.
 
