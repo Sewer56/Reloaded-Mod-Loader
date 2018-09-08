@@ -110,7 +110,7 @@ tl;dr: Compile just the mod or disable Visual Studio's parallel project builds.
 ### Can I use another programming language with Reloaded-Loader?
 Absolutely. While there are no bindings for the loader's rich main development library or features of libReloaded. You should remember that at heart, Reloaded is a very heavily glorified DLL Injector.
 
-This means that as long as your modification contains a Config.json configuration file and main32/main64.dll (depending on the architecture), Reloaded will execute your DLL.
+This means that as long as your modification contains a Config.json configuration file, Reloaded will execute your DLL.
 
 You are only required to export 1 function named `main` which takes 1 pointer to a list of arguments (only Mod Loader Server port at time of writing).
 
