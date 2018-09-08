@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using libReloaded_Networking;
 
 namespace Reloaded.Utilities
 {
@@ -16,16 +17,25 @@ namespace Reloaded.Utilities
         /// <returns></returns>
         public static PEMachineType GetMachineTypeFromPeHeader(string filePath)
         {
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
-            using (BinaryReader binaryReader = new BinaryReader(fileStream))
+            try
             {
-                // Get address of new EXE header.
-                fileStream.Seek(0x3C, SeekOrigin.Begin);            // Navigate to `LONG AddressOfNewExeHeader`
-                uint exeHeaderAddress = binaryReader.ReadUInt32();  // Get our address of IMAGE_NT_HEADERS
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                {
+                    // Get address of new EXE header.
+                    fileStream.Seek(0x3C, SeekOrigin.Begin);            // Navigate to `LONG AddressOfNewExeHeader`
+                    uint exeHeaderAddress = binaryReader.ReadUInt32();  // Get our address of IMAGE_NT_HEADERS
 
-                // Navigate to IMAGE_FILE_HEADER struct, + offset of IMAGE_FILE_HEADER.
-                fileStream.Seek(exeHeaderAddress + 0x04, SeekOrigin.Begin);
-                return (PEMachineType) binaryReader.ReadUInt16();    // Read IMAGE_MACHINE.
+                    // Navigate to IMAGE_FILE_HEADER struct, + offset of IMAGE_FILE_HEADER.
+                    fileStream.Seek(exeHeaderAddress + 0x04, SeekOrigin.Begin);
+                    return (PEMachineType)binaryReader.ReadUInt16();    // Read IMAGE_MACHINE.
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.ReadLine();
+                return PEMachineType.I386;
             }
         }
 
