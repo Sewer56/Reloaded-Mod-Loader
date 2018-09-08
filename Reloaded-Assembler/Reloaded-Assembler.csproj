@@ -113,7 +113,7 @@
     <PackageProjectUrl>https://github.com/sewer56lol/Reloaded-Mod-Loader/</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/sewer56lol/Reloaded-Mod-Loader/master/Reloaded-GUI/Images/Static/ReloadedIcon.png</PackageIconUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.0</Version>
+    <Version>2.0.0-beta2</Version>
     <Description>Reloaded-Assembler is a background running service that communicates with Reloaded mods LOCALLY over WebSockets. It allows for on the fly X86 and X64 assembly and is used by Reloaded libraries for features such as hooking functions. Note that this executable is embedded into libReloaded on build and does not need to be manually referenced/downloaded.</Description>
   </PropertyGroup>
   <ItemGroup>
