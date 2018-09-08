@@ -300,6 +300,11 @@ namespace Reloaded_Loader
                 string potentialShimFile    = $"{gameExeDirectory}\\{Strings.Common.SteamShimFileName}";
                 if (File.Exists(potentialShimFile))
                 {
+                    Bindings.PrintWarning($"WARNING: {Strings.Common.SteamShimFileName} found in directory. Launching the game normally assuming that Steam will restart through Reloaded's pseudo-launcher.");
+                    Bindings.PrintWarning($"If this is not intended, please remove {Strings.Common.SteamShimFileName} from the game directory.");
+                    Bindings.PrintWarning("Press Enter to Continue.");
+                    Console.ReadLine();
+
                     _gameProcess.ResumeAllThreads();
                     Environment.Exit(0);
                 }

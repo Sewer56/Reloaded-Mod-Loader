@@ -83,6 +83,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamebananaUpdater", "Reload
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reloaded-Steam-Shim", "Reloaded-Steam-Shim\Reloaded-Steam-Shim.csproj", "{6B11F52C-36E6-4405-92CB-FB4FBBF81344}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steam-Hook", "Reloaded-Mod-Samples\Steam-Hook\Steam-Hook.csproj", "{9D2C6B70-49DA-46BA-AF8F-37C88468B139}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -633,6 +635,24 @@ Global
 		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Release|x64.Build.0 = Release|Any CPU
 		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Release|x86.ActiveCfg = Release|Any CPU
 		{6B11F52C-36E6-4405-92CB-FB4FBBF81344}.Release|x86.Build.0 = Release|Any CPU
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Debug|x64.ActiveCfg = Debug|x64
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Debug|x64.Build.0 = Debug|x64
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Debug|x86.ActiveCfg = Debug|x86
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Debug|x86.Build.0 = Debug|x86
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Github-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Github-Release|Any CPU.Build.0 = Release|Any CPU
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Github-Release|x64.ActiveCfg = Release|x64
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Github-Release|x64.Build.0 = Release|x64
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Github-Release|x86.ActiveCfg = Release|x86
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Github-Release|x86.Build.0 = Release|x86
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Release|x64.ActiveCfg = Release|x64
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Release|x64.Build.0 = Release|x64
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Release|x86.ActiveCfg = Release|x86
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -653,6 +673,7 @@ Global
 		{39730A60-DA73-4445-A3DA-98B7CDA3FDBF} = {E4DD576A-E501-46F9-8A89-892E1597B676}
 		{C73825C4-4776-44D0-B627-FCC1544692B7} = {E4DD576A-E501-46F9-8A89-892E1597B676}
 		{F5CB0E06-F272-466A-B2C3-3314BBC4A7DF} = {E4DD576A-E501-46F9-8A89-892E1597B676}
+		{9D2C6B70-49DA-46BA-AF8F-37C88468B139} = {7C9F920E-A543-4747-B712-54A4A11A104E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AECD44BF-C6F0-4904-9C72-A0B8CB399EE9}

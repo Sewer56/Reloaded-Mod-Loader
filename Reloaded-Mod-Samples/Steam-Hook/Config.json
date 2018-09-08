@@ -1,0 +1,11 @@
+{
+  "ModId": "reloaded.utilites.steamhook",
+  "ModName": "Steam API Hook",
+  "ModDescription": "Tells Steam that no, the game does not need to be rebooted. Thanks.\nWarning: Whether this works depends on a game by game basis.",
+  "ModVersion": "1.0.0",
+  "ModAuthor": "Sewer56",
+  "ModSite": "https://github.com/sewer56lol/Reloaded-Mod-Loader/tree/master/Reloaded-Mod-Samples/",
+  "ModSource": "https://github.com/sewer56lol/Reloaded-Mod-Loader/tree/master/Reloaded-Mod-Samples/",
+  "ConfigurationFile": "",
+  "Dependencies": []
+}
