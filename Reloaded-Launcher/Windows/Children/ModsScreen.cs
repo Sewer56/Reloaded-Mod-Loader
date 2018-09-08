@@ -38,6 +38,11 @@ namespace ReloadedLauncher.Windows.Children
     public partial class ModsScreen : Form
     {
         /// <summary>
+        /// Multiplier for the size of the current mod list.
+        /// </summary>
+        private float _listMultiplier;
+
+        /// <summary>
         /// Constructor for this class.
         /// Requires the specification of the MDI Parent
         /// form that hosts this window in question.
@@ -56,6 +61,7 @@ namespace ReloadedLauncher.Windows.Children
 
             // Add Box Controls
             SetupDecorationBoxes.FindDecorationControls(this);
+            _listMultiplier = 1.00F;
         }
 
         /// <summary> 
@@ -375,6 +381,9 @@ namespace ReloadedLauncher.Windows.Children
                 borderless_WebBox.Text      = modConfiguration.ModSite           == "" ? "N/A" : "Webpage";
                 borderless_SourceBox.Text   = modConfiguration.ModSource         == "" ? "N/A" : "Source Code";
 
+                // Update mod index.
+                borderless_SelectedModIndex.Text = $"{rowIndex:000}/{Global.ModConfigurations.Count - 1:000}";
+
                 // Obtain mod directory.
                 string localModDirectory = Path.GetDirectoryName(modConfiguration.ModLocation);
 
@@ -462,6 +471,54 @@ namespace ReloadedLauncher.Windows.Children
             item_ModDescription.Text = "You have no mods, heheheheh.";
         }
 
+        /*
+            -------------------------
+            Handles the Mod List Zoom
+            -------------------------
+        */
+
+        /* Zoom in */
+        private void MaxifyModList_Click(object sender, EventArgs e)
+        {
+            _listMultiplier += 0.025F;
+            MultiplierCheckMinimumMaximum();
+            ZoomModList();
+        }
+
+        /* Zoom out */
+        private void MinifyModList_Click(object sender, EventArgs e)
+        {
+            _listMultiplier -= 0.025F;
+            MultiplierCheckMinimumMaximum();
+            ZoomModList();
+        }
+
+        /* Bounds check */
+        private void MultiplierCheckMinimumMaximum()
+        {
+            if (_listMultiplier < 0.70F)
+                _listMultiplier = 0.70F;
+
+            if (_listMultiplier > 1.20F)
+                _listMultiplier = 1.20F;
+        }
+
+        /* Modifies size of mod list. */
+        private void ZoomModList()
+        {
+            // Default constants.
+            float defaultRowHeight = 29;
+            float defaultFontSize  = 9.25F;
+
+            // Calculate heights
+            int   rowHeight  = (int)Math.Ceiling(defaultRowHeight * _listMultiplier);
+            float fontHeight = (float)Math.Floor(defaultFontSize * _listMultiplier); 
+
+            // Set Sizes
+            foreach (DataGridViewRow row in box_ModList.Rows) row.Height = rowHeight;
+            box_ModList.DefaultCellStyle.Font = new Font(box_ModList.DefaultCellStyle.Font.FontFamily, fontHeight);
+        }
+
         private enum ModListCell : int
         {
             Enabled     = 0,
@@ -470,7 +527,6 @@ namespace ReloadedLauncher.Windows.Children
             Separator   = 3,
             Version     = 4
         }
-
 
     }
 }

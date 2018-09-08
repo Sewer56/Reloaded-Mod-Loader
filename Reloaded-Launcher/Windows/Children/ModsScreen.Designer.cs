@@ -82,6 +82,15 @@ namespace ReloadedLauncher.Windows.Children
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties8 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage15 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage16 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties9 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage17 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage18 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties10 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage19 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage20 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties11 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage21 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage22 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             this.borderless_SourceBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.borderless_WebBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_ModPreviewBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
@@ -95,6 +104,9 @@ namespace ReloadedLauncher.Windows.Children
             this.modDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box_ModListBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_ModDescription = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.borderless_SelectedModIndex = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.borderless_MaxifyModList = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.borderless_MinifyModList = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.box_ModPreview = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.box_ModList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_ModPreview)).BeginInit();
@@ -332,7 +344,7 @@ namespace ReloadedLauncher.Windows.Children
             this.modDirectory});
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Bold);
             dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
@@ -351,7 +363,7 @@ namespace ReloadedLauncher.Windows.Children
             this.box_ModList.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.box_ModList.RowHeadersVisible = false;
             this.box_ModList.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.box_ModList.RowTemplate.Height = 30;
+            this.box_ModList.RowTemplate.Height = 29;
             this.box_ModList.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.box_ModList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.box_ModList.ShowCellToolTips = false;
@@ -492,6 +504,127 @@ namespace ReloadedLauncher.Windows.Children
             this.item_ModDescription.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.item_ModDescription.UseVisualStyleBackColor = false;
             // 
+            // borderless_SelectedModIndex
+            // 
+            animMessage17.Control = this.borderless_SelectedModIndex;
+            animMessage17.PlayAnimation = true;
+            animProperties9.BackColorMessage = animMessage17;
+            animMessage18.Control = this.borderless_SelectedModIndex;
+            animMessage18.PlayAnimation = true;
+            animProperties9.ForeColorMessage = animMessage18;
+            animProperties9.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterDuration = 0F;
+            animProperties9.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseEnterFramerate = 0F;
+            animProperties9.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties9.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveDuration = 0F;
+            animProperties9.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties9.MouseLeaveFramerate = 0F;
+            animProperties9.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_SelectedModIndex.AnimProperties = animProperties9;
+            this.borderless_SelectedModIndex.BackColor = System.Drawing.Color.Transparent;
+            this.borderless_SelectedModIndex.CaptureChildren = true;
+            this.borderless_SelectedModIndex.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.borderless_SelectedModIndex.FlatAppearance.BorderSize = 0;
+            this.borderless_SelectedModIndex.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.borderless_SelectedModIndex.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.borderless_SelectedModIndex.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_SelectedModIndex.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_SelectedModIndex.ForeColor = System.Drawing.Color.White;
+            this.borderless_SelectedModIndex.IgnoreMouse = false;
+            this.borderless_SelectedModIndex.IgnoreMouseClicks = false;
+            this.borderless_SelectedModIndex.Location = new System.Drawing.Point(41, 371);
+            this.borderless_SelectedModIndex.Name = "borderless_SelectedModIndex";
+            this.borderless_SelectedModIndex.Size = new System.Drawing.Size(518, 36);
+            this.borderless_SelectedModIndex.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_SelectedModIndex.TabIndex = 48;
+            this.borderless_SelectedModIndex.Text = "001/298";
+            this.borderless_SelectedModIndex.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.borderless_SelectedModIndex.UseVisualStyleBackColor = false;
+            // 
+            // borderless_MaxifyModList
+            // 
+            animMessage19.Control = this.borderless_MaxifyModList;
+            animMessage19.PlayAnimation = true;
+            animProperties10.BackColorMessage = animMessage19;
+            animMessage20.Control = this.borderless_MaxifyModList;
+            animMessage20.PlayAnimation = true;
+            animProperties10.ForeColorMessage = animMessage20;
+            animProperties10.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties10.MouseEnterDuration = 0F;
+            animProperties10.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties10.MouseEnterFramerate = 0F;
+            animProperties10.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties10.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties10.MouseLeaveDuration = 0F;
+            animProperties10.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties10.MouseLeaveFramerate = 0F;
+            animProperties10.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_MaxifyModList.AnimProperties = animProperties10;
+            this.borderless_MaxifyModList.BackColor = System.Drawing.Color.Transparent;
+            this.borderless_MaxifyModList.CaptureChildren = true;
+            this.borderless_MaxifyModList.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.borderless_MaxifyModList.FlatAppearance.BorderSize = 0;
+            this.borderless_MaxifyModList.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.borderless_MaxifyModList.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.borderless_MaxifyModList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_MaxifyModList.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_MaxifyModList.ForeColor = System.Drawing.Color.White;
+            this.borderless_MaxifyModList.IgnoreMouse = false;
+            this.borderless_MaxifyModList.IgnoreMouseClicks = false;
+            this.borderless_MaxifyModList.Location = new System.Drawing.Point(524, 371);
+            this.borderless_MaxifyModList.Margin = new System.Windows.Forms.Padding(0);
+            this.borderless_MaxifyModList.Name = "borderless_MaxifyModList";
+            this.borderless_MaxifyModList.Size = new System.Drawing.Size(36, 36);
+            this.borderless_MaxifyModList.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_MaxifyModList.TabIndex = 49;
+            this.borderless_MaxifyModList.Text = "+";
+            this.borderless_MaxifyModList.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.borderless_MaxifyModList.UseVisualStyleBackColor = false;
+            this.borderless_MaxifyModList.Click += new System.EventHandler(this.MaxifyModList_Click);
+            // 
+            // borderless_MinifyModList
+            // 
+            animMessage21.Control = this.borderless_MinifyModList;
+            animMessage21.PlayAnimation = true;
+            animProperties11.BackColorMessage = animMessage21;
+            animMessage22.Control = this.borderless_MinifyModList;
+            animMessage22.PlayAnimation = true;
+            animProperties11.ForeColorMessage = animMessage22;
+            animProperties11.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties11.MouseEnterDuration = 0F;
+            animProperties11.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties11.MouseEnterFramerate = 0F;
+            animProperties11.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties11.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties11.MouseLeaveDuration = 0F;
+            animProperties11.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties11.MouseLeaveFramerate = 0F;
+            animProperties11.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.borderless_MinifyModList.AnimProperties = animProperties11;
+            this.borderless_MinifyModList.BackColor = System.Drawing.Color.Transparent;
+            this.borderless_MinifyModList.CaptureChildren = true;
+            this.borderless_MinifyModList.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.borderless_MinifyModList.FlatAppearance.BorderSize = 0;
+            this.borderless_MinifyModList.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.borderless_MinifyModList.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.borderless_MinifyModList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borderless_MinifyModList.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.borderless_MinifyModList.ForeColor = System.Drawing.Color.White;
+            this.borderless_MinifyModList.IgnoreMouse = false;
+            this.borderless_MinifyModList.IgnoreMouseClicks = false;
+            this.borderless_MinifyModList.Location = new System.Drawing.Point(488, 371);
+            this.borderless_MinifyModList.Margin = new System.Windows.Forms.Padding(0);
+            this.borderless_MinifyModList.Name = "borderless_MinifyModList";
+            this.borderless_MinifyModList.Size = new System.Drawing.Size(36, 36);
+            this.borderless_MinifyModList.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.borderless_MinifyModList.TabIndex = 50;
+            this.borderless_MinifyModList.Text = "-";
+            this.borderless_MinifyModList.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.borderless_MinifyModList.UseVisualStyleBackColor = false;
+            this.borderless_MinifyModList.Click += new System.EventHandler(this.MinifyModList_Click);
+            // 
             // box_ModPreview
             // 
             this.box_ModPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
@@ -507,6 +640,9 @@ namespace ReloadedLauncher.Windows.Children
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(900, 512);
+            this.Controls.Add(this.borderless_MinifyModList);
+            this.Controls.Add(this.borderless_MaxifyModList);
+            this.Controls.Add(this.borderless_SelectedModIndex);
             this.Controls.Add(this.item_ModDescription);
             this.Controls.Add(this.box_ModPreview);
             this.Controls.Add(this.borderless_SourceBox);
@@ -542,5 +678,8 @@ namespace ReloadedLauncher.Windows.Children
         private System.Windows.Forms.DataGridViewTextBoxColumn Author;
         private System.Windows.Forms.DataGridViewTextBoxColumn separator;
         private System.Windows.Forms.DataGridViewTextBoxColumn modDirectory;
+        private AnimatedButton borderless_SelectedModIndex;
+        private AnimatedButton borderless_MaxifyModList;
+        private AnimatedButton borderless_MinifyModList;
     }
 }
