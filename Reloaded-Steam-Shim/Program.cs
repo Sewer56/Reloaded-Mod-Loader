@@ -76,7 +76,15 @@ namespace Reloaded_Steam_Shim
             
             foreach (var gameConfiguration in gameConfigurations)
             {
-                string gameFullDirectory = Path.GetFullPath(gameConfiguration.GameDirectory);
+                // Get all game profiles with executables in subdirectory or parent directory of current executable.
+                string gameFullDirectory = "!NotARealDirectory.xxx";
+                try  { gameFullDirectory = Path.GetFullPath(gameConfiguration.GameDirectory); }
+                catch(Exception ex)
+                {
+                    MessageBox.Show($"You screwed up somewhere with one of your game profiles. Fix your profiles, dummy: {ex.Message}");
+                    continue;
+                }
+                
                 if (gameFullDirectory == currentDirectory || gameFullDirectory.Contains(currentDirectory) || currentDirectory.Contains(gameFullDirectory))
                 {
                     GameConfigurations.Add(gameConfiguration);
