@@ -13,12 +13,13 @@
 💯 Difficulty Level: 0/5.
 
 # Table of Contents
-
 - [Introduction](#introduction)
 - [Why this happens? (Simplified)](#why-this-happens-simplified)
-- [Solution: Explicitly Setting Steam Application ID](#solution-explicitly-setting-steam-application-id)
+- [Solution: Use the Steam API Hook](#solution-use-the-steam-api-hook)
+- [Alternative Solution: Explicitly Setting Steam Application ID](#alternative-solution-explicitly-setting-steam-application-id)
   - [Step by Step Tutorial](#step-by-step-tutorial)
 - [Alternative Solution: Using the pseudo launcher.](#alternative-solution-using-the-pseudo-launcher)
+
 
 ## Introduction
 
@@ -42,7 +43,13 @@ There is however a caveat; in that some of the functions of Steamworks require a
 
 To ensure that these functions are available, games often make use of a Steam API function named [SteamAPI_RestartAppIfNecessary](https://partner.steamgames.com/doc/sdk/api#SteamAPI_RestartAppIfNecessary), which restarts the application through Steam if the local Steam client doesn't believe it is running the game.
 
-## Solution: Explicitly Setting Steam Application ID
+## Solution: Use the Steam API Hook
+
+This should be available in your Global Mods starting with Reloaded 2.0.0.
+
+![](https://i.imgur.com/Cwm0v3w.png)
+
+## Alternative Solution: Explicitly Setting Steam Application ID
 
 One solution around this problem, originally intended for developers is to manually specify the Steam AppID for the application - which the Steam API will read from the game directory instead of kindly asking Steam.
 
