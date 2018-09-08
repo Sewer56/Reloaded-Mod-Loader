@@ -45,6 +45,7 @@ namespace Reloaded_Mod_Template
         public const string SteamAPI32 = "steam_api.dll";
         public const string SteamAPI64 = "steam_api64.dll";
         public const string FunctionName = "SteamAPI_RestartAppIfNecessary";
+        public const string SteamAppId = "steam_appid.txt";
 
         /* Hooks */
         public static FunctionHook<SteamAPI_RestartAppIfNecessary> restartIfNecessaryHook32;
@@ -115,6 +116,14 @@ namespace Reloaded_Mod_Template
         /// </summary>
         private static bool FunctionDelegate(uint appid)
         {
+            // Write the Steam AppID to a local file.
+            File.WriteAllText(SteamAppId, $"{appid}");
+
+            if (IntPtr.Size == 4)
+                restartIfNecessaryHook32.OriginalFunction(appid);
+            else
+                restartIfNecessaryHook64.OriginalFunction(appid);
+
             return false;
         }
 
