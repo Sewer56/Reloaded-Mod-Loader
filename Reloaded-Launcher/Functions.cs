@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 using Reloaded.IO;
 using Reloaded.Paths;
 using Reloaded.Process;
@@ -102,6 +103,14 @@ namespace ReloadedLauncher
             // Get file names and paths.
             string shimExecutableName = Path.GetFileName(Global.CurrentGameConfig.ExecutableLocation);
             string shimOutputLocation = Path.GetTempPath() + "\\Reloaded-Temp-Steam-Shim";
+
+            // Check if exe name is correct.
+            if (shimExecutableName == "")
+            {
+                MessageBox.Show("Failed to generate Steam Shim\n" +
+                                "Your executable name may be empty or profile not saved.");
+                return;
+            }
 
             // Generate instructions.
             string instructions = $"Using the pseudo-launcher as a game's basic launcher replacement (for some games that can only be launched via launcher):\r\n" +
