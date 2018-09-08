@@ -146,7 +146,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// <summary>
         /// Closes the current form when the player hits "Close".
         /// </summary>
-        private void item_CloseBox_Click(object sender, EventArgs e)
+        private void categoryBar_Close_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -177,9 +177,23 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         /// Launches the Reloaded Loader when the attach button is hit from the advanced menu.
         /// Allows for Reloaded to attach to an already running game instance.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void item_AttachBox_Click(object sender, EventArgs e)
+        {
+            // Start process
+            Functions.LaunchLoader(GetAttachArguments().ToArray());
+        }
+
+        private void item_AutoAttachBox_Click(object sender, EventArgs e)
+        {
+            var attachArguments = GetAttachArguments();
+            attachArguments.Add(Strings.Common.LoaderSettingAutoAttach);
+            Functions.LaunchLoader(attachArguments.ToArray());
+        }
+
+        /// <summary>
+        /// Gets the arguments used to launch the executable when the user presses "Attach".
+        /// </summary>
+        private List<string> GetAttachArguments()
         {
             // The addtional arguments to be passed onto Reloaded-Loader.
             List<string> localArguments = new List<string>();
@@ -195,8 +209,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
                 localArguments.Add($"\"{borderless_LogLocation.Text}\"");
             }
 
-            // Start process
-            Functions.LaunchLoader(localArguments.ToArray());
+            return localArguments;
         }
     }
 }

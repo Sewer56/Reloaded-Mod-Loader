@@ -70,13 +70,15 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties6 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage11 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage12 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimProperties animProperties8 = new Reloaded_GUI.Styles.Animation.AnimProperties();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage15 = new Reloaded_GUI.Styles.Animation.AnimMessage();
+            Reloaded_GUI.Styles.Animation.AnimMessage animMessage16 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimProperties animProperties7 = new Reloaded_GUI.Styles.Animation.AnimProperties();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage13 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             Reloaded_GUI.Styles.Animation.AnimMessage animMessage14 = new Reloaded_GUI.Styles.Animation.AnimMessage();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LaunchGameDialog));
             this.borderless_EnableLogs = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButtonPressIndicator();
             this.item_LaunchBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
-            this.item_CloseBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.borderless_LogLocation = new Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox();
             this.titleBar_Title = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.item_AttachBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
@@ -87,6 +89,8 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             this.box_AttachName = new Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel();
             this.box_LogLocationSelect = new System.Windows.Forms.PictureBox();
             this.box_AttachExecutableNameSelect = new System.Windows.Forms.PictureBox();
+            this.item_AutoAttachBox = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
+            this.categoryBar_Close = new Reloaded_GUI.Styles.Controls.Animated.AnimatedButton();
             this.titleBar_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.box_LogLocationSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box_AttachExecutableNameSelect)).BeginInit();
@@ -178,12 +182,12 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             this.item_LaunchBox.UseVisualStyleBackColor = false;
             this.item_LaunchBox.Click += new System.EventHandler(this.item_LaunchBox_Click);
             // 
-            // item_CloseBox
+            // borderless_LogLocation
             // 
-            animMessage5.Control = this.item_CloseBox;
+            animMessage5.Control = this.borderless_LogLocation;
             animMessage5.PlayAnimation = true;
             animProperties3.BackColorMessage = animMessage5;
-            animMessage6.Control = this.item_CloseBox;
+            animMessage6.Control = this.borderless_LogLocation;
             animMessage6.PlayAnimation = true;
             animProperties3.ForeColorMessage = animMessage6;
             animProperties3.MouseEnterBackColor = System.Drawing.Color.Empty;
@@ -196,46 +200,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             animProperties3.MouseLeaveForeColor = System.Drawing.Color.Empty;
             animProperties3.MouseLeaveFramerate = 0F;
             animProperties3.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.item_CloseBox.AnimProperties = animProperties3;
-            this.item_CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
-            this.item_CloseBox.CaptureChildren = true;
-            this.item_CloseBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.item_CloseBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.item_CloseBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.item_CloseBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_CloseBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.item_CloseBox.ForeColor = System.Drawing.Color.White;
-            this.item_CloseBox.IgnoreMouse = false;
-            this.item_CloseBox.IgnoreMouseClicks = false;
-            this.item_CloseBox.Location = new System.Drawing.Point(19, 184);
-            this.item_CloseBox.Name = "item_CloseBox";
-            this.item_CloseBox.Size = new System.Drawing.Size(155, 43);
-            this.item_CloseBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_CloseBox.TabIndex = 37;
-            this.item_CloseBox.Text = "Close";
-            this.item_CloseBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.item_CloseBox.UseVisualStyleBackColor = false;
-            this.item_CloseBox.Click += new System.EventHandler(this.item_CloseBox_Click);
-            // 
-            // borderless_LogLocation
-            // 
-            animMessage7.Control = this.borderless_LogLocation;
-            animMessage7.PlayAnimation = true;
-            animProperties4.BackColorMessage = animMessage7;
-            animMessage8.Control = this.borderless_LogLocation;
-            animMessage8.PlayAnimation = true;
-            animProperties4.ForeColorMessage = animMessage8;
-            animProperties4.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties4.MouseEnterDuration = 0F;
-            animProperties4.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties4.MouseEnterFramerate = 0F;
-            animProperties4.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties4.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties4.MouseLeaveDuration = 0F;
-            animProperties4.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties4.MouseLeaveFramerate = 0F;
-            animProperties4.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_LogLocation.AnimProperties = animProperties4;
+            this.borderless_LogLocation.AnimProperties = animProperties3;
             this.borderless_LogLocation.BackColor = System.Drawing.Color.Gray;
             this.borderless_LogLocation.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.borderless_LogLocation.BottomBorderColour = System.Drawing.Color.Empty;
@@ -261,23 +226,23 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             // 
             // titleBar_Title
             // 
-            animMessage9.Control = this.titleBar_Title;
-            animMessage9.PlayAnimation = true;
-            animProperties5.BackColorMessage = animMessage9;
-            animMessage10.Control = this.titleBar_Title;
-            animMessage10.PlayAnimation = true;
-            animProperties5.ForeColorMessage = animMessage10;
-            animProperties5.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
-            animProperties5.MouseEnterDuration = 200F;
-            animProperties5.MouseEnterForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(163)))), ((int)(((byte)(244)))));
-            animProperties5.MouseEnterFramerate = 144F;
-            animProperties5.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties5.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
-            animProperties5.MouseLeaveDuration = 200F;
-            animProperties5.MouseLeaveForeColor = System.Drawing.Color.White;
-            animProperties5.MouseLeaveFramerate = 144F;
-            animProperties5.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.titleBar_Title.AnimProperties = animProperties5;
+            animMessage7.Control = this.titleBar_Title;
+            animMessage7.PlayAnimation = true;
+            animProperties4.BackColorMessage = animMessage7;
+            animMessage8.Control = this.titleBar_Title;
+            animMessage8.PlayAnimation = true;
+            animProperties4.ForeColorMessage = animMessage8;
+            animProperties4.MouseEnterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            animProperties4.MouseEnterDuration = 200F;
+            animProperties4.MouseEnterForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(163)))), ((int)(((byte)(244)))));
+            animProperties4.MouseEnterFramerate = 144F;
+            animProperties4.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties4.MouseLeaveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            animProperties4.MouseLeaveDuration = 200F;
+            animProperties4.MouseLeaveForeColor = System.Drawing.Color.White;
+            animProperties4.MouseLeaveFramerate = 144F;
+            animProperties4.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.titleBar_Title.AnimProperties = animProperties4;
             this.titleBar_Title.CaptureChildren = false;
             this.titleBar_Title.Dock = System.Windows.Forms.DockStyle.Fill;
             this.titleBar_Title.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -300,10 +265,49 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             // 
             // item_AttachBox
             // 
-            animMessage11.Control = this.item_AttachBox;
+            animMessage9.Control = this.item_AttachBox;
+            animMessage9.PlayAnimation = true;
+            animProperties5.BackColorMessage = animMessage9;
+            animMessage10.Control = this.item_AttachBox;
+            animMessage10.PlayAnimation = true;
+            animProperties5.ForeColorMessage = animMessage10;
+            animProperties5.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties5.MouseEnterDuration = 0F;
+            animProperties5.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties5.MouseEnterFramerate = 0F;
+            animProperties5.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties5.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties5.MouseLeaveDuration = 0F;
+            animProperties5.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties5.MouseLeaveFramerate = 0F;
+            animProperties5.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.item_AttachBox.AnimProperties = animProperties5;
+            this.item_AttachBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            this.item_AttachBox.CaptureChildren = true;
+            this.item_AttachBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.item_AttachBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.item_AttachBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.item_AttachBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_AttachBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_AttachBox.ForeColor = System.Drawing.Color.White;
+            this.item_AttachBox.IgnoreMouse = false;
+            this.item_AttachBox.IgnoreMouseClicks = false;
+            this.item_AttachBox.Location = new System.Drawing.Point(19, 184);
+            this.item_AttachBox.Name = "item_AttachBox";
+            this.item_AttachBox.Size = new System.Drawing.Size(156, 43);
+            this.item_AttachBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_AttachBox.TabIndex = 41;
+            this.item_AttachBox.Text = "Attach";
+            this.item_AttachBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.item_AttachBox.UseVisualStyleBackColor = false;
+            this.item_AttachBox.Click += new System.EventHandler(this.item_AttachBox_Click);
+            // 
+            // borderless_AttachExecutableName
+            // 
+            animMessage11.Control = this.borderless_AttachExecutableName;
             animMessage11.PlayAnimation = true;
             animProperties6.BackColorMessage = animMessage11;
-            animMessage12.Control = this.item_AttachBox;
+            animMessage12.Control = this.borderless_AttachExecutableName;
             animMessage12.PlayAnimation = true;
             animProperties6.ForeColorMessage = animMessage12;
             animProperties6.MouseEnterBackColor = System.Drawing.Color.Empty;
@@ -316,46 +320,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             animProperties6.MouseLeaveForeColor = System.Drawing.Color.Empty;
             animProperties6.MouseLeaveFramerate = 0F;
             animProperties6.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.item_AttachBox.AnimProperties = animProperties6;
-            this.item_AttachBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
-            this.item_AttachBox.CaptureChildren = true;
-            this.item_AttachBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.item_AttachBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.item_AttachBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.item_AttachBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.item_AttachBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.item_AttachBox.ForeColor = System.Drawing.Color.White;
-            this.item_AttachBox.IgnoreMouse = false;
-            this.item_AttachBox.IgnoreMouseClicks = false;
-            this.item_AttachBox.Location = new System.Drawing.Point(194, 184);
-            this.item_AttachBox.Name = "item_AttachBox";
-            this.item_AttachBox.Size = new System.Drawing.Size(156, 43);
-            this.item_AttachBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.item_AttachBox.TabIndex = 41;
-            this.item_AttachBox.Text = "Attach";
-            this.item_AttachBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.item_AttachBox.UseVisualStyleBackColor = false;
-            this.item_AttachBox.Click += new System.EventHandler(this.item_AttachBox_Click);
-            // 
-            // borderless_AttachExecutableName
-            // 
-            animMessage13.Control = this.borderless_AttachExecutableName;
-            animMessage13.PlayAnimation = true;
-            animProperties7.BackColorMessage = animMessage13;
-            animMessage14.Control = this.borderless_AttachExecutableName;
-            animMessage14.PlayAnimation = true;
-            animProperties7.ForeColorMessage = animMessage14;
-            animProperties7.MouseEnterBackColor = System.Drawing.Color.Empty;
-            animProperties7.MouseEnterDuration = 0F;
-            animProperties7.MouseEnterForeColor = System.Drawing.Color.Empty;
-            animProperties7.MouseEnterFramerate = 0F;
-            animProperties7.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
-            animProperties7.MouseLeaveBackColor = System.Drawing.Color.Empty;
-            animProperties7.MouseLeaveDuration = 0F;
-            animProperties7.MouseLeaveForeColor = System.Drawing.Color.Empty;
-            animProperties7.MouseLeaveFramerate = 0F;
-            animProperties7.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
-            this.borderless_AttachExecutableName.AnimProperties = animProperties7;
+            this.borderless_AttachExecutableName.AnimProperties = animProperties6;
             this.borderless_AttachExecutableName.BackColor = System.Drawing.Color.Gray;
             this.borderless_AttachExecutableName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.borderless_AttachExecutableName.BottomBorderColour = System.Drawing.Color.Empty;
@@ -382,6 +347,7 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             // titleBar_Panel
             // 
             this.titleBar_Panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            this.titleBar_Panel.Controls.Add(this.categoryBar_Close);
             this.titleBar_Panel.Controls.Add(this.titleBar_Title);
             this.titleBar_Panel.Dock = System.Windows.Forms.DockStyle.Top;
             this.titleBar_Panel.Location = new System.Drawing.Point(0, 0);
@@ -446,12 +412,93 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             this.box_AttachExecutableNameSelect.TabStop = false;
             this.box_AttachExecutableNameSelect.Click += new System.EventHandler(this.box_AttachExecutableNameSelect_Click);
             // 
+            // item_AutoAttachBox
+            // 
+            animMessage15.Control = this.item_AutoAttachBox;
+            animMessage15.PlayAnimation = true;
+            animProperties8.BackColorMessage = animMessage15;
+            animMessage16.Control = this.item_AutoAttachBox;
+            animMessage16.PlayAnimation = true;
+            animProperties8.ForeColorMessage = animMessage16;
+            animProperties8.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterDuration = 0F;
+            animProperties8.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseEnterFramerate = 0F;
+            animProperties8.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties8.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveDuration = 0F;
+            animProperties8.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties8.MouseLeaveFramerate = 0F;
+            animProperties8.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.item_AutoAttachBox.AnimProperties = animProperties8;
+            this.item_AutoAttachBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            this.item_AutoAttachBox.CaptureChildren = true;
+            this.item_AutoAttachBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.item_AutoAttachBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.item_AutoAttachBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.item_AutoAttachBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.item_AutoAttachBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.item_AutoAttachBox.ForeColor = System.Drawing.Color.White;
+            this.item_AutoAttachBox.IgnoreMouse = false;
+            this.item_AutoAttachBox.IgnoreMouseClicks = false;
+            this.item_AutoAttachBox.Location = new System.Drawing.Point(194, 184);
+            this.item_AutoAttachBox.Name = "item_AutoAttachBox";
+            this.item_AutoAttachBox.Size = new System.Drawing.Size(156, 43);
+            this.item_AutoAttachBox.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.item_AutoAttachBox.TabIndex = 46;
+            this.item_AutoAttachBox.Text = "Auto-Attach";
+            this.item_AutoAttachBox.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.item_AutoAttachBox.UseVisualStyleBackColor = false;
+            this.item_AutoAttachBox.Click += new System.EventHandler(this.item_AutoAttachBox_Click);
+            // 
+            // categoryBar_Close
+            // 
+            animMessage13.Control = this.categoryBar_Close;
+            animMessage13.PlayAnimation = true;
+            animProperties7.BackColorMessage = animMessage13;
+            animMessage14.Control = this.categoryBar_Close;
+            animMessage14.PlayAnimation = true;
+            animProperties7.ForeColorMessage = animMessage14;
+            animProperties7.MouseEnterBackColor = System.Drawing.Color.Empty;
+            animProperties7.MouseEnterDuration = 0F;
+            animProperties7.MouseEnterForeColor = System.Drawing.Color.Empty;
+            animProperties7.MouseEnterFramerate = 0F;
+            animProperties7.MouseEnterOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseEnterOverride.None;
+            animProperties7.MouseLeaveBackColor = System.Drawing.Color.Empty;
+            animProperties7.MouseLeaveDuration = 0F;
+            animProperties7.MouseLeaveForeColor = System.Drawing.Color.Empty;
+            animProperties7.MouseLeaveFramerate = 0F;
+            animProperties7.MouseLeaveOverride = Reloaded_GUI.Styles.Animation.AnimOverrides.MouseLeaveOverride.None;
+            this.categoryBar_Close.AnimProperties = animProperties7;
+            this.categoryBar_Close.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(53)))), ((int)(((byte)(64)))));
+            this.categoryBar_Close.CaptureChildren = false;
+            this.categoryBar_Close.Dock = System.Windows.Forms.DockStyle.Right;
+            this.categoryBar_Close.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.categoryBar_Close.FlatAppearance.BorderSize = 0;
+            this.categoryBar_Close.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.categoryBar_Close.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.categoryBar_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.categoryBar_Close.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.categoryBar_Close.ForeColor = System.Drawing.Color.White;
+            this.categoryBar_Close.IgnoreMouse = false;
+            this.categoryBar_Close.IgnoreMouseClicks = false;
+            this.categoryBar_Close.Location = new System.Drawing.Point(499, 0);
+            this.categoryBar_Close.Name = "categoryBar_Close";
+            this.categoryBar_Close.Size = new System.Drawing.Size(45, 44);
+            this.categoryBar_Close.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.categoryBar_Close.TabIndex = 52;
+            this.categoryBar_Close.Text = "X";
+            this.categoryBar_Close.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.categoryBar_Close.UseVisualStyleBackColor = false;
+            this.categoryBar_Close.Click += new System.EventHandler(this.categoryBar_Close_Click);
+            // 
             // LaunchGameDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(544, 250);
+            this.Controls.Add(this.item_AutoAttachBox);
             this.Controls.Add(this.box_AttachName);
             this.Controls.Add(this.box_AttachExecutableNameSelect);
             this.Controls.Add(this.borderless_AttachExecutableName);
@@ -459,14 +506,13 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
             this.Controls.Add(this.borderless_EnableLogs);
             this.Controls.Add(this.box_LogLocation);
             this.Controls.Add(this.item_LaunchBox);
-            this.Controls.Add(this.item_CloseBox);
             this.Controls.Add(this.box_LogLocationSelect);
             this.Controls.Add(this.borderless_LogLocation);
             this.Controls.Add(this.titleBar_Panel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "LaunchGameGenericDialog";
+            this.Name = "LaunchGameDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Doki Doki Modification Club!";
             this.Load += new System.EventHandler(this.Base_Load);
@@ -485,13 +531,14 @@ namespace ReloadedLauncher.Windows.Children.Dialogs
         public System.Windows.Forms.PictureBox box_LogLocationSelect;
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox borderless_LogLocation;
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedButton item_LaunchBox;
-        private Reloaded_GUI.Styles.Controls.Animated.AnimatedButton item_CloseBox;
         private Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel box_LogLocation;
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedButtonPressIndicator borderless_EnableLogs;
         private AnimatedButton item_AttachBox;
         public System.Windows.Forms.PictureBox box_AttachExecutableNameSelect;
         private AnimatedTextbox borderless_AttachExecutableName;
         private Reloaded_GUI.Styles.Controls.Enhanced.EnhancedLabel box_AttachName;
+        private AnimatedButton item_AutoAttachBox;
+        private AnimatedButton categoryBar_Close;
     }
 }
 

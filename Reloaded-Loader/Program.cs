@@ -23,6 +23,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using LiteNetLib;
 using Reloaded;
 using Reloaded.Assembler;
@@ -62,6 +63,11 @@ namespace Reloaded_Loader
         /// Specifies the name of an already running executable to attach to.
         /// </summary>
         private static string _attachTargetName;
+
+        /// <summary>
+        /// Waits for the process to launch and automatically attaches to it.
+        /// </summary>
+        private static bool _autoAttach;
 
         /// <summary>
         /// Obtains the start time of the game process.
@@ -196,6 +202,7 @@ namespace Reloaded_Loader
             {
                 if (arguments[x] == $"{Strings.Common.LoaderSettingConfig}") { _gameConfig = CheckConfigJson(arguments[x + 1]); }
                 if (arguments[x] == $"{Strings.Common.LoaderSettingAttach}") { _attachTargetName = arguments[x+1]; }
+                if (arguments[x] == $"{Strings.Common.LoaderSettingAutoAttach}") { _autoAttach = true; }
                 if (arguments[x] == $"{Strings.Common.LoaderSettingLog}") { Logger.Setup(arguments[x + 1]); }
             }
 
@@ -227,11 +234,19 @@ namespace Reloaded_Loader
                 _gameProcess = ReloadedProcess.GetProcessByName(_attachTargetName);
 
                 // Check if gameProcess successfully returned.
-                if (_gameProcess == null)
+                if (_gameProcess == null && !_autoAttach)
                 {
                     LoaderConsole.PrintFormattedMessage("Error: An active running game instance was not found.", LoaderConsole.PrintErrorMessage);
                     Console.ReadLine();
                     Shutdown(null, null);
+                }
+
+                // Wait for new process with autoattach if not found.
+                if (_autoAttach && _gameProcess == null)
+                {
+                    Bindings.PrintWarning("Process not running. Waiting in Auto-Attach Mode.");
+                    do    { _gameProcess = ReloadedProcess.GetProcessByName(_attachTargetName); Thread.Sleep(2); }
+                    while (_gameProcess == null);
                 }
             }
 

@@ -159,6 +159,11 @@ namespace Reloaded.Paths
             public static string LoaderSettingAttach { get; } = "--attach";
 
             /// <summary>
+            /// The auto attach setting used in the Mod Loader Loader.
+            /// </summary>
+            public static string LoaderSettingAutoAttach { get; } = "--autoattach";
+
+            /// <summary>
             /// The config setting used in the Mod Loader Loader.
             /// </summary>
             public static string LoaderSettingConfig { get; } = "--config";
