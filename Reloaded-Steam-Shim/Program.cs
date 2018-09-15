@@ -45,18 +45,17 @@ namespace Reloaded_Steam_Shim
                     Application.Run(new GameSelector(GameConfigurations, shimSettings));
                 }
             }
-            else
-            {
-                // Single game, launch it.
-                Functions.LaunchGame(Path.GetDirectoryName(GameConfigurations[0].ConfigLocation));
-            }
 
             if (GameConfigurations.Count < 1)
             {
                 MessageBox.Show("No game profiles found pointing to either the current directory or any of the subfolders.\n" +
                                 "Please ensure you have your game profiles correctly set up.\n" +
                                 "Refer to the readme pages on Github for more information.");
+                Environment.Exit(0);
             }
+
+            // Single game, launch it.
+            Functions.LaunchGame(Path.GetDirectoryName(GameConfigurations[0].ConfigLocation));
         }
 
         /// <summary>
