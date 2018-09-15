@@ -489,7 +489,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /E /I /Y /D "$(ProjectDir)Default-Config" "$(TargetDir)"
+    <PostBuildEvent>XCOPY /E /I /Y /D "$(ProjectDir)Default-Config" "$(TargetDir)Default-Config"
 XCOPY /E /I /Y /D "$(SolutionDir)LICENSES" "$(TargetDir)LICENSES"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
