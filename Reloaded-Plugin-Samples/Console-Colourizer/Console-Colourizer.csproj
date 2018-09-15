@@ -7,14 +7,15 @@
     <AssemblyTitle>Console-Colourizer</AssemblyTitle>
     <Product>Console-Colourizer</Product>
     <Copyright>Copyright ©  2018</Copyright>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
-    <OutputPath>..\..\build\$(Configuration)\Default-Plugins\Colourizer\</OutputPath>
+    <OutputPath>..\..\build\Debug\Default-Plugins\Colourizer\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <OutputPath>..\build\$(Configuration)\Default-Plugins\Colourizer\</OutputPath>
+    <OutputPath>..\..\build\Release\Default-Plugins\Colourizer\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Colorful.Console" Version="1.2.9" />

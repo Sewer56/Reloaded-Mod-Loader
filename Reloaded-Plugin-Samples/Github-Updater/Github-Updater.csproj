@@ -7,13 +7,15 @@
     <AssemblyTitle>Github-Updater</AssemblyTitle>
     <Product>Github-Updater</Product>
     <Copyright>Copyright ©  2018</Copyright>
-    <OutputPath>..\..\build\$(Configuration)\Default-Plugins\GithubUpdater\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
+    <OutputPath>..\..\build\Debug\Default-Plugins\GithubUpdater\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
+    <OutputPath>..\..\build\Release\Default-Plugins\GithubUpdater\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
