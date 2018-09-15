@@ -123,7 +123,7 @@ namespace ReloadedAssembler
                 ReloadedServer.ReconnectDelay = 100;
                 ReloadedServer.UnsyncedEvents = true;
                 ReloadedServer.MaxConnectAttempts = 10;
-                ReloadedServer.UpdateTime = 2;
+                ReloadedServer.UpdateTime = 1;
 
                 // Send received data to the message handler
                 ReloadedServerListener.NetworkReceiveEvent += ReceiveMessage;
@@ -181,6 +181,7 @@ namespace ReloadedAssembler
 
             // Return back.
             netPeer.Send(messageStruct.GetBytes(), SendOptions.ReliableOrdered);
+            netPeer.Flush();
         }
 
         /// <summary>

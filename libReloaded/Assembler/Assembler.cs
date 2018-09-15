@@ -142,6 +142,7 @@ namespace Reloaded.Assembler
             // Add event for receiving on network.
             _reloadedClientListener.NetworkReceiveEvent += GetMessageBytes;
             ReloadedClient.GetFirstPeer().Send(assemblyRequest.GetBytes(), SendOptions.ReliableOrdered);
+            ReloadedClient.Flush();
 
             // Wait for response and return data.
             while (messageBytes == null)
@@ -202,7 +203,8 @@ namespace Reloaded.Assembler
                 ReloadedClient.ReconnectDelay = 50;
                 ReloadedClient.MaxConnectAttempts = 5;
                 ReloadedClient.DisconnectTimeout = Int64.MaxValue;
-                ReloadedClient.UpdateTime = 2;
+                ReloadedClient.UpdateTime = 1;
+                ReloadedClient.UnsyncedEvents = true;
                 ReloadedClient.Connect(IPAddress.Loopback.ToString(), _serverPort);
 
                 // Check below if connected client is our assembler.
