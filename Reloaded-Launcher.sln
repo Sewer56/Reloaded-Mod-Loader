@@ -45,7 +45,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF-Demo", "Reloaded-Mod-Sa
 		{91A7C329-5B56-4AA4-BCC2-C299274C448D} = {91A7C329-5B56-4AA4-BCC2-C299274C448D}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memory-Manipulation", "Reloaded-Mod-Samples\Memory-Manipulation\Memory-Manipulation.csproj", "{FD7300E8-B781-4099-9CAB-BAA3D0ED2735}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memory-Manipulation-Demo", "Reloaded-Mod-Samples\Memory-Manipulation\Memory-Manipulation-Demo.csproj", "{FD7300E8-B781-4099-9CAB-BAA3D0ED2735}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DX9-Drawing-Demo", "Reloaded-Mod-Samples\DX9-Drawing\DX9-Drawing-Demo.csproj", "{1D01D798-3917-4785-8A40-93A91B5B28FF}"
 EndProject
