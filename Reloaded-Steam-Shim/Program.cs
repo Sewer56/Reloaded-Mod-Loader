@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -84,7 +84,7 @@ namespace Reloaded_Steam_Shim
                     continue;
                 }
                 
-                if (gameFullDirectory == currentDirectory || gameFullDirectory.Contains(currentDirectory) || currentDirectory.Contains(gameFullDirectory))
+                if (gameFullDirectory.Equals(currentDirectory, StringComparison.OrdinalIgnoreCase) || gameFullDirectory.IndexOf(currentDirectory,StringComparison.OrdinalIgnoreCase) >= 0 || currentDirectory.IndexOf(gameFullDirectory, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     GameConfigurations.Add(gameConfiguration);
                 }
