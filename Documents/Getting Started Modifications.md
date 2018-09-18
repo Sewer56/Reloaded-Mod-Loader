@@ -174,6 +174,8 @@ In order to acquire the item type and ID, simply hover over the 1 click download
 ![Exhibit A](https://i.imgur.com/piahJkG.png)
 ![Exhibit B](https://i.imgur.com/IBEDjbD.png)
 
+This allows you to distribute mods outside of GameBanana, while retaining the ability for those mods to be updated using GameBanana.
+
 ### Third Party Specifics
 
 ##### GameBanana
