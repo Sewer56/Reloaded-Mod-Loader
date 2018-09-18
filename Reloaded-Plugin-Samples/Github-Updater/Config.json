@@ -6,5 +6,5 @@
   "ConfigFile": "",
   "Site": "",
   "DllName": "GithubUpdater.dll",
-  "Enabled": false
+  "Enabled": true
 }
