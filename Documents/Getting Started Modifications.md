@@ -148,12 +148,31 @@ The plugin will look for a file that starts with `Update-` and download it when 
 
 ##### GameBanana
 
-You don't need to do anything. Literally.
+You don't need to do anything unless you choose to. Literally.
 Just add a new update to the submission on the site and the plugin will show a new update.
+
 ![](https://i.imgur.com/Y0QMf9S.png)
 
-*Note: This only functions with mods downloaded through 1 click links at the moment.*
-*Note 2: The functionality is currently be inactive until a stable release of Reloaded 2.00. Coming to you very soon!*
+The GameBanana plugin for Reloaded will automatically extract the `item type` and `item id` from the download links
+as the users use the 1 click download links. This however means if the users download the mod manually without using 1 click installers, they will not receive GameBanana updates unless explicitly defined in mod.
+
+##### GameBanana: Using Explicit Source
+
+Starting with the GameBanana plugin shipped with Reloaded 2.0.1 (w/ Plugin Update 1), the mod source can be explicitly defined.
+
+Doing this requires you to create a file named `GameBanana.json` inside the mod folder which specifies the individual item ID and type: 
+
+```json
+{
+	"ItemType":"Gamefile",
+	"ItemID":7561
+}
+```
+
+In order to acquire the item type and ID, simply hover over the 1 click download link and extract those from the URL:
+
+![Exhibit A](https://i.imgur.com/piahJkG.png)
+![Exhibit B](https://i.imgur.com/IBEDjbD.png)
 
 ### Third Party Specifics
 
