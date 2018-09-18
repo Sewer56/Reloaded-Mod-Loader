@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using Reloaded.IO.Config;
 using Reloaded.Paths;
+using Reloaded_Plugin_System.Utilities;
 
 namespace GamebananaUpdater.GameBanana.Tracker
 {
@@ -11,6 +14,11 @@ namespace GamebananaUpdater.GameBanana.Tracker
         /// Where our last update check date is stored.
         /// </summary>
         public static string SavePath = LoaderPaths.GetModLoaderConfigDirectory() + "\\GameBananaUpdateTracker.json";
+
+        /// <summary>
+        /// Specifies the file name that the users can use to define their custom mod type and ID.
+        /// </summary>
+        public const string ModManualEntryFileName = "GameBanana.json";
 
         /*
             ----------
@@ -24,7 +32,8 @@ namespace GamebananaUpdater.GameBanana.Tracker
             try
             {
                 var objects = JsonConvert.DeserializeObject<List<GBModEntry>>(File.ReadAllText(SavePath));
-                objects = RemoveEntriesWithInvalidFolders(objects);
+                objects     = GetEntriesFromExistingMods(objects);
+                objects     = RemoveEntriesWithInvalidFolders(objects);
                 return RemoveDuplicates(objects);
             }
             catch { return new List<GBModEntry>(); }
@@ -94,6 +103,44 @@ namespace GamebananaUpdater.GameBanana.Tracker
             }
 
             return newModEntries;
+        }
+
+        /// <summary>
+        /// Retrieves a list of all mod configurations for each game and adds the ones with GameBananaUpdater.json
+        /// to the list. 
+        /// </summary>
+        /// <param name="gbModEntries"></param>
+        /// <returns></returns>
+        public List<GBModEntry> GetEntriesFromExistingMods(List<GBModEntry> gbModEntries)
+        {
+            // Get all of the individual mods, and then if a manual config file exists, try parsing
+            // it and adding a new GBModEntry.
+            List<ModConfig> allExistingMods = ModUtilities.GetAllMods();
+
+            foreach (ModConfig existingMod in allExistingMods)
+            {
+                string potentialFileLocation = $"{existingMod.GetModDirectory()}\\{ModManualEntryFileName}";
+                if (File.Exists(potentialFileLocation))
+                {
+                    try
+                    {
+                        var simpleModEntry = JsonConvert.DeserializeObject<GBSimpleModEntry>(File.ReadAllText(potentialFileLocation));
+                        simpleModEntry.ModConfig = existingMod;
+                        gbModEntries.Add(GBModEntry.FromSimpleModEntry(simpleModEntry));
+                    }
+                    catch(Exception ex)
+                    {
+                        // Write correct template.
+                        string templateFileName = potentialFileLocation.Replace(".json", "Example.json");
+                        string json = JsonConvert.SerializeObject(new GBSimpleModEntry("Example", 123456, null), Formatting.Indented);
+                        json += $"\r\n\r\n/*You did something wrong in your GameBanana.json, so here's a template to help you.\r\nHere's a tip about what you did wrong {ex.Message}*/";
+
+                        File.WriteAllText(templateFileName, json);
+                    }
+                }
+            }
+
+            return gbModEntries;
         }
     }
 }
