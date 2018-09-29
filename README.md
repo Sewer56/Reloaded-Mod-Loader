@@ -22,7 +22,7 @@ It is a completely free and open source public rewrite of **Heroes Mod Loader**,
 
 - Windows 7, 8.1, 10 or above.
 - .NET Framework 4.7.2 (auto-downloaded by installer if necessary).
-- Visual C++ Redist 2012 (Required by a dependency I may replace someday with a bit of C# code).
+- Visual C++ Redist 2012 (Required by a dependency that shares native and C# code).
 
 # Table of Contents
 
