@@ -85,7 +85,7 @@ namespace Reloaded.Process.Buffers
         /// </summary>
         /// <param name="bufferAddress">Specifies the base address of the new buffer to be created.</param>
         /// <param name="bufferSize">The size of the buffer to be created. Note that the buffer size includes the buffer header!</param>
-        public unsafe MemoryBuffer(IntPtr bufferAddress, uint bufferSize)
+        public unsafe MemoryBuffer(IntPtr bufferAddress, uint bufferSize, bool isBufferPreallocated = false)
         {
             // Set the base address for the buffer.
             this.BaseBufferAddress = bufferAddress;
@@ -95,7 +95,7 @@ namespace Reloaded.Process.Buffers
             VirtualQueryEx(Bindings.TargetProcess.ProcessHandle, bufferAddress, out memoryInformation, (uint)sizeof(MEMORY_BASIC_INFORMATION));
 
             // If the page is already occupied, check and assign the buffer header.
-            if (memoryInformation.State != PageState.Free)
+            if (memoryInformation.State != PageState.Free && !isBufferPreallocated)
             {
                 // Check if buffer already exists by reading an existing or nonexisting header.
                 MemoryBufferHeader bufferHeader = Bindings.TargetProcess.ReadMemoryExternal<MemoryBufferHeader>(BaseBufferAddress);
@@ -105,27 +105,29 @@ namespace Reloaded.Process.Buffers
                     BufferHeader = bufferHeader;
                 else
                     BaseBufferAddress = IntPtr.Zero;
- 
             }
 
             // Else if the pages are free.
             else
             {
-                // Commit the pages.
-                IntPtr virtualAllocAddress = VirtualAllocEx
-                (
-                    Bindings.TargetProcess.ProcessHandle,
-                    BaseBufferAddress,
-                    bufferSize,
-                    AllocationTypes.Reserve | AllocationTypes.Commit,
-                    MemoryProtections.ExecuteReadWrite
-                );
-
-                // MemoryBuffer.
-                if (virtualAllocAddress == IntPtr.Zero)
+                if (! isBufferPreallocated)
                 {
-                    Bindings.PrintError("[FATAL] Failed to allocate MemoryBuffer.");
-                    throw new Exception("Failed to allocate MemoryBuffer.");
+                    // Commit the pages.
+                    IntPtr virtualAllocAddress = VirtualAllocEx
+                    (
+                        Bindings.TargetProcess.ProcessHandle,
+                        BaseBufferAddress,
+                        bufferSize,
+                        AllocationTypes.Reserve | AllocationTypes.Commit,
+                        MemoryProtections.ExecuteReadWrite
+                    );
+
+                    // MemoryBuffer.
+                    if (virtualAllocAddress == IntPtr.Zero)
+                    {
+                        Bindings.PrintError("[FATAL] Failed to allocate MemoryBuffer.");
+                        throw new Exception("Failed to allocate MemoryBuffer.");
+                    }
                 }
 
                 // Write a new Buffer
