@@ -288,7 +288,7 @@ namespace Reloaded.Process.Memory
 
             // Initializes the buffer of the length of the data to be read.
             byte[] buffer = new byte[size];
-            
+
             // Read from the game memory.
             ReadProcessMemory(process.ProcessHandle, address, buffer, (IntPtr)size, out _);
 
