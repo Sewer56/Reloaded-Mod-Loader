@@ -38,8 +38,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libReloaded-IO\libReloaded-IO.csproj" />
-    <ProjectReference Include="..\..\libReloaded-Paths\libReloaded-Paths.csproj" />
+    <ProjectReference Include="..\..\Reloaded-Libraries\libReloaded-IO\libReloaded-IO.csproj" />
+    <ProjectReference Include="..\..\Reloaded-Libraries\libReloaded-Paths\libReloaded-Paths.csproj" />
     <ProjectReference Include="..\..\Reloaded-Plugin-Interfaces\Reloaded-Plugin-System.csproj" />
   </ItemGroup>
 </Project>

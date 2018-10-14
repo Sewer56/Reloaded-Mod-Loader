@@ -123,6 +123,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libReloaded-Memory\Reloaded.Memory.csproj">
+      <Project>{6747dc4e-9a59-40ae-9d4b-4b507bb75913}</Project>
+      <Name>Reloaded.Memory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\libReloaded-Native\libReloaded-Native.csproj">
       <Project>{BFF8F9E0-94D0-4C87-A1A7-75E7FD6A6CA9}</Project>
       <Name>libReloaded-Native</Name>

@@ -25,6 +25,8 @@ using System.IO;
 using Newtonsoft.Json;
 using Reloaded;
 using Reloaded.IO.Config;
+using Reloaded.Memory;
+using Reloaded.Memory.Sources;
 using Reloaded.Paths;
 using Reloaded.Process;
 using Reloaded.Process.Memory;
@@ -83,11 +85,11 @@ namespace Reloaded_Loader.Core
         private static void InjectDLLDefault(ReloadedProcess reloadedProcess, DllInjector dllInjector, string dllPath, string dllMethodName)
         {
             // Allocate Memory for Server Port In Game Memory
-            IntPtr parameterAddress = reloadedProcess.AllocateMemory(IntPtr.Size);
+            IntPtr parameterAddress = reloadedProcess.Memory.Allocate(IntPtr.Size);
 
             // Write Server Port to Game Memory
             byte[] serverPort = BitConverter.GetBytes(LoaderServer.ServerPort);
-            reloadedProcess.WriteMemoryExternal(parameterAddress, ref serverPort);
+            reloadedProcess.Memory.SafeWriteRaw(parameterAddress, serverPort);
 
             // Inject the individual DLL.
             dllInjector.InjectDll(dllPath, parameterAddress, dllMethodName);

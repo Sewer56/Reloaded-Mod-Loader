@@ -115,6 +115,10 @@
       <Project>{956CE72C-AAB4-4A8B-8281-8C82761180B4}</Project>
       <Name>libReloaded-Input</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\libReloaded-Memory\Reloaded.Memory.csproj">
+      <Project>{6747dc4e-9a59-40ae-9d4b-4b507bb75913}</Project>
+      <Name>Reloaded.Memory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\libReloaded-Native\libReloaded-Native.csproj">
       <Project>{bff8f9e0-94d0-4c87-a1a7-75e7fd6a6ca9}</Project>
       <Name>libReloaded-Native</Name>

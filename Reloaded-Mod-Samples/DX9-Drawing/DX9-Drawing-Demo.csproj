@@ -133,6 +133,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libReloaded-Memory\Reloaded.Memory.csproj">
+      <Project>{6747dc4e-9a59-40ae-9d4b-4b507bb75913}</Project>
+      <Name>Reloaded.Memory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\libReloaded-Networking\libReloaded-Networking.csproj">
       <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
       <Name>libReloaded-Networking</Name>

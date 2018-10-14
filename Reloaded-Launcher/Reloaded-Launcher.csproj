@@ -434,23 +434,23 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\libReloaded-Input\libReloaded-Input.csproj">
+    <ProjectReference Include="..\Reloaded-Libraries\libReloaded-Input\libReloaded-Input.csproj">
       <Project>{956ce72c-aab4-4a8b-8281-8c82761180b4}</Project>
       <Name>libReloaded-Input</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libReloaded-IO\libReloaded-IO.csproj">
+    <ProjectReference Include="..\Reloaded-Libraries\libReloaded-IO\libReloaded-IO.csproj">
       <Project>{183218a9-d8f6-44d4-91ee-098e2949218e}</Project>
       <Name>libReloaded-IO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libReloaded-Native\libReloaded-Native.csproj">
+    <ProjectReference Include="..\Reloaded-Libraries\libReloaded-Native\libReloaded-Native.csproj">
       <Project>{bff8f9e0-94d0-4c87-a1a7-75e7fd6a6ca9}</Project>
       <Name>libReloaded-Native</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libReloaded-Paths\libReloaded-Paths.csproj">
+    <ProjectReference Include="..\Reloaded-Libraries\libReloaded-Paths\libReloaded-Paths.csproj">
       <Project>{cb1994f7-61a4-4cb2-bba0-4f2aaa75a491}</Project>
       <Name>libReloaded-Paths</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libReloaded\libReloaded.csproj">
+    <ProjectReference Include="..\Reloaded-Libraries\libReloaded\libReloaded.csproj">
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
       <Name>libReloaded</Name>
     </ProjectReference>

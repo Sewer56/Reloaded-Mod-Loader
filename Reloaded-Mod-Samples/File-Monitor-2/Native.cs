@@ -328,7 +328,7 @@ namespace Reloaded_Mod_Template
             {
                 try
                 {
-                    byte[] uniString = Program.GameProcess.ReadMemory(buffer, Length);
+                    byte[] uniString = Program.GameProcess.Memory.ReadRaw(buffer, Length);
                     return Encoding.Unicode.GetString(uniString);
                 }
                 catch { return ""; }

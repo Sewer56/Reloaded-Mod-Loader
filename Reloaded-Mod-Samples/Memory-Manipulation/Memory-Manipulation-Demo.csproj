@@ -97,15 +97,16 @@
     <Compile Include="..\..\reloaded-mod-template\reloadedtemplate\LocalAssemblyFinder.cs">
       <Link>ReloadedTemplate\LocalAssemblyFinder.cs</Link>
     </Compile>
-    <Compile Include="AdventurePhysics.cs" />
+    <Compile Include="Structs\AdventurePhysics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Structs\CustomFileHeader.cs" />
+    <Compile Include="Structs\Vector3.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LiteNetLib-custom">
@@ -113,15 +114,19 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libReloaded-Networking\libReloaded-Networking.csproj">
+    <ProjectReference Include="..\..\Reloaded-Libraries\libReloaded-Memory\Reloaded.Memory.csproj">
+      <Project>{6747dc4e-9a59-40ae-9d4b-4b507bb75913}</Project>
+      <Name>Reloaded.Memory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Reloaded-Libraries\libReloaded-Networking\libReloaded-Networking.csproj">
       <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
       <Name>libReloaded-Networking</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\libReloaded-Paths\libReloaded-Paths.csproj">
+    <ProjectReference Include="..\..\Reloaded-Libraries\libReloaded-Paths\libReloaded-Paths.csproj">
       <Project>{cb1994f7-61a4-4cb2-bba0-4f2aaa75a491}</Project>
       <Name>libReloaded-Paths</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\libReloaded\libReloaded.csproj">
+    <ProjectReference Include="..\..\Reloaded-Libraries\libReloaded\libReloaded.csproj">
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
       <Name>libReloaded</Name>
     </ProjectReference>
@@ -132,9 +137,15 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="phys.bin">
+    <None Include="Structs\CustomFileHeader.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Structs\phys.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Adventure\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -134,13 +134,13 @@ namespace Reloaded_Loader
             while (timeoutStopWatch.ElapsedMilliseconds < 6000)
             {
                 // Grab current already running game, did we find it? Not? Try again.
-                ReloadedProcess localGameProcess = ReloadedProcess.GetProcessByName(_attachTargetName);
+                ReloadedProcess localGameProcess = ReloadedProcess.FromProcessName(_attachTargetName);
 
                 if (localGameProcess == null)
                     continue;
 
                 // Ensure we didn't find some background process that was running all along.
-                if (localGameProcess.GetProcessFromReloadedProcess().StartTime > _processStartTime)
+                if (localGameProcess.Process.StartTime > _processStartTime)
                 {                   
                     Bindings.PrintInfo($"// Game killed itself, probably due to Steam for restarting. Attempting reattach! | {_attachTargetName}");
                     Bindings.PrintInfo($"// Consider using the Steam shim.");
@@ -171,13 +171,13 @@ namespace Reloaded_Loader
             // Do not reattach on exit for Steam Shims - they should not reboot if shimmed.
             if (commandLineArguments.Contains(Strings.Common.LoaderSettingSteamShim))
             {
-                _gameProcess.GetProcessFromReloadedProcess().EnableRaisingEvents = true;
-                _gameProcess.GetProcessFromReloadedProcess().Exited += (sender, eventArgs) => Shutdown(null, null);
+                _gameProcess.Process.EnableRaisingEvents = true;
+                _gameProcess.Process.Exited += (sender, eventArgs) => Shutdown(null, null);
             }
             else
             {
-                _gameProcess.GetProcessFromReloadedProcess().EnableRaisingEvents = true;
-                _gameProcess.GetProcessFromReloadedProcess().Exited += (sender, eventArgs) => ProcessSelfReattach(commandLineArguments);
+                _gameProcess.Process.EnableRaisingEvents = true;
+                _gameProcess.Process.Exited += (sender, eventArgs) => ProcessSelfReattach(commandLineArguments);
             }
             
 
@@ -231,7 +231,7 @@ namespace Reloaded_Loader
             if (_attachTargetName != null)
             {
                 // Grab current already running game.
-                _gameProcess = ReloadedProcess.GetProcessByName(_attachTargetName);
+                _gameProcess = ReloadedProcess.FromProcessName(_attachTargetName);
 
                 // Check if gameProcess successfully returned.
                 if (_gameProcess == null && !_autoAttach)
@@ -245,7 +245,7 @@ namespace Reloaded_Loader
                 if (_autoAttach && _gameProcess == null)
                 {
                     Bindings.PrintWarning("Process not running. Waiting in Auto-Attach Mode.");
-                    do    { _gameProcess = ReloadedProcess.GetProcessByName(_attachTargetName); Thread.Sleep(2); }
+                    do    { _gameProcess = ReloadedProcess.FromProcessName(_attachTargetName); Thread.Sleep(2); }
                     while (_gameProcess == null);
                 }
             }
@@ -272,7 +272,7 @@ namespace Reloaded_Loader
 
             // Obtain the process start time.
             if (_gameProcess != null)
-                _processStartTime = _gameProcess.GetProcessFromReloadedProcess().StartTime;
+                _processStartTime = _gameProcess.Process.StartTime;
         }
 
 

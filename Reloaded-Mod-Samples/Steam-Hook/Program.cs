@@ -1,18 +1,12 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using Reloaded;
-using Reloaded.Assembler;
 using Reloaded.Process;
-using Reloaded.Process.Buffers;
 using Reloaded.Process.Functions.X64Functions;
 using Reloaded.Process.Functions.X64Hooking;
 using Reloaded.Process.Functions.X86Functions;
 using Reloaded.Process.Functions.X86Hooking;
-using Reloaded.Process.Helpers.Arrays;
-using Reloaded.Process.Memory;
 using Reloaded.Process.Native;
 
 // ReSharper disable InconsistentNaming

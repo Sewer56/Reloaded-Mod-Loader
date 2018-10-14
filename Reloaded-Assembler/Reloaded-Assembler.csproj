@@ -117,12 +117,13 @@
     <Description>Reloaded-Assembler is a background running service that communicates with Reloaded mods LOCALLY over WebSockets. It allows for on the fly X86 and X64 assembly and is used by Reloaded libraries for features such as hooking functions. Note that this executable is embedded into libReloaded on build and does not need to be manually referenced/downloaded.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System.ServiceProcess" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reloaded-Libraries\libReloaded-Native\libReloaded-Native.csproj" />
+    <ProjectReference Include="..\Reloaded-Libraries\libReloaded-Networking\libReloaded-Networking.csproj" />
   </ItemGroup>
 </Project>

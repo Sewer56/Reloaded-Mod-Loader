@@ -67,11 +67,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\libReloaded-IO\libReloaded-IO.csproj">
+    <ProjectReference Include="..\Reloaded-Libraries\libReloaded-IO\libReloaded-IO.csproj">
       <Project>{183218a9-d8f6-44d4-91ee-098e2949218e}</Project>
       <Name>libReloaded-IO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libReloaded-Paths\libReloaded-Paths.csproj">
+    <ProjectReference Include="..\Reloaded-Libraries\libReloaded-Paths\libReloaded-Paths.csproj">
       <Project>{cb1994f7-61a4-4cb2-bba0-4f2aaa75a491}</Project>
       <Name>libReloaded-Paths</Name>
     </ProjectReference>
