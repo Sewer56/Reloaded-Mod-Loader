@@ -1,43 +1,27 @@
+## What is this branch?
 
-<div align="center">
-	<h1>Project Reloaded</h1>
-	<img src="https://i.imgur.com/BjPn7rU.png" width="150" align="center" />
-	<br/> <br/>
-	<strong>All your mods are belong to us.</strong>
-	<p>Experimental, C# universal mod loader framework compatible with arbitrary processes.</p>
-</div>
+Reloaded is splitting up.
 
+Peaking over 50K lines of code, Reloaded has become a too large of a project for me to handle alone in one monolithic repository handling all of the individual libraries, stock mods and other components such as plugins.
 
-# Introduction
-**[Reloaded]** is an actively developed DLL Injection based Mod Loader, Mod Management System, Optional Mod SDK *(libReloaded)* among various other utilities. 
+As a result, to ensure quality control and to ensure the project is more manageable, I'm splitting up the project.
 
-<div align="center">
-	<img src="https://i.imgur.com/aG6rXm9.png" width="550" align="center" />
-	<br/><br/>
-</div>
+In the future, the Reloaded libraries, samples and mods will all be slightly refactored, improved and available in their small, standalone repositories.
 
-It is a completely free and open source public rewrite of **Heroes Mod Loader**, my original first attempt at a mod management/loader system all the way from the ground up using the C# programming language.
+Specifically, the contents of this singular repository is currently being rebuilt into the following Github organization: https://github.com/Reloaded-Project ; starting with the individual libReloaded libraries.
 
-# Prerequisites
+The goal
 
-- Windows 7, 8.1, 10 or above.
-- .NET Framework 4.7.2 (auto-downloaded by installer if necessary).
-- Visual C++ Redist 2012 (Required by a dependency that shares native and C# code).
+## What (really) is this branch?
 
-# Table of Contents
+Quite simply, this is a fork of the master branch where I remove code little by little every time I implement something new into the Reloaded-Project organization.
 
-## For Users
-- [Features](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Features.md)
-- [User Guide](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/User%20Guide.md)
-- [Reloaded and Steam Games "Reattaching"](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Reloaded%20and%20Steam%20Games%20Reattaching.md)
-- [Reloaded's Pseudo Launcher](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Reloaded%20Pseudo%20Launcher.md)
+Whether the project builds or not does not matter, it's just an indicator of progress of how much I still have to port and refactor.
 
-## Casual Modders
-- [Getting Started: Modifications](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Getting%20Started%20Modifications.md)
+In other words; I am taking the bricks of one large house and using them to make many small houses.
 
-## Programmers
-- [Getting Started: Programmers](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Getting%20Started%20for%20Developers.md)
-- [Writing Reloaded Code Mods: Quick Tour](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Writing%20Reloaded%20Code%20Mods%20Quick%20Tour.md)
+## The Future
 
-## Potential Contributors
-- [Project Structure](https://github.com/sewer56lol/Reloaded-Mod-Loader/blob/master/Documents/Project%20Structure.md)
+Reloaded will be ported to .NET Core 3.0, inevitably with all of its libraries being available in .NET Standard fashion.
+
+This means that main mod development will be happening on .NET Core in order to reap its benefits. That doesn't mean that .NET Framework development will not be possible or that existing mods would break - it's more of the matter of fact that .NET Core is just more cutting edge and seeping with performance improvements.
