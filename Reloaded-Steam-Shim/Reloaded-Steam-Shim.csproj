@@ -100,6 +100,10 @@
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
       <Name>libReloaded</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Reloaded-Libraries\Reloaded.Utilities\Reloaded.Utilities.csproj">
+      <Project>{0630E54B-29B7-479D-884E-97ED3527B34E}</Project>
+      <Name>Reloaded.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />

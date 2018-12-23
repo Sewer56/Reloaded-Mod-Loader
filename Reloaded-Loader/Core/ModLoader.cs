@@ -25,14 +25,11 @@ using System.IO;
 using Newtonsoft.Json;
 using Reloaded;
 using Reloaded.IO.Config;
-using Reloaded.Memory;
 using Reloaded.Memory.Sources;
 using Reloaded.Paths;
 using Reloaded.Process;
-using Reloaded.Process.Memory;
-using Reloaded.Utilities;
-using Reloaded_Loader.Miscallenous;
-using Reloaded_Loader.Networking;
+using Reloaded.Process.DllInjector;
+using Reloaded_Loader.Terminal;
 using Reloaded_Plugin_System;
 
 namespace Reloaded_Loader.Core
@@ -56,13 +53,16 @@ namespace Reloaded_Loader.Core
             string[] modLibraries = GetModulesToInject(gameConfiguration);
 
             // Initialize DLL Injector
-            DllInjector reloadedClassicDllInjector = new DllInjector(reloadedProcess);
+            DllInjector reloadedClassicDllInjector = new DllInjector(reloadedProcess.Process);
 
             // For each DLL file, if the DLL exists, load the DLL.
             foreach (string modLibrary in modLibraries)
             {
                 if (File.Exists(modLibrary))
                 {
+                    // Progress tracking.
+                    LoaderConsole.PrintInfo($"Injecting DLL: {modLibrary}");
+
                     // To handle plugin support for this one, we pass the parameters onto each plugin and
                     // each plugin on their own can decide whether to manually inject themselves or not.
                     // If they return "true", we go to next file; else we inject normally.
@@ -82,14 +82,19 @@ namespace Reloaded_Loader.Core
             }
         }
 
+        /// <summary>
+        /// The default DLL Injection routine.
+        /// </summary>
+        /// <param name="reloadedProcess">Process to inject DLL to.</param>
+        /// <param name="dllInjector">The DLL Injector instance itself.</param>
+        /// <param name="dllPath">The path to the DLL to be injected.</param>
+        /// <param name="dllMethodName">The method name to be executed.</param>
         private static void InjectDLLDefault(ReloadedProcess reloadedProcess, DllInjector dllInjector, string dllPath, string dllMethodName)
         {
-            // Allocate Memory for Server Port In Game Memory
+            // Allocate memory for parameters in game memory and write them.
+            // This used to write the server port; but no more.
             IntPtr parameterAddress = reloadedProcess.Memory.Allocate(IntPtr.Size);
-
-            // Write Server Port to Game Memory
-            byte[] serverPort = BitConverter.GetBytes(LoaderServer.ServerPort);
-            reloadedProcess.Memory.SafeWriteRaw(parameterAddress, serverPort);
+            reloadedProcess.Memory.SafeWrite(parameterAddress, 0);
 
             // Inject the individual DLL.
             dllInjector.InjectDll(dllPath, parameterAddress, dllMethodName);

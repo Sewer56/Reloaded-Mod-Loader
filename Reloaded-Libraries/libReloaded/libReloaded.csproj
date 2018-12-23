@@ -79,14 +79,14 @@
     <Compile Remove="Process\AlternateDllInjector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Reloaded-Assembler\Reloaded-Assembler.csproj" />
-    <ProjectReference Include="..\libReloaded-Memory\Reloaded.Memory.csproj" />
     <ProjectReference Include="..\libReloaded-Native\libReloaded-Native.csproj" />
-    <ProjectReference Include="..\libReloaded-Networking\libReloaded-Networking.csproj" />
+    <ProjectReference Include="..\libReloaded-Networking\Reloaded.Networking.csproj" />
+    <ProjectReference Include="..\Reloaded.Assembler\Reloaded.Assembler.csproj" />
+    <ProjectReference Include="..\Reloaded.Memory.Buffers\Reloaded.Memory.Buffers.csproj" />
+    <ProjectReference Include="..\Reloaded.Memory\Reloaded.Memory.csproj" />
+    <ProjectReference Include="..\Reloaded.Utilities\Reloaded.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="3.1.0" />
-    <PackageReference Include="Fody" Version="3.1.4" />
     <PackageReference Include="LiteNetLib-custom" Version="0.0.1" />
     <PackageReference Include="SharpDisasm" Version="1.1.11" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2" />
@@ -98,9 +98,6 @@
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

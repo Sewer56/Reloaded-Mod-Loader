@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using libReloaded_Networking;
 using Reloaded.Process;
 using Reloaded.Process.Functions.X64Hooking;
 using Reloaded.Process.Functions.X86Hooking;
@@ -63,7 +62,9 @@ namespace Reloaded_Mod_Template
                 and redirect to the original function.
             */
 
-            // Debugger.Launch();
+            #if DEBUG
+            Debugger.Launch();
+            #endif
 
             // This should automatically resolve to ntdll.dll as it is already registered by Windows.
             // The handle should return from already loaded library in memory, following the standard search strategy.

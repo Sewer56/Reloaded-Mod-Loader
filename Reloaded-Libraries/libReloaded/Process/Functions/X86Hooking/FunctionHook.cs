@@ -26,7 +26,6 @@ using System.Runtime.InteropServices;
 using Reloaded.Assembler;
 using Reloaded.Memory;
 using Reloaded.Memory.Sources;
-using Reloaded.Process.Buffers;
 using Reloaded.Process.Functions.X86Functions;
 using Reloaded.Process.Memory;
 using SharpDisasm;
@@ -185,7 +184,8 @@ namespace Reloaded.Process.Functions.X86Hooking
             FunctionHook<TFunction> functionHook = new FunctionHook<TFunction>();
 
             // Write original bytes and jump to memory, and return address.
-            functionHook.OriginalFunctionAddress = MemoryBufferManager.Add(stolenBytes.ToArray());
+            byte[] stolenBytesArray = stolenBytes.ToArray();
+            functionHook.OriginalFunctionAddress = HookCommon.BufferHelper.GetBuffers(stolenBytesArray.Length, true)[0].Add(stolenBytesArray);
 
             // Create wrapper for calling the original function.
             functionHook.OriginalFunction = FunctionWrapper.CreateWrapperFunction<TFunction>((long)functionHook.OriginalFunctionAddress);

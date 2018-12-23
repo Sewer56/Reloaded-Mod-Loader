@@ -32,67 +32,6 @@ namespace Reloaded.Process.Native
     public class Native
     {
         /// <summary>
-        /// AllocationTypes
-        ///     Specifies the type of memory allocation to be used alongside functions such as VirtualCommitEx
-        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366890(v=vs.85).aspx
-        /// </summary>
-        [Flags]
-        public enum AllocationTypes
-        {
-            /// <summary>
-            /// Allocates memory charges (from the overall size of memory and the paging files on disk) 
-            /// for the specified reserved memory pages. The function also guarantees that when the 
-            /// caller later initially accesses the memory, the contents will be zero. 
-            /// </summary>
-            Commit = 0x1000,
-
-            /// <summary>
-            /// Reserves a range of the process's virtual address space without allocating any actual 
-            /// physical storage in memory or in the paging file on disk.
-            /// You commit reserved pages by calling VirtualAllocEx again with MEM_COMMIT.
-            /// </summary>
-            Reserve = 0x2000,
-
-            /// <summary>
-            /// Indicates that data in the memory range specified by lpAddress and dwSize is no longer of interest. 
-            /// The pages should not be read from or written to the paging file.
-            /// However, the memory block will be used again later, so it should not be decommitted. 
-            /// </summary>
-            Reset = 0x80000,
-
-            /// <summary>
-            /// MEM_RESET_UNDO should only be called on an address range to which MEM_RESET was successfully 
-            /// applied earlier. It indicates that the data in the specified memory range specified by lpAddress 
-            /// and dwSize is of interest to the caller and attempts to reverse the effects of MEM_RESET.
-            /// </summary>
-            ResetUndo = 0x1000000,
-
-            /// <summary>
-            /// Allocates memory at the highest possible address. This can be slower than regular allocations, 
-            /// especially when there are many allocations.
-            /// </summary>
-            TopDown = 0x100000
-        }
-
-        /// <summary>
-        /// FreeTypes
-        ///     The type of free operation. This parameter can be either Decommit or Release.
-        ///     https://msdn.microsoft.com/en-us/library/windows/desktop/aa366894(v=vs.85).aspx
-        /// </summary>
-        [Flags]
-        public enum FreeTypes
-        {
-            /// <summary>
-            /// Decommits the specified region of committed pages. After the operation, the pages are in the reserved state. 
-            /// </summary>
-            Decommit = 0x4000,
-            /// <summary>
-            /// Releases the specified region of pages. After the operation, the pages are in the free state. 
-            /// </summary>
-            Release = 0x8000
-        }
-
-        /// <summary>
         /// MemoryProtections
         ///     Specifies the memory protection constants for the region of pages 
         ///     to be allocated, referenced or used for a similar purpose.
@@ -140,53 +79,6 @@ namespace Reloaded.Process.Native
         /// <returns>Address of exported function or variable.</returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
-
-        /// <summary>
-        /// VirtualAllocEx
-        ///     Reserves, commits, or changes the state of a region of memory within the 
-        ///     virtual address space of a specified process. The function initializes the 
-        ///     memory it allocates to zero.
-        /// </summary>
-        /// <param name="hProcess">
-        ///     The handle to a process. The function allocates memory within the virtual 
-        ///     address space of this process.
-        /// </param>
-        /// <param name="lpAddress">
-        ///     The address that specifies a desired starting address for the region of pages
-        ///     that you want to allocate. If lpAddress is NULL, the function determines where 
-        ///     to allocate the region itself (i.e. allocates new virtual memory).
-        /// </param>
-        /// <param name="dwSize">The size of the region of memory to allocate, in bytes.</param>
-        /// <param name="flAllocationTypes">The type of memory allocation. See MSDN.</param>
-        /// <param name="flProtect">The memory protection for the region of pages to be allocated.</param>
-        /// <returns>If succeeds, the base address of the allocated region of pages, else NULL.</returns>
-        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        public static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, uint dwSize, AllocationTypes flAllocationTypes, MemoryProtections flProtect);
-
-        /// <summary>
-        /// CreateRemoteThread
-        ///     Creates a thread that runs in the virtual address space of a target process.
-        /// </summary>
-        /// <param name="hProcess">A handle to the process in which the thread is to be created.</param>
-        /// <param name="lpThreadAttributes">
-        ///     A pointer to a SECURITY_ATTRIBUTES structure that specifies a security descriptor 
-        ///     for the new thread and determines whether child processes can inherit the returned 
-        ///     handle. If lpThreadAttributes is NULL, the thread gets a default security 
-        ///     descriptor and the handle cannot be inherited.
-        /// </param>
-        /// <param name="dwStackSize">The initial size of the stack, in bytes.</param>
-        /// <param name="lpStartAddress">
-        ///     A pointer to the application-defined function of type LPTHREAD_START_ROUTINE to be 
-        ///     executed by the thread and represents the starting address of the thread in the 
-        ///     remote process. The function must exist in the remote process. 
-        /// </param>
-        /// <param name="lpParameter">A pointer to a variable to be passed to the thread function. (Parameter of lpStartAddress)</param>
-        /// <param name="dwCreationFlags">The flags that control the creation of the thread.</param>
-        /// <param name="lpThreadId">A pointer to a variable that receives the thread identifier. </param>
-        /// <returns>A handle to the newly created thread.</returns>
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, IntPtr dwStackSize, 
-            IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);
 
         /// <summary>
         /// GetModuleHandle

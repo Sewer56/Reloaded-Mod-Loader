@@ -79,19 +79,19 @@ namespace Reloaded_Loader.Terminal
             ConsoleOptions.PrintFormattedMessage(message, printText);
         }
 
-        public static void PrintErrorMessage(string message)
+        public static void PrintError(string message)
         {
             ConsoleOptions.PrintErrorMessage(message);
             Logger.Append(message);
         }
 
-        public static void PrintInfoMessage(string message)
+        public static void PrintInfo(string message)
         {
             ConsoleOptions.PrintInfoMessage(message);
             Logger.Append(message);
         }
 
-        public static void PrintWarningMessage(string message)
+        public static void PrintWarning(string message)
         {
             ConsoleOptions.PrintWarningMessage(message);
             Logger.Append(message);

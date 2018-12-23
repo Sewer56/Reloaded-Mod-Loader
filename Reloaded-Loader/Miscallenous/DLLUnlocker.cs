@@ -21,6 +21,7 @@
 using System.IO;
 using Reloaded.Paths;
 using Reloaded.Utilities;
+using Reloaded.Utilities.PE;
 using Reloaded_Loader.Terminal;
 
 namespace Reloaded_Loader.Miscallenous
@@ -42,7 +43,7 @@ namespace Reloaded_Loader.Miscallenous
         public static void UnblockDlls()
         {
             // Print Info Message about Unlocking DLLs
-            LoaderConsole.PrintFormattedMessage("Removing Zone Identifiers from Files (DLL Unlocking)", LoaderConsole.PrintInfoMessage);
+            LoaderConsole.PrintFormattedMessage("Removing Zone Identifiers from Files (DLL Unlocking)", LoaderConsole.PrintInfo);
 
             // Search all DLLs under loader directories.
             // Normally I'd restrict this to mod directories, but the loader's own libraries might also be worth checking.
@@ -51,7 +52,7 @@ namespace Reloaded_Loader.Miscallenous
             // Unblock new file.
             foreach (string dllFile in dllFiles)
             {
-                FileUnblocker.Unblock(dllFile);
+                Executable.Unblock(dllFile);
             }
         }
     }

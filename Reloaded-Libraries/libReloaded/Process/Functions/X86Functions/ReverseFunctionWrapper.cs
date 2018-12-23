@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Reloaded.Process.Buffers;
 
 namespace Reloaded.Process.Functions.X86Functions
 {
@@ -70,7 +67,7 @@ namespace Reloaded.Process.Functions.X86Functions
             assemblyCode.AddRange(AssembleFunctionParameters(numberOfParameters, reloadedFunction.SourceRegisters));
 
             // Call C# Function Pointer (cSharpFunctionPointer is address at which our C# function address is written)
-            IntPtr cSharpFunctionPointer = MemoryBufferManager.Add(functionAddress, IntPtr.Zero);
+            IntPtr cSharpFunctionPointer = HookCommon.BufferHelper.GetBuffers(IntPtr.Size, true)[0].Add(functionAddress);
             assemblyCode.Add("call dword [0x" + cSharpFunctionPointer.ToString("X") + "]");
 
             // Restore stack pointer + stack frame
@@ -89,8 +86,8 @@ namespace Reloaded.Process.Functions.X86Functions
                 assemblyCode.Add("ret");
 
             // Assemble and return pointer to code
-            byte[] assembledMnemonics = Assembler.Assembler.Assemble(assemblyCode.ToArray());
-            return MemoryBufferManager.Add(assembledMnemonics);
+            byte[] assembledMnemonics = Assembler.Assembler.Current.Assemble(assemblyCode.ToArray());
+            return HookCommon.BufferHelper.GetBuffers(assembledMnemonics.Length, true)[0].Add(assembledMnemonics);
         }
 
         /// <summary>

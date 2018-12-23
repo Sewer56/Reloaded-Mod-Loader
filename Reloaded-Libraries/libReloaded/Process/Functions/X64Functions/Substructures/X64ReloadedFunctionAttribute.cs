@@ -133,8 +133,7 @@ namespace Reloaded.Process.Functions.X64Functions
                     break;
 
                 default:
-                    Bindings.PrintError?.Invoke($"There is no preset for the specified calling convention {callingConvention.GetType().Name}");
-                    break;
+                    throw new ArgumentException($"There is no preset for the specified calling convention {callingConvention.GetType().Name}");
             }
         }
 

@@ -6,7 +6,6 @@ using Reloaded.Assembler;
 using System.Threading.Tasks;
 using Reloaded.Memory;
 using Reloaded.Memory.Sources;
-using Reloaded.Process.Buffers;
 using Reloaded.Process.Functions.X64Functions;
 using Reloaded.Process.Memory;
 using SharpDisasm;
@@ -97,10 +96,10 @@ namespace Reloaded.Process.Functions
 
             // Assemble our custom ASM hook function to be jumped to and executed by the game, then write it to memory.
             IntPtr returnAddress = HookAddress + hookLength;
-            byte[] assembledBytes = Assembler.Assembler.Assemble(mnemonics);
+            byte[] assembledBytes = Assembler.Assembler.Current.Assemble(mnemonics);
             assembledBytes = ProcessCustomInstructions(assembledBytes, OriginalBytes, originalInstructionOptions);
             assembledBytes = AppendJumpBack(assembledBytes, is64bit, returnAddress);
-            AsmHookAddress = MemoryBufferManager.Add(assembledBytes);
+            AsmHookAddress = HookCommon.BufferHelper.GetBuffers(assembledBytes.Length, true)[0].Add(assembledBytes);
 
             // Backup our bytes to hook.
             OriginalBytes = Reloaded.Memory.Sources.Memory.Current.SafeReadRaw(HookAddress, hookLength);
@@ -172,7 +171,7 @@ namespace Reloaded.Process.Functions
         private int GetDefaultHookLength(bool is64Bit)
         {
             return is64Bit ? 
-                HookCommon.X64AssembleAbsoluteJump((IntPtr)0x11223344, new X64ReloadedFunctionAttribute(X64CallingConventions.Microsoft)).Length : 
+                HookCommon.X64AssembleAbsoluteJump((IntPtr)0x11223344).Length : 
                 HookCommon.X86AssembleAbsoluteJump((IntPtr)0x11223344).Length;
         }
 
@@ -185,7 +184,7 @@ namespace Reloaded.Process.Functions
         private byte[] AssembleJump(bool is64Bit, IntPtr jumpAddress)
         {
             return is64Bit ?
-                HookCommon.X64AssembleAbsoluteJump(jumpAddress, new X64ReloadedFunctionAttribute(X64CallingConventions.Microsoft)):
+                HookCommon.X64AssembleAbsoluteJump(jumpAddress):
                 HookCommon.X86AssembleAbsoluteJump(jumpAddress);
         }
 

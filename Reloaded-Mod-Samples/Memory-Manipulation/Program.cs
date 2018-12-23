@@ -9,8 +9,6 @@ using Reloaded.Memory;
 using Reloaded.Memory.Pointers;
 using Reloaded.Memory.Sources;
 using Reloaded.Process;
-using Reloaded.Process.Buffers;
-using Reloaded.Process.Memory;
 using Reloaded_Mod_Template.Adventure;
 using Reloaded_Mod_Template.Structs;
 
@@ -64,7 +62,7 @@ namespace Reloaded_Mod_Template
             // You can find it in Reloaded.Memory.Sources;
 
             // Recommended access pattern:
-            var memory = Memory.Current;                // Static/Preinitialized access to current process' memory.
+            var memory = Memory.Current;                 // Static/Preinitialized access to current process' memory.
 
             // Tutorial 0: Allocate/Free Memory
             var memoryLocation = memory.Allocate(65535); // Did you think it would be harder? Here's 65535 bytes at memoryLocation.
@@ -288,7 +286,7 @@ namespace Reloaded_Mod_Template
 
             // You can also read/write structures; as a shorthand to Memory class.
             StructArray.ToPtr(memoryLocation, adventurePhysics);
-            AdventurePhysics[] adventurePhysicsCopy = StructArray.FromPtr<AdventurePhysics>(memoryLocation);
+            AdventurePhysics[] adventurePhysicsCopy = StructArray.FromPtr<AdventurePhysics>(memoryLocation, adventurePhysics.Length);
 
             // Beware of the double sided blade however.
             // A. Struct class allows you to change the source read/write source for FromPtr and ToPtr.

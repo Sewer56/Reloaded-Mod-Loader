@@ -11,7 +11,7 @@ using Reloaded.IO.Config;
 using Reloaded.Paths;
 using Reloaded.Process;
 using Reloaded.Process.Native;
-using static Reloaded.Utilities.CheckArchitecture;
+using Reloaded.Utilities.PE;
 
 namespace Reloaded_Steam_Shim
 {
@@ -30,7 +30,7 @@ namespace Reloaded_Steam_Shim
             {
                $"{Strings.Launcher.LaunchArgumentName}",
                $"{gameConfigDirectory}",
-               $"{Strings.Common.LoaderSettingSteamShim}"
+               $"{Strings.Common.LoaderSettingNoReattach}"
             };
 
             // Start Reloaded-Launcher.
@@ -54,7 +54,7 @@ namespace Reloaded_Steam_Shim
 
             // Get whether our executable is 64bit, then wait out for Reloaded-Loader with the same 
             // architecture.
-            return GetMachineTypeFromPeHeader(gameExecutableLocation) == PEMachineType.AMD64;
+            return Executable.GetMachineType(gameExecutableLocation) == Executable.PEMachineType.AMD64;
         }
 
         /// <summary>

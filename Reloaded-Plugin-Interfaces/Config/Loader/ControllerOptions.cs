@@ -9,6 +9,7 @@ namespace Reloaded_Plugin_System.Config.Loader
     /// <summary>
     /// Provides you with control of the controller acquiring and printing functionalitity.
     /// </summary>
+    [Obsolete("Reloaded's Loader no longer prints controllers on startup.")]
     public class ControllerOptions
     {
         public delegate void PrintController(string controllerId, string controllerAPI, string controllerName, bool isConnected);

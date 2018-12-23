@@ -130,7 +130,8 @@ namespace Reloaded.Process
             Process = GetSystemProcess();
 
             // Print Error is Failed
-            if (!success) { Bindings.PrintError?.Invoke($"Failed to start ReloadedProcess {filePath}. Is your path correct? Also try running as Administrator."); }
+            if (!success)
+                throw new ArgumentException($"Failed to start ReloadedProcess {filePath}. Is your path correct? You may also try running as Administrator.");
         }
 
         /// <summary>

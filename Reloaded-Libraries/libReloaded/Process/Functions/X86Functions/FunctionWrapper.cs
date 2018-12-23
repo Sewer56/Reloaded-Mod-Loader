@@ -23,8 +23,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Reloaded.Assembler;
-using Reloaded.Process.Buffers;
 
 namespace Reloaded.Process.Functions.X86Functions
 {
@@ -101,7 +99,7 @@ namespace Reloaded.Process.Functions.X86Functions
                 assemblyCode.AddRange(AssembleFunctionParameters(numberOfParameters, reloadedFunction.SourceRegisters));
 
             // Call Game Function Pointer (gameFunctionPointer is address at which our function address is written)
-            IntPtr gameFunctionPointer = MemoryBufferManager.Add(functionAddress, IntPtr.Zero); 
+            IntPtr gameFunctionPointer = HookCommon.BufferHelper.GetBuffers(IntPtr.Size, true)[0].Add(functionAddress);
             assemblyCode.Add("call dword [0x" + gameFunctionPointer.ToString("X") + "]"); 
 
             // Stack cleanup if necessary 
@@ -127,8 +125,8 @@ namespace Reloaded.Process.Functions.X86Functions
             assemblyCode.Add("ret");
             
             // Write function to buffer and return pointer.
-            byte[] assembledMnemonics = Assembler.Assembler.Assemble(assemblyCode.ToArray());
-            return MemoryBufferManager.Add(assembledMnemonics);
+            byte[] assembledMnemonics = Assembler.Assembler.Current.Assemble(assemblyCode.ToArray());
+            return HookCommon.BufferHelper.GetBuffers(assembledMnemonics.Length, true)[0].Add(assembledMnemonics);
         }
 
         /// <summary>

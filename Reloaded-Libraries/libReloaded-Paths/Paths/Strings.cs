@@ -176,7 +176,7 @@ namespace Reloaded.Paths
             /// <summary>
             /// This tells the loader to launch the game normally if ReloadedShim.json is present and this argument is not specified.
             /// </summary>
-            public static string LoaderSettingSteamShim { get; } = "--steamhack";
+            public static string LoaderSettingNoReattach { get; } = "--noreattach";
 
             /// <summary>
             /// The name of the Reloaded Shim config file.

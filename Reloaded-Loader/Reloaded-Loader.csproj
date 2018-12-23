@@ -99,13 +99,10 @@
   <ItemGroup>
     <Compile Include="Miscallenous\AssemblyFinder.cs" />
     <Compile Include="Miscallenous\DLLUnlocker.cs" />
-    <Compile Include="Networking\LoaderServer.cs" />
-    <Compile Include="Networking\LoaderServerFunctions\PrintToScreen.cs" />
     <Compile Include="Terminal\LoaderConsole.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Terminal\Information\Banner.cs" />
-    <Compile Include="Terminal\Information\Controllers.cs" />
     <Compile Include="Core\ModLoader.cs" />
     <Compile Include="Terminal\Information\Information.cs" />
     <Compile Include="Terminal\Logger.cs" />
@@ -138,13 +135,13 @@
       <Project>{183218A9-D8F6-44D4-91EE-098E2949218E}</Project>
       <Name>libReloaded-IO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Reloaded-Libraries\libReloaded-Memory\Reloaded.Memory.csproj">
+    <ProjectReference Include="..\Reloaded-Libraries\Reloaded.Memory\Reloaded.Memory.csproj">
       <Project>{6747dc4e-9a59-40ae-9d4b-4b507bb75913}</Project>
       <Name>Reloaded.Memory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Reloaded-Libraries\libReloaded-Networking\libReloaded-Networking.csproj">
+    <ProjectReference Include="..\Reloaded-Libraries\libReloaded-Networking\Reloaded.Networking.csproj">
       <Project>{55b2b18e-807b-4b43-9941-144d53f75c92}</Project>
-      <Name>libReloaded-Networking</Name>
+      <Name>Reloaded.Networking</Name>
     </ProjectReference>
     <ProjectReference Include="..\Reloaded-Libraries\libReloaded-Paths\libReloaded-Paths.csproj">
       <Project>{CB1994F7-61A4-4CB2-BBA0-4F2AAA75A491}</Project>
@@ -153,6 +150,14 @@
     <ProjectReference Include="..\Reloaded-Libraries\libReloaded\libReloaded.csproj">
       <Project>{e34ef040-ec6d-4ddc-b71a-76ce7afa3fdf}</Project>
       <Name>libReloaded</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reloaded-Libraries\Reloaded.Process.DllInjector\Reloaded.Process.DllInjector.csproj">
+      <Project>{59e30b37-87dc-4bfe-98fe-e44458326823}</Project>
+      <Name>Reloaded.Process.DllInjector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reloaded-Libraries\Reloaded.Utilities\Reloaded.Utilities.csproj">
+      <Project>{0630e54b-29b7-479d-884e-97ed3527b34e}</Project>
+      <Name>Reloaded.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Reloaded-Plugin-Interfaces\Reloaded-Plugin-System.csproj">
       <Project>{6917b3c3-4972-4ffd-87c9-4bbcccf1d180}</Project>

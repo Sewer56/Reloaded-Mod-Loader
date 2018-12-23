@@ -22,10 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Reloaded.Assembler;
-using Reloaded.Memory;
-using Reloaded.Process.Buffers;
-using Reloaded.Process.Memory;
+using Reloaded.Memory.Buffers;
 using SharpDisasm;
 using SharpDisasm.Udis86;
 using Reloaded.Process.Functions.X64Functions;
@@ -39,6 +36,11 @@ namespace Reloaded.Process.Functions
     /// </summary>
     public static class HookCommon
     {
+        /// <summary>
+        /// Stores a buffer helper used to create buffers within the current process.
+        /// </summary>
+        public static MemoryBufferHelper BufferHelper = new MemoryBufferHelper(System.Diagnostics.Process.GetCurrentProcess());
+
         /// <summary>
         /// Retrieves the length of the hook for trampoline, mid-function hooks etc.
         /// This works by reading a short fixed array of bytes from memory then disassembling the bytes
@@ -78,9 +80,8 @@ namespace Reloaded.Process.Functions
         /// <param name="stolenBytes">Bytes which are going to be overwritten by our own jump bytes with jmp calls to replace.</param>
         /// <param name="baseAddress">The original address of the start of the individual bytes.</param>
         /// <param name="architectureMode">Defines the architecture as X86 or X64 to use for disassembly.</param>
-        /// <param name="reloadedFunctionX64">[Only for X64] Contains the register blacklist (source registers) and a default register for assembling absolute jumps in ASLR mode.</param>
         /// <returns></returns>
-        public static (List<byte>, List<(IntPtr addressToPatch, byte[] newBytes)>) ProcessStolenBytes(List<byte> stolenBytes, IntPtr baseAddress, ArchitectureMode architectureMode, X64ReloadedFunctionAttribute reloadedFunctionX64 = null)
+        public static (List<byte>, List<(IntPtr addressToPatch, byte[] newBytes)>) ProcessStolenBytes(List<byte> stolenBytes, IntPtr baseAddress, ArchitectureMode architectureMode)
         {
             // List of addressses to patch.
             List <(IntPtr addressToPatch, byte[] newBytes)> addressesToPatch = new List<(IntPtr addressToPatch, byte[] newBytes)>();
@@ -116,7 +117,7 @@ namespace Reloaded.Process.Functions
                     if (architectureMode == ArchitectureMode.x86_32)
                         strayByteWrapper = X86AssembleMiniWrapper(otherStrayBytes, reloadedHookEndAddress);
                     else
-                        strayByteWrapper = X64AssembleMiniWrapper(otherStrayBytes, reloadedHookEndAddress, reloadedFunctionX64, finalJumpDestination);
+                        strayByteWrapper = X64AssembleMiniWrapper(otherStrayBytes, reloadedHookEndAddress, finalJumpDestination);
 
                     // Patch any relative calls at the final jump.
                     addressesToPatch.AddRange(GetPatchAddresses(finalJumpDestination, (long)instruction.PC, (long)strayByteWrapper, architectureMode));
@@ -125,7 +126,7 @@ namespace Reloaded.Process.Functions
                     if (architectureMode == ArchitectureMode.x86_32)
                         newStolenBytes.AddRange(X86AssembleAbsoluteJump((IntPtr)finalJumpDestination));
                     else
-                        newStolenBytes.AddRange(X64AssembleAbsoluteJump((IntPtr)finalJumpDestination, reloadedFunctionX64));
+                        newStolenBytes.AddRange(X64AssembleAbsoluteJump((IntPtr)finalJumpDestination));
                 }
                 // X64: Convert Relative Address Pointers to Absolute Jumps.
                 else if (instruction.Mnemonic == ud_mnemonic_code.UD_Ijmp &&
@@ -137,7 +138,7 @@ namespace Reloaded.Process.Functions
                     IntPtr targetAddress = Reloaded.Memory.Sources.Memory.Current.Read<IntPtr>((IntPtr)(instruction.PC + (ulong)instruction.Operands[0].LvalSDWord));
 
                     // Replace with our own copy of an assembled absolute jump.
-                    newStolenBytes.AddRange(X64AssembleAbsoluteJump((IntPtr)targetAddress, reloadedFunctionX64));
+                    newStolenBytes.AddRange(X64AssembleAbsoluteJump((IntPtr)targetAddress));
                 }
 
                 // If not jump, add next instruction.
@@ -250,7 +251,8 @@ namespace Reloaded.Process.Functions
             newBytes.AddRange(X86AssembleAbsoluteJump((IntPtr) reloadedHookEndAddress));
 
             // Write to memory buffer and return
-            return MemoryBufferManager.Add(newBytes.ToArray());
+            byte[] newBytesArray = newBytes.ToArray();
+            return HookCommon.BufferHelper.GetBuffers(newBytesArray.Length, true)[0].Add(newBytesArray);
         }
 
         /// <summary>
@@ -260,19 +262,19 @@ namespace Reloaded.Process.Functions
         /// </summary>
         /// <param name="strayBytes">Bytes from another hook that will be replaced by Reloaded's hooking mechanism.</param>
         /// <param name="reloadedHookEndAddress">The target address for the mini wrapper to jump back to.</param>
-        /// <param name="reloadedFunction">Structure containing the details of the actual function in question.</param>
         /// <param name="wrapperAddress">[Optional] Target address within of which the wrapper should be placed in 2GB range.</param>
         /// <returns>The address of a new "mini-wrapper" class for </returns>
-        public static IntPtr X64AssembleMiniWrapper(byte[] strayBytes, long reloadedHookEndAddress, X64ReloadedFunctionAttribute reloadedFunction, long wrapperAddress = 0)
+        public static IntPtr X64AssembleMiniWrapper(byte[] strayBytes, long reloadedHookEndAddress, long wrapperAddress = 0)
         {
             // Get our stray bytes.
             List<byte> newBytes = strayBytes.ToList();
             
             // Append our absolute jump to the mix.
-            newBytes.AddRange(X64AssembleAbsoluteJump((IntPtr)reloadedHookEndAddress, reloadedFunction));
+            newBytes.AddRange(X64AssembleAbsoluteJump((IntPtr)reloadedHookEndAddress));
 
             // Write to memory buffer and return
-            return MemoryBufferManager.Add(newBytes.ToArray(), (IntPtr)wrapperAddress);
+            byte[] newBytesArray = newBytes.ToArray();
+            return HookCommon.BufferHelper.GetBuffers(newBytesArray.Length, true, (IntPtr)wrapperAddress, Int32.MaxValue)[0].Add(newBytesArray);
         }
 
         /// <summary>
@@ -290,7 +292,7 @@ namespace Reloaded.Process.Functions
             assemblyCode.Add("jmp dword " + relativeJumpOffset);
 
             // Assemble the individual bytes.
-            return Assemble(assemblyCode.ToArray());
+            return Assembler.Assembler.Current.Assemble(assemblyCode.ToArray());
         }
 
         /// <summary>
@@ -305,11 +307,11 @@ namespace Reloaded.Process.Functions
             List<string> assemblyCode = new List<string> { "use32" };
 
             // Jump to Game Function Pointer (gameFunctionPointer is address at which our function address is written)
-            IntPtr gameFunctionPointer = MemoryBufferManager.Add(functionAddress, IntPtr.Zero);
+            IntPtr gameFunctionPointer = HookCommon.BufferHelper.GetBuffers(IntPtr.Size, true)[0].Add(functionAddress);
             assemblyCode.Add("jmp dword [0x" + gameFunctionPointer.ToString("X") + "]");
 
             // Assemble the individual bytes.
-            return Assemble(assemblyCode.ToArray());
+            return Assembler.Assembler.Current.Assemble(assemblyCode.ToArray());
         }
 
         /// <summary>
@@ -317,63 +319,34 @@ namespace Reloaded.Process.Functions
         /// the resultant bytes of the assembly process.
         /// </summary>
         /// <param name="functionAddress">The address to assemble the absolute jump to.</param>
-        /// <param name="reloadedFunction">Structure containing the details of the actual function in question.</param>
-        /// <param name="shortJump">Set to true to shorten the length of the JMP at the expense of a free register's content in ASLR Mode.</param>
-        /// <param name="targetAbsoluteJumpAddress">[Optional] Target address within which 2GB absolute jump to be assembled.</param>
         /// <returns>A set of X64 assembler bytes to absolute jump to a specified address.</returns>
-        public static byte[] X64AssembleAbsoluteJump(IntPtr functionAddress, X64ReloadedFunctionAttribute reloadedFunction, bool shortJump = false, long targetAbsoluteJumpAddress = 0)
+        public static byte[] X64AssembleAbsoluteJump(IntPtr functionAddress)
         {
             // Get mnemonics to assemble.
             List<string> assemblyCode = new List<string> { "use64" };
-            assemblyCode.AddRange(X64AssembleAbsoluteJumpMnemonics(functionAddress, reloadedFunction, shortJump, targetAbsoluteJumpAddress));
+            assemblyCode.AddRange(X64AssembleAbsoluteJumpMnemonics(functionAddress));
 
             // Assemble the individual bytes.
-            return Assemble(assemblyCode.ToArray());
+            return Assembler.Assembler.Current.Assemble(assemblyCode.ToArray());
         }
 
         /// <summary>
         /// Generates the mnemonics to form an absolute jump to a user
-        /// specified process and returns the mnemonics as a list of strings.
+        /// specified address and returns the mnemonics as a list of strings.
         /// </summary>
         /// <param name="functionAddress">The address to assemble the absolute jump to.</param>
-        /// <param name="reloadedFunction">Structure containing the details of the actual function in question.</param>
-        /// <param name="shortJump">Set to true to shorten the length of the JMP at the expense of a free register's content in ASLR Mode.</param>
-        /// <param name="targetAbsoluteJumpAddress">[Optional] Target address within which 2GB absolute jump to be assembled.</param>
         /// <returns>A set of X64 assembler mnemonic strings to absolute jump to a specified address.</returns>
-        public static List<string> X64AssembleAbsoluteJumpMnemonics(IntPtr functionAddress, X64ReloadedFunctionAttribute reloadedFunction, bool shortJump = false, long targetAbsoluteJumpAddress = 0)
+        public static List<string> X64AssembleAbsoluteJumpMnemonics(IntPtr functionAddress)
         {
             // List of ASM Instructions to be Compiled
             List<string> assemblyCode = new List<string>();
 
             // Assemble the jump to the game function in question.
             // With the rewrite of MemoryBuffer, this piece of code has been greatly simplified.
-            IntPtr gameFunctionPointer;
-            if ((gameFunctionPointer = MemoryBufferManager.Add(functionAddress, (IntPtr)targetAbsoluteJumpAddress)) != IntPtr.Zero)
-            {
-                // Jump to Game Function Pointer (gameFunctionPointer is address at which our function address is written)
-                assemblyCode.Add("jmp qword [qword 0x" + gameFunctionPointer.ToString("X") + "]");
-            }
-            // Cannot get buffer in 2GB range.
-            else if (shortJump)
-            {
-                // Get register to delegate function calling to.
-                X64ReloadedFunctionAttribute.Register jmpRegister = FunctionCommon.GetCallRegister(reloadedFunction);
-
-                // Call Game Function Pointer (gameFunctionPointer is address at which our function address is written)
-                assemblyCode.Add($"mov {jmpRegister}, 0x{functionAddress.ToString("X")}");
-                assemblyCode.Add($"jmp {jmpRegister}");
-            }
-            else
-            {
-                // Get register to delegate function calling to.
-                X64ReloadedFunctionAttribute.Register jmpRegister = FunctionCommon.GetCallRegister(reloadedFunction);
-
-                // Call Game Function Pointer (gameFunctionPointer is address at which our function address is written)
-                assemblyCode.Add($"push {jmpRegister}");
-                assemblyCode.Add($"mov {jmpRegister}, 0x{functionAddress.ToString("X")}");
-                assemblyCode.Add($"xchg {jmpRegister}, [rsp]");
-                assemblyCode.Add($"ret");
-            }
+            IntPtr gameFunctionPointer = HookCommon.BufferHelper.GetBuffers(IntPtr.Size, true, IntPtr.Zero, Int32.MaxValue)[0].Add(functionAddress);
+            
+            // Jump to Game Function Pointer (gameFunctionPointer is address at which our function address is written)
+            assemblyCode.Add("jmp qword [qword 0x" + gameFunctionPointer.ToString("X") + "]");
 
             // Assemble the individual bytes.
             return assemblyCode;
@@ -394,7 +367,7 @@ namespace Reloaded.Process.Functions
             // Assemble the call to the game function in question.
             // With the rewrite of MemoryBuffer, this piece of code has been greatly simplified.
             IntPtr gameFunctionPointer;
-            if ((gameFunctionPointer = MemoryBufferManager.Add(functionAddress, IntPtr.Zero)) != IntPtr.Zero)
+            if ((gameFunctionPointer = HookCommon.BufferHelper.GetBuffers(IntPtr.Size, true, IntPtr.Zero, Int32.MaxValue)[0].Add(functionAddress)) != IntPtr.Zero)
             {
                 // Jump to Game Function Pointer (gameFunctionPointer is address at which our function address is written)
                 assemblyCode.Add("call qword [qword 0x" + gameFunctionPointer.ToString("X") + "]");
@@ -437,7 +410,7 @@ namespace Reloaded.Process.Functions
             assemblyCode.Add("jmp qword " + relativeJumpOffset);
 
             // Assemble the individual bytes.
-            return Assemble(assemblyCode.ToArray());
+            return Assembler.Assembler.Current.Assemble(assemblyCode.ToArray());
         }
     }
 }

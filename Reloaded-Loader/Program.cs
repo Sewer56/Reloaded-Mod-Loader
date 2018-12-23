@@ -26,28 +26,27 @@ using System.Reflection;
 using System.Threading;
 using LiteNetLib;
 using Reloaded;
-using Reloaded.Assembler;
 using Reloaded.IO.Config;
 using Reloaded.Paths;
 using Reloaded.Process;
+using Reloaded.Utilities.PE;
 using Reloaded_Loader.Core;
 using Reloaded_Loader.Miscallenous;
-using Reloaded_Loader.Networking;
 using Reloaded_Loader.Terminal;
 using Reloaded_Loader.Terminal.Information;
 using Reloaded_Plugin_System;
 using Squirrel;
-using static Reloaded.Utilities.CheckArchitecture;
 using Console = Colorful.Console;
 
 namespace Reloaded_Loader
 {
-    /// <summary>
-    /// The main program class provides code only for the initialization of the Reloaded Mod Loader
-    /// loader, the main brawl and logic code is provided elsewhere in the mod loader.
-    /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// Contains a copy of the commandline arguments for this application.
+        /// </summary>
+        private static string[] _arguments;
+
         /// <summary>
         /// Stores the individual process of the game.
         /// Allows for DLL Injection, Memory Manipulation, etc.
@@ -75,6 +74,12 @@ namespace Reloaded_Loader
         /// </summary>
         private static DateTime _processStartTime;
 
+        /*
+            -----------
+            Initializer
+            -----------
+        */
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -89,24 +94,20 @@ namespace Reloaded_Loader
             AppDomain.CurrentDomain.AssemblyResolve += AssemblyFinder.CurrentDomain_AssemblyResolve;
 
             /* - Initialization - */
+            _arguments = args;
             IgnoreSquirrel();
-            ParseArguments(args);
-
+            ParseArguments();
             LoaderConsole.Initialize();
-            SetuplibReloadedBindings();
             Banner.Execute();
-            Controllers.PrintControllerOrder();
-            DllUnlocker.UnblockDlls();          // Removes Zone Information which may prevent DLL injection if DLL was downloaded from e.g. Internet Explorer
-            LoaderServer.SetupServer();
+            DllUnlocker.UnblockDlls();
 
-            /* - Boot up Reloaded Assembler, Get the Game Process running/attached and with mods running. - */
-            Assembler.Assemble(new string[] {"use32", "nop eax"}); // Startup Assembler (So a running instance/open handle does not bother devs working on mods)
-            GetGameProcess(args);
-            InjectMods(args);
+            /* - Get the Game Process running/attached and mods running. - */
+            GetGameProcess();
+            InjectMods();
 
             // Resume game after injection if we are NOT in attach mode.
             if (_attachTargetName == null)
-            { _gameProcess.ResumeAllThreads(); }
+                _gameProcess.ResumeAllThreads();
             
             // Stay alive in the background
             AppDomain.CurrentDomain.ProcessExit += Shutdown;
@@ -114,14 +115,20 @@ namespace Reloaded_Loader
 
             // Wait infinitely.
             while (true)
-            { Console.ReadLine(); }
+                Console.ReadLine();
         }
+
+        /*
+            ------------------
+            Base Functionality
+            ------------------
+        */
 
         /// <summary>
         /// Checks whether to reattach Reloaded Mod Loader if the game process
         /// unexpectedly kills itself and then restarts (a standard for some games' launch procedures).
         /// </summary>
-        private static void ProcessSelfReattach(string[] args)
+        private static void SelfReattach()
         {
             // Use stopwatch for soft timing.
             Stopwatch timeoutStopWatch = new Stopwatch();
@@ -142,19 +149,15 @@ namespace Reloaded_Loader
                 // Ensure we didn't find some background process that was running all along.
                 if (localGameProcess.Process.StartTime > _processStartTime)
                 {                   
-                    Bindings.PrintInfo($"// Game killed itself, probably due to Steam for restarting. Attempting reattach! | {_attachTargetName}");
-                    Bindings.PrintInfo($"// Consider using the Steam shim.");
+                    LoaderConsole.PrintInfo($"// Game killed itself, probably due to Steam for restarting. Attempting reattach! | {_attachTargetName}");
+                    LoaderConsole.PrintInfo($"// Consider using the Steam shim.");
                     _gameProcess = localGameProcess;
 
-                    // Disconnect all clients
-                    foreach (NetPeer peer in LoaderServer.ReloadedServer.GetPeers())
-                    { LoaderServer.ReloadedServer.DisconnectPeer(peer); }
-
-                    InjectMods(args);
+                    InjectMods();
 
                     // Wait infinitely.
                     while (true)
-                    { Console.ReadLine(); }
+                        Console.ReadLine();
                 }
             }
 
@@ -166,20 +169,16 @@ namespace Reloaded_Loader
         /// Kicks off the individual mods running inside the target process
         /// specified by our <see cref="_gameProcess"/> variable.
         /// </summary>
-        private static void InjectMods(string[] commandLineArguments)
+        private static void InjectMods()
         {
-            // Do not reattach on exit for Steam Shims - they should not reboot if shimmed.
-            if (commandLineArguments.Contains(Strings.Common.LoaderSettingSteamShim))
-            {
-                _gameProcess.Process.EnableRaisingEvents = true;
+            // Enables events such as re-attach.
+            _gameProcess.Process.EnableRaisingEvents = true;
+
+            // Do not reattach on exit if flag set.
+            if (_arguments.Contains(Strings.Common.LoaderSettingNoReattach))
                 _gameProcess.Process.Exited += (sender, eventArgs) => Shutdown(null, null);
-            }
             else
-            {
-                _gameProcess.Process.EnableRaisingEvents = true;
-                _gameProcess.Process.Exited += (sender, eventArgs) => ProcessSelfReattach(commandLineArguments);
-            }
-            
+                _gameProcess.Process.Exited += (sender, eventArgs) => SelfReattach();
 
             ModLoader.LoadMods(_gameConfig, _gameProcess);
         }
@@ -187,41 +186,38 @@ namespace Reloaded_Loader
         /// <summary>
         /// Parses the arguments passed into the application.
         /// </summary>
-        /// <param name="arguments"></param>
-        private static void ParseArguments(string[] arguments)
+        private static void ParseArguments()
         {
             // Save the original arguments from plugins in the case the process is X64.
-            string[] originalArguments = arguments;
+            string[] originalArguments = _arguments;
 
             // Set/Get arguments for all plugins.
             foreach (var eventPlugin in PluginLoader.LoaderEventPlugins)
-            { arguments = eventPlugin.GetSetArguments(arguments); }
+                _arguments = eventPlugin.GetSetArguments(_arguments);
 
             // Go over known arguments.
-            for (int x = 0; x < arguments.Length; x++)
+            for (int x = 0; x < _arguments.Length; x++)
             {
-                if (arguments[x] == $"{Strings.Common.LoaderSettingConfig}") { _gameConfig = CheckConfigJson(arguments[x + 1]); }
-                if (arguments[x] == $"{Strings.Common.LoaderSettingAttach}") { _attachTargetName = arguments[x+1]; }
-                if (arguments[x] == $"{Strings.Common.LoaderSettingAutoAttach}") { _autoAttach = true; }
-                if (arguments[x] == $"{Strings.Common.LoaderSettingLog}") { Logger.Setup(arguments[x + 1]); }
+                if (_arguments[x] == $"{Strings.Common.LoaderSettingConfig}") { _gameConfig = CheckConfigJson(_arguments[x + 1]); }
+                if (_arguments[x] == $"{Strings.Common.LoaderSettingAttach}") { _attachTargetName = _arguments[x+1]; }
+                if (_arguments[x] == $"{Strings.Common.LoaderSettingAutoAttach}") { _autoAttach = true; }
+                if (_arguments[x] == $"{Strings.Common.LoaderSettingLog}") { Logger.Setup(_arguments[x + 1]); }
             }
 
-            // Check game config
-            if (_gameConfig == null) { Information.DisplayWarning(); }
+            // Display Help if no game config found.
+            if (_gameConfig == null)
+                Information.DisplayHelp();
 
-            // Are we running in 32bit mode.
-            if (IntPtr.Size != 8)
-            {
-                // If the executable is 64bit, restart.
-                if (GetMachineTypeFromPeHeader(_gameConfig.GameDirectory + $"\\{_gameConfig.ExecutableLocation}") == PEMachineType.AMD64)
+            // Check if the executable is 64bit. If it is; restart this loader in X64 mode.
+            if (IntPtr.Size == 4)
+                if (Executable.GetMachineType($"{_gameConfig.GameDirectory}\\{_gameConfig.ExecutableLocation}") == Executable.PEMachineType.AMD64)
                     RebootX64(originalArguments);
-            } 
         }
 
         /// <summary>
         /// Retrieves the game instance we are going to be hacking as a ReloadedProcess 
         /// </summary>
-        private static void GetGameProcess(string[] originalArguments)
+        private static void GetGameProcess()
         {
             // Fast return if soft reboot (game process killed and restarted itself)
             if (_gameProcess != null)
@@ -236,15 +232,15 @@ namespace Reloaded_Loader
                 // Check if gameProcess successfully returned.
                 if (_gameProcess == null && !_autoAttach)
                 {
-                    LoaderConsole.PrintFormattedMessage("Error: An active running game instance was not found.", LoaderConsole.PrintErrorMessage);
+                    LoaderConsole.PrintFormattedMessage("Error: An active running game instance was not found.", LoaderConsole.PrintError);
                     Console.ReadLine();
                     Shutdown(null, null);
                 }
 
-                // Wait for new process with autoattach if not found.
+                // Wait for new process with autoattach if enabled.
                 if (_autoAttach && _gameProcess == null)
                 {
-                    Bindings.PrintWarning("Process not running. Waiting in Auto-Attach Mode.");
+                    LoaderConsole.PrintWarning("Process not running. Waiting in Auto-Attach Mode.");
                     do    { _gameProcess = ReloadedProcess.FromProcessName(_attachTargetName); Thread.Sleep(2); }
                     while (_gameProcess == null);
                 }
@@ -264,11 +260,8 @@ namespace Reloaded_Loader
                 }
 
                 // Check if the game should run normally to toggle the shim.
-                CheckSteamHack(originalArguments);
+                CheckSteamHack(_arguments);
             }
-
-            // Set binding for target process for memory IO
-            Bindings.TargetProcess = _gameProcess;
 
             // Obtain the process start time.
             if (_gameProcess != null)
@@ -290,7 +283,7 @@ namespace Reloaded_Loader
         private static void CheckSteamHack(string[] commandlineArguments)
         {
             // If Steam shimming is not specified, check for existence of ReloadedShim.json.
-            if (! commandlineArguments.Contains(Strings.Common.LoaderSettingSteamShim))
+            if (! commandlineArguments.Contains(Strings.Common.LoaderSettingNoReattach))
             {
                 // Here, check for the shim existence. 
                 // If the shim config exists and commandline parameter not specified, launch game normally and shutdown.
@@ -300,9 +293,9 @@ namespace Reloaded_Loader
                 string potentialShimFile    = $"{gameExeDirectory}\\{Strings.Common.SteamShimFileName}";
                 if (File.Exists(potentialShimFile))
                 {
-                    Bindings.PrintWarning($"WARNING: {Strings.Common.SteamShimFileName} found in directory. Launching the game normally assuming that Steam will restart through Reloaded's pseudo-launcher.");
-                    Bindings.PrintWarning($"If this is not intended, please remove {Strings.Common.SteamShimFileName} from the game directory.");
-                    Bindings.PrintWarning("Press Enter to Continue.");
+                    LoaderConsole.PrintWarning($"WARNING: {Strings.Common.SteamShimFileName} found in directory. Launching the game normally assuming that Steam will restart through Reloaded's pseudo-launcher.");
+                    LoaderConsole.PrintWarning($"If this is not intended, please remove {Strings.Common.SteamShimFileName} from the game directory.");
+                    LoaderConsole.PrintWarning("Press Enter to Continue.");
                     Console.ReadLine();
 
                     _gameProcess.ResumeAllThreads();
@@ -359,17 +352,6 @@ namespace Reloaded_Loader
             catch (Exception e)
             { }
 
-        }
-
-        /// <summary>
-        /// Sets up the print function shorthands.
-        /// </summary>
-        private static void SetuplibReloadedBindings()
-        {
-            Bindings.PrintError     += delegate (string message) { LoaderConsole.PrintFormattedMessage(message, LoaderConsole.PrintErrorMessage); };
-            Bindings.PrintWarning   += delegate (string message) { LoaderConsole.PrintFormattedMessage(message, LoaderConsole.PrintWarningMessage); };
-            Bindings.PrintInfo      += delegate (string message) { LoaderConsole.PrintFormattedMessage(message, LoaderConsole.PrintInfoMessage); };
-            Bindings.PrintText      += delegate (string message) { LoaderConsole.PrintFormattedMessage(message, LoaderConsole.PrintMessage); };
         }
 
         /// <summary>

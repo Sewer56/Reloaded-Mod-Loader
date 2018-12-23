@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Reloaded.Process.Buffers;
 
 namespace Reloaded.Process.Functions.X64Functions
 {
@@ -64,7 +61,7 @@ namespace Reloaded.Process.Functions.X64Functions
             if (reloadedFunction.Equals(new X64ReloadedFunctionAttribute(X64CallingConventions.Microsoft)))
             {
                 // Backup old call frame
-                assemblyCode.AddRange(HookCommon.X64AssembleAbsoluteJumpMnemonics(functionAddress, reloadedFunction));
+                assemblyCode.AddRange(HookCommon.X64AssembleAbsoluteJumpMnemonics(functionAddress));
             }
             else
             {
@@ -109,8 +106,8 @@ namespace Reloaded.Process.Functions.X64Functions
             }
 
             // Assemble and return pointer to code
-            byte[] assembledMnemonics = Assembler.Assembler.Assemble(assemblyCode.ToArray());
-            return MemoryBufferManager.Add(assembledMnemonics);
+            byte[] assembledMnemonics = Assembler.Assembler.Current.Assemble(assemblyCode.ToArray());
+            return HookCommon.BufferHelper.GetBuffers(assembledMnemonics.Length, true)[0].Add(assembledMnemonics);
         }
 
         /// <summary>

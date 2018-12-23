@@ -21,14 +21,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using Reloaded.Assembler;
-using Reloaded.Memory;
 using Reloaded.Memory.Sources;
-using Reloaded.Process.Buffers;
 using Reloaded.Process.Functions.X64Functions;
-using Reloaded.Process.Memory;
 using SharpDisasm;
 
 namespace Reloaded.Process.Functions.X64Hooking
@@ -141,7 +136,7 @@ namespace Reloaded.Process.Functions.X64Hooking
             // Assemble the wrapper function.
             // Assemble a jump to our wrapper function.
             IntPtr wrapperFunctionAddress = X64ReverseFunctionWrapper<TFunction>.CreateX64WrapperFunctionInternal<TFunction>(cSharpFunctionAddress, reloadedFunction);
-            List<byte> jumpBytes = HookCommon.X64AssembleAbsoluteJump(wrapperFunctionAddress, reloadedFunction, true).ToList();
+            List<byte> jumpBytes = HookCommon.X64AssembleAbsoluteJump(wrapperFunctionAddress).ToList();
 
             /*
                 [Hook Part II] Calculate Hook Length (Unless Explicit)
@@ -168,13 +163,13 @@ namespace Reloaded.Process.Functions.X64Hooking
             List<byte> stolenBytes = Reloaded.Memory.Sources.Memory.Current.SafeReadRaw((IntPtr)gameFunctionAddress, hookLength).ToList();
 
             // Check other functions that may need to be patched.
-            (List<byte>, List<(IntPtr, byte[])>) stolenBytesAndAddressesToPatch = HookCommon.ProcessStolenBytes(stolenBytes, (IntPtr)gameFunctionAddress, ArchitectureMode.x86_64, reloadedFunction);
+            (List<byte>, List<(IntPtr, byte[])>) stolenBytesAndAddressesToPatch = HookCommon.ProcessStolenBytes(stolenBytes, (IntPtr)gameFunctionAddress, ArchitectureMode.x86_64);
             stolenBytes = stolenBytesAndAddressesToPatch.Item1;
 
             // Calculate jump back address for original function.
             // Append absolute JMP instruction to return to original function for calling the original function in hook.
             IntPtr jumpBackAddress = (IntPtr)(gameFunctionAddress + hookLength);
-            stolenBytes.AddRange(HookCommon.X64AssembleAbsoluteJump(jumpBackAddress, reloadedFunction));
+            stolenBytes.AddRange(HookCommon.X64AssembleAbsoluteJump(jumpBackAddress));
 
             /*
                 [Call Original Function part II] Instantiate and return functionHook with the original game function address.
@@ -184,7 +179,8 @@ namespace Reloaded.Process.Functions.X64Hooking
             X64FunctionHook<TFunction> functionHook = new X64FunctionHook<TFunction>();
 
             // Write original bytes and jump to memory, and return address.
-            functionHook.OriginalFunctionAddress = MemoryBufferManager.Add(stolenBytes.ToArray());
+            byte[] stolenBytesArray = stolenBytes.ToArray();
+            functionHook.OriginalFunctionAddress = HookCommon.BufferHelper.GetBuffers(stolenBytesArray.Length, true)[0].Add(stolenBytesArray);
 
             // Create wrapper for calling the original function.
             functionHook.OriginalFunction = X64FunctionWrapper.CreateWrapperFunction<TFunction>((long)functionHook.OriginalFunctionAddress);

@@ -20,11 +20,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Reloaded.Assembler;
-using Reloaded.Process.Buffers;
 
 namespace Reloaded.Process.Functions.X64Functions
 {
@@ -116,8 +113,8 @@ namespace Reloaded.Process.Functions.X64Functions
             assemblyCode.Add("ret");
 
             // Write function to buffer and return pointer.
-            byte[] assembledMnemonics = Assembler.Assembler.Assemble(assemblyCode.ToArray());
-            return MemoryBufferManager.Add(assembledMnemonics);
+            byte[] assembledMnemonics = Assembler.Assembler.Current.Assemble(assemblyCode.ToArray());
+            return HookCommon.BufferHelper.GetBuffers(assembledMnemonics.Length, true)[0].Add(assembledMnemonics);
         }
 
         /// <summary>
