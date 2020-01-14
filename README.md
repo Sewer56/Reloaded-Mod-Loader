@@ -18,6 +18,8 @@
 
 It is a completely free and open source public rewrite of **Heroes Mod Loader**, my original first attempt at a mod management/loader system all the way from the ground up using the C# programming language.
 
+**Note:** This project is deprecated. It has been superseded by [Reloaded-II](https://github.com/Reloaded-Project/Reloaded-II).
+
 # Prerequisites
 
 - Windows 7, 8.1, 10 or above.
